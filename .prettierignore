@@ -1,0 +1,8 @@
+AGENTS.md
+bun.lock
+node_modules
+.output
+.vinxi
+dist
+
+convex/_generated
