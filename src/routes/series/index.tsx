@@ -1,9 +1,10 @@
 import { createAsync } from "@solidjs/router";
-import { For, Show } from "solid-js";
+import { For, Show, createMemo, createSignal } from "solid-js";
 
-import { Button } from "../../component/button";
+import { DirectoryList, DirectoryRow } from "../../component/list";
 import { Page, PageHeader, Section } from "../../component/page";
 import { Seo } from "../../component/seo";
+import { TableToolbar } from "../../component/toolbar";
 import { getSeriesList, type PublicSeries } from "../../data/public";
 
 /** Series index. */
@@ -15,14 +16,7 @@ export default function Route() {
         <>
             <Seo title="series" description="zurich.tech series." />
             <Page>
-                <PageHeader
-                    actions={
-                        <Button href="/series/propose" kind="ghost">
-                            start series
-                        </Button>
-                    }
-                    title="series"
-                />
+                <PageHeader title="series" />
 
                 {/* series */}
                 <SeriesDirectory series={series() ?? []} />
@@ -33,49 +27,53 @@ export default function Route() {
 
 /** Series directory, a legend box of series rows. */
 function SeriesDirectory(props: { series: PublicSeries[] }) {
+    const [query, setQuery] = createSignal("");
+
+    // filter visible series by their searchable text
+    const visible = createMemo(() => {
+        const text = query().trim().toLowerCase();
+        if (text.length === 0) {
+            return props.series;
+        }
+
+        return props.series.filter((series) =>
+            `${series.title} ${series.summary ?? ""} ${series.tags.join(" ")}`
+                .toLowerCase()
+                .includes(text),
+        );
+    });
+
     return (
-        <Section title="series" meta={`${props.series.length} running`}>
+        <Section
+            meta={`${visible().length} / ${props.series.length}`}
+            title="series"
+            toolbar={
+                <TableToolbar
+                    actions={
+                        <a class="table-command" href="/series/propose">
+                            + series
+                        </a>
+                    }
+                    onSearch={setQuery}
+                    placeholder="search series..."
+                />
+            }
+        >
             {/* empty */}
-            <Show when={props.series.length > 0} fallback={<p class="text-soft">nothing yet.</p>}>
-                {/* rows */}
-                <ol class="grid">
-                    <For each={props.series}>{(series) => <SeriesRow series={series} />}</For>
-                </ol>
+            <Show when={visible().length > 0} fallback={<p class="text-soft">no series</p>}>
+                <DirectoryList>
+                    <For each={visible()}>
+                        {(series) => (
+                            <DirectoryRow
+                                href={`/series/${series.slug}`}
+                                meta={`${series.cadence} / ${series.subscriberCount} subscribed`}
+                                summary={series.summary}
+                                title={series.title}
+                            />
+                        )}
+                    </For>
+                </DirectoryList>
             </Show>
         </Section>
-    );
-}
-
-/** Series row: caret gutter, title, summary, cadence and subscriber count. */
-function SeriesRow(props: { series: PublicSeries }) {
-    return (
-        <li class="-mx-2 border-b border-line last:border-b-0">
-            <a
-                class="group grid grid-cols-[16px_1fr] items-start gap-2 px-2 py-2 outline-none focus:bg-ink hover:bg-ink"
-                href={`/series/${props.series.slug}`}
-            >
-                {/* caret */}
-                <span class="text-transparent group-focus:text-paper group-hover:text-paper">
-                    {">"}
-                </span>
-
-                {/* title, summary, meta */}
-                <span class="grid gap-0.5">
-                    <span class="flex flex-wrap items-baseline justify-between gap-3">
-                        <span class="font-medium group-focus:text-paper group-hover:text-paper">
-                            {props.series.title}
-                        </span>
-                        <span class="text-xs text-soft group-focus:text-paper/60 group-hover:text-paper/60">
-                            ↻ {props.series.cadence} · {props.series.subscriberCount} subscribed
-                        </span>
-                    </span>
-                    <Show when={props.series.summary}>
-                        <span class="text-[13px] text-soft group-focus:text-paper/60 group-hover:text-paper/60">
-                            {props.series.summary}
-                        </span>
-                    </Show>
-                </span>
-            </a>
-        </li>
     );
 }

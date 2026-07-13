@@ -4,6 +4,7 @@ import { For, Show } from "solid-js";
 import type { CalendarEntry, PublicMember } from "../data/public";
 import { getCalendar, getMembers } from "../data/public";
 import { Badge } from "./badge";
+import { DirectoryList, DirectoryRow } from "./list";
 import { DetailList, DetailRow, Page, PageHeader, Section } from "./page";
 import { Seo } from "./seo";
 
@@ -55,9 +56,23 @@ export function Queue(props: { queue: QueueKey }) {
                             when={rows().length > 0}
                             fallback={<p class="text-soft">nothing yet.</p>}
                         >
-                            <ol class="grid">
-                                <For each={rows()}>{(row) => <QueueRecord row={row} />}</For>
-                            </ol>
+                            <DirectoryList>
+                                <For each={rows()}>
+                                    {(row) => (
+                                        <DirectoryRow
+                                            eyebrow={row.meta}
+                                            href={row.href}
+                                            meta={
+                                                <Show when={row.status}>
+                                                    {(status) => <Badge>{status()}</Badge>}
+                                                </Show>
+                                            }
+                                            summary={row.summary}
+                                            title={row.title}
+                                        />
+                                    )}
+                                </For>
+                            </DirectoryList>
                         </Show>
                     </Section>
 
@@ -73,43 +88,6 @@ export function Queue(props: { queue: QueueKey }) {
                 </div>
             </Page>
         </>
-    );
-}
-
-/** One queue record: caret gutter, title, status badge, summary and meta. */
-function QueueRecord(props: { row: QueueRow }) {
-    return (
-        <li class="-mx-2 border-b border-line last:border-b-0">
-            <a
-                class="group grid grid-cols-[16px_1fr] items-start gap-2 px-2 py-2 outline-none focus:bg-ink hover:bg-ink"
-                href={props.row.href}
-            >
-                {/* caret */}
-                <span class="text-transparent group-focus:text-paper group-hover:text-paper">
-                    {">"}
-                </span>
-
-                {/* title, status, summary, meta */}
-                <span class="grid gap-0.5">
-                    <span class="flex flex-wrap items-baseline justify-between gap-3">
-                        <span class="font-medium group-focus:text-paper group-hover:text-paper">
-                            {props.row.title}
-                        </span>
-                        <Show when={props.row.status}>{(status) => <Badge>{status()}</Badge>}</Show>
-                    </span>
-                    <Show when={props.row.summary}>
-                        <span class="text-[13px] text-soft group-focus:text-paper/60 group-hover:text-paper/60">
-                            {props.row.summary}
-                        </span>
-                    </Show>
-                    <Show when={props.row.meta}>
-                        <span class="text-xs lowercase text-soft group-focus:text-paper/60 group-hover:text-paper/60">
-                            {props.row.meta}
-                        </span>
-                    </Show>
-                </span>
-            </a>
-        </li>
     );
 }
 

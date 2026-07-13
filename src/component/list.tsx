@@ -3,37 +3,35 @@ import { Show } from "solid-js";
 
 /** Directory list. */
 export function DirectoryList(props: { children: JSX.Element }) {
-    return <section class="grid">{props.children}</section>;
+    return <section class="directory">{props.children}</section>;
 }
 
 /** Directory row. */
 export function DirectoryRow(props: {
-    eyebrow?: string;
+    eyebrow?: JSX.Element;
     href: string;
-    meta?: string;
+    meta?: JSX.Element;
     summary?: string;
     title: string;
 }) {
     return (
-        <a class="group grid gap-1 border-b border-line py-4 last:border-b-0" href={props.href}>
+        <a class="directory-row" href={props.href}>
             {/* heading */}
-            <span class="flex flex-wrap items-baseline justify-between gap-3">
-                <span class="flex items-baseline gap-3">
+            <span class="directory-row__heading">
+                <span class="directory-row__title">
                     <Show when={props.eyebrow}>
-                        <span class="text-xs lowercase text-soft">{props.eyebrow}</span>
+                        <span class="directory-row__eyebrow">{props.eyebrow}</span>
                     </Show>
-                    <span class="font-medium group-hover:underline group-hover:underline-offset-4">
-                        {props.title}
-                    </span>
+                    <strong>{props.title}</strong>
                 </span>
                 <Show when={props.meta}>
-                    <span class="text-xs lowercase text-soft">{props.meta}</span>
+                    <span class="directory-row__meta">{props.meta}</span>
                 </Show>
             </span>
 
             {/* summary */}
             <Show when={props.summary}>
-                <span class="max-w-3xl text-soft">{props.summary}</span>
+                <span class="directory-row__summary">{props.summary}</span>
             </Show>
         </a>
     );

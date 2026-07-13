@@ -45,20 +45,27 @@ export default function Route() {
         <>
             <Seo title={title()} description="Event." />
             <Page width="narrow">
-                <PageHeader summary={event()?.summary ?? "event not found."} title={title()} />
+                <PageHeader title={title()} />
 
                 {/* content */}
                 <div class="grid gap-8 md:grid-cols-[1fr_18rem]">
                     {/* main column */}
                     <div class="grid content-start gap-8">
-                        <Agenda event={event()} />
-                        <RsvpForm event={event()} onSubmit={submitRsvp} />
+                        <Description event={event()} />
+                        <Show when={(event()?.agenda.length ?? 0) > 0}>
+                            <Agenda event={event()} />
+                        </Show>
+                        <Show when={(event()?.speakers.length ?? 0) > 0}>
+                            <Speakers event={event()} />
+                        </Show>
+                        <Show when={isRsvpOpen(event())}>
+                            <RsvpForm event={event()} onSubmit={submitRsvp} />
+                        </Show>
                     </div>
 
                     {/* side column */}
                     <div class="grid content-start gap-8">
                         <Details event={event()} />
-                        <Speakers event={event()} />
                     </div>
                 </div>
             </Page>
@@ -66,29 +73,29 @@ export default function Route() {
     );
 }
 
+/** Event description. */
+function Description(props: { event: PublicEvent | null | undefined }) {
+    return (
+        <Section title="about">
+            <p>{props.event?.summary ?? "event not found."}</p>
+        </Section>
+    );
+}
+
 /** Event agenda. */
 function Agenda(props: { event: PublicEvent | null | undefined }) {
     return (
         <Section title="agenda">
-            <Show
-                when={
-                    props.event !== null &&
-                    props.event !== undefined &&
-                    props.event.agenda.length > 0
-                }
-                fallback={<p class="text-soft">no agenda.</p>}
-            >
-                <ol class="grid">
-                    <For each={props.event?.agenda ?? []}>
-                        {(item) => (
-                            <li class="grid grid-cols-[4rem_1fr] gap-4 border-b border-line py-3 last:border-b-0">
-                                <span class="text-xs whitespace-nowrap text-soft">{item.time}</span>
-                                <span class="text-sm">{item.title}</span>
-                            </li>
-                        )}
-                    </For>
-                </ol>
-            </Show>
+            <ol class="grid">
+                <For each={props.event?.agenda ?? []}>
+                    {(item) => (
+                        <li class="grid grid-cols-[4rem_1fr] gap-4 border-b border-line py-3 last:border-b-0">
+                            <span class="text-xs whitespace-nowrap text-soft">{item.time}</span>
+                            <span class="text-sm">{item.title}</span>
+                        </li>
+                    )}
+                </For>
+            </ol>
         </Section>
     );
 }
@@ -141,6 +148,25 @@ function Details(props: { event: PublicEvent | null | undefined }) {
                 <Show when={props.event?.venue.access}>
                     <DetailRow label="access" value={props.event?.venue.access ?? "-"} />
                 </Show>
+
+                {/* source */}
+                <Show when={props.event?.links[0]}>
+                    {(link) => (
+                        <DetailRow
+                            label="source"
+                            value={
+                                <a
+                                    class="underline underline-offset-4"
+                                    href={link().href}
+                                    rel="noreferrer"
+                                    target="_blank"
+                                >
+                                    {link().label}
+                                </a>
+                            }
+                        />
+                    )}
+                </Show>
             </DetailList>
         </Section>
     );
@@ -150,25 +176,16 @@ function Details(props: { event: PublicEvent | null | undefined }) {
 function Speakers(props: { event: PublicEvent | null | undefined }) {
     return (
         <Section title="speakers">
-            <Show
-                when={
-                    props.event !== null &&
-                    props.event !== undefined &&
-                    props.event.speakers.length > 0
-                }
-                fallback={<p class="text-soft">no speakers yet.</p>}
-            >
-                <div class="grid">
-                    <For each={props.event?.speakers ?? []}>
-                        {(speaker) => (
-                            <div class="border-b border-line py-3 text-sm first:pt-0 last:border-b-0 last:pb-0">
-                                <p class="font-medium">{speaker.name}</p>
-                                <p class="text-soft">{speaker.title}</p>
-                            </div>
-                        )}
-                    </For>
-                </div>
-            </Show>
+            <div class="grid">
+                <For each={props.event?.speakers ?? []}>
+                    {(speaker) => (
+                        <div class="border-b border-line py-3 text-sm first:pt-0 last:border-b-0 last:pb-0">
+                            <p class="font-medium">{speaker.name}</p>
+                            <p class="text-soft">{speaker.title}</p>
+                        </div>
+                    )}
+                </For>
+            </div>
         </Section>
     );
 }
@@ -182,9 +199,9 @@ function eventTime(event: PublicEvent | null | undefined): string {
     return formatDate(event.startsAt);
 }
 
-/** RSVP capacity, falling back to the current count when uncapped. */
-function eventCapacity(event: PublicEvent): number {
-    return event.capacity ?? Math.max(1, event.rsvpCount);
+/** Whether the event accepts RSVPs. */
+function isRsvpOpen(event: PublicEvent | null | undefined): boolean {
+    return event?.status === "scheduled" || event?.status === "conditional";
 }
 
 /** Status label, bracketing conditional and cancelled states like "[conditional]". */
@@ -199,18 +216,20 @@ function statusLabel(status: string | undefined): string {
     return status;
 }
 
-/** Text-block RSVP gauge for the section legend, like "███░░ 47/80". */
+/** RSVP gauge for the section heading, like "[###--] 47/80". */
 function rsvpGauge(event: PublicEvent | null | undefined): string | undefined {
     if (event === null || event === undefined) {
         return undefined;
     }
 
-    const capacity = eventCapacity(event);
+    if (event.capacity === undefined) {
+        return `${event.rsvpCount} going`;
+    }
 
-    return `${gaugeBlocks(event.rsvpCount, capacity)} ${event.rsvpCount}/${capacity}`;
+    return `${gaugeBlocks(event.rsvpCount, event.capacity)} ${event.rsvpCount}/${event.capacity}`;
 }
 
-/** Build the "███░░" gauge string for a value against a max. */
+/** Build the "[###--]" gauge string for a value against a max. */
 function gaugeBlocks(value: number, max: number): string {
     if (max <= 0) {
         return "";
@@ -218,5 +237,5 @@ function gaugeBlocks(value: number, max: number): string {
 
     const filled = Math.max(0, Math.min(5, Math.round((5 * value) / max)));
 
-    return "█".repeat(filled) + "░".repeat(5 - filled);
+    return `[${"#".repeat(filled)}${"-".repeat(5 - filled)}]`;
 }

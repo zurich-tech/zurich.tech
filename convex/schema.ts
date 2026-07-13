@@ -145,7 +145,12 @@ export default defineSchema({
         importedAt: v.optional(v.number()),
         createdAt: v.number(),
         updatedAt: v.number(),
-    }).index("by_status", ["status"]),
+    })
+        .index("by_status", ["status"])
+        .searchIndex("search_name", {
+            searchField: "name",
+            filterFields: ["status", "visibility"],
+        }),
 
     memberEmails: defineTable({
         memberId: v.id("members"),
@@ -229,7 +234,8 @@ export default defineSchema({
     })
         .index("by_slug", ["slug"])
         .index("by_status", ["status"])
-        .index("by_ownerMemberId", ["ownerMemberId"]),
+        .index("by_ownerMemberId", ["ownerMemberId"])
+        .searchIndex("search_title", { searchField: "title", filterFields: ["status"] }),
 
     seriesSubscriptions: defineTable({
         seriesId: v.id("series"),
@@ -303,7 +309,8 @@ export default defineSchema({
     })
         .index("by_eventId", ["eventId"])
         .index("by_slug", ["slug"])
-        .index("by_status_and_startsAt", ["status", "startsAt"]),
+        .index("by_status_and_startsAt", ["status", "startsAt"])
+        .searchIndex("search_title", { searchField: "title", filterFields: ["status"] }),
 
     eventAgendaItems: defineTable({
         eventId: v.id("events"),
@@ -391,7 +398,8 @@ export default defineSchema({
         updatedAt: v.number(),
     })
         .index("by_slug", ["slug"])
-        .index("by_status_and_publishedAt", ["status", "publishedAt"]),
+        .index("by_status_and_publishedAt", ["status", "publishedAt"])
+        .searchIndex("search_title", { searchField: "title", filterFields: ["status"] }),
 
     notifications: defineTable({
         subject: v.union(v.literal("event"), v.literal("series"), v.literal("member")),

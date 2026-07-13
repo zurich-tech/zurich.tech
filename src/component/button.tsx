@@ -1,8 +1,8 @@
 import type { JSX } from "solid-js";
 
 const styles = {
-    primary: "border-ink bg-ink text-paper hover:bg-transparent hover:text-ink",
-    ghost: "border-line text-ink hover:border-ink",
+    primary: "button--primary",
+    ghost: "button--ghost",
 };
 
 /** Button, a link or submit rendered as a bordered mono label. */
@@ -13,8 +13,7 @@ export function Button(props: {
     type?: "submit" | "button";
 }) {
     // shared classes
-    const classes = () =>
-        `inline-flex shrink-0 border px-3 py-1.5 text-sm lowercase ${styles[props.kind ?? "primary"]}`;
+    const classes = () => `button ${styles[props.kind ?? "primary"]}`;
 
     // render as link
     if (props.href !== undefined) {

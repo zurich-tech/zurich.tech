@@ -154,7 +154,7 @@ async function calendarRow(ctx: QueryCtx, entry: Doc<"calendarEntries">) {
         attendedCount: attendances.length > 0 ? attendances.length : undefined,
         cadence,
         capacity: event.capacity,
-        rsvpCount,
+        rsvpCount: event.status === "finished" ? undefined : rsvpCount,
         seriesNextAt,
         seriesSlug,
         seriesTitle,
@@ -196,6 +196,83 @@ async function memberRow(ctx: QueryCtx, member: Doc<"members">) {
     };
 }
 
+export const search = query({
+    args: { text: v.string() },
+    handler: async (ctx, args) => {
+        const text = args.text.trim();
+        if (text.length < 2) {
+            return [];
+        }
+
+        // search each public noun independently
+        const [events, series, members, posts] = await Promise.all([
+            ctx.db
+                .query("calendarEntries")
+                .withSearchIndex("search_title", (q: any) =>
+                    q.search("title", text).eq("status", "published"),
+                )
+                .take(6),
+            ctx.db
+                .query("series")
+                .withSearchIndex("search_title", (q: any) =>
+                    q.search("title", text).eq("status", "active"),
+                )
+                .take(4),
+            ctx.db
+                .query("members")
+                .withSearchIndex("search_name", (q: any) =>
+                    q.search("name", text).eq("status", "active").eq("visibility", "public"),
+                )
+                .take(6),
+            ctx.db
+                .query("posts")
+                .withSearchIndex("search_title", (q: any) =>
+                    q.search("title", text).eq("status", "published"),
+                )
+                .take(4),
+        ]);
+
+        // resolve member handles in result order
+        const memberResults = await Promise.all(
+            members.map(async (member) => {
+                const handle = await handleFor(ctx, "member", member._id);
+                if (handle === null) {
+                    throw new Error(`Public member ${member._id} has no active handle.`);
+                }
+
+                return {
+                    description: member.headline,
+                    href: `/members/${handle.name}`,
+                    kind: "member" as const,
+                    label: member.name,
+                };
+            }),
+        );
+
+        return [
+            ...events.map((event) => ({
+                description: event.summary,
+                href: event.href ?? `/events/${event.slug}`,
+                kind: "event" as const,
+                label: event.title,
+            })),
+            ...series.map((item) => ({
+                description: item.description,
+                href: `/series/${item.slug}`,
+                kind: "series" as const,
+                label: item.title,
+            })),
+            ...memberResults,
+            ...posts.map((post) => ({
+                description: post.summary,
+                href: `/blog/${post.slug}`,
+                kind: "post" as const,
+                label: post.title,
+            })),
+        ];
+    },
+});
+
 export const calendar = query({
     args: {},
     handler: async (ctx) => {
@@ -224,8 +301,8 @@ export const event = query({
             return null;
         }
 
-        const [calendarEntry, venue, rsvpCount, agenda, speakers, series, tags] = await Promise.all(
-            [
+        const [calendarEntry, venue, rsvpCount, agenda, speakers, series, tags, links] =
+            await Promise.all([
                 ctx.db
                     .query("calendarEntries")
                     .withIndex("by_eventId", (q: any) => q.eq("eventId", event._id))
@@ -247,8 +324,8 @@ export const event = query({
                     .collect(),
                 event.seriesId === undefined ? null : ctx.db.get(event.seriesId),
                 tagsFor(ctx, "event", event._id),
-            ],
-        );
+                linksFor(ctx, "event", event._id),
+            ]);
         const address = venue === null ? null : await ctx.db.get(venue.addressId);
 
         return {
@@ -257,6 +334,7 @@ export const event = query({
             endsAt: event.endsAt,
             format: event.format,
             id: event._id,
+            links,
             location: calendarEntry?.location,
             rsvpCount,
             seriesSlug: series?.slug,
@@ -276,7 +354,7 @@ export const event = query({
                 address:
                     address === null
                         ? undefined
-                        : [address.line1, address.postalCode, address.locality]
+                        : [address.line1, address.line2, address.postalCode, address.locality]
                               .filter(Boolean)
                               .join(", "),
                 name: venue?.name ?? calendarEntry?.location,
@@ -295,7 +373,7 @@ export const seriesList = query({
 
         return await Promise.all(
             rows.map(async (item) => ({
-                cadence: item.recurrenceId === undefined ? "manual" : "recurring",
+                cadence: item.recurrenceId === undefined ? "no fixed schedule" : "recurring",
                 id: item._id,
                 ownerHandle: (await handleFor(ctx, "member", item.ownerMemberId))?.name,
                 slug: item.slug,
@@ -342,7 +420,7 @@ export const seriesDetail = query({
         );
 
         return {
-            cadence: item.recurrenceId === undefined ? "manual" : "recurring",
+            cadence: item.recurrenceId === undefined ? "no fixed schedule" : "recurring",
             entries: entries.filter((entry) => entry !== null),
             id: item._id,
             slug: item.slug,

@@ -1,8 +1,10 @@
 import { createAsync } from "@solidjs/router";
-import { For, Show } from "solid-js";
+import { For, Show, createMemo, createSignal } from "solid-js";
 
+import { DirectoryList, DirectoryRow } from "../../component/list";
 import { Page, PageHeader, Section } from "../../component/page";
 import { Seo } from "../../component/seo";
+import { TableToolbar } from "../../component/toolbar";
 import { getMembers, type PublicMember } from "../../data/public";
 
 /** Member index. */
@@ -25,44 +27,43 @@ export default function Route() {
 
 /** Member directory. */
 function MemberDirectory(props: { members: PublicMember[] }) {
+    const [query, setQuery] = createSignal("");
+
+    // filter visible members by their public profile text
+    const visible = createMemo(() => {
+        const text = query().trim().toLowerCase();
+        if (text.length === 0) {
+            return props.members;
+        }
+
+        return props.members.filter((member) =>
+            `${member.name} ${member.handle} ${member.headline ?? ""} ${member.interests.join(" ")}`
+                .toLowerCase()
+                .includes(text),
+        );
+    });
+
     return (
-        <Section title="members" meta={`${props.members.length}`}>
+        <Section
+            meta={`${visible().length} / ${props.members.length}`}
+            title="members"
+            toolbar={<TableToolbar onSearch={setQuery} placeholder="search members..." />}
+        >
             {/* empty */}
-            <Show when={props.members.length > 0} fallback={<p class="text-soft">nobody yet.</p>}>
-                {/* rows */}
-                <ol class="grid">
-                    <For each={props.members}>{(member) => <MemberRow member={member} />}</For>
-                </ol>
+            <Show when={visible().length > 0} fallback={<p class="text-soft">no members</p>}>
+                <DirectoryList>
+                    <For each={visible()}>
+                        {(member) => (
+                            <DirectoryRow
+                                eyebrow={`@${member.handle}`}
+                                href={`/members/${member.handle}`}
+                                summary={member.headline}
+                                title={member.name}
+                            />
+                        )}
+                    </For>
+                </DirectoryList>
             </Show>
         </Section>
-    );
-}
-
-/** Member row: handle, name, headline, inverted on hover. */
-function MemberRow(props: { member: PublicMember }) {
-    return (
-        <li class="-mx-2 border-b border-line last:border-b-0">
-            <a
-                class="group grid gap-1 px-2 py-3 outline-none hover:bg-ink focus:bg-ink"
-                href={`/members/${props.member.handle}`}
-            >
-                {/* handle and name */}
-                <span class="flex flex-wrap items-baseline gap-3">
-                    <span class="text-xs text-soft group-hover:text-paper/60 group-focus:text-paper/60">
-                        @{props.member.handle}
-                    </span>
-                    <span class="font-medium group-hover:text-paper group-focus:text-paper">
-                        {props.member.name}
-                    </span>
-                </span>
-
-                {/* headline */}
-                <Show when={props.member.headline}>
-                    <span class="text-soft group-hover:text-paper/60 group-focus:text-paper/60">
-                        {props.member.headline}
-                    </span>
-                </Show>
-            </a>
-        </li>
     );
 }

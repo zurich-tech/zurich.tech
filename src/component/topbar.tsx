@@ -1,47 +1,50 @@
 import { A } from "@solidjs/router";
 import { For } from "solid-js";
 
+import { CommandPalette } from "./command";
+import { ThemeToggle } from "./theme";
+
 const links = [
-    { href: "/events", key: "e", rest: "vents" },
-    { href: "/series", key: "s", rest: "eries" },
-    { href: "/members", key: "m", rest: "embers" },
-    { href: "/blog", key: "b", rest: "log" },
+    { href: "/events", label: "events" },
+    { href: "/series", label: "series" },
+    { href: "/members", label: "members" },
+    { href: "/blog", label: "blog" },
 ];
 
-/** Top status bar. */
+/** Site header. */
 export function Topbar() {
     return (
-        <header class="apron-down sticky top-0 z-10 border-b border-ink bg-bar text-bar-text">
+        <header class="site-topbar">
             {/* layout */}
-            <div class="mx-auto grid h-10 max-w-5xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 text-xs md:px-6">
+            <div class="site-topbar__body">
                 {/* brand */}
-                <A class="font-medium" href="/">
+                <A class="site-topbar__brand" href="/">
                     zurich.tech
                 </A>
 
-                {/* accelerator nav */}
-                <nav class="flex items-center gap-2 md:gap-4">
+                {/* navigation */}
+                <nav aria-label="Primary navigation" class="site-topbar__primary">
                     <For each={links}>
                         {(link) => (
                             <A
-                                class="whitespace-nowrap text-bar-soft hover:bg-bar-text hover:text-bar"
+                                activeClass="site-topbar__link--active"
+                                class="site-topbar__link"
                                 href={link.href}
                             >
-                                <span class="text-bar-text">[{link.key}]</span>
-                                <span class="hidden sm:inline">{link.rest}</span>
+                                /{link.label}
                             </A>
                         )}
                     </For>
                 </nav>
 
-                {/* login */}
-                <A
-                    class="justify-self-end whitespace-nowrap text-bar-soft hover:bg-bar-text hover:text-bar"
-                    href="/settings"
-                >
-                    <span class="text-bar-text">[l]</span>
-                    <span class="hidden sm:inline">ogin</span>
-                </A>
+                {/* actions */}
+                <div class="site-topbar__actions">
+                    <CommandPalette />
+                    <ThemeToggle />
+                    <A class="site-topbar__account" href="/settings">
+                        [sign in]
+                    </A>
+                </div>
             </div>
         </header>
     );

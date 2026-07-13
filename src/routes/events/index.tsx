@@ -1,6 +1,5 @@
 import { createAsync } from "@solidjs/router";
 
-import { Button } from "../../component/button";
 import { Calendar } from "../../component/calendar";
 import { Page, PageHeader } from "../../component/page";
 import { Seo } from "../../component/seo";
@@ -16,17 +15,23 @@ export default function Route() {
         <>
             <Seo title="events" description="zurich.tech events." />
             <Page>
-                <PageHeader
-                    actions={
-                        <Button href="/events/propose" kind="ghost">
-                            propose event
-                        </Button>
-                    }
-                    title="events"
-                />
+                <PageHeader title="events" />
 
                 {/* calendar */}
-                <Calendar entries={split().upcoming} title="upcoming" />
+                <Calendar
+                    actions={
+                        <>
+                            <a class="table-command" href="/events/propose">
+                                + event
+                            </a>
+                            <a class="table-command" href="/series/propose">
+                                + series
+                            </a>
+                        </>
+                    }
+                    entries={split().upcoming}
+                    title="upcoming"
+                />
                 <Calendar entries={split().past} title="past" />
             </Page>
         </>

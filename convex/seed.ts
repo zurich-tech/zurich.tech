@@ -2,32 +2,43 @@ import type { GenericId as Id } from "convex/values";
 import { mutationGeneric as mutation } from "convex/server";
 import type { GenericMutationCtx } from "convex/server";
 
+import { archiveEvents, archiveSeries, type ArchiveEvent } from "./archive";
+
 type MutationCtx = GenericMutationCtx<any>;
 
+/** Populate the development database. */
 export const run = mutation({
     args: {},
     handler: async (ctx) => {
-        // reference point so seeded events stay relative to whenever seed runs
+        // members
         const now = Date.now();
-        const days = (count: number) => count * 24 * 60 * 60 * 1000;
-        const hours = (count: number) => count * 60 * 60 * 1000;
         const staff = await ensureMember(ctx, {
-            bio: "Staff account for events, members, and email.",
+            bio: "Runs zurich.tech.",
             email: "hello@zurich.tech",
             handle: "staff",
-            headline: "Events, members, and email.",
-            name: "zurich.tech staff",
+            headline: "zurich.tech",
+            name: "zurich.tech",
         });
         const zurichAi = await ensureMember(ctx, {
-            bio: "AI events, mailing list, and Zurich AI archive.",
+            bio: "Machine learning meetups in Zurich since 2019.",
             email: "hello@zurichai.ch",
             handle: "zurichai",
-            headline: "AI events and announcements.",
+            headline: "Machine learning meetups in Zurich.",
             name: "Zurich AI",
         });
 
+        // member links
         await ensureLink(ctx, "member", staff, "other", "email", "mailto:hello@zurich.tech", 0);
-        await ensureLink(ctx, "member", zurichAi, "x", "x", "https://x.com/zurichai", 0);
+        await ensureLink(
+            ctx,
+            "member",
+            zurichAi,
+            "website",
+            "website",
+            "https://www.zurichai.ch",
+            0,
+        );
+        await ensureLink(ctx, "member", zurichAi, "x", "x", "https://x.com/zurichai", 1);
         await ensureLink(
             ctx,
             "member",
@@ -35,233 +46,89 @@ export const run = mutation({
             "linkedin",
             "linkedin",
             "https://www.linkedin.com/company/zurichai",
-            1,
+            2,
         );
 
-        const kreis4 = await ensureVenue(ctx, {
-            accessNotes: "Room and entry notes are sent after RSVP.",
-            address: {
-                countryCode: "CH",
-                line1: "Kreis 4",
-                locality: "Zurich",
-            },
-            capacity: 120,
-            name: "Kreis 4 venue",
-        });
-        const online = await ensureVenue(ctx, {
-            accessNotes: "Video link is sent by email.",
-            address: {
-                countryCode: "CH",
-                line1: "Online",
-                locality: "Zurich",
-            },
-            capacity: 40,
-            name: "Online",
-        });
-        const eth = await ensureVenue(ctx, {
-            accessNotes: "Campus room is confirmed to RSVP holders.",
-            address: {
-                countryCode: "CH",
-                line1: "ETH Zurich, Zentrum",
-                locality: "Zurich",
-            },
-            capacity: 35,
-            name: "ETH Zurich",
-        });
-        const hardwareLab = await ensureVenue(ctx, {
-            accessNotes: "Badge access is arranged after RSVP.",
-            address: {
-                countryCode: "CH",
-                line1: "Hardware Lab",
-                locality: "Zurich",
-            },
-            capacity: 60,
-            name: "Hardware Lab",
-        });
+        // venues
+        const venueIds = {
+            "eth-ai-center-14": await ensureVenue(ctx, {
+                accessNotes: "OAT building, 14th floor.",
+                address: {
+                    countryCode: "CH",
+                    line1: "Andreasstrasse 5",
+                    line2: "OAT, 14th floor",
+                    locality: "Zürich",
+                    postalCode: "8050",
+                },
+                name: "ETH AI Center, 14th floor",
+            }),
+            "eth-ai-center-19": await ensureVenue(ctx, {
+                accessNotes: "OAT building, 19th floor.",
+                address: {
+                    countryCode: "CH",
+                    line1: "Andreasstrasse 5",
+                    line2: "OAT, 19th floor",
+                    locality: "Zürich",
+                    postalCode: "8050",
+                },
+                name: "ETH AI Center, 19th floor",
+            }),
+        };
 
-        const aiSeries = await ensureSeries(ctx, {
-            description: "Talks, demos, and applied AI.",
-            ownerMemberId: zurichAi,
-            slug: "zurich-ai",
-            title: "Zurich AI",
-        });
-        const systemsSeries = await ensureSeries(ctx, {
-            description: "Runtime, infrastructure, distributed systems, and papers.",
-            ownerMemberId: staff,
-            slug: "systems-reading-group",
-            title: "Systems Reading Group",
-        });
-        await ensureSeriesRecurrence(ctx, aiSeries, {
-            frequency: "monthly",
-            interval: 1,
-            startsAt: now + days(8) + hours(6),
-            timezone: "Europe/Zurich",
-        });
-        await ensureSeriesSubscription(ctx, aiSeries, staff);
-        await ensureSeriesSubscription(ctx, aiSeries, zurichAi);
+        // series
+        const seriesIds = {} as Record<ArchiveEvent["series"], Id<"series">>;
+        for (const item of archiveSeries) {
+            const seriesId = await ensureSeries(ctx, {
+                description: item.description,
+                ownerMemberId: zurichAi,
+                slug: item.slug,
+                title: item.title,
+            });
+            seriesIds[item.slug] = seriesId;
 
-        const builders = await ensureEvent(ctx, {
-            capacity: 120,
-            description: "Short talks, demos, and time for people building with AI.",
-            endsAt: now + days(8) + hours(9),
-            format: "meetup",
-            location: "Kreis 4",
-            ownerMemberId: zurichAi,
-            seriesId: aiSeries,
-            slug: "zurich-ai-builders-night",
-            source: "event",
-            startsAt: now + days(8) + hours(6),
-            title: "Zurich AI Builders Night",
-            venueId: kreis4,
-        });
-        await ensureAgenda(ctx, builders, [
-            ["18:30", "Doors and check-in"],
-            ["19:00", "Builder demos"],
-            ["20:15", "Open demos and hallway track"],
-        ]);
-        await ensureSpeaker(ctx, builders, "Zurich AI", "Community demos", 0);
-        await ensureSpeaker(ctx, builders, "Guest builders", "Lightning talks", 1);
-        await ensureRsvps(ctx, builders, 74);
+            await tag(ctx, "series", seriesId, item.tags);
+        }
 
-        // next monthly occurrence in the same series, so seriesNextAt resolves
-        const buildersNext = await ensureEvent(ctx, {
-            capacity: 120,
-            description: "Short talks, demos, and time for people building with AI.",
-            endsAt: now + days(38) + hours(9),
-            format: "meetup",
-            location: "Kreis 4",
-            ownerMemberId: zurichAi,
-            seriesId: aiSeries,
-            slug: "zurich-ai-builders-night-next",
-            source: "event",
-            startsAt: now + days(38) + hours(6),
-            title: "Zurich AI Builders Night — Next Session",
-            venueId: kreis4,
-        });
-        await ensureRsvps(ctx, buildersNext, 9);
+        // events
+        for (const item of archiveEvents) {
+            const eventId = await ensureEvent(ctx, {
+                description: item.description,
+                endsAt: Date.parse(item.endsAt),
+                format: "talk",
+                location: "ETH AI Center",
+                ownerMemberId: zurichAi,
+                seriesId: seriesIds[item.series],
+                slug: item.slug,
+                source: "event",
+                startsAt: Date.parse(item.startsAt),
+                status: "finished",
+                title: item.title,
+                venueId: venueIds[item.venue],
+            });
 
-        const officeHours = await ensureEvent(ctx, {
-            capacity: 40,
-            description: "Projects, event ideas, and introductions.",
-            endsAt: now + days(15) + hours(7),
-            format: "office_hours",
-            location: "Online",
-            ownerMemberId: staff,
-            slug: "community-office-hours",
-            source: "manual",
-            startsAt: now + days(15) + hours(5),
-            title: "Community Office Hours",
-            venueId: online,
-        });
-        await ensureAgenda(ctx, officeHours, [
-            ["17:00", "Open office hours"],
-            ["18:00", "Introductions and project matchmaking"],
-        ]);
-        await ensureSpeaker(ctx, officeHours, "zurich.tech staff", "Operations", 0);
-        await ensureRsvps(ctx, officeHours, 18);
+            await ensureSpeakers(ctx, eventId, item.speakers ?? []);
+            await ensureLink(ctx, "event", eventId, "website", "zurichai.ch", item.url, 0);
+            await tag(ctx, "event", eventId, item.tags);
+        }
 
-        const systems = await ensureEvent(ctx, {
-            capacity: 35,
-            description: "Runtime design and distributed systems papers.",
-            endsAt: now + days(22) + hours(9),
-            format: "talk",
-            location: "ETH Zurich",
-            ownerMemberId: staff,
-            seriesId: systemsSeries,
-            slug: "systems-reading-group",
-            source: "external",
-            startsAt: now + days(22) + hours(7),
-            title: "Systems Reading Group",
-            venueId: eth,
-        });
-        await ensureAgenda(ctx, systems, [
-            ["19:00", "Paper discussion"],
-            ["20:15", "Implementation notes"],
-        ]);
-        await ensureSpeaker(ctx, systems, "Reading group hosts", "Systems discussion", 0);
-        await ensureRsvps(ctx, systems, 21);
-
-        const hackNight = await ensureEvent(ctx, {
-            capacity: 60,
-            description: "A weekend hack night for people building AI hardware.",
-            endsAt: now + days(30) + hours(15),
-            format: "hackathon",
-            location: "Hardware Lab",
-            ownerMemberId: zurichAi,
-            slug: "ai-hardware-hack-night",
-            source: "event",
-            startsAt: now + days(29) + hours(9),
-            status: "conditional",
-            title: "AI Hardware Hack Night",
-            venueId: hardwareLab,
-        });
-        await ensureRsvps(ctx, hackNight, 9);
-        await ensureActivation(ctx, hackNight, {
-            deadlineAt: now + days(22),
-            kind: "minimum_rsvps",
-            status: "pending",
-            threshold: 25,
-        });
-
-        const summerSocial = await ensureEvent(ctx, {
-            capacity: 120,
-            description: "Season recap, lightning demos, and drinks.",
-            endsAt: now - days(40) + hours(9),
-            format: "meetup",
-            location: "Kreis 4",
-            ownerMemberId: zurichAi,
-            seriesId: aiSeries,
-            slug: "zurich-ai-summer-social",
-            source: "event",
-            startsAt: now - days(40) + hours(6),
-            status: "finished",
-            title: "Zurich AI Summer Social",
-            venueId: kreis4,
-        });
-        await ensureAttendances(ctx, summerSocial, 30, now - days(40) + hours(6));
-
-        const seasonOpener = await ensureEvent(ctx, {
-            capacity: 35,
-            description: "First reading group session of the season.",
-            endsAt: now - days(70) + hours(9),
-            format: "talk",
-            location: "ETH Zurich",
-            ownerMemberId: staff,
-            seriesId: systemsSeries,
-            slug: "systems-reading-group-season-opener",
-            source: "event",
-            startsAt: now - days(70) + hours(7),
-            status: "finished",
-            title: "Systems Reading Group — Season Opener",
-            venueId: eth,
-        });
-        await ensureAttendances(ctx, seasonOpener, 25, now - days(70) + hours(7));
-
+        // archive post
         await ensurePost(ctx, {
             authorMemberId: staff,
             body: [
-                "zurich.tech tracks events, members, and email.",
-                "Calendar first. Accounts, proposals, subscriptions, and email preferences next.",
+                "The Zurich AI event archive now lives on zurich.tech.",
+                "ZurichCV, ZurichNLP, and ZurichRobotics events from 2024 onward are available here.",
             ],
             publishedAt: now,
-            slug: "zurich-tech-platform",
-            summary: "Events, members, and email.",
-            title: "Building zurich.tech",
+            slug: "zurich-ai-archive",
+            summary: "ZurichCV, ZurichNLP, and ZurichRobotics.",
+            title: "Zurich AI archive",
         });
 
-        await tag(ctx, "event", builders, ["ai", "builders", "demos"]);
-        await tag(ctx, "event", buildersNext, ["ai", "builders", "demos"]);
-        await tag(ctx, "event", officeHours, ["community", "office-hours"]);
-        await tag(ctx, "event", systems, ["systems", "infrastructure", "papers"]);
-        await tag(ctx, "event", hackNight, ["ai", "hardware", "hackathon"]);
-        await tag(ctx, "event", summerSocial, ["ai", "builders", "demos"]);
-        await tag(ctx, "event", seasonOpener, ["systems", "infrastructure", "papers"]);
-        await tag(ctx, "series", aiSeries, ["ai", "builders", "research"]);
-        await tag(ctx, "series", systemsSeries, ["systems", "infrastructure", "papers"]);
-        await tag(ctx, "member", zurichAi, ["ai", "research", "startups"]);
-        await tag(ctx, "member", staff, ["events", "members", "operations"]);
+        // member tags
+        await tag(ctx, "member", zurichAi, ["machine-learning", "events"]);
+        await tag(ctx, "member", staff, ["events", "operations"]);
 
-        return { ok: true };
+        return { events: archiveEvents.length, ok: true, series: archiveSeries.length };
     },
 });
 
@@ -319,8 +186,8 @@ async function ensureMember(
 
 async function ensureLink(
     ctx: MutationCtx,
-    subject: "member",
-    subjectId: Id<"members">,
+    subject: "member" | "event" | "series",
+    subjectId: Id<"members"> | Id<"events"> | Id<"series">,
     kind: "website" | "github" | "linkedin" | "x" | "mastodon" | "youtube" | "newsletter" | "other",
     label: string,
     url: string,
@@ -358,12 +225,34 @@ async function ensureVenue(
     ctx: MutationCtx,
     args: {
         accessNotes: string;
-        address: { countryCode: string; line1: string; locality: string };
-        capacity: number;
+        address: {
+            countryCode: string;
+            line1: string;
+            line2?: string;
+            locality: string;
+            postalCode?: string;
+        };
         name: string;
     },
 ) {
     const now = Date.now();
+    const existing = (await ctx.db.query("venues").collect()).find(
+        (venue) => venue.name === args.name,
+    );
+
+    // update the existing venue and address
+    if (existing !== undefined) {
+        await ctx.db.patch(existing.addressId, { ...args.address, updatedAt: now });
+        await ctx.db.patch(existing._id, {
+            accessNotes: args.accessNotes,
+            status: "active",
+            updatedAt: now,
+        });
+
+        return existing._id;
+    }
+
+    // create the address before its venue
     const addressId = await ctx.db.insert("addresses", {
         ...args.address,
         createdAt: now,
@@ -373,7 +262,6 @@ async function ensureVenue(
     return await ctx.db.insert("venues", {
         accessNotes: args.accessNotes,
         addressId,
-        capacity: args.capacity,
         createdAt: now,
         name: args.name,
         status: "active",
@@ -413,68 +301,10 @@ async function ensureSeries(
     });
 }
 
-async function ensureSeriesRecurrence(
-    ctx: MutationCtx,
-    seriesId: Id<"series">,
-    args: {
-        frequency: "daily" | "weekly" | "monthly" | "yearly";
-        interval: number;
-        startsAt: number;
-        timezone: string;
-    },
-) {
-    const now = Date.now();
-    const series = await ctx.db.get(seriesId);
-    if (series === null) {
-        throw new Error("series not found");
-    }
-
-    if (series.recurrenceId !== undefined) {
-        await ctx.db.patch(series.recurrenceId, { ...args, updatedAt: now });
-        return series.recurrenceId as Id<"recurrences">;
-    }
-
-    const recurrenceId = await ctx.db.insert("recurrences", {
-        ...args,
-        createdAt: now,
-        updatedAt: now,
-    });
-    await ctx.db.patch(seriesId, { recurrenceId, updatedAt: now });
-
-    return recurrenceId;
-}
-
-async function ensureSeriesSubscription(
-    ctx: MutationCtx,
-    seriesId: Id<"series">,
-    memberId: Id<"members">,
-) {
-    const now = Date.now();
-    const existing = await ctx.db
-        .query("seriesSubscriptions")
-        .withIndex("by_seriesId_and_memberId", (q: any) =>
-            q.eq("seriesId", seriesId).eq("memberId", memberId),
-        )
-        .first();
-
-    if (existing !== null) {
-        await ctx.db.patch(existing._id, { status: "subscribed", updatedAt: now });
-        return;
-    }
-
-    await ctx.db.insert("seriesSubscriptions", {
-        createdAt: now,
-        memberId,
-        seriesId,
-        status: "subscribed",
-        updatedAt: now,
-    });
-}
-
 async function ensureEvent(
     ctx: MutationCtx,
     args: {
-        capacity: number;
+        capacity?: number;
         description: string;
         endsAt: number;
         format: "meetup" | "talk" | "workshop" | "hackathon" | "office_hours" | "other";
@@ -559,134 +389,34 @@ async function ensureEvent(
     return eventId;
 }
 
-async function ensureAgenda(
+async function ensureSpeakers(
     ctx: MutationCtx,
     eventId: Id<"events">,
-    items: Array<[string, string]>,
+    speakers: Array<{ name: string; title: string }>,
 ) {
+    const now = Date.now();
     const existing = await ctx.db
-        .query("eventAgendaItems")
+        .query("eventSpeakers")
         .withIndex("by_eventId", (q: any) => q.eq("eventId", eventId))
         .collect();
-    const now = Date.now();
 
-    for (const item of existing) {
-        await ctx.db.delete(item._id);
+    // replace existing speakers
+    for (const speaker of existing) {
+        await ctx.db.delete(speaker._id);
     }
 
+    // insert the published speakers in order
     await Promise.all(
-        items.map(([time, title], position) =>
-            ctx.db.insert("eventAgendaItems", {
+        speakers.map((speaker, position) =>
+            ctx.db.insert("eventSpeakers", {
+                ...speaker,
                 createdAt: now,
                 eventId,
                 position,
-                time,
-                title,
                 updatedAt: now,
             }),
         ),
     );
-}
-
-async function ensureSpeaker(
-    ctx: MutationCtx,
-    eventId: Id<"events">,
-    name: string,
-    title: string,
-    position: number,
-) {
-    const existing = (
-        await ctx.db
-            .query("eventSpeakers")
-            .withIndex("by_eventId", (q: any) => q.eq("eventId", eventId))
-            .collect()
-    ).find((speaker) => speaker.position === position);
-    const now = Date.now();
-
-    if (existing !== undefined) {
-        await ctx.db.patch(existing._id, { name, title, updatedAt: now });
-        return;
-    }
-
-    await ctx.db.insert("eventSpeakers", {
-        createdAt: now,
-        eventId,
-        name,
-        position,
-        title,
-        updatedAt: now,
-    });
-}
-
-async function ensureRsvps(ctx: MutationCtx, eventId: Id<"events">, count: number) {
-    const existing = await ctx.db
-        .query("rsvps")
-        .withIndex("by_eventId", (q: any) => q.eq("eventId", eventId))
-        .collect();
-    const now = Date.now();
-
-    for (let index = existing.length; index < count; index += 1) {
-        await ctx.db.insert("rsvps", {
-            createdAt: now,
-            email: `seed-${eventId}-${index}@example.invalid`,
-            eventId,
-            name: `Seed attendee ${index + 1}`,
-            status: "going",
-            updatedAt: now,
-        });
-    }
-}
-
-async function ensureActivation(
-    ctx: MutationCtx,
-    eventId: Id<"events">,
-    args: {
-        deadlineAt: number;
-        kind: "minimum_rsvps" | "minimum_capacity_ratio";
-        status: "pending" | "met" | "missed";
-        threshold: number;
-    },
-) {
-    const now = Date.now();
-    const existing = await ctx.db
-        .query("eventActivations")
-        .withIndex("by_eventId", (q: any) => q.eq("eventId", eventId))
-        .first();
-
-    if (existing !== null) {
-        await ctx.db.patch(existing._id, { ...args, updatedAt: now });
-        return;
-    }
-
-    await ctx.db.insert("eventActivations", {
-        ...args,
-        createdAt: now,
-        eventId,
-        updatedAt: now,
-    });
-}
-
-async function ensureAttendances(
-    ctx: MutationCtx,
-    eventId: Id<"events">,
-    count: number,
-    checkedInAt: number,
-) {
-    const existing = await ctx.db
-        .query("attendances")
-        .withIndex("by_eventId", (q: any) => q.eq("eventId", eventId))
-        .collect();
-    const now = Date.now();
-
-    for (let index = existing.length; index < count; index += 1) {
-        await ctx.db.insert("attendances", {
-            checkedInAt,
-            createdAt: now,
-            email: `seed-attendance-${eventId}-${index}@example.invalid`,
-            eventId,
-            method: "qr",
-        });
-    }
 }
 
 async function ensurePost(

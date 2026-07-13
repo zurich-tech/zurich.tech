@@ -1,34 +1,56 @@
 import { For } from "solid-js";
 
+import { subscribe } from "../data/actions";
+
 const links = [
-    { href: "https://x.com/zurichnlp", label: "x" },
+    { href: "https://x.com/zurichai", label: "x" },
     { href: "https://www.linkedin.com/company/zurichai", label: "linkedin" },
-    { href: "/admin", label: "admin" },
+    { href: "mailto:hello@zurich.tech", label: "email" },
 ];
 
-/** Bottom status bar, mirroring the top one. */
+/** Site footer. */
 export function Footer() {
+    // subscribe one address from the compact footer form
+    async function submit(submitEvent: SubmitEvent) {
+        submitEvent.preventDefault();
+
+        const form = submitEvent.currentTarget as HTMLFormElement;
+        const email = String(new FormData(form).get("email") ?? "");
+        if (email.length === 0) {
+            return;
+        }
+
+        await subscribe(email);
+        form.reset();
+    }
+
     return (
-        <footer class="apron-up sticky bottom-0 z-10 border-t border-ink bg-bar text-bar-text">
+        <footer class="site-footer">
             {/* layout */}
-            <div class="mx-auto grid h-10 max-w-5xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 text-xs md:px-6">
-                <p class="truncate font-medium">zurich.tech</p>
+            <div class="site-footer__body">
+                <p class="site-footer__copyright">(c) zurich.tech</p>
+
+                {/* newsletter */}
+                <form class="site-footer__newsletter" onSubmit={submit}>
+                    <input
+                        aria-label="newsletter email"
+                        name="email"
+                        placeholder="email"
+                        type="email"
+                    />
+                    <button type="submit">[subscribe]</button>
+                </form>
 
                 {/* links */}
-                <nav class="flex gap-4">
+                <nav aria-label="Community links">
                     <For each={links}>
                         {(link) => (
-                            <a
-                                class="text-bar-soft hover:bg-bar-text hover:text-bar"
-                                href={link.href}
-                            >
-                                {link.label}
+                            <a href={link.href} rel="noreferrer" target="_blank">
+                                /{link.label}
                             </a>
                         )}
                     </For>
                 </nav>
-
-                <p class="justify-self-end truncate text-bar-soft">zürich, switzerland</p>
             </div>
         </footer>
     );

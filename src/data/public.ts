@@ -35,6 +35,7 @@ export type PublicEvent = {
     endsAt?: number;
     format: string;
     id: string;
+    links: Array<{ href: string; label: string }>;
     location?: string;
     rsvpCount: number;
     seriesSlug?: string;
@@ -92,6 +93,13 @@ export type PublicHandle = {
     summary?: string;
     title: string;
     type: "member";
+};
+
+export type SearchResult = {
+    description?: string;
+    href: string;
+    kind: "event" | "member" | "post" | "series";
+    label: string;
 };
 
 export type CommunityStats = {
@@ -176,4 +184,9 @@ export const getPost = query(
 export const getHandle = query(
     (handle: string) => convexQuery<PublicHandle | null>(anyApi.public.handle, { handle }),
     "handle",
+);
+
+export const search = query(
+    (text: string) => convexQuery<SearchResult[]>(anyApi.public.search, { text }),
+    "search",
 );

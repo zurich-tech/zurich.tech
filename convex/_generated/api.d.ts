@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as archive from "../archive.js";
 import type * as proposals from "../proposals.js";
 import type * as public_ from "../public.js";
 import type * as seed from "../seed.js";
@@ -19,6 +20,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  archive: typeof archive;
   proposals: typeof proposals;
   public: typeof public_;
   seed: typeof seed;
