@@ -8,6 +8,7 @@ The zurich.tech website.
 - Convex for product state and backend functions
 - Tailwind CSS for styling
 - Cloudflare Workers for deployment
+- Cloudflare R2 for public media
 
 ## Commands
 
@@ -36,8 +37,23 @@ Run it once against production after deploying the schema:
 bunx convex run --prod seed:run
 ```
 
+## Photos
+
+The reviewed event photo selections live in `scripts/photos.ts`.
+The importer reads Apple Photos or attributed public sources, strips metadata, and writes WebP images under `/tmp/zurich-tech-photos`.
+Full images are bounded to 1600 pixels and grid thumbnails to 800 pixels.
+
+```sh
+just photos --export-only
+just photos --upload-only
+just photos --upload-only --prod
+```
+
+Uploads require ImageMagick and an authenticated Wrangler session.
+R2 serves immutable objects from `media.zurich.tech`, while Convex stores event ownership, order, dimensions, alternative text, and captions.
+
 ## Model
 
-Routes: events, series details, members, news, and settings.
+Routes: events, members, news, and settings.
 
-The backend model is scoped to the event site: accounts, members, handles, links, events, series, recurrence, venues, RSVPs, attendance, check-ins, feedback, media, notifications, email, subscriptions, tags, and articles.
+The backend model is scoped to the event site: accounts, members, handles, links, events, venues, RSVPs, attendance, check-ins, feedback, media, notifications, email, subscriptions, tags, and articles.

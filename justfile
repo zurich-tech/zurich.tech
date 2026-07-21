@@ -51,6 +51,10 @@ check-full:
 dev:
     bun run dev
 
+# prepare and upload reviewed event photos
+photos *args:
+    bun scripts/photos.ts {{args}}
+
 # clean build artifacts
 clean:
     rm -rf .vinxi .output dist

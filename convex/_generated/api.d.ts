@@ -12,10 +12,12 @@ import type * as archive from "../archive.js";
 import type * as auth from "../auth.js";
 import type * as email from "../email.js";
 import type * as http from "../http.js";
-import type * as registration from "../registration.js";
+import type * as media from "../media.js";
 import type * as public_ from "../public.js";
+import type * as registration from "../registration.js";
 import type * as search from "../search.js";
 import type * as seed from "../seed.js";
+import type * as tag from "../tag.js";
 
 import type {
   ApiFromModules,
@@ -28,10 +30,12 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   email: typeof email;
   http: typeof http;
-  registration: typeof registration;
+  media: typeof media;
   public: typeof public_;
+  registration: typeof registration;
   search: typeof search;
   seed: typeof seed;
+  tag: typeof tag;
 }>;
 
 /**

@@ -6,6 +6,7 @@ import { Button } from "../../component/button";
 import { formatDate } from "../../component/calendar";
 import { Field, Input } from "../../component/field";
 import { FormMessage } from "../../component/form";
+import { Markdown } from "../../component/markdown";
 import { Tags } from "../../component/meta";
 import { NotFound } from "../../component/notfound";
 import { DetailList, DetailRow, Page, PageHeader, Section } from "../../component/page";
@@ -96,6 +97,11 @@ export default function Route() {
                                 <Details event={event()} />
                             </div>
                         </div>
+
+                        {/* photos */}
+                        <Show when={(event()?.media.length ?? 0) > 0}>
+                            <Photos event={event()} />
+                        </Show>
                     </Page>
                 </>
             </Match>
@@ -103,11 +109,170 @@ export default function Route() {
     );
 }
 
+/** Event photos. */
+function Photos(props: { event: PublicEvent | null | undefined }) {
+    const [position, setPosition] = createSignal(0);
+    let dialog: HTMLDialogElement | undefined;
+    const images = () => props.event?.media ?? [];
+    const image = () => images()[position()];
+
+    /** Open one image in the full gallery. */
+    function open(nextPosition: number) {
+        if (dialog === undefined) {
+            throw new Error("Event gallery is not mounted.");
+        }
+
+        setPosition(nextPosition);
+        dialog.showModal();
+    }
+
+    /** Close the full gallery. */
+    function close() {
+        if (dialog === undefined) {
+            throw new Error("Event gallery is not mounted.");
+        }
+
+        dialog.close();
+    }
+
+    /** Move through the gallery with wraparound. */
+    function move(offset: number) {
+        const count = images().length;
+        if (count === 0) {
+            throw new Error("Event gallery has no images.");
+        }
+
+        setPosition((current) => (current + offset + count) % count);
+    }
+
+    /** Handle gallery keyboard navigation. */
+    function navigate(keyEvent: KeyboardEvent) {
+        // previous image
+        if (keyEvent.key === "ArrowLeft") {
+            keyEvent.preventDefault();
+            move(-1);
+        }
+        // next image
+        else if (keyEvent.key === "ArrowRight") {
+            keyEvent.preventDefault();
+            move(1);
+        }
+        // close gallery
+        else if (keyEvent.key === "Escape") {
+            keyEvent.preventDefault();
+            close();
+        }
+    }
+
+    /** Close when the native dialog backdrop is selected. */
+    function dismiss(mouseEvent: MouseEvent) {
+        if (mouseEvent.target === dialog) {
+            close();
+        }
+    }
+
+    return (
+        <Section title="photos" meta={String(images().length)}>
+            {/* thumbnails */}
+            <div class="event-photos">
+                <For each={images()}>
+                    {(thumbnail, index) => (
+                        <button
+                            aria-label={`Open photo ${index() + 1} of ${images().length}`}
+                            class="event-photo"
+                            onClick={() => open(index())}
+                            type="button"
+                        >
+                            <img
+                                alt={thumbnail.alt}
+                                height={thumbnail.height}
+                                loading="lazy"
+                                src={thumbnail.thumbnailUrl}
+                                width={thumbnail.width}
+                            />
+                        </button>
+                    )}
+                </For>
+            </div>
+
+            {/* full gallery */}
+            <dialog
+                aria-label={`Photos from ${props.event?.title ?? "event"}`}
+                class="event-gallery"
+                onClick={dismiss}
+                onKeyDown={navigate}
+                ref={(element) => (dialog = element)}
+            >
+                {/* gallery header */}
+                <div class="event-gallery__header">
+                    <span aria-live="polite">
+                        {position() + 1} / {images().length}
+                    </span>
+                    <button
+                        aria-label="Close gallery"
+                        class="event-gallery__close"
+                        onClick={close}
+                        title="Close gallery"
+                        type="button"
+                    >
+                        x
+                    </button>
+                </div>
+
+                {/* selected image */}
+                <div class="event-gallery__stage">
+                    <Show when={images().length > 1}>
+                        <button
+                            aria-label="Previous photo"
+                            class="event-gallery__previous"
+                            onClick={() => move(-1)}
+                            title="Previous photo"
+                            type="button"
+                        >
+                            &lt;
+                        </button>
+                    </Show>
+
+                    <Show when={image()}>
+                        {(selected) => (
+                            <figure>
+                                <img
+                                    alt={selected().alt}
+                                    height={selected().height}
+                                    src={selected().url}
+                                    width={selected().width}
+                                />
+
+                                {/* caption */}
+                                <Show when={selected().caption}>
+                                    {(caption) => <figcaption>{caption()}</figcaption>}
+                                </Show>
+                            </figure>
+                        )}
+                    </Show>
+
+                    <Show when={images().length > 1}>
+                        <button
+                            aria-label="Next photo"
+                            class="event-gallery__next"
+                            onClick={() => move(1)}
+                            title="Next photo"
+                            type="button"
+                        >
+                            &gt;
+                        </button>
+                    </Show>
+                </div>
+            </dialog>
+        </Section>
+    );
+}
+
 /** Event description. */
 function Description(props: { event: PublicEvent | null | undefined }) {
     return (
         <Section title="about">
-            <p>{props.event?.summary ?? "event not found."}</p>
+            <Markdown source={props.event?.description ?? "event not found."} />
         </Section>
     );
 }
@@ -183,25 +348,6 @@ function Details(props: { event: PublicEvent | null | undefined }) {
                 {/* access notes */}
                 <Show when={props.event?.venue.access}>
                     <DetailRow label="access" value={props.event?.venue.access ?? "-"} />
-                </Show>
-
-                {/* source */}
-                <Show when={props.event?.links[0]}>
-                    {(link) => (
-                        <DetailRow
-                            label="source"
-                            value={
-                                <a
-                                    class="underline underline-offset-4"
-                                    href={link().href}
-                                    rel="noreferrer"
-                                    target="_blank"
-                                >
-                                    {link().label}
-                                </a>
-                            }
-                        />
-                    )}
                 </Show>
             </DetailList>
         </Section>
