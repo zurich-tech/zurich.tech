@@ -213,7 +213,9 @@ export default defineSchema({
         visibility: v.union(v.literal("private"), v.literal("members"), v.literal("public")),
         createdAt: v.number(),
         updatedAt: v.number(),
-    }).index("by_subject_and_subjectId", ["subject", "subjectId"]),
+    })
+        .index("by_subject_and_subjectId", ["subject", "subjectId"])
+        .index("by_url", ["url"]),
 
     recurrences: defineTable({
         timezone: v.string(),
@@ -272,6 +274,7 @@ export default defineSchema({
         status: eventStatus,
         format: eventFormat,
         seriesId: v.optional(v.id("series")),
+        number: v.optional(v.number()),
         venueId: v.optional(v.id("venues")),
         location: v.optional(v.string()),
         title: v.string(),
@@ -336,7 +339,7 @@ export default defineSchema({
         eventId: v.id("events"),
         memberId: v.optional(v.id("members")),
         name: v.string(),
-        title: v.string(),
+        title: v.optional(v.string()),
         position: v.number(),
         createdAt: v.number(),
         updatedAt: v.number(),

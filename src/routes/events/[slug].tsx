@@ -217,7 +217,11 @@ function Speakers(props: { event: PublicEvent | null | undefined }) {
                     {(speaker) => (
                         <div class="border-b border-line py-3 text-sm first:pt-0 last:border-b-0 last:pb-0">
                             <p class="font-medium">{speaker.name}</p>
-                            <p class="text-soft">{speaker.title}</p>
+
+                            {/* affiliation */}
+                            <Show when={speaker.title}>
+                                {(title) => <p class="text-soft">{title()}</p>}
+                            </Show>
                         </div>
                     )}
                 </For>

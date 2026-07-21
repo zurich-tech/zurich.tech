@@ -499,6 +499,7 @@ export const event = query({
             format: event.format,
             links,
             location: calendarEntry.location,
+            number: event.number,
             rsvpCount,
             seriesSlug: series?.slug,
             slug: event.slug,
