@@ -1,3 +1,5 @@
+import { HttpStatusCode } from "@solidjs/start";
+
 import { Page, Section } from "./page";
 import { Seo } from "./seo";
 
@@ -5,6 +7,8 @@ import { Seo } from "./seo";
 export function NotFound() {
     return (
         <>
+            {/* response */}
+            <HttpStatusCode code={404} />
             <Seo title="not found" description="route not found." />
             <Page width="narrow">
                 <Section title="404">

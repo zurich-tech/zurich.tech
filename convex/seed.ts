@@ -1,13 +1,11 @@
-import type { GenericId as Id } from "convex/values";
-import { mutationGeneric as mutation } from "convex/server";
-import type { GenericMutationCtx } from "convex/server";
-
+import type { Id } from "./_generated/dataModel";
+import { internalMutation, type MutationCtx } from "./_generated/server";
 import { archiveEvents, archiveSeries, type ArchiveEvent } from "./archive";
+import { normalizeEmail } from "./email";
+import { searchText } from "./search";
 
-type MutationCtx = GenericMutationCtx<any>;
-
-/** Populate the development database. */
-export const run = mutation({
+/** Populate the Zurich AI archive records. */
+export const run = internalMutation({
     args: {},
     handler: async (ctx) => {
         // members
@@ -98,10 +96,13 @@ export const run = mutation({
                 location: "ETH AI Center",
                 ownerMemberId: zurichAi,
                 seriesId: seriesIds[item.series],
+                seriesSlug: item.series,
                 slug: item.slug,
                 source: "event",
+                speakers: item.speakers ?? [],
                 startsAt: Date.parse(item.startsAt),
                 status: "finished",
+                tags: item.tags,
                 title: item.title,
                 venueId: venueIds[item.venue],
             });
@@ -111,18 +112,16 @@ export const run = mutation({
             await tag(ctx, "event", eventId, item.tags);
         }
 
-        // archive post
-        await ensurePost(ctx, {
+        // archive article
+        const articleId = await ensureArticle(ctx, {
             authorMemberId: staff,
-            body: [
-                "The Zurich AI event archive now lives on zurich.tech.",
-                "ZurichCV, ZurichNLP, and ZurichRobotics events from 2024 onward are available here.",
-            ],
+            body: "The Zurich AI event archive now lives on zurich.tech.\n\nZurichCV, ZurichNLP, and ZurichRobotics events from 2024 onward are available here.",
+            description: "ZurichCV, ZurichNLP, and ZurichRobotics.",
             publishedAt: now,
             slug: "zurich-ai-archive",
-            summary: "ZurichCV, ZurichNLP, and ZurichRobotics.",
             title: "Zurich AI archive",
         });
+        await tag(ctx, "article", articleId, ["events"]);
 
         // member tags
         await tag(ctx, "member", zurichAi, ["machine-learning", "events"]);
@@ -139,14 +138,15 @@ async function ensureMember(
     const now = Date.now();
     const existingHandle = await ctx.db
         .query("handles")
-        .withIndex("by_name", (q: any) => q.eq("name", args.handle))
-        .first();
+        .withIndex("by_name", (query) => query.eq("name", args.handle))
+        .unique();
 
     if (existingHandle !== null) {
         await ctx.db.patch(existingHandle.subjectId as Id<"members">, {
             bio: args.bio,
             headline: args.headline,
             name: args.name,
+            searchText: searchText(args.name, args.handle, args.headline, args.bio),
             status: "active",
             updatedAt: now,
             visibility: "public",
@@ -159,6 +159,7 @@ async function ensureMember(
         createdAt: now,
         headline: args.headline,
         name: args.name,
+        searchText: searchText(args.name, args.handle, args.headline, args.bio),
         status: "active",
         updatedAt: now,
         visibility: "public",
@@ -173,7 +174,7 @@ async function ensureMember(
     });
     await ctx.db.insert("memberEmails", {
         createdAt: now,
-        email: args.email,
+        email: normalizeEmail(args.email),
         isPrimary: true,
         memberId,
         source: "seed",
@@ -196,8 +197,8 @@ async function ensureLink(
     const existing = (
         await ctx.db
             .query("links")
-            .withIndex("by_subject_and_subjectId", (q: any) =>
-                q.eq("subject", subject).eq("subjectId", subjectId),
+            .withIndex("by_subject_and_subjectId", (query) =>
+                query.eq("subject", subject).eq("subjectId", subjectId),
             )
             .collect()
     ).find((link) => link.url === url);
@@ -276,13 +277,14 @@ async function ensureSeries(
     const now = Date.now();
     const existing = await ctx.db
         .query("series")
-        .withIndex("by_slug", (q: any) => q.eq("slug", args.slug))
-        .first();
+        .withIndex("by_slug", (query) => query.eq("slug", args.slug))
+        .unique();
 
     if (existing !== null) {
         await ctx.db.patch(existing._id, {
             description: args.description,
             ownerMemberId: args.ownerMemberId,
+            searchText: searchText(args.title, args.description),
             status: "active",
             title: args.title,
             updatedAt: now,
@@ -294,6 +296,7 @@ async function ensureSeries(
         createdAt: now,
         description: args.description,
         ownerMemberId: args.ownerMemberId,
+        searchText: searchText(args.title, args.description),
         slug: args.slug,
         status: "active",
         title: args.title,
@@ -311,10 +314,13 @@ async function ensureEvent(
         location: string;
         ownerMemberId: Id<"members">;
         seriesId?: Id<"series">;
+        seriesSlug?: string;
         slug: string;
         source: "event" | "manual" | "external";
+        speakers: Array<{ name: string; title: string }>;
         startsAt: number;
         status?: "scheduled" | "conditional" | "finished";
+        tags: string[];
         title: string;
         venueId: Id<"venues">;
     },
@@ -323,8 +329,8 @@ async function ensureEvent(
     const status = args.status ?? "scheduled";
     const existing = await ctx.db
         .query("events")
-        .withIndex("by_slug", (q: any) => q.eq("slug", args.slug))
-        .first();
+        .withIndex("by_slug", (query) => query.eq("slug", args.slug))
+        .unique();
     const eventId =
         existing?._id ??
         (await ctx.db.insert("events", {
@@ -333,6 +339,7 @@ async function ensureEvent(
             description: args.description,
             endsAt: args.endsAt,
             format: args.format,
+            location: args.location,
             ownerMemberId: args.ownerMemberId,
             seriesId: args.seriesId,
             slug: args.slug,
@@ -349,6 +356,7 @@ async function ensureEvent(
             description: args.description,
             endsAt: args.endsAt,
             format: args.format,
+            location: args.location,
             seriesId: args.seriesId,
             startsAt: args.startsAt,
             status,
@@ -360,13 +368,22 @@ async function ensureEvent(
 
     const entry = await ctx.db
         .query("calendarEntries")
-        .withIndex("by_slug", (q: any) => q.eq("slug", args.slug))
-        .first();
+        .withIndex("by_slug", (query) => query.eq("slug", args.slug))
+        .unique();
     const calendarFields = {
         endsAt: args.endsAt,
         eventId,
         href: `/events/${args.slug}`,
         location: args.location,
+        tags: uniqueTags(args.seriesSlug, ...args.tags),
+        searchText: searchText(
+            args.title,
+            args.description,
+            args.location,
+            args.seriesSlug,
+            ...args.tags,
+            ...args.speakers.flatMap((speaker) => [speaker.name, speaker.title]),
+        ),
         slug: args.slug,
         source: args.source,
         startsAt: args.startsAt,
@@ -389,6 +406,11 @@ async function ensureEvent(
     return eventId;
 }
 
+/** Return unique defined tags in their display order. */
+function uniqueTags(...tags: Array<string | undefined>): string[] {
+    return [...new Set(tags.filter((tag): tag is string => tag !== undefined))];
+}
+
 async function ensureSpeakers(
     ctx: MutationCtx,
     eventId: Id<"events">,
@@ -397,7 +419,7 @@ async function ensureSpeakers(
     const now = Date.now();
     const existing = await ctx.db
         .query("eventSpeakers")
-        .withIndex("by_eventId", (q: any) => q.eq("eventId", eventId))
+        .withIndex("by_eventId", (query) => query.eq("eventId", eventId))
         .collect();
 
     // replace existing speakers
@@ -419,39 +441,40 @@ async function ensureSpeakers(
     );
 }
 
-async function ensurePost(
+async function ensureArticle(
     ctx: MutationCtx,
     args: {
         authorMemberId: Id<"members">;
-        body: string[];
+        body: string;
+        description: string;
         publishedAt: number;
         slug: string;
-        summary: string;
         title: string;
     },
 ) {
     const existing = await ctx.db
-        .query("posts")
-        .withIndex("by_slug", (q: any) => q.eq("slug", args.slug))
-        .first();
+        .query("articles")
+        .withIndex("by_slug", (query) => query.eq("slug", args.slug))
+        .unique();
     const now = Date.now();
     const fields = {
         authorMemberId: args.authorMemberId,
         body: args.body,
+        description: args.description,
         publishedAt: args.publishedAt,
+        searchText: searchText(args.title, args.description, args.body),
         slug: args.slug,
         status: "published" as const,
-        summary: args.summary,
         title: args.title,
         updatedAt: now,
     };
 
     if (existing !== null) {
         await ctx.db.patch(existing._id, fields);
-        return;
+        return existing._id;
     }
 
-    await ctx.db.insert("posts", {
+    return await ctx.db.insert("articles", {
         ...fields,
         createdAt: now,
     });
@@ -459,16 +482,16 @@ async function ensurePost(
 
 async function tag(
     ctx: MutationCtx,
-    subject: "event" | "series" | "member",
-    subjectId: Id<"events"> | Id<"series"> | Id<"members">,
+    subject: "article" | "event" | "member" | "series",
+    subjectId: Id<"articles"> | Id<"events"> | Id<"members"> | Id<"series">,
     slugs: string[],
 ) {
     for (const slug of slugs) {
         const tagId = await ensureTag(ctx, subject, slug);
         const existing = await ctx.db
             .query("taggings")
-            .withIndex("by_subject_and_subjectId", (q: any) =>
-                q.eq("subject", subject).eq("subjectId", subjectId),
+            .withIndex("by_subject_and_subjectId", (query) =>
+                query.eq("subject", subject).eq("subjectId", subjectId),
             )
             .collect();
 
@@ -485,15 +508,17 @@ async function tag(
     }
 }
 
-async function ensureTag(ctx: MutationCtx, subject: "event" | "series" | "member", slug: string) {
-    const existing = (
-        await ctx.db
-            .query("tags")
-            .withIndex("by_slug", (q: any) => q.eq("slug", slug))
-            .collect()
-    ).find((tag) => tag.subject === subject);
+async function ensureTag(
+    ctx: MutationCtx,
+    subject: "article" | "event" | "member" | "series",
+    slug: string,
+) {
+    const existing = await ctx.db
+        .query("tags")
+        .withIndex("by_subject_and_slug", (query) => query.eq("subject", subject).eq("slug", slug))
+        .unique();
 
-    if (existing !== undefined) {
+    if (existing !== null) {
         return existing._id;
     }
 

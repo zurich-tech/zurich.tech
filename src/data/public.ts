@@ -1,133 +1,51 @@
 import { query } from "@solidjs/router";
 import { ConvexHttpClient } from "convex/browser";
-import { anyApi } from "convex/server";
+import type { FunctionReturnType } from "convex/server";
 
-// TODO #Cleanup: replace these hand-written types and anyApi with convex/_generated
-//  once a Convex deployment is configured (bunx convex dev) and codegen runs
+import { api } from "../../convex/_generated/api";
 
-export type CalendarEntry = {
-    activation?: { deadlineAt: number; threshold: number };
-    attendedCount?: number;
-    cadence?: string;
-    capacity?: number;
-    endsAt?: number;
-    eventId?: string;
-    href?: string;
-    id: string;
-    location?: string;
-    rsvpCount?: number;
-    seriesNextAt?: number;
-    seriesSlug?: string;
-    seriesTitle?: string;
-    slug: string;
-    source: "event" | "external" | "manual";
-    speakers?: string[];
-    startsAt: number;
-    status: "cancelled" | "draft" | "published";
-    summary?: string;
-    timezone: string;
-    title: string;
-};
+/** One public calendar row. */
+export type CalendarEntry = FunctionReturnType<typeof api.public.calendar>[number];
 
-export type PublicEvent = {
-    agenda: Array<{ time: string; title: string }>;
-    capacity?: number;
-    endsAt?: number;
-    format: string;
-    id: string;
-    links: Array<{ href: string; label: string }>;
-    location?: string;
-    rsvpCount: number;
-    seriesSlug?: string;
-    slug: string;
-    speakers: Array<{ name: string; title: string }>;
-    startsAt: number;
-    status: string;
-    summary?: string;
-    tags: string[];
-    timezone: string;
-    title: string;
-    venue: {
-        access?: string;
-        address?: string;
-        name?: string;
-    };
-};
+/** One published event. */
+export type PublicEvent = NonNullable<FunctionReturnType<typeof api.public.event>>;
 
-export type PublicSeries = {
-    cadence: string;
-    entries?: CalendarEntry[];
-    id: string;
-    ownerHandle?: string;
-    slug: string;
-    subscriberCount: number;
-    summary?: string;
-    tags: string[];
-    title: string;
-};
+/** One public event series. */
+export type PublicSeries = NonNullable<FunctionReturnType<typeof api.public.seriesDetail>>;
 
-export type PublicMember = {
-    bio?: string;
-    handle: string;
-    headline?: string;
+/** One public member with optional profile records. */
+export type PublicMember = FunctionReturnType<typeof api.public.membersList>[number] & {
+    /** Events published by this member. */
     hostedEvents?: CalendarEntry[];
-    id: string;
-    interests: string[];
-    links: Array<{ href: string; label: string }>;
-    name: string;
-    status: string;
-    visibility: string;
 };
 
-export type PublicPost = {
-    body?: string[];
-    date?: number;
-    id: string;
-    slug: string;
-    summary: string;
-    title: string;
+/** One news article with an optional body in list results. */
+export type Article = FunctionReturnType<typeof api.public.articles>[number] & {
+    /** The Markdown body returned on the article route. */
+    body?: string;
 };
 
-export type PublicHandle = {
-    href: string;
-    summary?: string;
-    title: string;
-    type: "member";
-};
+/** One resolved public handle. */
+export type PublicHandle = NonNullable<FunctionReturnType<typeof api.public.handle>>;
 
-export type SearchResult = {
-    description?: string;
-    href: string;
-    kind: "event" | "member" | "post" | "series";
-    label: string;
-};
-
-export type CommunityStats = {
-    attendees: number;
-    events: number;
-    members: number;
-    series: number;
-};
+/** One global search result. */
+export type SearchResult = FunctionReturnType<typeof api.public.search>[number];
 
 const convexUrl = import.meta.env.VITE_CONVEX_URL as string | undefined;
 let convex: ConvexHttpClient | undefined;
 
 /** Return the shared Convex client, failing loudly when unconfigured. */
-function client() {
+function client(): ConvexHttpClient {
     if (convexUrl === undefined || convexUrl.length === 0) {
         throw new Error("VITE_CONVEX_URL is not configured.");
     }
 
     convex ??= new ConvexHttpClient(convexUrl);
+
     return convex;
 }
 
-/** Run one public Convex query. */
-async function convexQuery<T>(reference: unknown, args: Record<string, unknown>) {
-    return (await (client() as any).query(reference, args)) as T;
-}
-
-/** Split calendar entries into upcoming (soonest first) and past (latest first). */
+/** Split calendar entries into upcoming and past events. */
 export function splitCalendar(entries: CalendarEntry[], now = Date.now()) {
     const upcoming = entries
         .filter((entry) => entry.startsAt >= now)
@@ -139,54 +57,56 @@ export function splitCalendar(entries: CalendarEntry[], now = Date.now()) {
     return { upcoming, past };
 }
 
+/** Read the public calendar. */
 export const getCalendar = query(
-    () => convexQuery<CalendarEntry[]>(anyApi.public.calendar, {}),
+    async () => await client().query(api.public.calendar, {}),
     "calendar",
 );
 
-export const getStats = query(() => convexQuery<CommunityStats>(anyApi.public.stats, {}), "stats");
-
+/** Read one published event. */
 export const getEvent = query(
-    (slug: string) => convexQuery<PublicEvent | null>(anyApi.public.event, { slug }),
+    async (slug: string) => await client().query(api.public.event, { now: Date.now(), slug }),
     "event",
 );
 
-export const getSeriesList = query(
-    () => convexQuery<PublicSeries[]>(anyApi.public.seriesList, {}),
-    "series-list",
-);
-
+/** Read one public event series. */
 export const getSeries = query(
-    (slug: string) => convexQuery<PublicSeries | null>(anyApi.public.seriesDetail, { slug }),
+    async (slug: string) => await client().query(api.public.seriesDetail, { slug }),
     "series-detail",
 );
 
+/** Read public member profiles. */
 export const getMembers = query(
-    () => convexQuery<PublicMember[]>(anyApi.public.membersList, {}),
+    async () => await client().query(api.public.membersList, {}),
     "members",
 );
 
+/** Read one public member profile. */
 export const getMember = query(
-    (handle: string) => convexQuery<PublicMember | null>(anyApi.public.member, { handle }),
+    async (handle: string) => await client().query(api.public.member, { handle }),
     "member",
 );
 
-export const getPosts = query(
-    () => convexQuery<PublicPost[]>(anyApi.public.postsList, {}),
-    "posts",
+/** Read published news articles. */
+export const getArticles = query(
+    async () => await client().query(api.public.articles, {}),
+    "articles",
 );
 
-export const getPost = query(
-    (slug: string) => convexQuery<PublicPost | null>(anyApi.public.post, { slug }),
-    "post",
+/** Read one published news article. */
+export const getArticle = query(
+    async (slug: string) => await client().query(api.public.article, { slug }),
+    "article",
 );
 
+/** Resolve one public handle. */
 export const getHandle = query(
-    (handle: string) => convexQuery<PublicHandle | null>(anyApi.public.handle, { handle }),
+    async (handle: string) => await client().query(api.public.handle, { handle }),
     "handle",
 );
 
+/** Search public records. */
 export const search = query(
-    (text: string) => convexQuery<SearchResult[]>(anyApi.public.search, { text }),
+    async (text: string) => await client().query(api.public.search, { now: Date.now(), text }),
     "search",
 );

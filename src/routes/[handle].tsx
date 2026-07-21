@@ -1,11 +1,11 @@
 import { createAsync, useParams } from "@solidjs/router";
-import { Show } from "solid-js";
+import { Match, Show, Switch } from "solid-js";
 
 import { Button } from "../component/button";
+import { NotFound } from "../component/notfound";
 import { Page, PageHeader, Section } from "../component/page";
 import { Seo } from "../component/seo";
 import { getHandle, type PublicHandle } from "../data/public";
-import { NotFound } from "../component/notfound";
 
 /** Handle lookup. */
 export default function Route() {
@@ -24,31 +24,44 @@ export default function Route() {
 /** Handle target lookup and profile shortcut. */
 function HandleTarget(props: { handle: string }) {
     // handle
-    const handle = createAsync(() => getHandle(props.handle));
+    const handle = createAsync(() => getHandle(props.handle), { deferStream: true });
     const member = () => memberHandle(handle());
     const title = () => member()?.title ?? `@${props.handle}`;
 
     return (
-        <>
-            <Seo title={`@${props.handle}`} description="zurich.tech handle lookup." />
-            <Page width="narrow">
-                <PageHeader summary={member()?.summary ?? "handle not found."} title={title()} />
+        <Switch>
+            {/* missing */}
+            <Match when={handle() === null}>
+                <NotFound />
+            </Match>
 
-                {/* target */}
-                <Section title="target">
-                    <Show
-                        when={member()}
-                        fallback={<p class="text-soft">no member claims this handle.</p>}
-                    >
-                        {(target) => (
-                            <Button href={target().href} kind="ghost">
-                                open member profile
-                            </Button>
-                        )}
-                    </Show>
-                </Section>
-            </Page>
-        </>
+            {/* handle */}
+            <Match when={handle() !== undefined}>
+                <>
+                    <Seo title={`@${props.handle}`} description="zurich.tech handle lookup." />
+                    <Page width="narrow">
+                        <PageHeader
+                            summary={member()?.summary ?? "handle not found."}
+                            title={title()}
+                        />
+
+                        {/* target */}
+                        <Section title="target">
+                            <Show
+                                when={member()}
+                                fallback={<p class="text-soft">no member claims this handle.</p>}
+                            >
+                                {(target) => (
+                                    <Button href={target().href} kind="ghost">
+                                        open member profile
+                                    </Button>
+                                )}
+                            </Show>
+                        </Section>
+                    </Page>
+                </>
+            </Match>
+        </Switch>
     );
 }
 

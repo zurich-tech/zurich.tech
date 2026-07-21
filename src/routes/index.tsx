@@ -1,27 +1,30 @@
 import { createAsync } from "@solidjs/router";
 
-import { DisplayBoard } from "../component/board";
+import { ArticleList } from "../component/article";
 import { Calendar } from "../component/calendar";
 import { Page } from "../component/page";
-import { ZurichPostcard } from "../component/postcard";
 import { Seo } from "../component/seo";
-import { getCalendar, splitCalendar } from "../data/public";
+import { getArticles, getCalendar, splitCalendar } from "../data/public";
 
-const pastLimit = 4;
+const articleLimit = 3;
+const pastLimit = 3;
 
 /** Home page. */
 export default function Route() {
-    // calendar
+    // public records
     const entries = createAsync(() => getCalendar());
+    const articles = createAsync(() => getArticles());
     const today = Date.now();
+
+    // keep the nearest events around today's divider
     const split = () => splitCalendar(entries() ?? []);
     const calendar = () => [...split().upcoming, ...split().past.slice(0, pastLimit)];
 
     return (
         <>
             <Seo title="zurich.tech" description="zurich.tech events." />
-            <Page class="home-page">
-                <DisplayBoard />
+            <Page>
+                {/* events */}
                 <Calendar
                     actions={
                         <>
@@ -37,9 +40,10 @@ export default function Route() {
                     entries={calendar()}
                     title="events"
                     titleHref="/events"
-                    view="compact"
                 />
-                <ZurichPostcard />
+
+                {/* news */}
+                <ArticleList articles={articles() ?? []} limit={articleLimit} titleHref="/news" />
             </Page>
         </>
     );

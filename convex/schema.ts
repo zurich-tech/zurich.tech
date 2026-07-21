@@ -120,25 +120,30 @@ const subscriptionStatus = v.union(
     v.literal("suppressed"),
 );
 
-const tagSubject = v.union(v.literal("event"), v.literal("series"), v.literal("member"));
+const tagSubject = v.union(
+    v.literal("article"),
+    v.literal("event"),
+    v.literal("member"),
+    v.literal("series"),
+);
 
 export default defineSchema({
     accounts: defineTable({
-        provider: v.string(),
-        providerAccountId: v.string(),
+        authId: v.string(),
         memberId: v.id("members"),
         status: accountStatus,
         createdAt: v.number(),
         updatedAt: v.number(),
     })
         .index("by_memberId", ["memberId"])
-        .index("by_provider_and_providerAccountId", ["provider", "providerAccountId"]),
+        .index("by_authId", ["authId"]),
 
     members: defineTable({
         status: memberStatus,
         name: v.string(),
         headline: v.optional(v.string()),
         bio: v.optional(v.string()),
+        searchText: v.string(),
         imageId: v.optional(v.string()),
         visibility: v.union(v.literal("private"), v.literal("members"), v.literal("public")),
         source: v.optional(v.string()),
@@ -147,8 +152,8 @@ export default defineSchema({
         updatedAt: v.number(),
     })
         .index("by_status", ["status"])
-        .searchIndex("search_name", {
-            searchField: "name",
+        .searchIndex("search_text", {
+            searchField: "searchText",
             filterFields: ["status", "visibility"],
         }),
 
@@ -229,13 +234,14 @@ export default defineSchema({
         status: seriesStatus,
         title: v.string(),
         description: v.optional(v.string()),
+        searchText: v.string(),
         createdAt: v.number(),
         updatedAt: v.number(),
     })
         .index("by_slug", ["slug"])
         .index("by_status", ["status"])
         .index("by_ownerMemberId", ["ownerMemberId"])
-        .searchIndex("search_title", { searchField: "title", filterFields: ["status"] }),
+        .searchIndex("search_text", { searchField: "searchText", filterFields: ["status"] }),
 
     seriesSubscriptions: defineTable({
         seriesId: v.id("series"),
@@ -267,6 +273,7 @@ export default defineSchema({
         format: eventFormat,
         seriesId: v.optional(v.id("series")),
         venueId: v.optional(v.id("venues")),
+        location: v.optional(v.string()),
         title: v.string(),
         description: v.optional(v.string()),
         startsAt: v.number(),
@@ -299,6 +306,8 @@ export default defineSchema({
         status: calendarEntryStatus,
         title: v.string(),
         summary: v.optional(v.string()),
+        searchText: v.string(),
+        tags: v.array(v.string()),
         startsAt: v.number(),
         endsAt: v.optional(v.number()),
         timezone: v.string(),
@@ -310,7 +319,7 @@ export default defineSchema({
         .index("by_eventId", ["eventId"])
         .index("by_slug", ["slug"])
         .index("by_status_and_startsAt", ["status", "startsAt"])
-        .searchIndex("search_title", { searchField: "title", filterFields: ["status"] }),
+        .searchIndex("search_text", { searchField: "searchText", filterFields: ["status"] }),
 
     eventAgendaItems: defineTable({
         eventId: v.id("events"),
@@ -386,20 +395,21 @@ export default defineSchema({
         .index("by_eventId", ["eventId"])
         .index("by_memberId", ["memberId"]),
 
-    posts: defineTable({
+    articles: defineTable({
         authorMemberId: v.id("members"),
         slug: v.string(),
         status: v.union(v.literal("draft"), v.literal("published"), v.literal("archived")),
         title: v.string(),
-        summary: v.string(),
-        body: v.array(v.string()),
+        description: v.string(),
+        body: v.string(),
+        searchText: v.string(),
         publishedAt: v.optional(v.number()),
         createdAt: v.number(),
         updatedAt: v.number(),
     })
         .index("by_slug", ["slug"])
         .index("by_status_and_publishedAt", ["status", "publishedAt"])
-        .searchIndex("search_title", { searchField: "title", filterFields: ["status"] }),
+        .searchIndex("search_text", { searchField: "searchText", filterFields: ["status"] }),
 
     notifications: defineTable({
         subject: v.union(v.literal("event"), v.literal("series"), v.literal("member")),
@@ -424,7 +434,7 @@ export default defineSchema({
         memberId: v.optional(v.id("members")),
         to: v.string(),
         subject: v.string(),
-        resendId: v.optional(v.string()),
+        providerId: v.optional(v.string()),
         error: v.optional(v.string()),
         scheduledAt: v.optional(v.number()),
         sentAt: v.optional(v.number()),
@@ -445,8 +455,16 @@ export default defineSchema({
         updatedAt: v.number(),
     })
         .index("by_email", ["email"])
+        .index("by_email_and_topic", ["email", "topic"])
         .index("by_memberId", ["memberId"])
         .index("by_topic_and_status", ["topic", "status"]),
+
+    submissionLimits: defineTable({
+        key: v.string(),
+        count: v.number(),
+        startedAt: v.number(),
+        updatedAt: v.number(),
+    }).index("by_key", ["key"]),
 
     tags: defineTable({
         slug: v.string(),
@@ -456,12 +474,13 @@ export default defineSchema({
         updatedAt: v.number(),
     })
         .index("by_slug", ["slug"])
+        .index("by_subject_and_slug", ["subject", "slug"])
         .index("by_subject", ["subject"]),
 
     taggings: defineTable({
         tagId: v.id("tags"),
         subject: tagSubject,
-        subjectId: v.union(v.id("events"), v.id("series"), v.id("members")),
+        subjectId: v.union(v.id("articles"), v.id("events"), v.id("members"), v.id("series")),
         createdAt: v.number(),
     })
         .index("by_tagId", ["tagId"])

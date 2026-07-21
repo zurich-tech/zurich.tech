@@ -1,8 +1,9 @@
 import { createAsync, useParams } from "@solidjs/router";
-import { For, Show } from "solid-js";
+import { For, Match, Show, Switch } from "solid-js";
 
 import { DirectoryList, DirectoryRow } from "../../component/list";
 import { ExternalLinks, Tags } from "../../component/meta";
+import { NotFound } from "../../component/notfound";
 import { DetailList, DetailRow, Page, PageHeader, Section } from "../../component/page";
 import { Seo } from "../../component/seo";
 import { getMember, type CalendarEntry, type PublicMember } from "../../data/public";
@@ -15,22 +16,35 @@ export default function Route() {
     const handle = routeParam("handle", params.handle);
 
     // member
-    const member = createAsync(() => getMember(handle));
+    const member = createAsync(() => getMember(handle), { deferStream: true });
     const title = () => member()?.name ?? `@${handle}`;
 
     return (
-        <>
-            <Seo title={title()} description={`@${handle} on zurich.tech.`} />
-            <Page>
-                <PageHeader summary={member()?.headline ?? "member not found."} title={title()} />
+        <Switch>
+            {/* missing */}
+            <Match when={member() === null}>
+                <NotFound />
+            </Match>
 
-                {/* profile */}
-                <div class="grid gap-8 lg:grid-cols-[1fr_18rem]">
-                    <HostedEvents events={member()?.hostedEvents ?? []} />
-                    <ProfileSections handle={handle} member={member()} />
-                </div>
-            </Page>
-        </>
+            {/* member */}
+            <Match when={member() !== undefined}>
+                <>
+                    <Seo title={title()} description={`@${handle} on zurich.tech.`} />
+                    <Page>
+                        <PageHeader
+                            summary={member()?.headline ?? "member not found."}
+                            title={title()}
+                        />
+
+                        {/* profile */}
+                        <div class="grid gap-8 lg:grid-cols-[1fr_18rem]">
+                            <HostedEvents events={member()?.hostedEvents ?? []} />
+                            <ProfileSections handle={handle} member={member()} />
+                        </div>
+                    </Page>
+                </>
+            </Match>
+        </Switch>
     );
 }
 
@@ -59,7 +73,7 @@ function HostedEvents(props: { events: CalendarEntry[] }) {
     );
 }
 
-/** Member details, links, and bio, each its own pixel box. */
+/** Member profile sections. */
 function ProfileSections(props: { handle: string; member: PublicMember | null | undefined }) {
     return (
         <div class="grid gap-8">

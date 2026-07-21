@@ -1,22 +1,20 @@
 import { createAsync } from "@solidjs/router";
 
 import { Calendar } from "../../component/calendar";
-import { Page, PageHeader } from "../../component/page";
+import { Page } from "../../component/page";
 import { Seo } from "../../component/seo";
-import { getCalendar, splitCalendar } from "../../data/public";
+import { getCalendar } from "../../data/public";
 
 /** Event index. */
 export default function Route() {
     // calendar
     const entries = createAsync(() => getCalendar());
-    const split = () => splitCalendar(entries() ?? []);
+    const today = Date.now();
 
     return (
         <>
             <Seo title="events" description="zurich.tech events." />
             <Page>
-                <PageHeader title="events" />
-
                 {/* calendar */}
                 <Calendar
                     actions={
@@ -29,10 +27,10 @@ export default function Route() {
                             </a>
                         </>
                     }
-                    entries={split().upcoming}
-                    title="upcoming"
+                    dividerAt={today}
+                    entries={entries() ?? []}
+                    title="events"
                 />
-                <Calendar entries={split().past} title="past" />
             </Page>
         </>
     );

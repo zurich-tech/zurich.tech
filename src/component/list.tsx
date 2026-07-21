@@ -1,5 +1,7 @@
 import type { JSX } from "solid-js";
-import { Show } from "solid-js";
+import { For, Show } from "solid-js";
+
+import { Highlight } from "./highlight";
 
 /** Directory list. */
 export function DirectoryList(props: { children: JSX.Element }) {
@@ -11,8 +13,10 @@ export function DirectoryRow(props: {
     eyebrow?: JSX.Element;
     href: string;
     meta?: JSX.Element;
-    summary?: string;
-    title: string;
+    summary?: JSX.Element;
+    tags?: string[];
+    terms?: readonly string[];
+    title: JSX.Element;
 }) {
     return (
         <a class="directory-row" href={props.href}>
@@ -32,6 +36,19 @@ export function DirectoryRow(props: {
             {/* summary */}
             <Show when={props.summary}>
                 <span class="directory-row__summary">{props.summary}</span>
+            </Show>
+
+            {/* tags */}
+            <Show when={props.tags !== undefined && props.tags.length > 0}>
+                <span class="directory-row__tags">
+                    <For each={props.tags}>
+                        {(tag) => (
+                            <span>
+                                #<Highlight text={tag} terms={props.terms ?? []} />
+                            </span>
+                        )}
+                    </For>
+                </span>
             </Show>
         </a>
     );

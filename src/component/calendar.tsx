@@ -2,31 +2,33 @@ import type { JSX } from "solid-js";
 import { For, Show, createMemo, createSignal } from "solid-js";
 
 import type { CalendarEntry } from "../data/public";
+import { matchesSearch, searchTerms } from "../search";
+import { Highlight } from "./highlight";
 import { Section } from "./page";
 import { TableToolbar } from "./toolbar";
 
-/** Calendar, a legend box of dated event rows. */
+/** Dated event calendar. */
 export function Calendar(props: {
     actions?: JSX.Element;
-    dividerAt?: number;
+    dividerAt: number;
     empty?: JSX.Element;
     entries: CalendarEntry[];
     isSearchable?: boolean;
     meta?: string;
     titleHref?: string;
     title: string;
-    view?: "compact" | "detailed";
 }) {
     const [query, setQuery] = createSignal("");
+    const terms = createMemo(() => searchTerms(query()));
     const entries = createMemo(() => {
-        const normalized = query().trim().toLowerCase();
-
         // keep all rows before search begins
-        if (normalized.length === 0) {
+        if (terms().length === 0) {
             return props.entries;
         }
 
-        return props.entries.filter((entry) => eventText(entry).includes(normalized));
+        return props.entries.filter((entry) =>
+            matchesSearch(eventText(entry, props.dividerAt), terms()),
+        );
     });
     const count = () => {
         if (entries().length === props.entries.length) {
@@ -36,23 +38,13 @@ export function Calendar(props: {
         return `${entries().length} / ${props.entries.length}`;
     };
     const upcoming = createMemo(() => {
-        const dividerAt = props.dividerAt;
-        if (dividerAt === undefined) {
-            return entries();
-        }
-
         return entries()
-            .filter((entry) => entry.startsAt >= dividerAt)
+            .filter((entry) => entry.startsAt >= props.dividerAt)
             .sort((left, right) => left.startsAt - right.startsAt);
     });
     const past = createMemo(() => {
-        const dividerAt = props.dividerAt;
-        if (dividerAt === undefined) {
-            return [];
-        }
-
         return entries()
-            .filter((entry) => entry.startsAt < dividerAt)
+            .filter((entry) => entry.startsAt < props.dividerAt)
             .sort((left, right) => right.startsAt - left.startsAt);
     });
 
@@ -85,17 +77,29 @@ export function Calendar(props: {
                 {/* rows */}
                 <ol class="calendar">
                     <For each={upcoming()}>
-                        {(entry) => <CalendarRow entry={entry} view={props.view ?? "detailed"} />}
+                        {(entry) => (
+                            <CalendarRow
+                                entry={entry}
+                                isSearching={terms().length > 0}
+                                now={props.dividerAt}
+                                terms={terms()}
+                            />
+                        )}
                     </For>
 
                     {/* current date */}
-                    <Show when={props.dividerAt}>
-                        {(dividerAt) => <CalendarToday value={dividerAt()} />}
-                    </Show>
+                    <CalendarToday value={props.dividerAt} />
 
                     {/* past rows */}
                     <For each={past()}>
-                        {(entry) => <CalendarRow entry={entry} view={props.view ?? "detailed"} />}
+                        {(entry) => (
+                            <CalendarRow
+                                entry={entry}
+                                isSearching={terms().length > 0}
+                                now={props.dividerAt}
+                                terms={terms()}
+                            />
+                        )}
                     </For>
                 </ol>
             </Show>
@@ -104,58 +108,98 @@ export function Calendar(props: {
 }
 
 /** Searchable event text. */
-function eventText(entry: CalendarEntry) {
+function eventText(entry: CalendarEntry, now: number) {
     return [
         entry.title,
         entry.summary,
         entry.location,
         entry.seriesTitle,
+        formatDate(entry.startsAt),
+        metaLine(entry),
+        gaugeLine(entry),
+        ...eventTags(entry, now),
         ...(entry.speakers ?? []),
     ]
         .filter((value) => value !== undefined)
-        .join(" ")
-        .toLowerCase();
+        .join(" ");
 }
 
 /** Calendar row. */
-function CalendarRow(props: { entry: CalendarEntry; view: "compact" | "detailed" }) {
+function CalendarRow(props: {
+    entry: CalendarEntry;
+    isSearching: boolean;
+    now: number;
+    terms: readonly string[];
+}) {
+    const meta = () => metaLine(props.entry);
+    const gauge = () => gaugeLine(props.entry);
+    const tags = () => eventTags(props.entry, props.now);
+
     return (
-        <li class="calendar-row">
+        <li class="calendar-row" classList={{ "calendar-row--searching": props.isSearching }}>
             <a
                 data-row
                 class="calendar-row__link"
                 href={props.entry.href ?? `/events/${props.entry.slug}`}
             >
-                {/* marker */}
-                <span class="calendar-row__marker">{">"}</span>
-
                 {/* date */}
                 <time
                     class="calendar-row__date"
                     dateTime={new Date(props.entry.startsAt).toISOString()}
                 >
-                    {formatDate(props.entry.startsAt)}
+                    <Highlight text={formatDate(props.entry.startsAt)} terms={props.terms} />
                 </time>
 
                 {/* event */}
                 <span class="calendar-row__event">
-                    <strong>{props.entry.title}</strong>
-                    <Show when={props.view === "detailed" && props.entry.summary}>
-                        <span class="calendar-row__summary">{props.entry.summary}</span>
+                    <strong>
+                        <Highlight text={props.entry.title} terms={props.terms} />
+                    </strong>
+                    <Show when={props.entry.summary}>
+                        {(summary) => (
+                            <span class="calendar-row__summary">
+                                <Highlight text={summary()} terms={props.terms} />
+                            </span>
+                        )}
                     </Show>
-                    <Show when={metaLine(props.entry)}>
-                        <span class="calendar-row__meta">{metaLine(props.entry)}</span>
+                    <Show when={meta()}>
+                        {(value) => (
+                            <span class="calendar-row__meta">
+                                <Highlight text={value()} terms={props.terms} />
+                            </span>
+                        )}
+                    </Show>
+
+                    {/* tags */}
+                    <Show when={tags().length > 0}>
+                        <span class="calendar-row__tags">
+                            <For each={tags()}>
+                                {(tag) => (
+                                    <span>
+                                        #<Highlight text={tag} terms={props.terms} />
+                                    </span>
+                                )}
+                            </For>
+                        </span>
                     </Show>
                 </span>
 
                 {/* venue and gauge */}
                 <span class="calendar-row__venue">
-                    <span>{props.entry.location}</span>
-                    <Show when={gaugeLine(props.entry)}>
-                        <span>
-                            <span class="calendar-row__gauge">{gaugeBlocks(props.entry)}</span>{" "}
-                            {gaugeLine(props.entry)}
-                        </span>
+                    <Show when={props.entry.location}>
+                        {(location) => (
+                            <span>
+                                <Highlight text={location()} terms={props.terms} />
+                            </span>
+                        )}
+                    </Show>
+                    <Show when={gauge()}>
+                        {(value) => (
+                            <span>
+                                <span class="calendar-row__gauge">{gaugeBlocks(props.entry)}</span>{" "}
+                                <Highlight text={value()} terms={props.terms} />
+                            </span>
+                        )}
                     </Show>
                 </span>
             </a>
@@ -172,6 +216,13 @@ function CalendarToday(props: { value: number }) {
             </time>
         </li>
     );
+}
+
+/** Add the current period to one calendar entry's stable tags. */
+function eventTags(entry: CalendarEntry, now: number): string[] {
+    const period = entry.startsAt >= now ? "upcoming" : "past";
+
+    return [...new Set([period, ...entry.tags])];
 }
 
 /** Build the row's product meta line: activation, series, cadence, speakers. */

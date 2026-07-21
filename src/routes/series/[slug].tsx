@@ -1,8 +1,9 @@
 import { createAsync, useParams } from "@solidjs/router";
-import { Show } from "solid-js";
+import { Match, Show, Switch } from "solid-js";
 
 import { Calendar } from "../../component/calendar";
 import { Tags } from "../../component/meta";
+import { NotFound } from "../../component/notfound";
 import { DetailList, DetailRow, Page, PageHeader, Section } from "../../component/page";
 import { Seo } from "../../component/seo";
 import { getSeries, type PublicSeries } from "../../data/public";
@@ -15,28 +16,48 @@ export default function Route() {
     const slug = routeParam("slug", params.slug);
 
     // series
-    const series = createAsync(() => getSeries(slug));
+    const series = createAsync(() => getSeries(slug), { deferStream: true });
     const title = () => series()?.title ?? slug;
+    const today = Date.now();
 
     return (
-        <>
-            <Seo title={title()} description="zurich.tech series." />
-            <Page width="narrow">
-                <PageHeader summary={series()?.summary ?? "series not found."} title={title()} />
+        <Switch>
+            {/* missing */}
+            <Match when={series() === null}>
+                <NotFound />
+            </Match>
 
-                {/* content */}
-                <div class="grid gap-8 md:grid-cols-[1fr_18rem]">
-                    {/* main column */}
-                    <Calendar entries={series()?.entries ?? []} title="events" />
+            {/* series */}
+            <Match when={series() !== undefined}>
+                <>
+                    <Seo title={title()} description="zurich.tech series." />
+                    <Page width="narrow">
+                        <PageHeader
+                            summary={series()?.summary ?? "series not found."}
+                            title={title()}
+                        />
 
-                    {/* side column */}
-                    <div class="grid content-start gap-8">
-                        <Details series={series()} />
-                        <Show when={series()}>{(series) => <Description series={series()} />}</Show>
-                    </div>
-                </div>
-            </Page>
-        </>
+                        {/* content */}
+                        <div class="grid gap-8 md:grid-cols-[1fr_18rem]">
+                            {/* main column */}
+                            <Calendar
+                                dividerAt={today}
+                                entries={series()?.entries ?? []}
+                                title="events"
+                            />
+
+                            {/* side column */}
+                            <div class="grid content-start gap-8">
+                                <Details series={series()} />
+                                <Show when={series()}>
+                                    {(series) => <Description series={series()} />}
+                                </Show>
+                            </div>
+                        </div>
+                    </Page>
+                </>
+            </Match>
+        </Switch>
     );
 }
 
