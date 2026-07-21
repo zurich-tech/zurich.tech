@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 
 import { auth } from "../auth";
 import { Button } from "../component/button";
@@ -9,6 +9,14 @@ import { Seo } from "../component/seo";
 export default function Route() {
     const [error, setError] = createSignal<string>();
     const [isPending, setIsPending] = createSignal(false);
+
+    // surface a failed provider return without rendering it during SSR
+    onMount(() => {
+        const failure = new URL(window.location.href).searchParams.get("error");
+        if (failure !== null) {
+            setError("GitHub sign-in failed.");
+        }
+    });
 
     // begin GitHub OAuth from the current site
     async function signIn() {

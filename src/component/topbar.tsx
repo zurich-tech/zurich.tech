@@ -1,5 +1,5 @@
 import { A } from "@solidjs/router";
-import { For, Show, createSignal, onMount } from "solid-js";
+import { For, Match, Switch, createSignal, onMount } from "solid-js";
 
 import { auth } from "../auth";
 import { CommandPalette } from "./command";
@@ -20,6 +20,8 @@ export function Topbar() {
     // defer browser session state until hydration completes
     onMount(() => setIsMounted(true));
     const user = () => (isMounted() ? session().data?.user : undefined);
+    const error = () => (isMounted() ? session().error : undefined);
+    const isPending = () => !isMounted() || session().isPending;
 
     return (
         <header class="site-topbar">
@@ -51,18 +53,40 @@ export function Topbar() {
                     <ThemeToggle />
 
                     {/* account */}
-                    <Show
-                        when={user()}
+                    <Switch
                         fallback={
                             <A class="site-topbar__account" href="/sign-in">
                                 [sign in]
                             </A>
                         }
                     >
-                        <A class="site-topbar__account" href="/settings">
-                            [account]
-                        </A>
-                    </Show>
+                        {/* loading */}
+                        <Match when={isPending()}>
+                            <span class="site-topbar__account site-topbar__account--pending">
+                                [account]
+                            </span>
+                        </Match>
+
+                        {/* failure */}
+                        <Match when={error()}>
+                            <A class="site-topbar__account" href="/settings">
+                                [account!]
+                            </A>
+                        </Match>
+
+                        {/* session */}
+                        <Match when={user()}>
+                            {(user) => (
+                                <A
+                                    class="site-topbar__account"
+                                    href="/settings"
+                                    title={user().email}
+                                >
+                                    [{user().name}]
+                                </A>
+                            )}
+                        </Match>
+                    </Switch>
                 </div>
             </div>
         </header>

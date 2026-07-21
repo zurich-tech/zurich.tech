@@ -1,4 +1,4 @@
-import { Show, createSignal, onMount } from "solid-js";
+import { Match, Switch, createSignal, onMount } from "solid-js";
 
 import { auth } from "../../auth";
 import { Button } from "../../component/button";
@@ -15,6 +15,8 @@ export default function Route() {
     // defer browser session state until hydration completes
     onMount(() => setIsMounted(true));
     const user = () => (isMounted() ? session().data?.user : undefined);
+    const sessionError = () => (isMounted() ? session().error : undefined);
+    const isLoading = () => !isMounted() || session().isPending;
 
     // end the current session
     async function signOut() {
@@ -47,34 +49,57 @@ export default function Route() {
             <Seo title="settings" description="zurich.tech settings." />
             <Page width="narrow">
                 {/* account */}
-                <Show
-                    when={user()}
+                <Switch
                     fallback={
                         <Section title="account">
                             <Button href="/sign-in">sign in</Button>
                         </Section>
                     }
                 >
-                    {(user) => (
-                        <Section title="account">
-                            <DetailList>
-                                <DetailRow label="name" value={user().name} />
-                                <DetailRow label="email" value={user().email} />
-                            </DetailList>
-                            <div class="auth-choice">
-                                <Button
-                                    disabled={isPending()}
-                                    kind="ghost"
-                                    onClick={signOut}
-                                    type="button"
-                                >
-                                    {isPending() ? "signing out..." : "sign out"}
-                                </Button>
-                                {error() !== undefined ? <p class="form-error">{error()}</p> : null}
-                            </div>
-                        </Section>
-                    )}
-                </Show>
+                    {/* loading */}
+                    <Match when={isLoading()}>
+                        <Section title="account">loading...</Section>
+                    </Match>
+
+                    {/* failure */}
+                    <Match when={sessionError()}>
+                        {(error) => (
+                            <Section title="account">
+                                <p class="form-error">
+                                    {error().message ?? "Could not load the account."}
+                                </p>
+                            </Section>
+                        )}
+                    </Match>
+
+                    {/* session */}
+                    <Match when={user()}>
+                        {(user) => (
+                            <Section title="account">
+                                {/* identity */}
+                                <DetailList>
+                                    <DetailRow label="name" value={user().name} />
+                                    <DetailRow label="email" value={user().email} />
+                                </DetailList>
+
+                                {/* actions */}
+                                <div class="auth-choice">
+                                    <Button
+                                        disabled={isPending()}
+                                        kind="ghost"
+                                        onClick={signOut}
+                                        type="button"
+                                    >
+                                        {isPending() ? "signing out..." : "sign out"}
+                                    </Button>
+                                    {error() !== undefined ? (
+                                        <p class="form-error">{error()}</p>
+                                    ) : null}
+                                </div>
+                            </Section>
+                        )}
+                    </Match>
+                </Switch>
             </Page>
         </>
     );
