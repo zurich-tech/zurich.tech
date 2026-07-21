@@ -16,21 +16,7 @@ export default function Route() {
             <Seo title="events" description="zurich.tech events." />
             <Page>
                 {/* calendar */}
-                <Calendar
-                    actions={
-                        <>
-                            <a class="table-command" href="/events/propose">
-                                + event
-                            </a>
-                            <a class="table-command" href="/series/propose">
-                                + series
-                            </a>
-                        </>
-                    }
-                    dividerAt={today}
-                    entries={entries() ?? []}
-                    title="events"
-                />
+                <Calendar dividerAt={today} entries={entries() ?? []} title="events" />
             </Page>
         </>
     );

@@ -22,16 +22,6 @@ export default function Route() {
             <Page>
                 {/* events */}
                 <Calendar
-                    actions={
-                        <>
-                            <a class="table-command" href="/events/propose">
-                                + event
-                            </a>
-                            <a class="table-command" href="/series/propose">
-                                + series
-                            </a>
-                        </>
-                    }
                     dividerAt={today}
                     entries={entries() ?? []}
                     limit={eventLimit}

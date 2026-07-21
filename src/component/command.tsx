@@ -38,18 +38,6 @@ const commands: readonly Command[] = [
     { href: "/events", kind: "page", label: "events", text: "calendar" },
     { href: "/members", kind: "page", label: "members", text: "people directory" },
     { href: "/news", kind: "page", label: "news", text: "articles" },
-    {
-        href: "/events/propose",
-        kind: "command",
-        label: "propose event",
-        text: "new add submit event",
-    },
-    {
-        href: "/series/propose",
-        kind: "command",
-        label: "start series",
-        text: "new add submit series",
-    },
     { href: "/sign-in", kind: "command", label: "sign in", text: "account login github" },
 ];
 
