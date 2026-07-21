@@ -1,15 +1,18 @@
 import { createAsync, useParams } from "@solidjs/router";
 import type { JSX } from "solid-js";
-import { For, Show } from "solid-js";
+import { For, Match, Show, Switch, createSignal } from "solid-js";
 
 import { Button } from "../../component/button";
 import { formatDate } from "../../component/calendar";
 import { Field, Input } from "../../component/field";
+import { FormMessage } from "../../component/form";
 import { Tags } from "../../component/meta";
+import { NotFound } from "../../component/notfound";
 import { DetailList, DetailRow, Page, PageHeader, Section } from "../../component/page";
 import { Seo } from "../../component/seo";
 import { rsvp } from "../../data/actions";
 import { getEvent, type PublicEvent } from "../../data/public";
+import { errorMessage } from "../../error";
 import { routeParam } from "../../route";
 
 /** Event detail page. */
@@ -19,10 +22,15 @@ export default function Route() {
     const slug = routeParam("slug", params.slug);
 
     // event
-    const event = createAsync(() => getEvent(slug));
+    const event = createAsync(() => getEvent(slug), { deferStream: true });
     const title = () => event()?.title ?? slug;
 
-    // rsvp
+    // rsvp state
+    const [rsvpError, setRsvpError] = createSignal<string>();
+    const [rsvpSuccess, setRsvpSuccess] = createSignal<string>();
+    const [isRsvpPending, setIsRsvpPending] = createSignal(false);
+
+    // submit one registration
     async function submitRsvp(submitEvent: SubmitEvent) {
         submitEvent.preventDefault();
 
@@ -31,45 +39,67 @@ export default function Route() {
         const name = String(data.get("name") ?? "");
         const email = String(data.get("email") ?? "");
 
-        // require identity
-        if (name.length === 0 || email.length === 0) {
-            return;
+        // expose the accepted registration state
+        setRsvpError(undefined);
+        setRsvpSuccess(undefined);
+        setIsRsvpPending(true);
+        try {
+            const result = await rsvp({ email, eventSlug: slug, name });
+            const message = result.status === "waitlist" ? "added to waitlist." : "rsvp confirmed.";
+            form.reset();
+            setRsvpSuccess(message);
+        } catch (caught) {
+            setRsvpError(errorMessage(caught, "rsvp failed."));
+        } finally {
+            setIsRsvpPending(false);
         }
-
-        // submit rsvp
-        await rsvp({ email, eventSlug: slug, name });
-        form.reset();
     }
 
     return (
-        <>
-            <Seo title={title()} description="Event." />
-            <Page width="narrow">
-                <PageHeader title={title()} />
+        <Switch>
+            {/* missing */}
+            <Match when={event() === null}>
+                <NotFound />
+            </Match>
 
-                {/* content */}
-                <div class="grid gap-8 md:grid-cols-[1fr_18rem]">
-                    {/* main column */}
-                    <div class="grid content-start gap-8">
-                        <Description event={event()} />
-                        <Show when={(event()?.agenda.length ?? 0) > 0}>
-                            <Agenda event={event()} />
-                        </Show>
-                        <Show when={(event()?.speakers.length ?? 0) > 0}>
-                            <Speakers event={event()} />
-                        </Show>
-                        <Show when={isRsvpOpen(event())}>
-                            <RsvpForm event={event()} onSubmit={submitRsvp} />
-                        </Show>
-                    </div>
+            {/* event */}
+            <Match when={event() !== undefined}>
+                <>
+                    <Seo title={title()} description="Event." />
+                    <Page width="narrow">
+                        <PageHeader title={title()} />
 
-                    {/* side column */}
-                    <div class="grid content-start gap-8">
-                        <Details event={event()} />
-                    </div>
-                </div>
-            </Page>
-        </>
+                        {/* content */}
+                        <div class="grid gap-8 md:grid-cols-[1fr_18rem]">
+                            {/* main column */}
+                            <div class="grid content-start gap-8">
+                                <Description event={event()} />
+                                <Show when={(event()?.agenda.length ?? 0) > 0}>
+                                    <Agenda event={event()} />
+                                </Show>
+                                <Show when={(event()?.speakers.length ?? 0) > 0}>
+                                    <Speakers event={event()} />
+                                </Show>
+                                <Show when={isRsvpOpen(event())}>
+                                    <RsvpForm
+                                        error={rsvpError()}
+                                        event={event()}
+                                        isPending={isRsvpPending()}
+                                        onSubmit={submitRsvp}
+                                        success={rsvpSuccess()}
+                                    />
+                                </Show>
+                            </div>
+
+                            {/* side column */}
+                            <div class="grid content-start gap-8">
+                                <Details event={event()} />
+                            </div>
+                        </div>
+                    </Page>
+                </>
+            </Match>
+        </Switch>
     );
 }
 
@@ -102,21 +132,27 @@ function Agenda(props: { event: PublicEvent | null | undefined }) {
 
 /** RSVP form, legend shows the going/capacity gauge. */
 function RsvpForm(props: {
+    error?: string;
     event: PublicEvent | null | undefined;
+    isPending: boolean;
     onSubmit: (submitEvent: SubmitEvent) => Promise<void>;
+    success?: string;
 }) {
     return (
         <Section title="rsvp" meta={rsvpGauge(props.event)}>
             <form class="grid gap-4" onSubmit={props.onSubmit}>
                 <Field label="name">
-                    <Input name="name" placeholder="jane doe" />
+                    <Input maxlength="120" name="name" placeholder="jane doe" required />
                 </Field>
 
                 <Field label="email">
-                    <Input name="email" placeholder="you@example.com" type="email" />
+                    <Input name="email" placeholder="you@example.com" required type="email" />
                 </Field>
 
-                <Button type="submit">rsvp</Button>
+                <Button disabled={props.isPending} type="submit">
+                    {props.isPending ? "registering..." : "rsvp"}
+                </Button>
+                <FormMessage error={props.error} success={props.success} />
             </form>
         </Section>
     );

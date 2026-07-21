@@ -1,12 +1,20 @@
+import { createSignal } from "solid-js";
+
 import { Button } from "../../component/button";
 import { Field, Input, Select, Textarea } from "../../component/field";
+import { FormMessage } from "../../component/form";
 import { Page, PageHeader, Section } from "../../component/page";
 import { Seo } from "../../component/seo";
 import { proposeEvent } from "../../data/actions";
+import { errorMessage } from "../../error";
 
 /** Event proposal page. */
 export default function Route() {
-    // proposal
+    const [error, setError] = createSignal<string>();
+    const [isPending, setIsPending] = createSignal(false);
+    const [success, setSuccess] = createSignal<string>();
+
+    // submit one complete proposal
     async function submit(submitEvent: SubmitEvent) {
         submitEvent.preventDefault();
 
@@ -14,18 +22,19 @@ export default function Route() {
         const data = new FormData(form);
         const proposal = eventProposal(data);
 
-        // require fields
-        if (
-            proposal.title.length === 0 ||
-            proposal.description.length === 0 ||
-            proposal.ownerEmail.length === 0
-        ) {
-            return;
+        // expose the exact mutation result
+        setError(undefined);
+        setSuccess(undefined);
+        setIsPending(true);
+        try {
+            await proposeEvent(proposal);
+            form.reset();
+            setSuccess("event submitted for review.");
+        } catch (caught) {
+            setError(errorMessage(caught, "event submission failed."));
+        } finally {
+            setIsPending(false);
         }
-
-        // submit proposal
-        await proposeEvent(proposal);
-        form.reset();
     }
 
     return (
@@ -35,19 +44,29 @@ export default function Route() {
                 <PageHeader title="propose event" />
 
                 {/* form */}
-                <ProposalForm onSubmit={submit} />
+                <ProposalForm
+                    error={error()}
+                    isPending={isPending()}
+                    onSubmit={submit}
+                    success={success()}
+                />
             </Page>
         </>
     );
 }
 
 /** Event proposal form. */
-function ProposalForm(props: { onSubmit: (submitEvent: SubmitEvent) => Promise<void> }) {
+function ProposalForm(props: {
+    error?: string;
+    isPending: boolean;
+    onSubmit: (submitEvent: SubmitEvent) => Promise<void>;
+    success?: string;
+}) {
     return (
         <Section title="details">
             <form class="grid gap-5" onSubmit={props.onSubmit}>
                 <Field label="title">
-                    <Input name="title" placeholder="systems workshop" />
+                    <Input maxlength="200" name="title" placeholder="systems workshop" required />
                 </Field>
 
                 {/* format and capacity */}
@@ -63,30 +82,42 @@ function ProposalForm(props: { onSubmit: (submitEvent: SubmitEvent) => Promise<v
                     </Field>
 
                     <Field label="capacity">
-                        <Input min="1" name="capacity" placeholder="80" type="number" />
+                        <Input max="10000" min="1" name="capacity" placeholder="80" type="number" />
                     </Field>
                 </div>
 
                 {/* date and venue */}
                 <div class="grid gap-5 md:grid-cols-2">
                     <Field label="date">
-                        <Input name="startsAt" type="date" />
+                        <Input name="startsAt" required type="datetime-local" />
                     </Field>
 
                     <Field label="venue">
-                        <Input name="venue" placeholder="eth, trust square, online" />
+                        <Input
+                            maxlength="300"
+                            name="venue"
+                            placeholder="eth, trust square, online"
+                        />
                     </Field>
                 </div>
 
                 <Field label="description">
-                    <Textarea name="description" placeholder="topic, speakers, agenda." />
+                    <Textarea
+                        maxlength="10000"
+                        name="description"
+                        placeholder="topic, speakers, agenda."
+                        required
+                    />
                 </Field>
 
                 <Field label="owner email">
-                    <Input name="ownerEmail" placeholder="you@example.com" type="email" />
+                    <Input name="ownerEmail" placeholder="you@example.com" required type="email" />
                 </Field>
 
-                <Button type="submit">submit</Button>
+                <Button disabled={props.isPending} type="submit">
+                    {props.isPending ? "submitting..." : "submit"}
+                </Button>
+                <FormMessage error={props.error} success={props.success} />
             </form>
         </Section>
     );
@@ -100,9 +131,10 @@ function eventProposal(data: FormData) {
     return {
         capacity: capacity.length === 0 ? undefined : Number(capacity),
         description: String(data.get("description") ?? ""),
-        format: String(data.get("format") ?? "other") as "meetup",
+        format: String(data.get("format") ?? "other") as
+            "hackathon" | "meetup" | "office_hours" | "other" | "talk" | "workshop",
         ownerEmail: String(data.get("ownerEmail") ?? ""),
-        startsAt: startsAt.length === 0 ? undefined : Date.parse(startsAt),
+        startsAt: Date.parse(startsAt),
         title: String(data.get("title") ?? ""),
         venue: String(data.get("venue") ?? ""),
     };

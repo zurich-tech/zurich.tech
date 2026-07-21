@@ -5,7 +5,7 @@
         "moduleResolution": "bundler",
         "jsx": "preserve",
         "jsxImportSource": "solid-js",
-        "types": ["vinxi/types/client"],
+        "types": ["vinxi/types/client", "bun"],
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "isolatedModules": true,

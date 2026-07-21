@@ -9,8 +9,12 @@
  */
 
 import type * as archive from "../archive.js";
+import type * as auth from "../auth.js";
+import type * as email from "../email.js";
+import type * as http from "../http.js";
 import type * as proposals from "../proposals.js";
 import type * as public_ from "../public.js";
+import type * as search from "../search.js";
 import type * as seed from "../seed.js";
 
 import type {
@@ -21,8 +25,12 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   archive: typeof archive;
+  auth: typeof auth;
+  email: typeof email;
+  http: typeof http;
   proposals: typeof proposals;
   public: typeof public_;
+  search: typeof search;
   seed: typeof seed;
 }>;
 
@@ -52,4 +60,6 @@ export declare const internal: FilterApi<
   FunctionReference<any, "internal">
 >;
 
-export declare const components: {};
+export declare const components: {
+  betterAuth: import("@convex-dev/better-auth/_generated/component.js").ComponentApi<"betterAuth">;
+};

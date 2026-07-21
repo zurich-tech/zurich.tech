@@ -1,25 +1,33 @@
 import { A } from "@solidjs/router";
-import { For } from "solid-js";
+import { For, Show, createSignal, onMount } from "solid-js";
 
+import { auth } from "../auth";
 import { CommandPalette } from "./command";
 import { ThemeToggle } from "./theme";
+import { Wordmark } from "./wordmark";
 
 const links = [
     { href: "/events", label: "events" },
-    { href: "/series", label: "series" },
     { href: "/members", label: "members" },
-    { href: "/blog", label: "blog" },
+    { href: "/news", label: "news" },
 ];
 
 /** Site header. */
 export function Topbar() {
+    const session = auth.useSession();
+    const [isMounted, setIsMounted] = createSignal(false);
+
+    // defer browser session state until hydration completes
+    onMount(() => setIsMounted(true));
+    const user = () => (isMounted() ? session().data?.user : undefined);
+
     return (
         <header class="site-topbar">
             {/* layout */}
             <div class="site-topbar__body">
                 {/* brand */}
                 <A class="site-topbar__brand" href="/">
-                    zurich.tech
+                    <Wordmark />
                 </A>
 
                 {/* navigation */}
@@ -41,9 +49,20 @@ export function Topbar() {
                 <div class="site-topbar__actions">
                     <CommandPalette />
                     <ThemeToggle />
-                    <A class="site-topbar__account" href="/settings">
-                        [sign in]
-                    </A>
+
+                    {/* account */}
+                    <Show
+                        when={user()}
+                        fallback={
+                            <A class="site-topbar__account" href="/sign-in">
+                                [sign in]
+                            </A>
+                        }
+                    >
+                        <A class="site-topbar__account" href="/settings">
+                            [account]
+                        </A>
+                    </Show>
                 </div>
             </div>
         </header>

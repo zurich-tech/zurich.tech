@@ -8,8 +8,10 @@ const styles = {
 /** Button, a link or submit rendered as a bordered mono label. */
 export function Button(props: {
     children: JSX.Element;
+    disabled?: boolean;
     href?: string;
     kind?: "primary" | "ghost";
+    onClick?: JSX.EventHandlerUnion<HTMLButtonElement, MouseEvent>;
     type?: "submit" | "button";
 }) {
     // shared classes
@@ -25,7 +27,12 @@ export function Button(props: {
     }
 
     return (
-        <button class={classes()} type={props.type ?? "submit"}>
+        <button
+            class={classes()}
+            disabled={props.disabled}
+            onClick={props.onClick}
+            type={props.type ?? "submit"}
+        >
             {props.children}
         </button>
     );

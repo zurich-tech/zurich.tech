@@ -1,12 +1,20 @@
+import { createSignal } from "solid-js";
+
 import { Button } from "../../component/button";
 import { Field, Input, Select, Textarea } from "../../component/field";
+import { FormMessage } from "../../component/form";
 import { Page, PageHeader, Section } from "../../component/page";
 import { Seo } from "../../component/seo";
 import { proposeSeries } from "../../data/actions";
+import { errorMessage } from "../../error";
 
 /** Series proposal. */
 export default function Route() {
-    // submission
+    const [error, setError] = createSignal<string>();
+    const [isPending, setIsPending] = createSignal(false);
+    const [success, setSuccess] = createSignal<string>();
+
+    // submit one complete proposal
     async function submit(submitEvent: SubmitEvent) {
         submitEvent.preventDefault();
 
@@ -14,18 +22,19 @@ export default function Route() {
         const data = new FormData(form);
         const proposal = seriesProposal(data);
 
-        // require fields
-        if (
-            proposal.title.length === 0 ||
-            proposal.description.length === 0 ||
-            proposal.ownerEmail.length === 0
-        ) {
-            return;
+        // expose the exact mutation result
+        setError(undefined);
+        setSuccess(undefined);
+        setIsPending(true);
+        try {
+            await proposeSeries(proposal);
+            form.reset();
+            setSuccess("series submitted for review.");
+        } catch (caught) {
+            setError(errorMessage(caught, "series submission failed."));
+        } finally {
+            setIsPending(false);
         }
-
-        // submit proposal
-        await proposeSeries(proposal);
-        form.reset();
     }
 
     return (
@@ -35,19 +44,34 @@ export default function Route() {
                 <PageHeader title="start series" />
 
                 {/* form */}
-                <ProposalForm onSubmit={submit} />
+                <ProposalForm
+                    error={error()}
+                    isPending={isPending()}
+                    onSubmit={submit}
+                    success={success()}
+                />
             </Page>
         </>
     );
 }
 
 /** Series proposal form. */
-function ProposalForm(props: { onSubmit: (submitEvent: SubmitEvent) => Promise<void> }) {
+function ProposalForm(props: {
+    error?: string;
+    isPending: boolean;
+    onSubmit: (submitEvent: SubmitEvent) => Promise<void>;
+    success?: string;
+}) {
     return (
         <Section title="details">
             <form class="grid gap-5" onSubmit={props.onSubmit}>
                 <Field label="title">
-                    <Input name="title" placeholder="systems reading group" />
+                    <Input
+                        maxlength="200"
+                        name="title"
+                        placeholder="systems reading group"
+                        required
+                    />
                 </Field>
 
                 {/* cadence and owner */}
@@ -60,16 +84,28 @@ function ProposalForm(props: { onSubmit: (submitEvent: SubmitEvent) => Promise<v
                             <option>quarterly</option>
                         </Select>
                     </Field>
-                    <Field label="owner email">
-                        <Input name="ownerEmail" placeholder="you@example.com" type="email" />
+                    <Field label="first event">
+                        <Input name="startsAt" required type="datetime-local" />
                     </Field>
                 </div>
 
                 <Field label="topic and audience">
-                    <Textarea name="description" placeholder="topic, cadence, audience." />
+                    <Textarea
+                        maxlength="10000"
+                        name="description"
+                        placeholder="topic, cadence, audience."
+                        required
+                    />
                 </Field>
 
-                <Button type="submit">submit</Button>
+                <Field label="owner email">
+                    <Input name="ownerEmail" placeholder="you@example.com" required type="email" />
+                </Field>
+
+                <Button disabled={props.isPending} type="submit">
+                    {props.isPending ? "submitting..." : "submit"}
+                </Button>
+                <FormMessage error={props.error} success={props.success} />
             </form>
         </Section>
     );
@@ -78,8 +114,11 @@ function ProposalForm(props: { onSubmit: (submitEvent: SubmitEvent) => Promise<v
 /** Series proposal payload. */
 function seriesProposal(data: FormData) {
     return {
+        cadence: String(data.get("cadence") ?? "monthly") as
+            "biweekly" | "monthly" | "quarterly" | "weekly",
         description: String(data.get("description") ?? ""),
         ownerEmail: String(data.get("ownerEmail") ?? ""),
+        startsAt: Date.parse(String(data.get("startsAt") ?? "")),
         title: String(data.get("title") ?? ""),
     };
 }

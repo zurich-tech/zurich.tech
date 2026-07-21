@@ -1,6 +1,8 @@
-import { For } from "solid-js";
+import { For, createSignal } from "solid-js";
 
 import { subscribe } from "../data/actions";
+import { errorMessage } from "../error";
+import { FormMessage } from "./form";
 
 const links = [
     { href: "https://x.com/zurichai", label: "x" },
@@ -10,18 +12,30 @@ const links = [
 
 /** Site footer. */
 export function Footer() {
+    const [error, setError] = createSignal<string>();
+    const [isPending, setIsPending] = createSignal(false);
+    const [success, setSuccess] = createSignal<string>();
+
     // subscribe one address from the compact footer form
     async function submit(submitEvent: SubmitEvent) {
         submitEvent.preventDefault();
 
         const form = submitEvent.currentTarget as HTMLFormElement;
         const email = String(new FormData(form).get("email") ?? "");
-        if (email.length === 0) {
-            return;
-        }
 
-        await subscribe(email);
-        form.reset();
+        // expose the exact subscription result
+        setError(undefined);
+        setSuccess(undefined);
+        setIsPending(true);
+        try {
+            await subscribe(email);
+            form.reset();
+            setSuccess("subscribed.");
+        } catch (caught) {
+            setError(errorMessage(caught, "subscription failed."));
+        } finally {
+            setIsPending(false);
+        }
     }
 
     return (
@@ -36,9 +50,13 @@ export function Footer() {
                         aria-label="newsletter email"
                         name="email"
                         placeholder="email"
+                        required
                         type="email"
                     />
-                    <button type="submit">[subscribe]</button>
+                    <button disabled={isPending()} type="submit">
+                        [{isPending() ? "subscribing..." : "subscribe"}]
+                    </button>
+                    <FormMessage error={error()} success={success()} />
                 </form>
 
                 {/* links */}

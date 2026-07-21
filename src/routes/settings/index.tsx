@@ -1,51 +1,81 @@
+import { Show, createSignal, onMount } from "solid-js";
+
+import { auth } from "../../auth";
 import { Button } from "../../component/button";
-import { Field, Input } from "../../component/field";
-import { Page, PageHeader, Section } from "../../component/page";
+import { DetailList, DetailRow, Page, Section } from "../../component/page";
 import { Seo } from "../../component/seo";
-import { requestMagicLink } from "../../data/actions";
 
 /** Settings page. */
 export default function Route() {
-    // magic link
-    async function submit(submitEvent: SubmitEvent) {
-        submitEvent.preventDefault();
+    const session = auth.useSession();
+    const [error, setError] = createSignal<string>();
+    const [isMounted, setIsMounted] = createSignal(false);
+    const [isPending, setIsPending] = createSignal(false);
 
-        const form = submitEvent.currentTarget as HTMLFormElement;
-        const email = String(new FormData(form).get("email") ?? "");
+    // defer browser session state until hydration completes
+    onMount(() => setIsMounted(true));
+    const user = () => (isMounted() ? session().data?.user : undefined);
 
-        // require email
-        if (email.length === 0) {
-            return;
+    // end the current session
+    async function signOut() {
+        setError(undefined);
+        setIsPending(true);
+
+        // clear the session and return home
+        try {
+            const result = await auth.signOut();
+
+            // leave after a confirmed sign-out
+            if (result.error === null) {
+                window.location.assign("/");
+                return;
+            }
+
+            // surface provider errors
+            setError(result.error.message ?? "Sign-out failed.");
+        } catch (caught) {
+            // surface transport failures
+            const message = caught instanceof Error ? caught.message : "Sign-out failed.";
+            setError(message);
         }
 
-        // sign in
-        await requestMagicLink(email);
-        form.reset();
+        setIsPending(false);
     }
 
     return (
         <>
             <Seo title="settings" description="zurich.tech settings." />
             <Page width="narrow">
-                <PageHeader title="settings" />
-
-                {/* sign in */}
-                <SignInForm onSubmit={submit} />
+                {/* account */}
+                <Show
+                    when={user()}
+                    fallback={
+                        <Section title="account">
+                            <Button href="/sign-in">sign in</Button>
+                        </Section>
+                    }
+                >
+                    {(user) => (
+                        <Section title="account">
+                            <DetailList>
+                                <DetailRow label="name" value={user().name} />
+                                <DetailRow label="email" value={user().email} />
+                            </DetailList>
+                            <div class="auth-choice">
+                                <Button
+                                    disabled={isPending()}
+                                    kind="ghost"
+                                    onClick={signOut}
+                                    type="button"
+                                >
+                                    {isPending() ? "signing out..." : "sign out"}
+                                </Button>
+                                {error() !== undefined ? <p class="form-error">{error()}</p> : null}
+                            </div>
+                        </Section>
+                    )}
+                </Show>
             </Page>
         </>
-    );
-}
-
-/** Sign in form. */
-function SignInForm(props: { onSubmit: (submitEvent: SubmitEvent) => Promise<void> }) {
-    return (
-        <Section title="login">
-            <form class="grid max-w-sm gap-4" onSubmit={props.onSubmit}>
-                <Field label="email">
-                    <Input name="email" placeholder="you@example.com" type="email" />
-                </Field>
-                <Button type="submit">send magic link</Button>
-            </form>
-        </Section>
     );
 }
