@@ -1,22 +1,16 @@
-import { Match, Switch, createSignal, onMount } from "solid-js";
+import { Match, Show, Switch, createSignal } from "solid-js";
 
-import { auth } from "../../auth";
+import { auth, useAccount } from "../../auth";
 import { Button } from "../../component/button";
 import { DetailList, DetailRow, Page, Section } from "../../component/page";
 import { Seo } from "../../component/seo";
+import { errorMessage } from "../../error";
 
 /** Settings page. */
 export default function Route() {
-    const session = auth.useSession();
+    const account = useAccount();
     const [error, setError] = createSignal<string>();
-    const [isMounted, setIsMounted] = createSignal(false);
     const [isPending, setIsPending] = createSignal(false);
-
-    // defer browser session state until hydration completes
-    onMount(() => setIsMounted(true));
-    const user = () => (isMounted() ? session().data?.user : undefined);
-    const sessionError = () => (isMounted() ? session().error : undefined);
-    const isLoading = () => !isMounted() || session().isPending;
 
     // end the current session
     async function signOut() {
@@ -26,19 +20,15 @@ export default function Route() {
         // clear the session and return home
         try {
             const result = await auth.signOut();
-
-            // leave after a confirmed sign-out
             if (result.error === null) {
                 window.location.assign("/");
+
                 return;
             }
 
-            // surface provider errors
             setError(result.error.message ?? "Sign-out failed.");
         } catch (caught) {
-            // surface transport failures
-            const message = caught instanceof Error ? caught.message : "Sign-out failed.";
-            setError(message);
+            setError(errorMessage(caught, "Sign-out failed."));
         }
 
         setIsPending(false);
@@ -57,23 +47,23 @@ export default function Route() {
                     }
                 >
                     {/* loading */}
-                    <Match when={isLoading()}>
+                    <Match when={account.isPending()}>
                         <Section title="account">loading...</Section>
                     </Match>
 
                     {/* failure */}
-                    <Match when={sessionError()}>
-                        {(error) => (
+                    <Match when={account.error()}>
+                        {(accountError) => (
                             <Section title="account">
                                 <p class="form-error">
-                                    {error().message ?? "Could not load the account."}
+                                    {accountError().message ?? "Could not load the account."}
                                 </p>
                             </Section>
                         )}
                     </Match>
 
-                    {/* session */}
-                    <Match when={user()}>
+                    {/* member */}
+                    <Match when={account.user()}>
                         {(user) => (
                             <Section title="account">
                                 {/* identity */}
@@ -92,9 +82,9 @@ export default function Route() {
                                     >
                                         {isPending() ? "signing out..." : "sign out"}
                                     </Button>
-                                    {error() !== undefined ? (
-                                        <p class="form-error">{error()}</p>
-                                    ) : null}
+                                    <Show when={error()}>
+                                        {(message) => <p class="form-error">{message()}</p>}
+                                    </Show>
                                 </div>
                             </Section>
                         )}

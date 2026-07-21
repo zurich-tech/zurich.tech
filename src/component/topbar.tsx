@@ -1,7 +1,7 @@
 import { A } from "@solidjs/router";
-import { For, Match, Switch, createSignal, onMount } from "solid-js";
+import { For, Match, Switch } from "solid-js";
 
-import { auth } from "../auth";
+import { useAccount } from "../auth";
 import { CommandPalette } from "./command";
 import { ThemeToggle } from "./theme";
 import { Wordmark } from "./wordmark";
@@ -14,14 +14,7 @@ const links = [
 
 /** Site header. */
 export function Topbar() {
-    const session = auth.useSession();
-    const [isMounted, setIsMounted] = createSignal(false);
-
-    // defer browser session state until hydration completes
-    onMount(() => setIsMounted(true));
-    const user = () => (isMounted() ? session().data?.user : undefined);
-    const error = () => (isMounted() ? session().error : undefined);
-    const isPending = () => !isMounted() || session().isPending;
+    const account = useAccount();
 
     return (
         <header class="site-topbar">
@@ -61,21 +54,21 @@ export function Topbar() {
                         }
                     >
                         {/* loading */}
-                        <Match when={isPending()}>
+                        <Match when={account.isPending()}>
                             <span class="site-topbar__account site-topbar__account--pending">
                                 [account]
                             </span>
                         </Match>
 
                         {/* failure */}
-                        <Match when={error()}>
+                        <Match when={account.error()}>
                             <A class="site-topbar__account" href="/settings">
                                 [account!]
                             </A>
                         </Match>
 
                         {/* session */}
-                        <Match when={user()}>
+                        <Match when={account.user()}>
                             {(user) => (
                                 <A
                                     class="site-topbar__account"

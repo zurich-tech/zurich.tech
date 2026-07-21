@@ -1,5 +1,6 @@
 import { convexClient, crossDomainClient } from "@convex-dev/better-auth/client/plugins";
 import { createAuthClient } from "better-auth/solid";
+import { createSignal, onMount } from "solid-js";
 
 import { parseSignInCallback } from "./signin";
 
@@ -11,6 +12,20 @@ export const auth = createAuthClient({
     baseURL: siteUrl,
     plugins: [convexClient(), crossDomainClient()],
 });
+
+/** Return hydration-safe account session state. */
+export function useAccount() {
+    const session = auth.useSession();
+    const [isMounted, setIsMounted] = createSignal(false);
+
+    // defer browser session state until hydration completes
+    onMount(() => setIsMounted(true));
+    const user = () => (isMounted() ? session().data?.user : undefined);
+    const error = () => (isMounted() ? session().error : undefined);
+    const isPending = () => !isMounted() || session().isPending;
+
+    return { error, isPending, user };
+}
 
 /** Complete a cross-domain OAuth sign-in returned to the current page. */
 export async function completeSignIn() {
