@@ -4,6 +4,12 @@
     "main": ".output/server/index.mjs",
     "compatibility_date": "2026-06-24",
     "compatibility_flags": ["nodejs_compat"],
+    "routes": [
+        {
+            "pattern": "zurich.tech",
+            "custom_domain": true,
+        },
+    ],
     "assets": {
         "directory": ".output/public",
         "binding": "ASSETS",

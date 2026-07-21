@@ -31,11 +31,11 @@ lint:
 
 # run tests
 test:
-    @echo "No tests defined"
+    bun test
 
 # default check
 check:
-    just check-quick
+    just check-full
 
 # normal check
 check-quick:
@@ -45,16 +45,12 @@ check-quick:
 # check with slow suites
 check-full:
     just check-quick
+    just test
 
 # run dev server
 dev:
     bun run dev
 
-# deploy production worker
-deploy:
-    bun run deploy
-
 # clean build artifacts
 clean:
     rm -rf .vinxi .output dist
-
