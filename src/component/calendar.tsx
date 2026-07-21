@@ -7,20 +7,35 @@ import { Highlight } from "./highlight";
 import { Section } from "./page";
 import { TableToolbar } from "./toolbar";
 
-/** Dated event calendar. */
-export function Calendar(props: {
+/** Calendar presentation and search properties. */
+type CalendarProps = {
+    /** Commands shown beside search. */
     actions?: JSX.Element;
+    /** The instant separating upcoming and past events. */
     dividerAt: number;
+    /** Content shown when the calendar is empty. */
     empty?: JSX.Element;
+    /** Every event available to display and search. */
     entries: CalendarEntry[];
+    /** Whether event search is available. */
     isSearchable?: boolean;
+    /** The maximum event count before search begins. */
+    limit?: number;
+    /** Text shown beside the section title. */
     meta?: string;
-    titleHref?: string;
+    /** The section title. */
     title: string;
-}) {
+    /** The section title destination. */
+    titleHref?: string;
+};
+
+/** Dated event calendar. */
+export function Calendar(props: CalendarProps) {
     const [query, setQuery] = createSignal("");
     const terms = createMemo(() => searchTerms(query()));
-    const entries = createMemo(() => {
+
+    // search the complete supplied calendar
+    const matches = createMemo(() => {
         // keep all rows before search begins
         if (terms().length === 0) {
             return props.entries;
@@ -30,12 +45,33 @@ export function Calendar(props: {
             matchesSearch(eventText(entry, props.dividerAt), terms()),
         );
     });
-    const count = () => {
-        if (entries().length === props.entries.length) {
-            return `${props.entries.length}`;
+
+    // order every match around the current date
+    const ordered = createMemo(() => {
+        const upcoming = matches()
+            .filter((entry) => entry.startsAt >= props.dividerAt)
+            .sort((left, right) => left.startsAt - right.startsAt);
+        const past = matches()
+            .filter((entry) => entry.startsAt < props.dividerAt)
+            .sort((left, right) => right.startsAt - left.startsAt);
+
+        return [...upcoming, ...past];
+    });
+
+    // limit only the default view, never search results
+    const entries = createMemo(() => {
+        if (terms().length > 0 || props.limit === undefined) {
+            return ordered();
         }
 
-        return `${entries().length} / ${props.entries.length}`;
+        return ordered().slice(0, props.limit);
+    });
+    const count = () => {
+        if (terms().length > 0 && matches().length !== props.entries.length) {
+            return `${matches().length} / ${props.entries.length}`;
+        }
+
+        return `${props.entries.length}`;
     };
     const upcoming = createMemo(() => {
         return entries()
@@ -65,7 +101,7 @@ export function Calendar(props: {
         >
             {/* empty */}
             <Show
-                when={entries().length > 0}
+                when={matches().length > 0}
                 fallback={
                     query().length > 0 ? (
                         <p class="calendar-empty">no matches</p>

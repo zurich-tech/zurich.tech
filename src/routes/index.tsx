@@ -4,10 +4,10 @@ import { ArticleList } from "../component/article";
 import { Calendar } from "../component/calendar";
 import { Page } from "../component/page";
 import { Seo } from "../component/seo";
-import { getArticles, getCalendar, splitCalendar } from "../data/public";
+import { getArticles, getCalendar } from "../data/public";
 
 const articleLimit = 3;
-const pastLimit = 3;
+const eventLimit = 5;
 
 /** Home page. */
 export default function Route() {
@@ -15,10 +15,6 @@ export default function Route() {
     const entries = createAsync(() => getCalendar());
     const articles = createAsync(() => getArticles());
     const today = Date.now();
-
-    // keep the nearest events around today's divider
-    const split = () => splitCalendar(entries() ?? []);
-    const calendar = () => [...split().upcoming, ...split().past.slice(0, pastLimit)];
 
     return (
         <>
@@ -37,7 +33,8 @@ export default function Route() {
                         </>
                     }
                     dividerAt={today}
-                    entries={calendar()}
+                    entries={entries() ?? []}
+                    limit={eventLimit}
                     title="events"
                     titleHref="/events"
                 />
