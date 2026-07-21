@@ -28,24 +28,3 @@ export function ExternalLinks(props: { links: Array<{ href: string; label: strin
         </div>
     );
 }
-
-/** Progress. */
-export function Progress(props: { label: string; max: number; value: number }) {
-    // bar width
-    const width = `${Math.min(100, Math.round((100 * props.value) / props.max))}%`;
-
-    return (
-        <div class="grid gap-1.5">
-            <div class="flex justify-between gap-3 text-xs lowercase text-soft">
-                <span>{props.label}</span>
-                <span>
-                    {props.value}/{props.max}
-                </span>
-            </div>
-            {/* bar */}
-            <div class="h-1 bg-wash">
-                <div class="h-full bg-ink" style={{ width }} />
-            </div>
-        </div>
-    );
-}

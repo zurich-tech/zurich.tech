@@ -85,8 +85,8 @@ export function ThemeToggle() {
             title={`Alt+T: select ${nextPreference()} theme`}
             type="button"
         >
-            [<span class="site-theme-toggle__prefix">theme:</span>
-            {preference()}]
+            [<span>theme</span>
+            <span class="site-theme-toggle__preference">:{preference()}</span>]
         </button>
     );
 }
