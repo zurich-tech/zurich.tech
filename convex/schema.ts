@@ -46,15 +46,13 @@ const eventFormat = v.union(
 
 const eventStatus = v.union(
     v.literal("draft"),
-    v.literal("proposed"),
     v.literal("scheduled"),
     v.literal("conditional"),
     v.literal("cancelled"),
     v.literal("finished"),
-    v.literal("rejected"),
 );
 
-const feedbackVisibility = v.union(v.literal("staff"), v.literal("public"));
+const feedbackVisibility = v.union(v.literal("team"), v.literal("public"));
 
 const handleStatus = v.union(v.literal("active"), v.literal("reserved"), v.literal("released"));
 
@@ -69,7 +67,7 @@ const linkKind = v.union(
     v.literal("other"),
 );
 
-const memberRole = v.union(v.literal("staff"), v.literal("admin"), v.literal("volunteer"));
+const memberRole = v.union(v.literal("team"), v.literal("admin"));
 
 const memberStatus = v.union(
     v.literal("imported"),
@@ -83,11 +81,7 @@ const mediaKind = v.union(v.literal("image"));
 
 const mediaStatus = v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected"));
 
-const notificationKind = v.union(
-    v.literal("event_reminder"),
-    v.literal("series_update"),
-    v.literal("member_notice"),
-);
+const notificationKind = v.union(v.literal("event_reminder"), v.literal("member_notice"));
 
 const notificationStatus = v.union(
     v.literal("scheduled"),
@@ -96,23 +90,7 @@ const notificationStatus = v.union(
     v.literal("failed"),
 );
 
-const recurrenceFrequency = v.union(
-    v.literal("daily"),
-    v.literal("weekly"),
-    v.literal("monthly"),
-    v.literal("yearly"),
-);
-
 const rsvpStatus = v.union(v.literal("going"), v.literal("waitlist"), v.literal("cancelled"));
-
-const seriesStatus = v.union(
-    v.literal("draft"),
-    v.literal("proposed"),
-    v.literal("active"),
-    v.literal("paused"),
-    v.literal("finished"),
-    v.literal("rejected"),
-);
 
 const subscriptionStatus = v.union(
     v.literal("subscribed"),
@@ -120,12 +98,7 @@ const subscriptionStatus = v.union(
     v.literal("suppressed"),
 );
 
-const tagSubject = v.union(
-    v.literal("article"),
-    v.literal("event"),
-    v.literal("member"),
-    v.literal("series"),
-);
+const tagSubject = v.union(v.literal("article"), v.literal("event"), v.literal("member"));
 
 export default defineSchema({
     accounts: defineTable({
@@ -204,8 +177,8 @@ export default defineSchema({
     }).index("by_countryCode_and_locality", ["countryCode", "locality"]),
 
     links: defineTable({
-        subject: v.union(v.literal("member"), v.literal("event"), v.literal("series")),
-        subjectId: v.union(v.id("members"), v.id("events"), v.id("series")),
+        subject: v.union(v.literal("member"), v.literal("event")),
+        subjectId: v.union(v.id("members"), v.id("events")),
         kind: linkKind,
         label: v.optional(v.string()),
         url: v.string(),
@@ -216,45 +189,6 @@ export default defineSchema({
     })
         .index("by_subject_and_subjectId", ["subject", "subjectId"])
         .index("by_url", ["url"]),
-
-    recurrences: defineTable({
-        timezone: v.string(),
-        frequency: recurrenceFrequency,
-        interval: v.number(),
-        byWeekday: v.optional(v.array(v.number())),
-        byMonthday: v.optional(v.array(v.number())),
-        startsAt: v.number(),
-        endsAt: v.optional(v.number()),
-        createdAt: v.number(),
-        updatedAt: v.number(),
-    }).index("by_startsAt", ["startsAt"]),
-
-    series: defineTable({
-        ownerMemberId: v.id("members"),
-        recurrenceId: v.optional(v.id("recurrences")),
-        slug: v.string(),
-        status: seriesStatus,
-        title: v.string(),
-        description: v.optional(v.string()),
-        searchText: v.string(),
-        createdAt: v.number(),
-        updatedAt: v.number(),
-    })
-        .index("by_slug", ["slug"])
-        .index("by_status", ["status"])
-        .index("by_ownerMemberId", ["ownerMemberId"])
-        .searchIndex("search_text", { searchField: "searchText", filterFields: ["status"] }),
-
-    seriesSubscriptions: defineTable({
-        seriesId: v.id("series"),
-        memberId: v.id("members"),
-        status: subscriptionStatus,
-        createdAt: v.number(),
-        updatedAt: v.number(),
-    })
-        .index("by_seriesId", ["seriesId"])
-        .index("by_memberId", ["memberId"])
-        .index("by_seriesId_and_memberId", ["seriesId", "memberId"]),
 
     venues: defineTable({
         addressId: v.id("addresses"),
@@ -273,8 +207,6 @@ export default defineSchema({
         slug: v.string(),
         status: eventStatus,
         format: eventFormat,
-        seriesId: v.optional(v.id("series")),
-        number: v.optional(v.number()),
         venueId: v.optional(v.id("venues")),
         location: v.optional(v.string()),
         title: v.string(),
@@ -287,8 +219,7 @@ export default defineSchema({
     })
         .index("by_slug", ["slug"])
         .index("by_ownerMemberId", ["ownerMemberId"])
-        .index("by_status_and_startsAt", ["status", "startsAt"])
-        .index("by_seriesId_and_startsAt", ["seriesId", "startsAt"]),
+        .index("by_status_and_startsAt", ["status", "startsAt"]),
 
     eventActivations: defineTable({
         eventId: v.id("events"),
@@ -415,8 +346,8 @@ export default defineSchema({
         .searchIndex("search_text", { searchField: "searchText", filterFields: ["status"] }),
 
     notifications: defineTable({
-        subject: v.union(v.literal("event"), v.literal("series"), v.literal("member")),
-        subjectId: v.union(v.id("events"), v.id("series"), v.id("members")),
+        subject: v.union(v.literal("event"), v.literal("member")),
+        subjectId: v.union(v.id("events"), v.id("members")),
         memberId: v.optional(v.id("members")),
         email: v.optional(v.string()),
         kind: notificationKind,
@@ -472,35 +403,35 @@ export default defineSchema({
     tags: defineTable({
         slug: v.string(),
         name: v.string(),
-        subject: tagSubject,
         createdAt: v.number(),
         updatedAt: v.number(),
-    })
-        .index("by_slug", ["slug"])
-        .index("by_subject_and_slug", ["subject", "slug"])
-        .index("by_subject", ["subject"]),
+    }).index("by_slug", ["slug"]),
 
     taggings: defineTable({
         tagId: v.id("tags"),
         subject: tagSubject,
-        subjectId: v.union(v.id("articles"), v.id("events"), v.id("members"), v.id("series")),
+        subjectId: v.union(v.id("articles"), v.id("events"), v.id("members")),
         createdAt: v.number(),
     })
         .index("by_tagId", ["tagId"])
         .index("by_subject_and_subjectId", ["subject", "subjectId"]),
 
     media: defineTable({
-        subject: v.union(v.literal("event"), v.literal("member")),
-        subjectId: v.union(v.id("events"), v.id("members")),
+        eventId: v.id("events"),
         uploadedByMemberId: v.id("members"),
-        storageId: v.string(),
+        key: v.string(),
+        thumbnailKey: v.string(),
         kind: mediaKind,
         status: mediaStatus,
+        position: v.number(),
+        width: v.number(),
+        height: v.number(),
+        alt: v.optional(v.string()),
         caption: v.optional(v.string()),
         createdAt: v.number(),
         updatedAt: v.number(),
     })
-        .index("by_subject_and_subjectId", ["subject", "subjectId"])
+        .index("by_eventId_and_position", ["eventId", "position"])
         .index("by_uploadedByMemberId", ["uploadedByMemberId"])
         .index("by_status", ["status"]),
 });

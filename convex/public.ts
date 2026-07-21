@@ -6,8 +6,8 @@ import { query, type QueryCtx } from "./_generated/server";
 const eventSearchCandidateLimit = 64;
 const eventSearchLimit = 6;
 const maximumSearchLength = 200;
+const mediaOrigin = "https://media.zurich.tech";
 const publicVisibility = "public" as const;
-const publicSeriesStatuses = ["active", "paused", "finished"] as const;
 
 type EventPeriod = "past" | "upcoming";
 
@@ -31,8 +31,8 @@ async function handleFor(ctx: QueryCtx, subjectId: Id<"members">) {
 /** Read the public links attached to one record. */
 async function linksFor(
     ctx: QueryCtx,
-    subject: "member" | "event" | "series",
-    subjectId: Id<"members"> | Id<"events"> | Id<"series">,
+    subject: "member" | "event",
+    subjectId: Id<"members"> | Id<"events">,
 ) {
     const links = await ctx.db
         .query("links")
@@ -53,8 +53,8 @@ async function linksFor(
 /** Read the sorted tag slugs attached to one record. */
 async function tagsFor(
     ctx: QueryCtx,
-    subject: "article" | "event" | "member" | "series",
-    subjectId: Id<"articles"> | Id<"events"> | Id<"members"> | Id<"series">,
+    subject: "article" | "event" | "member",
+    subjectId: Id<"articles"> | Id<"events"> | Id<"members">,
 ) {
     const taggings = await ctx.db
         .query("taggings")
@@ -81,14 +81,11 @@ async function calendarRow(ctx: QueryCtx, entry: Doc<"calendarEntries">) {
     const base = {
         activation: undefined as { deadlineAt: number; threshold: number } | undefined,
         attendedCount: undefined as number | undefined,
-        cadence: undefined as string | undefined,
         capacity: undefined as number | undefined,
         href: entry.href ?? `/events/${entry.slug}`,
         id: entry._id,
         location: entry.location,
         rsvpCount: undefined as number | undefined,
-        seriesNextAt: undefined as number | undefined,
-        seriesTitle: undefined as string | undefined,
         slug: entry.slug,
         speakers: undefined as string[] | undefined,
         startsAt: entry.startsAt,
@@ -131,50 +128,6 @@ async function calendarRow(ctx: QueryCtx, entry: Doc<"calendarEntries">) {
         .sort((left, right) => left.position - right.position)
         .map((speaker) => speaker.name);
 
-    // series membership, cadence, and the next occurrence
-    let seriesTitle: string | undefined;
-    let cadence: string | undefined;
-    let seriesNextAt: number | undefined;
-    if (event.seriesId !== undefined) {
-        const series = await ctx.db.get(event.seriesId);
-        if (series === null) {
-            throw new Error(`Event ${event._id} refers to a missing series.`);
-        }
-        if (!isPublicSeriesStatus(series.status)) {
-            throw new Error(`Published event ${event._id} refers to a private series.`);
-        }
-
-        // resolve the series label and recurrence
-        seriesTitle = series.title;
-        if (series.recurrenceId !== undefined) {
-            const recurrence = await ctx.db.get(series.recurrenceId);
-            if (recurrence === null) {
-                throw new Error(`Series ${series._id} refers to a missing recurrence.`);
-            }
-            cadence = cadenceText(recurrence);
-        }
-
-        // find the next scheduled occurrence
-        const following = await ctx.db
-            .query("events")
-            .withIndex("by_seriesId_and_startsAt", (query) =>
-                query.eq("seriesId", event.seriesId).gt("startsAt", event.startsAt),
-            )
-            .take(10);
-        for (const candidate of following) {
-            const entry = await ctx.db
-                .query("calendarEntries")
-                .withIndex("by_eventId", (query) => query.eq("eventId", candidate._id))
-                .unique();
-
-            // accept the first published occurrence
-            if (entry?.status === "published") {
-                seriesNextAt = entry.startsAt;
-                break;
-            }
-        }
-    }
-
     // pending activation on conditional events
     let activation: { deadlineAt: number; threshold: number } | undefined;
     if (event.status === "conditional") {
@@ -192,11 +145,8 @@ async function calendarRow(ctx: QueryCtx, entry: Doc<"calendarEntries">) {
         ...base,
         activation,
         attendedCount: attendances.length > 0 ? attendances.length : undefined,
-        cadence,
         capacity: event.capacity,
         rsvpCount: event.status === "finished" ? undefined : rsvpCount,
-        seriesNextAt,
-        seriesTitle,
         speakers: speakers.length > 0 ? speakers : undefined,
     };
 }
@@ -295,23 +245,6 @@ function eventSearchDescription(entry: Doc<"calendarEntries">, now: number): str
     return [...tags, entry.summary].filter(Boolean).join(" ");
 }
 
-/** Describe a recurrence like "monthly" or "every 2 weeks". */
-function cadenceText(recurrence: Doc<"recurrences">): string {
-    const units: Record<string, string> = {
-        daily: "day",
-        weekly: "week",
-        monthly: "month",
-        yearly: "year",
-    };
-
-    // plain frequency for interval one
-    if (recurrence.interval === 1) {
-        return recurrence.frequency;
-    }
-
-    return `every ${recurrence.interval} ${units[recurrence.frequency]}s`;
-}
-
 /** Expand one public member profile. */
 async function memberRow(ctx: QueryCtx, member: Doc<"members">) {
     const handle = await handleFor(ctx, member._id);
@@ -350,16 +283,8 @@ export const search = query({
         const isEventFilter = eventsQuery.period !== undefined || eventsQuery.isImpossible;
 
         // search each public noun independently
-        const [events, series, members, articles] = await Promise.all([
+        const [events, members, articles] = await Promise.all([
             searchEvents(ctx, eventsQuery, args.now),
-            isEventFilter
-                ? Promise.resolve([])
-                : ctx.db
-                      .query("series")
-                      .withSearchIndex("search_text", (query) =>
-                          query.search("searchText", text).eq("status", "active"),
-                      )
-                      .take(4),
             isEventFilter
                 ? Promise.resolve([])
                 : ctx.db
@@ -404,12 +329,6 @@ export const search = query({
                 href: event.href ?? `/events/${event.slug}`,
                 kind: "event" as const,
                 label: event.title,
-            })),
-            ...series.map((item) => ({
-                description: item.description,
-                href: `/series/${item.slug}`,
-                kind: "series" as const,
-                label: item.title,
             })),
             ...memberResults,
             ...articles.map((article) => ({
@@ -461,7 +380,7 @@ export const event = query({
         }
 
         // expand the published event records
-        const [venue, rsvpCount, agenda, speakers, series, tags, links] = await Promise.all([
+        const [venue, rsvpCount, agenda, speakers, tags, links, media] = await Promise.all([
             event.venueId === undefined ? null : ctx.db.get(event.venueId),
             ctx.db
                 .query("rsvps")
@@ -477,9 +396,13 @@ export const event = query({
                 .query("eventSpeakers")
                 .withIndex("by_eventId_and_position", (query) => query.eq("eventId", event._id))
                 .collect(),
-            event.seriesId === undefined ? null : ctx.db.get(event.seriesId),
             tagsFor(ctx, "event", event._id),
             linksFor(ctx, "event", event._id),
+            ctx.db
+                .query("media")
+                .withIndex("by_eventId_and_position", (query) => query.eq("eventId", event._id))
+                .filter((query) => query.eq(query.field("status"), "approved"))
+                .collect(),
         ]);
         const address = venue === null ? null : await ctx.db.get(venue.addressId);
         if (event.venueId !== undefined && venue === null) {
@@ -488,20 +411,28 @@ export const event = query({
         if (venue !== null && address === null) {
             throw new Error(`Venue ${venue._id} refers to a missing address.`);
         }
-        if (series !== null && !isPublicSeriesStatus(series.status)) {
-            throw new Error(`Published event ${event._id} refers to a private series.`);
-        }
+        // resolve public image URLs in display order
+        const images = media
+            .sort((left, right) => left.position - right.position)
+            .map((image) => ({
+                alt: image.alt ?? `Photo ${image.position + 1} from ${event.title}`,
+                caption: image.caption,
+                height: image.height,
+                thumbnailUrl: `${mediaOrigin}/${image.thumbnailKey}`,
+                url: `${mediaOrigin}/${image.key}`,
+                width: image.width,
+            }));
 
         return {
             agenda: agenda.map((item) => ({ time: item.time, title: item.title })),
             capacity: event.capacity,
+            description: event.description,
             endsAt: event.endsAt,
             format: event.format,
             links,
             location: calendarEntry.location,
-            number: event.number,
+            media: images,
             rsvpCount,
-            seriesSlug: series?.slug,
             slug: event.slug,
             speakers: speakers.map((speaker) => ({
                 name: speaker.name,
@@ -509,8 +440,8 @@ export const event = query({
             })),
             startsAt: calendarEntry.startsAt,
             status: event.status,
-            summary: event.description,
-            tags: eventTags([series?.slug, ...tags], event.startsAt, args.now),
+            summary: calendarEntry.summary,
+            tags: eventTags(tags, event.startsAt, args.now),
             timezone: calendarEntry.timezone,
             title: event.title,
             venue: {
@@ -523,63 +454,6 @@ export const event = query({
                               .join(", "),
                 name: venue?.name ?? event.location ?? calendarEntry.location,
             },
-        };
-    },
-});
-
-/** Read one public event series by slug. */
-export const seriesDetail = query({
-    args: { slug: v.string() },
-    handler: async (ctx, args) => {
-        const item = await ctx.db
-            .query("series")
-            .withIndex("by_slug", (query) => query.eq("slug", args.slug))
-            .unique();
-
-        if (item === null || !isPublicSeriesStatus(item.status)) {
-            return null;
-        }
-
-        const events = await ctx.db
-            .query("events")
-            .withIndex("by_seriesId_and_startsAt", (query) => query.eq("seriesId", item._id))
-            .collect();
-        const entries = await Promise.all(
-            events.map(async (event) => {
-                const entry = await ctx.db
-                    .query("calendarEntries")
-                    .withIndex("by_eventId", (query) => query.eq("eventId", event._id))
-                    .unique();
-
-                return entry?.status === "published" ? calendarRow(ctx, entry) : null;
-            }),
-        );
-
-        // resolve the owner only when their profile is public
-        const ownerMember = await ctx.db.get(item.ownerMemberId);
-        if (ownerMember === null) {
-            throw new Error(`Series ${item._id} refers to a missing owner.`);
-        }
-        const owner =
-            ownerMember.status === "active" && ownerMember.visibility === publicVisibility
-                ? await handleFor(ctx, ownerMember._id)
-                : null;
-
-        return {
-            cadence: item.recurrenceId === undefined ? "no fixed schedule" : "recurring",
-            entries: entries.filter((entry) => entry !== null),
-            ownerHandle: owner?.name,
-            slug: item.slug,
-            subscriberCount: (
-                await ctx.db
-                    .query("seriesSubscriptions")
-                    .withIndex("by_seriesId", (query) => query.eq("seriesId", item._id))
-                    .filter((query) => query.eq(query.field("status"), "subscribed"))
-                    .collect()
-            ).length,
-            summary: item.description,
-            tags: await tagsFor(ctx, "series", item._id),
-            title: item.title,
         };
     },
 });
@@ -719,8 +593,3 @@ export const handle = query({
               };
     },
 });
-
-/** Return whether one series status is publicly visible. */
-function isPublicSeriesStatus(status: Doc<"series">["status"]): boolean {
-    return publicSeriesStatuses.some((publicStatus) => publicStatus === status);
-}

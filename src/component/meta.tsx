@@ -3,7 +3,7 @@ import { For } from "solid-js";
 /** Tags. */
 export function Tags(props: { values: string[] }) {
     return (
-        <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs lowercase text-soft">
+        <div class="tags">
             {/* tags */}
             <For each={props.values}>{(value) => <span>#{value}</span>}</For>
         </div>

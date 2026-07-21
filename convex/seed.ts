@@ -1,8 +1,9 @@
 import type { Id } from "./_generated/dataModel";
 import { internalMutation, type MutationCtx } from "./_generated/server";
-import { archiveEvents, archiveSeries, type ArchiveEvent, validateArchive } from "./archive";
+import { archiveEvents, type ArchiveEvent, validateArchive } from "./archive";
 import { normalizeEmail } from "./email";
 import { searchText } from "./search";
+import { setTags } from "./tag";
 
 /** Populate the Zurich AI archive records. */
 export const run = internalMutation({
@@ -52,7 +53,7 @@ export const run = internalMutation({
         // venues
         const venueIds = {
             "eth-ai-center-14": await ensureVenue(ctx, {
-                accessNotes: "OAT building, 14th floor.",
+                accessNotes: "OAT building.",
                 address: {
                     countryCode: "CH",
                     line1: "Andreasstrasse 5",
@@ -60,10 +61,10 @@ export const run = internalMutation({
                     locality: "Zürich",
                     postalCode: "8050",
                 },
-                name: "ETH AI Center, 14th floor",
+                name: "ETH AI Center",
             }),
             "eth-ai-center-19": await ensureVenue(ctx, {
-                accessNotes: "OAT building, 19th floor.",
+                accessNotes: "OAT building.",
                 address: {
                     countryCode: "CH",
                     line1: "Andreasstrasse 5",
@@ -71,7 +72,7 @@ export const run = internalMutation({
                     locality: "Zürich",
                     postalCode: "8050",
                 },
-                name: "ETH AI Center, 19th floor",
+                name: "ETH AI Center",
             }),
             "eth-zurich-bin13": await ensureVenue(ctx, {
                 accessNotes: "4th floor.",
@@ -86,39 +87,22 @@ export const run = internalMutation({
             }),
         } satisfies Record<ArchiveEvent["venue"], Id<"venues">>;
 
-        // series
-        const seriesIds = {} as Record<NonNullable<ArchiveEvent["series"]>, Id<"series">>;
-        for (const item of archiveSeries) {
-            const seriesId = await ensureSeries(ctx, {
-                description: item.description,
-                ownerMemberId: zurichAi,
-                slug: item.slug,
-                title: item.title,
-            });
-            seriesIds[item.slug] = seriesId;
-
-            await setTags(ctx, "series", seriesId, item.tags);
-        }
-
         // events
         for (const item of archiveEvents) {
-            const seriesId = item.series === undefined ? undefined : seriesIds[item.series];
-            const location = item.venue === "eth-zurich-bin13" ? "ETH Zurich" : "ETH AI Center";
+            const location = "Zürich";
             const eventId = await ensureEvent(ctx, {
                 description: item.description,
                 endsAt: Date.parse(item.endsAt),
                 format: "talk",
                 location,
-                number: item.number,
                 ownerMemberId: zurichAi,
-                seriesId,
-                seriesSlug: item.series,
                 slug: item.slug,
                 source: "event",
                 sourceUrl: item.sourceUrl,
                 speakers: item.speakers,
                 startsAt: Date.parse(item.startsAt),
                 status: "finished",
+                summary: item.summary,
                 tags: item.tags,
                 title: item.title,
                 venueId: venueIds[item.venue],
@@ -141,7 +125,7 @@ export const run = internalMutation({
         await setTags(ctx, "member", zurichAi, ["machine-learning", "events"]);
         await setTags(ctx, "member", staff, ["events", "operations"]);
 
-        return { events: archiveEvents.length, ok: true, series: archiveSeries.length };
+        return { events: archiveEvents.length, ok: true };
     },
 });
 
@@ -203,8 +187,8 @@ async function ensureMember(
 /** Create or update one seeded link. */
 async function ensureLink(
     ctx: MutationCtx,
-    subject: "member" | "event" | "series",
-    subjectId: Id<"members"> | Id<"events"> | Id<"series">,
+    subject: "member" | "event",
+    subjectId: Id<"members"> | Id<"events">,
     kind: "website" | "github" | "linkedin" | "x" | "mastodon" | "youtube" | "newsletter" | "other",
     label: string,
     url: string,
@@ -242,7 +226,7 @@ async function ensureLink(
 async function ensureVenue(
     ctx: MutationCtx,
     args: {
-        accessNotes: string;
+        accessNotes?: string;
         address: {
             countryCode: string;
             line1: string;
@@ -254,15 +238,46 @@ async function ensureVenue(
     },
 ) {
     const now = Date.now();
-    const existing = (await ctx.db.query("venues").collect()).find(
-        (venue) => venue.name === args.name,
+    const addresses = await ctx.db
+        .query("addresses")
+        .withIndex("by_countryCode_and_locality", (query) =>
+            query.eq("countryCode", args.address.countryCode).eq("locality", args.address.locality),
+        )
+        .collect();
+    const matchingAddresses = addresses.filter(
+        (address) =>
+            address.line1 === args.address.line1 &&
+            address.line2 === args.address.line2 &&
+            address.postalCode === args.address.postalCode,
     );
 
-    // update the existing venue and address
-    if (existing !== undefined) {
-        await ctx.db.patch(existing.addressId, { ...args.address, updatedAt: now });
+    // reject ambiguous address identity
+    if (matchingAddresses.length > 1) {
+        throw new Error(`Multiple seeded addresses match ${args.address.line1}.`);
+    }
+
+    // create or update the structured address
+    const address = matchingAddresses[0];
+    const addressId =
+        address?._id ??
+        (await ctx.db.insert("addresses", {
+            ...args.address,
+            createdAt: now,
+            updatedAt: now,
+        }));
+    if (address !== undefined) {
+        await ctx.db.patch(addressId, { ...args.address, updatedAt: now });
+    }
+
+    // update the venue at this exact address
+    const existing = await ctx.db
+        .query("venues")
+        .withIndex("by_addressId", (query) => query.eq("addressId", addressId))
+        .unique();
+    if (existing !== null) {
         await ctx.db.patch(existing._id, {
             accessNotes: args.accessNotes,
+            name: args.name,
             status: "active",
             updatedAt: now,
         });
@@ -270,54 +285,13 @@ async function ensureVenue(
         return existing._id;
     }
 
-    // create the address before its venue
-    const addressId = await ctx.db.insert("addresses", {
-        ...args.address,
-        createdAt: now,
-        updatedAt: now,
-    });
-
+    // create the venue at this exact address
     return await ctx.db.insert("venues", {
         accessNotes: args.accessNotes,
         addressId,
         createdAt: now,
         name: args.name,
         status: "active",
-        updatedAt: now,
-    });
-}
-
-/** Create or update one seeded event series. */
-async function ensureSeries(
-    ctx: MutationCtx,
-    args: { description: string; ownerMemberId: Id<"members">; slug: string; title: string },
-) {
-    const now = Date.now();
-    const existing = await ctx.db
-        .query("series")
-        .withIndex("by_slug", (query) => query.eq("slug", args.slug))
-        .unique();
-
-    if (existing !== null) {
-        await ctx.db.patch(existing._id, {
-            description: args.description,
-            ownerMemberId: args.ownerMemberId,
-            searchText: searchText(args.title, args.description),
-            status: "active",
-            title: args.title,
-            updatedAt: now,
-        });
-        return existing._id;
-    }
-
-    return await ctx.db.insert("series", {
-        createdAt: now,
-        description: args.description,
-        ownerMemberId: args.ownerMemberId,
-        searchText: searchText(args.title, args.description),
-        slug: args.slug,
-        status: "active",
-        title: args.title,
         updatedAt: now,
     });
 }
@@ -331,16 +305,14 @@ async function ensureEvent(
         endsAt: number;
         format: "meetup" | "talk" | "workshop" | "hackathon" | "office_hours" | "other";
         location: string;
-        number?: number;
         ownerMemberId: Id<"members">;
-        seriesId?: Id<"series">;
-        seriesSlug?: string;
         slug: string;
         source: "event" | "manual" | "external";
         sourceUrl: string;
         speakers: Array<{ name: string; title?: string }>;
         startsAt: number;
         status?: "scheduled" | "conditional" | "finished";
+        summary: string;
         tags: string[];
         title: string;
         venueId: Id<"venues">;
@@ -379,9 +351,7 @@ async function ensureEvent(
             endsAt: args.endsAt,
             format: args.format,
             location: args.location,
-            number: args.number,
             ownerMemberId: args.ownerMemberId,
-            seriesId: args.seriesId,
             slug: args.slug,
             startsAt: args.startsAt,
             status,
@@ -397,9 +367,7 @@ async function ensureEvent(
             endsAt: args.endsAt,
             format: args.format,
             location: args.location,
-            number: args.number,
             ownerMemberId: args.ownerMemberId,
-            seriesId: args.seriesId,
             slug: args.slug,
             startsAt: args.startsAt,
             status,
@@ -432,12 +400,12 @@ async function ensureEvent(
         eventId,
         href: `/events/${args.slug}`,
         location: args.location,
-        tags: uniqueTags(args.seriesSlug, ...args.tags),
+        tags: uniqueTags(...args.tags),
         searchText: searchText(
             args.title,
+            args.summary,
             args.description,
             args.location,
-            args.seriesSlug,
             ...args.tags,
             ...args.speakers.flatMap((speaker) => [speaker.name, speaker.title]),
         ),
@@ -445,7 +413,7 @@ async function ensureEvent(
         source: args.source,
         startsAt: args.startsAt,
         status: "published" as const,
-        summary: args.description,
+        summary: args.summary,
         timezone: "Europe/Zurich",
         title: args.title,
         updatedAt: now,
@@ -510,65 +478,4 @@ async function ensureSpeakers(
     for (const speaker of positioned.values()) {
         await ctx.db.delete(speaker._id);
     }
-}
-
-/** Replace the tags attached to one record. */
-async function setTags(
-    ctx: MutationCtx,
-    subject: "event" | "member" | "series",
-    subjectId: Id<"events"> | Id<"members"> | Id<"series">,
-    slugs: string[],
-) {
-    const tagIds: Id<"tags">[] = [];
-    for (const slug of [...new Set(slugs)]) {
-        tagIds.push(await ensureTag(ctx, subject, slug));
-    }
-    const existing = await ctx.db
-        .query("taggings")
-        .withIndex("by_subject_and_subjectId", (query) =>
-            query.eq("subject", subject).eq("subjectId", subjectId),
-        )
-        .collect();
-
-    // remove obsolete taggings
-    const desired = new Set(tagIds);
-    for (const tagging of existing) {
-        if (!desired.has(tagging.tagId)) {
-            await ctx.db.delete(tagging._id);
-        }
-    }
-
-    // insert missing taggings
-    const existingIds = new Set(existing.map((tagging) => tagging.tagId));
-    for (const tagId of tagIds) {
-        if (!existingIds.has(tagId)) {
-            await ctx.db.insert("taggings", {
-                createdAt: Date.now(),
-                subject,
-                subjectId,
-                tagId,
-            });
-        }
-    }
-}
-
-/** Create or return one tag. */
-async function ensureTag(ctx: MutationCtx, subject: "event" | "member" | "series", slug: string) {
-    const existing = await ctx.db
-        .query("tags")
-        .withIndex("by_subject_and_slug", (query) => query.eq("subject", subject).eq("slug", slug))
-        .unique();
-
-    if (existing !== null) {
-        return existing._id;
-    }
-
-    const now = Date.now();
-    return await ctx.db.insert("tags", {
-        createdAt: now,
-        name: slug,
-        slug,
-        subject,
-        updatedAt: now,
-    });
 }

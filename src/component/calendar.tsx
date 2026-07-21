@@ -9,8 +9,6 @@ import { TableToolbar } from "./toolbar";
 
 /** Calendar presentation and search properties. */
 type CalendarProps = {
-    /** Commands shown beside search. */
-    actions?: JSX.Element;
     /** The instant separating upcoming and past events. */
     dividerAt: number;
     /** Content shown when the calendar is empty. */
@@ -90,12 +88,8 @@ export function Calendar(props: CalendarProps) {
             meta={props.meta ?? count()}
             title={props.title}
             toolbar={
-                props.isSearchable !== false || props.actions !== undefined ? (
-                    <TableToolbar
-                        actions={props.actions}
-                        onSearch={props.isSearchable === false ? undefined : setQuery}
-                        placeholder="search events..."
-                    />
+                props.isSearchable !== false ? (
+                    <TableToolbar onSearch={setQuery} placeholder="search events..." />
                 ) : undefined
             }
         >
@@ -149,7 +143,6 @@ function eventText(entry: CalendarEntry, now: number) {
         entry.title,
         entry.summary,
         entry.location,
-        entry.seriesTitle,
         formatDate(entry.startsAt),
         metaLine(entry),
         gaugeLine(entry),
@@ -183,7 +176,15 @@ function CalendarRow(props: {
                     class="calendar-row__date"
                     dateTime={new Date(props.entry.startsAt).toISOString()}
                 >
-                    <Highlight text={formatDate(props.entry.startsAt)} terms={props.terms} />
+                    <span>
+                        <Highlight
+                            text={formatCivilDate(props.entry.startsAt)}
+                            terms={props.terms}
+                        />
+                    </span>
+                    <span>
+                        <Highlight text={formatTime(props.entry.startsAt)} terms={props.terms} />
+                    </span>
                 </time>
 
                 {/* event */}
@@ -261,7 +262,7 @@ function eventTags(entry: CalendarEntry, now: number): string[] {
     return [...new Set([period, ...entry.tags])];
 }
 
-/** Build the row's product meta line: activation, series, cadence, speakers. */
+/** Build the row's activation and speaker line. */
 function metaLine(entry: CalendarEntry): string | undefined {
     const parts: string[] = [];
 
@@ -271,18 +272,9 @@ function metaLine(entry: CalendarEntry): string | undefined {
         parts.push(`[conditional] minimum ${entry.activation.threshold} rsvps by ${deadline}`);
     }
 
-    // series membership and cadence
-    if (entry.seriesTitle !== undefined) {
-        const series = [`series: ${entry.seriesTitle}`, entry.cadence];
-        if (entry.seriesNextAt !== undefined) {
-            series.push(`next ${formatDay(entry.seriesNextAt)}`);
-        }
-        parts.push(series.filter(Boolean).join(" / "));
-    }
-
     // speakers
     if (entry.speakers !== undefined && entry.speakers.length > 0) {
-        parts.push(`speakers: ${entry.speakers.join(", ")}`);
+        parts.push(entry.speakers.join(", "));
     }
 
     return parts.length > 0 ? parts.join(" / ") : undefined;
@@ -338,6 +330,15 @@ export function formatDay(value: number): string {
     })
         .format(value)
         .toLowerCase();
+}
+
+/** Format a Zurich time like "18:30". */
+function formatTime(value: number): string {
+    return new Intl.DateTimeFormat("en-CH", {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone: "Europe/Zurich",
+    }).format(value);
 }
 
 /** Format a civil date like "12 jul 2026". */

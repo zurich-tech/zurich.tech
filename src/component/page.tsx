@@ -17,7 +17,7 @@ export function Page(props: {
 }
 
 /** Page header. */
-export function PageHeader(props: { actions?: JSX.Element; summary?: string; title: string }) {
+export function PageHeader(props: { summary?: string; title: string }) {
     return (
         <header class="page-header">
             {/* copy */}
@@ -27,9 +27,6 @@ export function PageHeader(props: { actions?: JSX.Element; summary?: string; tit
                     <p>{props.summary}</p>
                 </Show>
             </div>
-
-            {/* actions */}
-            {props.actions}
         </header>
     );
 }

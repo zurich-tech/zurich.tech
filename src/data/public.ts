@@ -10,9 +10,6 @@ export type CalendarEntry = FunctionReturnType<typeof api.public.calendar>[numbe
 /** One published event. */
 export type PublicEvent = NonNullable<FunctionReturnType<typeof api.public.event>>;
 
-/** One public event series. */
-export type PublicSeries = NonNullable<FunctionReturnType<typeof api.public.seriesDetail>>;
-
 /** One public member with optional profile records. */
 export type PublicMember = FunctionReturnType<typeof api.public.membersList>[number] & {
     /** Events published by this member. */
@@ -67,12 +64,6 @@ export const getCalendar = query(
 export const getEvent = query(
     async (slug: string) => await client().query(api.public.event, { now: Date.now(), slug }),
     "event",
-);
-
-/** Read one public event series. */
-export const getSeries = query(
-    async (slug: string) => await client().query(api.public.seriesDetail, { slug }),
-    "series-detail",
 );
 
 /** Read public member profiles. */
