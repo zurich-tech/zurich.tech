@@ -18,7 +18,7 @@ import { FormMessage } from "../component/form";
 import { errorMessage } from "../core/error";
 
 /** Stated reach shown with the sponsorship options. */
-const reach = `${site.subscribers.toLocaleString("en-GB")}+ mailing-list subscribers. ${site.attendees.toLocaleString("en-GB")}+ attendees at most of our events.`;
+const reach = `${site.subscribers.toLocaleString("en-GB")}+ mailing-list subscribers. ${site.attendees.toLocaleString("en-GB")}+ attendees at most of our events. >${site.eventsPerYear} events/year.`;
 
 /** Present annual support and open hosted checkout for company sponsorship. */
 export default function Route() {
