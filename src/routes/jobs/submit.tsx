@@ -2,7 +2,7 @@ import { jobPrice } from "../../../shared/plans";
 import { Show, createSignal } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
 import { api } from "../../../convex/_generated/api";
-import type { Id } from "../../../convex/_generated/dataModel";
+import type { Doc, Id } from "../../../convex/_generated/dataModel";
 import { useEmployerWorkspace } from "../../core/workspace";
 import { CompanySelect } from "../../component/company";
 import { memberClient } from "../../core/convex";
@@ -113,166 +113,15 @@ export default function Route() {
                                             </p>
                                         }
                                     >
-                                        <form class="editor" onSubmit={submit}>
-                                            <CompanySelect
-                                                companies={current().organisations}
-                                                value={draft()?.organisationId}
-                                                isDisabled={!!job()?.publishedAt}
-                                            />
-                                            <div class="form-columns">
-                                                <label>
-                                                    Role title
-                                                    <input
-                                                        name="title"
-                                                        required
-                                                        maxlength="180"
-                                                        value={draft()?.title ?? ""}
-                                                    />
-                                                </label>
-                                                <label>
-                                                    URL slug
-                                                    <input
-                                                        name="slug"
-                                                        required
-                                                        pattern="[a-z0-9]+(-[a-z0-9]+)*"
-                                                        readonly={!!job()?.publishedAt}
-                                                        value={draft()?.slug ?? ""}
-                                                    />
-                                                </label>
-                                            </div>
-                                            <label>
-                                                Description <span>Markdown supported</span>
-                                                <textarea
-                                                    name="description"
-                                                    required
-                                                    rows="12"
-                                                    maxlength="50000"
-                                                    value={draft()?.description ?? ""}
-                                                />
-                                            </label>
-                                            <label>
-                                                Location
-                                                <input
-                                                    name="location"
-                                                    required
-                                                    placeholder="Zürich, Switzerland"
-                                                    value={draft()?.location ?? ""}
-                                                />
-                                            </label>
-                                            <div class="form-columns">
-                                                <label>
-                                                    Workplace
-                                                    <select
-                                                        name="workplace"
-                                                        value={draft()?.workplace ?? "hybrid"}
-                                                    >
-                                                        <option value="onsite">On-site</option>
-                                                        <option value="hybrid">Hybrid</option>
-                                                        <option value="remote">Remote</option>
-                                                    </select>
-                                                </label>
-                                                <label>
-                                                    Employment
-                                                    <select
-                                                        name="employment"
-                                                        value={draft()?.employment ?? "full-time"}
-                                                    >
-                                                        <option value="full-time">Full-time</option>
-                                                        <option value="part-time">Part-time</option>
-                                                        <option value="contract">Contract</option>
-                                                        <option value="internship">
-                                                            Internship
-                                                        </option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                            <div class="form-columns">
-                                                <label>
-                                                    Minimum salary (CHF)
-                                                    <input
-                                                        name="min"
-                                                        type="number"
-                                                        min="0"
-                                                        step="any"
-                                                        value={draft()?.salary?.min ?? ""}
-                                                    />
-                                                </label>
-                                                <label>
-                                                    Maximum salary (CHF)
-                                                    <input
-                                                        name="max"
-                                                        type="number"
-                                                        min="0"
-                                                        step="any"
-                                                        value={draft()?.salary?.max ?? ""}
-                                                    />
-                                                </label>
-                                            </div>
-                                            <label>
-                                                Salary period
-                                                <select
-                                                    name="period"
-                                                    value={draft()?.salary?.period ?? "year"}
-                                                >
-                                                    <option value="year">Per year</option>
-                                                    <option value="hour">Per hour</option>
-                                                </select>
-                                            </label>
-                                            <label>
-                                                Technologies{" "}
-                                                <span>Comma-separated, up to twelve</span>
-                                                <input
-                                                    name="tags"
-                                                    value={draft()?.tags.join(", ") ?? ""}
-                                                />
-                                            </label>
-                                            <label>
-                                                Application URL
-                                                <input
-                                                    name="applicationUrl"
-                                                    type="url"
-                                                    required
-                                                    value={draft()?.applicationUrl ?? ""}
-                                                />
-                                            </label>
-                                            <label>
-                                                Invoice email
-                                                <input
-                                                    name="billingEmail"
-                                                    type="email"
-                                                    required
-                                                    value={
-                                                        draft()?.billingEmail ??
-                                                        account.user()?.email ??
-                                                        ""
-                                                    }
-                                                />
-                                            </label>
-
-                                            <p class="text-soft">
-                                                CHF {jobPrice} per year, or an included sponsor
-                                                listing. The team reviews your submission and
-                                                confirms payment before publication. Reconfirm every
-                                                90 days that the role is open.
-                                            </p>
-                                            <FormMessage error={error()} />
-                                            <div class="row-actions">
-                                                <button
-                                                    class="button"
-                                                    value="draft"
-                                                    disabled={isPending()}
-                                                >
-                                                    Save draft
-                                                </button>
-                                                <button
-                                                    class="button button--primary"
-                                                    value="review"
-                                                    disabled={isPending()}
-                                                >
-                                                    Submit for review
-                                                </button>
-                                            </div>
-                                        </form>
+                                        <JobForm
+                                            draft={draft()}
+                                            job={job()}
+                                            companies={current().organisations}
+                                            isPending={isPending()}
+                                            email={account.user()?.email}
+                                            error={error()}
+                                            onSubmit={submit}
+                                        />
                                     </Show>
                                 </Show>
                             )}
@@ -281,6 +130,154 @@ export default function Route() {
                 </Card>
             </Page>
         </>
+    );
+}
+
+/** Edit the vacancy fields and request publication review. */
+function JobForm(props: {
+    /** Editable vacancy fields. */
+    draft: Doc<"jobs">["draft"] | Doc<"jobs"> | undefined;
+    /** Existing published vacancy, if any. */
+    job: Doc<"jobs"> | undefined;
+    /** Companies available to the employer. */
+    companies: { _id: string; name: string }[];
+    /** Disable submission while saving. */
+    isPending: boolean;
+    /** Signed-in account email. */
+    email: string | undefined;
+    /** Submission failure. */
+    error: string | undefined;
+    /** Save the authored revision. */
+    onSubmit: (event: SubmitEvent) => Promise<void>;
+}) {
+    return (
+        <form class="editor" onSubmit={props.onSubmit}>
+            <CompanySelect
+                companies={props.companies}
+                value={props.draft?.organisationId}
+                isDisabled={!!props.job?.publishedAt}
+            />
+            <div class="form-columns">
+                <label>
+                    Role title
+                    <input name="title" required maxlength="180" value={props.draft?.title ?? ""} />
+                </label>
+                <label>
+                    URL slug
+                    <input
+                        name="slug"
+                        required
+                        pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                        readonly={!!props.job?.publishedAt}
+                        value={props.draft?.slug ?? ""}
+                    />
+                </label>
+            </div>
+            <label>
+                Description <span>Markdown supported</span>
+                <textarea
+                    name="description"
+                    required
+                    rows="12"
+                    maxlength="50000"
+                    value={props.draft?.description ?? ""}
+                />
+            </label>
+            <label>
+                Location
+                <input
+                    name="location"
+                    required
+                    placeholder="Zürich, Switzerland"
+                    value={props.draft?.location ?? ""}
+                />
+            </label>
+            <div class="form-columns">
+                <label>
+                    Workplace
+                    <select name="workplace" value={props.draft?.workplace ?? "hybrid"}>
+                        <option value="onsite">On-site</option>
+                        <option value="hybrid">Hybrid</option>
+                        <option value="remote">Remote</option>
+                    </select>
+                </label>
+                <label>
+                    Employment
+                    <select name="employment" value={props.draft?.employment ?? "full-time"}>
+                        <option value="full-time">Full-time</option>
+                        <option value="part-time">Part-time</option>
+                        <option value="contract">Contract</option>
+                        <option value="internship">Internship</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-columns">
+                <label>
+                    Minimum salary (CHF)
+                    <input
+                        name="min"
+                        type="number"
+                        min="0"
+                        step="any"
+                        value={props.draft?.salary?.min ?? ""}
+                    />
+                </label>
+                <label>
+                    Maximum salary (CHF)
+                    <input
+                        name="max"
+                        type="number"
+                        min="0"
+                        step="any"
+                        value={props.draft?.salary?.max ?? ""}
+                    />
+                </label>
+            </div>
+            <label>
+                Salary period
+                <select name="period" value={props.draft?.salary?.period ?? "year"}>
+                    <option value="year">Per year</option>
+                    <option value="hour">Per hour</option>
+                </select>
+            </label>
+            <label>
+                Technologies <span>Comma-separated, up to twelve</span>
+                <input name="tags" value={props.draft?.tags.join(", ") ?? ""} />
+            </label>
+            <label>
+                Application URL
+                <input
+                    name="applicationUrl"
+                    type="url"
+                    required
+                    value={props.draft?.applicationUrl ?? ""}
+                />
+            </label>
+            <label>
+                Invoice email
+                <input
+                    name="billingEmail"
+                    type="email"
+                    required
+                    value={props.draft?.billingEmail ?? props.email ?? ""}
+                />
+            </label>
+
+            <p class="text-soft">
+                CHF {jobPrice} per year, or an included sponsor listing. The team reviews your
+                submission and confirms payment before publication. Reconfirm every 90 days that the
+                role is open.
+            </p>
+            <FormMessage error={props.error} />
+            <div class="row-actions">
+                <button class="button" value="draft" disabled={props.isPending}>
+                    Save draft
+                </button>
+                <button class="button button--primary" value="review" disabled={props.isPending}>
+                    Submit for review
+                </button>
+            </div>
+        </form>
     );
 }
 
