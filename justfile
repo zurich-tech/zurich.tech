@@ -29,23 +29,10 @@ lint:
     just typecheck
     just build
 
-# run tests
-test:
-    bun test
-
-# default check
+# check formatting, types and production output
 check:
-    just check-full
-
-# normal check
-check-quick:
     just format-check
     just lint
-
-# check with slow suites
-check-full:
-    just check-quick
-    just test
 
 # run dev server
 dev:

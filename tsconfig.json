@@ -11,7 +11,9 @@
         "isolatedModules": true,
         "noEmit": true,
         "skipLibCheck": true,
-        "strict": true
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
     },
-    "include": ["app.config.ts", "src/**/*", "convex/**/*"]
+    "include": ["app.config.ts", "src/**/*", "convex/**/*", "shared/**/*"]
 }
