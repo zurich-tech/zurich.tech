@@ -1,63 +1,95 @@
-import { createSignal, onMount } from "solid-js";
-
-import { auth } from "../auth";
-import { Button } from "../component/button";
-import { Page, Section } from "../component/page";
+import { createSignal, For, Show } from "solid-js";
+import { useSearchParams } from "@solidjs/router";
+import { auth } from "../core/auth";
+import { Page } from "../component/page";
+import { Card } from "../component/card";
 import { Seo } from "../component/seo";
+import { FormMessage } from "../component/form";
+import { errorMessage } from "../core/error";
 
-/** Sign-in page. */
+/** Sign in with a verified GitHub or X identity. */
 export default function Route() {
+    const [params] = useSearchParams();
+    const [pending, setPending] = createSignal<string>();
     const [error, setError] = createSignal<string>();
-    const [isPending, setIsPending] = createSignal(false);
 
-    // surface a failed provider return without rendering it during SSR
-    onMount(() => {
-        const failure = new URL(window.location.href).searchParams.get("error");
-        if (failure !== null) {
-            setError("GitHub sign-in failed.");
-        }
-    });
-
-    // begin GitHub OAuth from the current site
-    async function signIn() {
+    /** Return to a local page after the provider completes authentication. */
+    async function signIn(provider: "github" | "twitter") {
+        setPending(provider);
         setError(undefined);
-        setIsPending(true);
-
-        // request the provider redirect
+        const destination =
+            typeof params.next === "string" &&
+            params.next.startsWith("/") &&
+            !params.next.startsWith("//") &&
+            !params.next.includes("\\")
+                ? params.next
+                : "/admin";
         try {
-            const origin = window.location.origin;
             const result = await auth.signIn.social({
-                callbackURL: `${origin}/settings`,
-                errorCallbackURL: `${origin}/sign-in?error=github`,
-                provider: "github",
+                provider,
+                callbackURL: `${window.location.origin}${destination}`,
+                errorCallbackURL: `${window.location.origin}/sign-in?error=provider`,
             });
-
-            // surface provider errors when no redirect occurred
-            if (result.error !== null) {
-                setError(result.error.message ?? "GitHub sign-in failed.");
-                setIsPending(false);
-            }
+            if (result.error) throw new Error(result.error.message);
         } catch (caught) {
-            // surface transport failures
-            const message = caught instanceof Error ? caught.message : "GitHub sign-in failed.";
-            setError(message);
-            setIsPending(false);
+            setError(errorMessage(caught, "Could not sign in."));
+            setPending(undefined);
         }
     }
 
     return (
         <>
-            <Seo title="sign in" description="Sign in to zurich.tech." />
+            <Seo
+                title="Sign in"
+                description="Sign in with GitHub or X to publish events and jobs."
+            />
             <Page width="narrow">
-                {/* authentication */}
-                <Section title="sign in">
-                    <div class="auth-choice">
-                        <Button disabled={isPending()} onClick={signIn} type="button">
-                            {isPending() ? "opening github..." : "continue with github"}
-                        </Button>
-                        {error() !== undefined ? <p class="form-error">{error()}</p> : null}
+                <Card title="Sign in" heading="h1" class="sign-in-card">
+                    <div class="social-sign-in">
+                        <For
+                            each={[
+                                {
+                                    provider: "github" as const,
+                                    label: "GitHub",
+                                    icon: "M8 1a7 7 0 0 0-2.2 13.6v-1.7c-1.8.4-2.2-.8-2.2-.8-.3-.8-.8-1-1-1.1-.6-.4 0-.4 0-.4.7 0 1 .7 1 .7.6 1 1.5.7 2.2.5.1-.4.3-.7.5-.9-1.5-.2-3.1-.7-3.1-3.4 0-.7.2-1.3.7-1.8-.1-.2-.3-.9.1-1.8 0 0 .6-.2 1.9.7a6.5 6.5 0 0 1 3.5 0c1.3-.9 1.9-.7 1.9-.7.4.9.2 1.6.1 1.8.5.5.7 1.1.7 1.8 0 2.7-1.6 3.2-3.1 3.4.3.2.5.6.5 1.2v2.5A7 7 0 0 0 8 1Z",
+                                },
+                                {
+                                    provider: "twitter" as const,
+                                    label: "X",
+                                    icon: "M2 2h3l9 12h-3L2 2Zm11 0h1L3 14H2L13 2Z",
+                                },
+                            ]}
+                        >
+                            {(item) => (
+                                <button
+                                    class="button"
+                                    disabled={pending() !== undefined}
+                                    onClick={() => signIn(item.provider)}
+                                >
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 16 16"
+                                        fill="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path d={item.icon} />
+                                    </svg>
+                                    {pending() === item.provider
+                                        ? "Connecting…"
+                                        : `Continue with ${item.label}`}
+                                </button>
+                            )}
+                        </For>
                     </div>
-                </Section>
+                    <Show when={params.error}>
+                        <p class="form-error">
+                            Sign-in wasn’t completed. Please try again with an account that has a
+                            verified email address.
+                        </p>
+                    </Show>
+                    <FormMessage error={error()} />
+                </Card>
             </Page>
         </>
     );

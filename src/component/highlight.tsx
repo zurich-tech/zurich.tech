@@ -1,6 +1,6 @@
 import { For } from "solid-js";
 
-import { highlightParts } from "../search";
+import { highlightParts } from "../core/search";
 
 /** Highlight properties. */
 type HighlightProps = {

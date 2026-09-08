@@ -1,11 +1,12 @@
+import { getHandle, type PublicHandle } from "../core/queries";
+import { Card } from "../component/card";
 import { createAsync, useParams } from "@solidjs/router";
 import { Match, Show, Switch } from "solid-js";
 
 import { Button } from "../component/button";
 import { NotFound } from "../component/notfound";
-import { Page, PageHeader, Section } from "../component/page";
+import { Page, PageHeader } from "../component/page";
 import { Seo } from "../component/seo";
-import { getHandle, type PublicHandle } from "../data/public";
 
 /** Handle lookup. */
 export default function Route() {
@@ -46,18 +47,20 @@ function HandleTarget(props: { handle: string }) {
                         />
 
                         {/* target */}
-                        <Section title="target">
+                        <Card title="Profile">
                             <Show
                                 when={member()}
-                                fallback={<p class="text-soft">no member claims this handle.</p>}
+                                fallback={
+                                    <p class="text-soft">No public profile uses this handle.</p>
+                                }
                             >
                                 {(target) => (
                                     <Button href={target().href} kind="ghost">
-                                        open member profile
+                                        Open profile
                                     </Button>
                                 )}
                             </Show>
-                        </Section>
+                        </Card>
                     </Page>
                 </>
             </Match>

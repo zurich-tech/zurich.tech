@@ -1,37 +1,43 @@
-import { createAsync } from "@solidjs/router";
-
+import { getCalendar, getArticles, getDirectory } from "../core/queries";
 import { ArticleList } from "../component/article";
-import { Calendar } from "../component/calendar";
-import { Page } from "../component/page";
+import { Sponsors } from "../component/sponsors";
+import { createAsync } from "@solidjs/router";
+import { Hero } from "../component/hero";
+import { Newsletter } from "../component/newsletter";
+import { Programme } from "../component/programme";
 import { Seo } from "../component/seo";
-import { getArticles, getCalendar } from "../data/public";
 
-const articleLimit = 3;
-const eventLimit = 5;
-
-/** Home page. */
+/** Present the community map and published event programme. */
 export default function Route() {
-    // public records
+    // read published events and series from the live catalogue
     const entries = createAsync(() => getCalendar());
     const articles = createAsync(() => getArticles());
-    const today = Date.now();
+    const directory = createAsync(() => getDirectory());
 
     return (
-        <>
-            <Seo title="zurich.tech" description="zurich.tech events." />
-            <Page>
-                {/* events */}
-                <Calendar
-                    dividerAt={today}
-                    entries={entries() ?? []}
-                    limit={eventLimit}
-                    title="events"
-                    titleHref="/events"
-                />
+        <div class="bulletin">
+            <Seo
+                isHome
+                title="zurich.tech"
+                description="Talks, dinners, workshops and hackathons in Zürich. Jobs, news and the community archive."
+            />
 
-                {/* news */}
-                <ArticleList articles={articles() ?? []} limit={articleLimit} titleHref="/news" />
-            </Page>
-        </>
+            {/* use the city as a compact identifying graphic */}
+            <Hero eventCount={entries()?.length} />
+
+            {/* keep the programme and community tools in separate readable columns */}
+            <div class="bulletin-body">
+                <section class="bulletin-events" aria-label="Events">
+                    <Programme entries={entries() ?? []} series={directory()?.series ?? []} />
+                </section>
+                <aside class="bulletin-sidebar">
+                    <ArticleList articles={articles() ?? []} isCompact limit={3} />
+                    <div class="bulletin-intro">
+                        <Newsletter />
+                    </div>
+                    <Sponsors />
+                </aside>
+            </div>
+        </div>
     );
 }

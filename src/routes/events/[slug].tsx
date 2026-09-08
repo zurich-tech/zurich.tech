@@ -1,20 +1,25 @@
+import { timeZone } from "../../core/constants";
+import { getEvent, type PublicEvent } from "../../core/queries";
+
+import { VenueMap } from "../../component/venue";
+import { Card } from "../../component/card";
+import { Capacity } from "../../component/capacity";
+import { isCurrentYear } from "../../core/time";
+import { Arrow } from "../../component/arrow";
 import { createAsync, useParams } from "@solidjs/router";
-import type { JSX } from "solid-js";
 import { For, Match, Show, Switch, createSignal } from "solid-js";
 
 import { Button } from "../../component/button";
-import { formatDate } from "../../component/calendar";
 import { Field, Input } from "../../component/field";
 import { FormMessage } from "../../component/form";
 import { Markdown } from "../../component/markdown";
-import { Tags } from "../../component/meta";
 import { NotFound } from "../../component/notfound";
-import { DetailList, DetailRow, Page, PageHeader, Section } from "../../component/page";
+import { DetailList, DetailRow, Page, PageHeader } from "../../component/page";
 import { Seo } from "../../component/seo";
-import { rsvp } from "../../data/actions";
-import { getEvent, type PublicEvent } from "../../data/public";
-import { errorMessage } from "../../error";
-import { routeParam } from "../../route";
+import { rsvp } from "../../core/registration";
+
+import { errorMessage } from "../../core/error";
+import { routeParam } from "../../core/route";
 
 /** Event detail page. */
 export default function Route() {
@@ -31,7 +36,7 @@ export default function Route() {
     const [rsvpSuccess, setRsvpSuccess] = createSignal<string>();
     const [isRsvpPending, setIsRsvpPending] = createSignal(false);
 
-    // submit one registration
+    /** Request email confirmation for one event registration. */
     async function submitRsvp(submitEvent: SubmitEvent) {
         submitEvent.preventDefault();
 
@@ -45,12 +50,17 @@ export default function Route() {
         setRsvpSuccess(undefined);
         setIsRsvpPending(true);
         try {
-            const result = await rsvp({ email, eventSlug: slug, name });
-            const message = result.status === "waitlist" ? "added to waitlist." : "rsvp confirmed.";
+            const policy = event()?.registration;
+            const answers =
+                policy?.kind === "native"
+                    ? policy.questions.map((_, index) => String(data.get(`answer-${index}`) ?? ""))
+                    : [];
+            await rsvp({ email, eventSlug: slug, name, answers });
+            const message = "Check your inbox to confirm.";
             form.reset();
             setRsvpSuccess(message);
         } catch (caught) {
-            setRsvpError(errorMessage(caught, "rsvp failed."));
+            setRsvpError(errorMessage(caught, "Could not register."));
         } finally {
             setIsRsvpPending(false);
         }
@@ -66,20 +76,100 @@ export default function Route() {
             {/* event */}
             <Match when={event() !== undefined}>
                 <>
-                    <Seo title={title()} description="Event." />
-                    <Page width="narrow">
-                        <PageHeader title={title()} />
+                    <Seo
+                        title={title()}
+                        description={event()?.summary ?? event()?.title ?? "Event"}
+                        image={event()?.media[0]?.url}
+                    />
+                    <Page class="event-page">
+                        <a class="eyebrow" href="/events">
+                            <Arrow direction="left" /> Events
+                        </a>
+                        <header class="event-heading">
+                            <div class="event-schedule">
+                                <time dateTime={new Date(event()!.startsAt).toISOString()}>
+                                    {eventTime(event())}
+                                </time>
+                                <Show when={event()?.status === "cancelled"}>
+                                    <span class="tag">Cancelled</span>
+                                </Show>
+                                <Show
+                                    when={
+                                        event()?.status !== "cancelled" &&
+                                        event()!.startsAt < Date.now()
+                                    }
+                                >
+                                    <span class="tag">Past event</span>
+                                </Show>
+                                <Show
+                                    when={
+                                        event()?.status === "scheduled" &&
+                                        event()!.startsAt > Date.now()
+                                    }
+                                >
+                                    <span class="tag tag-upcoming">Upcoming</span>
+                                </Show>
+                                <Show when={event()?.registration?.kind === "external"}>
+                                    <span class="tag tag-external">
+                                        External <Arrow direction="external" />
+                                    </span>
+                                </Show>
+                                <Capacity
+                                    total={
+                                        event()?.capacity ??
+                                        (event()?.registration?.kind === "native"
+                                            ? null
+                                            : undefined)
+                                    }
+                                    confirmed={
+                                        event()?.registration?.kind === "native" &&
+                                        event()?.status === "scheduled" &&
+                                        event()!.startsAt > Date.now()
+                                            ? event()?.rsvpCount
+                                            : undefined
+                                    }
+                                    waitlisted={
+                                        event()?.registration?.kind === "native" &&
+                                        event()?.status === "scheduled" &&
+                                        event()!.startsAt > Date.now()
+                                            ? event()?.waitlistCount
+                                            : undefined
+                                    }
+                                />
+                            </div>
+
+                            <PageHeader title={title()} />
+                            <Show when={event()?.summary}>
+                                <p class="page-lead">{event()?.summary}</p>
+                            </Show>
+                        </header>
 
                         {/* content */}
-                        <div class="grid gap-8 md:grid-cols-[1fr_18rem]">
+                        <div class="event-layout">
                             {/* main column */}
-                            <div class="grid content-start gap-8">
-                                <Description event={event()} />
+                            <div class="event-content">
+                                <Show
+                                    when={event()?.description?.trim() !== event()?.summary?.trim()}
+                                >
+                                    <Description event={event()} />
+                                </Show>
                                 <Show when={(event()?.agenda.length ?? 0) > 0}>
                                     <Agenda event={event()} />
                                 </Show>
                                 <Show when={(event()?.speakers.length ?? 0) > 0}>
                                     <Speakers event={event()} />
+                                </Show>
+                                <Show
+                                    when={
+                                        event()?.registration?.kind === "native" &&
+                                        event()?.status === "scheduled" &&
+                                        event()!.startsAt > Date.now() &&
+                                        !isRsvpOpen(event())
+                                    }
+                                >
+                                    <Card title="Registration">
+                                        <p>{registrationNotice(event())}</p>
+                                    </Card>
                                 </Show>
                                 <Show when={isRsvpOpen(event())}>
                                     <RsvpForm
@@ -93,9 +183,81 @@ export default function Route() {
                             </div>
 
                             {/* side column */}
-                            <div class="grid content-start gap-8">
+                            <aside class="event-aside">
                                 <Details event={event()} />
-                            </div>
+                                <Show
+                                    when={
+                                        event()?.registration?.kind === "external" &&
+                                        event()?.status !== "cancelled" &&
+                                        (event()?.startsAt ?? 0) > Date.now()
+                                    }
+                                >
+                                    <a
+                                        class="button button--primary"
+                                        href={(event()?.registration as { url: string }).url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        Register on organiser’s site <Arrow direction="external" />
+                                    </a>
+                                </Show>
+                                <Show
+                                    when={
+                                        event()?.registration?.kind === "none" &&
+                                        event()?.status === "scheduled" &&
+                                        (event()?.startsAt ?? 0) > Date.now()
+                                    }
+                                >
+                                    <p>No registration required. Come along.</p>
+                                </Show>
+                                <Show
+                                    when={
+                                        event()!.startsAt > Date.now() &&
+                                        event()?.status !== "cancelled"
+                                    }
+                                >
+                                    <a class="button" href={`/calendar/${slug}`}>
+                                        Add to calendar <Arrow direction="down" />
+                                    </a>
+                                </Show>
+                                <Show when={(event()?.organisations.length ?? 0) > 0}>
+                                    <Card title="Hosts & supporters">
+                                        <For each={event()?.organisations}>
+                                            {(organisation) => (
+                                                <Show when={organisation}>
+                                                    {(item) => (
+                                                        <a
+                                                            class="text-link"
+                                                            href={`/organisations/${item().slug}`}
+                                                        >
+                                                            {item().name}{" "}
+                                                            <Arrow direction="external" />
+                                                        </a>
+                                                    )}
+                                                </Show>
+                                            )}
+                                        </For>
+                                    </Card>
+                                </Show>
+                                <Show when={(event()?.links.length ?? 0) > 0}>
+                                    <Card title="Links">
+                                        <For each={event()?.links}>
+                                            {(link) => (
+                                                <p>
+                                                    <a
+                                                        class="text-link"
+                                                        href={link.href}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                    >
+                                                        {link.label} <Arrow direction="external" />
+                                                    </a>
+                                                </p>
+                                            )}
+                                        </For>
+                                    </Card>
+                                </Show>
+                            </aside>
                         </div>
 
                         {/* photos */}
@@ -172,7 +334,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
     }
 
     return (
-        <Section title="photos" meta={String(images().length)}>
+        <Card title="Photos" meta={String(images().length)}>
             {/* thumbnails */}
             <div class="event-photos">
                 <For each={images()}>
@@ -264,23 +426,23 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
                     </Show>
                 </div>
             </dialog>
-        </Section>
+        </Card>
     );
 }
 
 /** Event description. */
 function Description(props: { event: PublicEvent | null | undefined }) {
     return (
-        <Section title="about">
+        <Card title="About the event">
             <Markdown source={props.event?.description ?? "event not found."} />
-        </Section>
+        </Card>
     );
 }
 
 /** Event agenda. */
 function Agenda(props: { event: PublicEvent | null | undefined }) {
     return (
-        <Section title="agenda">
+        <Card title="Programme">
             <ol class="grid">
                 <For each={props.event?.agenda ?? []}>
                     {(item) => (
@@ -291,11 +453,11 @@ function Agenda(props: { event: PublicEvent | null | undefined }) {
                     )}
                 </For>
             </ol>
-        </Section>
+        </Card>
     );
 }
 
-/** RSVP form, legend shows the going/capacity gauge. */
+/** Register or apply to attend a native event. */
 function RsvpForm(props: {
     error?: string;
     event: PublicEvent | null | undefined;
@@ -304,66 +466,124 @@ function RsvpForm(props: {
     success?: string;
 }) {
     return (
-        <Section title="rsvp" meta={rsvpGauge(props.event)}>
+        <Card
+            title={
+                props.event?.registration?.kind === "native" &&
+                props.event.registration.admission === "approval"
+                    ? "Apply to attend"
+                    : props.event?.registration?.kind === "native" &&
+                        props.event.registration.capacity !== null &&
+                        props.event.rsvpCount >= props.event.registration.capacity
+                      ? "Join the waitlist"
+                      : "Register"
+            }
+        >
             <form class="grid gap-4" onSubmit={props.onSubmit}>
-                <Field label="name">
-                    <Input maxlength="120" name="name" placeholder="jane doe" required />
+                <Field label="Name">
+                    <Input maxlength="120" name="name" placeholder="Your name" required />
                 </Field>
 
-                <Field label="email">
+                <Field label="Email">
                     <Input name="email" placeholder="you@example.com" required type="email" />
                 </Field>
 
+                <Show when={props.event?.registration?.kind === "native"}>
+                    <For
+                        each={
+                            (
+                                props.event?.registration as {
+                                    questions: { label: string; isRequired: boolean }[];
+                                }
+                            ).questions
+                        }
+                    >
+                        {(question, index) => (
+                            <Field label={question.label}>
+                                <Input
+                                    name={`answer-${index()}`}
+                                    required={question.isRequired}
+                                    maxlength="2000"
+                                />
+                            </Field>
+                        )}
+                    </For>
+                </Show>
+                <p class="text-sm text-soft">We’ll email you a confirmation link.</p>
                 <Button disabled={props.isPending} type="submit">
-                    {props.isPending ? "registering..." : "rsvp"}
+                    {props.isPending ? "Sending…" : "Continue by email"}
                 </Button>
                 <FormMessage error={props.error} success={props.success} />
             </form>
-        </Section>
+        </Card>
     );
 }
 
-/** Event facts. */
+/** Present the venue and practical arrival details. */
 function Details(props: { event: PublicEvent | null | undefined }) {
     return (
-        <Section title="details">
+        <Card title="Venue">
             <DetailList>
-                <DetailRow label="time" value={eventTime(props.event)} />
-                <DetailRow label="location" value={props.event?.venue.name ?? "-"} />
-                <DetailRow label="address" value={props.event?.venue.address ?? "-"} />
-                <DetailRow label="format" value={props.event?.format ?? "event"} />
-                <DetailRow label="status" value={statusLabel(props.event?.status)} />
-
-                {/* tags */}
-                <Show
-                    when={
-                        props.event !== null &&
-                        props.event !== undefined &&
-                        props.event.tags.length > 0
-                    }
-                >
-                    <DetailRow label="tags" value={<Tags values={props.event?.tags ?? []} />} />
+                <DetailRow label="Location" value={props.event?.venue.name} />
+                <Show when={props.event?.venue.address}>
+                    <DetailRow label="Address" value={props.event?.venue.address} />
                 </Show>
-
-                {/* access notes */}
                 <Show when={props.event?.venue.access}>
-                    <DetailRow label="access" value={props.event?.venue.access ?? "-"} />
+                    <DetailRow label="Access" value={props.event?.venue.access} />
                 </Show>
             </DetailList>
-        </Section>
+            <Show
+                when={props.event?.venue.coordinates}
+                fallback={
+                    <Show when={props.event?.venue.name}>
+                        <a
+                            class="text-link venue-search"
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(props.event!.venue.address ?? props.event!.venue.name!)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Find on map <Arrow direction="external" />
+                        </a>
+                    </Show>
+                }
+            >
+                {(coordinates) => (
+                    <VenueMap
+                        name={props.event?.venue.name ?? "Event venue"}
+                        coordinates={coordinates()}
+                    />
+                )}
+            </Show>
+        </Card>
     );
 }
 
 /** Event speakers. */
 function Speakers(props: { event: PublicEvent | null | undefined }) {
     return (
-        <Section title="speakers">
-            <div class="grid">
+        <Card title="Speakers">
+            <div class="speaker-list">
                 <For each={props.event?.speakers ?? []}>
                     {(speaker) => (
-                        <div class="border-b border-line py-3 text-sm first:pt-0 last:border-b-0 last:pb-0">
-                            <p class="font-medium">{speaker.name}</p>
+                        <div class="speaker">
+                            <p class="speaker-name">{speaker.name}</p>
 
+                            <Show when={speaker.links.length > 0}>
+                                <div class="speaker-links">
+                                    <For each={speaker.links}>
+                                        {(url) => (
+                                            <a
+                                                class="text-link"
+                                                href={url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
+                                                {new URL(url).hostname.replace(/^www\./, "")}{" "}
+                                                <Arrow direction="external" />
+                                            </a>
+                                        )}
+                                    </For>
+                                </div>
+                            </Show>
                             {/* affiliation */}
                             <Show when={speaker.title}>
                                 {(title) => <p class="text-soft">{title()}</p>}
@@ -372,7 +592,7 @@ function Speakers(props: { event: PublicEvent | null | undefined }) {
                     )}
                 </For>
             </div>
-        </Section>
+        </Card>
     );
 }
 
@@ -382,46 +602,42 @@ function eventTime(event: PublicEvent | null | undefined): string {
         return "-";
     }
 
-    return formatDate(event.startsAt);
+    const date = new Date(event.startsAt);
+    const day = date.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: isCurrentYear(event.startsAt) ? undefined : "numeric",
+        timeZone,
+    });
+    const time = date.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone,
+    });
+
+    return `${day} · ${time} · Zürich time`;
 }
 
 /** Whether the event accepts RSVPs. */
 function isRsvpOpen(event: PublicEvent | null | undefined): boolean {
-    return event?.status === "scheduled" || event?.status === "conditional";
+    return (
+        event?.status === "scheduled" &&
+        event.startsAt > Date.now() &&
+        event.registration?.kind === "native" &&
+        (event.registration.overflow !== "closed" ||
+            event.registration.capacity === null ||
+            event.rsvpCount < event.registration.capacity) &&
+        (event.registration.closesAt === undefined || event.registration.closesAt > Date.now())
+    );
 }
 
-/** Status label, bracketing conditional and cancelled states like "[conditional]". */
-function statusLabel(status: string | undefined): string {
-    if (status === undefined) {
-        return "draft";
-    }
-    if (status === "conditional" || status === "cancelled") {
-        return `[${status}]`;
-    }
+/** Explain why a future native event cannot accept another registration. */
+function registrationNotice(event: PublicEvent | null | undefined): string {
+    const policy = event?.registration;
 
-    return status;
-}
-
-/** RSVP gauge for the section heading, like "[###--] 47/80". */
-function rsvpGauge(event: PublicEvent | null | undefined): string | undefined {
-    if (event === null || event === undefined) {
-        return undefined;
-    }
-
-    if (event.capacity === undefined) {
-        return `${event.rsvpCount} going`;
-    }
-
-    return `${gaugeBlocks(event.rsvpCount, event.capacity)} ${event.rsvpCount}/${event.capacity}`;
-}
-
-/** Build the "[###--]" gauge string for a value against a max. */
-function gaugeBlocks(value: number, max: number): string {
-    if (max <= 0) {
-        return "";
-    }
-
-    const filled = Math.max(0, Math.min(5, Math.round((5 * value) / max)));
-
-    return `[${"#".repeat(filled)}${"-".repeat(5 - filled)}]`;
+    return policy?.kind === "native" &&
+        policy.closesAt !== undefined &&
+        policy.closesAt <= Date.now()
+        ? "Registration is closed."
+        : "This event is full.";
 }

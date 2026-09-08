@@ -1,0 +1,20 @@
+import type { APIEvent } from "@solidjs/start/server";
+import { api } from "../../../convex/_generated/api";
+import { publicClient } from "../../core/convex";
+import { calendar } from "../../core/calendar";
+
+/** Download one published event as a calendar invitation. */
+export async function GET(event: APIEvent) {
+    const record = await publicClient().query(api.public.event, {
+        slug: event.params.slug,
+        now: Date.now(),
+    });
+    if (!record) return new Response("Event not found", { status: 404 });
+
+    return new Response(calendar(record, Date.now()), {
+        headers: {
+            "Content-Type": "text/calendar; charset=utf-8",
+            "Content-Disposition": `attachment; filename="${record.slug}.ics"`,
+        },
+    });
+}

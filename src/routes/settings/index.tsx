@@ -1,10 +1,13 @@
+import { Card } from "../../component/card";
 import { Match, Show, Switch, createSignal } from "solid-js";
 
-import { auth, useAccount } from "../../auth";
+import { PaymentHistory } from "../../component/payments";
+import { PatronSettings } from "../../component/patrons";
+import { auth, useAccount } from "../../core/auth";
 import { Button } from "../../component/button";
-import { DetailList, DetailRow, Page, Section } from "../../component/page";
+import { DetailList, DetailRow, Page, PageHeader } from "../../component/page";
 import { Seo } from "../../component/seo";
-import { errorMessage } from "../../error";
+import { errorMessage } from "../../core/error";
 
 /** Settings page. */
 export default function Route() {
@@ -36,36 +39,37 @@ export default function Route() {
 
     return (
         <>
-            <Seo title="settings" description="zurich.tech settings." />
+            <Seo title="Settings" description="zurich.tech settings." />
             <Page width="narrow">
+                <PageHeader title="Settings" />
                 {/* account */}
                 <Switch
                     fallback={
-                        <Section title="account">
-                            <Button href="/sign-in">sign in</Button>
-                        </Section>
+                        <Card title="Account">
+                            <Button href="/sign-in">Sign in</Button>
+                        </Card>
                     }
                 >
                     {/* loading */}
                     <Match when={account.isPending()}>
-                        <Section title="account">loading...</Section>
+                        <Card title="Account">Loading…</Card>
                     </Match>
 
                     {/* failure */}
                     <Match when={account.error()}>
                         {(accountError) => (
-                            <Section title="account">
+                            <Card title="Account">
                                 <p class="form-error">
                                     {accountError().message ?? "Could not load the account."}
                                 </p>
-                            </Section>
+                            </Card>
                         )}
                     </Match>
 
                     {/* member */}
                     <Match when={account.user()}>
                         {(user) => (
-                            <Section title="account">
+                            <Card title="Account">
                                 {/* identity */}
                                 <DetailList>
                                     <DetailRow label="name" value={user().name} />
@@ -80,16 +84,20 @@ export default function Route() {
                                         onClick={signOut}
                                         type="button"
                                     >
-                                        {isPending() ? "signing out..." : "sign out"}
+                                        {isPending() ? "Signing out…" : "Sign out"}
                                     </Button>
                                     <Show when={error()}>
                                         {(message) => <p class="form-error">{message()}</p>}
                                     </Show>
                                 </div>
-                            </Section>
+                            </Card>
                         )}
                     </Match>
                 </Switch>
+                <Show when={account.user()}>
+                    <PatronSettings />
+                    <PaymentHistory />
+                </Show>
             </Page>
         </>
     );

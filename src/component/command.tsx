@@ -1,10 +1,9 @@
+import { type SearchResult, search as searchSite } from "../core/queries";
 import { createAsync, useNavigate } from "@solidjs/router";
 import { For, Show, createMemo, createSignal, onCleanup, onMount } from "solid-js";
 import { Portal } from "solid-js/web";
 
-import type { SearchResult } from "../data/public";
-import { search as searchSite } from "../data/public";
-import { searchExcerpt, searchScore, searchTerms } from "../search";
+import { searchExcerpt, searchScore, searchTerms } from "../core/search";
 import { Highlight } from "./highlight";
 
 const resultLimit = 12;

@@ -1,11 +1,12 @@
+import { getMembers, type PublicMember } from "../../core/queries";
+import { Card } from "../../component/card";
 import { createAsync } from "@solidjs/router";
 import { For, Show, createMemo, createSignal } from "solid-js";
 
 import { DirectoryList, DirectoryRow } from "../../component/list";
-import { Page, PageHeader, Section } from "../../component/page";
+import { Page, PageHeader } from "../../component/page";
 import { Seo } from "../../component/seo";
 import { TableToolbar } from "../../component/toolbar";
-import { getMembers, type PublicMember } from "../../data/public";
 
 /** Member index. */
 export default function Route() {
@@ -14,9 +15,9 @@ export default function Route() {
 
     return (
         <>
-            <Seo title="members" description="zurich.tech members." />
+            <Seo title="Members" description="zurich.tech members." />
             <Page>
-                <PageHeader title="members" />
+                <PageHeader title="Members" />
 
                 {/* members */}
                 <MemberDirectory members={members() ?? []} />
@@ -44,13 +45,16 @@ function MemberDirectory(props: { members: PublicMember[] }) {
     });
 
     return (
-        <Section
+        <Card
             meta={`${visible().length} / ${props.members.length}`}
-            title="members"
-            toolbar={<TableToolbar onSearch={setQuery} placeholder="search members..." />}
+            title="Profiles"
+            toolbar={<TableToolbar onSearch={setQuery} placeholder="Search members" />}
         >
             {/* empty */}
-            <Show when={visible().length > 0} fallback={<p class="text-soft">no members</p>}>
+            <Show
+                when={visible().length > 0}
+                fallback={<p class="text-soft">No public member profiles yet.</p>}
+            >
                 <DirectoryList>
                     <For each={visible()}>
                         {(member) => (
@@ -64,6 +68,6 @@ function MemberDirectory(props: { members: PublicMember[] }) {
                     </For>
                 </DirectoryList>
             </Show>
-        </Section>
+        </Card>
     );
 }

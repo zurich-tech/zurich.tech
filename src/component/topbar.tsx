@@ -1,85 +1,51 @@
 import { A } from "@solidjs/router";
-import { For, Match, Switch } from "solid-js";
-
-import { useAccount } from "../auth";
-import { CommandPalette } from "./command";
-import { ThemeToggle } from "./theme";
+import { Show } from "solid-js";
+import { useAccount } from "../core/auth";
+import { Avatar } from "./avatar";
 import { Wordmark } from "./wordmark";
+import { ThemeToggle } from "./theme";
+import logo from "../assets/logo.svg?raw";
 
-const links = [
-    { href: "/events", label: "events" },
-    { href: "/members", label: "members" },
-    { href: "/news", label: "news" },
-];
-
-/** Site header. */
+/** Navigate the community's public pages and organiser workspace. */
 export function Topbar() {
     const account = useAccount();
 
     return (
         <header class="site-topbar">
-            {/* layout */}
             <div class="site-topbar__body">
-                {/* brand */}
-                <A class="site-topbar__brand" href="/">
-                    <Wordmark />
-                </A>
-
-                {/* navigation */}
                 <nav aria-label="Primary navigation" class="site-topbar__primary">
-                    <For each={links}>
-                        {(link) => (
-                            <A
-                                activeClass="site-topbar__link--active"
-                                class="site-topbar__link"
-                                href={link.href}
-                            >
-                                /{link.label}
-                            </A>
-                        )}
-                    </For>
+                    <A class="site-topbar__logo" href="/" aria-label="zurich.tech home">
+                        <Wordmark />
+                        <span class="site-symbol" innerHTML={logo} />
+                    </A>
+                    <A href="/events">Events</A>
+                    <A href="/news">News</A>
+                    <A href="/jobs">Jobs</A>
                 </nav>
-
-                {/* actions */}
                 <div class="site-topbar__actions">
-                    <CommandPalette />
-                    <ThemeToggle />
-
-                    {/* account */}
-                    <Switch
-                        fallback={
-                            <A class="site-topbar__account" href="/sign-in">
-                                [sign in]
-                            </A>
-                        }
-                    >
-                        {/* loading */}
-                        <Match when={account.isPending()}>
-                            <span class="site-topbar__account site-topbar__account--pending">
-                                [account]
-                            </span>
-                        </Match>
-
-                        {/* failure */}
-                        <Match when={account.error()}>
-                            <A class="site-topbar__account" href="/settings">
-                                [account!]
-                            </A>
-                        </Match>
-
-                        {/* session */}
-                        <Match when={account.user()}>
-                            {(user) => (
-                                <A
-                                    class="site-topbar__account"
-                                    href="/settings"
-                                    title={user().email}
-                                >
-                                    [{user().name}]
+                    <div class="header-links">
+                        <A class="header-host" href="/submit">
+                            Submit event
+                        </A>
+                        <Show
+                            when={account.user()}
+                            fallback={
+                                <A class="header-account" href="/sign-in">
+                                    Sign in
                                 </A>
-                            )}
-                        </Match>
-                    </Switch>
+                            }
+                        >
+                            <A
+                                class="header-account header-avatar"
+                                href="/admin"
+                                aria-label="Your workspace"
+                                title={account.user()?.name}
+                            >
+                                <Avatar name={account.user()!.name} image={account.user()?.image} />
+                            </A>
+                        </Show>
+                    </div>
+                    <ThemeToggle />
                 </div>
             </div>
         </header>

@@ -6,3 +6,6 @@ node_modules
 dist
 
 convex/_generated
+
+# preserve the generated map asset as compact JSON
+public/city/*.json

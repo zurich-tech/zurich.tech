@@ -1,75 +1,51 @@
-import { createAsync, useParams } from "@solidjs/router";
-import { Match, Show, Switch } from "solid-js";
+import { timeZone } from "../../core/constants";
+import { getArticle } from "../../core/queries";
 
-import { formatDate } from "../../component/calendar";
+import { isCurrentYear } from "../../core/time";
+import { createAsync, useParams } from "@solidjs/router";
+import { Show } from "solid-js";
+import { Arrow } from "../../component/arrow";
+import { Card } from "../../component/card";
 import { Markdown } from "../../component/markdown";
-import { Tags } from "../../component/meta";
 import { NotFound } from "../../component/notfound";
 import { Page } from "../../component/page";
 import { Seo } from "../../component/seo";
-import { getArticle, type Article } from "../../data/public";
-import { routeParam } from "../../route";
 
-/** News article. */
+import { routeParam } from "../../core/route";
+
+/** Read an authored news article in the shared card layout. */
 export default function Route() {
-    // route
     const params = useParams();
     const slug = routeParam("slug", params.slug);
-
-    // article
     const article = createAsync(() => getArticle(slug), { deferStream: true });
-    const title = () => article()?.title ?? slug;
 
     return (
-        <Switch>
-            {/* missing */}
-            <Match when={article() === null}>
-                <NotFound />
-            </Match>
-
-            {/* article */}
-            <Match when={article() !== undefined}>
+        <Show when={article()} fallback={article() === null ? <NotFound /> : undefined}>
+            {(post) => (
                 <>
-                    <Seo
-                        title={title()}
-                        description={article()?.description ?? "zurich.tech news."}
-                    />
+                    <Seo title={post().title} description={post().description} isArticle />
                     <Page width="narrow">
-                        <ArticleHeader article={article()} title={title()} />
-                        <ArticleBody article={article()} />
+                        <a class="eyebrow" href="/news">
+                            <Arrow direction="left" /> News
+                        </a>
+                        <Card title={post().title} heading="h1" class="news-article">
+                            <div class="article-byline">
+                                <time dateTime={new Date(post().date).toISOString()}>
+                                    {new Date(post().date).toLocaleDateString("en-GB", {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: isCurrentYear(post().date) ? undefined : "numeric",
+                                        timeZone,
+                                    })}
+                                </time>
+                                <span>{post().author}</span>
+                            </div>
+                            <p class="page-lead">{post().description}</p>
+                            <Markdown source={post().body} />
+                        </Card>
                     </Page>
                 </>
-            </Match>
-        </Switch>
-    );
-}
-
-/** Article heading, publication date, description, and tags. */
-function ArticleHeader(props: { article: Article | null | undefined; title: string }) {
-    return (
-        <header class="article-header">
-            {/* date */}
-            <Show when={props.article?.date}>{(date) => <time>{formatDate(date())}</time>}</Show>
-
-            {/* title */}
-            <h1>{props.title}</h1>
-
-            {/* description */}
-            <Show when={props.article?.description}>
-                <p>{props.article?.description}</p>
-            </Show>
-
-            {/* tags */}
-            <Tags values={props.article?.tags ?? []} />
-        </header>
-    );
-}
-
-/** Render one article body or its missing state. */
-function ArticleBody(props: { article: Article | null | undefined }) {
-    return (
-        <Show when={props.article?.body} fallback={<p class="text-soft">article not found.</p>}>
-            {(body) => <Markdown source={body()} />}
+            )}
         </Show>
     );
 }

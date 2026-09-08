@@ -1,26 +1,21 @@
 import { HttpStatusCode } from "@solidjs/start";
-
-import { Page, Section } from "./page";
+import { Arrow } from "./arrow";
+import { Page, PageHeader } from "./page";
 import { Seo } from "./seo";
 
-/** Not found page body. */
+/** Explain a missing page and return visitors to the calendar. */
 export function NotFound() {
     return (
         <>
-            {/* response */}
             <HttpStatusCode code={404} />
-            <Seo title="not found" description="route not found." />
+            <Seo title="Page not found" description="This page could not be found." />
             <Page width="narrow">
-                <Section title="404">
-                    {/* body */}
-                    <p class="text-ink">&gt; not found</p>
-                    <a
-                        class="mt-1 inline-block underline underline-offset-4 hover:bg-ink hover:text-paper"
-                        href="/"
-                    >
-                        back home
-                    </a>
-                </Section>
+                <p class="eyebrow">404</p>
+                <PageHeader title="Page not found" />
+                <p>This link may be out of date.</p>
+                <a class="text-link" href="/events">
+                    <Arrow direction="left" /> Back to events
+                </a>
             </Page>
         </>
     );

@@ -1,13 +1,15 @@
+import { getMember, type PublicMember, type CalendarEntry } from "../../core/queries";
+import { Card } from "../../component/card";
 import { createAsync, useParams } from "@solidjs/router";
 import { For, Match, Show, Switch } from "solid-js";
 
 import { DirectoryList, DirectoryRow } from "../../component/list";
 import { ExternalLinks, Tags } from "../../component/meta";
 import { NotFound } from "../../component/notfound";
-import { DetailList, DetailRow, Page, PageHeader, Section } from "../../component/page";
+import { DetailList, DetailRow, Page, PageHeader } from "../../component/page";
 import { Seo } from "../../component/seo";
-import { getMember, type CalendarEntry, type PublicMember } from "../../data/public";
-import { routeParam } from "../../route";
+
+import { routeParam } from "../../core/route";
 
 /** Member profile. */
 export default function Route() {
@@ -37,7 +39,7 @@ export default function Route() {
                         />
 
                         {/* profile */}
-                        <div class="grid gap-8 lg:grid-cols-[1fr_18rem]">
+                        <div class="event-layout">
                             <HostedEvents events={member()?.hostedEvents ?? []} />
                             <ProfileSections handle={handle} member={member()} />
                         </div>
@@ -51,10 +53,10 @@ export default function Route() {
 /** Events hosted by the member. */
 function HostedEvents(props: { events: CalendarEntry[] }) {
     return (
-        <Section title="hosted events">
+        <Card title="Hosted events">
             <Show
                 when={props.events.length > 0}
-                fallback={<p class="text-soft">no hosted events.</p>}
+                fallback={<p class="text-soft">No hosted events.</p>}
             >
                 <DirectoryList>
                     <For each={props.events}>
@@ -69,16 +71,19 @@ function HostedEvents(props: { events: CalendarEntry[] }) {
                     </For>
                 </DirectoryList>
             </Show>
-        </Section>
+        </Card>
     );
 }
 
 /** Member profile sections. */
 function ProfileSections(props: { handle: string; member: PublicMember | null | undefined }) {
     return (
-        <div class="grid gap-8">
+        <div class="event-aside">
             {/* details */}
-            <Section title="details">
+            <Card title="Details">
+                <Show when={props.member?.isPatron}>
+                    <span class="tag">Patron</span>
+                </Show>
                 <DetailList>
                     <DetailRow label="handle" value={`@${props.handle}`} />
                     <DetailRow label="visibility" value={props.member ? "public" : "private"} />
@@ -90,20 +95,20 @@ function ProfileSections(props: { handle: string; member: PublicMember | null | 
                         <Tags values={props.member?.interests ?? []} />
                     </div>
                 </Show>
-            </Section>
+            </Card>
 
             {/* links */}
             <Show when={props.member && props.member.links.length > 0}>
-                <Section title="links">
+                <Card title="Links">
                     <ExternalLinks links={props.member?.links ?? []} />
-                </Section>
+                </Card>
             </Show>
 
             {/* bio */}
             <Show when={props.member?.bio}>
-                <Section title="bio">
+                <Card title="Bio">
                     <p class="text-soft">{props.member?.bio}</p>
-                </Section>
+                </Card>
             </Show>
         </div>
     );

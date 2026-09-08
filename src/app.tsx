@@ -1,10 +1,14 @@
 import { MetaProvider } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
-import { Suspense, onMount } from "solid-js";
+import { ErrorBoundary, Suspense, onMount } from "solid-js";
 
-import { completeSignIn } from "./auth";
+import { completeSignIn } from "./core/auth/callback";
+import { Card } from "./component/card";
+import { Page } from "./component/page";
 import { Shell } from "./component/shell";
+import "@fontsource-variable/archivo/standard.css";
+import "@fontsource-variable/jetbrains-mono/wght.css";
 import "./style.css";
 
 /** Site application. */
@@ -22,9 +26,27 @@ export default function App() {
             root={(props) => (
                 <MetaProvider>
                     {/* route suspense */}
-                    <Suspense>
-                        <Shell>{props.children}</Shell>
-                    </Suspense>
+                    <ErrorBoundary
+                        fallback={(error, reset) => (
+                            <Shell>
+                                <Page>
+                                    <Card title="Could not load this page" heading="h1">
+                                        <p role="alert">
+                                            {error instanceof Error ? error.message : String(error)}
+                                        </p>
+                                        <button class="button" onClick={reset}>
+                                            Try again
+                                        </button>
+                                        <a href="/">Back to events</a>
+                                    </Card>
+                                </Page>
+                            </Shell>
+                        )}
+                    >
+                        <Suspense>
+                            <Shell>{props.children}</Shell>
+                        </Suspense>
+                    </ErrorBoundary>
                 </MetaProvider>
             )}
         >

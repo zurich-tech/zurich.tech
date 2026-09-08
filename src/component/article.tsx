@@ -1,17 +1,20 @@
+import { type Article } from "../core/queries";
 import { For, Show, createMemo, createSignal } from "solid-js";
 
-import type { Article } from "../data/public";
-import { matchesSearch, searchTerms } from "../search";
-import { formatDate } from "./calendar";
+import { matchesSearch, searchTerms } from "../core/search";
+import { Entry } from "./entry";
 import { Highlight } from "./highlight";
-import { DirectoryList, DirectoryRow } from "./list";
-import { Section } from "./page";
+import { Card } from "./card";
 import { TableToolbar } from "./toolbar";
 
 /** Article list properties. */
 type ArticleListProps = {
     /** The articles to show. */
     articles: Article[];
+    /** Use the collection heading as the page title. */
+    isPage?: boolean;
+    /** Show only titles and subtitles in the homepage sidebar. */
+    isCompact?: boolean;
     /** Whether to show article search. */
     isSearchable?: boolean;
     /** The maximum visible article count. */
@@ -45,47 +48,44 @@ export function ArticleList(props: ArticleListProps) {
     };
 
     return (
-        <Section
-            href={props.titleHref}
-            meta={count()}
-            title="news"
+        <Card
+            heading={props.isPage ? "h1" : "h2"}
+            class={props.isCompact ? "news-overview" : undefined}
+            meta={props.isCompact ? undefined : count()}
+            title={props.isPage || props.isCompact ? "News" : "Articles"}
             toolbar={
                 props.isSearchable === true ? (
-                    <TableToolbar onSearch={setQuery} placeholder="search news..." />
+                    <TableToolbar onSearch={setQuery} placeholder="Search articles" />
                 ) : undefined
             }
         >
             {/* articles */}
-            <Show when={articles().length > 0} fallback={<p class="text-soft">no articles</p>}>
-                <DirectoryList>
+            <Show
+                when={articles().length > 0}
+                fallback={<p class="text-soft">No articles published.</p>}
+            >
+                <div class="news-list">
                     <For each={articles()}>
                         {(article) => (
-                            <DirectoryRow
-                                eyebrow={articleDate(article)}
+                            <Entry
+                                class="news-row"
+                                date={article.date}
+                                datePlacement="below"
                                 href={`/news/${article.slug}`}
-                                summary={<Highlight text={article.description} terms={terms()} />}
-                                tags={article.tags}
-                                terms={terms()}
+                                description={
+                                    <Highlight text={article.description} terms={terms()} />
+                                }
                                 title={<Highlight text={article.title} terms={terms()} />}
                             />
                         )}
                     </For>
-                </DirectoryList>
+                </div>
             </Show>
-        </Section>
+        </Card>
     );
 }
 
 /** Build searchable article text. */
 function articleText(article: Article) {
     return [article.title, article.description, ...article.tags].join(" ");
-}
-
-/** Format one article publication date. */
-function articleDate(article: Article) {
-    if (article.date === undefined) {
-        return undefined;
-    }
-
-    return formatDate(article.date);
 }

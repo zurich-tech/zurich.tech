@@ -5,7 +5,7 @@ export function Tags(props: { values: string[] }) {
     return (
         <div class="tags">
             {/* tags */}
-            <For each={props.values}>{(value) => <span>#{value}</span>}</For>
+            <For each={props.values}>{(value) => <span class="tag">{value}</span>}</For>
         </div>
     );
 }

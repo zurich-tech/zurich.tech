@@ -1,10 +1,13 @@
 import type { JSX } from "solid-js";
-import { Show, children } from "solid-js";
+import { Show } from "solid-js";
 
-/** Page. */
+/** Place page content within the shared site grid. */
 export function Page(props: {
+    /** Page contents. */
     children: JSX.Element;
+    /** Additional page layout classes. */
     class?: string;
+    /** Content width within the shared site grid. */
     width?: "normal" | "narrow";
 }) {
     // width
@@ -16,7 +19,7 @@ export function Page(props: {
     return <section class={className}>{props.children}</section>;
 }
 
-/** Page header. */
+/** Render the page title and optional description. */
 export function PageHeader(props: { summary?: string; title: string }) {
     return (
         <header class="page-header">
@@ -31,50 +34,12 @@ export function PageHeader(props: { summary?: string; title: string }) {
     );
 }
 
-/** Bordered section. */
-export function Section(props: {
-    children: JSX.Element;
-    href?: string;
-    meta?: string;
-    title: string;
-    toolbar?: JSX.Element;
-}) {
-    const toolbar = children(() => props.toolbar);
-
-    return (
-        <section class="section">
-            {/* heading */}
-            <header class="section__header">
-                {/* title */}
-                <h2>
-                    <Show when={props.href} fallback={<>[{props.title}]</>}>
-                        {(href) => <a href={href()}>[{props.title}]</a>}
-                    </Show>
-                </h2>
-
-                {/* toolbar */}
-                <Show when={toolbar()}>
-                    <div class="section__toolbar">{toolbar()}</div>
-                </Show>
-
-                {/* count */}
-                <Show when={props.meta}>
-                    <span>{props.meta}</span>
-                </Show>
-            </header>
-
-            {/* content */}
-            <div class="section__body">{props.children}</div>
-        </section>
-    );
-}
-
-/** Detail list. */
+/** Group labeled event or account details. */
 export function DetailList(props: { children: JSX.Element }) {
     return <dl class="detail-list">{props.children}</dl>;
 }
 
-/** Detail row. */
+/** Pair one detail label with its value. */
 export function DetailRow(props: { label: string; value: JSX.Element }) {
     return (
         <div class="detail-row">

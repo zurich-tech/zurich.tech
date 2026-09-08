@@ -1,22 +1,26 @@
+import { getCalendar, getDirectory } from "../../core/queries";
 import { createAsync } from "@solidjs/router";
-
-import { Calendar } from "../../component/calendar";
+import { Programme } from "../../component/programme";
 import { Page } from "../../component/page";
 import { Seo } from "../../component/seo";
-import { getCalendar } from "../../data/public";
 
-/** Event index. */
+/** Browse the complete event calendar. */
 export default function Route() {
-    // calendar
-    const entries = createAsync(() => getCalendar());
-    const today = Date.now();
+    const events = createAsync(() => getCalendar());
+    const directory = createAsync(() => getDirectory());
 
     return (
         <>
-            <Seo title="events" description="zurich.tech events." />
-            <Page>
-                {/* calendar */}
-                <Calendar dividerAt={today} entries={entries() ?? []} title="events" />
+            <Seo
+                title="Events"
+                description="Upcoming tech events in Zürich and the community archive."
+            />
+            <Page width="narrow">
+                <Programme
+                    heading="h1"
+                    entries={events() ?? []}
+                    series={directory()?.series ?? []}
+                />
             </Page>
         </>
     );

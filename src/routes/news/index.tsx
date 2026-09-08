@@ -1,9 +1,9 @@
+import { getArticles } from "../../core/queries";
 import { createAsync } from "@solidjs/router";
 
 import { ArticleList } from "../../component/article";
 import { Page } from "../../component/page";
 import { Seo } from "../../component/seo";
-import { getArticles } from "../../data/public";
 
 /** News index. */
 export default function Route() {
@@ -12,10 +12,10 @@ export default function Route() {
 
     return (
         <>
-            <Seo title="news" description="zurich.tech news." />
-            <Page>
+            <Seo title="News" description="zurich.tech news." />
+            <Page width="narrow">
                 {/* articles */}
-                <ArticleList articles={articles() ?? []} isSearchable />
+                <ArticleList articles={articles() ?? []} isSearchable isPage />
             </Page>
         </>
     );
