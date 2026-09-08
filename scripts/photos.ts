@@ -1,6 +1,6 @@
 import { Database } from "bun:sqlite";
 
-import { archiveEvents } from "../convex/archive";
+import { archiveEvents } from "./archive";
 
 const appleEpoch = 978_307_200;
 const bucket = "zurich-tech-media";

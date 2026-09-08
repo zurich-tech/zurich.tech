@@ -2,13 +2,13 @@ import type { Id } from "./_generated/dataModel";
 import type { MutationCtx } from "./_generated/server";
 
 /** A record type that accepts tags. */
-export type TagSubject = "event" | "member";
+export type TagSubject = "member";
 
 /** Replace the tags attached to one record. */
 export async function setTags(
     ctx: MutationCtx,
     subject: TagSubject,
-    subjectId: Id<"events"> | Id<"members">,
+    subjectId: Id<"members">,
     slugs: string[],
 ) {
     const tagIds: Id<"tags">[] = [];

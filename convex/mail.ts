@@ -1,0 +1,136 @@
+import { v } from "convex/values";
+import {
+    internalAction,
+    internalMutation,
+    internalQuery,
+    type MutationCtx,
+} from "./_generated/server";
+import { internal } from "./_generated/api";
+import type { Id } from "./_generated/dataModel";
+
+/** Require configured delivery before accepting an email-dependent action. */
+export function requireMail() {
+    if (!process.env.RESEND_API_KEY || !process.env.MAIL_FROM)
+        throw new Error("We cannot send your email. Please contact the team.");
+}
+
+/** Queue a durable, idempotent email in the same transaction as its cause. */
+export async function enqueue(
+    ctx: MutationCtx,
+    key: string,
+    to: string,
+    subject: string,
+    text: string,
+    subscriptionId?: Id<"subscriptions">,
+    delay = 0,
+    html?: string,
+) {
+    // reuse the durable message for repeated requests
+    const existing = await ctx.db
+        .query("deliveries")
+        .withIndex("by_key", (range) => range.eq("key", key))
+        .unique();
+    if (existing) return existing._id;
+    // store the message before scheduling delivery
+    const id = await ctx.db.insert("deliveries", {
+        key,
+        to,
+        subject,
+        text,
+        html,
+        subscriptionId,
+        status: "queued",
+        attempts: 0,
+        createdAt: Date.now(),
+    });
+    await ctx.scheduler.runAfter(delay, internal.mail.deliver, { id });
+
+    return id;
+}
+
+/** Read an email only while its recipient remains eligible. */
+export const read = internalQuery({
+    args: { id: v.id("deliveries") },
+    handler: async (ctx, args) => {
+        // load the durable delivery before checking its state
+        const delivery = await ctx.db.get(args.id);
+        if (!delivery || delivery.status === "sent") return null;
+        if (delivery.subscriptionId) {
+            const subscription = await ctx.db.get(delivery.subscriptionId);
+            if (!subscription || subscription.status !== "subscribed") return null;
+        }
+
+        return delivery;
+    },
+});
+
+/** Record provider acceptance or retain the exact delivery failure. */
+export const finish = internalMutation({
+    args: {
+        id: v.id("deliveries"),
+        providerId: v.optional(v.string()),
+        error: v.optional(v.string()),
+    },
+    handler: async (ctx, args) => {
+        // load the durable delivery before checking its state
+        const delivery = await ctx.db.get(args.id);
+        if (!delivery) throw new Error("Delivery not found.");
+        // retain provider acceptance or the exact failure
+        const attempts = delivery.attempts + 1;
+        await ctx.db.patch(args.id, {
+            attempts,
+            status: args.error ? "failed" : "sent",
+            error: args.error,
+            providerId: args.providerId,
+        });
+
+        // retry failed deliveries with exponential backoff
+        if (args.error && attempts < 5)
+            await ctx.scheduler.runAfter(60000 * 2 ** attempts, internal.mail.deliver, {
+                id: args.id,
+            });
+    },
+});
+
+/** Deliver one durable message through Resend with provider idempotency. */
+export const deliver = internalAction({
+    args: { id: v.id("deliveries") },
+    handler: async (ctx, args) => {
+        // skip messages already sent or no longer eligible
+        const delivery = await ctx.runQuery(internal.mail.read, args);
+        if (!delivery) return;
+        // send with provider idempotency and retain any delivery failure
+        try {
+            requireMail();
+            const response = await fetch("https://api.resend.com/emails", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+                    "Content-Type": "application/json",
+                    "Idempotency-Key": delivery.key,
+                },
+                body: JSON.stringify({
+                    from: process.env.MAIL_FROM,
+                    to: [delivery.to],
+                    subject: delivery.subject,
+                    text: delivery.text,
+                    html: delivery.html,
+                }),
+            });
+
+            // reject unsuccessful responses and missing provider identifiers
+            if (!response.ok)
+                throw new Error(
+                    `Email provider returned ${response.status}: ${await response.text()}`,
+                );
+            const result = (await response.json()) as { id: string };
+            if (!result.id) throw new Error("Email provider returned no delivery identifier.");
+            await ctx.runMutation(internal.mail.finish, { id: args.id, providerId: result.id });
+        } catch (error) {
+            await ctx.runMutation(internal.mail.finish, {
+                id: args.id,
+                error: error instanceof Error ? error.message : String(error),
+            });
+        }
+    },
+});

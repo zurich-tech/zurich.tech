@@ -1,6 +1,9 @@
+import { webhook } from "./stripe";
 import { httpRouter } from "convex/server";
 
-import { authComponent, createAuth, requiredEnvironment } from "./auth";
+import { authComponent } from "./auth/component";
+import { createAuth } from "./auth/server";
+import { requiredEnvironment } from "./environment";
 
 /** Convex HTTP routes. */
 const http = httpRouter();
@@ -10,5 +13,7 @@ authComponent.registerRoutesLazy(http, createAuth, {
     cors: true,
     trustedOrigins: [requiredEnvironment("SITE_URL")],
 });
+
+http.route({ path: "/stripe/webhook", method: "POST", handler: webhook });
 
 export default http;
