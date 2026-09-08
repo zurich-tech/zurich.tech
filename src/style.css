@@ -2084,10 +2084,10 @@ td button {
     transform: translateX(-50%);
     background: var(--color-accent);
 }
-/* use the complete name as the primary identity and the Z only at compact sizes */
+/* use the wordmark at full width and the diagonal icon at compact sizes */
 .site-symbol {
     display: none;
-    width: 40px;
+    width: 28px;
     color: var(--color-accent);
 }
 .site-topbar__logo svg {
