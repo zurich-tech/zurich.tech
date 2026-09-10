@@ -6,6 +6,8 @@ import { Dynamic } from "solid-js/web";
 export function Card(props: {
     /** Card heading. */
     title: JSX.Element;
+    /** Optional destination for the heading. */
+    titleHref?: string;
     /** Contents below the heading. */
     children?: JSX.Element;
     /** Additional layout classes. */
@@ -27,7 +29,9 @@ export function Card(props: {
             {/* align the title, controls and count within one shared heading */}
             <header class="card-heading">
                 <Dynamic component={props.heading ?? "h2"} class="card-title">
-                    {props.title}
+                    <Show when={props.titleHref} fallback={props.title}>
+                        {(href) => <a href={href()}>{props.title}</a>}
+                    </Show>
                 </Dynamic>
                 <Show when={toolbar()}>
                     <div class="card-toolbar">{toolbar()}</div>

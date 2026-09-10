@@ -30,7 +30,7 @@ export default function Route() {
                         <a class="eyebrow" href="/jobs">
                             <Arrow direction="left" /> Jobs
                         </a>
-                        <div class="jobs-layout">
+                        <div class="listing-layout">
                             <Card title={item().title} heading="h1">
                                 <p class="page-lead">
                                     {item().company.name} · {item().location}
@@ -44,7 +44,7 @@ export default function Route() {
                                 </div>
                                 <Markdown source={item().description} />
                             </Card>
-                            <aside class="jobs-sidebar">
+                            <aside class="listing-sidebar">
                                 <Card title="Apply">
                                     <Show when={item().salary}>
                                         <p class="job-salary">{salaryLabel(item().salary!)}</p>

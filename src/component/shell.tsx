@@ -22,8 +22,17 @@ export function Shell(props: { children?: JSX.Element }) {
         <div class="site-shell">
             {/* site */}
             <Topbar />
-            <main class="site-main">
-                <Show when={location.pathname !== "/"}>
+            <main
+                class="site-main"
+                classList={{ "site-main--centered": location.pathname === "/sign-in" }}
+            >
+                <Show
+                    when={
+                        location.pathname !== "/" &&
+                        location.pathname !== "/map" &&
+                        location.pathname !== "/sign-in"
+                    }
+                >
                     <Hero isCompact />
                 </Show>
                 {props.children}

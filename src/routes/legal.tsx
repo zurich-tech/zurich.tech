@@ -43,8 +43,16 @@ export default function Route() {
                 </Card>
                 <Card title="Credits and licences" id="licences">
                     <p>
-                        Map artwork is derived from © OpenStreetMap contributors. Map data is
-                        available under the Open Database Licence (ODbL). See the{" "}
+                        Maps use tiles from{" "}
+                        <a class="text-link" href="https://openfreemap.org/">
+                            OpenFreeMap
+                        </a>
+                        , rendered with{" "}
+                        <a class="text-link" href="https://maplibre.org/">
+                            MapLibre
+                        </a>
+                        , and data from © OpenStreetMap contributors. Map data is available under
+                        the Open Database Licence (ODbL). See the{" "}
                         <a class="text-link" href="https://www.openstreetmap.org/copyright">
                             OpenStreetMap copyright and licence information
                         </a>

@@ -10,7 +10,6 @@ export function Footer() {
             <nav aria-label="Footer">
                 <a href="/legal">Legal</a>
             </nav>
-            <span>Zürich, Switzerland</span>
         </footer>
     );
 }

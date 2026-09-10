@@ -4,6 +4,7 @@ import { getJobs } from "../../core/queries";
 import { createAsync } from "@solidjs/router";
 import { createSignal, createMemo, createEffect, on, For, Show } from "solid-js";
 
+import { Arrow } from "../../component/arrow";
 import { Card } from "../../component/card";
 import { Page } from "../../component/page";
 import { Seo } from "../../component/seo";
@@ -42,10 +43,10 @@ export default function Route() {
                 description="Tech jobs in Zürich. Browse roles, salaries and remote options from local companies."
             />
             <Page>
-                <div class="jobs-layout">
-                    <Card title="Jobs" heading="h1" meta={matches().length} class="jobs-card">
+                <div class="listing-layout">
+                    <Card title="Jobs" heading="h1" meta={matches().length} class="listing-card">
                         {/* filter the published vacancies */}
-                        <div class="job-filters">
+                        <div class="listing-filters">
                             <input
                                 aria-label="Search jobs"
                                 placeholder="Role, company or technology"
@@ -99,15 +100,29 @@ export default function Route() {
                         </Show>
                     </Card>
                     {/* show the listing price and employer actions */}
-                    <aside class="jobs-sidebar">
-                        <Card title="Hiring?">
-                            <p>
-                                CHF {jobPrice} per listing for {jobDurationMonths} months.
-                                Applications go directly to your hiring site.
+                    <aside class="listing-sidebar">
+                        <Card title="Hiring?" class="offer-card">
+                            <p class="tier-price">
+                                <span>CHF</span> {jobPrice}
+                                <span>/ listing · {jobDurationMonths} months</span>
                             </p>
                             <a class="button button--primary" href="/jobs/submit">
                                 Post a job
                             </a>
+                            <ul class="plan-benefits">
+                                <li>
+                                    <Arrow />
+                                    <strong>Highlighted in newsletter emails</strong>
+                                </li>
+                                <li>
+                                    <Arrow />
+                                    <strong>Shown at events</strong>
+                                </li>
+                                <li>
+                                    <Arrow />
+                                    <strong>Applications go directly to your hiring site</strong>
+                                </li>
+                            </ul>
                             <a class="text-link" href="/manage">
                                 Manage your listings
                             </a>

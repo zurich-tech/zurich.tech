@@ -2,6 +2,12 @@
 export const site = {
     /** Canonical public name. */
     name: "zurich.tech",
+    /** Community accounts and public invitation. */
+    socials: {
+        linkedin: "https://www.linkedin.com/company/zurichai/",
+        x: "https://x.com/zurichnlp",
+        discord: "https://discord.gg/373R4C3872",
+    },
     /** Canonical public origin. */
     url: "https://zurich.tech",
     /** Attendance threshold reached at most events. */

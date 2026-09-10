@@ -6,9 +6,16 @@ import { workplaces, employments } from "../../shared/jobs";
 import { Arrow } from "./arrow";
 
 /** Render a vacancy using the same title, tags and rule rhythm as event entries. */
-export function JobEntry(props: { job: Job }) {
+export function JobEntry(props: {
+    job: Job;
+    /** Use a short row for the homepage sidebar. */ isCompact?: boolean;
+}) {
     return (
-        <a class="job-entry" href={`/jobs/${props.job.slug}`}>
+        <a
+            class="job-entry"
+            classList={{ "job-entry--compact": props.isCompact }}
+            href={`/jobs/${props.job.slug}`}
+        >
             <div class="company-logo">
                 <Show
                     when={props.job.company.logoUrl}
@@ -27,14 +34,16 @@ export function JobEntry(props: { job: Job }) {
                 <p>
                     {props.job.company.name} · {props.job.location}
                 </p>
-                <Show when={props.job.salary}>
+                <Show when={!props.isCompact && props.job.salary}>
                     <p class="job-salary">{salaryLabel(props.job.salary!)}</p>
                 </Show>
-                <div class="tags">
-                    <span class="tag">{workplaces[props.job.workplace]}</span>
-                    <span class="tag">{employments[props.job.employment]}</span>
-                    <For each={props.job.tags}>{(tag) => <span class="tag">{tag}</span>}</For>
-                </div>
+                <Show when={!props.isCompact}>
+                    <div class="tags">
+                        <span class="tag">{workplaces[props.job.workplace]}</span>
+                        <span class="tag">{employments[props.job.employment]}</span>
+                        <For each={props.job.tags}>{(tag) => <span class="tag">{tag}</span>}</For>
+                    </div>
+                </Show>
             </div>
             <Arrow />
         </a>

@@ -9,6 +9,7 @@ import { SocialLinks, type SocialProfiles } from "../component/social";
 type TeamMember = {
     /** Public name. */ name: string;
     /** Community responsibility. */ role: string;
+    /** Professional role outside zurich.tech. */ profession: string;
     /** Default portrait. */ image: string;
     /** Optional portrait for dark backgrounds. */ imageDark?: string;
     /** Verified accounts and personal website. */ links: SocialProfiles;
@@ -19,6 +20,7 @@ const team: TeamMember[] = [
     {
         name: "Florian Cäsar",
         role: "President",
+        profession: "Founder @ Symbol Industries",
         image: "/team/florian-caesar.jpg",
         links: {
             linkedin: "https://www.linkedin.com/in/floriancaesar/",
@@ -28,7 +30,8 @@ const team: TeamMember[] = [
     },
     {
         name: "Clara Meister",
-        role: "Co-president",
+        role: "Vice-president",
+        profession: "Postdoctoral Researcher @ EPFL",
         image: "/team/clara-meister.jpeg",
         links: {
             linkedin: "https://www.linkedin.com/in/clara-meister/",
@@ -40,6 +43,7 @@ const team: TeamMember[] = [
     {
         name: "Alessio Rimoldi",
         role: "Treasurer",
+        profession: "PhD Researcher @ ETH Zurich",
         image: "/team/alessio-rimoldi.jpeg",
         links: {
             linkedin: "https://www.linkedin.com/in/alessio-rimoldi-340787212/",
@@ -51,6 +55,7 @@ const team: TeamMember[] = [
     {
         name: "Arnout Devos",
         role: "Auditor / Advisor",
+        profession: "Academic Program Manager @ ETH AI Center",
         image: "/team/arnout-devos.jpg",
         links: {
             linkedin: "https://www.linkedin.com/in/arnoutdevos/",
@@ -62,6 +67,7 @@ const team: TeamMember[] = [
     {
         name: "Ayça Takmaz",
         role: "Team",
+        profession: "Research Engineer @ Flexion Robotics",
         image: "/team/ayca-takmaz.jpg",
         links: {
             linkedin: "https://www.linkedin.com/in/aycatakmaz/",
@@ -73,6 +79,7 @@ const team: TeamMember[] = [
     {
         name: "Dominique Paul",
         role: "Team",
+        profession: "Founder @ Dream Machines",
         image: "/team/dominique-paul.jpg",
         links: {
             linkedin: "https://www.linkedin.com/in/dominique-paul",
@@ -84,6 +91,7 @@ const team: TeamMember[] = [
     {
         name: "Matteo Saponati",
         role: "Team",
+        profession: "AI Researcher @ Tufa Labs",
         image: "/team/matteo-saponati.jpg",
         links: {
             linkedin: "https://www.linkedin.com/in/matteosaponati/",
@@ -95,6 +103,7 @@ const team: TeamMember[] = [
     {
         name: "Nando Metzger",
         role: "Team",
+        profession: "Founding Technical Hire @ Athlence Sports",
         image: "/team/nando-metzger.jpg",
         links: {
             linkedin: "https://www.linkedin.com/in/nando-metzger-68aa0518b/",
@@ -105,6 +114,7 @@ const team: TeamMember[] = [
     {
         name: "Alexander Henkes",
         role: "Team",
+        profession: "Founder & Principal AI Consultant",
         image: "/team/alexander-henkes.jpg",
         links: {
             linkedin: "https://www.linkedin.com/in/dr-alexander-henkes",
@@ -115,6 +125,7 @@ const team: TeamMember[] = [
     {
         name: "Nathan Ordonez",
         role: "Team",
+        profession: "PhD @ ETH Zurich | IBM Research",
         image: "/team/nathan-ordonez.jpg",
         links: {
             linkedin: "https://www.linkedin.com/in/nathan-axcan-ordonez/",
@@ -125,6 +136,7 @@ const team: TeamMember[] = [
     {
         name: "Aleksander Ficek",
         role: "Emeritus",
+        profession: "Senior Research Scientist @ NVIDIA",
         image: "/team/aleksander-ficek.jpg",
         links: {
             linkedin: "https://www.linkedin.com/in/aleksanderficek",
@@ -166,6 +178,7 @@ export default function Route() {
                                     />
                                     <h2>{member.name}</h2>
                                     <p class="team-role">{member.role}</p>
+                                    <p class="team-profession">{member.profession}</p>
                                     <SocialLinks name={member.name} profiles={member.links} />
                                 </li>
                             )}

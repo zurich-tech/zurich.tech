@@ -21,7 +21,9 @@ export function Topbar() {
                     <A href="/events">Events</A>
                     <A href="/news">News</A>
                     <A href="/jobs">Jobs</A>
+                    <A href="/sponsor">Sponsor</A>
                     <A href="/about">About</A>
+                    <A href="/map">Map</A>
                 </nav>
                 <div class="site-topbar__actions">
                     <div class="header-links">

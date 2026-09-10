@@ -1,5 +1,6 @@
 import { createSignal, For, Show } from "solid-js";
-import { useSearchParams } from "@solidjs/router";
+import { createAsync, useSearchParams } from "@solidjs/router";
+import { getSignInProviders } from "../core/queries";
 import { auth } from "../core/auth";
 import { Page } from "../component/page";
 import { Card } from "../component/card";
@@ -10,6 +11,7 @@ import { errorMessage } from "../core/error";
 /** Sign in with a verified GitHub or X identity. */
 export default function Route() {
     const [params] = useSearchParams();
+    const providers = createAsync(() => getSignInProviders(), { deferStream: true });
     const [pending, setPending] = createSignal<string>();
     const [error, setError] = createSignal<string>();
 
@@ -39,11 +41,8 @@ export default function Route() {
 
     return (
         <>
-            <Seo
-                title="Sign in"
-                description="Sign in with GitHub or X to publish events and jobs."
-            />
-            <Page width="narrow">
+            <Seo title="Sign in" description="Sign in to publish events and jobs." />
+            <Page class="sign-in-page">
                 <Card title="Sign in" heading="h1" class="sign-in-card">
                     <div class="social-sign-in">
                         <For
@@ -58,7 +57,7 @@ export default function Route() {
                                     label: "X",
                                     icon: "M2 2h3l9 12h-3L2 2Zm11 0h1L3 14H2L13 2Z",
                                 },
-                            ]}
+                            ].filter((item) => providers()?.includes(item.provider))}
                         >
                             {(item) => (
                                 <button
@@ -82,6 +81,11 @@ export default function Route() {
                             )}
                         </For>
                     </div>
+                    <Show when={providers()?.length === 0}>
+                        <p class="text-soft">
+                            Sign-in is not available yet. Please try again later.
+                        </p>
+                    </Show>
                     <Show when={params.error}>
                         <p class="form-error">
                             Sign-in wasn’t completed. Please try again with an account that has a
