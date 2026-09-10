@@ -144,11 +144,13 @@ export default function Route() {
             />
             <Page>
                 <Card title="About" heading="h1" class="team">
-                    <p class="team-intro">
-                        zurich.tech is a registered nonprofit organising talks, events, dinners,
-                        hackathons and other fun and interesting things around tech in and around
-                        Zürich.
-                    </p>
+                    <div class="team-intro">
+                        <p>
+                            zurich.tech is a registered nonprofit organising talks, events, dinners,
+                            hackathons and other fun and interesting things around tech in and
+                            around Zürich.
+                        </p>
+                    </div>
                     <ul class="team-grid">
                         <For each={team}>
                             {(member) => (
