@@ -138,9 +138,17 @@ const team: TeamMember[] = [
 export default function Route() {
     return (
         <>
-            <Seo title="About" description="The team behind zurich.tech." />
+            <Seo
+                title="About"
+                description="A registered nonprofit bringing people together around tech in and around Zürich."
+            />
             <Page>
                 <Card title="About" heading="h1" class="team">
+                    <p class="team-intro">
+                        zurich.tech is a registered nonprofit organising talks, events, dinners,
+                        hackathons and other fun and interesting things around tech in and around
+                        Zürich.
+                    </p>
                     <ul class="team-grid">
                         <For each={team}>
                             {(member) => (

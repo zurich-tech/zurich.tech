@@ -4197,6 +4197,11 @@ img.image--dark {
 .team > .card-body {
     padding: 24px;
 }
+.team-intro {
+    margin: 0 0 32px;
+    max-width: 65ch;
+    line-height: 1.6;
+}
 .team-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
