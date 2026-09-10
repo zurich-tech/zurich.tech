@@ -204,7 +204,7 @@ function renderEdition(
             const logos = selected
                 .map(
                     (sponsor) =>
-                        `<a href="${escapeHtml(sponsor.website)}" style="display:inline-block;padding:12px;color:#174ed8">${sponsor.logoUrl ? `<img src="${escapeHtml(new URL(sponsor.logoUrl, siteOrigin()).href)}" alt="${escapeHtml(sponsor.name)}" width="${tier.logoWidth}" style="max-height:80px;object-fit:contain">` : escapeHtml(sponsor.name)}</a>`,
+                        `<a href="${escapeHtml(sponsor.profileUrl ?? sponsor.website)}" style="display:inline-block;padding:12px;color:#174ed8">${sponsor.logoUrl ? `<img src="${escapeHtml(new URL(sponsor.logoUrl, siteOrigin()).href)}" alt="${escapeHtml(sponsor.name)}" width="${tier.logoWidth}" style="max-height:80px;object-fit:contain">` : escapeHtml(sponsor.name)}</a>`,
                 )
                 .join("");
 

@@ -2,6 +2,7 @@ import { Card } from "../../component/card";
 import { Match, Show, Switch, createSignal } from "solid-js";
 
 import { PaymentHistory } from "../../component/payments";
+import { ProfileSettings } from "../../component/profile";
 import { PatronSettings } from "../../component/patrons";
 import { auth, useAccount } from "../../core/auth";
 import { Button } from "../../component/button";
@@ -95,6 +96,7 @@ export default function Route() {
                     </Match>
                 </Switch>
                 <Show when={account.user()}>
+                    <ProfileSettings />
                     <PatronSettings />
                     <PaymentHistory />
                 </Show>

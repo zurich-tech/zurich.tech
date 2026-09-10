@@ -1,3 +1,4 @@
+import { socialProviders } from "./auth/providers";
 import { articles } from "../shared/news.generated";
 import { paidTerm } from "./payments";
 import { activeSponsors } from "./sponsors";
@@ -339,10 +340,40 @@ export const directory = query({
                 .query("series")
                 .filter((q) => q.eq(q.field("status"), "active"))
                 .collect(),
-            organisations: organisations.map((organisation) => ({
-                ...organisation,
-                isSponsor: sponsored.has(organisation._id),
-            })),
+            organisations: await Promise.all(
+                organisations.map(async (organisation) => ({
+                    _id: organisation._id,
+                    slug: organisation.slug,
+                    name: organisation.name,
+                    kind: organisation.kind,
+                    description: organisation.description,
+                    location: organisation.location,
+                    website: organisation.website,
+                    logoUrl: organisation.logoUrl,
+                    logoDarkUrl: organisation.logoDarkUrl,
+                    mapLogoUrl: organisation.mapLogoUrl,
+                    mapLogoDarkUrl: organisation.mapLogoDarkUrl,
+                    profileUrl: organisation.profileUrl,
+                    socials: organisation.socials,
+                    isSponsor: sponsored.has(organisation._id),
+                    sponsorTier: sponsors.find(
+                        (sponsor) => sponsor.organisationId === organisation._id,
+                    )?.tier,
+                    locations: await Promise.all(
+                        (
+                            await ctx.db
+                                .query("organisationLocations")
+                                .withIndex("by_organisation", (q) =>
+                                    q.eq("organisationId", organisation._id),
+                                )
+                                .collect()
+                        ).map(async (location) => ({
+                            ...location,
+                            address: await ctx.db.get(location.addressId),
+                        })),
+                    ),
+                })),
+            ),
         };
     },
 });
@@ -537,3 +568,89 @@ async function memberRow(ctx: QueryCtx, member: Doc<"members">) {
         visibility: member.visibility,
     };
 }
+
+/** Read a balanced selection of approved photos from the three latest photographed events. */
+export const gallery = query({
+    args: { now: v.number() },
+    handler: async (ctx, args) => {
+        // consider only finished events, most recent first
+        const events = await ctx.db
+            .query("events")
+            .withIndex("by_status_and_startsAt", (range) =>
+                range.eq("status", "finished").lt("startsAt", args.now),
+            )
+            .order("desc")
+            .collect();
+        const albums = [];
+
+        // group up to five photographs under each event destination
+        for (const event of events) {
+            const images = await ctx.db
+                .query("media")
+                .withIndex("by_eventId_and_position", (range) => range.eq("eventId", event._id))
+                .filter((range) => range.eq(range.field("status"), "approved"))
+                .take(5);
+            if (images.length > 0) {
+                albums.push({
+                    title: event.title,
+                    href: `/events/${event.slug}#photos`,
+                    images: images.map((image) => ({
+                        id: image._id,
+                        alt: image.alt ?? `Photo from ${event.title}`,
+                        width: image.width,
+                        height: image.height,
+                        thumbnailUrl: `${mediaOrigin}/${image.thumbnailKey}`,
+                    })),
+                });
+            }
+            if (albums.length === 3) break;
+        }
+
+        return albums;
+    },
+});
+
+/** Public geographic locations with recognition derived from current sponsorships. */
+export const map = query({
+    args: {},
+    handler: async (ctx) => {
+        const sponsors = await activeSponsors(ctx);
+        const locations = await ctx.db.query("organisationLocations").collect();
+        const markers = await Promise.all(
+            locations.map(async (location) => {
+                const sponsor = sponsors.find(
+                    (item) => item.organisationId === location.organisationId,
+                );
+                if (!sponsor && !location.isCurated) return null;
+                const organisation = await ctx.db.get(location.organisationId);
+                const address = await ctx.db.get(location.addressId);
+                if (
+                    !organisation ||
+                    address?.latitude === undefined ||
+                    address.longitude === undefined
+                )
+                    return null;
+                return {
+                    id: location._id,
+                    name: organisation.name,
+                    location: location.name,
+                    slug: organisation.slug,
+                    logoUrl: organisation.logoUrl,
+                    logoDarkUrl: organisation.logoDarkUrl,
+                    mapLogoUrl: organisation.mapLogoUrl,
+                    mapLogoDarkUrl: organisation.mapLogoDarkUrl,
+                    latitude: address.latitude,
+                    longitude: address.longitude,
+                    tier: sponsor?.tier,
+                };
+            }),
+        );
+        return markers.filter((marker) => marker !== null);
+    },
+});
+
+/** Expose enabled sign-in names without returning their credentials. */
+export const signInProviders = query({
+    args: {},
+    handler: () => Object.keys(socialProviders()),
+});

@@ -7,6 +7,8 @@ import { getPatrons } from "../core/queries";
 import { createAsync } from "@solidjs/router";
 import { createResource, createSignal, For, Show } from "solid-js";
 
+import { Dynamic } from "solid-js/web";
+import { SocialLinks } from "./social";
 import { Avatar } from "./avatar";
 
 /** Show opted in patrons as compact profile badges. */
@@ -18,19 +20,26 @@ export function Patrons() {
             <div class="patron-wall" aria-label="Our patrons">
                 <For each={patrons()}>
                     {(patron) => (
-                        <span
-                            class="patron-badge"
-                            tabindex="0"
-                            aria-label={`${patron.name}, Patron`}
-                            title={patron.name}
-                        >
-                            <Avatar
-                                name={patron.name}
-                                image={patron.avatarUrl}
-                                imageDark={patron.avatarDarkUrl}
-                            />
-                            <span class="patron-name">{patron.name}</span>
-                        </span>
+                        <div class="patron-recognition">
+                            <Dynamic
+                                component={patron.profileUrl ? "a" : "span"}
+                                href={patron.profileUrl}
+                                target={patron.profileUrl ? "_blank" : undefined}
+                                rel={patron.profileUrl ? "noreferrer" : undefined}
+                                class="patron-badge"
+                                tabindex="0"
+                                aria-label={`${patron.name}, Patron`}
+                                title={patron.name}
+                            >
+                                <Avatar
+                                    name={patron.name}
+                                    image={patron.avatarUrl}
+                                    imageDark={patron.avatarDarkUrl}
+                                />
+                                <span class="patron-name">{patron.name}</span>
+                            </Dynamic>
+                            <SocialLinks name={patron.name} profiles={patron.socials ?? {}} />
+                        </div>
                     )}
                 </For>
             </div>

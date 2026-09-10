@@ -2,6 +2,7 @@ import { createSignal, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { memberClient } from "../core/convex";
+import { ProfileLinkFields, type SocialProfiles } from "./social";
 import { Card } from "./card";
 import { FormMessage } from "./form";
 import { errorMessage } from "../core/error";
@@ -16,6 +17,10 @@ export function CompanyForm(props: {
         website: string;
         logoUrl?: string;
         logoDarkUrl?: string;
+        mapLogoUrl?: string;
+        mapLogoDarkUrl?: string;
+        profileUrl?: string;
+        socials?: SocialProfiles;
         location: string;
         description: string;
     };
@@ -49,6 +54,14 @@ export function CompanyForm(props: {
                 website: text("website"),
                 logoUrl: text("logoUrl") || undefined,
                 logoDarkUrl: text("logoDarkUrl") || undefined,
+                mapLogoUrl: text("mapLogoUrl") || undefined,
+                mapLogoDarkUrl: text("mapLogoDarkUrl") || undefined,
+                profileUrl: text("profileUrl") || undefined,
+                socials: {
+                    linkedin: text("linkedin") || undefined,
+                    github: text("github") || undefined,
+                    x: text("x") || undefined,
+                },
                 location: text("location"),
                 description: text("description"),
             });
@@ -104,6 +117,20 @@ export function CompanyForm(props: {
                         <input name="logoDarkUrl" value={props.item?.logoDarkUrl ?? ""} />
                     </label>
                 </div>
+                <div class="form-columns">
+                    <label>
+                        Map symbol URL
+                        <input name="mapLogoUrl" value={props.item?.mapLogoUrl ?? ""} />
+                    </label>
+                    <label>
+                        Dark map symbol URL
+                        <input name="mapLogoDarkUrl" value={props.item?.mapLogoDarkUrl ?? ""} />
+                    </label>
+                </div>
+                <ProfileLinkFields
+                    profileUrl={props.item?.profileUrl}
+                    socials={props.item?.socials}
+                />
                 <label>
                     Location
                     <input name="location" required value={props.item?.location ?? "Zürich"} />

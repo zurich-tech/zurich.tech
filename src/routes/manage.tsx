@@ -1,3 +1,4 @@
+import { OrganisationLocations } from "../component/locations";
 import { JobCard, SponsorshipCard } from "../component/employer";
 import { Show, For } from "solid-js";
 import { useEmployerWorkspace, useWorkspaceCommand } from "../core/workspace";
@@ -115,6 +116,10 @@ export default function Route() {
                                                     isTeam={current().isTeam}
                                                     item={company}
                                                     onSave={refetch}
+                                                />
+                                                <OrganisationLocations
+                                                    organisationId={company._id}
+                                                    isTeam={current().isTeam}
                                                 />
                                             </details>
                                         )}

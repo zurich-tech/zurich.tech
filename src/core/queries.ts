@@ -102,3 +102,21 @@ export const search = query(
         await publicClient().query(api.public.search, { now: Date.now(), text }),
     "search",
 );
+
+/** Read recent approved event photographs. */
+export const getGallery = query(
+    async () => await publicClient().query(api.public.gallery, { now: Date.now() }),
+    "gallery",
+);
+
+/** One recent event album with approved photo previews. */
+export type GalleryAlbum = FunctionReturnType<typeof api.public.gallery>[number];
+
+/** Read public organisation locations for both map views. */
+export const getMap = query(async () => await publicClient().query(api.public.map, {}), "map");
+
+/** Show only sign-in providers configured for this deployment. */
+export const getSignInProviders = query(
+    async () => await publicClient().query(api.public.signInProviders, {}),
+    "signInProviders",
+);

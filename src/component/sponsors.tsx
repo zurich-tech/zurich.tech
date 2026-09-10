@@ -4,6 +4,7 @@ import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
 
 import { tiers } from "../../shared/plans";
+import { SocialLinks } from "./social";
 import { Patrons } from "./patrons";
 import { Card } from "./card";
 
@@ -12,7 +13,7 @@ export function Sponsors() {
     const sponsors = createAsync(() => getSponsors());
 
     return (
-        <Card class="sponsors" title="Sponsors">
+        <Card class="sponsors" title="Sponsors" titleHref="/sponsor">
             <For each={tiers}>
                 {(tier, index) => (
                     <section class="sponsor-tier">
@@ -20,25 +21,31 @@ export function Sponsors() {
                         <div class="sponsor-logos" style={{ "--sponsor-columns": index() + 1 }}>
                             <For each={sponsors()?.filter((sponsor) => sponsor.tier === tier.id)}>
                                 {(sponsor) => (
-                                    <a
-                                        class="sponsor-logo"
-                                        href={sponsor.website}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        title={sponsor.name}
-                                    >
-                                        <Show
-                                            when={sponsor.logoUrl}
-                                            fallback={<span>{sponsor.name}</span>}
+                                    <div class="sponsor-recognition">
+                                        <a
+                                            class="sponsor-logo"
+                                            href={sponsor.profileUrl ?? sponsor.website}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            title={sponsor.name}
                                         >
-                                            <Image
-                                                src={sponsor.logoUrl}
-                                                darkSrc={sponsor.logoDarkUrl}
-                                                alt={sponsor.name}
-                                                loading="lazy"
-                                            />
-                                        </Show>
-                                    </a>
+                                            <Show
+                                                when={sponsor.logoUrl}
+                                                fallback={<span>{sponsor.name}</span>}
+                                            >
+                                                <Image
+                                                    src={sponsor.logoUrl}
+                                                    darkSrc={sponsor.logoDarkUrl}
+                                                    alt={sponsor.name}
+                                                    loading="lazy"
+                                                />
+                                            </Show>
+                                        </a>
+                                        <SocialLinks
+                                            name={sponsor.name}
+                                            profiles={sponsor.socials ?? {}}
+                                        />
+                                    </div>
                                 )}
                             </For>
                             <Show
@@ -61,7 +68,7 @@ export function Sponsors() {
             </For>
             <Patrons />
             <div class="sponsor-action">
-                <a class="button" href="/sponsor">
+                <a class="button button--primary" href="/sponsor">
                     Become a sponsor
                 </a>
             </div>

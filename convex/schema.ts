@@ -2,6 +2,7 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 import { registration, format, submissionFields } from "./event";
 import { purchase, tier } from "./purchase";
+import { socialLinks } from "./url";
 import { jobFields } from "./job";
 
 /** Whether the authenticated identity may access the site. */
@@ -180,11 +181,17 @@ export default defineSchema({
         .index("by_status", ["status"]),
     /** Public organisations and the owners of their jobs and sponsorships. */
     organisations: defineTable({
+        /** Destination for public sponsor recognition. */
+        profileUrl: v.optional(v.string()),
+        socials: v.optional(socialLinks),
         /** Member allowed to manage this organisation and its purchases. */
         ownerMemberId: v.optional(v.id("members")),
         logoUrl: v.optional(v.string()),
         /** Optional logo for dark backgrounds. */
         logoDarkUrl: v.optional(v.string()),
+        /** Compact symbol used for geographic markers. */
+        mapLogoUrl: v.optional(v.string()),
+        mapLogoDarkUrl: v.optional(v.string()),
         slug: v.string(),
         name: v.string(),
         description: v.string(),
@@ -198,6 +205,16 @@ export default defineSchema({
         location: v.string(),
         updatedAt: v.number(),
     }).index("by_slug", ["slug"]),
+    /** Public organisation locations, each backed by a geographic address. */
+    organisationLocations: defineTable({
+        organisationId: v.id("organisations"),
+        addressId: v.id("addresses"),
+        name: v.string(),
+        /** Team-curated institutions remain visible without a sponsorship. */
+        isCurated: v.boolean(),
+    })
+        .index("by_organisation", ["organisationId"])
+        .index("by_address", ["addressId"]),
     /** Editable event revisions awaiting publication. */
     submissions: defineTable({
         ownerMemberId: v.id("members"),
@@ -268,6 +285,9 @@ export default defineSchema({
 
     /** Local member profiles independent of authentication providers. */
     members: defineTable({
+        /** Destination and socials shown with opted-in patron recognition. */
+        profileUrl: v.optional(v.string()),
+        socials: v.optional(socialLinks),
         status: memberStatus,
         name: v.string(),
         headline: v.optional(v.string()),

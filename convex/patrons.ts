@@ -24,6 +24,8 @@ export const list = query({
                               name: member.name,
                               avatarUrl: member.avatarUrl,
                               avatarDarkUrl: member.avatarDarkUrl,
+                              profileUrl: member.profileUrl,
+                              socials: member.socials,
                           }
                         : null;
                 }),

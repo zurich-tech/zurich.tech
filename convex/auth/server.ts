@@ -4,6 +4,7 @@ import { betterAuth } from "better-auth/minimal";
 import type { DataModel } from "../_generated/dataModel";
 import authConfig from "../auth.config";
 import { requiredEnvironment } from "../environment";
+import { socialProviders } from "./providers";
 import { authComponent } from "./component";
 
 /** Create the Better Auth server for one Convex request. */
@@ -14,26 +15,7 @@ export function createAuth(ctx: GenericCtx<DataModel>) {
         baseURL: requiredEnvironment("CONVEX_SITE_URL"),
         database: authComponent.adapter(ctx),
         plugins: [crossDomain({ siteUrl }), convex({ authConfig })],
-        socialProviders: {
-            ...(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
-                ? {
-                      github: {
-                          clientId: requiredEnvironment("GITHUB_CLIENT_ID"),
-                          overrideUserInfoOnSignIn: true,
-                          clientSecret: requiredEnvironment("GITHUB_CLIENT_SECRET"),
-                      },
-                  }
-                : {}),
-            ...(process.env.TWITTER_CLIENT_ID && process.env.TWITTER_CLIENT_SECRET
-                ? {
-                      twitter: {
-                          clientId: requiredEnvironment("TWITTER_CLIENT_ID"),
-                          overrideUserInfoOnSignIn: true,
-                          clientSecret: requiredEnvironment("TWITTER_CLIENT_SECRET"),
-                      },
-                  }
-                : {}),
-        },
+        socialProviders: socialProviders(),
         account: { accountLinking: { enabled: true, trustedProviders: ["github", "twitter"] } },
         trustedOrigins: [siteUrl, "http://localhost:3000"],
     });
