@@ -1,0 +1,530 @@
+{
+    "apply": false,
+    "events": [
+        {
+            "slug": "tufa-talks-1",
+            "summary": "Johannes von Oswald (Google) on transformers, learning algorithms and how gradient descent can emerge within neural network activations.",
+            "description": "Johannes von Oswald (Google) on transformers, learning algorithms and how gradient descent can emerge within neural network activations."
+        },
+        {
+            "slug": "tufa-talks-2",
+            "summary": "Mattia Rigotti (IBM Research Zürich) on language model reasoning, cognitive tools and the connections between machine learning and neuroscience.",
+            "description": "Mattia Rigotti (IBM Research Zürich) on language model reasoning, cognitive tools and the connections between machine learning and neuroscience."
+        },
+        {
+            "slug": "tufa-talks-3",
+            "summary": "Valentina Pyatkin (Allen Institute for AI) on open language models, post-training, instruction following and evaluation.",
+            "description": "Valentina Pyatkin (Allen Institute for AI) on open language models, post-training, instruction following and evaluation."
+        },
+        {
+            "slug": "tufa-talks-4",
+            "summary": "Max Rumpf (SID.ai) on search and retrieval for AI.",
+            "description": "Max Rumpf (SID.ai) on search and retrieval for AI."
+        },
+        {
+            "slug": "zurichnlp-22",
+            "summary": "Tiago Pimentel (ETH Zurich) on causality’s role in ML interpretability and Amir Joudaki (ETH Zurich) on learning dynamics and scaling laws.",
+            "description": "**Tiago Pimentel (ETH Zurich): Promises and Limitations of Causality for Machine Learning Interpretability**\n\nHow can we move from observing what a model does to understanding why it does it? In this talk, I argue that causality is necessary but not sufficient to uncover the mechanisms underlying model predictions. First, I examine a \"macro\" view of model analysis, showing how econometric tools—such as regression discontinuity or difference-in-differences—can isolate the causal impact of specific design choices, like tokenisation and training-data selection, on a model's outputs. Second, I turn to a \"micro\" view of mechanistic interpretability, focusing on causal abstraction as a method to establish whether a model implements a high-level algorithm. I demonstrate that this approach faces a critical limitation: without strict assumptions about how models encode information, the framework becomes vacuous, implying that any model implements any algorithm. This reveals that the ability to make counterfactual predictions about a model is not, on its own, sufficient to guarantee that we understand it. I conclude with a short discussion of how causality can be used to develop more principled interpretability methods, and with an open question about what interpretability is currently missing.\n\n**Amir Joudaki (ETH Zurich)** on learning dynamics and scaling laws."
+        }
+    ],
+    "speakers": [
+        {
+            "name": "Afra Amini",
+            "links": ["https://afraamini.github.io/", "https://twitter.com/afra_amini"]
+        },
+        {
+            "name": "Alejandro Hernandez Cano",
+            "links": [
+                "https://www.alehc.com/",
+                "https://github.com/AleHD",
+                "https://www.linkedin.com/in/alejandro-hern%c3%a1ndez-cano-4452a1296/"
+            ]
+        },
+        {
+            "name": "Aleksander Ficek",
+            "links": [
+                "https://www.linkedin.com/in/aleksanderficek",
+                "https://github.com/aleksficek",
+                "https://x.com/AlekFicek"
+            ]
+        },
+        {
+            "name": "Alex Warstadt",
+            "links": ["https://alexwarstadt.com/"]
+        },
+        {
+            "name": "Amir Joudaki",
+            "links": [
+                "https://ajoudaki.github.io/",
+                "https://github.com/ajoudaki",
+                "https://www.linkedin.com/in/amirjoudaki",
+                "https://twitter.com/amirjoudaki"
+            ]
+        },
+        {
+            "name": "Ana Kotarcic",
+            "links": ["https://www.zhaw.ch/de/ueber-uns/person/kotc"]
+        },
+        {
+            "name": "Anton Obukhov",
+            "links": [
+                "https://www.obukhov.ai/",
+                "https://github.com/toshas",
+                "https://www.linkedin.com/in/anton-obukhov-78b5276/",
+                "https://twitter.com/antonobukhov1"
+            ]
+        },
+        {
+            "name": "Antonio Arbues",
+            "links": ["https://ch.linkedin.com/in/antonio-arbues-825101179"]
+        },
+        {
+            "name": "Arlind Nocaj",
+            "links": ["https://ch.linkedin.com/in/arlind-nocaj"]
+        },
+        {
+            "name": "Ayca Takmaz",
+            "links": [
+                "https://www.linkedin.com/in/aycatakmaz/",
+                "https://github.com/aycatakmaz",
+                "https://twitter.com/aycatakmaz",
+                "https://aycatakmaz.github.io/"
+            ]
+        },
+        {
+            "name": "Barath Daniel Béla",
+            "links": ["https://danini.github.io/", "https://github.com/danini"]
+        },
+        {
+            "name": "Barna Pasztor",
+            "links": ["https://pasztorb.github.io/", "https://www.linkedin.com/in/barna-pasztor/"]
+        },
+        {
+            "name": "Barnabas Gavin Cangan",
+            "links": ["https://www.bgav.in/"]
+        },
+        {
+            "name": "Basil Mustafa",
+            "links": ["https://www.basilmustafa.com/"]
+        },
+        {
+            "name": "Betsa Maciej",
+            "links": ["https://people.inf.ethz.ch/bestam/"]
+        },
+        {
+            "name": "Bobby He",
+            "links": [
+                "https://bobby-he.github.io/",
+                "https://www.linkedin.com/in/bobby-he-5022a28b/"
+            ]
+        },
+        {
+            "name": "Brian DuSell",
+            "links": [
+                "https://bdusell.com/",
+                "https://github.com/bdusell",
+                "https://twitter.com/BrianDuSell",
+                "https://www.linkedin.com/in/brian-dusell-24073747/"
+            ]
+        },
+        {
+            "name": "Caterina Caccavella",
+            "links": ["https://www.zhaw.ch/en/about-us/person/cacc"]
+        },
+        {
+            "name": "Dominique Paul",
+            "links": [
+                "https://www.linkedin.com/in/dominique-paul",
+                "https://github.com/DominiquePaul",
+                "https://www.thisiscrispin.com/",
+                "https://x.com/DominiqueCAPaul"
+            ]
+        },
+        {
+            "name": "Edoardo Debenedetti",
+            "links": [
+                "https://edoardo.science/",
+                "https://github.com/dedeswim",
+                "https://twitter.com/edoardo_debe",
+                "https://linkedin.com/in/edoardo-debenedetti"
+            ]
+        },
+        {
+            "name": "Eiso Kant",
+            "links": ["https://pt.linkedin.com/in/eisokant"]
+        },
+        {
+            "name": "Elliott Ash",
+            "links": ["https://elliottash.com/", "https://twitter.com/ellliottt"]
+        },
+        {
+            "name": "Eric Chen",
+            "links": ["https://eric11eca.github.io/"]
+        },
+        {
+            "name": "Fabian Schaipp",
+            "links": [
+                "https://fabian-sp.github.io/",
+                "https://github.com/fabian-sp",
+                "https://twitter.com/FSchaipp"
+            ]
+        },
+        {
+            "name": "Felix Bauer",
+            "links": [
+                "https://people.epfl.ch/felix.bauer?lang=en",
+                "https://www.linkedin.com/in/felix-b-16807316a",
+                "https://github.com/bauerfe"
+            ]
+        },
+        {
+            "name": "Felix Wimbauer",
+            "links": [
+                "https://fwmb.github.io/",
+                "https://www.linkedin.com/in/felixwimbauer/",
+                "https://twitter.com/felixwimbauer"
+            ]
+        },
+        {
+            "name": "Francis Engelmann",
+            "links": [
+                "https://francisengelmann.github.io/",
+                "https://github.com/francisengelmann",
+                "https://www.linkedin.com/in/francis-engelmann-8b4b5467/",
+                "https://twitter.com/FrancisEngelman"
+            ]
+        },
+        {
+            "name": "Giacomo Manzoni",
+            "links": ["https://ch.linkedin.com/in/manzonigiacomo"]
+        },
+        {
+            "name": "Haithem Turki",
+            "links": [
+                "https://haithemturki.com/",
+                "https://twitter.com/Haithem_Turki",
+                "https://github.com/hturki"
+            ]
+        },
+        {
+            "name": "Imanol Schlag",
+            "links": [
+                "https://ischlag.github.io/",
+                "https://github.com/ischlag",
+                "https://twitter.com/imanolschlag",
+                "https://www.linkedin.com/in/imanol-schlag-609b65b0/"
+            ]
+        },
+        {
+            "name": "Ivan Vulić",
+            "links": ["https://sites.google.com/site/ivanvulic/", "https://twitter.com/licwu"]
+        },
+        {
+            "name": "Jannis Vamvas",
+            "links": [
+                "https://vamvas.ch/",
+                "https://github.com/jvamvas/",
+                "https://www.linkedin.com/in/jvamvas/"
+            ]
+        },
+        {
+            "name": "Joan Puigcerver",
+            "links": [
+                "https://jpuigcerver.net/",
+                "https://github.com/jpuigcerver",
+                "https://twitter.com/joapuipe",
+                "https://linkedin.com/in/jpuigcerver"
+            ]
+        },
+        {
+            "name": "Johannes von Oswald",
+            "links": [
+                "https://jovoswald.github.io/",
+                "https://x.com/oswaldjoh",
+                "https://github.com/jovoswald",
+                "https://www.linkedin.com/in/johswald/"
+            ]
+        },
+        {
+            "name": "Jonas Hübotter",
+            "links": ["https://ch.linkedin.com/in/jonhue"]
+        },
+        {
+            "name": "Jonas Pfeiffer",
+            "links": ["https://research.google/people/jonaspfeiffer/"]
+        },
+        {
+            "name": "Julian Eisenschlos",
+            "links": [
+                "https://eisenjulian.github.io/",
+                "https://github.com/eisenjulian",
+                "https://www.linkedin.com/in/eisenjulian",
+                "https://x.com/eisenjulian"
+            ]
+        },
+        {
+            "name": "Julian Schilliger",
+            "links": ["https://ch.linkedin.com/in/julian-schilliger"]
+        },
+        {
+            "name": "Jürgen Schmidhuber",
+            "links": ["https://people.idsia.ch/~juergen/"]
+        },
+        {
+            "name": "Kacper Lukawski",
+            "links": ["https://www.kacperlukawski.com/"]
+        },
+        {
+            "name": "Katya Mirylenka",
+            "links": ["https://ch.linkedin.com/in/katya-mirylenka-540021117"]
+        },
+        {
+            "name": "Korrawe Karunratanakul",
+            "links": ["https://ch.linkedin.com/in/korrawekarunratanakul"]
+        },
+        {
+            "name": "Leandro von Werra",
+            "links": [
+                "https://www.lvwerra.com/",
+                "https://twitter.com/lvwerra",
+                "https://linkedin.com/in/lvwerra/",
+                "https://github.com/lvwerra"
+            ]
+        },
+        {
+            "name": "Lewis Tunstall",
+            "links": [
+                "https://huggingface.co/lewtun",
+                "https://twitter.com/_lewtun",
+                "https://github.com/lewtun"
+            ]
+        },
+        {
+            "name": "Linus Scheibenreif",
+            "links": [
+                "https://scheibenreif.github.io/",
+                "https://www.linkedin.com/in/linus-scheibenreif/",
+                "https://github.com/scheibenreif"
+            ]
+        },
+        {
+            "name": "Luca Beurer-Kellner",
+            "links": ["https://www.sri.inf.ethz.ch/people/luca"]
+        },
+        {
+            "name": "Luca Campanella",
+            "links": [
+                "https://lucacampanella.com/",
+                "https://www.linkedin.com/in/luca-campanella",
+                "https://github.com/lucacampanella"
+            ]
+        },
+        {
+            "name": "Lucas Beyer",
+            "links": ["https://lucasb.eyer.be/"]
+        },
+        {
+            "name": "Martina Forster",
+            "links": ["https://rycolab.io/authors/martina/"]
+        },
+        {
+            "name": "Matej Jusup",
+            "links": [
+                "https://matej-jusup.com/",
+                "https://www.linkedin.com/in/matej-jusup",
+                "https://github.com/mjusup1501",
+                "https://x.com/matejjusup"
+            ]
+        },
+        {
+            "name": "Matteo Saponati",
+            "links": [
+                "https://www.linkedin.com/in/matteosaponati/",
+                "https://github.com/matteosaponati",
+                "https://matteosaponati.github.io/",
+                "https://twitter.com/matteosaponati"
+            ]
+        },
+        {
+            "name": "Mattia Rigotti",
+            "links": [
+                "https://www.matrig.net/",
+                "https://www.linkedin.com/in/mattia-rigotti",
+                "https://github.com/matrig"
+            ]
+        },
+        {
+            "name": "Max Rumpf",
+            "links": ["https://maxrumpf.com/", "https://x.com/maxrumpf"]
+        },
+        {
+            "name": "Michael Hersche",
+            "links": [
+                "https://research.ibm.com/people/michael-hersche--1",
+                "https://github.com/MHersche",
+                "https://www.linkedin.com/in/michael-hersche-771b80133",
+                "https://twitter.com/Mihesche"
+            ]
+        },
+        {
+            "name": "Michael Neunert",
+            "links": ["https://www.linkedin.com/in/michael-neunert/"]
+        },
+        {
+            "name": "Michael Tschannen",
+            "links": ["https://ch.linkedin.com/in/michael-tschannen-31119094"]
+        },
+        {
+            "name": "Nando Metzger",
+            "links": [
+                "https://www.linkedin.com/in/nando-metzger-68aa0518b/",
+                "https://github.com/nandometzger",
+                "https://nandometzger.github.io/"
+            ]
+        },
+        {
+            "name": "Nicolas Muntwyler",
+            "links": ["https://ch.linkedin.com/in/nicolasmuntwyler"]
+        },
+        {
+            "name": "Nikolai Kalischek",
+            "links": ["https://www.linkedin.com/in/nikolai-kalischek/"]
+        },
+        {
+            "name": "Omar Sanseviero",
+            "links": ["https://github.com/osanseviero", "https://twitter.com/osanseviero"]
+        },
+        {
+            "name": "Pascal Chang",
+            "links": ["https://ch.linkedin.com/in/pascalchang87"]
+        },
+        {
+            "name": "Paul-Edouard Sarlin",
+            "links": [
+                "https://psarlin.com/",
+                "https://www.linkedin.com/in/pesarlin/en",
+                "https://github.com/sarlinpe",
+                "https://twitter.com/pesarlin"
+            ]
+        },
+        {
+            "name": "Peter Karkus",
+            "links": [
+                "https://karkus.tilda.ws/",
+                "https://www.linkedin.com/in/peter-karkus-b301b223/"
+            ]
+        },
+        {
+            "name": "Philippe Bich",
+            "links": [
+                "https://philippebich.github.io/",
+                "https://www.linkedin.com/in/philippebich",
+                "https://github.com/philippebich"
+            ]
+        },
+        {
+            "name": "Riccardo Maggioni",
+            "links": ["https://www.linkedin.com/in/maggioniriccardo/"]
+        },
+        {
+            "name": "Seif Ismail",
+            "links": ["https://www.linkedin.com/in/seif-ismail-143b53247/"]
+        },
+        {
+            "name": "Sina Ahmadi",
+            "links": ["https://sinaahmadi.github.io/", "https://github.com/sinaahmadi"]
+        },
+        {
+            "name": "Songyou Peng",
+            "links": [
+                "https://pengsongyou.github.io/",
+                "https://github.com/pengsongyou",
+                "https://www.linkedin.com/in/songyou-peng-53717648/",
+                "https://twitter.com/songyoupeng"
+            ]
+        },
+        {
+            "name": "Tannon Kew",
+            "links": [
+                "https://www.cl.uzh.ch/en/research-groups/texttechnologies/Team/Fromer-members/kew.html"
+            ]
+        },
+        {
+            "name": "Tiago Pimentel",
+            "links": [
+                "https://tpimentelms.github.io/",
+                "https://github.com/tpimentelms",
+                "https://www.linkedin.com/in/tpimentel",
+                "https://twitter.com/tpimentelms"
+            ]
+        },
+        {
+            "name": "Tim Scarfe",
+            "links": ["https://twitter.com/ecsquendor"]
+        },
+        {
+            "name": "Tobias Fischer",
+            "links": ["https://ch.linkedin.com/in/tobias-fischer"]
+        },
+        {
+            "name": "Valentina Pyatkin",
+            "links": [
+                "https://valentinapy.github.io/",
+                "https://www.linkedin.com/in/valentina-pyatkin/",
+                "https://x.com/valentina__py"
+            ]
+        },
+        {
+            "name": "Vanessa Sklyarova",
+            "links": [
+                "https://vanessik.github.io/",
+                "https://github.com/Vanessik",
+                "https://x.com/ness_pirs",
+                "https://www.linkedin.com/in/vanessa-sclearova-3599b8282/"
+            ]
+        },
+        {
+            "name": "Victor Klemm",
+            "links": ["https://www.victorklemm.com/"]
+        },
+        {
+            "name": "Vilém Zouhar",
+            "links": [
+                "https://vilda.net/",
+                "https://github.com/zouharvi/",
+                "https://twitter.com/zouharvi",
+                "https://www.linkedin.com/in/vil%C3%A9m-zouhar-192988288/"
+            ]
+        },
+        {
+            "name": "Xi Wang",
+            "links": ["https://xiwang1212.github.io/homepage/", "https://twitter.com/xiwang1212"]
+        },
+        {
+            "name": "Yannic Kilcher",
+            "links": [
+                "https://www.ykilcher.com/",
+                "https://twitter.com/ykilcher",
+                "https://www.linkedin.com/in/ykilcher/",
+                "https://github.com/yk"
+            ]
+        },
+        {
+            "name": "Zan Gojcic",
+            "links": [
+                "https://zgojcic.github.io/",
+                "https://twitter.com/ZGojcic",
+                "https://github.com/zgojcic"
+            ]
+        },
+        {
+            "name": "Zeerak Talat",
+            "links": [
+                "http://zeerak.org/",
+                "https://github.com/zeeraktalat",
+                "https://www.linkedin.com/in/zeeraktalat",
+                "https://twitter.com/zeeraktalat"
+            ]
+        }
+    ]
+}

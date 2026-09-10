@@ -1,6 +1,6 @@
 import { siteOrigin } from "./environment";
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, internalMutation } from "./_generated/server";
 import { requireAccount, requireTeam } from "./access";
 import { submissionFields } from "./event";
 import { normalizeUrl, normalizeImageUrl } from "./url";
@@ -360,5 +360,95 @@ export const cancel = mutation({
                     `Cancelled: ${event.title}`,
                     `${event.title} has been cancelled.\n\n${siteOrigin()}/events/${event.slug}`,
                 );
+    },
+});
+
+/** Apply reviewed event copy and speaker links without republishing or notifying attendees. */
+export const backfill = internalMutation({
+    args: {
+        apply: v.boolean(),
+        events: v.array(
+            v.object({ slug: v.string(), summary: v.string(), description: v.string() }),
+        ),
+        speakers: v.array(v.object({ name: v.string(), links: v.array(v.string()) })),
+    },
+    handler: async (ctx, args) => {
+        // validate destinations before changing any records
+        const profiles = new Map(
+            args.speakers.map((speaker) => {
+                if (speaker.links.length > 6)
+                    throw new Error(`Too many links for ${speaker.name}.`);
+                const links = speaker.links.map((url) => normalizeUrl(url));
+
+                return [speaker.name, links] as const;
+            }),
+        );
+        const now = Date.now();
+        let eventCount = 0;
+        let speakerCount = 0;
+        let submissionCount = 0;
+
+        // change only the reviewed public text, preserving scheduling and registrations
+        for (const values of args.events) {
+            const event = await ctx.db
+                .query("events")
+                .withIndex("by_slug", (range) => range.eq("slug", values.slug))
+                .unique();
+            if (!event) throw new Error(`Event not found: ${values.slug}.`);
+            if (event.summary !== values.summary || event.description !== values.description) {
+                eventCount += 1;
+                if (args.apply)
+                    await ctx.db.patch(event._id, {
+                        summary: values.summary,
+                        description: values.description,
+                        updatedAt: now,
+                    });
+            }
+        }
+
+        // update every appearance of each reviewed speaker
+        const speakers = await ctx.db.query("eventSpeakers").collect();
+        for (const name of profiles.keys()) {
+            if (!speakers.some((speaker) => speaker.name === name))
+                throw new Error(`Speaker not found: ${name}.`);
+        }
+        for (const speaker of speakers) {
+            const links = profiles.get(speaker.name);
+            if (links && JSON.stringify(links) !== JSON.stringify(speaker.links ?? [])) {
+                speakerCount += 1;
+                if (args.apply) await ctx.db.patch(speaker._id, { links, updatedAt: now });
+            }
+        }
+
+        // keep published source submissions aligned without overwriting unreviewed drafts
+        const submissions = await ctx.db
+            .query("submissions")
+            .withIndex("by_status", (range) => range.eq("status", "published"))
+            .collect();
+        for (const submission of submissions) {
+            const description =
+                args.events.find((event) => event.slug === submission.slug)?.description ??
+                submission.description;
+            const speakers = submission.speakers.map((speaker) => {
+                const links = profiles.get(speaker.name);
+
+                return links ? { ...speaker, links } : speaker;
+            });
+            if (
+                description !== submission.description ||
+                JSON.stringify(speakers) !== JSON.stringify(submission.speakers)
+            ) {
+                submissionCount += 1;
+                if (args.apply)
+                    await ctx.db.patch(submission._id, { description, speakers, updatedAt: now });
+            }
+        }
+
+        return {
+            applied: args.apply,
+            events: eventCount,
+            speakers: speakerCount,
+            submissions: submissionCount,
+        };
     },
 });
