@@ -3,10 +3,11 @@ import { internalMutation, query, type MutationCtx } from "./_generated/server";
 import type { Doc, Id } from "./_generated/dataModel";
 import { requireAccount } from "./access";
 import { authComponent } from "./auth/component";
-import { paidTerm, recordPayment } from "./payments";
+import { recordPayment } from "./payments";
 import { requireCompany } from "./organisations";
 import { tiers, patron, jobPrice, principalLimit } from "../shared/plans";
 import { purchase } from "./purchase";
+import { sponsorshipTerm } from "./sponsors";
 
 /** Reserve one annual purchase before creating its Stripe session. */
 export const reserve = internalMutation({
@@ -37,6 +38,9 @@ export const reserve = internalMutation({
             await requireCompany(ctx, sponsor.organisationId);
             if (sponsor.status === "declined" || sponsor.status === "ended")
                 throw new Error("Request a new sponsorship before paying.");
+            if (sponsor.inKind)
+                throw new Error("This sponsorship is covered by an in-kind agreement.");
+            if (!sponsor.billingEmail) throw new Error("Sponsorship billing email is missing.");
             sponsorship = sponsor;
             const tier = tiers.find((tier) => tier.id === sponsor.tier)!;
             amount = tier.price;
@@ -231,8 +235,8 @@ export async function requireCheckoutClosed(ctx: MutationCtx, id: Id<"sponsorshi
 }
 
 /** Count active Principal sponsors and open checkouts before allocating a place. */
-export async function requirePrincipalPlace(ctx: MutationCtx, id: Id<"sponsorships">) {
-    // count paid Principal places before including open reservations
+export async function requirePrincipalPlace(ctx: MutationCtx, id?: Id<"sponsorships">) {
+    // count paid and in-kind Principal places before including open reservations
     const now = Date.now();
     const active = await ctx.db
         .query("sponsorships")
@@ -240,7 +244,7 @@ export async function requirePrincipalPlace(ctx: MutationCtx, id: Id<"sponsorshi
         .collect();
     const occupied = new Set<Id<"sponsorships">>();
     for (const sponsor of active) {
-        const term = await paidTerm(ctx, sponsor._id);
+        const term = await sponsorshipTerm(ctx, sponsor);
         if (sponsor.tier === "principal" && term && term.endsAt > now) occupied.add(sponsor._id);
     }
 
@@ -257,7 +261,7 @@ export async function requirePrincipalPlace(ctx: MutationCtx, id: Id<"sponsorshi
         }
     }
     // exclude this renewal from its own capacity check
-    occupied.delete(id);
+    if (id) occupied.delete(id);
     if (occupied.size >= principalLimit)
         throw new Error("All Principal places are currently taken.");
 }

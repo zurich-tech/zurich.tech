@@ -113,7 +113,7 @@ export function JobCard(props: {
 
 /** Manage one sponsorship request, renewal and payment. */
 export function SponsorshipCard(props: {
-    /** Sponsorship request and paid term. */
+    /** Sponsorship request and its paid or in-kind term. */
     sponsor: EmployerWorkspace["sponsorships"][number];
     /** Company identities displayed in the card. */
     companies: EmployerWorkspace["organisations"];
@@ -169,9 +169,11 @@ export function SponsorshipCard(props: {
             meta={props.sponsor.status}
         >
             <p>
-                {tiers.find((tier) => tier.id === props.sponsor.tier)?.name} · CHF{" "}
-                {tiers.find((tier) => tier.id === props.sponsor.tier)?.price}
-                /year
+                {tiers.find((tier) => tier.id === props.sponsor.tier)?.name}
+                <Show when={!props.sponsor.inKind} fallback=" · In-kind support">
+                    {" · CHF "}
+                    {tiers.find((tier) => tier.id === props.sponsor.tier)?.price}/year
+                </Show>
             </p>
             <Show when={props.sponsor.endsAt}>
                 <p>
@@ -181,11 +183,16 @@ export function SponsorshipCard(props: {
             <Show when={props.sponsor.note}>
                 <p>{props.sponsor.note}</p>
             </Show>
-            <p class="text-soft">{props.sponsor.billingEmail}</p>
+            <Show when={props.sponsor.inKind}>
+                {(agreement) => <p>{agreement().description}</p>}
+            </Show>
+            <Show when={props.sponsor.billingEmail}>
+                <p class="text-soft">{props.sponsor.billingEmail}</p>
+            </Show>
             <Show when={props.sponsor.status === "requested"}>
                 <p>Awaiting payment.</p>
             </Show>
-            <Show when={props.sponsor.status === "active"}>
+            <Show when={props.sponsor.status === "active" && !props.sponsor.inKind}>
                 <p>
                     {props.sponsor.endsAt! <= Date.now()
                         ? "This term has expired. Request renewal below."
@@ -195,7 +202,13 @@ export function SponsorshipCard(props: {
             <Show when={props.sponsor.renewalRequested}>
                 <p>Renewal requested. Awaiting invoice payment.</p>
             </Show>
-            <Show when={props.sponsor.status === "active" && !props.sponsor.renewalRequested}>
+            <Show
+                when={
+                    props.sponsor.status === "active" &&
+                    !props.sponsor.inKind &&
+                    !props.sponsor.renewalRequested
+                }
+            >
                 <button
                     class="button"
                     disabled={props.isPending}
@@ -231,7 +244,12 @@ export function SponsorshipCard(props: {
                     Withdraw request
                 </button>
             </Show>
-            <Show when={props.sponsor.status === "requested" || props.sponsor.status === "active"}>
+            <Show
+                when={
+                    !props.sponsor.inKind &&
+                    (props.sponsor.status === "requested" || props.sponsor.status === "active")
+                }
+            >
                 <CheckoutButton
                     purchase={{
                         kind: "sponsorship",
@@ -243,17 +261,19 @@ export function SponsorshipCard(props: {
                 />
             </Show>
             <Show when={props.isTeam}>
-                <form class="editor" onSubmit={activate}>
-                    <label>
-                        Paid invoice reference
-                        <input name="invoiceReference" required />
-                    </label>
-                    <button class="button button--primary" disabled={props.isPending}>
-                        {props.sponsor.status === "active"
-                            ? "Confirm renewal payment"
-                            : "Confirm payment & activate"}
-                    </button>
-                </form>
+                <Show when={!props.sponsor.inKind}>
+                    <form class="editor" onSubmit={activate}>
+                        <label>
+                            Paid invoice reference
+                            <input name="invoiceReference" required />
+                        </label>
+                        <button class="button button--primary" disabled={props.isPending}>
+                            {props.sponsor.status === "active"
+                                ? "Confirm renewal payment"
+                                : "Confirm payment & activate"}
+                        </button>
+                    </form>
+                </Show>
                 <form class="editor" onSubmit={end}>
                     <label>
                         Decision note

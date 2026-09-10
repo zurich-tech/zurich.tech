@@ -9,6 +9,7 @@ import { tiers } from "../shared/plans";
 import { confirmationPeriod, jobFields } from "./job";
 import { normalizeEmail } from "./email";
 import { normalizeUrl } from "./url";
+import { sponsorshipTerm } from "./sponsors";
 
 /** Read the public job board, excluding expired or unconfirmed vacancies. */
 export const list = query({
@@ -178,7 +179,7 @@ export const publish = mutation({
             const terms = await Promise.all(
                 sponsors.map(async (item) => ({
                     ...item,
-                    term: await paidTerm(ctx, item._id),
+                    term: await sponsorshipTerm(ctx, item),
                 })),
             );
             const sponsor = terms.find(
@@ -279,6 +280,7 @@ async function publicJob(ctx: QueryCtx, row: Doc<"jobs">) {
             name: organisation.name,
             website: organisation.website,
             logoUrl: organisation.logoUrl,
+            logoDarkUrl: organisation.logoDarkUrl,
         },
         location: row.location,
         workplace: row.workplace,
@@ -301,8 +303,10 @@ export async function jobExpiry(
         const sponsor = await ctx.db.get(job.sponsorshipId);
         if (!sponsor) throw new Error("Job sponsorship is missing.");
         if (sponsor.status !== "active") return null;
+
+        return (await sponsorshipTerm(ctx, sponsor))?.endsAt ?? null;
     }
-    const term = await paidTerm(ctx, job.sponsorshipId ?? job._id);
+    const term = await paidTerm(ctx, job._id);
 
     return term?.endsAt ?? null;
 }

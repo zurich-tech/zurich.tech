@@ -1,4 +1,4 @@
-import { paidTerm } from "./payments";
+import { sponsorshipTerm } from "./sponsors";
 import { jobExpiry } from "./jobs";
 import { query } from "./_generated/server";
 import { requireAccount } from "./access";
@@ -102,7 +102,7 @@ export const employer = query({
                     .sort((a, b) => b.updatedAt - a.updatedAt)
                     .map(async (sponsor) => ({
                         ...sponsor,
-                        ...(await paidTerm(ctx, sponsor._id)),
+                        ...(await sponsorshipTerm(ctx, sponsor)),
                     })),
             ),
         };
