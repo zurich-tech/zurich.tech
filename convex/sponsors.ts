@@ -1,4 +1,4 @@
-import { requireCheckoutClosed, requirePrincipalPlace } from "./checkout";
+import { requireCheckoutClosed } from "./checkout";
 import { v } from "convex/values";
 import type { Doc } from "./_generated/dataModel";
 import { query, mutation, internalMutation, type QueryCtx } from "./_generated/server";
@@ -67,7 +67,6 @@ export const activate = mutation({
         await requireCheckoutClosed(ctx, row._id);
         if (row.status === "declined" || row.status === "ended")
             throw new Error("Request a new sponsorship before recording payment.");
-        if (row.tier === "principal") await requirePrincipalPlace(ctx, row._id);
         const companySponsors = await ctx.db
             .query("sponsorships")
             .withIndex("by_company", (q) => q.eq("organisationId", row.organisationId))
@@ -176,6 +175,8 @@ export async function activeSponsors(ctx: Pick<QueryCtx, "db">) {
                 tier: row.tier,
                 name: organisation.name,
                 website: organisation.website,
+                profileUrl: organisation.profileUrl,
+                socials: organisation.socials,
                 logoUrl: organisation.logoUrl,
                 logoDarkUrl: organisation.logoDarkUrl,
             };
@@ -235,9 +236,8 @@ export const grantInKind = internalMutation({
             });
         }
 
-        // reserve the same Principal capacity as a paid agreement
+        // require hosted checkout to finish before changing an agreement
         if (existing) await requireCheckoutClosed(ctx, existing._id);
-        if (args.tier === "principal") await requirePrincipalPlace(ctx, existing?._id);
         const values = {
             organisationId: args.organisationId,
             tier: args.tier,

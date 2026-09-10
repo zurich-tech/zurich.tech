@@ -1,13 +1,12 @@
 import { v } from "convex/values";
 import { internalMutation, query, type MutationCtx } from "./_generated/server";
-import type { Doc, Id } from "./_generated/dataModel";
+import type { Id } from "./_generated/dataModel";
 import { requireAccount } from "./access";
 import { authComponent } from "./auth/component";
 import { recordPayment } from "./payments";
 import { requireCompany } from "./organisations";
-import { tiers, patron, jobPrice, jobDurationMonths, principalLimit } from "../shared/plans";
+import { tiers, patron, jobPrice, jobDurationMonths } from "../shared/plans";
 import { purchase } from "./purchase";
-import { sponsorshipTerm } from "./sponsors";
 
 /** Reserve one purchase before creating its Stripe session. */
 export const reserve = internalMutation({
@@ -20,7 +19,6 @@ export const reserve = internalMutation({
         let amount: number = patron.price;
         let name = "Patron · one year";
         let email = user.email;
-        let sponsorship: Doc<"sponsorships"> | null = null;
 
         // require ownership and derive prices entirely on the server
         if (args.purchase.kind === "job") {
@@ -41,7 +39,6 @@ export const reserve = internalMutation({
             if (sponsor.inKind)
                 throw new Error("This sponsorship is covered by an in-kind agreement.");
             if (!sponsor.billingEmail) throw new Error("Sponsorship billing email is missing.");
-            sponsorship = sponsor;
             const tier = tiers.find((tier) => tier.id === sponsor.tier)!;
             amount = tier.price;
             name = `${tier.name} sponsorship · one year`;
@@ -60,11 +57,6 @@ export const reserve = internalMutation({
                 JSON.stringify(row.purchase) === JSON.stringify(args.purchase),
         );
         if (existing) return existing;
-
-        // hold scarce principal places for the checkout's thirty minute lifetime
-        if (sponsorship?.tier === "principal") {
-            await requirePrincipalPlace(ctx, sponsorship._id);
-        }
 
         // retain the purchase until its hosted session expires
         const values = {
@@ -232,36 +224,4 @@ export async function requireCheckoutClosed(ctx: MutationCtx, id: Id<"sponsorshi
         throw new Error(
             "A payment is open for this sponsorship. Complete it or wait for the checkout to expire before changing it.",
         );
-}
-
-/** Count active Principal sponsors and open checkouts before allocating a place. */
-export async function requirePrincipalPlace(ctx: MutationCtx, id?: Id<"sponsorships">) {
-    // count paid and in-kind Principal places before including open reservations
-    const now = Date.now();
-    const active = await ctx.db
-        .query("sponsorships")
-        .withIndex("by_status", (q) => q.eq("status", "active"))
-        .collect();
-    const occupied = new Set<Id<"sponsorships">>();
-    for (const sponsor of active) {
-        const term = await sponsorshipTerm(ctx, sponsor);
-        if (sponsor.tier === "principal" && term && term.endsAt > now) occupied.add(sponsor._id);
-    }
-
-    // include reservations from other payment sessions in the same transaction
-    // find unexpired hosted sessions for this sponsorship
-    const pending = await ctx.db
-        .query("checkouts")
-        .withIndex("by_status", (q) => q.eq("status", "pending"))
-        .collect();
-    for (const reservation of pending) {
-        if (reservation.expiresAt > now && reservation.purchase.kind === "sponsorship") {
-            const sponsor = await ctx.db.get(reservation.purchase.id);
-            if (sponsor?.tier === "principal") occupied.add(sponsor._id);
-        }
-    }
-    // exclude this renewal from its own capacity check
-    if (id) occupied.delete(id);
-    if (occupied.size >= principalLimit)
-        throw new Error("All Principal places are currently taken.");
 }

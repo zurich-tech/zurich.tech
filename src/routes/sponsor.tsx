@@ -7,18 +7,22 @@ import { CheckoutButton } from "../component/payments";
 import { Patrons } from "../component/patrons";
 
 import { Arrow } from "../component/arrow";
-import { tiers, patron, principalLimit } from "../../shared/plans";
+import { tiers, patron } from "../../shared/plans";
 import { useEmployerWorkspace } from "../core/workspace";
 import { CompanySelect } from "../component/company";
 import { memberClient } from "../core/convex";
-import { Page, PageHeader } from "../component/page";
+import { Page } from "../component/page";
 import { Card } from "../component/card";
 import { Seo } from "../component/seo";
 import { FormMessage } from "../component/form";
 import { errorMessage } from "../core/error";
 
 /** Stated reach shown with the sponsorship options. */
-const reach = `${site.subscribers.toLocaleString("en-GB")}+ mailing-list subscribers. ${site.attendees.toLocaleString("en-GB")}+ attendees at most of our events. >${site.eventsPerYear} events/year.`;
+const reach = [
+    `${site.subscribers.toLocaleString("en-GB")}+ mailing-list subscribers.`,
+    `${site.attendees.toLocaleString("en-GB")}+ attendees at most of our events.`,
+    `>${site.eventsPerYear} events/year.`,
+];
 
 /** Present annual support and open hosted checkout for company sponsorship. */
 export default function Route() {
@@ -54,20 +58,26 @@ export default function Route() {
 
     return (
         <>
-            <Seo title="Sponsor zurich.tech" description={reach} />
+            <Seo title="Sponsor zurich.tech" description={reach.join(" ")} />
             <Page>
-                <PageHeader title="Support zurich.tech" summary={reach} />
+                <Card title="Support zurich.tech" heading="h1">
+                    <ul class="plan-benefits">
+                        <For each={reach}>
+                            {(sentence) => (
+                                <li>
+                                    <Arrow />
+                                    <strong>{sentence}</strong>
+                                </li>
+                            )}
+                        </For>
+                    </ul>
+                </Card>
                 <div class="sponsor-plans">
                     <For each={[...tiers].reverse()}>
                         {(tier) => (
                             <Card
                                 title={tier.name}
-                                class={`sponsor-plan sponsor-plan--${tier.id}`}
-                                toolbar={
-                                    tier.id === "principal" ? (
-                                        <span class="tier-note">Limited to {principalLimit}</span>
-                                    ) : undefined
-                                }
+                                class={`offer-card sponsor-plan sponsor-plan--${tier.id}`}
                             >
                                 <p class="tier-price">
                                     <span>CHF</span> {tier.price.toLocaleString("de-CH")}
@@ -83,10 +93,7 @@ export default function Route() {
                                 <ul class="plan-benefits">
                                     <li>
                                         <Arrow />
-                                        <strong>
-                                            {tier.jobs} active job{" "}
-                                            {tier.jobs === 1 ? "slot" : "slots"}
-                                        </strong>
+                                        <strong>{tier.jobs} included jobs</strong>
                                         <span>Replace roles as you hire.</span>
                                     </li>
                                     <li>
@@ -98,6 +105,13 @@ export default function Route() {
                                         <Arrow />
                                         <strong>On our event banner</strong>
                                         <span>{tier.banner}</span>
+                                    </li>
+                                    <li>
+                                        <Arrow />
+                                        <strong>{tier.map}</strong>
+                                        <span>
+                                            Your local office links to your organisation page.
+                                        </span>
                                     </li>
                                     <Show when={tier.newsletter}>
                                         <li>

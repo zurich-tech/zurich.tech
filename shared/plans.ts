@@ -1,13 +1,11 @@
-/** Maximum simultaneous Principal sponsorships. */
-export const principalLimit = 3;
-
 /** Annual community sponsorship options, shared with the public page. */
 export const tiers = [
     {
         id: "principal",
         name: "Principal",
         logoWidth: 180,
-        price: 5000,
+        map: "Large logo on the community map",
+        price: 2500,
         purpose: "Become an integral partner.",
         contribution: "Support the basics and what comes next.",
         jobs: 10,
@@ -21,10 +19,11 @@ export const tiers = [
         id: "partner",
         name: "Partner",
         logoWidth: 110,
-        price: 2000,
+        map: "Medium logo on the community map",
+        price: 1000,
         purpose: "Enable more events to happen.",
         contribution: "Help cover core operating expenses.",
-        jobs: 3,
+        jobs: 5,
         description: "Medium linked logo",
         newsletter: "Logo in the sponsor footer",
         slides: "Logo on opening slides",
@@ -35,10 +34,11 @@ export const tiers = [
         id: "supporter",
         name: "Supporter",
         logoWidth: 80,
+        map: "Small logo on the community map",
         price: 500,
         purpose: "Support the local community.",
         contribution: "Contribute to day-to-day running costs.",
-        jobs: 1,
+        jobs: 2,
         description: "Small linked logo",
         newsletter: undefined,
         slides: undefined,
