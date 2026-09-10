@@ -11,10 +11,19 @@ export async function GET(event: APIEvent) {
     });
     if (!record) return new Response("Event not found", { status: 404 });
 
-    return new Response(calendar(record, Date.now()), {
-        headers: {
-            "Content-Type": "text/calendar; charset=utf-8",
-            "Content-Disposition": `attachment; filename="${record.slug}.ics"`,
+    return new Response(
+        calendar(
+            {
+                ...record,
+                location: [record.venue.name, record.venue.address].filter(Boolean).join(", "),
+            },
+            Date.now(),
+        ),
+        {
+            headers: {
+                "Content-Type": "text/calendar; charset=utf-8",
+                "Content-Disposition": `attachment; filename="${record.slug}.ics"`,
+            },
         },
-    });
+    );
 }

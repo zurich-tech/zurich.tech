@@ -1,10 +1,10 @@
+import { SocialLinks } from "../../component/social";
 import { Image } from "../../component/image";
 import { timeZone } from "../../core/constants";
 import { getEvent, type PublicEvent } from "../../core/queries";
 
 import { VenueMap } from "../../component/venue";
 import { Card } from "../../component/card";
-import { Capacity } from "../../component/capacity";
 import { isCurrentYear } from "../../core/time";
 import { Arrow } from "../../component/arrow";
 import { createAsync, useParams } from "@solidjs/router";
@@ -115,28 +115,6 @@ export default function Route() {
                                         External <Arrow direction="external" />
                                     </span>
                                 </Show>
-                                <Capacity
-                                    total={
-                                        event()?.capacity ??
-                                        (event()?.registration?.kind === "native"
-                                            ? null
-                                            : undefined)
-                                    }
-                                    confirmed={
-                                        event()?.registration?.kind === "native" &&
-                                        event()?.status === "scheduled" &&
-                                        event()!.startsAt > Date.now()
-                                            ? event()?.rsvpCount
-                                            : undefined
-                                    }
-                                    waitlisted={
-                                        event()?.registration?.kind === "native" &&
-                                        event()?.status === "scheduled" &&
-                                        event()!.startsAt > Date.now()
-                                            ? event()?.waitlistCount
-                                            : undefined
-                                    }
-                                />
                             </div>
 
                             <PageHeader title={title()} />
@@ -217,7 +195,11 @@ export default function Route() {
                                         event()?.status !== "cancelled"
                                     }
                                 >
-                                    <a class="button" href={`/calendar/${slug}`}>
+                                    <a
+                                        class="button"
+                                        href={`/calendar/${slug}`}
+                                        download={`${slug}.ics`}
+                                    >
                                         Add to calendar <Arrow direction="down" />
                                     </a>
                                 </Show>
@@ -335,7 +317,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
     }
 
     return (
-        <Card title="Photos" meta={String(images().length)}>
+        <Card title="Photos" id="photos" meta={String(images().length)}>
             {/* thumbnails */}
             <div class="event-photos">
                 <For each={images()}>
@@ -366,36 +348,22 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
                 onKeyDown={navigate}
                 ref={(element) => (dialog = element)}
             >
-                {/* gallery header */}
+                {/* identify the album and keep dismissal easy to find */}
                 <div class="event-gallery__header">
-                    <span aria-live="polite">
-                        {position() + 1} / {images().length}
-                    </span>
+                    <h2>{props.event?.title}</h2>
                     <button
                         aria-label="Close gallery"
-                        class="event-gallery__close"
+                        class="button button--ghost"
                         onClick={close}
-                        title="Close gallery"
                         type="button"
+                        autofocus
                     >
-                        x
+                        Close <span aria-hidden="true">×</span>
                     </button>
                 </div>
 
-                {/* selected image */}
+                {/* give the photograph the full panel width without cropping */}
                 <div class="event-gallery__stage">
-                    <Show when={images().length > 1}>
-                        <button
-                            aria-label="Previous photo"
-                            class="event-gallery__previous"
-                            onClick={() => move(-1)}
-                            title="Previous photo"
-                            type="button"
-                        >
-                            &lt;
-                        </button>
-                    </Show>
-
                     <Show when={image()}>
                         {(selected) => (
                             <figure>
@@ -405,26 +373,37 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
                                     src={selected().url}
                                     width={selected().width}
                                 />
-
-                                {/* caption */}
                                 <Show when={selected().caption}>
                                     {(caption) => <figcaption>{caption()}</figcaption>}
                                 </Show>
                             </figure>
                         )}
                     </Show>
+                </div>
 
-                    <Show when={images().length > 1}>
-                        <button
-                            aria-label="Next photo"
-                            class="event-gallery__next"
-                            onClick={() => move(1)}
-                            title="Next photo"
-                            type="button"
-                        >
-                            &gt;
-                        </button>
-                    </Show>
+                {/* keep navigation in one stable row below the photograph */}
+                <div class="event-gallery__footer">
+                    <button
+                        aria-label="Previous photo"
+                        class="button button--ghost"
+                        disabled={images().length < 2}
+                        onClick={() => move(-1)}
+                        type="button"
+                    >
+                        <Arrow direction="left" /> Previous
+                    </button>
+                    <span aria-live="polite" aria-atomic="true">
+                        {position() + 1} / {images().length}
+                    </span>
+                    <button
+                        aria-label="Next photo"
+                        class="button button--ghost"
+                        disabled={images().length < 2}
+                        onClick={() => move(1)}
+                        type="button"
+                    >
+                        Next <Arrow />
+                    </button>
                 </div>
             </dialog>
         </Card>
@@ -434,7 +413,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
 /** Event description. */
 function Description(props: { event: PublicEvent | null | undefined }) {
     return (
-        <Card title="About the event">
+        <Card title="About">
             <Markdown source={props.event?.description ?? "event not found."} />
         </Card>
     );
@@ -579,27 +558,11 @@ function Speakers(props: { event: PublicEvent | null | undefined }) {
                             </Show>
                             <p class="speaker-name">{speaker.name}</p>
 
-                            <Show when={speaker.links.length > 0}>
-                                <div class="speaker-links">
-                                    <For each={speaker.links}>
-                                        {(url) => (
-                                            <a
-                                                class="text-link"
-                                                href={url}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                            >
-                                                {new URL(url).hostname.replace(/^www\./, "")}{" "}
-                                                <Arrow direction="external" />
-                                            </a>
-                                        )}
-                                    </For>
-                                </div>
-                            </Show>
                             {/* affiliation */}
                             <Show when={speaker.title}>
                                 {(title) => <p class="text-soft">{title()}</p>}
                             </Show>
+                            <SocialLinks name={speaker.name} profiles={speaker.links} />
                         </div>
                     )}
                 </For>

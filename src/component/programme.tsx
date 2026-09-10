@@ -1,7 +1,6 @@
 import { pageSize } from "../core/constants";
 import { type CalendarEntry } from "../core/queries";
 
-import { Capacity } from "./capacity";
 import { Arrow } from "./arrow";
 import { Card } from "./card";
 import { Entry } from "./entry";
@@ -12,6 +11,8 @@ import { useSearchParams } from "@solidjs/router";
 export function Programme(props: {
     /** Published events to filter and paginate. */
     entries: CalendarEntry[];
+    /** Maximum listings before linking to the full programme. */
+    limit?: number;
     /** Heading level within the containing page. */
     heading?: "h1" | "h2";
     /** Series available as calendar filters. */
@@ -54,7 +55,10 @@ export function Programme(props: {
             heading={props.heading}
             title={
                 <>
-                    Events <span class="programme-count">{matches().length}</span>
+                    <Show when={props.heading !== "h1"} fallback="Events">
+                        <a href="/events">Events</a>
+                    </Show>{" "}
+                    <span class="programme-count">{matches().length}</span>
                 </>
             }
         >
@@ -121,7 +125,7 @@ export function Programme(props: {
             </div>
             {/* render the current page with venue and registration tags */}
             <ol class="event-list">
-                <For each={matches().slice(0, visibleCount())}>
+                <For each={matches().slice(0, props.limit ?? visibleCount())}>
                     {(event) => (
                         <li>
                             <Entry
@@ -148,24 +152,6 @@ export function Programme(props: {
                                                 External <Arrow direction="external" />
                                             </span>
                                         </Show>
-                                        <Capacity
-                                            total={
-                                                event.capacity ??
-                                                (event.registrationKind === "native"
-                                                    ? null
-                                                    : undefined)
-                                            }
-                                            confirmed={
-                                                event.status === "scheduled" && event.startsAt > now
-                                                    ? event.rsvpCount
-                                                    : undefined
-                                            }
-                                            waitlisted={
-                                                event.status === "scheduled" && event.startsAt > now
-                                                    ? event.waitlistCount
-                                                    : undefined
-                                            }
-                                        />
                                     </>
                                 }
                             />
@@ -174,17 +160,27 @@ export function Programme(props: {
                 </For>
             </ol>
             {/* reveal the next page without replacing existing entries */}
-            <Show when={visibleCount() < matches().length}>
+            <Show when={(props.limit ?? visibleCount()) < matches().length}>
                 <div class="programme-more">
-                    <button
-                        class="button"
-                        type="button"
-                        onClick={() => setVisibleCount((count) => count + pageSize)}
+                    <Show
+                        when={props.limit === undefined}
+                        fallback={
+                            <a class="button" href="/events">
+                                All events
+                            </a>
+                        }
                     >
-                        Load more
-                    </button>
+                        <button
+                            class="button"
+                            type="button"
+                            onClick={() => setVisibleCount((count) => count + pageSize)}
+                        >
+                            Load more
+                        </button>
+                    </Show>
                     <span>
-                        {Math.min(visibleCount(), matches().length)} of {matches().length}
+                        {Math.min(props.limit ?? visibleCount(), matches().length)} of{" "}
+                        {matches().length}
                     </span>
                 </div>
             </Show>
