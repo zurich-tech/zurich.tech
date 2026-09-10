@@ -1,4 +1,4 @@
-import { jobPrice } from "../shared/plans";
+import { jobPrice, jobDurationMonths } from "../shared/plans";
 import { v } from "convex/values";
 import { mutation, query, type QueryCtx } from "./_generated/server";
 import type { Doc } from "./_generated/dataModel";
@@ -163,11 +163,11 @@ export const publish = mutation({
                 subjectId: row._id,
                 memberId: (await requireCompany(ctx, row.organisationId)).organisation
                     .ownerMemberId,
-                name: `${row.title} · one year`,
+                name: `${row.title} · ${jobDurationMonths} months`,
                 recordedBy: reviewer.memberId,
                 paidAt: now,
             });
-            expiresAt = (await paidTerm(ctx, row._id))!.endsAt;
+            expiresAt = (await paidTerm(ctx, row._id, jobDurationMonths))!.endsAt;
             sponsorshipId = undefined;
         }
         // allocate one of the company's active sponsorship slots
@@ -306,7 +306,7 @@ export async function jobExpiry(
 
         return (await sponsorshipTerm(ctx, sponsor))?.endsAt ?? null;
     }
-    const term = await paidTerm(ctx, job._id);
+    const term = await paidTerm(ctx, job._id, jobDurationMonths);
 
     return term?.endsAt ?? null;
 }

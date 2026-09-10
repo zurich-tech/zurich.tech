@@ -1,4 +1,4 @@
-import { jobPrice } from "../../../shared/plans";
+import { jobPrice, jobDurationMonths } from "../../../shared/plans";
 import { Show, createSignal } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
 import { api } from "../../../convex/_generated/api";
@@ -264,9 +264,9 @@ function JobForm(props: {
             </label>
 
             <p class="text-soft">
-                CHF {jobPrice} per year, or an included sponsor listing. The team reviews your
-                submission and confirms payment before publication. Reconfirm every 90 days that the
-                role is open.
+                CHF {jobPrice} for {jobDurationMonths} months, or an included sponsor listing. The
+                team reviews your submission and confirms payment before publication. Reconfirm
+                every 90 days that the role is open.
             </p>
             <FormMessage error={props.error} />
             <div class="row-actions">

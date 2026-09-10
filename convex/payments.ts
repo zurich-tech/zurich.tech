@@ -38,16 +38,20 @@ export const history = query({
     },
 });
 
-/** Derive the latest continuous coverage from non-refunded annual payments. */
-export async function paidTerm(ctx: Pick<QueryCtx, "db">, subjectId: Doc<"payments">["subjectId"]) {
-    // read annual payments for the purchased subject
+/** Derive the latest continuous coverage from non-refunded payments. */
+export async function paidTerm(
+    ctx: Pick<QueryCtx, "db">,
+    subjectId: Doc<"payments">["subjectId"],
+    months = 12,
+) {
+    // read payments for the purchased subject
     const payments = await ctx.db
         .query("payments")
         .withIndex("by_subject", (q) => q.eq("subjectId", subjectId))
         .collect();
     let term: { startsAt: number; endsAt: number } | null = null;
 
-    // order retained payments before calculating successive annual terms
+    // order retained payments before calculating successive paid terms
     const retained = payments
         .filter((payment) => payment.refundedAt === undefined)
         .sort(
@@ -59,14 +63,14 @@ export async function paidTerm(ctx: Pick<QueryCtx, "db">, subjectId: Doc<"paymen
         const start = Math.max(payment.paidAt, term?.endsAt ?? payment.paidAt);
         term = {
             startsAt: term && term.endsAt >= payment.paidAt ? term.startsAt : payment.paidAt,
-            endsAt: annualEnd(start),
+            endsAt: termEnd(start, months),
         };
     }
 
     return term;
 }
 
-/** Record one annual payment, rejecting duplicate invoice or checkout references. */
+/** Record one payment, rejecting duplicate invoice or checkout references. */
 export async function recordPayment(
     ctx: MutationCtx,
     payment: Omit<Doc<"payments">, "_id" | "_creationTime" | "refundedAt">,
@@ -86,13 +90,13 @@ export async function recordPayment(
     return await ctx.db.insert("payments", { ...payment, reference });
 }
 
-/** Calculate the next calendar anniversary, clamping leap day to February 28. */
-function annualEnd(start: number): number {
-    // advance to the same calendar date next year
+/** Advance by calendar months, clamping to the last day of the target month. */
+function termEnd(start: number, months: number): number {
+    // find the target month's last day before restoring the original day where possible
     const date = new Date(start);
-    const month = date.getUTCMonth();
-    date.setUTCFullYear(date.getUTCFullYear() + 1);
-    if (date.getUTCMonth() !== month) date.setUTCDate(0);
+    const day = date.getUTCDate();
+    date.setUTCMonth(date.getUTCMonth() + months + 1, 0);
+    date.setUTCDate(Math.min(day, date.getUTCDate()));
 
     return date.getTime();
 }

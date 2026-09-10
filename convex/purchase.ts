@@ -1,7 +1,7 @@
 import { tiers } from "../shared/plans";
 import { v } from "convex/values";
 
-/** The annual entitlement being purchased. */
+/** The entitlement being purchased. */
 export const purchase = v.union(
     v.object({ kind: v.literal("patron") }),
     v.object({ kind: v.literal("job"), id: v.id("jobs") }),

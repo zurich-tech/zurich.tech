@@ -9,7 +9,7 @@ import { Page } from "../../component/page";
 import { Seo } from "../../component/seo";
 import { JobEntry } from "../../component/job";
 import { workplaces, employments } from "../../../shared/jobs";
-import { jobPrice } from "../../../shared/plans";
+import { jobPrice, jobDurationMonths } from "../../../shared/plans";
 
 /** Browse current, reviewed local vacancies. */
 export default function Route() {
@@ -102,8 +102,8 @@ export default function Route() {
                     <aside class="jobs-sidebar">
                         <Card title="Hiring?">
                             <p>
-                                CHF {jobPrice} per listing, per year. Applications go directly to
-                                your hiring site.
+                                CHF {jobPrice} per listing for {jobDurationMonths} months.
+                                Applications go directly to your hiring site.
                             </p>
                             <a class="button button--primary" href="/jobs/submit">
                                 Post a job

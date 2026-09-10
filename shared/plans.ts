@@ -54,5 +54,8 @@ export const patron = {
     contribution: "A small contribution to shared costs.",
 } as const;
 
-/** Price of one annual job listing in CHF. */
-export const jobPrice = 250;
+/** Price of one job listing in CHF. */
+export const jobPrice = 50;
+
+/** Paid job listing duration in calendar months. */
+export const jobDurationMonths = 3;

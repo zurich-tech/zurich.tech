@@ -5,11 +5,11 @@ import { requireAccount } from "./access";
 import { authComponent } from "./auth/component";
 import { recordPayment } from "./payments";
 import { requireCompany } from "./organisations";
-import { tiers, patron, jobPrice, principalLimit } from "../shared/plans";
+import { tiers, patron, jobPrice, jobDurationMonths, principalLimit } from "../shared/plans";
 import { purchase } from "./purchase";
 import { sponsorshipTerm } from "./sponsors";
 
-/** Reserve one annual purchase before creating its Stripe session. */
+/** Reserve one purchase before creating its Stripe session. */
 export const reserve = internalMutation({
     args: { purchase },
     handler: async (ctx, args) => {
@@ -30,7 +30,7 @@ export const reserve = internalMutation({
             if (job.status === "draft")
                 throw new Error("Submit this job for review before paying.");
             amount = jobPrice;
-            name = `${job.title} · one year`;
+            name = `${job.title} · ${jobDurationMonths} months`;
             email = job.billingEmail;
         } else if (args.purchase.kind === "sponsorship") {
             const sponsor = await ctx.db.get(args.purchase.id);
@@ -115,7 +115,7 @@ export const complete = internalMutation({
         const subjectId =
             checkout.purchase.kind === "patron" ? checkout.memberId : checkout.purchase.id;
 
-        // validate the purchased entity before recording its annual coverage
+        // validate the purchased entity before recording its coverage
         if (checkout.purchase.kind === "patron") {
             const patron = await ctx.db
                 .query("patrons")
@@ -194,7 +194,7 @@ export const refund = internalMutation({
             .withIndex("by_payment", (q) => q.eq("paymentIntent", args.paymentIntent))
             .unique();
         if (!checkout || checkout.status === "refunded") return;
-        // find the recorded annual payment before voiding its coverage
+        // find the recorded payment before voiding its coverage
         const payment = await ctx.db
             .query("payments")
             .withIndex("by_reference", (q) => q.eq("reference", checkout.sessionId!))

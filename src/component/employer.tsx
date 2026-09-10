@@ -1,7 +1,7 @@
 import { Show } from "solid-js";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
-import { tiers, jobPrice } from "../../shared/plans";
+import { tiers, jobPrice, jobDurationMonths } from "../../shared/plans";
 import { timeZone } from "../core/constants";
 import { memberClient } from "../core/convex";
 import type { Perform } from "../core/workspace";
@@ -357,7 +357,9 @@ function JobReview(props: {
                     <label>
                         Funding
                         <select name="funding">
-                            <option value="invoice">Paid invoice · CHF {jobPrice} / year</option>
+                            <option value="invoice">
+                                Paid invoice · CHF {jobPrice} / {jobDurationMonths} months
+                            </option>
                             <option value="sponsor">Included sponsorship slot</option>
                             <Show when={props.job.expiresAt! > Date.now()}>
                                 <option value="existing">Keep existing paid term</option>
@@ -366,10 +368,7 @@ function JobReview(props: {
                     </label>
                     <label>
                         Paid invoice reference
-                        <input
-                            name="invoiceReference"
-                            placeholder="Required for a paid annual term"
-                        />
+                        <input name="invoiceReference" placeholder="Required for a paid listing" />
                     </label>
                     <button class="button button--primary" disabled={props.isPending}>
                         Approve & publish
