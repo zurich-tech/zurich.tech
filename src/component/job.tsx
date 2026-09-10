@@ -1,3 +1,4 @@
+import { Image } from "./image";
 import { type Job } from "../core/queries";
 import { Show, For } from "solid-js";
 
@@ -13,7 +14,12 @@ export function JobEntry(props: { job: Job }) {
                     when={props.job.company.logoUrl}
                     fallback={props.job.company.name.slice(0, 2)}
                 >
-                    <img src={props.job.company.logoUrl} alt="" loading="lazy" />
+                    <Image
+                        src={props.job.company.logoUrl}
+                        darkSrc={props.job.company.logoDarkUrl}
+                        alt=""
+                        loading="lazy"
+                    />
                 </Show>
             </div>
             <div class="job-copy">

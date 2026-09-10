@@ -159,7 +159,7 @@ export function ProgrammeFields(props: {
     return (
         <Card title="People and programme">
             <label>
-                Speakers <span>One per line: name | affiliation | link, link</span>
+                Speakers <span>One per line: name | affiliation | links | photo | dark photo</span>
                 <textarea
                     name="speakers"
                     rows="3"
@@ -167,7 +167,7 @@ export function ProgrammeFields(props: {
                         props.draft?.speakers
                             .map(
                                 (item) =>
-                                    `${item.name} | ${item.title} | ${(item.links ?? []).join(", ")}`,
+                                    `${item.name} | ${item.title} | ${(item.links ?? []).join(", ")} | ${item.imageUrl ?? ""} | ${item.imageDarkUrl ?? ""}`,
                             )
                             .join("\n") ?? ""
                     }

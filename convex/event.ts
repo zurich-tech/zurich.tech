@@ -59,7 +59,13 @@ export const submissionFields = {
     registration,
     organisations: v.array(v.id("organisations")),
     speakers: v.array(
-        v.object({ name: v.string(), title: v.string(), links: v.optional(v.array(v.string())) }),
+        v.object({
+            name: v.string(),
+            title: v.string(),
+            links: v.optional(v.array(v.string())),
+            imageUrl: v.optional(v.string()),
+            imageDarkUrl: v.optional(v.string()),
+        }),
     ),
     agenda: v.array(v.object({ time: v.string(), title: v.string() })),
 };

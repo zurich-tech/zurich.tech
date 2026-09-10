@@ -1,3 +1,4 @@
+import { Image } from "../../component/image";
 import { getJob } from "../../core/queries";
 import { createAsync, useParams } from "@solidjs/router";
 import { Show, For } from "solid-js";
@@ -66,9 +67,10 @@ export default function Route() {
                                 </Card>
                                 <Card title={item().company.name}>
                                     <Show when={item().company.logoUrl}>
-                                        <img
+                                        <Image
                                             class="company-image"
                                             src={item().company.logoUrl}
+                                            darkSrc={item().company.logoDarkUrl}
                                             alt={item().company.name}
                                         />
                                     </Show>

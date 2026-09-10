@@ -15,6 +15,7 @@ export function CompanyForm(props: {
         slug: string;
         website: string;
         logoUrl?: string;
+        logoDarkUrl?: string;
         location: string;
         description: string;
     };
@@ -47,6 +48,7 @@ export function CompanyForm(props: {
                 slug: text("slug"),
                 website: text("website"),
                 logoUrl: text("logoUrl") || undefined,
+                logoDarkUrl: text("logoDarkUrl") || undefined,
                 location: text("location"),
                 description: text("description"),
             });
@@ -95,7 +97,11 @@ export function CompanyForm(props: {
                     </label>
                     <label>
                         Logo URL
-                        <input name="logoUrl" type="url" value={props.item?.logoUrl ?? ""} />
+                        <input name="logoUrl" value={props.item?.logoUrl ?? ""} />
+                    </label>
+                    <label>
+                        Dark logo URL
+                        <input name="logoDarkUrl" value={props.item?.logoDarkUrl ?? ""} />
                     </label>
                 </div>
                 <label>

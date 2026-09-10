@@ -2827,7 +2827,7 @@ td button {
     display: grid;
     place-items: center;
     min-height: 72px;
-    background: var(--color-wash);
+    background: transparent;
     color: var(--color-soft);
 }
 .sponsor-logo svg {
@@ -3884,9 +3884,13 @@ a.eyebrow:hover {
     gap: 12px;
 }
 .sponsor-logo img {
-    max-width: 85%;
-    max-height: 80px;
+    width: 100%;
+    max-width: 240px;
+    height: 96px;
     object-fit: contain;
+}
+.sponsor-vacancy {
+    background: var(--color-wash);
 }
 .sponsor-logo > span {
     font: 600 16px/1.4 var(--font-mono);
@@ -4176,4 +4180,102 @@ iframe.email-preview {
 .venue-search {
     display: inline-flex;
     margin-top: 20px;
+}
+
+/* select image variants before hydration, using the existing document theme */
+img.image--dark {
+    display: none;
+}
+:root[data-theme="dark"] img.image--light {
+    display: none;
+}
+:root[data-theme="dark"] img.image--dark {
+    display: block;
+}
+
+/* introduce each organiser through a portrait and compact profile links */
+.team > .card-body {
+    padding: 24px;
+}
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px 24px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.team-person {
+    min-width: 0;
+}
+.team-portrait {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 3px;
+}
+.team-person h2 {
+    margin: 16px 0 4px;
+    font: 600 17px/1.4 var(--font-sans);
+    letter-spacing: -0.02em;
+}
+.team-role {
+    margin: 0;
+    color: var(--color-soft);
+    font-size: 13px;
+}
+.social-links {
+    display: flex;
+    gap: 4px;
+    margin: 10px 0 0 -6px;
+}
+.social-links a {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    color: var(--color-soft);
+    border-radius: 3px;
+}
+.social-links a:hover {
+    color: var(--color-accent);
+    background: var(--color-wash);
+}
+.social-links svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+.speaker-portrait {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 3px;
+    margin-bottom: 12px;
+}
+@media (max-width: 900px) {
+    .team-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+@media (max-width: 600px) {
+    .team > .card-body {
+        padding: 16px;
+    }
+    .team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px 16px;
+    }
+}
+
+@media (max-width: 400px) {
+    .site-shell .site-topbar__body {
+        grid-template-areas: "primary primary" "actions actions";
+        row-gap: 8px;
+        padding-block: 12px;
+    }
+    .site-shell .site-topbar__actions {
+        justify-self: end;
+    }
 }

@@ -3,7 +3,7 @@ import { mutation, type QueryCtx, type MutationCtx } from "./_generated/server";
 import type { Id } from "./_generated/dataModel";
 import { normalizeEmail } from "./email";
 import { requireAccount, requireTeam } from "./access";
-import { normalizeUrl } from "./url";
+import { normalizeUrl, normalizeImageUrl } from "./url";
 
 /** Upsert a curated organisation. */
 export const upsert = mutation({
@@ -72,6 +72,7 @@ export const upsertCompany = mutation({
         slug: v.string(),
         website: v.string(),
         logoUrl: v.optional(v.string()),
+        logoDarkUrl: v.optional(v.string()),
         location: v.string(),
         description: v.string(),
     },
@@ -123,7 +124,8 @@ export const upsertCompany = mutation({
             ...fields,
             name: args.name.trim(),
             website: normalizeUrl(args.website),
-            logoUrl: args.logoUrl ? normalizeUrl(args.logoUrl) : undefined,
+            logoUrl: args.logoUrl ? normalizeImageUrl(args.logoUrl) : undefined,
+            logoDarkUrl: args.logoDarkUrl ? normalizeImageUrl(args.logoDarkUrl) : undefined,
             updatedAt: Date.now(),
         };
 

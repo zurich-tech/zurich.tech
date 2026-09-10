@@ -3,7 +3,7 @@ import { v } from "convex/values";
 import { mutation } from "./_generated/server";
 import { requireAccount, requireTeam } from "./access";
 import { submissionFields } from "./event";
-import { normalizeUrl } from "./url";
+import { normalizeUrl, normalizeImageUrl } from "./url";
 import { promoteWaitlist } from "./registration";
 import { enqueue } from "./mail";
 
@@ -44,6 +44,9 @@ export const save = mutation({
             if ((speaker.links?.length ?? 0) > 6)
                 throw new Error("Use at most six links per speaker.");
             if (speaker.links) speaker.links = speaker.links.map(normalizeUrl);
+            if (speaker.imageUrl) speaker.imageUrl = normalizeImageUrl(speaker.imageUrl);
+            if (speaker.imageDarkUrl)
+                speaker.imageDarkUrl = normalizeImageUrl(speaker.imageDarkUrl);
         }
         // validate the external destination and any published capacity
         if (values.registration.kind === "external") {
@@ -317,10 +320,12 @@ export const edit = mutation({
             longitude: event.longitude,
             registration: event.registration,
             organisations: event.organisationIds ?? [],
-            speakers: speakers.map(({ name, title, links }) => ({
+            speakers: speakers.map(({ name, title, links, imageUrl, imageDarkUrl }) => ({
                 name,
                 title: title ?? "",
                 links,
+                imageUrl,
+                imageDarkUrl,
             })),
             agenda: agenda.map(({ time, title }) => ({ time, title })),
             updatedAt: Date.now(),

@@ -19,7 +19,12 @@ export const list = query({
                     if (!member) throw new Error("Patron member is missing.");
 
                     return member.status === "active"
-                        ? { id: row._id, name: member.name, avatarUrl: member.avatarUrl }
+                        ? {
+                              id: row._id,
+                              name: member.name,
+                              avatarUrl: member.avatarUrl,
+                              avatarDarkUrl: member.avatarDarkUrl,
+                          }
                         : null;
                 }),
         );

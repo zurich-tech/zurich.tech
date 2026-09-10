@@ -6,3 +6,10 @@ export function normalizeUrl(value: string): string {
 
     return url.href;
 }
+
+/** Validate an external image URL or an image hosted by this site. */
+export function normalizeImageUrl(value: string): string {
+    if (value.startsWith("/") && !value.startsWith("//") && !value.includes("\\")) return value;
+
+    return normalizeUrl(value);
+}

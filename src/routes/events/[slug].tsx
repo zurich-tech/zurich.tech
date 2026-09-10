@@ -1,3 +1,4 @@
+import { Image } from "../../component/image";
 import { timeZone } from "../../core/constants";
 import { getEvent, type PublicEvent } from "../../core/queries";
 
@@ -345,7 +346,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
                             onClick={() => open(index())}
                             type="button"
                         >
-                            <img
+                            <Image
                                 alt={thumbnail.alt}
                                 height={thumbnail.height}
                                 loading="lazy"
@@ -398,7 +399,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
                     <Show when={image()}>
                         {(selected) => (
                             <figure>
-                                <img
+                                <Image
                                     alt={selected().alt}
                                     height={selected().height}
                                     src={selected().url}
@@ -565,6 +566,17 @@ function Speakers(props: { event: PublicEvent | null | undefined }) {
                 <For each={props.event?.speakers ?? []}>
                     {(speaker) => (
                         <div class="speaker">
+                            <Show when={speaker.imageUrl}>
+                                <Image
+                                    class="speaker-portrait"
+                                    src={speaker.imageUrl}
+                                    darkSrc={speaker.imageDarkUrl}
+                                    alt={speaker.name}
+                                    width={80}
+                                    height={80}
+                                    loading="lazy"
+                                />
+                            </Show>
                             <p class="speaker-name">{speaker.name}</p>
 
                             <Show when={speaker.links.length > 0}>

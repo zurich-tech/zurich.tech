@@ -96,13 +96,20 @@ export default function Route() {
                     .split("\n")
                     .filter(Boolean)
                     .map((line) => {
-                        const [name, title = "", urls = ""] = line.split("|");
+                        const [name, title = "", urls = "", image = "", imageDark = ""] =
+                            line.split("|");
                         const links = urls
                             .split(",")
                             .map((url) => url.trim())
                             .filter(Boolean);
 
-                        return { name: name.trim(), title: title.trim(), links };
+                        return {
+                            name: name.trim(),
+                            title: title.trim(),
+                            links,
+                            imageUrl: image.trim() || undefined,
+                            imageDarkUrl: imageDark.trim() || undefined,
+                        };
                     }),
                 agenda: text("agenda")
                     .split("\n")

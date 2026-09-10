@@ -155,7 +155,15 @@ export default defineSchema({
     sponsorships: defineTable({
         organisationId: v.id("organisations"),
         tier,
-        billingEmail: v.string(),
+        billingEmail: v.optional(v.string()),
+        /** Agreed non-cash contribution granting the same annual tier benefits. */
+        inKind: v.optional(
+            v.object({
+                description: v.string(),
+                startsAt: v.number(),
+                endsAt: v.number(),
+            }),
+        ),
 
         renewalRequested: v.optional(v.boolean()),
         status: v.union(
@@ -175,6 +183,8 @@ export default defineSchema({
         /** Member allowed to manage this organisation and its purchases. */
         ownerMemberId: v.optional(v.id("members")),
         logoUrl: v.optional(v.string()),
+        /** Optional logo for dark backgrounds. */
+        logoDarkUrl: v.optional(v.string()),
         slug: v.string(),
         name: v.string(),
         description: v.string(),
@@ -265,6 +275,8 @@ export default defineSchema({
         searchText: v.string(),
         imageId: v.optional(v.string()),
         avatarUrl: v.optional(v.string()),
+        /** Optional profile image for dark backgrounds. */
+        avatarDarkUrl: v.optional(v.string()),
         visibility: v.union(v.literal("private"), v.literal("members"), v.literal("public")),
         source: v.optional(v.string()),
         importedAt: v.optional(v.number()),
@@ -399,6 +411,8 @@ export default defineSchema({
         memberId: v.optional(v.id("members")),
         name: v.string(),
         links: v.optional(v.array(v.string())),
+        imageUrl: v.optional(v.string()),
+        imageDarkUrl: v.optional(v.string()),
         title: v.optional(v.string()),
         position: v.number(),
         createdAt: v.number(),

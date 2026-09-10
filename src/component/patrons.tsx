@@ -24,7 +24,11 @@ export function Patrons() {
                             aria-label={`${patron.name}, Patron`}
                             title={patron.name}
                         >
-                            <Avatar name={patron.name} image={patron.avatarUrl} />
+                            <Avatar
+                                name={patron.name}
+                                image={patron.avatarUrl}
+                                imageDark={patron.avatarDarkUrl}
+                            />
                             <span class="patron-name">{patron.name}</span>
                         </span>
                     )}

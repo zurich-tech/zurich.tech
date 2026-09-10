@@ -206,6 +206,8 @@ export const event = query({
             speakers: speakers.map((speaker) => ({
                 name: speaker.name,
                 title: speaker.title,
+                imageUrl: speaker.imageUrl,
+                imageDarkUrl: speaker.imageDarkUrl,
                 links: speaker.links ?? [],
             })),
             startsAt: event.startsAt,

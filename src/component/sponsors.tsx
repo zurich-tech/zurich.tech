@@ -1,3 +1,4 @@
+import { Image } from "./image";
 import { getSponsors } from "../core/queries";
 import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
@@ -30,8 +31,9 @@ export function Sponsors() {
                                             when={sponsor.logoUrl}
                                             fallback={<span>{sponsor.name}</span>}
                                         >
-                                            <img
+                                            <Image
                                                 src={sponsor.logoUrl}
+                                                darkSrc={sponsor.logoDarkUrl}
                                                 alt={sponsor.name}
                                                 loading="lazy"
                                             />
