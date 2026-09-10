@@ -36,6 +36,9 @@ export function Topbar() {
                                 </A>
                             }
                         >
+                            <A class="header-account" href="/admin">
+                                Workspace
+                            </A>
                             <A
                                 class="header-account header-avatar"
                                 href="/admin"
