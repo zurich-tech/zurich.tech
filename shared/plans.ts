@@ -35,7 +35,7 @@ export const tiers = [
         name: "Supporter",
         logoWidth: 80,
         map: "Small logo on the community map",
-        price: 500,
+        price: 250,
         purpose: "Support the local community.",
         contribution: "Contribute to day-to-day running costs.",
         jobs: 2,
@@ -58,4 +58,4 @@ export const patron = {
 export const jobPrice = 50;
 
 /** Paid job listing duration in calendar months. */
-export const jobDurationMonths = 3;
+export const jobDurationMonths = 6;
