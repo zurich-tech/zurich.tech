@@ -387,7 +387,10 @@ async function upload(slug: string, photos: PreparedPhoto[]) {
     );
 
     // commit the complete gallery before removing obsolete objects
-    const result = convex<{ removedKeys: string[] }>("media:attachEventBatch", { images, slug });
+    const result = convex<{ removedKeys: string[] }>("events/photos:attachEventBatch", {
+        images,
+        slug,
+    });
     await Promise.all(
         result.removedKeys.map((key) => r2(["object", "delete", `${bucket}/${key}`, "--remote"])),
     );

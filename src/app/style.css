@@ -2130,19 +2130,18 @@ td button {
 .bulletin-name {
     position: relative;
     z-index: 1;
-    padding: 0;
-    width: calc(100% + 4px);
-    margin-left: -2px;
-    container-type: inline-size;
+    width: 100%;
+    margin-top: auto;
     pointer-events: none;
 }
 .bulletin-name .hero-title {
     margin: 0;
-    font: 800 17.21cqw/1 var(--font-mono);
-    transform: translate(-0.07em, calc(0.14em + 2px));
-    letter-spacing: -0.065em;
-    white-space: nowrap;
-    color: white;
+    line-height: 0;
+}
+.hero-title > svg {
+    display: block;
+    width: 100%;
+    height: auto;
 }
 /* let map markers remain clickable through the toolbar's empty space */
 .hero-toolbar {
@@ -3831,6 +3830,11 @@ a.eyebrow:hover {
 .sponsor-vacancy {
     background: var(--color-wash);
 }
+.sponsor-vacancy:is(:hover, :focus-visible) {
+    background: var(--brand-blue);
+    color: white;
+    text-decoration: none;
+}
 .sponsor-logo > span {
     font: 600 16px/1.4 var(--font-mono);
     overflow-wrap: anywhere;
@@ -4710,4 +4714,83 @@ iframe.email-preview {
 }
 .sign-in-card .social-sign-in .button {
     min-height: 44px;
+}
+
+/* keep passwordless email sign-in aligned with the provider buttons */
+.email-sign-in {
+    display: grid;
+    gap: 12px;
+    border-top: 1px solid var(--color-line);
+    padding-top: 20px;
+}
+.email-sign-in label {
+    font-size: 13px;
+    font-weight: 600;
+}
+.email-sign-in input {
+    min-width: 0;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    color: var(--color-ink);
+}
+.email-sign-in p {
+    margin: 0;
+}
+
+/* use the shared pill proportions for navigable news tags */
+.news-tags > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: 12px/1.2 var(--font-sans);
+    min-height: 30px;
+    padding: 6px 10px;
+    border: 1px solid var(--color-line);
+    border-radius: 3px;
+    color: var(--color-soft);
+    text-decoration: none;
+}
+.news-tags > a:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+.news-tags > a.selected {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-paper);
+}
+.news-tags > a > span {
+    font-variant-numeric: tabular-nums;
+}
+
+/* keep article authors within the publication column on narrow screens */
+.entry-publication .event-venue {
+    grid-column: 1;
+    grid-row: 4;
+    overflow-wrap: anywhere;
+}
+
+/* align sharing actions with the event sidebar buttons */
+.share-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+.share-actions .button {
+    min-width: 0;
+    width: 100%;
+    gap: 8px;
+}
+.share-actions svg,
+.share-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.share-more {
+    grid-column: 1 / -1;
 }
