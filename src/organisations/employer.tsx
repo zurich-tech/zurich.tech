@@ -145,41 +145,64 @@ export function SponsorshipCard(props: {
 
     /** End or decline the sponsorship request. */
     function end(event: SubmitEvent) {
-        // read the submitted review fields
         event.preventDefault();
-        const note = String(new FormData(event.currentTarget as HTMLFormElement).get("note"));
-
-        // apply the decision and refresh the workspace
+        if (
+            !window.confirm(
+                props.sponsor.status === "requested"
+                    ? "Decline this sponsorship request?"
+                    : "End this sponsorship?",
+            )
+        )
+            return;
         void props.perform(
             async () =>
                 (await memberClient()).mutation(api.sponsorships.organisations.end, {
                     id: props.sponsor._id,
-                    note,
                 }),
             "Sponsorship updated.",
         );
     }
 
     return (
-        <Card
-            title={
-                props.companies.find((company) => company._id === props.sponsor.organisationId)
-                    ?.name ?? "Company"
-            }
-            meta={props.sponsor.status}
-        >
-            <p>
-                {tiers.find((tier) => tier.id === props.sponsor.tier)?.name}
-                <Show when={!props.sponsor.inKind} fallback=" · In-kind support">
-                    {" · CHF "}
-                    {tiers.find((tier) => tier.id === props.sponsor.tier)?.price}/year
+        <article class="sponsorship-record">
+            <header class="sponsorship-heading">
+                <h3>
+                    {props.companies.find((company) => company._id === props.sponsor.organisationId)
+                        ?.name ?? "Organisation"}
+                </h3>
+                <span class="sponsorship-status">
+                    {
+                        {
+                            active: "Active",
+                            requested: "Requested",
+                            declined: "Declined",
+                            ended: "Ended",
+                        }[props.sponsor.status]
+                    }
+                </span>
+            </header>
+            <dl class="sponsorship-details">
+                <div>
+                    <dt>Tier</dt>
+                    <dd>{tiers.find((tier) => tier.id === props.sponsor.tier)?.name}</dd>
+                </div>
+                <div>
+                    <dt>Contribution</dt>
+                    <dd>
+                        <Show when={!props.sponsor.inKind} fallback="In kind">
+                            CHF {tiers.find((tier) => tier.id === props.sponsor.tier)?.price}/year
+                        </Show>
+                    </dd>
+                </div>
+                <Show when={props.sponsor.endsAt}>
+                    <div>
+                        <dt>Term</dt>
+                        <dd>
+                            {date(props.sponsor.startsAt!)} – {date(props.sponsor.endsAt!)}
+                        </dd>
+                    </div>
                 </Show>
-            </p>
-            <Show when={props.sponsor.endsAt}>
-                <p>
-                    {date(props.sponsor.startsAt!)} – {date(props.sponsor.endsAt!)}
-                </p>
-            </Show>
+            </dl>
             <Show when={props.sponsor.note}>
                 <p>{props.sponsor.note}</p>
             </Show>
@@ -280,19 +303,19 @@ export function SponsorshipCard(props: {
                         </button>
                     </form>
                 </Show>
-                <form class="editor" onSubmit={end}>
-                    <label>
-                        Decision note
-                        <textarea name="note" required rows="2" />
-                    </label>
-                    <button class="button" disabled={props.isPending}>
-                        {props.sponsor.status === "requested"
-                            ? "Decline request"
-                            : "End sponsorship"}
-                    </button>
-                </form>
+                <Show
+                    when={props.sponsor.status === "active" || props.sponsor.status === "requested"}
+                >
+                    <form class="sponsorship-actions" onSubmit={end}>
+                        <button class="button" disabled={props.isPending}>
+                            {props.sponsor.status === "requested"
+                                ? "Decline request"
+                                : "End sponsorship"}
+                        </button>
+                    </form>
+                </Show>
             </Show>
-        </Card>
+        </article>
     );
 }
 

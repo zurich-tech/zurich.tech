@@ -1,3 +1,4 @@
+import { Card } from "../components/card";
 import { For, Show, createResource } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
@@ -15,44 +16,56 @@ export function Team(props: {
     const command = useWorkspaceCommand(props.refresh);
 
     return (
-        <>
+        <Card title="Team">
             <FormMessage error={command.error()} success={command.success()} />
-            <h2>Team</h2>
             <p>
                 Team members can manage events and grant team access. Sign in once to appear here.
             </p>
-            <div class="workspace-list">
-                <For each={props.people}>
-                    {(person) => (
-                        <article>
-                            <h3>{person.name}</h3>
-                            <p>{person.email}</p>
-                            <label class="checkbox">
-                                <input
-                                    type="checkbox"
-                                    checked={person.isTeam}
-                                    disabled={command.isPending() || person.isSelf}
-                                    onChange={(event) => {
-                                        const isTeam = event.currentTarget.checked;
-                                        void command.perform(
-                                            async () =>
-                                                await (
-                                                    await memberClient()
-                                                ).mutation(api.auth.access.setTeam, {
-                                                    id: person.id,
-                                                    isTeam,
-                                                }),
-                                            "Team access updated.",
-                                        );
-                                    }}
-                                />
-                                Team access
-                            </label>
-                        </article>
-                    )}
-                </For>
+            <div class="table-scroll">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Team access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <For each={props.people}>
+                            {(person) => (
+                                <tr>
+                                    <td>{person.name}</td>
+                                    <td>{person.email}</td>
+                                    <td>
+                                        <label class="checkbox">
+                                            <input
+                                                type="checkbox"
+                                                aria-label={`Team access for ${person.name}`}
+                                                checked={person.isTeam}
+                                                disabled={command.isPending() || person.isSelf}
+                                                onChange={(event) => {
+                                                    const isTeam = event.currentTarget.checked;
+                                                    void command.perform(
+                                                        async () =>
+                                                            await (
+                                                                await memberClient()
+                                                            ).mutation(api.auth.access.setTeam, {
+                                                                id: person.id,
+                                                                isTeam,
+                                                            }),
+                                                        "Team access updated.",
+                                                    );
+                                                }}
+                                            />
+                                        </label>
+                                    </td>
+                                </tr>
+                            )}
+                        </For>
+                    </tbody>
+                </table>
             </div>
-        </>
+        </Card>
     );
 }
 
@@ -79,8 +92,7 @@ export function NewsletterAdmin(props: {
     }
 
     return (
-        <>
-            <h2>Weekly email</h2>
+        <Card title="Email">
             <label class="checkbox">
                 <input
                     type="checkbox"
@@ -99,7 +111,7 @@ export function NewsletterAdmin(props: {
             <Show when={edition()}>
                 {(current) => (
                     <>
-                        <p>{current().subscribers} confirmed subscribers</p>
+                        <p>{current().subscribers} subscribers</p>
                         <iframe
                             class="email-preview"
                             title="Newsletter preview"
@@ -116,6 +128,6 @@ export function NewsletterAdmin(props: {
                     </>
                 )}
             </Show>
-        </>
+        </Card>
     );
 }

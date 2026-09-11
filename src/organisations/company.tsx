@@ -3,7 +3,6 @@ import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { memberClient } from "../auth/convex";
 import { ProfileLinkFields, type SocialProfiles } from "../components/social";
-import { Card } from "../components/card";
 import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 
@@ -69,16 +68,16 @@ export function CompanyForm(props: {
             });
             await props.onSave();
             if (!props.item) form.reset();
-            setSuccess("Company saved.");
+            setSuccess("Organisation saved.");
         } catch (caught) {
-            setError(errorMessage(caught, "Could not save company."));
+            setError(errorMessage(caught, "Could not save organisation."));
         } finally {
             setIsPending(false);
         }
     }
 
     return (
-        <Card title={props.item ? "Company profile" : "Add a company"}>
+        <>
             <form class="editor" onSubmit={submit}>
                 <label>
                     Headline
@@ -165,12 +164,12 @@ export function CompanyForm(props: {
                         />
                     </label>
                 </Show>
-                <button class="button" disabled={isPending()}>
-                    {isPending() ? "Saving…" : "Save company"}
+                <button class="button button--primary" disabled={isPending()}>
+                    {isPending() ? "Saving…" : "Save organisation"}
                 </button>
                 <FormMessage error={error()} success={success()} />
             </form>
-        </Card>
+        </>
     );
 }
 
