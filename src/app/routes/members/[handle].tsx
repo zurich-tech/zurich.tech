@@ -1,5 +1,6 @@
 import { getMember, type PublicMember } from "../../../members/queries";
 import { type CalendarEntry } from "../../../events/queries";
+import { Avatar } from "../../../components/avatar";
 import { Card } from "../../../components/card";
 import { createAsync, useParams } from "@solidjs/router";
 import { For, Match, Show, Switch } from "solid-js";
@@ -41,7 +42,16 @@ export default function Route() {
 
                         {/* profile */}
                         <div class="event-layout">
-                            <HostedEvents events={member()?.hostedEvents ?? []} />
+                            <div class="event-content">
+                                <Card title="About">
+                                    <p class="organisation-description">
+                                        {member()?.bio || "No bio yet."}
+                                    </p>
+                                </Card>
+                                <Show when={member()?.hostedEvents.length}>
+                                    <HostedEvents events={member()?.hostedEvents ?? []} />
+                                </Show>
+                            </div>
                             <ProfileSections handle={handle} member={member()} />
                         </div>
                     </Page>
@@ -81,13 +91,19 @@ function ProfileSections(props: { handle: string; member: PublicMember | null | 
     return (
         <div class="event-aside">
             {/* details */}
-            <Card title="Details">
+            <Card title="Profile">
+                <div class="profile-photo">
+                    <Avatar
+                        name={props.member?.name ?? props.handle}
+                        image={props.member?.avatarUrl}
+                        imageDark={props.member?.avatarDarkUrl}
+                    />
+                </div>
                 <Show when={props.member?.isPatron}>
                     <span class="tag">Patron</span>
                 </Show>
                 <DetailList>
                     <DetailRow label="handle" value={`@${props.handle}`} />
-                    <DetailRow label="visibility" value={props.member ? "public" : "private"} />
                 </DetailList>
 
                 {/* interests */}
@@ -102,13 +118,6 @@ function ProfileSections(props: { handle: string; member: PublicMember | null | 
             <Show when={props.member && props.member.links.length > 0}>
                 <Card title="Links">
                     <ExternalLinks links={props.member?.links ?? []} />
-                </Card>
-            </Show>
-
-            {/* bio */}
-            <Show when={props.member?.bio}>
-                <Card title="Bio">
-                    <p class="text-soft">{props.member?.bio}</p>
                 </Card>
             </Show>
         </div>

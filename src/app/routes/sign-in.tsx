@@ -22,12 +22,12 @@ export default function Route() {
     /** Return only to a local page after authentication. */
     function destination() {
         // resolve browser URL normalization before allowing a local destination
-        if (typeof params.next !== "string" || !params.next.startsWith("/")) return "/admin";
+        if (typeof params.next !== "string" || !params.next.startsWith("/")) return "/settings";
         const destination = new URL(params.next, window.location.origin);
 
         return destination.origin === window.location.origin
             ? `${destination.pathname}${destination.search}${destination.hash}`
-            : "/admin";
+            : "/settings";
     }
 
     /** Send a code or verify the submitted code without creating a password. */
@@ -53,7 +53,7 @@ export default function Route() {
                             "Could not verify the code. Please try again.",
                     );
                 }
-                window.location.assign(destination());
+                window.location.assign(`/welcome?next=${encodeURIComponent(destination())}`);
             } else {
                 const result = await auth.emailOtp.sendVerificationOtp({
                     email: email().trim(),
@@ -76,7 +76,7 @@ export default function Route() {
         try {
             const result = await auth.signIn.social({
                 provider,
-                callbackURL: `${window.location.origin}${destination()}`,
+                callbackURL: `${window.location.origin}/welcome?next=${encodeURIComponent(destination())}`,
                 errorCallbackURL: `${window.location.origin}/sign-in?error=provider`,
             });
             if (result.error) throw new Error(result.error.message);

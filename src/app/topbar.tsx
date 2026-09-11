@@ -1,6 +1,8 @@
 import { site } from "./site";
-import { A } from "@solidjs/router";
-import { Show } from "solid-js";
+import { api } from "../../convex/_generated/api";
+import { memberClient } from "../auth/convex";
+import { A, useLocation } from "@solidjs/router";
+import { Show, createResource } from "solid-js";
 import { useAccount } from "../auth/index";
 import { Avatar } from "../components/avatar";
 import { Wordmark } from "./wordmark";
@@ -10,6 +12,11 @@ import logo from "../components/assets/logo.svg?raw";
 /** Navigate the community's public pages and organiser workspace. */
 export function Topbar() {
     const account = useAccount();
+    const location = useLocation();
+    const [profile] = createResource(
+        () => (account.user() ? `${account.user()!.id}:${location.pathname}` : undefined),
+        async () => (await memberClient()).query(api.auth.queries.current, {}),
+    );
 
     return (
         <header class="site-topbar">
@@ -25,6 +32,7 @@ export function Topbar() {
                     <A href="/sponsor">Sponsor</A>
                     <A href="/about">About</A>
                     <A href="/map">Map</A>
+                    <A href="/stats">Stats</A>
                 </nav>
                 <div class="site-topbar__actions">
                     <div class="header-links">
@@ -44,16 +52,22 @@ export function Topbar() {
                                 </A>
                             }
                         >
-                            <A class="header-account" href="/admin">
-                                Workspace
-                            </A>
+                            <Show when={profile()?.isTeam}>
+                                <A class="header-account" href="/admin">
+                                    Admin
+                                </A>
+                            </Show>
                             <A
                                 class="header-account header-avatar"
-                                href="/admin"
-                                aria-label="Your workspace"
+                                href="/settings"
+                                aria-label="Your account"
                                 title={account.user()?.name}
                             >
-                                <Avatar name={account.user()!.name} image={account.user()?.image} />
+                                <Avatar
+                                    name={profile()?.name ?? account.user()!.name}
+                                    image={profile()?.avatarUrl ?? account.user()?.image}
+                                    imageDark={profile()?.avatarDarkUrl}
+                                />
                             </A>
                         </Show>
                     </div>

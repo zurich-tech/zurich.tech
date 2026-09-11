@@ -21,6 +21,7 @@ export const members = defineTable({
     bio: v.optional(v.string()),
     searchText: v.string(),
     avatarUrl: v.optional(v.string()),
+    avatarId: v.optional(v.id("_storage")),
     /** Optional profile image for dark backgrounds. */
     avatarDarkUrl: v.optional(v.string()),
     visibility: v.union(v.literal("private"), v.literal("members"), v.literal("public")),

@@ -1,4 +1,3 @@
-import { Card } from "../components/card";
 import { createResource, createSignal, For, Show } from "solid-js";
 import type { FunctionArgs } from "convex/server";
 import { api } from "../../convex/_generated/api";
@@ -57,7 +56,7 @@ export function PaymentHistory() {
     );
 
     return (
-        <Card title="Payments">
+        <div class="payment-history">
             <Show when={payments.error}>
                 <p class="form-error">{errorMessage(payments.error, "Could not load payments.")}</p>
             </Show>
@@ -91,6 +90,6 @@ export function PaymentHistory() {
                     </Show>
                 )}
             </Show>
-        </Card>
+        </div>
     );
 }

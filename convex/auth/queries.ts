@@ -19,6 +19,12 @@ export const current = query({
     handler: async (ctx) => {
         const account = await requireAccount(ctx);
 
-        return { isTeam: account.isTeam };
+        const member = await ctx.db.get(account.memberId);
+        return {
+            isTeam: account.isTeam,
+            name: member?.name,
+            avatarUrl: member?.avatarUrl,
+            avatarDarkUrl: member?.avatarDarkUrl,
+        };
     },
 });

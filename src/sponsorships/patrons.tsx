@@ -88,15 +88,12 @@ export function PatronSettings() {
             </Show>
             <Show when={patron()}>
                 {(current) => (
-                    <Card
-                        title="Patron"
-                        toolbar={<CheckoutButton purchase={{ kind: "patron" }} label="Renew" />}
-                    >
-                        <p>
-                            {current().endsAt > Date.now()
-                                ? "Thank you for supporting zurich.tech."
-                                : "Your patron membership has ended."}
-                        </p>
+                    <section class="billing-membership">
+                        <div class="billing-heading">
+                            <strong>Patron</strong>
+                            <CheckoutButton purchase={{ kind: "patron" }} label="Renew" />
+                        </div>
+                        <p>{current().endsAt > Date.now() ? "Active" : "Expired"}</p>
                         <label>
                             <input
                                 type="checkbox"
@@ -109,7 +106,7 @@ export function PatronSettings() {
                         <Show when={error()}>
                             <p class="form-error">{error()}</p>
                         </Show>
-                    </Card>
+                    </section>
                 )}
             </Show>
         </>

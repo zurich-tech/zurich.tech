@@ -44,13 +44,14 @@ export const member = query({
             return null;
         }
 
-        const events = await ctx.db
-            .query("events")
-            .withIndex("by_owner", (query) => query.eq("ownerId", member._id))
-            .collect();
+        const events = await ctx.db.query("events").collect();
         const entries = await Promise.all(
             events
-                .filter((event) => event.status !== "draft")
+                .filter(
+                    (event) =>
+                        event.status !== "draft" &&
+                        (event.organiserIds ?? [event.ownerId]).includes(member._id),
+                )
                 .map((event) => calendarRow(ctx, event)),
         );
 
@@ -153,6 +154,8 @@ async function memberRow(ctx: QueryCtx, member: Doc<"members">) {
     const tags = await memberTags(ctx, member._id);
 
     return {
+        avatarUrl: member.avatarUrl,
+        avatarDarkUrl: member.avatarDarkUrl,
         bio: member.bio,
         handle: handle.name,
         headline: member.headline,

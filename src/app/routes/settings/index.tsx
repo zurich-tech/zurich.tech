@@ -2,11 +2,12 @@ import { Card } from "../../../components/card";
 import { Match, Show, Switch, createSignal } from "solid-js";
 
 import { PaymentHistory } from "../../../billing/payments";
+import { Notifications } from "../../../members/notifications";
 import { ProfileSettings } from "../../../members/profile";
 import { PatronSettings } from "../../../sponsorships/patrons";
 import { auth, useAccount } from "../../../auth/index";
 import { Button } from "../../../components/button";
-import { DetailList, DetailRow, Page, PageHeader } from "../../page";
+import { Page, PageHeader } from "../../page";
 import { Seo } from "../../seo";
 import { errorMessage } from "../../../components/errors";
 
@@ -40,66 +41,54 @@ export default function Route() {
 
     return (
         <>
-            <Seo title="Settings" description="zurich.tech settings." />
-            <Page width="narrow">
-                <PageHeader title="Settings" />
-                {/* account */}
+            <Seo title="Account" description="Your zurich.tech profile and email preferences." />
+            <Page class="account-page">
+                <PageHeader
+                    title="Account"
+                    actions={
+                        <Show when={account.user()}>
+                            <Button
+                                disabled={isPending()}
+                                kind="ghost"
+                                onClick={signOut}
+                                type="button"
+                            >
+                                {isPending() ? "Signing out…" : "Sign out"}
+                            </Button>
+                        </Show>
+                    }
+                />
+                <Show when={error()}>
+                    <p class="form-error">{error()}</p>
+                </Show>
                 <Switch
                     fallback={
-                        <Card title="Account">
+                        <Card title="Profile">
                             <Button href="/sign-in">Sign in</Button>
                         </Card>
                     }
                 >
-                    {/* loading */}
                     <Match when={account.isPending()}>
-                        <Card title="Account">Loading…</Card>
+                        <Card title="Profile">Loading…</Card>
                     </Match>
-
-                    {/* failure */}
                     <Match when={account.error()}>
-                        {(accountError) => (
-                            <Card title="Account">
-                                <p class="form-error">
-                                    {accountError().message ?? "Could not load the account."}
-                                </p>
-                            </Card>
-                        )}
+                        <p class="form-error">Could not load your account.</p>
                     </Match>
-
-                    {/* member */}
                     <Match when={account.user()}>
-                        {(user) => (
-                            <Card title="Account">
-                                {/* identity */}
-                                <DetailList>
-                                    <DetailRow label="name" value={user().name} />
-                                    <DetailRow label="email" value={user().email} />
-                                </DetailList>
-
-                                {/* actions */}
-                                <div class="auth-choice">
-                                    <Button
-                                        disabled={isPending()}
-                                        kind="ghost"
-                                        onClick={signOut}
-                                        type="button"
-                                    >
-                                        {isPending() ? "Signing out…" : "Sign out"}
-                                    </Button>
-                                    <Show when={error()}>
-                                        {(message) => <p class="form-error">{message()}</p>}
-                                    </Show>
-                                </div>
-                            </Card>
-                        )}
+                        <div class="event-layout account-layout">
+                            <div class="event-content">
+                                <ProfileSettings email={account.user()!.email} />
+                            </div>
+                            <aside class="event-aside">
+                                <Notifications />
+                                <Card title="Billing">
+                                    <PatronSettings />
+                                    <PaymentHistory />
+                                </Card>
+                            </aside>
+                        </div>
                     </Match>
                 </Switch>
-                <Show when={account.user()}>
-                    <ProfileSettings />
-                    <PatronSettings />
-                    <PaymentHistory />
-                </Show>
             </Page>
         </>
     );
