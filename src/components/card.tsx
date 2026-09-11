@@ -1,6 +1,5 @@
 import type { JSX } from "solid-js";
 import { Show, children } from "solid-js";
-import { Dynamic } from "solid-js/web";
 
 /** Group content under a consistent bordered heading. */
 export function Card(props: {
@@ -28,11 +27,22 @@ export function Card(props: {
         <section class={`card ${props.class ?? ""}`} id={props.id}>
             {/* align the title, controls and count within one shared heading */}
             <header class="card-heading">
-                <Dynamic component={props.heading ?? "h2"} class="card-title">
-                    <Show when={props.titleHref} fallback={props.title}>
-                        {(href) => <a href={href()}>{props.title}</a>}
-                    </Show>
-                </Dynamic>
+                <Show
+                    when={props.heading === "h1"}
+                    fallback={
+                        <h2 class="card-title">
+                            <Show when={props.titleHref} fallback={props.title}>
+                                {(href) => <a href={href()}>{props.title}</a>}
+                            </Show>
+                        </h2>
+                    }
+                >
+                    <h1 class="card-title">
+                        <Show when={props.titleHref} fallback={props.title}>
+                            {(href) => <a href={href()}>{props.title}</a>}
+                        </Show>
+                    </h1>
+                </Show>
                 <Show when={toolbar()}>
                     <div class="card-toolbar">{toolbar()}</div>
                 </Show>

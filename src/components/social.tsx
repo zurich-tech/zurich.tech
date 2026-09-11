@@ -9,7 +9,7 @@ import website from "./assets/social/website.svg?raw";
 const platforms = [
     { id: "linkedin", label: "LinkedIn", icon: linkedin },
     { id: "github", label: "GitHub", icon: github },
-    { id: "x", label: "X / Twitter", icon: x },
+    { id: "x", label: "Twitter", icon: x },
     { id: "discord", label: "Discord", icon: discord },
     { id: "website", label: "Website", icon: website },
 ] as const;

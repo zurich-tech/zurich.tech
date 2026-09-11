@@ -46,7 +46,6 @@ function MemberDirectory(props: { members: PublicMember[] }) {
 
     return (
         <Card
-            meta={`${visible().length} / ${props.members.length}`}
             title="Profiles"
             toolbar={<TableToolbar onSearch={setQuery} placeholder="Search members" />}
         >

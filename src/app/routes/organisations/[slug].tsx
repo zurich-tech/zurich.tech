@@ -1,3 +1,4 @@
+import { TeamEdit } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { SocialLinks } from "../../../components/social";
 import { JobEntry } from "../../../jobs/job";
@@ -32,7 +33,15 @@ export default function Route() {
                             <a class="eyebrow" href="/organisations">
                                 <Arrow direction="left" /> Organisations
                             </a>
-                            <PageHeader title={item().name} summary={item().headline} />
+                            <PageHeader
+                                title={item().name}
+                                summary={item().headline}
+                                actions={
+                                    <TeamEdit
+                                        href={`/admin?section=organisations&organisation=${item()._id}`}
+                                    />
+                                }
+                            />
                             <div class="event-schedule">
                                 <span>
                                     {

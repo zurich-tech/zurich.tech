@@ -20,7 +20,7 @@ export function Page(props: {
 }
 
 /** Render the page title and optional description. */
-export function PageHeader(props: { summary?: string; title: string }) {
+export function PageHeader(props: { summary?: string; title: string; actions?: JSX.Element }) {
     return (
         <header class="page-header">
             {/* copy */}
@@ -30,6 +30,7 @@ export function PageHeader(props: { summary?: string; title: string }) {
                     <p>{props.summary}</p>
                 </Show>
             </div>
+            <div class="page-header__actions">{props.actions}</div>
         </header>
     );
 }

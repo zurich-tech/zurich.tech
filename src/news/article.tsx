@@ -41,19 +41,11 @@ export function ArticleList(props: ArticleListProps) {
 
     // apply the homepage limit after filtering
     const articles = createMemo(() => matches().slice(0, props.limit));
-    const count = () => {
-        if (props.isSearchable === true && matches().length !== props.articles.length) {
-            return `${matches().length} / ${props.articles.length}`;
-        }
-
-        return `${props.articles.length}`;
-    };
 
     return (
         <Card
             heading={props.isPage ? "h1" : "h2"}
             class={props.isCompact ? "news-overview" : undefined}
-            meta={props.isCompact ? undefined : count()}
             title={props.isPage || props.isCompact ? "News" : "Articles"}
             titleHref={props.titleHref ?? (props.isPage ? undefined : "/news")}
             toolbar={

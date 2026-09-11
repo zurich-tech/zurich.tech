@@ -64,7 +64,8 @@ export function Share(props: { title: string; url: string }) {
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    <span class="share-icon" aria-hidden="true" innerHTML={x} />X / Twitter
+                    <span class="share-icon" aria-hidden="true" innerHTML={x} />
+                    Twitter
                 </a>
                 <a
                     class="button"

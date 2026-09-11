@@ -45,7 +45,7 @@ export default function Route() {
             />
             <Page>
                 <div class="listing-layout">
-                    <Card title="Jobs" heading="h1" meta={matches().length} class="listing-card">
+                    <Card title="Jobs" heading="h1" class="listing-card">
                         {/* filter the published vacancies */}
                         <div class="listing-filters">
                             <input

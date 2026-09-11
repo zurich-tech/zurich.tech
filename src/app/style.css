@@ -291,13 +291,13 @@ a {
     line-height: 1;
 }
 
-.button--ghost:hover {
+.button--ghost:hover:not(:disabled):not([aria-disabled="true"]) {
     border-color: var(--color-accent);
     color: var(--color-accent);
 }
 
 .button:disabled {
-    cursor: wait;
+    cursor: not-allowed;
     opacity: 0.55;
 }
 
@@ -3061,7 +3061,7 @@ a.eyebrow:hover {
     border-color: var(--brand-blue);
     color: white;
 }
-.button--primary:hover {
+.button--primary:hover:not(:disabled):not([aria-disabled="true"]) {
     background: var(--color-ink);
     border-color: var(--color-ink);
     color: var(--color-paper);
@@ -4790,4 +4790,479 @@ iframe.email-preview {
 }
 .share-more {
     grid-column: 1 / -1;
+}
+
+/* account cards share the organisation page grid */
+.profile-photo {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+.profile-photo .avatar {
+    width: 6rem;
+    height: 6rem;
+    flex-shrink: 0;
+}
+.editor .email-options {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+    min-width: 0;
+}
+.email-options .checkbox {
+    align-items: flex-start;
+}
+.email-options small {
+    display: block;
+    font-size: 0.85em;
+    font-weight: normal;
+    color: var(--color-soft);
+    margin-top: 0.25rem;
+}
+.editor .email-options .checkbox > span {
+    color: var(--color-ink);
+    font-size: var(--text-body);
+}
+
+/* admin tables and optional profile details */
+.admin-tabs {
+    margin: 0;
+}
+.admin-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    padding-bottom: var(--space-4);
+}
+.admin-filters input {
+    flex: 0 1 18rem;
+    min-width: 12rem;
+    border: 1px solid var(--color-line);
+    padding: 0.5rem 0.75rem;
+}
+.admin-table {
+    width: 100%;
+}
+.admin-table td:nth-child(2),
+.admin-table td:nth-child(3) {
+    white-space: nowrap;
+}
+
+.admin-status {
+    font-size: inherit;
+    color: var(--color-soft);
+}
+.admin-status--upcoming {
+    color: var(--color-accent);
+    font-weight: 600;
+}
+.editor .avatar-upload {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+.avatar-upload input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.avatar-upload:focus-within {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+.survey-intro {
+    margin-bottom: var(--space-4);
+    color: var(--color-soft);
+}
+.audience-charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-8);
+}
+.audience-bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    font-size: var(--text-small);
+}
+.audience-bar meter {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 0.7rem;
+}
+
+/* group admin navigation and keep table actions quiet */
+.admin-navigation .card-heading {
+    padding-block: var(--space-4);
+}
+.admin-navigation .card-body:empty {
+    display: none;
+}
+.admin-event-card > .card-body {
+    padding: 0;
+}
+.admin-event-card .admin-filters {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-line);
+    justify-content: space-between;
+}
+.admin-event-card .table-scroll {
+    border: 0;
+}
+.admin-table th,
+.admin-table td {
+    padding: 14px 16px;
+    text-align: left;
+    vertical-align: middle;
+    font: 400 var(--text-body)/1.5 var(--font-sans);
+}
+.admin-table th {
+    font-weight: 600;
+    background: var(--color-wash);
+    color: var(--color-soft);
+}
+.admin-table td:first-child {
+    width: 46%;
+    font-size: var(--text-body);
+}
+.admin-table tbody tr:hover {
+    background: var(--color-wash);
+}
+.admin-event-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--space-4);
+    white-space: nowrap;
+    font-size: inherit;
+}
+.admin-event-actions > button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+    color: inherit;
+}
+.admin-event-actions > a:hover,
+.admin-event-actions > button:hover:not(:disabled) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.admin-event-card .card-body > .text-soft {
+    padding: var(--space-4);
+}
+@media (max-width: 640px) {
+    .admin-navigation .card-heading {
+        flex-wrap: wrap;
+        gap: var(--space-3);
+    }
+    .admin-event-card .admin-filters input {
+        flex: 1 1 100%;
+    }
+}
+
+.admin-navigation .admin-tabs {
+    gap: 8px;
+}
+.admin-navigation .admin-tabs > button {
+    font-size: 13px;
+    padding: 8px 12px;
+    min-height: 34px;
+    color: var(--color-ink);
+}
+.admin-navigation .admin-tabs > button.active {
+    color: var(--color-paper);
+}
+/* align every admin table with its card heading */
+.admin-table-card > .card-body {
+    padding: 0;
+}
+.admin-table-card .table-scroll {
+    border: 0;
+}
+.admin-table td:last-child .text-link {
+    color: var(--color-ink);
+    font-size: inherit;
+}
+
+.admin-attendee-actions {
+    flex-wrap: wrap;
+    font: 400 var(--text-body)/1.5 var(--font-sans);
+}
+
+.organiser-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3);
+}
+.organiser-options .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+.organiser-options input {
+    width: auto;
+}
+
+/* share alignment and empty states across management panels */
+.admin-page .card-toolbar,
+.admin-attendee-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+.admin-page .card-toolbar .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    margin: 0;
+    font: 500 13px/1 var(--font-sans);
+    text-decoration: none;
+}
+.admin-attendees > .card-body {
+    padding: 0;
+}
+.admin-attendees .table-scroll {
+    border: 0;
+}
+.admin-context {
+    padding: 14px var(--card-inset);
+    border-bottom: 1px solid var(--color-line);
+    font: 500 var(--text-body)/1.5 var(--font-sans);
+}
+.card-empty {
+    display: grid;
+    place-items: center;
+    min-height: 180px;
+    padding: var(--space-8) var(--space-4);
+}
+.card-empty p {
+    margin: 0;
+    color: var(--color-soft);
+    font: 500 var(--text-body)/1.5 var(--font-sans);
+}
+.admin-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--card-inset);
+    border-top: 1px solid var(--color-line);
+}
+
+.sponsorship-record + .sponsorship-record {
+    border-top: 1px solid var(--color-line);
+    margin-top: var(--space-6);
+    padding-top: var(--space-6);
+}
+.sponsorship-heading {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-4);
+}
+.sponsorship-heading h3 {
+    margin: 0;
+    font: 600 18px/1.4 var(--font-sans);
+}
+.sponsorship-status {
+    color: var(--color-ink);
+    font: 500 var(--text-small)/1.4 var(--font-sans);
+}
+.sponsorship-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+    margin: 0 0 var(--space-4);
+}
+.sponsorship-details dt {
+    color: var(--color-soft);
+    font-size: var(--text-small);
+    margin-bottom: var(--space-1);
+}
+.sponsorship-details dd {
+    margin: 0;
+}
+.sponsorship-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-line);
+}
+.sponsorship-record > p {
+    margin-block: var(--space-3);
+}
+
+.admin-page iframe.email-preview {
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin-top: var(--space-4);
+}
+.admin-page .card-body > .checkbox {
+    margin-bottom: var(--space-3);
+}
+.admin-page .card-body > .editor {
+    max-width: none;
+    border: 0;
+    padding: 0;
+}
+
+.admin-table td > button.text-link {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    min-height: 0;
+    font: inherit;
+    background: transparent;
+}
+.admin-page .editor > button {
+    justify-self: start;
+    width: auto;
+}
+
+.page-header__actions {
+    margin-left: auto;
+    flex: 0 0 auto;
+    align-self: center;
+}
+.team-edit {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+.team-edit .button {
+    min-height: 40px;
+    font: 500 13px/1 var(--font-sans);
+}
+
+/* keep control feedback consistent for buttons and button-shaped links */
+:where(button, .button, [role="button"], .row-actions > a) {
+    cursor: pointer;
+    transition:
+        background-color 120ms ease,
+        border-color 120ms ease,
+        color 120ms ease,
+        box-shadow 120ms ease;
+}
+:is(button, .button, [role="button"], .row-actions > a):not(:disabled):not(
+        [aria-disabled="true"]
+    ):not(.button--primary):not(.active):not(.selected):not([aria-pressed="true"]):hover {
+    background-color: color-mix(in srgb, var(--color-accent) 10%, var(--color-paper));
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+:is(button, .button, [role="button"], .row-actions > a):not(:disabled):not(
+        [aria-disabled="true"]
+    ):active {
+    box-shadow: inset 0 0 0 2px currentColor;
+}
+:is(button, .button, [role="button"], .row-actions > a):focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+:is(button, .button, [role="button"]):is(:disabled, [aria-disabled="true"]) {
+    cursor: not-allowed;
+    opacity: 0.55;
+    box-shadow: none;
+}
+:where(button.active, button.selected, button[aria-pressed="true"]):not(:disabled):hover {
+    background-color: color-mix(in srgb, var(--color-accent) 85%, var(--color-ink));
+    border-color: var(--color-accent);
+}
+@media (prefers-reduced-motion: reduce) {
+    :where(button, .button, [role="button"], .row-actions > a) {
+        transition: none;
+    }
+}
+
+/* keep account fields compact and aligned */
+.account-page .editor {
+    gap: var(--space-4);
+}
+.account-page .editor label {
+    gap: var(--space-2);
+    margin: 0;
+}
+.account-page .editor input:not([type="checkbox"]):not([type="file"]),
+.account-page .editor select,
+.account-page .editor textarea {
+    padding: 8px 10px;
+    min-height: 38px;
+}
+.account-page .editor input[readonly] {
+    color: var(--color-soft);
+    background: var(--color-wash);
+}
+.account-page .editor > .button {
+    justify-self: start;
+    width: auto;
+}
+.account-page .form-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.account-page .profile-photo {
+    margin-bottom: var(--space-2);
+}
+.account-page .profile-photo .avatar {
+    width: 72px;
+    height: 72px;
+}
+.account-page .survey-intro {
+    font-size: var(--text-small);
+}
+@media (max-width: 640px) {
+    .account-page .form-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+.profile-divider {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+    margin: 4px 0;
+    width: 100%;
+}
+.account-page .demographic-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+}
+.account-page .profile-privacy {
+    margin: 0;
+}
+.account-page .profile-editor > .form-actions {
+    border: 0;
+    padding-top: 0;
+}
+.billing-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+.billing-membership {
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+.demographic-fields {
+    display: grid;
+    gap: var(--space-4);
+}
+@media (max-width: 640px) {
+    .account-page .demographic-fields {
+        grid-template-columns: 1fr;
+    }
 }

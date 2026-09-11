@@ -20,7 +20,12 @@ export function Button(props: {
     // render as link
     if (props.href !== undefined) {
         return (
-            <a class={classes()} href={props.href}>
+            <a
+                class={classes()}
+                href={props.disabled ? undefined : props.href}
+                aria-disabled={props.disabled || undefined}
+                tabindex={props.disabled ? -1 : undefined}
+            >
                 {props.children}
             </a>
         );

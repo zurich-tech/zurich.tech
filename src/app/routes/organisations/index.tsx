@@ -12,14 +12,11 @@ import { Seo } from "../../seo";
 export default function Route() {
     const directory = createAsync(() => getDirectory());
     const [search, setSearch] = createSignal("");
-    const [kind, setKind] = createSignal("all");
     const matches = () =>
-        directory()?.organisations.filter(
-            (item) =>
-                (kind() === "all" || item.kind === kind()) &&
-                `${item.name} ${item.description} ${item.location}`
-                    .toLowerCase()
-                    .includes(search().toLowerCase()),
+        directory()?.organisations.filter((item) =>
+            `${item.name} ${item.description} ${item.location}`
+                .toLowerCase()
+                .includes(search().toLowerCase()),
         ) ?? [];
 
     return (
@@ -30,12 +27,7 @@ export default function Route() {
             />
             <Page>
                 <div class="listing-layout">
-                    <Card
-                        title="Organisations"
-                        heading="h1"
-                        meta={matches().length}
-                        class="listing-card"
-                    >
+                    <Card title="Organisations" heading="h1" class="listing-card">
                         <div class="listing-filters">
                             <input
                                 aria-label="Search organisations"
@@ -43,17 +35,6 @@ export default function Route() {
                                 value={search()}
                                 onInput={(event) => setSearch(event.currentTarget.value)}
                             />
-                            <select
-                                aria-label="Organisation type"
-                                value={kind()}
-                                onChange={(event) => setKind(event.currentTarget.value)}
-                            >
-                                <option value="all">All organisations</option>
-                                <option value="company">Companies</option>
-                                <option value="lab">Labs</option>
-                                <option value="community">Communities</option>
-                                <option value="space">Spaces</option>
-                            </select>
                         </div>
                         <For each={matches()}>
                             {(item) => (
@@ -99,7 +80,7 @@ export default function Route() {
                         <Show when={directory() && matches().length === 0}>
                             <p class="empty-copy">
                                 {directory()!.organisations.length
-                                    ? "No organisations match these filters."
+                                    ? "No organisations match your search."
                                     : "No organisations listed yet."}
                             </p>
                         </Show>

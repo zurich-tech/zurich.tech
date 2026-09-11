@@ -20,7 +20,7 @@ export function Seo(props: {
     // derive canonical metadata and exclude private account pages
     const location = useLocation();
     const isPrivate = () =>
-        /^\/(admin|manage|settings|sign-in|submit|confirm|registration|unsubscribe|payment)(\/|$)/.test(
+        /^\/(admin|manage|settings|welcome|sign-in|submit|confirm|registration|unsubscribe|payment)(\/|$)/.test(
             location.pathname,
         ) || location.pathname === "/jobs/submit";
     const url = () => `${site.url}${location.pathname}`;
