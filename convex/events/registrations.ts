@@ -93,6 +93,37 @@ export const joinMember = internalMutation({
     },
 });
 
+/** Read only the signed-in member's registration, including a verified guest RSVP. */
+export const current = query({
+    args: { eventSlug: v.string() },
+    handler: async (ctx, args) => {
+        const account = await requireAccount(ctx);
+        const user = await authComponent.getAuthUser(ctx);
+        const event = await ctx.db
+            .query("events")
+            .withIndex("by_slug", (q) => q.eq("slug", args.eventSlug))
+            .unique();
+        if (!event) return null;
+
+        // match member ownership first, then the verified sign-in email
+        const owned = await ctx.db
+            .query("registrations")
+            .withIndex("by_member", (q) => q.eq("memberId", account.memberId))
+            .collect();
+        let row = owned.find((row) => row.eventId === event._id);
+        if (!row && user.emailVerified) {
+            row =
+                (await ctx.db
+                    .query("registrations")
+                    .withIndex("by_event_and_email", (q) =>
+                        q.eq("eventId", event._id).eq("email", normalizeEmail(user.email)),
+                    )
+                    .unique()) ?? undefined;
+        }
+        return row ? { status: row.status, token: row.token } : null;
+    },
+});
+
 /** Read a registration through its private management link. */
 export const get = query({
     args: { token: v.string() },
@@ -108,6 +139,9 @@ export const get = query({
 
         return {
             name: row.name,
+            email: row.email,
+            summary: event.summary,
+            location: event.location,
             status: row.status,
             eventStatus: event.status,
             title: event.title,
@@ -130,6 +164,9 @@ export const cancel = mutation({
         const event = await ctx.db.get(row.eventId);
         if (!event) throw new Error("Event not found.");
         if (row.status === "cancelled") return;
+        if (row.status === "declined") throw new Error("This registration was declined.");
+        if (event.status === "cancelled" || event.startsAt <= Date.now())
+            throw new Error("This event no longer accepts registration changes.");
         await ctx.db.patch(row._id, { status: "cancelled", updatedAt: Date.now() });
         await promoteWaitlist(ctx, event);
     },

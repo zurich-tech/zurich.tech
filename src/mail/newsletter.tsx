@@ -1,14 +1,44 @@
 import { Card } from "../components/card";
-import { createSignal } from "solid-js";
+import { useAccount } from "../auth";
+import { memberClient } from "../auth/convex";
+import { api } from "../../convex/_generated/api";
+import { createSignal, createResource, Show } from "solid-js";
 import { subscribe } from "../events/registration";
 import { errorMessage } from "../components/errors";
 import { FormMessage } from "../components/form";
 
 /** Subscribe to the weekly event list from a compact inline form. */
 export function Newsletter() {
+    const account = useAccount();
+    const [preferences, { refetch }] = createResource(
+        () => account.user()?.id,
+        async () => (await memberClient()).query(api.mail.preferences.current, {}),
+    );
     const [isPending, setIsPending] = createSignal(false);
     const [error, setError] = createSignal<string>();
     const [success, setSuccess] = createSignal<string>();
+
+    /** Subscribe the signed-in member without requesting their email again. */
+    async function subscribeMember() {
+        const current = preferences();
+        if (!current || current.isSuppressed) return;
+        setIsPending(true);
+        setError(undefined);
+        try {
+            await (
+                await memberClient()
+            ).action(api.mail.preferences.save, {
+                weekly: true,
+                announcements: current.announcements,
+                reminders: current.reminders,
+            });
+            await refetch();
+        } catch (caught) {
+            setError(errorMessage(caught, "Could not subscribe."));
+        } finally {
+            setIsPending(false);
+        }
+    }
 
     /** Request email verification before activating the subscription. */
     async function submit(event: SubmitEvent) {
@@ -32,20 +62,74 @@ export function Newsletter() {
 
     return (
         <Card title="Newsletter" class="newsletter newsletter-compact" id="newsletter">
-            <form onSubmit={submit}>
-                <div class="newsletter-input">
-                    <input
-                        aria-label="Email for weekly events"
-                        type="email"
-                        name="email"
-                        placeholder="Email address"
-                        required
-                        maxlength="254"
-                    />
-                    <button disabled={isPending()}>{isPending() ? "Sending…" : "Subscribe"}</button>
-                </div>
-                <FormMessage error={error()} success={success()} />
-            </form>
+            <Show
+                when={!account.isPending() && !preferences.loading}
+                fallback={<p role="status">Loading…</p>}
+            >
+                <Show
+                    when={!account.user()}
+                    fallback={
+                        <>
+                            <Show
+                                when={preferences.error}
+                                fallback={
+                                    <p>
+                                        {preferences()?.isSuppressed
+                                            ? "Delivery blocked"
+                                            : preferences()?.weekly
+                                              ? "Subscribed"
+                                              : "Not subscribed"}
+                                    </p>
+                                }
+                            >
+                                <p class="form-error">
+                                    {errorMessage(
+                                        preferences.error,
+                                        "Could not load subscription.",
+                                    )}
+                                </p>
+                            </Show>
+                            <Show
+                                when={
+                                    preferences() &&
+                                    !preferences()!.weekly &&
+                                    !preferences()!.isSuppressed &&
+                                    !preferences.error
+                                }
+                            >
+                                <button
+                                    class="button button--primary"
+                                    disabled={isPending()}
+                                    onClick={subscribeMember}
+                                >
+                                    {isPending() ? "Subscribing…" : "Subscribe"}
+                                </button>
+                            </Show>
+                            <a class="text-link" href="/settings">
+                                Notifications
+                            </a>
+                            <FormMessage error={error()} />
+                        </>
+                    }
+                >
+                    <form onSubmit={submit}>
+                        <div class="newsletter-input">
+                            <input
+                                aria-label="Email for weekly events"
+                                type="email"
+                                name="email"
+                                placeholder="Email address"
+                                required
+                                maxlength="254"
+                            />
+                            <button disabled={isPending()}>
+                                {isPending() ? "Sending…" : "Subscribe"}
+                            </button>
+                        </div>
+                        <FormMessage error={error()} success={success()} />
+                    </form>
+                </Show>
+            </Show>
         </Card>
     );
 }

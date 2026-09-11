@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { action, mutation } from "../_generated/server";
+import { action, mutation, query } from "../_generated/server";
 import { internal } from "../_generated/api";
 
 import { requireMail } from "./deliveries";
@@ -31,5 +31,22 @@ export const unsubscribe = mutation({
         if (!row) throw new Error("Subscription not found.");
         if (row.status !== "suppressed")
             await ctx.db.patch(row._id, { status: "unsubscribed", updatedAt: Date.now() });
+    },
+});
+
+/** Read subscription state through its private unsubscribe link. */
+export const status = query({
+    args: { token: v.string() },
+    handler: async (ctx, args) => {
+        const subscription = await ctx.db
+            .query("subscriptions")
+            .withIndex("by_token", (q) => q.eq("token", args.token))
+            .unique();
+        if (!subscription) throw new Error("Subscription not found.");
+        return {
+            isSubscribed:
+                subscription.status === "subscribed" &&
+                (subscription.weekly !== false || subscription.announcements !== false),
+        };
     },
 });

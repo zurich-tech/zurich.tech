@@ -2,7 +2,7 @@ import { verificationEmail } from "./templates";
 import { register, requireOpenEvent, registrations } from "../events/registrations";
 import { siteOrigin } from "../auth/environment";
 import { v } from "convex/values";
-import { mutation, internalMutation } from "../_generated/server";
+import { mutation, internalMutation, query } from "../_generated/server";
 
 import type { Doc } from "../_generated/dataModel";
 import { normalizeEmail } from "../members/emails";
@@ -135,5 +135,25 @@ export const confirm = mutation({
         // finish newsletter confirmation without allocating attendance
         if (ticket.purpose === "subscription") return "You’re subscribed.";
         return await register(ctx, ticket, now);
+    },
+});
+
+/** Read a private verification link without consuming it. */
+export const status = query({
+    args: { token: v.string() },
+    handler: async (ctx, args) => {
+        const ticket = await ctx.db
+            .query("verifications")
+            .withIndex("by_token", (q) => q.eq("token", args.token))
+            .unique();
+        if (!ticket) throw new Error("Verification link not found.");
+        return {
+            purpose: ticket.purpose,
+            status: ticket.usedAt
+                ? ("confirmed" as const)
+                : ticket.expiresAt <= Date.now()
+                  ? ("expired" as const)
+                  : ("pending" as const),
+        };
     },
 });

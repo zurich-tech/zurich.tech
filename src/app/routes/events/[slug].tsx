@@ -13,7 +13,16 @@ import { Card } from "../../../components/card";
 import { isCurrentYear } from "../../../events/time";
 import { Arrow } from "../../../components/arrow";
 import { createAsync, useParams } from "@solidjs/router";
-import { For, Match, Show, Switch, createSignal } from "solid-js";
+import {
+    For,
+    Match,
+    Show,
+    Switch,
+    createSignal,
+    createResource,
+    onMount,
+    onCleanup,
+} from "solid-js";
 
 import { Button } from "../../../components/button";
 import { Field, Input } from "../../../components/field";
@@ -37,6 +46,26 @@ export default function Route() {
     // event
     const event = createAsync(() => getEvent(slug), { deferStream: true });
     const title = () => event()?.title ?? slug;
+
+    const [registration, { refetch: refreshRegistration }] = createResource(
+        () => account.user()?.id,
+        async () =>
+            (await memberClient()).query(api.events.registrations.current, { eventSlug: slug }),
+    );
+    const isRegistrationLoading = () =>
+        account.isPending() || (!!account.user() && registration.loading);
+    const currentRegistration = () => (account.user() ? registration() : undefined);
+    const hasRegistration = () =>
+        !!currentRegistration() && currentRegistration()?.status !== "cancelled";
+
+    // refresh after returning from the registration management page
+    onMount(() => {
+        const refresh = () => {
+            if (account.user()) void refreshRegistration();
+        };
+        window.addEventListener("focus", refresh);
+        onCleanup(() => window.removeEventListener("focus", refresh));
+    });
 
     // rsvp state
     const [rsvpError, setRsvpError] = createSignal<string>();
@@ -68,6 +97,7 @@ export default function Route() {
                   ).action(api.events.registrations.join, { eventSlug: slug, answers })
                 : (await rsvp({ email, eventSlug: slug, name, answers }),
                   "Check your inbox to confirm.");
+            if (account.user()) await refreshRegistration();
             form.reset();
             setRsvpSuccess(message);
         } catch (caught) {
@@ -151,8 +181,63 @@ export default function Route() {
                                 <Show
                                     when={
                                         event()?.registration?.kind === "native" &&
+                                        isRegistrationLoading()
+                                    }
+                                >
+                                    <Card title="Registration">
+                                        <p role="status">Loading…</p>
+                                    </Card>
+                                </Show>
+                                <Show when={!isRegistrationLoading() && hasRegistration()}>
+                                    <Card title="Registration">
+                                        <p>
+                                            <strong>
+                                                {currentRegistration() &&
+                                                    (event()?.status === "cancelled"
+                                                        ? "Event cancelled"
+                                                        : {
+                                                              going: "Confirmed",
+                                                              pending: "Pending approval",
+                                                              waitlist: "Waitlisted",
+                                                              declined: "Declined",
+                                                              cancelled: "Cancelled",
+                                                          }[currentRegistration()!.status])}
+                                            </strong>
+                                        </p>
+                                        <Show when={currentRegistration()?.token}>
+                                            <a
+                                                class="button"
+                                                href={`/registration?token=${encodeURIComponent(currentRegistration()!.token!)}`}
+                                            >
+                                                Manage registration
+                                            </a>
+                                        </Show>
+                                    </Card>
+                                </Show>
+                                <Show when={registration.error}>
+                                    <Card title="Registration">
+                                        <p class="form-error">
+                                            {errorMessage(
+                                                registration.error,
+                                                "Could not load your registration.",
+                                            )}
+                                        </p>
+                                        <button
+                                            class="button"
+                                            onClick={() => refreshRegistration()}
+                                        >
+                                            Retry
+                                        </button>
+                                    </Card>
+                                </Show>
+                                <Show
+                                    when={
+                                        event()?.registration?.kind === "native" &&
                                         event()?.status === "scheduled" &&
                                         event()!.startsAt > Date.now() &&
+                                        !hasRegistration() &&
+                                        !isRegistrationLoading() &&
+                                        !registration.error &&
                                         !isRsvpOpen(event())
                                     }
                                 >
@@ -160,10 +245,18 @@ export default function Route() {
                                         <p>{registrationNotice(event())}</p>
                                     </Card>
                                 </Show>
-                                <Show when={isRsvpOpen(event())}>
+                                <Show
+                                    when={
+                                        isRsvpOpen(event()) &&
+                                        !hasRegistration() &&
+                                        !registration.error
+                                    }
+                                >
                                     <RsvpForm
                                         isSignedIn={!!account.user()}
-                                        isLoadingAccount={account.isPending()}
+                                        isLoadingAccount={
+                                            account.isPending() || registration.loading
+                                        }
                                         error={rsvpError()}
                                         event={event()}
                                         isPending={isRsvpPending()}
