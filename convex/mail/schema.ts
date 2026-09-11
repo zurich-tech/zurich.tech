@@ -14,6 +14,12 @@ export const deliveries = defineTable({
     createdAt: v.number(),
     providerId: v.optional(v.string()),
     subscriptionId: v.optional(v.id("subscriptions")),
+    category: v.optional(
+        v.union(v.literal("weekly"), v.literal("announcement"), v.literal("reminder")),
+    ),
+    eventId: v.optional(v.id("events")),
+    registrationId: v.optional(v.id("registrations")),
+    startsAt: v.optional(v.number()),
 })
     .index("by_key", ["key"])
     .index("by_status", ["status"]);
@@ -48,6 +54,11 @@ export const subscriptions = defineTable({
     status: v.union(v.literal("subscribed"), v.literal("unsubscribed"), v.literal("suppressed")),
     token: v.optional(v.string()),
     verifiedAt: v.optional(v.number()),
+    weekly: v.optional(v.boolean()),
+    announcements: v.optional(v.boolean()),
+    reminders: v.optional(v.boolean()),
+    seriesIds: v.optional(v.array(v.id("series"))),
+    topics: v.optional(v.array(v.string())),
     source: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),

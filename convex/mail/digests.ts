@@ -42,7 +42,9 @@ export const preview = query({
         return {
             html: renderEdition(entries, sponsors),
             events: entries,
-            subscribers: subscribers.filter((row) => row.verifiedAt !== undefined).length,
+            subscribers: subscribers.filter(
+                (row) => row.verifiedAt !== undefined && row.weekly !== false,
+            ).length,
             failures: deliveries.map((row) => ({
                 id: row._id,
                 to: row.to,
@@ -122,7 +124,7 @@ export const tick = internalMutation({
         const eventsText = entries
             .map(
                 (entry) =>
-                    `${entry.title}\n${new Date(entry.startsAt).toLocaleString("en-GB", { timeZone: "Europe/Zurich" })} · ${entry.location ?? "Zürich"}\n${entry.summary ?? ""}\n${siteOrigin()}/events/${entry.slug}`,
+                    `${entry.title}\n${new Date(entry.startsAt).toLocaleString("en-GB", { timeZone: "Europe/Zurich", dateStyle: "medium", timeStyle: "short" })} · ${entry.location ?? "Zürich"}\n${entry.summary ?? ""}\n${siteOrigin()}/events/${entry.slug}`,
             )
             .join("\n\n");
         const text = [eventsText, recognition].filter(Boolean).join("\n\n");
@@ -154,7 +156,11 @@ export const queue = internalMutation({
             .withIndex("by_status", (range) => range.eq("status", "subscribed"))
             .paginate({ numItems: 100, cursor: args.cursor });
         for (const [position, subscriber] of page.page.entries()) {
-            if (subscriber.verifiedAt !== undefined && subscriber.token) {
+            if (
+                subscriber.verifiedAt !== undefined &&
+                subscriber.token &&
+                subscriber.weekly !== false
+            ) {
                 await enqueue(
                     ctx,
                     `digest:${args.week}:${subscriber._id}`,
@@ -164,6 +170,7 @@ export const queue = internalMutation({
                     subscriber._id,
                     position * 600,
                     `${args.html}<p style="text-align:center;font:12px Arial;padding:24px"><a href="${escapeHtml(siteOrigin())}/unsubscribe?token=${encodeURIComponent(subscriber.token)}">Unsubscribe</a></p>`,
+                    { category: "weekly" },
                 );
             }
         }
@@ -191,6 +198,8 @@ function renderEdition(
             const url = `${siteOrigin()}/events/${entry.slug}`;
             const time = new Date(entry.startsAt).toLocaleString("en-GB", {
                 timeZone: "Europe/Zurich",
+                dateStyle: "medium",
+                timeStyle: "short",
             });
 
             return `<section style="padding:24px 0;border-bottom:1px solid #d3d7df"><h2 style="font-size:20px;margin:0 0 8px"><a style="color:#174ed8" href="${escapeHtml(url)}">${escapeHtml(entry.title)}</a></h2><p>${escapeHtml(time)} · ${escapeHtml(entry.location ?? "Zürich")}</p><p>${escapeHtml(entry.summary ?? "")}</p></section>`;

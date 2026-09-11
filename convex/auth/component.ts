@@ -56,6 +56,12 @@ export const authComponent = createClient<DataModel>(components.betterAuth, {
                     isTeam: false,
                     updatedAt: now,
                 });
+
+                // subscribe new accounts to the programme and event announcements
+                await ctx.scheduler.runAfter(0, internal.mail.preferences.enroll, {
+                    email: address,
+                    memberId,
+                });
             },
             onUpdate: async (ctx, user) => {
                 // Fill an absent avatar without overwriting the member’s chosen portrait.

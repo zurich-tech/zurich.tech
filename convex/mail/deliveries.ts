@@ -6,7 +6,7 @@ import {
     type MutationCtx,
 } from "../_generated/server";
 import { internal } from "../_generated/api";
-import type { Id } from "../_generated/dataModel";
+import type { Doc, Id } from "../_generated/dataModel";
 
 /** Require configured delivery before accepting an email-dependent action. */
 export function requireMail() {
@@ -24,6 +24,7 @@ export async function enqueue(
     subscriptionId?: Id<"subscriptions">,
     delay = 0,
     html?: string,
+    context?: Pick<Doc<"deliveries">, "category" | "eventId" | "registrationId" | "startsAt">,
 ) {
     // reuse the durable message for repeated requests
     const existing = await ctx.db
@@ -39,6 +40,7 @@ export async function enqueue(
         text,
         html,
         subscriptionId,
+        ...context,
         status: "queued",
         attempts: 0,
         createdAt: Date.now(),
@@ -55,9 +57,37 @@ export const read = internalQuery({
         // load the durable delivery before checking its state
         const delivery = await ctx.db.get(args.id);
         if (!delivery || delivery.status === "sent") return null;
+        const subscription = await ctx.db
+            .query("subscriptions")
+            .withIndex("by_email", (q) => q.eq("email", delivery.to))
+            .unique();
+        if (subscription?.status === "suppressed") return null;
         if (delivery.subscriptionId) {
-            const subscription = await ctx.db.get(delivery.subscriptionId);
-            if (!subscription || subscription.status !== "subscribed") return null;
+            if (
+                !subscription ||
+                subscription._id !== delivery.subscriptionId ||
+                subscription.status !== "subscribed"
+            )
+                return null;
+            if (delivery.category === "weekly" && subscription.weekly === false) return null;
+            if (delivery.category === "announcement" && subscription.announcements === false)
+                return null;
+        }
+        if (delivery.eventId) {
+            const event = await ctx.db.get(delivery.eventId);
+            if (!event || event.status !== "scheduled" || event.startsAt <= Date.now()) return null;
+            if (delivery.category === "reminder") {
+                const registration = delivery.registrationId
+                    ? await ctx.db.get(delivery.registrationId)
+                    : null;
+                if (
+                    subscription?.reminders === false ||
+                    !registration ||
+                    registration.status !== "going" ||
+                    event.startsAt !== delivery.startsAt
+                )
+                    return null;
+            }
         }
 
         return delivery;
@@ -75,6 +105,7 @@ export const finish = internalMutation({
         // load the durable delivery before checking its state
         const delivery = await ctx.db.get(args.id);
         if (!delivery) throw new Error("Delivery not found.");
+        if (delivery.status === "sent") return;
         // retain provider acceptance or the exact failure
         const attempts = delivery.attempts + 1;
         await ctx.db.patch(args.id, {

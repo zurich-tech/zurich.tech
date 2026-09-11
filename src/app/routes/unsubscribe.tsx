@@ -17,7 +17,7 @@ export default function Route() {
     const [error, setError] = createSignal<string>();
     const [isPending, setIsPending] = createSignal(false);
 
-    /** Confirm the recipient's request to stop the weekly digest. */
+    /** Confirm the recipient's request to stop optional event emails. */
     async function unsubscribe() {
         setIsPending(true);
         setError(undefined);
@@ -46,8 +46,8 @@ export default function Route() {
                     <div class="confirmation-panel">
                         <Show when={!success() && typeof params.token === "string"}>
                             <p>
-                                Stop receiving the weekly programme. Your event registrations are
-                                unaffected.
+                                Stop receiving weekly digests and new-event announcements. Your
+                                event registrations are unaffected.
                             </p>
                             <button class="button" disabled={isPending()} onClick={unsubscribe}>
                                 {isPending() ? "Unsubscribing…" : "Unsubscribe me"}

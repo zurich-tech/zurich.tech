@@ -43,10 +43,7 @@ export default function Route() {
                 <Card title="Confirm your email" heading="h1">
                     <div class="confirmation-panel">
                         <Show when={!success() && typeof params.token === "string"}>
-                            <p>
-                                We’ll also keep you informed about future events. You can
-                                unsubscribe at any time.
-                            </p>
+                            <p>Confirm your email to continue.</p>
                             <button
                                 class="button button--primary"
                                 disabled={isPending()}

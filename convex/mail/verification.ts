@@ -83,7 +83,7 @@ export const prepare = internalMutation({
             args.purpose === "subscription"
                 ? "Confirm your zurich.tech subscription"
                 : "Confirm your event registration",
-            `Confirm your email address to continue:\n\n${url}\n\nWe’ll also keep you informed about future events. You can unsubscribe at any time.\n\nThis link expires in one hour. If you did not request it, you can ignore this email.`,
+            `Confirm your email address to continue:\n\n${url}\n\nThis link expires in one hour. If you did not request it, you can ignore this email.`,
         );
     },
 });
@@ -103,27 +103,30 @@ export const confirm = mutation({
             throw new Error("This link has already been used. Check your confirmation email.");
         const now = Date.now();
 
-        // subscribe verified attendees and newsletter readers through the same confirmation
+        // registration does not opt someone into optional newsletters
         const subscription = await ctx.db
             .query("subscriptions")
             .withIndex("by_email", (q) => q.eq("email", ticket.email))
             .unique();
         if (subscription?.status === "suppressed")
             throw new Error("This address cannot receive email.");
-        const subscriptionValues = {
-            email: ticket.email,
-            status: "subscribed" as const,
-            token: subscription?.token ?? ticket.newsletterToken,
-            verifiedAt: now,
-            updatedAt: now,
-        };
-        if (subscription) await ctx.db.patch(subscription._id, subscriptionValues);
-        else
-            await ctx.db.insert("subscriptions", {
-                ...subscriptionValues,
-                createdAt: now,
-                source: "website",
-            });
+        if (ticket.purpose === "subscription") {
+            const values = {
+                email: ticket.email,
+                status: "subscribed" as const,
+                weekly: true,
+                token: subscription?.token ?? ticket.newsletterToken,
+                verifiedAt: now,
+                updatedAt: now,
+            };
+            if (subscription) await ctx.db.patch(subscription._id, values);
+            else
+                await ctx.db.insert("subscriptions", {
+                    ...values,
+                    createdAt: now,
+                    source: "website",
+                });
+        }
         await ctx.db.patch(ticket._id, { usedAt: now });
 
         // finish newsletter confirmation without allocating attendance
