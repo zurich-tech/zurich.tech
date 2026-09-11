@@ -1,9 +1,9 @@
-import { webhook } from "./stripe";
+import { webhook } from "./billing/stripe";
 import { httpRouter } from "convex/server";
 
 import { authComponent } from "./auth/component";
 import { createAuth } from "./auth/server";
-import { requiredEnvironment } from "./environment";
+import { requiredEnvironment } from "./auth/environment";
 
 /** Convex HTTP routes. */
 const http = httpRouter();

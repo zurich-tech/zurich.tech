@@ -1,7 +1,7 @@
 import { createClient, type AuthFunctions } from "@convex-dev/better-auth";
 import { components, internal } from "../_generated/api";
 import type { DataModel } from "../_generated/dataModel";
-import { normalizeEmail } from "../email";
+import { normalizeEmail } from "../members/emails";
 import { createMember, claimMember } from "./member";
 
 /** Internal functions invoked by authentication triggers. */
@@ -24,7 +24,7 @@ export const authComponent = createClient<DataModel>(components.betterAuth, {
                 // reject duplicate auth identities
                 const account = await ctx.db
                     .query("accounts")
-                    .withIndex("by_authId", (query) => query.eq("authId", user._id))
+                    .withIndex("by_auth", (query) => query.eq("authId", user._id))
                     .unique();
                 if (account !== null) {
                     throw new Error(`Account already exists for auth user ${user._id}.`);
@@ -32,7 +32,7 @@ export const authComponent = createClient<DataModel>(components.betterAuth, {
 
                 // resolve at most one imported member by email
                 const emails = await ctx.db
-                    .query("memberEmails")
+                    .query("emails")
                     .withIndex("by_email", (query) => query.eq("email", address))
                     .take(2);
                 if (emails.length > 1) {
@@ -53,22 +53,28 @@ export const authComponent = createClient<DataModel>(components.betterAuth, {
                     createdAt: now,
                     memberId,
                     status: "active",
+                    isTeam: false,
                     updatedAt: now,
                 });
             },
             onUpdate: async (ctx, user) => {
-                // refresh the member avatar when the provider profile changes
+                // Fill an absent avatar without overwriting the member’s chosen portrait.
                 const account = await ctx.db
                     .query("accounts")
-                    .withIndex("by_authId", (query) => query.eq("authId", user._id))
+                    .withIndex("by_auth", (query) => query.eq("authId", user._id))
                     .unique();
                 if (!account) throw new Error("Member account is missing.");
-                await ctx.db.patch(account.memberId, { avatarUrl: user.image ?? undefined });
+                const member = await ctx.db.get(account.memberId);
+                if (member && !member.avatarUrl && user.image)
+                    await ctx.db.patch(member._id, {
+                        avatarUrl: user.image,
+                        updatedAt: Date.now(),
+                    });
             },
             onDelete: async (ctx, user) => {
                 const account = await ctx.db
                     .query("accounts")
-                    .withIndex("by_authId", (query) => query.eq("authId", user._id))
+                    .withIndex("by_auth", (query) => query.eq("authId", user._id))
                     .unique();
 
                 // require and remove the local account link
