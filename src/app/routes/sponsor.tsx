@@ -173,7 +173,7 @@ export default function Route() {
                                     class="button button--primary"
                                     href={`/sign-in?next=${encodeURIComponent(`/sponsor?tier=${params.tier ?? "champion"}#request`)}`}
                                 >
-                                    Continue with GitHub or X
+                                    Sign in to become a sponsor
                                 </a>
                             }
                         >
