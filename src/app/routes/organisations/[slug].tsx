@@ -75,7 +75,7 @@ export default function Route() {
                                                     </p>
                                                     <div class="organisation-location-links">
                                                         <a class="text-link" href="/map">
-                                                            Community map <Arrow />
+                                                            Map <Arrow />
                                                         </a>
                                                         <Show
                                                             when={

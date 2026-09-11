@@ -73,7 +73,7 @@ export function OrganisationLocations(props: {
 
     return (
         <Card title="Locations">
-            <p>Public offices and campuses. Local sponsors appear on the community map.</p>
+            <p>Public offices and campuses. Local sponsors appear on the map.</p>
             <For each={locations() ?? []}>
                 {(location) => (
                     <div class="location-actions">
