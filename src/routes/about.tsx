@@ -43,7 +43,7 @@ const team: TeamMember[] = [
     {
         name: "Alessio Rimoldi",
         role: "Treasurer",
-        profession: "PhD Researcher @ ETH Zurich",
+        profession: "PhD @ ETH Zurich",
         image: "/team/alessio-rimoldi.jpeg",
         links: {
             linkedin: "https://www.linkedin.com/in/alessio-rimoldi-340787212/",

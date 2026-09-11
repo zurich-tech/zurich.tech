@@ -5,6 +5,7 @@ import { createAsync } from "@solidjs/router";
 import { createSignal, createMemo, createEffect, on, For, Show } from "solid-js";
 
 import { Arrow } from "../../component/arrow";
+import { FilterPills } from "../../component/filter-pills";
 import { Card } from "../../component/card";
 import { Page } from "../../component/page";
 import { Seo } from "../../component/seo";
@@ -53,26 +54,30 @@ export default function Route() {
                                 value={search()}
                                 onInput={(event) => setSearch(event.currentTarget.value)}
                             />
-                            <select
-                                aria-label="Workplace"
+                            <FilterPills
+                                label="Workplace"
                                 value={workplace()}
-                                onChange={(event) => setWorkplace(event.currentTarget.value)}
-                            >
-                                <option value="all">All locations</option>
-                                <For each={Object.entries(workplaces)}>
-                                    {([value, label]) => <option value={value}>{label}</option>}
-                                </For>
-                            </select>
-                            <select
-                                aria-label="Employment"
+                                onChange={setWorkplace}
+                                options={[
+                                    { value: "all", label: "All locations" },
+                                    ...Object.entries(workplaces).map(([value, label]) => ({
+                                        value,
+                                        label,
+                                    })),
+                                ]}
+                            />
+                            <FilterPills
+                                label="Employment"
                                 value={employment()}
-                                onChange={(event) => setEmployment(event.currentTarget.value)}
-                            >
-                                <option value="all">All contracts</option>
-                                <For each={Object.entries(employments)}>
-                                    {([value, label]) => <option value={value}>{label}</option>}
-                                </For>
-                            </select>
+                                onChange={setEmployment}
+                                options={[
+                                    { value: "all", label: "All contracts" },
+                                    ...Object.entries(employments).map(([value, label]) => ({
+                                        value,
+                                        label,
+                                    })),
+                                ]}
+                            />
                         </div>
                         {/* render the visible page of matching jobs */}
                         <For each={matches().slice(0, count())}>

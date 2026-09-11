@@ -1,13 +1,13 @@
 import { pageSize } from "../core/constants";
 import { type CalendarEntry } from "../core/queries";
 
-import { Arrow } from "./arrow";
 import { Card } from "./card";
+import { FilterPills } from "./filter-pills";
 import { Entry } from "./entry";
 import { createSignal, createMemo, createEffect, on, For, Show } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
 
-/** Browse events in a single aligned calendar, filtered by period, series, and registration destination. */
+/** Browse events in a single aligned calendar, filtered by period, year and series. */
 export function Programme(props: {
     /** Published events to filter and paginate. */
     entries: CalendarEntry[];
@@ -22,9 +22,29 @@ export function Programme(props: {
     const [params, setParams] = useSearchParams();
     const [series, setSeries] = createSignal("all");
     const [visibleCount, setVisibleCount] = createSignal(pageSize);
-    const [registration, setRegistration] = createSignal("all");
     const now = Date.now();
-    const period = () => params.period ?? "all";
+    const isPreview = () => props.limit !== undefined;
+    const period = () => (isPreview() ? "all" : (params.period ?? "all"));
+
+    const year = () => (!isPreview() && typeof params.year === "string" ? params.year : "all");
+    const yearFormat = new Intl.DateTimeFormat("en", {
+        year: "numeric",
+        timeZone: "Europe/Zurich",
+    });
+    const eventYear = (startsAt: number) => yearFormat.format(startsAt);
+    const years = createMemo(() =>
+        [...new Set(props.entries.map((event) => eventYear(event.startsAt)))].sort(),
+    );
+
+    // keep homepage series filters relevant to the unfiltered preview
+    const availableSeries = createMemo(() => {
+        if (!isPreview()) return props.series;
+        const recent = [...props.entries]
+            .sort((a, b) => b.startsAt - a.startsAt)
+            .slice(0, props.limit);
+
+        return props.series.filter((item) => recent.some((event) => event.seriesId === item._id));
+    });
 
     // filter one catalogue and order it by the selected period
     const matches = createMemo(() =>
@@ -33,10 +53,7 @@ export function Programme(props: {
                 (event) =>
                     (period() === "all" ||
                         (period() === "past" ? event.startsAt < now : event.startsAt >= now)) &&
-                    (registration() === "all" ||
-                        (registration() === "external"
-                            ? event.registrationKind === "external"
-                            : event.registrationKind !== "external")) &&
+                    (year() === "all" || eventYear(event.startsAt) === year()) &&
                     (series() === "all" ||
                         event.seriesId === series() ||
                         event.tags.includes(series())),
@@ -51,85 +68,80 @@ export function Programme(props: {
 
     return (
         <Card
-            class="programme"
+            class={isPreview() ? "programme" : "programme programme--full"}
             heading={props.heading}
             title={
-                <>
-                    <Show when={props.heading !== "h1"} fallback="Events">
-                        <a href="/events">Events</a>
-                    </Show>{" "}
-                    <span class="programme-count">{matches().length}</span>
-                </>
+                <Show when={props.heading !== "h1"} fallback="Events">
+                    <a href="/events">Events</a>
+                </Show>
             }
         >
             {/* combine time and series filters over one chronological list */}
             <div class="programme-tagbar" aria-label="Filter events">
-                <div class="programme-tags" role="group" aria-label="Event period">
-                    <For
-                        each={[
+                <Show when={!isPreview()}>
+                    <FilterPills
+                        label="Event period"
+                        value={
+                            period() === "all" && (series() !== "all" || year() !== "all")
+                                ? ""
+                                : String(period())
+                        }
+                        options={[
                             { value: "all", label: "All" },
                             { value: "upcoming", label: "Upcoming" },
                             { value: "past", label: "Past" },
                         ]}
-                    >
-                        {(item) => (
-                            <button
-                                type="button"
-                                aria-pressed={period() === item.value}
-                                classList={{ selected: period() === item.value }}
-                                onClick={() =>
-                                    setParams({
-                                        period: item.value === "all" ? undefined : item.value,
-                                    })
-                                }
-                            >
-                                {item.label}
-                            </button>
-                        )}
-                    </For>
-                </div>
-                <div class="programme-tags" role="group" aria-label="Event series">
-                    <For each={props.series}>
-                        {(item) => (
-                            <button
-                                type="button"
-                                aria-pressed={series() === item._id}
-                                classList={{ selected: series() === item._id }}
-                                onClick={() => setSeries(series() === item._id ? "all" : item._id)}
-                            >
-                                {item.name}
-                            </button>
-                        )}
-                    </For>
-                </div>
-                <div class="programme-tags" role="group" aria-label="Registration location">
-                    <For each={["Internal", "External"]}>
-                        {(label) => (
-                            <button
-                                type="button"
-                                aria-pressed={registration() === label.toLowerCase()}
-                                classList={{ selected: registration() === label.toLowerCase() }}
-                                onClick={() =>
-                                    setRegistration(
-                                        registration() === label.toLowerCase()
-                                            ? "all"
-                                            : label.toLowerCase(),
-                                    )
-                                }
-                            >
-                                {label}
-                            </button>
-                        )}
-                    </For>
-                </div>
+                        onChange={(value) => {
+                            if (value === "all") setSeries("all");
+                            setParams({
+                                period: value === "all" ? undefined : value,
+                                ...(value === "all" ? { year: undefined } : {}),
+                            });
+                        }}
+                    />
+                </Show>
+                <FilterPills
+                    label="Event series"
+                    value={series()}
+                    options={[
+                        ...(isPreview() ? [{ value: "all", label: "All" }] : []),
+                        ...availableSeries().map((item) => ({ value: item._id, label: item.name })),
+                    ]}
+                    onChange={(value) => setSeries(value === series() ? "all" : value)}
+                />
+                <Show when={!isPreview()}>
+                    <FilterPills
+                        label="Event year"
+                        value={year()}
+                        options={years().map((value) => ({ value, label: value }))}
+                        onChange={(value) =>
+                            setParams({ year: value === year() ? undefined : value })
+                        }
+                    />
+                </Show>
             </div>
-            {/* render the current page with venue and registration tags */}
+            {/* render the current page with venue and upcoming tags */}
             <ol class="event-list">
                 <For each={matches().slice(0, props.limit ?? visibleCount())}>
-                    {(event) => (
+                    {(event, index) => (
                         <li>
+                            {/* mark the transition from upcoming events into the archive */}
+                            <Show
+                                when={
+                                    period() === "all" &&
+                                    (year() === "all" || year() === eventYear(now)) &&
+                                    event.startsAt < now &&
+                                    (index() === 0 || matches()[index() - 1].startsAt >= now)
+                                }
+                            >
+                                <div class="programme-today">
+                                    <span>Today</span>
+                                </div>
+                            </Show>
                             <Entry
-                                class="event-row"
+                                class={
+                                    event.startsAt < now ? "event-row event-row-past" : "event-row"
+                                }
                                 href={event.href}
                                 date={event.startsAt}
                                 title={event.title}
@@ -146,11 +158,6 @@ export function Programme(props: {
                                             }
                                         >
                                             <span class="tag tag-upcoming">Upcoming</span>
-                                        </Show>
-                                        <Show when={event.registrationKind === "external"}>
-                                            <span class="tag tag-external">
-                                                External <Arrow direction="external" />
-                                            </span>
                                         </Show>
                                     </>
                                 }
@@ -187,7 +194,7 @@ export function Programme(props: {
             {/* explain an empty result without inventing events */}
             <Show when={matches().length === 0}>
                 <p class="programme-empty-state">
-                    {series() !== "all" || registration() !== "all"
+                    {series() !== "all" || year() !== "all"
                         ? "No events match these filters."
                         : period() === "upcoming"
                           ? "No upcoming events published."

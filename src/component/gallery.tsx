@@ -1,19 +1,38 @@
-import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import { createMemo, createSignal, For, onCleanup, onMount, Show } from "solid-js";
 import type { GalleryAlbum } from "../core/queries";
 import { Card } from "./card";
+import { FilterPills } from "./filter-pills";
 import { Image } from "./image";
 
 /** Browse recent event albums with gently rotating photo previews. */
 export function Gallery(props: {
     /** Recent event destinations and their approved photographs. */
     albums: GalleryAlbum[];
+    /** Show the complete album collection on its own page. */
+    isPage?: boolean;
 }) {
+    const [year, setYear] = createSignal("all");
+    const years = createMemo(() =>
+        [...new Set(props.albums.map((album) => album.year))].sort((a, b) => a - b),
+    );
+    const albums = createMemo(() =>
+        props.albums.filter((album) => year() === "all" || String(album.year) === year()),
+    );
     const [frame, setFrame] = createSignal(0);
-    const [isPaused, setPaused] = createSignal(false);
+    const [isPaused, setPaused] = createSignal(props.isPage ?? false);
     const [isHovered, setHovered] = createSignal(false);
     const [isFocused, setFocused] = createSignal(false);
     let lastAdvance = 0;
-    const hasSlideshow = () => props.albums.some((album) => album.images.length > 1);
+    const hasSlideshow = () =>
+        (!props.isPage && albums().length > 3) || albums().some((album) => album.images.length > 1);
+
+    // keep three event previews on the homepage and cycle through the whole collection
+    const visibleAlbums = createMemo(() => {
+        if (props.isPage || albums().length <= 3) return albums();
+        const count = albums().length;
+        const start = ((frame() % count) + count) % count;
+        return Array.from({ length: 3 }, (_, index) => albums()[(start + index) % count]);
+    });
 
     /** Advance every album together and leave a full interval before autoplay resumes. */
     function advance(direction: number) {
@@ -23,7 +42,9 @@ export function Gallery(props: {
 
     /** Wrap backwards as well as forwards, including albums with different lengths. */
     function photoIndex(length: number) {
-        return ((frame() % length) + length) % length;
+        const round =
+            !props.isPage && albums().length > 3 ? Math.floor(frame() / albums().length) : frame();
+        return ((round % length) + length) % length;
     }
 
     // respect motion preferences and stop the timer when the gallery unmounts
@@ -39,12 +60,12 @@ export function Gallery(props: {
                 !isPaused() &&
                 !isHovered() &&
                 !isFocused() &&
-                Date.now() - lastAdvance >= 5000 &&
+                Date.now() - lastAdvance >= 10000 &&
                 !document.hidden
             ) {
                 advance(1);
             }
-        }, 5000);
+        }, 10000);
         onCleanup(() => {
             window.clearInterval(timer);
             motion.removeEventListener("change", updateMotion);
@@ -54,7 +75,9 @@ export function Gallery(props: {
     return (
         <Card
             title="Photos"
-            class="gallery-overview"
+            titleHref={props.isPage ? undefined : "/photos"}
+            heading={props.isPage ? "h1" : "h2"}
+            class={props.isPage ? "gallery-overview gallery-overview--page" : "gallery-overview"}
             toolbar={
                 <Show when={hasSlideshow()}>
                     <div class="gallery-controls" role="group" aria-label="Photo playback">
@@ -106,6 +129,21 @@ export function Gallery(props: {
                 </Show>
             }
         >
+            <div class="gallery-filters">
+                <FilterPills
+                    label="Photo year"
+                    value={year()}
+                    options={[
+                        { value: "all", label: "All" },
+                        ...years().map((year) => ({ value: String(year), label: String(year) })),
+                    ]}
+                    onChange={(value) => {
+                        setYear(value);
+                        setFrame(0);
+                        lastAdvance = Date.now();
+                    }}
+                />
+            </div>
             <div
                 class="gallery-overview-grid"
                 onMouseEnter={() => setHovered(true)}
@@ -116,7 +154,7 @@ export function Gallery(props: {
                         setFocused(false);
                 }}
             >
-                <For each={props.albums}>
+                <For each={visibleAlbums()}>
                     {(album) => (
                         <a class="gallery-album" href={album.href}>
                             <div class="gallery-album-images">

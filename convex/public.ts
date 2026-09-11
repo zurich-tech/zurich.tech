@@ -569,7 +569,7 @@ async function memberRow(ctx: QueryCtx, member: Doc<"members">) {
     };
 }
 
-/** Read a balanced selection of approved photos from the three latest photographed events. */
+/** Read approved photo previews from every photographed event. */
 export const gallery = query({
     args: { now: v.number() },
     handler: async (ctx, args) => {
@@ -594,6 +594,12 @@ export const gallery = query({
                 albums.push({
                     title: event.title,
                     href: `/events/${event.slug}#photos`,
+                    year: Number(
+                        new Intl.DateTimeFormat("en", {
+                            year: "numeric",
+                            timeZone: "Europe/Zurich",
+                        }).format(event.startsAt),
+                    ),
                     images: images.map((image) => ({
                         id: image._id,
                         alt: image.alt ?? `Photo from ${event.title}`,
@@ -603,7 +609,6 @@ export const gallery = query({
                     })),
                 });
             }
-            if (albums.length === 3) break;
         }
 
         return albums;

@@ -100,7 +100,7 @@ export default function Route() {
                                         event()!.startsAt < Date.now()
                                     }
                                 >
-                                    <span class="tag">Past event</span>
+                                    <span class="tag">Past</span>
                                 </Show>
                                 <Show
                                     when={

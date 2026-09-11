@@ -1934,12 +1934,12 @@ td button {
     padding: 0 0 20px;
     border-bottom: 1px solid var(--color-line);
 }
-.programme-tags {
+.filter-pills {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 }
-.programme-tags > button {
+.filter-pills > button {
     font: 12px/1.2 var(--font-sans);
     min-height: 30px;
     padding: 6px 10px;
@@ -1956,11 +1956,11 @@ td button {
     background: var(--color-paper);
     color: var(--color-soft);
 }
-.programme-tags > button:hover {
+.filter-pills > button:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
 }
-.programme-tags > button.selected:hover {
+.filter-pills > button.selected:hover {
     color: var(--color-paper);
 }
 
@@ -2018,6 +2018,22 @@ td button {
     font-size: 22px;
     line-height: 1;
     color: var(--color-ink);
+}
+/* draw one continuous hover rule without altering the square dot's layout */
+.site-shell .site-topbar__logo:hover {
+    text-decoration: none;
+}
+.site-topbar__logo .wordmark {
+    position: relative;
+}
+.site-topbar__logo:hover .wordmark::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 1px;
+    background: currentColor;
 }
 /* retain the same square punctuation in the small and large wordmarks */
 .wordmark__dot {
@@ -2452,9 +2468,25 @@ td button {
     align-items: center;
     justify-content: flex-end;
     align-self: stretch;
+    color: var(--color-soft);
+}
+.event-arrow .arrow-icon {
+    width: 14px;
+    height: 14px;
+}
+.entry:is(:hover, :focus-visible) .event-arrow {
     color: var(--color-accent);
 }
-.entry:hover .event-title {
+/* soften archive headings without fading descriptions or disabling links */
+.event-row-past .event-title,
+.event-row-past .event-date {
+    color: color-mix(in srgb, var(--color-ink) 70%, var(--color-soft));
+}
+.event-row-past:is(:hover, :focus-visible) .event-title,
+.event-row-past:is(:hover, :focus-visible) .event-date {
+    color: var(--color-ink);
+}
+.entry:is(:hover, :focus-visible) .event-title {
     color: var(--color-accent);
     text-decoration: underline;
     text-underline-offset: 4px;
@@ -2649,11 +2681,11 @@ td button {
     gap: 8px 12px;
     padding-bottom: 20px;
 }
-.programme-tags {
+.filter-pills {
     gap: 6px;
 }
 /* share compact controls between navigation and event filters */
-.programme-tags > button,
+.filter-pills > button,
 .site-shell .site-topbar__primary > a:not(.site-topbar__logo),
 .site-shell .header-links > a,
 .site-shell .site-theme-toggle {
@@ -2697,7 +2729,7 @@ td button {
     }
 }
 
-.programme-tags > button.selected {
+.filter-pills > button.selected {
     border-color: var(--color-accent);
     background: var(--color-accent);
     color: var(--color-paper);
@@ -2760,6 +2792,10 @@ td button {
     display: grid;
     grid-template-columns: repeat(var(--sponsor-columns), minmax(0, 1fr));
     gap: 8px;
+}
+.sponsors--full .sponsor-logos {
+    grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+    gap: 24px;
 }
 .sponsor-logo {
     display: grid;
@@ -3273,7 +3309,7 @@ a.eyebrow:hover {
     font: 14px/1.6 var(--font-sans);
     max-width: 65ch;
 }
-.programme-tags:empty {
+.filter-pills:empty {
     display: none;
 }
 @media (max-width: 700px) {
@@ -3327,11 +3363,22 @@ a.eyebrow:hover {
 .card-heading .card-toolbar {
     margin-left: auto;
 }
-.programme-count {
-    margin-left: 12px;
-    font: 12px var(--font-mono);
-    color: var(--color-soft);
-    vertical-align: middle;
+/* mark today in the descending event timeline */
+.programme-today {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-accent);
+    font: 600 11px var(--font-mono);
+}
+.programme-today::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+}
+.event-list > li:has(+ li > .programme-today) .entry {
+    border-bottom: 0;
 }
 .programme > .card-body,
 .sponsors > .card-body {
@@ -3516,14 +3563,23 @@ a.eyebrow:hover {
     padding: 10px 0;
     overflow-x: auto;
 }
-.programme .programme-tags {
+.programme .filter-pills {
     display: flex;
     flex-wrap: nowrap;
     flex-shrink: 0;
 }
-.programme .programme-tags > button {
+.programme .filter-pills > button {
     flex-shrink: 0;
 }
+/* let the full programme filters wrap together without introducing separate rows */
+.programme--full .programme-tagbar {
+    flex-wrap: wrap;
+}
+.programme--full .filter-pills {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+}
+
 @media (max-width: 700px) {
     .bulletin-events {
         grid-row: 1;
@@ -3670,15 +3726,14 @@ a.eyebrow:hover {
     padding: 12px 0;
     border-bottom: 1px solid var(--color-line);
 }
+.listing-filters > .filter-pills {
+    flex-basis: 100%;
+}
 .listing-filters input {
     flex: 1 1 160px;
     min-width: 0;
 }
-.listing-filters select {
-    flex: 1 1 120px;
-    min-width: 0;
-}
-.listing-filters :is(input, select) {
+.listing-filters input {
     border: 1px solid var(--color-line);
     background: transparent;
     color: var(--color-ink);
@@ -4312,6 +4367,44 @@ iframe.email-preview {
     font-size: 13px;
     text-decoration: underline;
     text-underline-offset: 3px;
+}
+/* align album year filters with the photographs below */
+.gallery-filters {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-line);
+}
+.gallery-overview--page .gallery-filters {
+    padding-inline: 24px;
+}
+
+/* give the complete collection an even, responsive album grid */
+.gallery-overview--page {
+    margin-top: 0;
+}
+.gallery-overview--page .gallery-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    padding: 24px;
+}
+.gallery-overview--page .gallery-album:first-child {
+    grid-column: auto;
+}
+.gallery-overview--page .gallery-album .gallery-album-images {
+    aspect-ratio: 4 / 3;
+}
+.photos-page {
+    padding-top: 24px;
+    min-height: calc(100svh - 150px);
+}
+@media (max-width: 700px) {
+    .gallery-overview--page .gallery-overview-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 16px;
+    }
+    .gallery-overview--page .gallery-filters {
+        padding-inline: 16px;
+    }
 }
 @media (prefers-reduced-motion: reduce) {
     .gallery-album-images img {

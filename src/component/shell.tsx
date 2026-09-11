@@ -30,6 +30,7 @@ export function Shell(props: { children?: JSX.Element }) {
                     when={
                         location.pathname !== "/" &&
                         location.pathname !== "/map" &&
+                        location.pathname !== "/photos" &&
                         location.pathname !== "/sign-in"
                     }
                 >
