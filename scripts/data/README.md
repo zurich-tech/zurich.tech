@@ -25,3 +25,10 @@ Omit `--prod` when checking development.
 
 The additional ZurichRobotics #5 photo candidates are not part of this release: publishing those images to shared public storage still needs approval.
 Stripe, Resend, X sign-in and the full Wix migration are separate launch work.
+
+## Tufa series consolidation
+
+`tufa-series.json` moves the old Tufa AI Meetup events and editable revisions into Tufa Talks, then deletes the duplicate series.
+Development has been updated; production still needs this migration during rollout.
+Preview with `bunx convex run --prod series:merge '{"from":"tufa-ai-meetup","into":"tufa-talks","apply":false}'`.
+After reviewing, use the same arguments with `apply: true` for the approved production rollout.

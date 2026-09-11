@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, internalMutation } from "./_generated/server";
 import { requireTeam } from "./access";
 
 /** Upsert one recurring event series. */
@@ -32,5 +32,43 @@ export const upsert = mutation({
         }
 
         return await ctx.db.insert("series", { ...values, status: "active" });
+    },
+});
+
+/** Consolidate duplicate series and their published and editable event references. */
+export const merge = internalMutation({
+    args: { from: v.string(), into: v.string(), apply: v.boolean() },
+    handler: async (ctx, args) => {
+        if (args.from === args.into) throw new Error("Choose two different series.");
+        const source = await ctx.db
+            .query("series")
+            .withIndex("by_slug", (q) => q.eq("slug", args.from))
+            .unique();
+        const target = await ctx.db
+            .query("series")
+            .withIndex("by_slug", (q) => q.eq("slug", args.into))
+            .unique();
+        if (!target) throw new Error("Destination series not found.");
+        if (!source) return { events: [], submissions: 0, merged: false };
+        // migrate both published events and revisions before removing the duplicate
+        const events = await ctx.db
+            .query("events")
+            .filter((q) => q.eq(q.field("seriesId"), source._id))
+            .collect();
+        const submissions = await ctx.db
+            .query("submissions")
+            .filter((q) => q.eq(q.field("seriesId"), source._id))
+            .collect();
+        if (args.apply) {
+            for (const event of events) await ctx.db.patch(event._id, { seriesId: target._id });
+            for (const submission of submissions)
+                await ctx.db.patch(submission._id, { seriesId: target._id });
+            await ctx.db.delete(source._id);
+        }
+        return {
+            events: events.map((event) => event.slug),
+            submissions: submissions.length,
+            merged: args.apply,
+        };
     },
 });
