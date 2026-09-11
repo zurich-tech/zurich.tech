@@ -24,7 +24,7 @@ export function Seo(props: {
             location.pathname,
         ) || location.pathname === "/jobs/submit";
     const url = () => `${site.url}${location.pathname}`;
-    const title = () => (props.isHome ? site.name : `${props.title} | ${site.name}`);
+    const title = () => (props.isHome ? site.name : `${props.title} - ${site.name}`);
     const image = () => props.image ?? `${site.url}/og.png`;
 
     return (

@@ -39,7 +39,7 @@ function HandleTarget(props: { handle: string }) {
             {/* handle */}
             <Match when={handle() !== undefined}>
                 <>
-                    <Seo title={`@${props.handle}`} description="zurich.tech handle lookup." />
+                    <Seo title={title()} description="zurich.tech handle lookup." />
                     <Page width="narrow">
                         <PageHeader
                             summary={member()?.summary ?? "handle not found."}
