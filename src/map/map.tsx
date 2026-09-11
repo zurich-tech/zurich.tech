@@ -117,7 +117,7 @@ export function CommunityMap(props: {
                     attributionControl: false,
                 });
                 map.touchZoomRotate.disableRotation();
-                map.getCanvas().setAttribute("aria-label", "Zürich community map");
+                map.getCanvas().setAttribute("aria-label", "Zürich map");
                 if (props.isHero) map.getCanvas().tabIndex = -1;
                 map.on("zoom", () => setZoom(map!.getZoom()));
                 map.on("error", () => setError(true));
@@ -140,7 +140,7 @@ export function CommunityMap(props: {
         const markers = entries.map((organisation) => {
             const element = document.createElement("div");
             const diameter =
-                organisation.tier === "principal" ? 40 : organisation.tier === "partner" ? 32 : 26;
+                organisation.tier === "partner" ? 40 : organisation.tier === "champion" ? 32 : 26;
             const dispose = render(
                 () => (
                     <a
@@ -183,7 +183,7 @@ export function CommunityMap(props: {
         <div class="community-map" classList={{ "community-map--hero": props.isHero }}>
             <div ref={container} class="map-canvas" />
             <Show when={props.isHero}>
-                <a class="map-explore" href="/map" aria-label="Explore the community map" />
+                <a class="map-explore" href="/map" aria-label="Explore the map" />
             </Show>
             <Show when={error()}>
                 <p class="map-error" role="status">

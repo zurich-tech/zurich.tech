@@ -1,10 +1,10 @@
 /** Annual community sponsorship options, shared with the public page. */
 export const tiers = [
     {
-        id: "principal",
-        name: "Principal",
+        id: "partner",
+        name: "Partner",
         logoWidth: 180,
-        map: "Large logo on the community map",
+        map: "Large logo on the map",
         price: 2500,
         purpose: "Become an integral partner.",
         contribution: "Support the basics and what comes next.",
@@ -16,10 +16,10 @@ export const tiers = [
         news: "Occasional sharing of relevant updates",
     },
     {
-        id: "partner",
-        name: "Partner",
+        id: "champion",
+        name: "Champion",
         logoWidth: 110,
-        map: "Medium logo on the community map",
+        map: "Medium logo on the map",
         price: 1000,
         purpose: "Enable more events to happen.",
         contribution: "Help cover core operating expenses.",
@@ -31,10 +31,10 @@ export const tiers = [
         news: "Occasional sharing of relevant updates",
     },
     {
-        id: "supporter",
-        name: "Supporter",
+        id: "friend",
+        name: "Friend",
         logoWidth: 80,
-        map: "Small logo on the community map",
+        map: "Small logo on the map",
         price: 250,
         purpose: "Support the local community.",
         contribution: "Contribute to day-to-day running costs.",
