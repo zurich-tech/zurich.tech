@@ -1,3 +1,4 @@
+import { verificationEmail } from "./templates";
 import { register, requireOpenEvent, registrations } from "../events/registrations";
 import { siteOrigin } from "../auth/environment";
 import { v } from "convex/values";
@@ -28,15 +29,16 @@ export const prepare = internalMutation({
         await consumeLimit(ctx, "verify", 1000, 3600000, now);
 
         // validate event eligibility before issuing a verification link
-        let eventId: Doc<"events">["_id"] | undefined;
+        let event: Doc<"events"> | undefined;
         if (args.purpose === "registration") {
             if (!args.name.trim() || args.name.length > 120)
                 throw new Error("Enter your name, up to 120 characters.");
-            const event = await ctx.db
+            const found = await ctx.db
                 .query("events")
                 .withIndex("by_slug", (range) => range.eq("slug", args.eventSlug!))
                 .unique();
-            if (!event) throw new Error("Event not found.");
+            if (!found) throw new Error("Event not found.");
+            event = found;
             const policy = requireOpenEvent(event);
             const answers = args.answers ?? [];
             if (
@@ -52,7 +54,6 @@ export const prepare = internalMutation({
                 if (rows.filter((row) => row.status === "going").length >= policy.capacity)
                     throw new Error("This event is full.");
             }
-            eventId = event._id;
         }
         // reject suppressed recipients before queueing mail
         const existing = await ctx.db
@@ -66,7 +67,7 @@ export const prepare = internalMutation({
         await ctx.db.insert("verifications", {
             email,
             name: args.name.trim(),
-            eventId,
+            eventId: event?._id,
             purpose: args.purpose,
             token: args.token,
             newsletterToken: args.newsletterToken,
@@ -74,16 +75,18 @@ export const prepare = internalMutation({
             expiresAt: now + 3600000,
         });
 
-        // queue the confirmation link with the future events notice
+        // queue the email verification link
         const url = `${siteOrigin()}/confirm?token=${encodeURIComponent(args.token)}`;
+        const message = verificationEmail(url, event);
         await enqueue(
             ctx,
             `verify:${args.token}`,
             email,
-            args.purpose === "subscription"
-                ? "Confirm your zurich.tech subscription"
-                : "Confirm your event registration",
-            `Confirm your email address to continue:\n\n${url}\n\nThis link expires in one hour. If you did not request it, you can ignore this email.`,
+            message.subject,
+            message.text,
+            undefined,
+            0,
+            message.html,
         );
     },
 });

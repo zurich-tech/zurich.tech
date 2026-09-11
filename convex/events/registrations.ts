@@ -1,3 +1,4 @@
+import { eventEmail, registrationCopy } from "../mail/templates";
 import { siteOrigin } from "../auth/environment";
 import { v } from "convex/values";
 import {
@@ -274,25 +275,17 @@ async function notify(
     key: string,
 ) {
     if (!row.email) throw new Error("Registration has no email address.");
-    const labels = {
-        going: "You’re confirmed",
-        pending: "Your application is awaiting approval",
-        waitlist: "You’re on the waitlist",
-        declined: "Your application was declined",
-        cancelled: "Your registration was cancelled",
-    };
+    const copy = registrationCopy[row.status];
 
-    // include the private management link when available
-    const manage = row.token
-        ? `\n\nManage your registration: ${siteOrigin()}/registration?token=${row.token}`
-        : "";
-    await enqueue(
-        ctx,
-        key,
-        row.email,
-        `${labels[row.status]}: ${event.title}`,
-        `${labels[row.status]}.\n\n${event.title}\n${new Date(event.startsAt).toLocaleString("en-GB", { timeZone: "Europe/Zurich" })} (Zürich time)\n${event.location ?? ""}\n\n${siteOrigin()}/events/${event.slug}${manage}`,
-    );
+    // keep private management actions on active registrations
+    const message = eventEmail(event, copy.title, {
+        ...copy,
+        manageUrl:
+            row.token && row.status !== "declined" && row.status !== "cancelled"
+                ? `${siteOrigin()}/registration?token=${encodeURIComponent(row.token)}`
+                : undefined,
+    });
+    await enqueue(ctx, key, row.email, message.subject, message.text, undefined, 0, message.html);
 }
 
 /** Allocate a verified attendee through the event admission policy. */

@@ -1,5 +1,5 @@
+import { eventEmail, eventChanges } from "../mail/templates";
 import { readLinks, writeLinks } from "../members/links";
-import { siteOrigin } from "../auth/environment";
 import { v } from "convex/values";
 import { internal } from "../_generated/api";
 import { mutation } from "../_generated/server";
@@ -205,6 +205,9 @@ export const publish = mutation({
                 existing.endsAt !== draft.endsAt ||
                 existing.location !== draft.location
             ) {
+                const message = eventEmail(draft, "Event updated", {
+                    description: eventChanges(existing, draft),
+                });
                 const attendees = await ctx.db
                     .query("registrations")
                     .withIndex("by_event", (range) => range.eq("eventId", eventId))
@@ -219,8 +222,11 @@ export const publish = mutation({
                             ctx,
                             `event-change:${eventId}:${now}:${attendee._id}`,
                             attendee.email,
-                            `Updated: ${draft.title}`,
-                            `The time or location has changed.\n\n${draft.title}\n${new Date(draft.startsAt).toLocaleString("en-GB", { timeZone: "Europe/Zurich" })} (Zürich time)\n${draft.location}\n\n${siteOrigin()}/events/${draft.slug}`,
+                            message.subject,
+                            message.text,
+                            undefined,
+                            0,
+                            message.html,
                         );
             }
         }
@@ -350,6 +356,8 @@ export const cancel = mutation({
         // cancel the event before notifying its active attendees
         await ctx.db.patch(event._id, { status: "cancelled", updatedAt: Date.now() });
 
+        const message = eventEmail(event, "Event cancelled");
+
         // read the event's attendees before queueing cancellation notices
         const attendees = await ctx.db
             .query("registrations")
@@ -361,8 +369,11 @@ export const cancel = mutation({
                     ctx,
                     `cancel-event:${event._id}:${row._id}`,
                     row.email,
-                    `Cancelled: ${event.title}`,
-                    `${event.title} has been cancelled.\n\n${siteOrigin()}/events/${event.slug}`,
+                    message.subject,
+                    message.text,
+                    undefined,
+                    0,
+                    message.html,
                 );
     },
 });

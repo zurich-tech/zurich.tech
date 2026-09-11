@@ -1,3 +1,4 @@
+import { eventEmail } from "./templates";
 import { v } from "convex/values";
 import { internalMutation } from "../_generated/server";
 import { internal } from "../_generated/api";
@@ -27,15 +28,19 @@ export const announce = internalMutation({
             )
                 continue;
             const unsubscribe = `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscription.token)}`;
+            const message = eventEmail(event, "New event", {
+                summary: true,
+                unsubscribeUrl: unsubscribe,
+            });
             await enqueue(
                 ctx,
                 `announcement:${event._id}:${subscription._id}`,
                 subscription.email,
-                `New event: ${event.title}`,
-                `${event.title}\n${new Date(event.startsAt).toLocaleString("en-GB", { timeZone: "Europe/Zurich", dateStyle: "medium", timeStyle: "short" })} (Zürich time)\n${event.location ?? ""}\n\n${event.summary ?? ""}\n\n${siteOrigin()}/events/${event.slug}\n\nEmail preferences: ${siteOrigin()}/settings\nUnsubscribe: ${unsubscribe}`,
+                message.subject,
+                message.text,
                 subscription._id,
                 position * 600,
-                undefined,
+                message.html,
                 { category: "announcement", eventId: event._id },
             );
         }
@@ -94,15 +99,21 @@ export const remind = internalMutation({
                 event.startsAt - (registration.approvedAt ?? registration.createdAt) < 86400000
             )
                 continue;
+            const message = eventEmail(event, "Event reminder", {
+                subject: "Reminder",
+                manageUrl: registration.token
+                    ? `${siteOrigin()}/registration?token=${encodeURIComponent(registration.token)}`
+                    : undefined,
+            });
             await enqueue(
                 ctx,
                 `reminder:${registration._id}:${event.startsAt}`,
                 registration.email,
-                `Reminder: ${event.title}`,
-                `${event.title} is coming up.\n\n${new Date(event.startsAt).toLocaleString("en-GB", { timeZone: "Europe/Zurich", dateStyle: "medium", timeStyle: "short" })} (Zürich time)\n${event.location ?? ""}\n\n${siteOrigin()}/events/${event.slug}${registration.token ? `\n\nManage your registration: ${siteOrigin()}/registration?token=${encodeURIComponent(registration.token)}` : ""}\n\nEmail preferences: ${siteOrigin()}/settings`,
+                message.subject,
+                message.text,
                 undefined,
                 position * 600,
-                undefined,
+                message.html,
                 {
                     category: "reminder",
                     eventId: event._id,

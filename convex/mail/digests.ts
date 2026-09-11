@@ -1,9 +1,8 @@
+import { newsletterEdition, newsletterEmail } from "./templates";
 import { siteOrigin } from "../auth/environment";
-import { tiers } from "../../src/sponsorships/plans";
 import { v } from "convex/values";
 import { query, mutation, internalMutation } from "../_generated/server";
 import { internal } from "../_generated/api";
-import type { Doc } from "../_generated/dataModel";
 import { activeSponsors } from "../sponsorships/organisations";
 import { requireTeam } from "../auth/access";
 import { enqueue } from "./deliveries";
@@ -40,7 +39,7 @@ export const preview = query({
         const sponsors = await activeSponsors(ctx);
 
         return {
-            html: renderEdition(entries, sponsors),
+            html: newsletterEmail(newsletterEdition(entries, sponsors)).html,
             events: entries,
             subscribers: subscribers.filter(
                 (row) => row.verifiedAt !== undefined && row.weekly !== false,
@@ -108,32 +107,12 @@ export const tick = internalMutation({
 
         // include only the sponsor placements promised by each tier
         const sponsors = await activeSponsors(ctx);
-        const recognition = tiers
-            .filter((tier) => tier.newsletter)
-            .map((tier) => {
-                const entries = sponsors.filter((sponsor) => sponsor.tier === tier.id);
-
-                return entries.length
-                    ? `${tier.name} sponsors\n${entries.map((sponsor) => `${sponsor.name} · ${sponsor.website}`).join("\n")}`
-                    : "";
-            })
-            .filter(Boolean)
-            .join("\n\n");
-
-        // render event details for plain text email
-        const eventsText = entries
-            .map(
-                (entry) =>
-                    `${entry.title}\n${new Date(entry.startsAt).toLocaleString("en-GB", { timeZone: "Europe/Zurich", dateStyle: "medium", timeStyle: "short" })} · ${entry.location ?? "Zürich"}\n${entry.summary ?? ""}\n${siteOrigin()}/events/${entry.slug}`,
-            )
-            .join("\n\n");
-        const text = [eventsText, recognition].filter(Boolean).join("\n\n");
+        const edition = newsletterEdition(entries, sponsors);
 
         // queue bounded batches rather than one scheduled job per subscriber here
         await ctx.scheduler.runAfter(0, internal.mail.digests.queue, {
             week,
-            text,
-            html: renderEdition(entries, sponsors),
+            ...edition,
             cursor: null,
         });
         if (settings) await ctx.db.patch(settings._id, { lastWeek: week });
@@ -161,15 +140,19 @@ export const queue = internalMutation({
                 subscriber.token &&
                 subscriber.weekly !== false
             ) {
+                const message = newsletterEmail(
+                    args,
+                    `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscriber.token)}`,
+                );
                 await enqueue(
                     ctx,
                     `digest:${args.week}:${subscriber._id}`,
                     subscriber.email,
-                    "This week in Zürich · zurich.tech",
-                    `Here’s what’s coming up in Zürich’s tech community.\nAll times are Zürich local time.\n\n${args.text}\n\nUnsubscribe: ${siteOrigin()}/unsubscribe?token=${subscriber.token}`,
+                    message.subject,
+                    message.text,
                     subscriber._id,
                     position * 600,
-                    `${args.html}<p style="text-align:center;font:12px Arial;padding:24px"><a href="${escapeHtml(siteOrigin())}/unsubscribe?token=${encodeURIComponent(subscriber.token)}">Unsubscribe</a></p>`,
+                    message.html,
                     { category: "weekly" },
                 );
             }
@@ -186,52 +169,3 @@ export const queue = internalMutation({
         return page.isDone ? null : page.continueCursor;
     },
 });
-
-/** Render the same edition for the workspace preview and delivered email. */
-function renderEdition(
-    entries: Doc<"events">[],
-    sponsors: Awaited<ReturnType<typeof activeSponsors>>,
-) {
-    // render escaped event links and descriptions
-    const events = entries
-        .map((entry) => {
-            const url = `${siteOrigin()}/events/${entry.slug}`;
-            const time = new Date(entry.startsAt).toLocaleString("en-GB", {
-                timeZone: "Europe/Zurich",
-                dateStyle: "medium",
-                timeStyle: "short",
-            });
-
-            return `<section style="padding:24px 0;border-bottom:1px solid #d3d7df"><h2 style="font-size:20px;margin:0 0 8px"><a style="color:#174ed8" href="${escapeHtml(url)}">${escapeHtml(entry.title)}</a></h2><p>${escapeHtml(time)} · ${escapeHtml(entry.location ?? "Zürich")}</p><p>${escapeHtml(entry.summary ?? "")}</p></section>`;
-        })
-        .join("");
-
-    // render eligible sponsor logos in tier order
-    const recognition = tiers
-        .filter((tier) => tier.newsletter)
-        .map((tier) => {
-            const selected = sponsors.filter((sponsor) => sponsor.tier === tier.id);
-            if (!selected.length) return "";
-            const logos = selected
-                .map(
-                    (sponsor) =>
-                        `<a href="${escapeHtml(sponsor.profileUrl ?? sponsor.website)}" style="display:inline-block;padding:12px;color:#174ed8">${sponsor.logoUrl ? `<img src="${escapeHtml(new URL(sponsor.logoUrl, siteOrigin()).href)}" alt="${escapeHtml(sponsor.name)}" width="${tier.logoWidth}" style="max-height:80px;object-fit:contain">` : escapeHtml(sponsor.name)}</a>`,
-                )
-                .join("");
-
-            return `<section style="padding:20px 0"><h2 style="font-size:14px">${tier.name} sponsors</h2>${logos}</section>`;
-        })
-        .join("");
-
-    return `<div style="max-width:640px;margin:auto;padding:24px;font:15px/1.5 Arial,sans-serif;color:#17253c;background:#fafaf8"><header style="padding:24px;background:#174ed8;color:white;font:bold 28px monospace">zurich.tech</header><h1 style="font-size:24px">Upcoming events</h1><p>All times are Zürich local time.</p>${events}${recognition}</div>`;
-}
-
-/** Escape dynamic email text and attributes. */
-function escapeHtml(value: string) {
-    return value
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-}

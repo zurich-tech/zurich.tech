@@ -1,3 +1,4 @@
+import { signInEmail } from "../mail/templates";
 import type { GenericCtx } from "@convex-dev/better-auth";
 import { convex, crossDomain } from "@convex-dev/better-auth/plugins";
 import { emailOTP } from "better-auth/plugins";
@@ -28,8 +29,7 @@ export function createAuth(ctx: GenericCtx<DataModel>) {
                         throw new Error("Unsupported email action.");
                     await send({
                         to: email,
-                        subject: "Your zurich.tech sign-in code",
-                        text: `Your zurich.tech code is ${otp}.\n\nIt expires in 10 minutes. If you did not request this code, you can ignore this email.`,
+                        ...signInEmail(otp),
                         key: `auth-${crypto.randomUUID()}`,
                     });
                 },
