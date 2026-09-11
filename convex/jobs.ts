@@ -13,13 +13,19 @@ import { sponsorshipTerm } from "./sponsors";
 
 /** Read the public job board, excluding expired or unconfirmed vacancies. */
 export const list = query({
-    args: {},
-    handler: async (ctx) => {
-        // read published vacancies and their current funding
-        const rows = await ctx.db
-            .query("jobs")
-            .withIndex("by_status", (q) => q.eq("status", "published"))
-            .collect();
+    args: { organisationId: v.optional(v.id("organisations")) },
+    handler: async (ctx, args) => {
+        // read published vacancies for one organisation or the entire board
+        const rows = args.organisationId
+            ? await ctx.db
+                  .query("jobs")
+                  .withIndex("by_company", (q) => q.eq("organisationId", args.organisationId!))
+                  .filter((q) => q.eq(q.field("status"), "published"))
+                  .collect()
+            : await ctx.db
+                  .query("jobs")
+                  .withIndex("by_status", (q) => q.eq("status", "published"))
+                  .collect();
         const entries = await Promise.all(rows.map((row) => publicJob(ctx, row)));
 
         return entries.filter((row) => row.isOpen).sort((a, b) => b.publishedAt - a.publishedAt);

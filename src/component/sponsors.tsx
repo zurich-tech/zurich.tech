@@ -9,12 +9,25 @@ import { Patrons } from "./patrons";
 import { Card } from "./card";
 
 /** Display active sponsors by tier, with space for the next supporter. */
-export function Sponsors() {
+export function Sponsors(props: {
+    /** Show existing supporters across the sponsor page without recruitment links. */
+    isFullPage?: boolean;
+}) {
     const sponsors = createAsync(() => getSponsors());
 
     return (
-        <Card class="sponsors" title="Sponsors" titleHref="/sponsor">
-            <For each={tiers}>
+        <Card
+            class={props.isFullPage ? "sponsors sponsors--full" : "sponsors"}
+            title="Sponsors"
+            titleHref={props.isFullPage ? undefined : "/sponsor"}
+        >
+            <For
+                each={tiers.filter(
+                    (tier) =>
+                        !props.isFullPage ||
+                        sponsors()?.some((sponsor) => sponsor.tier === tier.id),
+                )}
+            >
                 {(tier, index) => (
                     <section class="sponsor-tier">
                         <h3>{tier.name}</h3>
@@ -50,6 +63,7 @@ export function Sponsors() {
                             </For>
                             <Show
                                 when={
+                                    !props.isFullPage &&
                                     sponsors() &&
                                     !sponsors()!.some((sponsor) => sponsor.tier === tier.id)
                                 }
@@ -67,11 +81,13 @@ export function Sponsors() {
                 )}
             </For>
             <Patrons />
-            <div class="sponsor-action">
-                <a class="button button--primary" href="/sponsor">
-                    Become a sponsor
-                </a>
-            </div>
+            <Show when={!props.isFullPage}>
+                <div class="sponsor-action">
+                    <a class="button button--primary" href="/sponsor">
+                        Become a sponsor
+                    </a>
+                </div>
+            </Show>
         </Card>
     );
 }

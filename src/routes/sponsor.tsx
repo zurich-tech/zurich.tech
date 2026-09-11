@@ -4,7 +4,7 @@ import { useSearchParams } from "@solidjs/router";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { CheckoutButton } from "../component/payments";
-import { Patrons } from "../component/patrons";
+import { Sponsors } from "../component/sponsors";
 
 import { Arrow } from "../component/arrow";
 import { tiers, patron } from "../../shared/plans";
@@ -155,13 +155,13 @@ export default function Route() {
                         <ul class="plan-benefits">
                             <li>
                                 <Arrow />
-                                <strong>Avatar on the sponsor wall</strong>
+                                <strong>Linked avatar on the sponsor wall</strong>
                                 <span>Patron badge on your profile</span>
                             </li>
                         </ul>
                     </div>
-                    <Patrons />
                 </Card>
+                <Sponsors isFullPage />
                 <div class="sponsor-details">
                     <Card title="Become a sponsor" id="request">
                         <Show

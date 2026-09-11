@@ -1,6 +1,7 @@
 import { query } from "@solidjs/router";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
+import type { Id } from "../../convex/_generated/dataModel";
 import { articles } from "../../shared/news.generated";
 import { publicClient } from "./convex";
 
@@ -76,7 +77,11 @@ export const getDirectory = query(
 );
 
 /** Approved public vacancies. */
-export const getJobs = query(async () => await publicClient().query(api.jobs.list, {}), "jobs");
+export const getJobs = query(
+    async (organisationId?: Id<"organisations">) =>
+        await publicClient().query(api.jobs.list, { organisationId }),
+    "jobs",
+);
 
 /** An approved public vacancy. */
 export const getJob = query(

@@ -9,7 +9,7 @@ export const tiers = [
         purpose: "Become an integral partner.",
         contribution: "Support the basics and what comes next.",
         jobs: 10,
-        description: "Largest logo, first row",
+        description: "Largest linked logo, first row",
         newsletter: "Largest logo, first row",
         slides: "Largest logo, first row",
         banner: "Largest logo, first row",

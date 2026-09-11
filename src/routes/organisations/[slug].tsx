@@ -1,6 +1,7 @@
 import { Image } from "../../component/image";
 import { SocialLinks } from "../../component/social";
-import { getDirectory } from "../../core/queries";
+import { JobEntry } from "../../component/job";
+import { getDirectory, getJobs } from "../../core/queries";
 import { Arrow } from "../../component/arrow";
 import { Card } from "../../component/card";
 import { createAsync, useParams } from "@solidjs/router";
@@ -14,6 +15,12 @@ export default function Route() {
     const params = useParams();
     const directory = createAsync(() => getDirectory());
     const organisation = () => directory()?.organisations.find((item) => item.slug === params.slug);
+    // load only the open jobs attached to this organisation
+    const jobs = createAsync(() => {
+        const current = organisation();
+        return current ? getJobs(current._id) : Promise.resolve(undefined);
+    });
+
     return (
         <Show when={organisation()} fallback={directory() ? <NotFound /> : null}>
             {(item) => (
@@ -43,6 +50,12 @@ export default function Route() {
                             <div class="event-content">
                                 <Card title="About">
                                     <p class="organisation-description">{item().description}</p>
+                                </Card>
+                                <Card title="Jobs">
+                                    <For each={jobs()}>{(job) => <JobEntry job={job} />}</For>
+                                    <Show when={jobs()?.length === 0}>
+                                        <p class="text-soft">No open roles listed yet.</p>
+                                    </Show>
                                 </Card>
                                 <Show when={item().locations.length > 0}>
                                     <Card title="Locations">
@@ -91,12 +104,19 @@ export default function Route() {
                             <aside class="event-aside">
                                 <Card title="Links">
                                     <Show when={item().logoUrl}>
-                                        <Image
-                                            class="organisation-profile-logo"
-                                            src={item().logoUrl}
-                                            darkSrc={item().logoDarkUrl}
-                                            alt={item().name}
-                                        />
+                                        <a
+                                            href={item().website}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            aria-label={`${item().name} website`}
+                                        >
+                                            <Image
+                                                class="organisation-profile-logo"
+                                                src={item().logoUrl}
+                                                darkSrc={item().logoDarkUrl}
+                                                alt={item().name}
+                                            />
+                                        </a>
                                     </Show>
                                     <a
                                         class="button button--ghost"
