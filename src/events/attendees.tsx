@@ -1,3 +1,5 @@
+import { Empty } from "../components/empty";
+import { Card } from "../components/card";
 import { For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
@@ -86,59 +88,78 @@ function AttendeeTable(props: {
     perform: Perform;
 }) {
     return (
-        <section class="attendee-section">
-            <div class="section-intro--row">
-                <h2>{props.list.event.title} · Attendees</h2>
-                <button class="button" onClick={props.onExport}>
-                    Export CSV
+        <Card
+            title="Attendees"
+            class="admin-attendees"
+            toolbar={
+                <div class="admin-attendee-actions">
+                    <a class="button" href="/admin">
+                        Back to events
+                    </a>
+                    <button
+                        class="button"
+                        disabled={!props.list.rows.length}
+                        onClick={props.onExport}
+                    >
+                        Export CSV
+                    </button>
+                </div>
+            }
+        >
+            <div class="admin-context">
+                <a href={`/events/${props.list.event.slug}`}>{props.list.event.title}</a>
+            </div>
+            <Show when={props.list.rows.length > 0} fallback={<Empty title="No attendees" />}>
+                <div class="table-scroll">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name / email</th>
+                                <th>Status</th>
+                                <th>Answers</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <For each={props.list.rows}>
+                                {(row) => (
+                                    <AttendeeRow
+                                        attendee={row}
+                                        policy={props.list.event.registration}
+                                        isOpen={
+                                            props.list.event.status === "scheduled" &&
+                                            props.list.event.startsAt > Date.now()
+                                        }
+                                        isPending={props.isPending}
+                                        perform={props.perform}
+                                    />
+                                )}
+                            </For>
+                        </tbody>
+                    </table>
+                </div>
+            </Show>
+            <div class="admin-card-footer">
+                <button
+                    class="button"
+                    disabled={props.isPending || props.list.event.status === "cancelled"}
+                    onClick={() => {
+                        if (window.confirm("Cancel this event and notify its attendees?"))
+                            void props.perform(
+                                async () =>
+                                    await (
+                                        await memberClient()
+                                    ).mutation(api.events.mutations.cancel, {
+                                        eventId: props.list.event._id,
+                                    }),
+                                "Event cancelled.",
+                            );
+                    }}
+                >
+                    Cancel event
                 </button>
             </div>
-            <div class="table-scroll">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name / email</th>
-                            <th>Status</th>
-                            <th>Answers</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <For each={props.list.rows}>
-                            {(row) => (
-                                <AttendeeRow
-                                    attendee={row}
-                                    policy={props.list.event.registration}
-                                    isPending={props.isPending}
-                                    perform={props.perform}
-                                />
-                            )}
-                        </For>
-                    </tbody>
-                </table>
-            </div>
-            <Show when={props.list.rows.length === 0}>
-                <p>No registrations yet.</p>
-            </Show>
-            <button
-                class="button"
-                disabled={props.isPending || props.list.event.status === "cancelled"}
-                onClick={() => {
-                    if (window.confirm("Cancel this event and notify its attendees?"))
-                        void props.perform(
-                            async () =>
-                                await (
-                                    await memberClient()
-                                ).mutation(api.events.mutations.cancel, {
-                                    eventId: props.list.event._id,
-                                }),
-                            "Event cancelled.",
-                        );
-                }}
-            >
-                Cancel event & notify attendees
-            </button>
-        </section>
+        </Card>
     );
 }
 
@@ -148,6 +169,7 @@ function AttendeeRow(props: {
     attendee: AttendeeList["rows"][number];
     /** Questions associated with the registration. */
     policy: Registration;
+    isOpen: boolean;
     /** Disable actions while a workspace command is pending. */
     isPending: boolean;
     /** Run a command and refresh its visible result. */
@@ -160,7 +182,17 @@ function AttendeeRow(props: {
                 <br />
                 <small>{props.attendee.email}</small>
             </td>
-            <td>{props.attendee.status}</td>
+            <td>
+                {
+                    {
+                        going: "Confirmed",
+                        pending: "Pending",
+                        waitlist: "Waitlisted",
+                        declined: "Declined",
+                        cancelled: "Cancelled",
+                    }[props.attendee.status]
+                }
+            </td>
             <td>
                 <For each={props.attendee.answers}>
                     {(answer, index) => (
@@ -173,66 +205,63 @@ function AttendeeRow(props: {
                 </For>
             </td>
             <td>
-                <Show when={props.attendee.status === "pending"}>
-                    <button
-                        disabled={props.isPending}
-                        onClick={() =>
-                            props.perform(
-                                async () =>
-                                    await (
-                                        await memberClient()
-                                    ).mutation(api.events.registrations.decide, {
-                                        id: props.attendee._id,
-                                        decision: "approve",
-                                    }),
-                                "Application approved.",
-                            )
-                        }
+                <div class="admin-event-actions">
+                    <For
+                        each={[
+                            {
+                                decision: "approve" as const,
+                                label: "Approve",
+                                visible:
+                                    props.isOpen &&
+                                    ["pending", "waitlist"].includes(props.attendee.status),
+                            },
+                            {
+                                decision: "waitlist" as const,
+                                label: "Waitlist",
+                                visible:
+                                    props.isOpen &&
+                                    ["pending", "going"].includes(props.attendee.status),
+                            },
+                            {
+                                decision: "rescind" as const,
+                                label: "Rescind approval",
+                                visible:
+                                    props.isOpen &&
+                                    (props.attendee.status === "going" ||
+                                        (props.attendee.status === "waitlist" &&
+                                            props.attendee.approvedAt !== undefined)),
+                            },
+                            {
+                                decision: "decline" as const,
+                                label: "Decline",
+                                visible: ["pending", "waitlist"].includes(props.attendee.status),
+                            },
+                            {
+                                decision: "cancel" as const,
+                                label: "Cancel registration",
+                                visible: !["cancelled", "declined"].includes(props.attendee.status),
+                            },
+                        ].filter((action) => action.visible)}
                     >
-                        Approve
-                    </button>
-                    <button
-                        disabled={props.isPending}
-                        onClick={() =>
-                            props.perform(
-                                async () =>
-                                    await (
-                                        await memberClient()
-                                    ).mutation(api.events.registrations.decide, {
-                                        id: props.attendee._id,
-                                        decision: "decline",
-                                    }),
-                                "Application declined.",
-                            )
-                        }
-                    >
-                        Decline
-                    </button>
-                </Show>
-                <Show
-                    when={
-                        props.attendee.status !== "cancelled" &&
-                        props.attendee.status !== "declined"
-                    }
-                >
-                    <button
-                        disabled={props.isPending}
-                        onClick={() =>
-                            props.perform(
-                                async () =>
-                                    await (
-                                        await memberClient()
-                                    ).mutation(api.events.registrations.decide, {
-                                        id: props.attendee._id,
-                                        decision: "cancel",
-                                    }),
-                                "Registration cancelled.",
-                            )
-                        }
-                    >
-                        Cancel
-                    </button>
-                </Show>
+                        {(action) => (
+                            <button
+                                disabled={props.isPending}
+                                onClick={() =>
+                                    props.perform(async () => {
+                                        await (
+                                            await memberClient()
+                                        ).mutation(api.events.registrations.decide, {
+                                            id: props.attendee._id,
+                                            decision: action.decision,
+                                        });
+                                    }, "Registration updated.")
+                                }
+                            >
+                                {action.label}
+                            </button>
+                        )}
+                    </For>
+                </div>
             </td>
         </tr>
     );

@@ -37,11 +37,46 @@ export const events = query({
             .sort((a, b) => b.startsAt - a.startsAt);
         const digest = await ctx.db.query("digests").unique();
 
+        // offer team profiles and retain organisers already attached to events
+        const organisation = await ctx.db
+            .query("organisations")
+            .withIndex("by_slug", (q) => q.eq("slug", "zurich-tech"))
+            .unique();
+        const roles = organisation
+            ? await ctx.db
+                  .query("roles")
+                  .withIndex("by_organisation", (q) => q.eq("organisationId", organisation._id))
+                  .collect()
+            : [];
+        const organiserIds = new Set([
+            ...roles.filter((role) => role.status === "active").map((role) => role.memberId),
+            ...accounts
+                .filter((account) => account.status === "active" && account.isTeam)
+                .map((account) => account.memberId),
+        ]);
+        const assignedIds = new Set(
+            [...events, ...submissions].flatMap((event) => event.organiserIds ?? [event.ownerId]),
+        );
+
         return {
             submissions: submissions.sort((a, b) => b.updatedAt - a.updatedAt),
             people,
+            viewerId: viewer.memberId,
+            organisers: (await ctx.db.query("members").collect())
+                .filter(
+                    (member) =>
+                        (member.status === "active" || member.status === "imported") &&
+                        (organiserIds.has(member._id) || assignedIds.has(member._id)),
+                )
+                .map((member) => ({
+                    id: member._id,
+                    name: member.name,
+                    isTeam: organiserIds.has(member._id),
+                }))
+                .sort((a, b) => a.name.localeCompare(b.name)),
             published,
             digest,
+            statuses: events.map((event) => ({ id: event._id, status: event.status })),
         };
     },
 });

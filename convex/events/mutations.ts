@@ -1,6 +1,7 @@
 import { readLinks, writeLinks } from "../members/links";
 import { siteOrigin } from "../auth/environment";
 import { v } from "convex/values";
+import { internal } from "../_generated/api";
 import { mutation } from "../_generated/server";
 import { requireTeam } from "../auth/access";
 import { submissionFields } from "./fields";
@@ -17,6 +18,20 @@ export const save = mutation({
         const { id, ...values } = args;
         const existing = id ? await ctx.db.get(id) : null;
         if (id && !existing) throw new Error("Submission not found.");
+
+        // require named organisers independently of editing permissions
+        values.organiserIds = [
+            ...new Set(
+                values.organiserIds ??
+                    existing?.organiserIds ?? [existing?.ownerId ?? viewer.memberId],
+            ),
+        ];
+        if (!values.organiserIds.length) throw new Error("Choose at least one organiser.");
+        for (const id of values.organiserIds) {
+            const member = await ctx.db.get(id);
+            if (!member || !["active", "imported"].includes(member.status))
+                throw new Error("Choose an active organiser.");
+        }
 
         // validate public content before accepting a draft
         if (!values.title.trim() || values.title.length > 180)
@@ -156,6 +171,7 @@ export const publish = mutation({
         // build the public revision from approved fields
         const values = {
             ownerId: draft.ownerId,
+            organiserIds: draft.organiserIds ?? [draft.ownerId],
             slug: draft.slug,
             title: draft.title,
             description: draft.description,
@@ -208,6 +224,14 @@ export const publish = mutation({
                         );
             }
         }
+        // announce only first publication, never an edit to an existing event
+        if (!existing && values.status === "scheduled")
+            await ctx.scheduler.runAfter(0, internal.mail.events.announce, {
+                eventId,
+                publishedAt: now,
+                cursor: null,
+            });
+
         // replace small ordered lists without creating competing event records
         for (const row of await ctx.db
             .query("speakers")
@@ -283,6 +307,7 @@ export const edit = mutation({
 
         return await ctx.db.insert("submissions", {
             ownerId: event.ownerId,
+            organiserIds: event.organiserIds ?? [event.ownerId],
             eventId: event._id,
             status: "published",
             title: event.title,

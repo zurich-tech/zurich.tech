@@ -36,6 +36,7 @@ export const series = defineTable({
 
 /** Stored events. */
 export const events = defineTable({
+    organiserIds: v.optional(v.array(v.id("members"))),
     ownerId: v.id("members"),
     registration,
     seriesId: v.optional(v.id("series")),

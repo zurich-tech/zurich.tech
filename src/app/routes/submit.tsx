@@ -6,7 +6,8 @@ import {
 } from "../../events/event-editor";
 import { getDirectory } from "../../organisations/queries";
 import { Arrow } from "../../components/arrow";
-import { createEffect, createResource, createSignal, Show } from "solid-js";
+import { Card } from "../../components/card";
+import { createEffect, createResource, createSignal, For, Show } from "solid-js";
 import { createAsync, useSearchParams } from "@solidjs/router";
 import type { Registration } from "../../../convex/events/fields";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
@@ -95,6 +96,7 @@ export default function Route() {
                 latitude: text("latitude") ? Number(text("latitude")) : undefined,
                 longitude: text("longitude") ? Number(text("longitude")) : undefined,
                 registration: policy,
+                organiserIds: fields.getAll("organiserIds") as Id<"members">[],
                 organisations: fields.getAll("organisations") as Id<"organisations">[],
                 speakers: text("speakers")
                     .split("\n")
@@ -182,6 +184,36 @@ export default function Route() {
                                 isDuplicate={!!params.duplicate}
                                 directory={directory()}
                             />
+                            <Card title="Organisers">
+                                <div class="organiser-options">
+                                    <For
+                                        each={workspace()?.organisers.filter(
+                                            (person) =>
+                                                person.isTeam ||
+                                                (
+                                                    draft()?.organiserIds ?? [draft()?.ownerId]
+                                                ).includes(person.id),
+                                        )}
+                                    >
+                                        {(person) => (
+                                            <label class="checkbox-label">
+                                                <input
+                                                    type="checkbox"
+                                                    name="organiserIds"
+                                                    value={person.id}
+                                                    checked={(
+                                                        draft()?.organiserIds ?? [
+                                                            draft()?.ownerId ??
+                                                                workspace()!.viewerId,
+                                                        ]
+                                                    ).includes(person.id)}
+                                                />
+                                                {person.name}
+                                            </label>
+                                        )}
+                                    </For>
+                                </div>
+                            </Card>
                             {/* enter real Zürich local dates and an optional map position */}
                             <VenueFields draft={draft()} />
                             {/* compose admission, capacity, and overflow independently */}

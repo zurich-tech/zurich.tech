@@ -1,3 +1,7 @@
+import { useAccount } from "../../../auth";
+import { memberClient } from "../../../auth/convex";
+import { api } from "../../../../convex/_generated/api";
+import { TeamEdit } from "../../../auth/edit";
 import { SocialLinks } from "../../../components/social";
 import { Image } from "../../../components/image";
 import { Share } from "../../../components/share";
@@ -25,6 +29,7 @@ import { routeParam } from "../../params";
 
 /** Event detail page. */
 export default function Route() {
+    const account = useAccount();
     // params
     const params = useParams();
     const slug = routeParam("slug", params.slug);
@@ -57,8 +62,12 @@ export default function Route() {
                 policy?.kind === "native"
                     ? policy.questions.map((_, index) => String(data.get(`answer-${index}`) ?? ""))
                     : [];
-            await rsvp({ email, eventSlug: slug, name, answers });
-            const message = "Check your inbox to confirm.";
+            const message = account.user()
+                ? await (
+                      await memberClient()
+                  ).action(api.events.registrations.join, { eventSlug: slug, answers })
+                : (await rsvp({ email, eventSlug: slug, name, answers }),
+                  "Check your inbox to confirm.");
             form.reset();
             setRsvpSuccess(message);
         } catch (caught) {
@@ -118,7 +127,10 @@ export default function Route() {
                                 </Show>
                             </div>
 
-                            <PageHeader title={title()} />
+                            <PageHeader
+                                title={title()}
+                                actions={<TeamEdit eventId={event()!.id} />}
+                            />
                             <Show when={event()?.summary}>
                                 <p class="page-lead">{event()?.summary}</p>
                             </Show>
@@ -150,6 +162,8 @@ export default function Route() {
                                 </Show>
                                 <Show when={isRsvpOpen(event())}>
                                     <RsvpForm
+                                        isSignedIn={!!account.user()}
+                                        isLoadingAccount={account.isPending()}
                                         error={rsvpError()}
                                         event={event()}
                                         isPending={isRsvpPending()}
@@ -322,7 +336,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
     }
 
     return (
-        <Card title="Photos" id="photos" meta={String(images().length)}>
+        <Card title="Photos" id="photos">
             {/* thumbnails */}
             <div class="event-photos">
                 <For each={images()}>
@@ -444,6 +458,8 @@ function Agenda(props: { event: PublicEvent | null | undefined }) {
 
 /** Register or apply to attend a native event. */
 function RsvpForm(props: {
+    isSignedIn: boolean;
+    isLoadingAccount: boolean;
     error?: string;
     event: PublicEvent | null | undefined;
     isPending: boolean;
@@ -464,14 +480,15 @@ function RsvpForm(props: {
             }
         >
             <form class="grid gap-4" onSubmit={props.onSubmit}>
-                <Field label="Name">
-                    <Input maxlength="120" name="name" placeholder="Your name" required />
-                </Field>
+                <Show when={!props.isSignedIn && !props.isLoadingAccount}>
+                    <Field label="Name">
+                        <Input maxlength="120" name="name" placeholder="Your name" required />
+                    </Field>
 
-                <Field label="Email">
-                    <Input name="email" placeholder="you@example.com" required type="email" />
-                </Field>
-
+                    <Field label="Email">
+                        <Input name="email" placeholder="you@example.com" required type="email" />
+                    </Field>
+                </Show>
                 <Show when={props.event?.registration?.kind === "native"}>
                     <For
                         each={
@@ -493,9 +510,21 @@ function RsvpForm(props: {
                         )}
                     </For>
                 </Show>
-                <p class="text-sm text-soft">We’ll email you a confirmation link.</p>
-                <Button disabled={props.isPending} type="submit">
-                    {props.isPending ? "Sending…" : "Continue by email"}
+                <Show when={!props.isSignedIn && !props.isLoadingAccount}>
+                    <p class="text-sm text-soft">We’ll email you a confirmation link.</p>
+                </Show>
+                <Button
+                    disabled={props.isPending || props.isLoadingAccount || !!props.success}
+                    type="submit"
+                >
+                    {props.isPending
+                        ? "Registering…"
+                        : props.isSignedIn
+                          ? props.event?.registration.kind === "native" &&
+                            props.event.registration.admission === "approval"
+                              ? "Apply to attend"
+                              : "Register"
+                          : "Continue by email"}
                 </Button>
                 <FormMessage error={props.error} success={props.success} />
             </form>

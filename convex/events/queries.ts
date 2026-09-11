@@ -81,6 +81,7 @@ export const event = query({
         const longitude = event.longitude ?? address?.longitude;
 
         return {
+            id: event._id,
             registration: event.registration,
             seriesId: event.seriesId,
             organisations: await Promise.all(

@@ -1,11 +1,21 @@
 import { siteOrigin } from "../auth/environment";
 import { v } from "convex/values";
-import { action, mutation, query, type MutationCtx, type QueryCtx } from "../_generated/server";
+import {
+    action,
+    internalMutation,
+    mutation,
+    query,
+    type MutationCtx,
+    type QueryCtx,
+} from "../_generated/server";
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
 
 import { resolveSeat } from "./fields";
-import { requireTeam } from "../auth/access";
+import { authComponent } from "../auth/component";
+import { normalizeEmail } from "../members/emails";
+import { consumeLimit } from "../mail/limits";
+import { requireAccount, requireTeam } from "../auth/access";
 import { enqueue, requireMail } from "../mail/deliveries";
 
 /** Send a verification link without allocating an unverified seat. */
@@ -26,6 +36,59 @@ export const request = action({
         });
 
         return { status: "verification" };
+    },
+});
+
+/** Register a signed-in member without repeating email verification. */
+export const join = action({
+    args: { eventSlug: v.string(), answers: v.array(v.string()) },
+    handler: async (ctx, args): Promise<string> => {
+        requireMail();
+        return await ctx.runMutation(internal.events.registrations.joinMember, {
+            ...args,
+            token: crypto.randomUUID() + crypto.randomUUID(),
+        });
+    },
+});
+
+/** Derive attendee identity from the verified session and apply admission rules. */
+export const joinMember = internalMutation({
+    args: { eventSlug: v.string(), answers: v.array(v.string()), token: v.string() },
+    handler: async (ctx, args) => {
+        const account = await requireAccount(ctx);
+        const user = await authComponent.getAuthUser(ctx);
+        if (!user.emailVerified) throw new Error("Verify your account email before registering.");
+        const member = await ctx.db.get(account.memberId);
+        if (!member) throw new Error("Profile not found.");
+        const event = await ctx.db
+            .query("events")
+            .withIndex("by_slug", (q) => q.eq("slug", args.eventSlug))
+            .unique();
+        if (!event) throw new Error("Event not found.");
+        const policy = requireOpenEvent(event);
+        if (
+            args.answers.length !== policy.questions.length ||
+            args.answers.some((answer) => answer.length > 2000) ||
+            policy.questions.some(
+                (question, index) => question.isRequired && !args.answers[index]?.trim(),
+            )
+        )
+            throw new Error("Answer the required event questions.");
+        const email = normalizeEmail(user.email);
+        await consumeLimit(ctx, `register:${account.memberId}`, 5, 3600000, Date.now());
+
+        return await register(
+            ctx,
+            {
+                eventId: event._id,
+                memberId: member._id,
+                email,
+                name: member.name,
+                answers: args.answers,
+                token: args.token,
+            },
+            Date.now(),
+        );
     },
 });
 
@@ -85,11 +148,17 @@ export const list = query({
     },
 });
 
-/** Approve, decline, or cancel one attendee without exceeding event capacity. */
+/** Review admission and manage attendance without exceeding event capacity. */
 export const decide = mutation({
     args: {
         id: v.id("registrations"),
-        decision: v.union(v.literal("approve"), v.literal("decline"), v.literal("cancel")),
+        decision: v.union(
+            v.literal("approve"),
+            v.literal("waitlist"),
+            v.literal("rescind"),
+            v.literal("decline"),
+            v.literal("cancel"),
+        ),
     },
     handler: async (ctx, args) => {
         // require team access
@@ -104,12 +173,22 @@ export const decide = mutation({
 
         // never allocate seats after an event has ended or been cancelled
         if (
-            args.decision === "approve" &&
+            ["approve", "waitlist", "rescind"].includes(args.decision) &&
             (event.status !== "scheduled" || event.startsAt <= Date.now())
         )
-            throw new Error("This event no longer accepts approvals.");
-        if (args.decision === "approve" && row.status !== "pending")
-            throw new Error("Only pending applications can be approved.");
+            throw new Error("Admission is closed for this event.");
+        if (args.decision === "approve" && row.status !== "pending" && row.status !== "waitlist")
+            throw new Error("Only pending or waitlisted applications can be approved.");
+        if (args.decision === "waitlist" && row.status !== "pending" && row.status !== "going")
+            throw new Error("Only pending or confirmed attendees can be waitlisted.");
+        if (
+            args.decision === "rescind" &&
+            row.status !== "going" &&
+            !(row.status === "waitlist" && row.approvedAt !== undefined)
+        )
+            throw new Error("This registration has no approval to rescind.");
+        if (args.decision === "cancel" && (row.status === "cancelled" || row.status === "declined"))
+            throw new Error("This registration is already closed.");
         if (args.decision === "decline" && row.status !== "pending" && row.status !== "waitlist")
             throw new Error("Only pending or waitlisted applications can be declined.");
 
@@ -118,19 +197,23 @@ export const decide = mutation({
         const status =
             args.decision === "approve"
                 ? resolveSeat(policy, rows.filter((item) => item.status === "going").length)
-                : args.decision === "decline"
-                  ? "declined"
-                  : "cancelled";
+                : args.decision === "waitlist"
+                  ? "waitlist"
+                  : args.decision === "rescind"
+                    ? "pending"
+                    : args.decision === "decline"
+                      ? "declined"
+                      : "cancelled";
         const now = Date.now();
 
         // record the decision and notify affected attendees
         await ctx.db.patch(row._id, {
             status,
-            approvedAt: args.decision === "approve" ? now : row.approvedAt,
+            approvedAt: args.decision === "approve" ? now : undefined,
             updatedAt: now,
         });
-        await notify(ctx, event, { ...row, status }, `decision:${row._id}:${now}`);
-        await promoteWaitlist(ctx, event);
+        await notify(ctx, event, { ...row, status }, `decision:${row._id}:${args.decision}:${now}`);
+        if (row.status === "going" && status !== "going") await promoteWaitlist(ctx, event);
     },
 });
 
@@ -177,7 +260,7 @@ export async function promoteWaitlist(ctx: MutationCtx, event: Doc<"events">) {
             ctx,
             event,
             { ...row, status: "going" },
-            `promote:${row._id}:${row.createdAt}`,
+            `promote:${row._id}:${row.updatedAt}:${Date.now()}`,
         );
         count++;
     }
@@ -213,13 +296,23 @@ async function notify(
 }
 
 /** Allocate a verified attendee through the event admission policy. */
-export async function register(ctx: MutationCtx, ticket: Doc<"verifications">, now: number) {
+export async function register(
+    ctx: MutationCtx,
+    ticket: Pick<Doc<"verifications">, "eventId" | "email" | "name" | "answers" | "token"> & {
+        memberId?: Doc<"members">["_id"];
+    },
+    now: number,
+) {
     if (!ticket.eventId) throw new Error("The verification request has no event.");
     const event = await ctx.db.get(ticket.eventId);
     if (!event) throw new Error("Event not found.");
     const policy = requireOpenEvent(event);
     const rows = await registrations(ctx, event);
-    const existing = rows.find((row) => row.email === ticket.email);
+    const existing = rows.find(
+        (row) =>
+            (ticket.memberId !== undefined && row.memberId === ticket.memberId) ||
+            row.email === ticket.email,
+    );
     if (existing && existing.status !== "cancelled") {
         await notify(ctx, event, existing, `remind:${ticket.token}`);
 
@@ -233,6 +326,7 @@ export async function register(ctx: MutationCtx, ticket: Doc<"verifications">, n
     const values: Omit<Doc<"registrations">, "_id" | "_creationTime"> = {
         eventId: event._id,
         email: ticket.email,
+        memberId: ticket.memberId ?? existing?.memberId,
         name: ticket.name,
         answers: ticket.answers,
         status,

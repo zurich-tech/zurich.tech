@@ -45,6 +45,7 @@ export function resolveSeat(policy: SeatPolicy, confirmed: number): "going" | "w
 
 /** Fields an organiser may edit before publication. */
 export const submissionFields = {
+    organiserIds: v.optional(v.array(v.id("members"))),
     title: v.string(),
     slug: v.string(),
     description: v.string(),
