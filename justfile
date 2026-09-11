@@ -40,7 +40,7 @@ dev:
 
 # prepare and upload reviewed event photos
 photos *args:
-    bun scripts/photos.ts {{args}}
+    bun scripts/events/photos.ts {{args}}
 
 # clean build artifacts
 clean:

@@ -15,5 +15,5 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true
     },
-    "include": ["app.config.ts", "src/**/*", "convex/**/*", "shared/**/*"]
+    "include": ["app.config.ts", "src/**/*", "convex/**/*"]
 }
