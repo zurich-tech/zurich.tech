@@ -5,7 +5,6 @@ import { For, Show } from "solid-js";
 
 import { tiers } from "./plans";
 import { SocialLinks } from "../components/social";
-import { Patrons } from "./patrons";
 import { Card } from "../components/card";
 
 /** Display active sponsors by tier, with space for the next supporter. */
@@ -80,7 +79,6 @@ export function Sponsors(props: {
                     </section>
                 )}
             </For>
-            <Patrons />
             <Show when={!props.isFullPage}>
                 <div class="sponsor-action">
                     <a class="button button--primary" href="/sponsor">

@@ -8,19 +8,25 @@ import { createAsync } from "@solidjs/router";
 import { createResource, createSignal, For, Show } from "solid-js";
 
 import { Dynamic } from "solid-js/web";
-import { SocialLinks } from "../components/social";
 import { Avatar } from "../components/avatar";
 
-/** Show opted in patrons as compact profile badges. */
-export function Patrons() {
+/** Show opted in patrons in their own recognition card. */
+export function Patrons(props: {
+    /** Keep the heading local on the sponsorship page. */
+    isFullPage?: boolean;
+}) {
     const patrons = createAsync(() => getPatrons());
 
     return (
-        <Show when={patrons()?.length}>
-            <div class="patron-wall" aria-label="Our patrons">
-                <For each={patrons()}>
-                    {(patron) => (
-                        <div class="patron-recognition">
+        <Card
+            title="Patrons"
+            id="patrons"
+            titleHref={props.isFullPage ? undefined : "/sponsor#patrons"}
+        >
+            <Show when={patrons()?.length} fallback={<p class="text-soft">No patrons yet.</p>}>
+                <div class="patron-wall" aria-label="Our patrons">
+                    <For each={patrons()}>
+                        {(patron) => (
                             <Dynamic
                                 component={patron.profileUrl ? "a" : "span"}
                                 href={patron.profileUrl}
@@ -29,21 +35,22 @@ export function Patrons() {
                                 class="patron-badge"
                                 tabindex="0"
                                 aria-label={`${patron.name}, Patron`}
-                                title={patron.name}
                             >
                                 <Avatar
                                     name={patron.name}
                                     image={patron.avatarUrl}
                                     imageDark={patron.avatarDarkUrl}
                                 />
-                                <span class="patron-name">{patron.name}</span>
+                                <span class="patron-name">
+                                    {patron.name}
+                                    <Show when={patron.headline}> — {patron.headline}</Show>
+                                </span>
                             </Dynamic>
-                            <SocialLinks name={patron.name} profiles={patron.socials ?? {}} />
-                        </div>
-                    )}
-                </For>
-            </div>
-        </Show>
+                        )}
+                    </For>
+                </div>
+            </Show>
+        </Card>
     );
 }
 
@@ -97,7 +104,7 @@ export function PatronSettings() {
                                 disabled={isPending()}
                                 onChange={(event) => change(event.currentTarget.checked)}
                             />{" "}
-                            Show my name and avatar on the sponsor wall
+                            Show my name and avatar on the patron wall
                         </label>
                         <Show when={error()}>
                             <p class="form-error">{error()}</p>

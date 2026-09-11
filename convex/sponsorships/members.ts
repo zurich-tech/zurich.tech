@@ -27,9 +27,10 @@ export const list = query({
                         ? {
                               id: row._id,
                               name: member.name,
+                              headline: member.headline,
                               avatarUrl: member.avatarUrl,
                               avatarDarkUrl: member.avatarDarkUrl,
-                              ...(await readProfiles(ctx, member._id)),
+                              profileUrl: (await readProfiles(ctx, member._id)).profileUrl,
                           }
                         : null;
                 }),

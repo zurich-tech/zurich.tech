@@ -5,6 +5,7 @@ import { api } from "../../../convex/_generated/api";
 import type { Id } from "../../../convex/_generated/dataModel";
 import { CheckoutButton } from "../../billing/payments";
 import { Sponsors } from "../../sponsorships/sponsors";
+import { Patrons } from "../../sponsorships/patrons";
 
 import { Arrow } from "../../components/arrow";
 import { tiers, patron } from "../../sponsorships/plans";
@@ -42,7 +43,7 @@ export default function Route() {
             const client = await memberClient();
             const id = await client.mutation(api.sponsorships.organisations.request, {
                 organisationId: String(fields.get("organisationId")) as Id<"organisations">,
-                tier: String(fields.get("tier")) as "principal" | "partner" | "supporter",
+                tier: String(fields.get("tier")) as "partner" | "champion" | "friend",
                 billingEmail: String(fields.get("billingEmail")),
             });
             const url = await client.action(api.billing.stripe.start, {
@@ -155,13 +156,14 @@ export default function Route() {
                         <ul class="plan-benefits">
                             <li>
                                 <Arrow />
-                                <strong>Linked avatar on the sponsor wall</strong>
+                                <strong>Linked avatar on the patron wall</strong>
                                 <span>Patron badge on your profile</span>
                             </li>
                         </ul>
                     </div>
                 </Card>
                 <Sponsors isFullPage />
+                <Patrons isFullPage />
                 <div class="sponsor-details">
                     <Card title="Become a sponsor" id="request">
                         <Show
@@ -169,7 +171,7 @@ export default function Route() {
                             fallback={
                                 <a
                                     class="button button--primary"
-                                    href={`/sign-in?next=${encodeURIComponent(`/sponsor?tier=${params.tier ?? "partner"}#request`)}`}
+                                    href={`/sign-in?next=${encodeURIComponent(`/sponsor?tier=${params.tier ?? "champion"}#request`)}`}
                                 >
                                     Continue with GitHub or X
                                 </a>
@@ -207,7 +209,7 @@ export default function Route() {
                                                             (tier) => tier.id === params.tier,
                                                         )
                                                             ? String(params.tier)
-                                                            : "partner"
+                                                            : "champion"
                                                     }
                                                 >
                                                     <For each={tiers}>

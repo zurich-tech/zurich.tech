@@ -3931,26 +3931,26 @@ a.eyebrow:hover {
     font-size: 13px;
     line-height: 1.45;
 }
-.sponsor-plan--supporter {
+.sponsor-plan--friend {
     background: #174ed8;
     color: white;
     border-color: #174ed8;
 }
-.sponsor-plan--supporter .card-heading {
+.sponsor-plan--friend .card-heading {
     border-color: #ffffff50;
 }
-.sponsor-plan--supporter .card-title,
-.sponsor-plan--supporter .tier-price > span,
-.sponsor-plan--supporter .plan-benefits span,
-.sponsor-plan--supporter .plan-benefits li > .arrow-icon {
+.sponsor-plan--friend .card-title,
+.sponsor-plan--friend .tier-price > span,
+.sponsor-plan--friend .plan-benefits span,
+.sponsor-plan--friend .plan-benefits li > .arrow-icon {
     color: white;
 }
-.sponsor-plan--supporter .button.button--primary {
+.sponsor-plan--friend .button.button--primary {
     background: white;
     color: #174ed8;
     border-color: white;
 }
-.sponsor-plan--supporter .button:hover {
+.sponsor-plan--friend .button:hover {
     background: #e5ecff;
 }
 
@@ -3995,7 +3995,6 @@ a.eyebrow:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    padding-top: 16px;
 }
 .patron-badge {
     position: relative;
@@ -4044,7 +4043,7 @@ a.eyebrow:hover {
     font-size: 12px;
     line-height: 1.5;
 }
-.sponsor-plan--supporter .plan-byline {
+.sponsor-plan--friend .plan-byline {
     color: #d3dfff;
 }
 .patron-offer .plan-benefits {
@@ -4274,14 +4273,6 @@ iframe.email-preview {
 .sponsor-recognition .social-links {
     justify-content: center;
     margin: 8px 0 0;
-}
-.patron-recognition {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-.patron-recognition .social-links {
-    margin: 0;
 }
 .social-links:empty {
     display: none;
