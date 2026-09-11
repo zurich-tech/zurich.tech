@@ -91,14 +91,8 @@ export const speakers = defineTable({
 export const submissions = defineTable({
     ownerId: v.id("members"),
     eventId: v.optional(v.id("events")),
-    status: v.union(
-        v.literal("draft"),
-        v.literal("review"),
-        v.literal("published"),
-        v.literal("declined"),
-    ),
+    status: v.union(v.literal("draft"), v.literal("published")),
     ...submissionFields,
-    reviewNote: v.optional(v.string()),
     updatedAt: v.number(),
 })
     .index("by_owner", ["ownerId"])

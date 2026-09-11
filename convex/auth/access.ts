@@ -3,7 +3,7 @@ import { mutation, internalMutation } from "../_generated/server";
 import { authComponent } from "./component";
 import type { QueryCtx, MutationCtx } from "../_generated/server";
 
-/** Require an active account and its explicit publishing privileges. */
+/** Require an active account. */
 export async function requireAccount(ctx: QueryCtx | MutationCtx) {
     // resolve the signed in account before reading its privileges
     const user = await authComponent.getAuthUser(ctx);
@@ -14,10 +14,7 @@ export async function requireAccount(ctx: QueryCtx | MutationCtx) {
     if (record === null || record.status !== "active")
         throw new Error("An active account is required.");
 
-    // Read administrative permission from the account, never its public titles.
-    const isTeam = record.isTeam;
-
-    return { ...record, isTeam, canPublish: isTeam || record.canPublish === true };
+    return record;
 }
 
 /** Require shared team access. */
@@ -28,12 +25,18 @@ export async function requireTeam(ctx: QueryCtx | MutationCtx) {
     return viewer;
 }
 
-/** Grant or revoke the ability to publish one's own events. */
-export const setPublishingAccess = mutation({
-    args: { id: v.id("accounts"), canPublish: v.boolean() },
+/** Grant or revoke team access for another signed-in account. */
+export const setTeam = mutation({
+    args: { id: v.id("accounts"), isTeam: v.boolean() },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
-        await ctx.db.patch(args.id, { canPublish: args.canPublish, updatedAt: Date.now() });
+        const viewer = await requireTeam(ctx);
+        if (viewer._id === args.id) throw new Error("You cannot change your own team access.");
+        const account = await ctx.db.get(args.id);
+        if (!account || account.status !== "active")
+            throw new Error("An active account is required.");
+
+        // keep administrative access independent of public team titles
+        await ctx.db.patch(args.id, { isTeam: args.isTeam, updatedAt: Date.now() });
     },
 });
 

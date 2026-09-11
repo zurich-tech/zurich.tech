@@ -5,8 +5,8 @@ import { useWorkspaceCommand, type EventWorkspace } from "../app/workspace";
 import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 
-/** Manage the team’s trusted organisers. */
-export function Organisers(props: {
+/** Manage team access for signed-in accounts. */
+export function Team(props: {
     /** Accounts visible to the team. */
     people: EventWorkspace["people"];
     /** Reload permissions after a change. */
@@ -17,33 +17,36 @@ export function Organisers(props: {
     return (
         <>
             <FormMessage error={command.error()} success={command.success()} />
-            <h2>Trusted organisers</h2>
-            <p>Publishing permission applies only to an organiser’s own events.</p>
+            <h2>Team</h2>
+            <p>
+                Team members can manage events and grant team access. Sign in once to appear here.
+            </p>
             <div class="workspace-list">
                 <For each={props.people}>
                     {(person) => (
                         <article>
                             <h3>{person.name}</h3>
+                            <p>{person.email}</p>
                             <label class="checkbox">
                                 <input
                                     type="checkbox"
-                                    checked={person.canPublish}
-                                    disabled={command.isPending()}
+                                    checked={person.isTeam}
+                                    disabled={command.isPending() || person.isSelf}
                                     onChange={(event) => {
-                                        const canPublish = event.currentTarget.checked;
+                                        const isTeam = event.currentTarget.checked;
                                         void command.perform(
                                             async () =>
                                                 await (
                                                     await memberClient()
-                                                ).mutation(api.auth.access.setPublishingAccess, {
+                                                ).mutation(api.auth.access.setTeam, {
                                                     id: person.id,
-                                                    canPublish,
+                                                    isTeam,
                                                 }),
-                                            "Publishing permission updated.",
+                                            "Team access updated.",
                                         );
                                     }}
                                 />
-                                Can publish directly
+                                Team access
                             </label>
                         </article>
                     )}

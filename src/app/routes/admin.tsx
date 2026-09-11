@@ -9,13 +9,13 @@ import { Seo } from "../seo";
 import { EventAdmin } from "../../events/workspace";
 import { Attendees } from "../../events/attendees";
 import { Catalogue } from "../../organisations/workspace";
-import { Organisers, NewsletterAdmin } from "../../members/workspace";
+import { Team, NewsletterAdmin } from "../../members/workspace";
 
 /** Team-only workspace tabs. */
 const teamTabs = [
     { id: "organisations", label: "Organisations" },
     { id: "series", label: "Series" },
-    { id: "people", label: "Organisers" },
+    { id: "people", label: "Team" },
     { id: "email", label: "Weekly email" },
 ] as const;
 
@@ -25,8 +25,12 @@ export default function Route() {
     const account = useAccount();
     const [params] = useSearchParams();
     const [section, setSection] = createSignal("events");
-    const [workspace, { refetch }] = createResource(
+    const [access] = createResource(
         () => account.user()?.id,
+        async () => (await memberClient()).query(api.auth.queries.current, {}),
+    );
+    const [workspace, { refetch }] = createResource(
+        () => access()?.isTeam,
         async () => (await memberClient()).query(api.events.workspace.events, {}),
     );
 
@@ -47,6 +51,14 @@ export default function Route() {
                         </a>
                     }
                 >
+                    <Show when={access.error}>
+                        <p class="form-error" role="alert">
+                            {errorMessage(access.error, "Could not load your account.")}
+                        </p>
+                    </Show>
+                    <Show when={access() && !access()?.isTeam}>
+                        <p>Manage your jobs, sponsorships and profile using the links above.</p>
+                    </Show>
                     <Show when={workspace.error}>
                         <p class="form-error" role="alert">
                             {errorMessage(workspace.error, "Could not load your workspace.")}
@@ -63,7 +75,7 @@ export default function Route() {
                                     >
                                         Events
                                     </button>
-                                    <Show when={current().viewer.isTeam}>
+                                    <Show when={access()?.isTeam}>
                                         <For each={teamTabs}>
                                             {(tab) => (
                                                 <button
@@ -94,7 +106,7 @@ export default function Route() {
                                     </Match>
                                     <Match
                                         when={
-                                            current().viewer.isTeam &&
+                                            access()?.isTeam &&
                                             (section() === "organisations" ||
                                                 section() === "series")
                                         }
@@ -105,10 +117,10 @@ export default function Route() {
                                             }
                                         />
                                     </Match>
-                                    <Match when={current().viewer.isTeam && section() === "people"}>
-                                        <Organisers people={current().people} refresh={refetch} />
+                                    <Match when={access()?.isTeam && section() === "people"}>
+                                        <Team people={current().people} refresh={refetch} />
                                     </Match>
-                                    <Match when={current().viewer.isTeam && section() === "email"}>
+                                    <Match when={access()?.isTeam && section() === "email"}>
                                         <NewsletterAdmin
                                             isPaused={current().digest?.isPaused ?? false}
                                             refresh={refetch}

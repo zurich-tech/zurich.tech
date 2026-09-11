@@ -7,8 +7,6 @@ const accountStatus = v.union(v.literal("active"), v.literal("disabled"));
 /** Stored accounts. */
 export const accounts = defineTable({
     authId: v.string(),
-    /** Explicit permission to publish owned events without team review. */
-    canPublish: v.optional(v.boolean()),
     isTeam: v.boolean(),
     memberId: v.id("members"),
     status: accountStatus,

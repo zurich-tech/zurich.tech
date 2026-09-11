@@ -17,6 +17,7 @@ import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
 import { FormMessage } from "../../components/form";
 import { errorMessage } from "../../components/errors";
+import { site } from "../site";
 import { timestamp } from "../../events/time";
 
 /** Create, duplicate, and revise an event in the organiser workspace. */
@@ -24,8 +25,12 @@ export default function Route() {
     const account = useAccount();
     const [params] = useSearchParams();
     const directory = createAsync(() => getDirectory());
-    const [workspace] = createResource(
+    const [access] = createResource(
         () => account.user()?.id,
+        async () => (await memberClient()).query(api.auth.queries.current, {}),
+    );
+    const [workspace] = createResource(
+        () => access()?.isTeam,
         async () => await (await memberClient()).query(api.events.workspace.events, {}),
     );
     const draft = () =>
@@ -44,7 +49,7 @@ export default function Route() {
         }
     });
 
-    /** Save one validated draft, optionally submitting or publishing it. */
+    /** Save one validated draft and optionally publish it. */
     async function save(event: SubmitEvent) {
         // read the authored event fields
         event.preventDefault();
@@ -75,7 +80,6 @@ export default function Route() {
             const client = await memberClient();
             const id = await client.mutation(api.events.mutations.save, {
                 id: params.edit ? draft()?._id : undefined,
-                submit: intent !== "draft",
                 title: text("title"),
                 slug: text("slug"),
                 description: text("description"),
@@ -122,11 +126,7 @@ export default function Route() {
             });
             if (intent === "publish") await client.mutation(api.events.mutations.publish, { id });
             setSuccess(
-                intent === "publish"
-                    ? "Published. Your event is on the calendar."
-                    : intent === "draft"
-                      ? "Draft saved."
-                      : "Submitted for team review.",
+                intent === "publish" ? "Published. Your event is on the calendar." : "Draft saved.",
             );
             window.history.replaceState({}, "", `/submit?edit=${id}`);
             window.location.assign(`/admin?saved=${intent}`);
@@ -139,24 +139,33 @@ export default function Route() {
 
     return (
         <>
-            <Seo
-                title="Submit event"
-                description="Bring your talk, dinner, workshop, or hackathon to Zürich’s tech community."
-            />
+            <Seo title="Event editor" description="Create and edit zurich.tech events." />
             <Page width="narrow">
-                <PageHeader title={params.edit ? "Edit event" : "Submit an event"} />
+                <PageHeader title={params.edit ? "Edit event" : "New event"} />
                 <Show
-                    when={account.user()}
+                    when={access()?.isTeam}
                     fallback={
                         <div class="empty-panel">
-                            <h2>Sign in to submit an event</h2>
-                            <p>
-                                Sign in to create a draft and submit it for review. Regular
-                                organisers can publish directly.
-                            </p>
-                            <a class="button button--primary" href="/sign-in">
-                                Sign in to contribute <Arrow direction="external" />
+                            <h2>Team access required</h2>
+                            <p>Event creation and editing are available to the zurich.tech team.</p>
+                            <a
+                                class="button button--primary"
+                                href={site.socials.discord}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Suggest an event <Arrow direction="external" />
                             </a>
+                            <Show when={!account.user() && !account.isPending()}>
+                                <a class="button" href="/sign-in?next=%2Fsubmit">
+                                    Sign in
+                                </a>
+                            </Show>
+                            <Show when={access.error}>
+                                <p class="form-error" role="alert">
+                                    {errorMessage(access.error, "Could not load your account.")}
+                                </p>
+                            </Show>
                         </div>
                     }
                 >
@@ -185,9 +194,6 @@ export default function Route() {
                             />
                             {/* keep programme details optional and quick to enter */}
                             <ProgrammeFields draft={draft()} directory={directory()} />
-                            <Show when={draft()?.reviewNote}>
-                                <p class="review-note">Team feedback: {draft()?.reviewNote}</p>
-                            </Show>
                             <div class="form-actions">
                                 <button
                                     class="button"
@@ -200,14 +206,10 @@ export default function Route() {
                                 <button
                                     class="button button--primary"
                                     type="submit"
-                                    value={workspace()?.viewer.canPublish ? "publish" : "review"}
+                                    value="publish"
                                     disabled={isPending()}
                                 >
-                                    {isPending()
-                                        ? "Saving…"
-                                        : workspace()?.viewer.canPublish
-                                          ? "Publish event"
-                                          : "Submit for review"}
+                                    {isPending() ? "Saving…" : "Publish event"}
                                 </button>
                             </div>
                             <FormMessage error={error()} success={success()} />

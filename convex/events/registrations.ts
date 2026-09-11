@@ -5,7 +5,7 @@ import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
 
 import { resolveSeat } from "./fields";
-import { requireAccount } from "../auth/access";
+import { requireTeam } from "../auth/access";
 import { enqueue, requireMail } from "../mail/deliveries";
 
 /** Send a verification link without allocating an unverified seat. */
@@ -71,15 +71,14 @@ export const cancel = mutation({
     },
 });
 
-/** Read an event's attendees only for its organiser or the team. */
+/** Read an event's attendees for the team. */
 export const list = query({
     args: { eventId: v.id("events") },
     handler: async (ctx, args) => {
-        // require event ownership or team access
-        const viewer = await requireAccount(ctx);
+        // require team access
+        await requireTeam(ctx);
         const event = await ctx.db.get(args.eventId);
-        if (!event || (!viewer.isTeam && event.ownerId !== viewer.memberId))
-            throw new Error("You cannot manage this event.");
+        if (!event) throw new Error("You cannot manage this event.");
         const rows = await registrations(ctx, event);
 
         return { event, rows: rows.map(({ token, ...row }) => row) };
@@ -93,13 +92,12 @@ export const decide = mutation({
         decision: v.union(v.literal("approve"), v.literal("decline"), v.literal("cancel")),
     },
     handler: async (ctx, args) => {
-        // require event ownership or team access
-        const viewer = await requireAccount(ctx);
+        // require team access
+        await requireTeam(ctx);
         const row = await ctx.db.get(args.id);
         if (!row) throw new Error("Registration not found.");
         const event = await ctx.db.get(row.eventId);
-        if (!event || (!viewer.isTeam && event.ownerId !== viewer.memberId))
-            throw new Error("You cannot manage this event.");
+        if (!event) throw new Error("You cannot manage this event.");
         const policy = event.registration;
         if (policy.kind !== "native")
             throw new Error("This event does not use native registration.");

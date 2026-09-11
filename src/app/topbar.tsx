@@ -1,3 +1,4 @@
+import { site } from "./site";
 import { A } from "@solidjs/router";
 import { Show } from "solid-js";
 import { useAccount } from "../auth/index";
@@ -27,9 +28,14 @@ export function Topbar() {
                 </nav>
                 <div class="site-topbar__actions">
                     <div class="header-links">
-                        <A class="header-host" href="/submit">
-                            Submit event
-                        </A>
+                        <a
+                            class="header-host"
+                            href={site.socials.discord}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Suggest an event
+                        </a>
                         <Show
                             when={account.user()}
                             fallback={

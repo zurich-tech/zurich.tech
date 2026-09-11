@@ -2,23 +2,21 @@ import { readLinks, writeLinks } from "../members/links";
 import { siteOrigin } from "../auth/environment";
 import { v } from "convex/values";
 import { mutation } from "../_generated/server";
-import { requireAccount, requireTeam } from "../auth/access";
+import { requireTeam } from "../auth/access";
 import { submissionFields } from "./fields";
 import { normalizeUrl, normalizeImageUrl } from "../members/urls";
 import { promoteWaitlist } from "./registrations";
 import { enqueue } from "../mail/deliveries";
 
-/** Save a draft or submit it for review, preserving any published revision. */
+/** Save a draft while preserving its published revision. */
 export const save = mutation({
-    args: { id: v.optional(v.id("submissions")), submit: v.boolean(), ...submissionFields },
+    args: { id: v.optional(v.id("submissions")), ...submissionFields },
     handler: async (ctx, args) => {
-        // require ownership or team access before changing an event
-        const viewer = await requireAccount(ctx);
-        const { id, submit, ...values } = args;
+        // require team access before changing an event
+        const viewer = await requireTeam(ctx);
+        const { id, ...values } = args;
         const existing = id ? await ctx.db.get(id) : null;
         if (id && !existing) throw new Error("Submission not found.");
-        if (existing && existing.ownerId !== viewer.memberId && !viewer.isTeam)
-            throw new Error("This event belongs to another organiser.");
 
         // validate public content before accepting a draft
         if (!values.title.trim() || values.title.length > 180)
@@ -91,21 +89,12 @@ export const save = mutation({
             if (!(await ctx.db.get(id))) throw new Error("Organisation not found.");
 
         // keep changes separate until an authorised person publishes them
-        const status = submit ? ("review" as const) : ("draft" as const);
-        const record = { ...values, status, updatedAt: Date.now() };
+        const record = { ...values, status: "draft" as const, updatedAt: Date.now() };
         if (existing) {
             await ctx.db.patch(existing._id, record);
 
             return existing._id;
         }
-        // bound unpublished drafts per organiser
-        const pending = await ctx.db
-            .query("submissions")
-            .withIndex("by_owner", (range) => range.eq("ownerId", viewer.memberId))
-            .collect();
-        if (pending.filter((item) => item.status !== "published").length >= 20)
-            throw new Error("You have twenty open drafts. Publish or finish those first.");
-
         return await ctx.db.insert("submissions", { ...record, ownerId: viewer.memberId });
     },
 });
@@ -114,12 +103,10 @@ export const save = mutation({
 export const publish = mutation({
     args: { id: v.id("submissions") },
     handler: async (ctx, args) => {
-        // require ownership or team access before changing an event
-        const viewer = await requireAccount(ctx);
+        // require team access before changing an event
+        await requireTeam(ctx);
         const draft = await ctx.db.get(args.id);
         if (!draft) throw new Error("Submission not found.");
-        if (!viewer.isTeam && (!viewer.canPublish || draft.ownerId !== viewer.memberId))
-            throw new Error("Publishing permission is required.");
 
         // reserve a stable public URL for this event
         const collision = await ctx.db
@@ -261,7 +248,6 @@ export const publish = mutation({
         await ctx.db.patch(draft._id, {
             status: "published",
             eventId,
-            reviewNote: undefined,
             updatedAt: now,
         });
 
@@ -269,29 +255,14 @@ export const publish = mutation({
     },
 });
 
-/** Return a submission to its organiser with an explicit review note. */
-export const decline = mutation({
-    args: { id: v.id("submissions"), note: v.string() },
-    handler: async (ctx, args) => {
-        await requireTeam(ctx);
-        if (!args.note.trim()) throw new Error("Explain what needs to change.");
-        await ctx.db.patch(args.id, {
-            status: "declined",
-            reviewNote: args.note,
-            updatedAt: Date.now(),
-        });
-    },
-});
-
 /** Open an editable revision of an existing event, including imported archive entries. */
 export const edit = mutation({
     args: { eventId: v.id("events") },
     handler: async (ctx, args) => {
-        // require ownership or team access before changing an event
-        const viewer = await requireAccount(ctx);
+        // require team access before changing an event
+        await requireTeam(ctx);
         const event = await ctx.db.get(args.eventId);
-        if (!event || (!viewer.isTeam && event.ownerId !== viewer.memberId))
-            throw new Error("You cannot edit this event.");
+        if (!event) throw new Error("You cannot edit this event.");
 
         // reuse the existing revision when the event is already editable
         const existing = await ctx.db
@@ -346,11 +317,10 @@ export const edit = mutation({
 export const cancel = mutation({
     args: { eventId: v.id("events") },
     handler: async (ctx, args) => {
-        // require event ownership or team access
-        const viewer = await requireAccount(ctx);
+        // require team access
+        await requireTeam(ctx);
         const event = await ctx.db.get(args.eventId);
-        if (!event || (!viewer.isTeam && event.ownerId !== viewer.memberId))
-            throw new Error("You cannot manage this event.");
+        if (!event) throw new Error("You cannot manage this event.");
         if (event.status === "cancelled") return;
         // cancel the event before notifying its active attendees
         await ctx.db.patch(event._id, { status: "cancelled", updatedAt: Date.now() });

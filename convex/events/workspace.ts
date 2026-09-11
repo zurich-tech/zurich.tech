@@ -1,49 +1,43 @@
 import { query } from "../_generated/server";
-import { requireAccount } from "../auth/access";
+import { requireTeam } from "../auth/access";
 
-/** Read only the workspace records the current account owns or moderates. */
+/** Read the team's events and account controls. */
 export const events = query({
     args: {},
     handler: async (ctx) => {
-        // identify the account before selecting owned records
-        const viewer = await requireAccount(ctx);
-        const submissions = viewer.isTeam
-            ? await ctx.db.query("submissions").collect()
-            : await ctx.db
-                  .query("submissions")
-                  .withIndex("by_owner", (range) => range.eq("ownerId", viewer.memberId))
-                  .collect();
-
-        // expose publishing controls only to the team
-        const members = viewer.isTeam ? await ctx.db.query("accounts").collect() : [];
+        const viewer = await requireTeam(ctx);
+        const submissions = await ctx.db.query("submissions").collect();
+        const accounts = await ctx.db.query("accounts").collect();
         const people = await Promise.all(
-            members.map(async (member) => {
-                const profile = await ctx.db.get(member.memberId);
-                if (!profile) throw new Error("Account member is missing.");
+            accounts
+                .filter((account) => account.status === "active")
+                .map(async (account) => {
+                    const profile = await ctx.db.get(account.memberId);
+                    if (!profile) throw new Error("Account member is missing.");
+                    const emails = await ctx.db
+                        .query("emails")
+                        .withIndex("by_member", (q) => q.eq("memberId", account.memberId))
+                        .collect();
 
-                return {
-                    id: member._id,
-                    name: profile.name,
-                    canPublish: member.canPublish === true,
-                };
-            }),
+                    return {
+                        id: account._id,
+                        name: profile.name,
+                        email: emails.find((email) => email.isPrimary)?.email,
+                        isTeam: account.isTeam,
+                        isSelf: account._id === viewer._id,
+                    };
+                }),
         );
 
-        // expose imported published events that do not yet have an editable revision
-        const events = viewer.isTeam
-            ? await ctx.db.query("events").collect()
-            : await ctx.db
-                  .query("events")
-                  .withIndex("by_owner", (q) => q.eq("ownerId", viewer.memberId))
-                  .collect();
+        // show published events without an editable revision separately
+        const events = await ctx.db.query("events").collect();
         const revised = new Set(submissions.map((item) => item.eventId));
         const published = events
             .filter((item) => !revised.has(item._id))
             .sort((a, b) => b.startsAt - a.startsAt);
-        const digest = viewer.isTeam ? await ctx.db.query("digests").unique() : null;
+        const digest = await ctx.db.query("digests").unique();
 
         return {
-            viewer: { isTeam: viewer.isTeam, canPublish: viewer.canPublish },
             submissions: submissions.sort((a, b) => b.updatedAt - a.updatedAt),
             people,
             published,
