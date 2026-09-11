@@ -16,12 +16,12 @@ export function EventFields(props: {
     return (
         <Card title="Event">
             <label>
-                Event title
+                Title
                 <input name="title" required maxlength="180" value={props.draft?.title ?? ""} />
             </label>
             <div class="form-columns">
                 <label>
-                    URL slug
+                    Slug
                     <input
                         name="slug"
                         required
@@ -48,7 +48,12 @@ export function EventFields(props: {
                                 "other",
                             ]}
                         >
-                            {(value) => <option value={value}>{value.replace("_", " ")}</option>}
+                            {(value) => (
+                                <option value={value}>
+                                    {value.charAt(0).toUpperCase() +
+                                        value.slice(1).replace("_", " ")}
+                                </option>
+                            )}
                         </For>
                     </select>
                 </label>
@@ -66,7 +71,7 @@ export function EventFields(props: {
                 <label>
                     Series
                     <select name="series" value={props.draft?.seriesId ?? ""}>
-                        <option value="">One-off / no series</option>
+                        <option value="">None</option>
                         <For each={props.directory?.series}>
                             {(item) => <option value={item._id}>{item.name}</option>}
                         </For>

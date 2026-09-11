@@ -3117,6 +3117,39 @@ a.eyebrow:hover {
 }
 .editor label {
     gap: 8px;
+    align-content: start;
+    min-width: 0;
+}
+.editor label > span {
+    order: 1;
+}
+.editor select:not([multiple]),
+select.field__control:not([multiple]) {
+    appearance: none;
+    height: 43px;
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237d8796' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+}
+.event-editor__columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+.event-editor__column {
+    display: grid;
+    gap: 24px;
+    min-width: 0;
+}
+.event-editor__column .organiser-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 800px) {
+    .event-editor__columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 .editor input[type="checkbox"] {
     width: 16px;
@@ -3594,7 +3627,8 @@ a.eyebrow:hover {
     }
 }
 
-.editor > .card > .card-body {
+.editor > .card > .card-body,
+.event-editor__column > .card > .card-body {
     display: grid;
     gap: 20px;
 }

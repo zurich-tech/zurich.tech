@@ -141,8 +141,21 @@ export default function Route() {
 
     return (
         <>
-            <Seo title="Event editor" description="Create and edit zurich.tech events." />
-            <Page width="narrow">
+            <Seo
+                title={
+                    params.edit
+                        ? draft()?.title
+                            ? `Edit ${draft()!.title}`
+                            : "Edit event"
+                        : params.duplicate
+                          ? draft()?.title
+                              ? `Duplicate ${draft()!.title}`
+                              : "Duplicate event"
+                          : "New event"
+                }
+                description="Create and edit zurich.tech events."
+            />
+            <Page>
                 <PageHeader title={params.edit ? "Edit event" : "New event"} />
                 <Show
                     when={access()?.isTeam}
@@ -177,55 +190,63 @@ export default function Route() {
                         </p>
                     </Show>
                     <Show when={workspace() && (!(params.edit || params.duplicate) || draft())}>
-                        <form class="editor" ref={form} onSubmit={save}>
-                            {/* describe the event and its relationship to a series */}
-                            <EventFields
-                                draft={draft()}
-                                isDuplicate={!!params.duplicate}
-                                directory={directory()}
-                            />
-                            <Card title="Organisers">
-                                <div class="organiser-options">
-                                    <For
-                                        each={workspace()?.organisers.filter(
-                                            (person) =>
-                                                person.isTeam ||
-                                                (
-                                                    draft()?.organiserIds ?? [draft()?.ownerId]
-                                                ).includes(person.id),
-                                        )}
-                                    >
-                                        {(person) => (
-                                            <label class="checkbox-label">
-                                                <input
-                                                    type="checkbox"
-                                                    name="organiserIds"
-                                                    value={person.id}
-                                                    checked={(
-                                                        draft()?.organiserIds ?? [
-                                                            draft()?.ownerId ??
-                                                                workspace()!.viewerId,
-                                                        ]
-                                                    ).includes(person.id)}
-                                                />
-                                                {person.name}
-                                            </label>
-                                        )}
-                                    </For>
+                        <form class="editor event-editor" ref={form} onSubmit={save}>
+                            <div class="event-editor__columns">
+                                <div class="event-editor__column">
+                                    {/* describe the event and its relationship to a series */}
+                                    <EventFields
+                                        draft={draft()}
+                                        isDuplicate={!!params.duplicate}
+                                        directory={directory()}
+                                    />
+                                    {/* keep programme details optional and quick to enter */}
+                                    <ProgrammeFields draft={draft()} directory={directory()} />
                                 </div>
-                            </Card>
-                            {/* enter real Zürich local dates and an optional map position */}
-                            <VenueFields draft={draft()} />
-                            {/* compose admission, capacity, and overflow independently */}
-                            <RegistrationFields
-                                draft={draft()}
-                                kind={kind()}
-                                setKind={setKind}
-                                questions={questions()}
-                                setQuestions={setQuestions}
-                            />
-                            {/* keep programme details optional and quick to enter */}
-                            <ProgrammeFields draft={draft()} directory={directory()} />
+                                <div class="event-editor__column">
+                                    <Card title="Organisers">
+                                        <div class="organiser-options">
+                                            <For
+                                                each={workspace()?.organisers.filter(
+                                                    (person) =>
+                                                        person.isTeam ||
+                                                        (
+                                                            draft()?.organiserIds ?? [
+                                                                draft()?.ownerId,
+                                                            ]
+                                                        ).includes(person.id),
+                                                )}
+                                            >
+                                                {(person) => (
+                                                    <label class="checkbox-label">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="organiserIds"
+                                                            value={person.id}
+                                                            checked={(
+                                                                draft()?.organiserIds ?? [
+                                                                    draft()?.ownerId ??
+                                                                        workspace()!.viewerId,
+                                                                ]
+                                                            ).includes(person.id)}
+                                                        />
+                                                        {person.name}
+                                                    </label>
+                                                )}
+                                            </For>
+                                        </div>
+                                    </Card>
+                                    {/* enter real Zürich local dates and an optional map position */}
+                                    <VenueFields draft={draft()} />
+                                    {/* compose admission, capacity, and overflow independently */}
+                                    <RegistrationFields
+                                        draft={draft()}
+                                        kind={kind()}
+                                        setKind={setKind}
+                                        questions={questions()}
+                                        setQuestions={setQuestions}
+                                    />
+                                </div>
+                            </div>
                             <div class="form-actions">
                                 <button
                                     class="button"
