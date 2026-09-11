@@ -1,9 +1,10 @@
-import { site } from "../core/constants";
-import { SocialLinks } from "./social";
+import wordmark from "../components/assets/wordmark.svg?raw";
+import { site } from "./site";
+import { SocialLinks } from "../components/social";
 import { Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
 
-import { CommunityMap } from "./map";
+import { CommunityMap } from "../map/map";
 
 /** Keep the city and wordmark consistent across the site. */
 export function Hero(props: {
@@ -42,11 +43,8 @@ export function Hero(props: {
                     component={props.isCompact ? "div" : "h1"}
                     class="hero-title"
                     aria-label="zurich.tech"
-                >
-                    zurich
-                    <span class="wordmark-dot">.</span>
-                    tech
-                </Dynamic>
+                    innerHTML={wordmark}
+                />
             </div>
         </header>
     );
