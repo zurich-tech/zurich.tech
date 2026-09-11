@@ -109,17 +109,17 @@ export const activate = mutation({
 
 /** Decline a request or end a sponsorship explicitly. */
 export const end = mutation({
-    args: { id: v.id("sponsorships"), note: v.string() },
+    args: { id: v.id("sponsorships") },
     handler: async (ctx, args) => {
         // require a team decision and prevent changes during checkout
         await requireTeam(ctx);
         const row = await ctx.db.get(args.id);
         if (!row || row.tier === "patron") throw new Error("Organisation sponsorship not found.");
         await requireCheckoutClosed(ctx, row._id);
-        if (!args.note.trim()) throw new Error("Explain the decision.");
+        if (row.status !== "active" && row.status !== "requested")
+            throw new Error("This sponsorship is already closed.");
         await ctx.db.patch(row._id, {
             status: row.status === "requested" ? "declined" : "ended",
-            note: args.note.trim(),
             updatedAt: Date.now(),
         });
     },
