@@ -54,30 +54,40 @@ export default function Route() {
                                 value={search()}
                                 onInput={(event) => setSearch(event.currentTarget.value)}
                             />
-                            <FilterPills
-                                label="Workplace"
-                                value={workplace()}
-                                onChange={setWorkplace}
-                                options={[
-                                    { value: "all", label: "All locations" },
-                                    ...Object.entries(workplaces).map(([value, label]) => ({
-                                        value,
-                                        label,
-                                    })),
-                                ]}
-                            />
-                            <FilterPills
-                                label="Employment"
-                                value={employment()}
-                                onChange={setEmployment}
-                                options={[
-                                    { value: "all", label: "All contracts" },
-                                    ...Object.entries(employments).map(([value, label]) => ({
-                                        value,
-                                        label,
-                                    })),
-                                ]}
-                            />
+                            <div class="listing-pills">
+                                <FilterPills
+                                    label="Workplace"
+                                    value={
+                                        workplace() === "all" && employment() !== "all"
+                                            ? ""
+                                            : workplace()
+                                    }
+                                    onChange={(value) => {
+                                        setWorkplace(value === workplace() ? "all" : value);
+                                        if (value === "all") setEmployment("all");
+                                    }}
+                                    options={[
+                                        { value: "all", label: "All" },
+                                        ...Object.entries(workplaces).map(([value, label]) => ({
+                                            value,
+                                            label,
+                                        })),
+                                    ]}
+                                />
+                                <FilterPills
+                                    label="Employment"
+                                    value={employment()}
+                                    onChange={(value) =>
+                                        setEmployment(value === employment() ? "all" : value)
+                                    }
+                                    options={[
+                                        ...Object.entries(employments).map(([value, label]) => ({
+                                            value,
+                                            label,
+                                        })),
+                                    ]}
+                                />
+                            </div>
                         </div>
                         {/* render the visible page of matching jobs */}
                         <For each={matches().slice(0, count())}>
