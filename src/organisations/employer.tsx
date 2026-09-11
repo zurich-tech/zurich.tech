@@ -1,4 +1,6 @@
-import { Show } from "solid-js";
+import { useAccount } from "../auth";
+import { sponsorshipInquiry } from "../sponsorships/inquiries";
+import { Show, createSignal } from "solid-js";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
 import { tiers, jobPrice, jobDurationMonths } from "../sponsorships/plans";
@@ -6,7 +8,7 @@ import { timeZone } from "../app/site";
 import { memberClient } from "../auth/convex";
 import type { Perform } from "../app/workspace";
 import { Card } from "../components/card";
-import { CheckoutButton } from "../billing/payments";
+import { InvoiceButton } from "../billing/payments";
 import { Markdown } from "../components/markdown";
 
 /** Owned companies, vacancies and sponsorship agreements. */
@@ -25,13 +27,24 @@ export function JobCard(props: {
     /** Run a command and refresh its visible result. */
     perform: Perform;
 }) {
+    const status = () =>
+        ({
+            draft: "Draft",
+            review: "In review",
+            published: "Published",
+            closed: "Closed",
+            expired: "Expired",
+            unconfirmed: "Needs confirmation",
+        })[props.job.displayStatus];
+    const hasFunding = () => !!props.job.expiresAt && props.job.expiresAt > Date.now();
+
     return (
         <Card
             title={props.job.title}
             meta={
                 props.job.draft
-                    ? `${props.job.status} · ${props.job.draftStatus} revision`
-                    : props.job.status
+                    ? `${status()} · ${props.job.draftStatus === "review" ? "Changes in review" : "Draft changes"}`
+                    : status()
             }
         >
             <p>
@@ -46,30 +59,27 @@ export function JobCard(props: {
                     {props.job.confirmedAt ? date(props.job.confirmedAt) : "Not published"}
                 </p>
             </Show>
-            <Show
-                when={
-                    props.job.status === "published" &&
-                    props.job.confirmedAt! + 90 * 86400000 <= Date.now()
-                }
-            >
+            <Show when={props.job.displayStatus === "unconfirmed"}>
                 <p class="form-error">Hidden until you confirm this role is still open.</p>
             </Show>
             <div class="row-actions">
-                <Show when={props.job.status !== "draft"}>
-                    <CheckoutButton
-                        purchase={{ kind: "job", id: props.job._id }}
-                        label={
-                            props.job.expiresAt && props.job.expiresAt > Date.now()
-                                ? "Renew listing"
-                                : "Pay for listing"
-                        }
+                <Show
+                    when={
+                        props.job.status !== "draft" &&
+                        props.job.status !== "closed" &&
+                        !hasFunding()
+                    }
+                >
+                    <InvoiceButton
+                        name={`Job listing: ${props.job.title}`}
+                        reference={props.job._id}
                     />
                 </Show>
                 <a href={`/jobs/submit?edit=${props.job._id}`}>Edit</a>
                 <Show when={props.job.publishedAt}>
                     <a href={`/jobs/${props.job.slug}`}>View</a>
                 </Show>
-                <Show when={props.job.status === "published"}>
+                <Show when={props.job.status === "published" && hasFunding()}>
                     <button
                         disabled={props.isPending}
                         onClick={() =>
@@ -163,6 +173,8 @@ export function SponsorshipCard(props: {
         );
     }
 
+    const account = useAccount();
+
     return (
         <article class="sponsorship-record">
             <header class="sponsorship-heading">
@@ -173,7 +185,10 @@ export function SponsorshipCard(props: {
                 <span class="sponsorship-status">
                     {
                         {
-                            active: "Active",
+                            active:
+                                props.sponsor.endsAt && props.sponsor.endsAt > Date.now()
+                                    ? "Active"
+                                    : "Expired",
                             requested: "Requested",
                             declined: "Declined",
                             ended: "Ended",
@@ -213,17 +228,17 @@ export function SponsorshipCard(props: {
                 <p class="text-soft">{props.sponsor.billingEmail}</p>
             </Show>
             <Show when={props.sponsor.status === "requested"}>
-                <p>Awaiting payment.</p>
+                <p>Payment by invoice.</p>
             </Show>
             <Show when={props.sponsor.status === "active" && !props.sponsor.inKind}>
                 <p>
                     {props.sponsor.endsAt! <= Date.now()
-                        ? "This term has expired. Request renewal below."
-                        : "No automatic renewal. The team can extend your term after confirming the next invoice."}
+                        ? "Expired. Request renewal below."
+                        : "Renewal by invoice."}
                 </p>
             </Show>
             <Show when={props.sponsor.isRenewalRequested}>
-                <p>Renewal requested. Awaiting invoice payment.</p>
+                <p>Renewal requested.</p>
             </Show>
             <Show
                 when={
@@ -279,18 +294,26 @@ export function SponsorshipCard(props: {
                     (props.sponsor.status === "requested" || props.sponsor.status === "active")
                 }
             >
-                <CheckoutButton
-                    purchase={{
-                        kind: "sponsorship",
-                        id: props.sponsor._id,
-                    }}
-                    label={
-                        props.sponsor.status === "active" ? "Renew sponsorship" : "Pay sponsorship"
-                    }
-                />
+                <a
+                    class="button button--primary"
+                    href={sponsorshipInquiry(
+                        tiers.find((tier) => tier.id === props.sponsor.tier)?.name,
+                        account.user()?.name,
+                        props.companies.find(
+                            (company) => company._id === props.sponsor.organisationId,
+                        )?.name,
+                    )}
+                >
+                    Sponsorship inquiry
+                </a>
             </Show>
             <Show when={props.isTeam}>
-                <Show when={!props.sponsor.inKind}>
+                <Show
+                    when={
+                        !props.sponsor.inKind &&
+                        (props.sponsor.status === "active" || props.sponsor.status === "requested")
+                    }
+                >
                     <form class="editor" onSubmit={activate}>
                         <label>
                             Paid invoice reference
@@ -328,6 +351,8 @@ function JobReview(props: {
     /** Apply the review and refresh the vacancy. */
     perform: Perform;
 }) {
+    const [funding, setFunding] = createSignal("invoice");
+
     /** Publish the reviewed vacancy with its funding. */
     function publish(event: SubmitEvent) {
         // read the submitted review fields
@@ -385,7 +410,11 @@ function JobReview(props: {
                 <form class="editor" onSubmit={publish}>
                     <label>
                         Funding
-                        <select name="funding">
+                        <select
+                            name="funding"
+                            value={funding()}
+                            onChange={(event) => setFunding(event.currentTarget.value)}
+                        >
                             <option value="invoice">
                                 Paid invoice · CHF {jobPrice} / {jobDurationMonths} months
                             </option>
@@ -395,10 +424,12 @@ function JobReview(props: {
                             </Show>
                         </select>
                     </label>
-                    <label>
-                        Paid invoice reference
-                        <input name="invoiceReference" placeholder="Required for a paid listing" />
-                    </label>
+                    <Show when={funding() === "invoice"}>
+                        <label>
+                            Paid invoice reference
+                            <input name="invoiceReference" required />
+                        </label>
+                    </Show>
                     <button class="button button--primary" disabled={props.isPending}>
                         Approve & publish
                     </button>

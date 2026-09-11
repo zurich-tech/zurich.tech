@@ -1,3 +1,4 @@
+import { jobExpiry, jobStatus } from "../jobs/jobs";
 import { v } from "convex/values";
 import { internalMutation, query, type MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
@@ -197,8 +198,14 @@ export const status = query({
 
         const sponsorship =
             row.purchase.kind === "sponsorship" ? await ctx.db.get(row.purchase.id) : null;
+        const job = row.purchase.kind === "job" ? await ctx.db.get(row.purchase.id) : null;
+        const publication = job ? jobStatus(job, await jobExpiry(ctx, job)) : undefined;
         return {
-            status: row.status,
+            status:
+                row.status === "pending" && row.expiresAt <= Date.now()
+                    ? ("expired" as const)
+                    : row.status,
+            publication,
             purchase: row.purchase,
             isPatron: sponsorship?.tier === "patron",
             invoiceUrl: row.invoiceUrl,

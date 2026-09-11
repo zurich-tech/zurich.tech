@@ -1,55 +1,30 @@
-import { createResource, createSignal, For, Show } from "solid-js";
-import type { FunctionArgs } from "convex/server";
+import { createResource, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
-import { useAccount } from "../auth/index";
+import { site } from "../app/site";
 import { errorMessage } from "../components/errors";
 
-/** Open Stripe for an owned purchase, preserving the destination across sign-in. */
-export function CheckoutButton(props: {
-    /** Annual entitlement. */ purchase: FunctionArgs<typeof api.billing.stripe.start>["purchase"];
-    /** Button label. */ label: string;
+/** Request an invoice from the team for a saved job or sponsorship. */
+export function InvoiceButton(props: {
+    /** Purchase identified in the invoice request. */
+    name: string;
+    /** Saved record the team should review. */
+    reference: string;
 }) {
-    const account = useAccount();
-    const [isPending, setIsPending] = createSignal(false);
-    const [error, setError] = createSignal<string>();
-
-    /** Create or resume the server-priced checkout. */
-    async function start() {
-        // require sign in while preserving the selected purchase page
-        if (!account.user()) {
-            window.location.assign(
-                `/sign-in?next=${encodeURIComponent(window.location.pathname + window.location.search)}`,
-            );
-
-            return;
-        }
-        setIsPending(true);
-        setError(undefined);
-        try {
-            const url = await (
-                await memberClient()
-            ).action(api.billing.stripe.start, { purchase: props.purchase });
-            window.location.assign(url);
-        } catch (caught) {
-            setError(errorMessage(caught, "Could not open payment."));
-            setIsPending(false);
-        }
-    }
-
+    const subject = () => encodeURIComponent(`Invoice request: ${props.name}`);
+    const body = () =>
+        encodeURIComponent(`Please invoice me for ${props.name}.\n\nReference: ${props.reference}`);
     return (
-        <div class="checkout-action">
-            <button class="button button--primary" disabled={isPending()} onClick={start}>
-                {isPending() ? "Opening payment…" : props.label}
-            </button>
-            <Show when={error()}>
-                <p class="form-error">{error()}</p>
-            </Show>
-        </div>
+        <a
+            class="button button--primary"
+            href={`mailto:${site.email}?subject=${subject()}&body=${body()}`}
+        >
+            Request invoice
+        </a>
     );
 }
 
-/** List paid annual terms and their Stripe invoices for the current account. */
+/** List payments and available invoices for the current account. */
 export function PaymentHistory() {
     const [payments] = createResource(async () =>
         (await memberClient()).query(api.billing.payments.history, {}),

@@ -3,7 +3,7 @@ import type { Doc } from "../_generated/dataModel";
 import { query } from "../_generated/server";
 import { requireAccount } from "../auth/access";
 import { sponsorshipTerm } from "../sponsorships/organisations";
-import { jobExpiry } from "../jobs/jobs";
+import { jobExpiry, jobStatus } from "../jobs/jobs";
 
 /** Read the current employer's company, job and sponsorship workspace. */
 export const employer = query({
@@ -51,7 +51,10 @@ export const employer = query({
             jobs: await Promise.all(
                 jobs
                     .sort((a, b) => b.updatedAt - a.updatedAt)
-                    .map(async (job) => ({ ...job, expiresAt: await jobExpiry(ctx, job) })),
+                    .map(async (job) => {
+                        const expiresAt = await jobExpiry(ctx, job);
+                        return { ...job, expiresAt, displayStatus: jobStatus(job, expiresAt) };
+                    }),
             ),
             sponsorships: await Promise.all(
                 sponsorships

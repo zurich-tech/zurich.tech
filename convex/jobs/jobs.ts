@@ -272,11 +272,7 @@ async function publicJob(ctx: QueryCtx, row: Doc<"jobs">) {
     // derive application eligibility from funding and freshness
     const expiresAt = await jobExpiry(ctx, row);
     const now = Date.now();
-    const isOpen =
-        row.status === "published" &&
-        expiresAt !== null &&
-        expiresAt > now &&
-        row.confirmedAt + confirmationPeriod > now;
+    const isOpen = jobStatus(row, expiresAt, now) === "published";
 
     return {
         slug: row.slug,
@@ -315,4 +311,16 @@ export async function jobExpiry(
     const term = await paidTerm(ctx, job._id, jobDurationMonths);
 
     return term?.endsAt ?? null;
+}
+
+/** Derive visible job status from editorial state, payment and freshness. */
+export function jobStatus(
+    job: Pick<Doc<"jobs">, "status" | "confirmedAt">,
+    expiresAt: number | null,
+    now = Date.now(),
+) {
+    if (job.status !== "published") return job.status;
+    if (!expiresAt || expiresAt <= now) return "expired";
+    if (!job.confirmedAt || job.confirmedAt + confirmationPeriod <= now) return "unconfirmed";
+    return "published";
 }

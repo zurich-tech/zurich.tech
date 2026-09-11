@@ -33,7 +33,10 @@ export default function Route() {
             <Page width="narrow">
                 <Card title="Payment" heading="h1">
                     <Switch fallback={<p>Open your payment confirmation to view its status.</p>}>
-                        <Match when={payment.error}>
+                        <Match when={account.isPending() || payment.loading}>
+                            <p role="status">Loading…</p>
+                        </Match>
+                        <Match when={account.user() && payment.error}>
                             <p class="form-error">
                                 {errorMessage(payment.error, "Could not load payment.")}
                             </p>
@@ -49,7 +52,7 @@ export default function Route() {
                                 Sign in to view payment
                             </a>
                         </Match>
-                        <Match when={payment()}>
+                        <Match when={account.user() && payment()}>
                             {(current) => (
                                 <>
                                     <p>
@@ -67,7 +70,18 @@ export default function Route() {
                                             current().purchase.kind === "job"
                                         }
                                     >
-                                        <p>Your listing will appear once the team approves it.</p>
+                                        <p>
+                                            {current().publication &&
+                                                {
+                                                    published: "Listing published.",
+                                                    closed: "Listing closed.",
+                                                    expired: "Listing expired.",
+                                                    unconfirmed:
+                                                        "Confirm that you’re still hiring.",
+                                                    draft: "Listing not submitted.",
+                                                    review: "Listing in review.",
+                                                }[current().publication!]}
+                                        </p>
                                     </Show>
                                     <div class="row-actions">
                                         <Show when={current().invoiceUrl}>
@@ -82,11 +96,13 @@ export default function Route() {
                                         </Show>
                                         <a
                                             class="button"
-                                            href={current().isPatron ? "/settings" : "/manage"}
+                                            href={
+                                                current().isPatron
+                                                    ? "/settings"
+                                                    : `/manage?section=${current().purchase.kind === "job" ? "jobs" : "sponsors"}`
+                                            }
                                         >
-                                            {current().isPatron
-                                                ? "Patron settings"
-                                                : "Your workspace"}
+                                            {current().isPatron ? "Patron settings" : "Manage"}
                                         </a>
                                     </div>
                                 </>

@@ -65,7 +65,7 @@ export default function Route() {
                     .filter(Boolean),
                 applicationUrl: text("applicationUrl"),
             });
-            window.location.assign("/manage#jobs");
+            window.location.assign("/manage?section=jobs");
         } catch (caught) {
             setError(errorMessage(caught, "Could not save job."));
             setIsPending(false);
@@ -75,11 +75,26 @@ export default function Route() {
     return (
         <>
             <Seo
-                title={params.edit ? "Edit job" : "Post a job"}
+                title={
+                    params.edit
+                        ? draft()?.title
+                            ? `Edit ${draft()!.title}`
+                            : "Edit job"
+                        : "Post a job"
+                }
                 description="Publish a tech vacancy in Zürich."
             />
             <Page width="narrow">
-                <Card title={params.edit ? "Edit job" : "Post a job"} heading="h1">
+                <Card
+                    title={
+                        params.edit
+                            ? draft()?.title
+                                ? `Edit ${draft()!.title}`
+                                : "Edit job"
+                            : "Post a job"
+                    }
+                    heading="h1"
+                >
                     <Show
                         when={account.user()}
                         fallback={
@@ -106,7 +121,10 @@ export default function Route() {
                                         when={current().organisations.length > 0}
                                         fallback={
                                             <p>
-                                                <a class="text-link" href="/manage#companies">
+                                                <a
+                                                    class="text-link"
+                                                    href="/manage?section=organisations"
+                                                >
                                                     Add your company
                                                 </a>{" "}
                                                 before posting a job.

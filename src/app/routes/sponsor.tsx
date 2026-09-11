@@ -1,22 +1,15 @@
+import { useAccount } from "../../auth";
+import { sponsorshipInquiry } from "../../sponsorships/inquiries";
 import { site } from "../site";
-import { For, Show, createSignal } from "solid-js";
-import { useSearchParams } from "@solidjs/router";
-import { api } from "../../../convex/_generated/api";
-import type { Id } from "../../../convex/_generated/dataModel";
-import { CheckoutButton } from "../../billing/payments";
+import { For, Show } from "solid-js";
 import { Sponsors } from "../../sponsorships/sponsors";
 import { Patrons } from "../../sponsorships/patrons";
 
 import { Arrow } from "../../components/arrow";
 import { tiers, patron } from "../../sponsorships/plans";
-import { useEmployerWorkspace } from "../workspace";
-import { CompanySelect } from "../../organisations/company";
-import { memberClient } from "../../auth/convex";
 import { Page } from "../page";
 import { Card } from "../../components/card";
 import { Seo } from "../seo";
-import { FormMessage } from "../../components/form";
-import { errorMessage } from "../../components/errors";
 
 /** Stated reach shown with the sponsorship options. */
 const reach = [
@@ -25,41 +18,13 @@ const reach = [
     `>${site.eventsPerYear} events/year.`,
 ];
 
-/** Present annual support and open hosted checkout for company sponsorship. */
+/** Present annual support and open sponsorship inquiries. */
 export default function Route() {
-    const { account, workspace } = useEmployerWorkspace();
-    const [params] = useSearchParams();
-    const [error, setError] = createSignal<string>();
-    const [isPending, setIsPending] = createSignal(false);
-
-    /** Save the sponsorship request and continue to hosted checkout. */
-    async function submit(event: SubmitEvent) {
-        // read the company and chosen sponsorship tier
-        event.preventDefault();
-        const fields = new FormData(event.currentTarget as HTMLFormElement);
-        setIsPending(true);
-        setError(undefined);
-        try {
-            const client = await memberClient();
-            const id = await client.mutation(api.sponsorships.organisations.request, {
-                organisationId: String(fields.get("organisationId")) as Id<"organisations">,
-                tier: String(fields.get("tier")) as "partner" | "champion" | "friend",
-                billingEmail: String(fields.get("billingEmail")),
-            });
-            const url = await client.action(api.billing.stripe.start, {
-                purchase: { kind: "sponsorship", id },
-            });
-            window.location.assign(url);
-        } catch (caught) {
-            setError(errorMessage(caught, "Could not request sponsorship."));
-        } finally {
-            setIsPending(false);
-        }
-    }
+    const account = useAccount();
 
     return (
         <>
-            <Seo title="Sponsor zurich.tech" description={reach.join(" ")} />
+            <Seo title="Sponsor" description={reach.join(" ")} />
             <Page>
                 <Card title="Support zurich.tech" heading="h1">
                     <ul class="plan-benefits">
@@ -88,7 +53,10 @@ export default function Route() {
                                     purpose={tier.purpose}
                                     contribution={tier.contribution}
                                 />
-                                <a class="button button--primary" href={`?tier=${tier.id}#request`}>
+                                <a
+                                    class="button button--primary"
+                                    href={sponsorshipInquiry(tier.name, account.user()?.name)}
+                                >
                                     Become a {tier.name.toLowerCase()}
                                 </a>
                                 <ul class="plan-benefits">
@@ -144,7 +112,9 @@ export default function Route() {
                     title="Patron"
                     class="patron-plan"
                     toolbar={
-                        <CheckoutButton purchase={{ kind: "patron" }} label="Become a patron" />
+                        <button class="button button--primary" disabled>
+                            Become a patron
+                        </button>
                     }
                 >
                     <div class="patron-offer">
@@ -166,87 +136,12 @@ export default function Route() {
                 <Patrons isFullPage />
                 <div class="sponsor-details">
                     <Card title="Become a sponsor" id="request">
-                        <Show
-                            when={account.user()}
-                            fallback={
-                                <a
-                                    class="button button--primary"
-                                    href={`/sign-in?next=${encodeURIComponent(`/sponsor?tier=${params.tier ?? "champion"}#request`)}`}
-                                >
-                                    Sign in to become a sponsor
-                                </a>
-                            }
+                        <a
+                            class="button button--primary"
+                            href={sponsorshipInquiry(undefined, account.user()?.name)}
                         >
-                            <Show when={workspace.error}>
-                                <p class="form-error">
-                                    {errorMessage(
-                                        workspace.error,
-                                        "Could not load your companies.",
-                                    )}
-                                </p>
-                            </Show>
-                            <Show when={workspace()}>
-                                {(current) => (
-                                    <Show
-                                        when={current().organisations.length}
-                                        fallback={
-                                            <p>
-                                                <a class="text-link" href="/manage#companies">
-                                                    Add your company
-                                                </a>{" "}
-                                                to request sponsorship.
-                                            </p>
-                                        }
-                                    >
-                                        <form class="editor" onSubmit={submit}>
-                                            <CompanySelect companies={current().organisations} />
-                                            <label>
-                                                Level
-                                                <select
-                                                    name="tier"
-                                                    value={
-                                                        tiers.some(
-                                                            (tier) => tier.id === params.tier,
-                                                        )
-                                                            ? String(params.tier)
-                                                            : "champion"
-                                                    }
-                                                >
-                                                    <For each={tiers}>
-                                                        {(tier) => (
-                                                            <option value={tier.id}>
-                                                                {tier.name} · CHF {tier.price}
-                                                                /year
-                                                            </option>
-                                                        )}
-                                                    </For>
-                                                </select>
-                                            </label>
-                                            <label>
-                                                Invoice email
-                                                <input
-                                                    name="billingEmail"
-                                                    type="email"
-                                                    required
-                                                    value={account.user()?.email ?? ""}
-                                                />
-                                            </label>
-
-                                            <button
-                                                class="button button--primary"
-                                                disabled={isPending()}
-                                            >
-                                                {isPending() ? "Sending…" : "Continue to payment"}
-                                            </button>
-                                        </form>
-                                        <FormMessage error={error()} />
-                                        <a class="text-link" href="/manage#sponsors">
-                                            Manage sponsorships
-                                        </a>
-                                    </Show>
-                                )}
-                            </Show>
-                        </Show>
+                            Sponsorship inquiry
+                        </a>
                     </Card>
                 </div>
             </Page>

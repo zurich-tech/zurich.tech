@@ -1,7 +1,6 @@
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { errorMessage } from "../components/errors";
-import { CheckoutButton } from "../billing/payments";
 import { Card } from "../components/card";
 import { getPatrons } from "./queries";
 import { createAsync } from "@solidjs/router";
@@ -91,7 +90,9 @@ export function PatronSettings() {
                     <section class="billing-membership">
                         <div class="billing-heading">
                             <strong>Patron</strong>
-                            <CheckoutButton purchase={{ kind: "patron" }} label="Renew" />
+                            <button class="button" disabled>
+                                Renew
+                            </button>
                         </div>
                         <p>{current().endsAt > Date.now() ? "Active" : "Expired"}</p>
                         <label>
