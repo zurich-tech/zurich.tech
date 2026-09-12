@@ -12,9 +12,11 @@
     color: var(--color-ink);
     padding: 0;
     min-width: 0;
+}
+button.stats-metric {
     cursor: pointer;
 }
-.stats-metric:hover {
+button.stats-metric:hover {
     background: color-mix(in srgb, var(--color-accent) 5%, var(--color-paper));
     border-color: var(--color-accent);
     color: var(--color-ink);
@@ -23,7 +25,8 @@
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
 }
-.stats-metric[aria-pressed="true"] {
+.stats-metric[aria-pressed="true"],
+.stats-metric.is-highlighted {
     border-color: var(--color-accent);
     box-shadow: inset 0 3px var(--color-accent);
 }

@@ -8,14 +8,15 @@ import { Sponsors } from "../../sponsorships/sponsors";
 import { Arrow } from "../../components/arrow";
 import { tiers, personalTiers } from "../../sponsorships/plans";
 import { Page } from "../page";
-import { Card, CardIntro } from "../../components/card";
+import { Card } from "../../components/card";
 import { Seo } from "../seo";
+import "../../statistics/style.css";
 
 /** Stated reach shown with the sponsorship options. */
 const reach = [
-    `${site.members.toLocaleString("en-GB")}+ members`,
-    `${site.attendees.toLocaleString("en-GB")}+ attendees at most events`,
-    `More than ${site.eventsPerYear} events a year`,
+    { value: `${site.members.toLocaleString("en-GB")}+`, label: "members" },
+    { value: `${site.attendees.toLocaleString("en-GB")}+`, label: "attendees at most events" },
+    { value: `${site.eventsPerYear}+`, label: "events a year" },
 ];
 
 /** Present annual support and open sponsorship inquiries. */
@@ -24,7 +25,10 @@ export default function Route() {
 
     return (
         <>
-            <Seo title="Sponsor" description={reach.join(" ")} />
+            <Seo
+                title="Sponsor"
+                description={reach.map(({ value, label }) => `${value} ${label}`).join(". ")}
+            />
             <Page>
                 <Card
                     toolbar={<TeamEdit href="/admin?section=sponsors" label="Manage" />}
@@ -32,10 +36,6 @@ export default function Route() {
                     heading="h1"
                     class="sponsor-intro card--sections"
                 >
-                    <CardIntro>
-                        We run zurich.tech as volunteers. Your sponsorship pays for our events and
-                        operations.
-                    </CardIntro>
                     <div class="sponsor-overview card-section">
                         <section>
                             <h2>What you get</h2>
@@ -84,7 +84,16 @@ export default function Route() {
                         </section>
                     </div>
                     <ul class="sponsor-reach card-section">
-                        <For each={reach}>{(sentence) => <li>{sentence}</li>}</For>
+                        <For each={reach}>
+                            {(item) => (
+                                <li class="stats-metric is-highlighted">
+                                    <div class="stats-value">
+                                        <strong>{item.value}</strong>
+                                    </div>
+                                    <span class="sponsor-reach-label">{item.label}</span>
+                                </li>
+                            )}
+                        </For>
                     </ul>
                 </Card>
                 <div class="sponsor-plans">

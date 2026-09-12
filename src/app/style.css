@@ -3922,7 +3922,14 @@ select.field__control:not([multiple]) {
     gap: 16px;
     list-style: none;
     margin: 0;
-    font: 600 14px/1.5 var(--font-sans);
+    font: 400 14px/1.5 var(--font-sans);
+}
+.sponsor-reach .stats-value {
+    padding: 20px 16px 8px;
+    color: var(--color-accent);
+}
+.sponsor-reach-label {
+    padding: 0 16px 16px;
 }
 @media (max-width: 700px) {
     .sponsor-overview {
@@ -3936,7 +3943,7 @@ select.field__control:not([multiple]) {
     }
     .sponsor-reach {
         grid-template-columns: 1fr;
-        gap: 8px;
+        gap: 20px;
     }
 }
 
@@ -4085,7 +4092,6 @@ select.field__control:not([multiple]) {
 }
 
 /* keep sponsorship introductions at the same size as their benefits */
-.sponsor-intro .card-intro p,
 .plan-intro {
     margin: 0;
     font: 400 14px/1.5 var(--font-sans);
