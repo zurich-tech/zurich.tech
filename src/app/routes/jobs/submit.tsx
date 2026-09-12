@@ -1,6 +1,6 @@
 import { jobPrice, jobDurationMonths } from "../../../sponsorships/plans";
 import { Show, createSignal } from "solid-js";
-import { useSearchParams } from "@solidjs/router";
+import { useNavigate, revalidate, useSearchParams } from "@solidjs/router";
 import { api } from "../../../../convex/_generated/api";
 import type { Doc, Id } from "../../../../convex/_generated/dataModel";
 import { useEmployerWorkspace } from "../../workspace";
@@ -14,6 +14,7 @@ import { errorMessage } from "../../../components/errors";
 
 /** Prepare a vacancy for team review without modifying its published revision. */
 export default function Route() {
+    const navigate = useNavigate();
     // load the owned job and prefer its unpublished revision
     const { account, workspace } = useEmployerWorkspace();
     const [params] = useSearchParams();
@@ -65,7 +66,8 @@ export default function Route() {
                     .filter(Boolean),
                 applicationUrl: text("applicationUrl"),
             });
-            window.location.assign("/manage?section=jobs");
+            await revalidate();
+            navigate("/manage?section=jobs");
         } catch (caught) {
             setError(errorMessage(caught, "Could not save job."));
             setIsPending(false);

@@ -1,5 +1,5 @@
 import { createEffect, createResource, Show } from "solid-js";
-import { useSearchParams } from "@solidjs/router";
+import { useNavigate, useSearchParams } from "@solidjs/router";
 import { api } from "../../../convex/_generated/api";
 import { useAccount } from "../../auth";
 import { memberClient } from "../../auth/convex";
@@ -9,6 +9,7 @@ import { Seo } from "../seo";
 
 /** Offer an optional community profile after the first sign-in. */
 export default function Route() {
+    const navigate = useNavigate();
     const account = useAccount();
     const [params] = useSearchParams();
     const [current] = createResource(
@@ -20,10 +21,11 @@ export default function Route() {
             typeof params.next === "string" ? params.next : "/settings",
             window.location.origin,
         );
-        window.location.assign(
+        navigate(
             target.origin === window.location.origin && target.pathname !== "/welcome"
                 ? target.pathname + target.search + target.hash
                 : "/settings",
+            { replace: true },
         );
     }
     createEffect(() => {

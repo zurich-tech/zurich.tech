@@ -1,3 +1,4 @@
+import { useNavigate } from "@solidjs/router";
 import { Card } from "../../../components/card";
 import { Match, Show, Switch, createSignal } from "solid-js";
 
@@ -13,6 +14,7 @@ import { errorMessage } from "../../../components/errors";
 
 /** Settings page. */
 export default function Route() {
+    const navigate = useNavigate();
     const account = useAccount();
     const [error, setError] = createSignal<string>();
     const [isPending, setIsPending] = createSignal(false);
@@ -26,7 +28,7 @@ export default function Route() {
         try {
             const result = await auth.signOut();
             if (result.error === null) {
-                window.location.assign("/");
+                navigate("/", { replace: true });
 
                 return;
             }

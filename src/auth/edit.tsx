@@ -1,3 +1,4 @@
+import { useNavigate } from "@solidjs/router";
 import { createResource, createSignal, Show } from "solid-js";
 import { useAccount } from "./index";
 import { memberClient } from "./convex";
@@ -9,6 +10,7 @@ import { errorMessage } from "../components/errors";
 export function TeamEdit(
     props: { eventId: Id<"events">; href?: never } | { href: string; eventId?: never },
 ) {
+    const navigate = useNavigate();
     const account = useAccount();
     const [access] = createResource(
         () => account.user()?.id,
@@ -25,7 +27,7 @@ export function TeamEdit(
             const id = await (
                 await memberClient()
             ).mutation(api.events.mutations.edit, { eventId: props.eventId });
-            window.location.assign(`/submit?edit=${id}`);
+            navigate(`/submit?edit=${id}`);
         } catch (caught) {
             setError(errorMessage(caught, "Could not open the editor."));
             setIsPending(false);

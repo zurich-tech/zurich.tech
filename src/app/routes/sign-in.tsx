@@ -1,5 +1,5 @@
 import { createSignal, For, Show } from "solid-js";
-import { createAsync, useSearchParams } from "@solidjs/router";
+import { useNavigate, createAsync, useSearchParams } from "@solidjs/router";
 import { getSignInProviders } from "../../auth/queries";
 import { auth, useAccount } from "../../auth/index";
 import { Page } from "../page";
@@ -10,6 +10,7 @@ import { errorMessage } from "../../components/errors";
 
 /** Sign in with a social account or a one-time email code. */
 export default function Route() {
+    const navigate = useNavigate();
     const account = useAccount();
     const [params] = useSearchParams();
     const providers = createAsync(() => getSignInProviders(), { deferStream: true });
@@ -54,7 +55,7 @@ export default function Route() {
                             "Could not verify the code. Please try again.",
                     );
                 }
-                window.location.assign(`/welcome?next=${encodeURIComponent(destination())}`);
+                navigate(`/welcome?next=${encodeURIComponent(destination())}`, { replace: true });
             } else {
                 const result = await auth.emailOtp.sendVerificationOtp({
                     email: email().trim(),
