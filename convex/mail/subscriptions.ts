@@ -1,3 +1,4 @@
+import { subscriptionHistory } from "./history";
 import { v } from "convex/values";
 import { action, mutation, query } from "../_generated/server";
 import { internal } from "../_generated/api";
@@ -29,8 +30,19 @@ export const unsubscribe = mutation({
             .withIndex("by_token", (range) => range.eq("token", args.token))
             .unique();
         if (!row) throw new Error("Subscription not found.");
-        if (row.status !== "suppressed")
-            await ctx.db.patch(row._id, { status: "unsubscribed", updatedAt: Date.now() });
+        if (row.status !== "suppressed") {
+            const now = Date.now();
+            await ctx.db.patch(row._id, {
+                status: "unsubscribed",
+                history: subscriptionHistory(
+                    row,
+                    { ...row, status: "unsubscribed" },
+                    now,
+                    "unsubscribe",
+                ),
+                updatedAt: now,
+            });
+        }
     },
 });
 

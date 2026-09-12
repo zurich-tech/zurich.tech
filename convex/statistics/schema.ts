@@ -7,6 +7,7 @@ export const statistics = defineTable({
     members: v.optional(v.number()),
     subscribers: v.optional(v.number()),
     events: v.optional(v.number()),
+    registrations: v.optional(v.number()),
     sponsors: v.optional(v.number()),
     organisations: v.optional(v.number()),
 }).index("by_date", ["date"]);

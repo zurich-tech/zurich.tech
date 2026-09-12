@@ -1,6 +1,6 @@
 .stats-metrics {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-4);
 }
 .stats-metric {
@@ -94,9 +94,7 @@
 }
 .stats-dates {
     position: relative;
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-3);
+    min-height: 20px;
 }
 .stats-tooltip {
     position: absolute;
@@ -120,15 +118,10 @@
     padding: var(--space-6);
     color: var(--color-soft);
 }
-@media (max-width: 760px) {
-    .stats-metrics {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
 @media (max-width: 480px) {
     .stats-metrics {
         gap: var(--space-2);
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
     .stats-metric {
         padding: var(--space-3);
@@ -142,21 +135,4 @@
 .stats-year {
     position: absolute;
     transform: translateX(-50%);
-}
-.stats-observation {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-3);
-}
-.stats-observation strong {
-    font: 600 24px/1.5 var(--font-sans);
-}
-.stats-observation span {
-    font: 400 14px/1.5 var(--font-sans);
-    color: var(--color-soft);
-}
-@media (max-width: 600px) {
-    .stats-year {
-        display: none;
-    }
 }

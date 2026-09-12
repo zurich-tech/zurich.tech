@@ -9,10 +9,8 @@ import "../../statistics/style.css";
 
 const metrics = [
     { field: "events", label: "Events" },
-    { field: "members", label: "Members" },
     { field: "subscribers", label: "Subscribers" },
-    { field: "sponsors", label: "Sponsors" },
-    { field: "organisations", label: "Organisations" },
+    { field: "registrations", label: "Registrations" },
 ] as const;
 
 /** Explore community totals and growth. */
@@ -51,7 +49,7 @@ export default function Route() {
                                                                 "is-positive": growth().value > 0,
                                                                 "is-negative": growth().value < 0,
                                                             }}
-                                                            title={`Change since ${growth().since}`}
+                                                            title={`${growth().isEstimated ? "Estimated change" : "Change"} since ${growth().since}`}
                                                         >
                                                             {growth().value > 0 ? "+" : ""}
                                                             {growth().value.toLocaleString()}
@@ -68,20 +66,7 @@ export default function Route() {
                                     {(metric) => (
                                         <HistoryChart
                                             label={metric.label}
-                                            values={
-                                                metric.field === "events"
-                                                    ? current().events
-                                                    : current().history.flatMap((point) =>
-                                                          point[metric.field] === undefined
-                                                              ? []
-                                                              : [
-                                                                    {
-                                                                        date: point.date,
-                                                                        value: point[metric.field]!,
-                                                                    },
-                                                                ],
-                                                      )
-                                            }
+                                            values={current().history[metric.field]}
                                         />
                                     )}
                                 </Show>

@@ -21,10 +21,12 @@ import type * as billing_payments from "../billing/payments.js";
 import type * as billing_purchases from "../billing/purchases.js";
 import type * as billing_stripe from "../billing/stripe.js";
 import type * as crons from "../crons.js";
+import type * as events_actions from "../events/actions.js";
 import type * as events_fields from "../events/fields.js";
 import type * as events_gallery from "../events/gallery.js";
 import type * as events_mutations from "../events/mutations.js";
 import type * as events_photos from "../events/photos.js";
+import type * as events_place from "../events/place.js";
 import type * as events_queries from "../events/queries.js";
 import type * as events_registrations from "../events/registrations.js";
 import type * as events_series from "../events/series.js";
@@ -35,6 +37,7 @@ import type * as jobs_jobs from "../jobs/jobs.js";
 import type * as mail_deliveries from "../mail/deliveries.js";
 import type * as mail_digests from "../mail/digests.js";
 import type * as mail_events from "../mail/events.js";
+import type * as mail_history from "../mail/history.js";
 import type * as mail_layout from "../mail/layout.js";
 import type * as mail_limits from "../mail/limits.js";
 import type * as mail_preferences from "../mail/preferences.js";
@@ -60,6 +63,7 @@ import type * as places_map from "../places/map.js";
 import type * as search_search from "../search/search.js";
 import type * as sponsorships_members from "../sponsorships/members.js";
 import type * as sponsorships_organisations from "../sponsorships/organisations.js";
+import type * as statistics_history from "../statistics/history.js";
 import type * as statistics_queries from "../statistics/queries.js";
 
 import type {
@@ -82,10 +86,12 @@ declare const fullApi: ApiFromModules<{
   "billing/purchases": typeof billing_purchases;
   "billing/stripe": typeof billing_stripe;
   crons: typeof crons;
+  "events/actions": typeof events_actions;
   "events/fields": typeof events_fields;
   "events/gallery": typeof events_gallery;
   "events/mutations": typeof events_mutations;
   "events/photos": typeof events_photos;
+  "events/place": typeof events_place;
   "events/queries": typeof events_queries;
   "events/registrations": typeof events_registrations;
   "events/series": typeof events_series;
@@ -96,6 +102,7 @@ declare const fullApi: ApiFromModules<{
   "mail/deliveries": typeof mail_deliveries;
   "mail/digests": typeof mail_digests;
   "mail/events": typeof mail_events;
+  "mail/history": typeof mail_history;
   "mail/layout": typeof mail_layout;
   "mail/limits": typeof mail_limits;
   "mail/preferences": typeof mail_preferences;
@@ -121,6 +128,7 @@ declare const fullApi: ApiFromModules<{
   "search/search": typeof search_search;
   "sponsorships/members": typeof sponsorships_members;
   "sponsorships/organisations": typeof sponsorships_organisations;
+  "statistics/history": typeof statistics_history;
   "statistics/queries": typeof statistics_queries;
 }>;
 

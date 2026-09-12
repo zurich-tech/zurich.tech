@@ -29,7 +29,7 @@ export const preview = query({
             .withIndex("by_status", (range) => range.eq("status", "failed"))
             .take(30);
 
-        // count only verified newsletter recipients
+        // count newsletter recipients who enabled the weekly digest
         const subscribers = await ctx.db
             .query("subscriptions")
             .withIndex("by_status", (range) => range.eq("status", "subscribed"))
@@ -41,9 +41,7 @@ export const preview = query({
         return {
             html: newsletterEmail(newsletterEdition(entries, sponsors)).html,
             events: entries,
-            subscribers: subscribers.filter(
-                (row) => row.verifiedAt !== undefined && row.weekly !== false,
-            ).length,
+            subscribers: subscribers.filter((row) => row.weekly !== false).length,
             failures: deliveries.map((row) => ({
                 id: row._id,
                 to: row.to,
@@ -135,11 +133,7 @@ export const queue = internalMutation({
             .withIndex("by_status", (range) => range.eq("status", "subscribed"))
             .paginate({ numItems: 100, cursor: args.cursor });
         for (const [position, subscriber] of page.page.entries()) {
-            if (
-                subscriber.verifiedAt !== undefined &&
-                subscriber.token &&
-                subscriber.weekly !== false
-            ) {
+            if (subscriber.token && subscriber.weekly !== false) {
                 const message = newsletterEmail(
                     args,
                     `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscriber.token)}`,

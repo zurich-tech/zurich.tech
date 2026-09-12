@@ -1,3 +1,4 @@
+import { subscriptionHistory } from "./history";
 import { v } from "convex/values";
 import { action, internalAction, internalMutation, query } from "../_generated/server";
 import { internal } from "../_generated/api";
@@ -75,8 +76,15 @@ export const update = internalMutation({
             verifiedAt: existing?.verifiedAt ?? now,
             updatedAt: now,
         };
-        if (existing) await ctx.db.patch(existing._id, values);
-        else await ctx.db.insert("subscriptions", { ...values, source: "account", createdAt: now });
+        const history = subscriptionHistory(existing, values, now, "settings");
+        if (existing) await ctx.db.patch(existing._id, { ...values, history });
+        else
+            await ctx.db.insert("subscriptions", {
+                ...values,
+                history,
+                source: "account",
+                createdAt: now,
+            });
     },
 });
 
@@ -104,6 +112,12 @@ export const subscribe = internalMutation({
         await ctx.db.insert("subscriptions", {
             ...args,
             status: "subscribed",
+            history: subscriptionHistory(
+                null,
+                { status: "subscribed", weekly: true },
+                now,
+                "account",
+            ),
             weekly: true,
             announcements: true,
             reminders: true,

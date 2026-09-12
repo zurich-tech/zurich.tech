@@ -1,3 +1,4 @@
+import { subscriptionHistory } from "./history";
 import { verificationEmail } from "./templates";
 import { register, requireOpenEvent, registrations } from "../events/registrations";
 import { siteOrigin } from "../auth/environment";
@@ -122,10 +123,12 @@ export const confirm = mutation({
                 verifiedAt: now,
                 updatedAt: now,
             };
-            if (subscription) await ctx.db.patch(subscription._id, values);
+            const history = subscriptionHistory(subscription, values, now, "confirmation");
+            if (subscription) await ctx.db.patch(subscription._id, { ...values, history });
             else
                 await ctx.db.insert("subscriptions", {
                     ...values,
+                    history,
                     createdAt: now,
                     source: "website",
                 });

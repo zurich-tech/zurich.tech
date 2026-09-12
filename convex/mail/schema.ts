@@ -47,8 +47,23 @@ export const limits = defineTable({
     .index("by_key", ["key"])
     .index("by_expiry", ["expiresAt"]);
 
-/** Verified newsletter recipients and unsubscribe preferences. */
+/** Newsletter recipients and unsubscribe preferences. */
 export const subscriptions = defineTable({
+    history: v.optional(
+        v.array(
+            v.object({
+                at: v.number(),
+                status: v.union(
+                    v.literal("subscribed"),
+                    v.literal("unsubscribed"),
+                    v.literal("suppressed"),
+                ),
+                weekly: v.boolean(),
+                source: v.string(),
+                isEstimated: v.optional(v.boolean()),
+            }),
+        ),
+    ),
     memberId: v.optional(v.id("members")),
     email: v.string(),
     status: v.union(v.literal("subscribed"), v.literal("unsubscribed"), v.literal("suppressed")),
