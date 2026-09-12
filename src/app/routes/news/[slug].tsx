@@ -14,12 +14,18 @@ import { Seo } from "../../seo";
 
 import { routeParam } from "../../params";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: ({ params }: { params: Record<string, string> }) =>
+        Promise.all([getArticle(params.slug), getArticles()]),
+};
+
 /** Read an authored news article in the shared card layout. */
 export default function Route() {
     const articles = createAsync(() => getArticles());
     const params = useParams();
-    const slug = routeParam("slug", params.slug);
-    const article = createAsync(() => getArticle(slug), { deferStream: true });
+    const slug = () => routeParam("slug", params.slug);
+    const article = createAsync(() => getArticle(slug()), { deferStream: true });
 
     return (
         <Show when={article()} fallback={article() === null ? <NotFound /> : undefined}>

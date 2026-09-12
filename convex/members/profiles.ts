@@ -2,6 +2,7 @@ import { demographics } from "./demographics";
 import { readProfiles, writeProfiles } from "./links";
 import { v } from "convex/values";
 import { query, mutation } from "../_generated/server";
+import { authComponent } from "../auth/component";
 import { requireAccount } from "../auth/access";
 import { searchText } from "./search";
 import { normalizeImageUrl, socialLinks } from "./urls";
@@ -15,6 +16,7 @@ export const current = query({
         if (!member) throw new Error("Member not found.");
 
         return {
+            email: (await authComponent.getAuthUser(ctx)).email,
             demographics: viewer.demographics ?? {},
             visibility: member.visibility,
             handle: (

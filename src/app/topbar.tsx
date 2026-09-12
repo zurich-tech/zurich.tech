@@ -12,10 +12,20 @@ import logo from "../components/assets/logo.svg?raw";
 export function Topbar() {
     const account = useAccount();
     const location = useLocation();
-    const [profile] = createResource(
+    const [profile, { refetch }] = createResource(
         () => (account.user() ? `${account.user()!.id}:${location.pathname}` : undefined),
-        async () => (await memberClient()).query(api.auth.queries.current, {}),
+        async () => ({
+            accountId: account.user()!.id,
+            ...(await (await memberClient()).query(api.auth.queries.current, {})),
+        }),
+        { initialValue: null },
     );
+
+    // reuse the last profile only while it belongs to the signed-in account
+    const currentProfile = () =>
+        !profile.error && profile.latest?.accountId === account.user()?.id
+            ? profile.latest
+            : undefined;
 
     return (
         <header class="site-topbar">
@@ -41,12 +51,32 @@ export function Topbar() {
                         <Show
                             when={account.user()}
                             fallback={
-                                <A class="header-account" href="/sign-in">
-                                    Sign in
-                                </A>
+                                <Show
+                                    when={!account.isPending()}
+                                    fallback={
+                                        <span
+                                            class="header-pending"
+                                            role="status"
+                                            aria-label="Loading account"
+                                        />
+                                    }
+                                >
+                                    <A class="header-account" href="/sign-in">
+                                        Sign in
+                                    </A>
+                                </Show>
                             }
                         >
-                            <Show when={profile()?.isTeam}>
+                            <Show when={profile.error}>
+                                <button
+                                    class="header-account"
+                                    title="Could not load account controls"
+                                    onClick={() => void refetch()}
+                                >
+                                    Retry account
+                                </button>
+                            </Show>
+                            <Show when={currentProfile()?.isTeam}>
                                 <A class="header-account" href="/admin">
                                     Admin
                                 </A>
@@ -58,9 +88,9 @@ export function Topbar() {
                                 title={account.user()?.name}
                             >
                                 <Avatar
-                                    name={profile()?.name ?? account.user()!.name}
-                                    image={profile()?.avatarUrl ?? account.user()?.image}
-                                    imageDark={profile()?.avatarDarkUrl}
+                                    name={currentProfile()?.name ?? account.user()!.name}
+                                    image={currentProfile()?.avatarUrl ?? account.user()?.image}
+                                    imageDark={currentProfile()?.avatarDarkUrl}
                                 />
                             </A>
                         </Show>

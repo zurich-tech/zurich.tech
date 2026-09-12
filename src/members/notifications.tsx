@@ -1,4 +1,4 @@
-import { createResource, createSignal, Show } from "solid-js";
+import { startTransition, createResource, createSignal, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
@@ -29,7 +29,7 @@ export function Notifications() {
                 announcements: fields.has("announcements"),
                 reminders: fields.has("reminders"),
             });
-            await refetch();
+            await startTransition(refetch);
             setSuccess("Email preferences saved.");
         } catch (caught) {
             setError(errorMessage(caught, "Could not save email preferences."));

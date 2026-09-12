@@ -1,5 +1,5 @@
 import { DemographicFields, readDemographics } from "./demographics";
-import { createResource, createSignal, Show, For, onCleanup } from "solid-js";
+import { startTransition, createResource, createSignal, Show, For, onCleanup } from "solid-js";
 import { auth } from "../auth";
 import { Avatar } from "../components/avatar";
 import { api } from "../../convex/_generated/api";
@@ -10,7 +10,7 @@ import { FormMessage } from "../components/form";
 import { ProfileLinkFields } from "../components/social";
 
 /** Edit the member profile independently of purchasing a tier. */
-export function ProfileSettings(props: { email: string }) {
+export function ProfileSettings() {
     const [profile, { refetch }] = createResource(async () =>
         (await memberClient()).query(api.members.profiles.current, {}),
     );
@@ -32,8 +32,29 @@ export function ProfileSettings(props: { email: string }) {
     const [candidate, setCandidate] = createSignal<string>();
     let slugTimer: ReturnType<typeof setTimeout> | undefined;
     onCleanup(() => clearTimeout(slugTimer));
-    const [availability] = createResource(candidate, async (handle) =>
-        (await memberClient()).query(api.members.profiles.available, { handle }),
+    // keep availability feedback local to the slug field
+    const [availability] = createResource(
+        candidate,
+        async (handle) => {
+            if (!/^[a-z][a-z0-9-]{2,39}$/.test(handle)) {
+                return {
+                    isAvailable: false,
+                    error: "Use 3–40 letters, numbers or hyphens, starting with a letter.",
+                };
+            }
+            try {
+                const result = await (
+                    await memberClient()
+                ).query(api.members.profiles.available, { handle });
+                return { ...result, error: "" };
+            } catch (caught) {
+                return {
+                    isAvailable: false,
+                    error: errorMessage(caught, "Could not check availability."),
+                };
+            }
+        },
+        { initialValue: { isAvailable: true, error: "" } },
     );
     function checkSlug(value: string) {
         setSlug(value.trim().toLowerCase());
@@ -83,7 +104,7 @@ export function ProfileSettings(props: { email: string }) {
             await (
                 await memberClient()
             ).action(api.members.avatars.upload, { bytes: await blob.arrayBuffer() });
-            await refetch();
+            await startTransition(refetch);
             setSuccess("Photo updated.");
         } catch (caught) {
             setError(errorMessage(caught, "Could not upload your photo."));
@@ -113,7 +134,7 @@ export function ProfileSettings(props: { email: string }) {
                 profileUrl: text("profileUrl"),
                 socials: { linkedin: text("linkedin"), github: text("github"), x: text("x") },
             });
-            await refetch();
+            await startTransition(refetch);
             setSuccess("Profile saved.");
         } catch (caught) {
             setError(errorMessage(caught, "Could not save profile."));
@@ -134,7 +155,7 @@ export function ProfileSettings(props: { email: string }) {
             const image = result.data?.user.image;
             if (!image) throw new Error("This provider has no profile photo.");
             await (await memberClient()).mutation(api.members.profiles.refreshPhoto, { image });
-            await refetch();
+            await startTransition(refetch);
             setSuccess("Photo refreshed.");
         } catch (caught) {
             setError(errorMessage(caught, "Could not refresh your photo."));
@@ -211,7 +232,7 @@ export function ProfileSettings(props: { email: string }) {
                             </label>
                             <label>
                                 Email
-                                <input type="email" value={props.email} readonly />
+                                <input type="email" value={current().email} readonly />
                             </label>
                         </div>
                         <hr class="profile-divider" />
@@ -238,6 +259,10 @@ export function ProfileSettings(props: { email: string }) {
                             Slug
                             <input
                                 name="handle"
+                                aria-label="Slug"
+                                autocomplete="off"
+                                autocapitalize="none"
+                                spellcheck={false}
                                 maxlength="40"
                                 placeholder="your-name"
                                 value={slug() ?? current().handle ?? ""}
@@ -250,19 +275,16 @@ export function ProfileSettings(props: { email: string }) {
                                 aria-live="polite"
                                 classList={{
                                     "form-error":
-                                        !!availability.error ||
-                                        availability()?.isAvailable === false,
+                                        !!availability.latest.error ||
+                                        availability.latest?.isAvailable === false,
                                 }}
                             >
                                 {availability.loading
                                     ? "Checking…"
-                                    : availability.error
-                                      ? errorMessage(
-                                            availability.error,
-                                            "Could not check availability.",
-                                        )
-                                      : candidate() && availability()
-                                        ? availability()!.isAvailable
+                                    : availability.latest.error
+                                      ? availability.latest.error
+                                      : candidate() && availability.latest
+                                        ? availability.latest!.isAvailable
                                             ? "Available"
                                             : "Already taken"
                                         : ""}
@@ -291,7 +313,7 @@ export function ProfileSettings(props: { email: string }) {
                                 disabled={
                                     isPending() ||
                                     availability.loading ||
-                                    (!!candidate() && availability()?.isAvailable === false)
+                                    (!!candidate() && availability.latest?.isAvailable === false)
                                 }
                             >
                                 {isPending() ? "Saving…" : "Save profile"}

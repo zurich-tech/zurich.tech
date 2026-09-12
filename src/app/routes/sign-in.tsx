@@ -8,6 +8,11 @@ import { Seo } from "../seo";
 import { FormMessage } from "../../components/form";
 import { errorMessage } from "../../components/errors";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => getSignInProviders(),
+};
+
 /** Sign in with a social account or a one-time email code. */
 export default function Route() {
     const navigate = useNavigate();

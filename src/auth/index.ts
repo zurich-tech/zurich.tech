@@ -21,7 +21,7 @@ export function useAccount() {
     onMount(() => setIsMounted(true));
     const user = () => (isMounted() ? session().data?.user : undefined);
     const error = () => (isMounted() ? session().error : undefined);
-    const isPending = () => !isMounted() || session().isPending;
+    const isPending = () => !isMounted() || (!session().data && session().isPending);
 
     return { error, isPending, user };
 }

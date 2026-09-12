@@ -6,6 +6,11 @@ import { ArticleList } from "../../../news/article";
 import { Page } from "../../page";
 import { Seo } from "../../seo";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => getArticles(),
+};
+
 /** News index. */
 export default function Route() {
     const [params] = useSearchParams();

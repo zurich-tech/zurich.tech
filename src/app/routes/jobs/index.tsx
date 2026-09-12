@@ -13,6 +13,11 @@ import { JobEntry } from "../../../jobs/job";
 import { workplaces, employments } from "../../../jobs/filters";
 import { jobPrice, jobDurationMonths } from "../../../sponsorships/plans";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => getJobs(),
+};
+
 /** Browse current, reviewed local vacancies. */
 export default function Route() {
     // load approved jobs and retain the selected filters

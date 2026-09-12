@@ -7,6 +7,11 @@ import { Seo } from "../seo";
 import { Image } from "../../components/image";
 import { SocialLinks } from "../../components/social";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => getTeam(),
+};
+
 /** Introduce the people behind zurich.tech. */
 export default function Route() {
     const team = createAsync(() => getTeam());

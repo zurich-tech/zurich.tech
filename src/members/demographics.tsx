@@ -1,5 +1,5 @@
 import { Empty } from "../components/empty";
-import { createResource, createSignal, For, Show } from "solid-js";
+import { startTransition, createResource, createSignal, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import {
     demographicOptions,
@@ -44,7 +44,7 @@ export function Demographics(props: { onComplete?: () => void }) {
                 demographics: answers,
                 isOnboarding: !!props.onComplete,
             });
-            await refetch();
+            await startTransition(refetch);
             setSuccess("Community profile saved.");
             props.onComplete?.();
         } catch (caught) {

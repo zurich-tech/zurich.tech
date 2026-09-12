@@ -1,6 +1,6 @@
 import type { FunctionReturnType } from "convex/server";
 import { errorMessage } from "../components/errors";
-import { createResource, createSignal } from "solid-js";
+import { createResource, createSignal, startTransition } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { useAccount } from "../auth/index";
 import { memberClient } from "../auth/convex";
@@ -41,7 +41,7 @@ export function useWorkspaceCommand(refresh: () => unknown) {
         // refresh the owning section only after a successful mutation
         try {
             await operation();
-            await refresh();
+            await startTransition(refresh);
             setSuccess(message);
         } catch (caught) {
             setError(errorMessage(caught, "Could not complete the action."));

@@ -13,6 +13,11 @@ const metrics = [
     { field: "registrations", label: "Registrations" },
 ] as const;
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => getStatistics(),
+};
+
 /** Explore community totals and growth. */
 export default function Route() {
     const statistics = createAsync(() => getStatistics());
@@ -53,6 +58,9 @@ export default function Route() {
                                                         >
                                                             {growth().value > 0 ? "+" : ""}
                                                             {growth().value.toLocaleString()}
+                                                            <span class="stats-period">
+                                                                Last 30 days
+                                                            </span>
                                                         </span>
                                                     )}
                                                 </Show>

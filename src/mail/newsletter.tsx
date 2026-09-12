@@ -2,7 +2,7 @@ import { Card } from "../components/card";
 import { useAccount } from "../auth";
 import { memberClient } from "../auth/convex";
 import { api } from "../../convex/_generated/api";
-import { createSignal, createResource, Show } from "solid-js";
+import { startTransition, createSignal, createResource, Show } from "solid-js";
 import { subscribe } from "../events/registration";
 import { errorMessage } from "../components/errors";
 import { FormMessage } from "../components/form";
@@ -32,7 +32,7 @@ export function Newsletter() {
                 announcements: current.announcements,
                 reminders: current.reminders,
             });
-            await refetch();
+            await startTransition(refetch);
         } catch (caught) {
             setError(errorMessage(caught, "Could not subscribe."));
         } finally {
@@ -63,7 +63,7 @@ export function Newsletter() {
     return (
         <Card title="Newsletter" class="newsletter newsletter-compact" id="newsletter">
             <Show
-                when={!account.isPending() && !preferences.loading}
+                when={!account.isPending() && preferences.state !== "pending"}
                 fallback={<p role="status">Loading…</p>}
             >
                 <Show

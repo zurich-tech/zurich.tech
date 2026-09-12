@@ -12,9 +12,13 @@ export function TeamEdit(
 ) {
     const navigate = useNavigate();
     const account = useAccount();
-    const [access] = createResource(
+    const [access, { refetch }] = createResource(
         () => account.user()?.id,
-        async () => (await memberClient()).query(api.auth.queries.current, {}),
+        async (accountId) => ({
+            accountId,
+            ...(await (await memberClient()).query(api.auth.queries.current, {})),
+        }),
+        { initialValue: null },
     );
     const [isPending, setIsPending] = createSignal(false);
     const [error, setError] = createSignal<string>();
@@ -35,26 +39,43 @@ export function TeamEdit(
     }
 
     return (
-        <Show when={access()?.isTeam}>
-            <div class="team-edit">
-                <Show
-                    when={props.href}
-                    fallback={
-                        <button class="button" disabled={isPending()} onClick={edit}>
-                            {isPending() ? "Opening…" : "Edit"}
-                        </button>
-                    }
+        <Show when={account.user()}>
+            <Show when={access.error}>
+                <button
+                    class="button"
+                    title="Could not load editing permissions"
+                    onClick={() => void refetch()}
                 >
-                    <a class="button" href={props.href}>
-                        Edit
-                    </a>
-                </Show>
-                <Show when={error()}>
-                    <p class="form-error" role="alert">
-                        {error()}
-                    </p>
-                </Show>
-            </div>
+                    Retry access
+                </button>
+            </Show>
+            <Show
+                when={
+                    !access.error &&
+                    access.latest?.accountId === account.user()?.id &&
+                    access.latest?.isTeam
+                }
+            >
+                <div class="team-edit">
+                    <Show
+                        when={props.href}
+                        fallback={
+                            <button class="button" disabled={isPending()} onClick={edit}>
+                                {isPending() ? "Opening…" : "Edit"}
+                            </button>
+                        }
+                    >
+                        <a class="button" href={props.href}>
+                            Edit
+                        </a>
+                    </Show>
+                    <Show when={error()}>
+                        <p class="form-error" role="alert">
+                            {error()}
+                        </p>
+                    </Show>
+                </div>
+            </Show>
         </Show>
     );
 }

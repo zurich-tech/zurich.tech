@@ -1,5 +1,6 @@
+import { Loading } from "./loading";
 import type { JSX } from "solid-js";
-import { Show, children } from "solid-js";
+import { Show, children, Suspense, onMount, onCleanup } from "solid-js";
 
 /** Group content under a consistent bordered heading. */
 export function Card(props: {
@@ -22,9 +23,17 @@ export function Card(props: {
 }) {
     // resolve optional controls once before placing them in the heading
     const toolbar = children(() => props.toolbar);
+    let section!: HTMLElement;
+
+    // resolve deep links after the asynchronous card has entered the document
+    onMount(() => {
+        if (!props.id || window.location.hash !== `#${props.id}`) return;
+        const frame = requestAnimationFrame(() => section.scrollIntoView({ block: "start" }));
+        onCleanup(() => cancelAnimationFrame(frame));
+    });
 
     return (
-        <section class={`card ${props.class ?? ""}`} id={props.id}>
+        <section ref={section} class={`card ${props.class ?? ""}`} id={props.id}>
             {/* align the title, controls and count within one shared heading */}
             <header class="card-heading">
                 <Show
@@ -51,7 +60,9 @@ export function Card(props: {
                 </Show>
             </header>
             {/* place content below the shared divider */}
-            <div class="card-body">{props.children}</div>
+            <div class="card-body">
+                <Suspense fallback={<Loading />}>{props.children}</Suspense>
+            </div>
         </section>
     );
 }

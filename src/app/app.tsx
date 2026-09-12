@@ -1,3 +1,4 @@
+import { Loading } from "../components/loading";
 import { MetaProvider } from "@solidjs/meta";
 import { Router, useNavigate } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
@@ -28,26 +29,29 @@ export default function App() {
                     <MetaProvider>
                         <Shell>
                             <ErrorBoundary
-                                fallback={(error, reset) => (
-                                    <Page>
-                                        <Card title="Could not load this page" heading="h1">
-                                            <p role="alert">
-                                                {error instanceof Error
-                                                    ? error.message
-                                                    : String(error)}
-                                            </p>
-                                            <button class="button" onClick={reset}>
-                                                Try again
-                                            </button>
-                                            <a href="/">Back to events</a>
-                                        </Card>
-                                    </Page>
-                                )}
+                                fallback={(error, reset) => {
+                                    console.error("Could not load page.", error);
+                                    return (
+                                        <Page>
+                                            <Card title="Could not load this page" heading="h1">
+                                                <p role="alert">Please try again.</p>
+                                                <div class="row-actions">
+                                                    <button class="button" onClick={reset}>
+                                                        Try again
+                                                    </button>
+                                                    <a class="button" href="/events">
+                                                        View events
+                                                    </a>
+                                                </div>
+                                            </Card>
+                                        </Page>
+                                    );
+                                }}
                             >
                                 <Suspense
                                     fallback={
                                         <Page>
-                                            <p role="status">Loading…</p>
+                                            <Loading />
                                         </Page>
                                     }
                                 >

@@ -13,6 +13,11 @@ import { Arrow } from "../../../components/arrow";
 import { salaryLabel } from "../../../jobs/job";
 import { workplaces, employments } from "../../../jobs/filters";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: ({ params }: { params: Record<string, string> }) => getJob(params.slug),
+};
+
 /** Read a reviewed vacancy and apply directly with the employer. */
 export default function Route() {
     const params = useParams();

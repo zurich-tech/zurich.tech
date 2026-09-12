@@ -12,14 +12,13 @@ import { Seo } from "../seo";
 export default function Route() {
     // handle segment
     const params = useParams();
-    const segment = params.handle ?? "";
+    const segment = () => params.handle ?? "";
 
-    // reject non-handle routes
-    if (!segment.startsWith("@")) {
-        return <NotFound />;
-    }
-
-    return <HandleTarget handle={segment.slice(1)} />;
+    return (
+        <Show when={segment().startsWith("@")} fallback={<NotFound />}>
+            <HandleTarget handle={segment().slice(1)} />
+        </Show>
+    );
 }
 
 /** Handle target lookup and profile shortcut. */
@@ -41,10 +40,7 @@ function HandleTarget(props: { handle: string }) {
                 <>
                     <Seo title={title()} description="zurich.tech handle lookup." />
                     <Page width="narrow">
-                        <PageHeader
-                            summary={member()?.summary ?? "handle not found."}
-                            title={title()}
-                        />
+                        <PageHeader summary={member()?.summary} title={title()} />
 
                         {/* target */}
                         <Card title="Profile">

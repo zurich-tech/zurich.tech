@@ -14,6 +14,7 @@ import { isCurrentYear } from "../../../events/time";
 import { Arrow } from "../../../components/arrow";
 import { createAsync, useParams } from "@solidjs/router";
 import {
+    startTransition,
     For,
     Match,
     Show,
@@ -36,32 +37,50 @@ import { rsvp } from "../../../events/registration";
 import { errorMessage } from "../../../components/errors";
 import { routeParam } from "../../params";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: ({ params }: { params: Record<string, string> }) => getEvent(params.slug),
+};
+
 /** Event detail page. */
 export default function Route() {
     const account = useAccount();
     // params
     const params = useParams();
-    const slug = routeParam("slug", params.slug);
+    const slug = () => routeParam("slug", params.slug);
 
     // event
-    const event = createAsync(() => getEvent(slug), { deferStream: true });
-    const title = () => event()?.title ?? slug;
+    const event = createAsync(() => getEvent(slug()), { deferStream: true });
+    const title = () => event()?.title ?? slug();
 
+    const registrationKey = () => (account.user() ? `${account.user()!.id}:${slug()}` : undefined);
     const [registration, { refetch: refreshRegistration }] = createResource(
-        () => account.user()?.id,
-        async () =>
-            (await memberClient()).query(api.events.registrations.current, { eventSlug: slug }),
+        registrationKey,
+        async (key) => {
+            const eventSlug = slug();
+            const value = await (
+                await memberClient()
+            ).query(api.events.registrations.current, { eventSlug });
+            return { key, value };
+        },
     );
+    // retain refreshes only while they belong to this account and event
+    const registrationResult = () =>
+        !registration.error && registration.state !== "pending" ? registration.latest : undefined;
+    const isCurrentRegistration = () =>
+        !!registrationKey() && registrationResult()?.key === registrationKey();
     const isRegistrationLoading = () =>
-        account.isPending() || (!!account.user() && registration.loading);
-    const currentRegistration = () => (account.user() ? registration() : undefined);
+        account.isPending() ||
+        (!!account.user() && !registration.error && !isCurrentRegistration());
+    const currentRegistration = () =>
+        isCurrentRegistration() ? registrationResult()?.value : undefined;
     const hasRegistration = () =>
         !!currentRegistration() && currentRegistration()?.status !== "cancelled";
 
     // refresh after returning from the registration management page
     onMount(() => {
         const refresh = () => {
-            if (account.user()) void refreshRegistration();
+            if (account.user()) void startTransition(refreshRegistration);
         };
         window.addEventListener("focus", refresh);
         onCleanup(() => window.removeEventListener("focus", refresh));
@@ -94,10 +113,10 @@ export default function Route() {
             const message = account.user()
                 ? await (
                       await memberClient()
-                  ).action(api.events.registrations.join, { eventSlug: slug, answers })
-                : (await rsvp({ email, eventSlug: slug, name, answers }),
+                  ).action(api.events.registrations.join, { eventSlug: slug(), answers })
+                : (await rsvp({ email, eventSlug: slug(), name, answers }),
                   "Check your inbox to confirm.");
-            if (account.user()) await refreshRegistration();
+            if (account.user()) await startTransition(refreshRegistration);
             form.reset();
             setRsvpSuccess(message);
         } catch (caught) {
@@ -299,7 +318,7 @@ export default function Route() {
                                 <Details event={event()} />
                                 <Share
                                     title={title()}
-                                    url={`${site.url}/events/${encodeURIComponent(slug)}`}
+                                    url={`${site.url}/events/${encodeURIComponent(slug())}`}
                                 />
                                 <Show
                                     when={
@@ -309,8 +328,8 @@ export default function Route() {
                                 >
                                     <a
                                         class="button"
-                                        href={`/calendar/${slug}`}
-                                        download={`${slug}.ics`}
+                                        href={`/calendar/${slug()}`}
+                                        download={`${slug()}.ics`}
                                     >
                                         Add to calendar <Arrow direction="down" />
                                     </a>

@@ -1,5 +1,5 @@
 import { Show, createEffect, onMount, type JSX } from "solid-js";
-import { useLocation } from "@solidjs/router";
+import { useLocation, useIsRouting } from "@solidjs/router";
 import { Hero } from "./hero";
 
 import { Footer } from "./footer";
@@ -8,6 +8,7 @@ import { Topbar } from "./topbar";
 /** Shell. */
 export function Shell(props: { children?: JSX.Element }) {
     const location = useLocation();
+    const isRouting = useIsRouting();
 
     // update the document-owned canonical link during client navigation
     onMount(() => {
@@ -22,6 +23,9 @@ export function Shell(props: { children?: JSX.Element }) {
         <div class="site-shell">
             {/* site */}
             <Topbar />
+            <Show when={isRouting()}>
+                <div class="navigation-progress" role="status" aria-label="Loading page" />
+            </Show>
             <main
                 class="site-main"
                 classList={{ "site-main--centered": location.pathname === "/sign-in" }}

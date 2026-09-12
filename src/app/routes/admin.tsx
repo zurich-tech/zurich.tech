@@ -1,3 +1,4 @@
+import { Loading } from "../../components/loading";
 import { createResource, Show, Switch, Match, For } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
 import { api } from "../../../convex/_generated/api";
@@ -11,7 +12,6 @@ import { EventAdmin } from "../../events/workspace";
 import { Attendees } from "../../events/attendees";
 import { SeriesAdmin } from "../../events/series";
 import { Management } from "../../organisations/management";
-import { Audience } from "../../members/demographics";
 import { Team, NewsletterAdmin } from "../../members/workspace";
 
 /** Team-only workspace tabs. */
@@ -22,7 +22,6 @@ const teamTabs = [
     { id: "series", label: "Series" },
     { id: "people", label: "Team" },
     { id: "email", label: "Email" },
-    { id: "audience", label: "Audience" },
 ] as const;
 
 /** Route signed in organisers to their event and team controls. */
@@ -86,9 +85,11 @@ export default function Route() {
                 <Show
                     when={account.user()}
                     fallback={
-                        <a class="button" href="/sign-in?next=%2Fadmin">
-                            Sign in to manage the site
-                        </a>
+                        <Show when={!account.isPending()} fallback={<Loading />}>
+                            <a class="button" href="/sign-in?next=%2Fadmin">
+                                Sign in to manage the site
+                            </a>
+                        </Show>
                     }
                 >
                     <Show when={access.error}>
@@ -110,9 +111,6 @@ export default function Route() {
                         {(current) => (
                             <>
                                 <Switch>
-                                    <Match when={section() === "audience"}>
-                                        <Audience />
-                                    </Match>
                                     <Match when={section() === "events"}>
                                         <Show
                                             when={

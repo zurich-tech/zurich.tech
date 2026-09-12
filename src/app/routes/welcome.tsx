@@ -1,3 +1,4 @@
+import { Loading } from "../../components/loading";
 import { createEffect, createResource, Show } from "solid-js";
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import { api } from "../../../convex/_generated/api";
@@ -40,9 +41,11 @@ export default function Route() {
                 <Show
                     when={account.user()}
                     fallback={
-                        <a class="button" href="/sign-in?next=%2Fwelcome">
-                            Sign in
-                        </a>
+                        <Show when={!account.isPending()} fallback={<Loading />}>
+                            <a class="button" href="/sign-in?next=%2Fwelcome">
+                                Sign in
+                            </a>
+                        </Show>
                     }
                 >
                     <Show when={current() && !current()?.onboardedAt}>

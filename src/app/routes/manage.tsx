@@ -1,3 +1,4 @@
+import { Loading } from "../../components/loading";
 import { useSearchParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { useAccount } from "../../auth";
@@ -43,9 +44,11 @@ export default function Route() {
                 <Show
                     when={account.user()}
                     fallback={
-                        <a class="button" href="/sign-in?next=%2Fmanage">
-                            Sign in
-                        </a>
+                        <Show when={!account.isPending()} fallback={<Loading />}>
+                            <a class="button" href="/sign-in?next=%2Fmanage">
+                                Sign in
+                            </a>
+                        </Show>
                     }
                 >
                     <Management section={section()} />

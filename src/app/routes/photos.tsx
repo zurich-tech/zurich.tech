@@ -5,6 +5,11 @@ import { Page } from "../page";
 import { Seo } from "../seo";
 import { getGallery } from "../../events/queries";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => getGallery(),
+};
+
 /** Browse photographs from the community’s events. */
 export default function Route() {
     const albums = createAsync(() => getGallery());

@@ -1,0 +1,19 @@
+.loading-placeholder {
+    display: grid;
+    gap: 12px;
+    min-height: 96px;
+    align-content: center;
+}
+.loading-placeholder > span {
+    display: block;
+    width: 85%;
+    height: 12px;
+    background: var(--color-line);
+    opacity: 0.4;
+}
+.loading-placeholder > span:first-child {
+    width: 45%;
+}
+.loading-placeholder > span:last-child {
+    width: 65%;
+}

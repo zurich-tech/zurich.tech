@@ -1,5 +1,5 @@
 import { Empty } from "../components/empty";
-import { For, Show, Switch, Match, createSignal } from "solid-js";
+import { startTransition, For, Show, Switch, Match, createSignal } from "solid-js";
 import { OrganisationLocations } from "./locations";
 import { JobCard, SponsorshipCard } from "./employer";
 import { CompanyForm } from "./company";
@@ -165,7 +165,7 @@ export function Management(props: {
                                         item={organisation()}
                                         isTeam={current().isTeam}
                                         onSave={async () => {
-                                            await refetch();
+                                            await startTransition(refetch);
                                             setSelected(undefined);
                                         }}
                                     />
