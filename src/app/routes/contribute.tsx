@@ -17,7 +17,7 @@ export default function Route() {
             <Page>
                 <PageHeader
                     title="Contribute"
-                    summary="Bring a speaker, organise an event, or spread the word."
+                    summary="Give a talk, help with an event, or tell a friend."
                 />
                 <div class="listing-layout">
                     <div class="contribute-options">
@@ -26,8 +26,7 @@ export default function Route() {
                                 <section id="speakers">
                                     <h3>Suggest a speaker</h3>
                                     <p>
-                                        Know someone with an interesting project, idea or story?
-                                        Tell us about them.
+                                        Know someone you’d like to hear speak? Tell us on Discord.
                                     </p>
                                     <a
                                         class="button button--primary"
@@ -52,10 +51,7 @@ export default function Route() {
                                 </section>
                                 <section id="events">
                                     <h3>Organise an event</h3>
-                                    <p>
-                                        Help with an existing series, or propose a talk, dinner,
-                                        workshop, hackathon or something new.
-                                    </p>
+                                    <p>Help run an event, or suggest one you’d like to organise.</p>
                                     <a
                                         class="button"
                                         href={site.socials.discord}
@@ -71,7 +67,7 @@ export default function Route() {
                     </div>
                     <aside class="listing-sidebar">
                         <Card title="Community">
-                            <p>Join the conversation, answer questions, and welcome new members.</p>
+                            <p>Come chat with us on Discord.</p>
                             <a
                                 class="button button--primary"
                                 href={site.socials.discord}

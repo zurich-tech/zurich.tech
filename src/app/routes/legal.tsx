@@ -10,77 +10,86 @@ export default function Route() {
             <Page width="narrow">
                 <PageHeader title="Legal" />
                 <Card title="Privacy" id="privacy">
-                    <p>
-                        We use your email to confirm registrations and communicate event changes.
-                        Event organisers and the team can access the attendee details and answers
-                        needed to run their events. Confirming your registration also subscribes you
-                        to future event emails.
-                    </p>
-                    <p>
-                        Every newsletter has an unsubscribe link. Registration emails include a
-                        private management link. Account and event records are stored in Convex;
-                        email is delivered through Resend. Address searches are sent to Photon. The
-                        site uses necessary authentication storage and does not include advertising
-                        trackers.
-                    </p>
-                    <p>
-                        Signing in with GitHub or Google shares your name, verified email and
-                        profile image with us. Sponsor recognition is public only if you enable it
-                        in settings.
-                    </p>
-                    <p>
-                        Sponsorships are arranged by email. Organisation billing details are visible
-                        to the organisation owner and our team. Job applications go to the
-                        employer’s application site.
-                    </p>
-                    <p>
-                        For access, correction, or deletion requests, contact{" "}
-                        <a class="text-link" href="mailto:hello@zurich.tech">
-                            hello@zurich.tech
-                        </a>
-                        .
-                    </p>
+                    <div class="markdown">
+                        <ul>
+                            <li>
+                                GitHub or Google sign-in shares your name, verified email and
+                                profile photo with us. Sponsor recognition is public only when
+                                enabled in settings.
+                            </li>
+                            <li>
+                                We use your email for registrations and event updates. Organisers
+                                and the team can see registration details and answers. Registration
+                                also subscribes you to event emails unless you’ve opted out. Every
+                                newsletter includes an unsubscribe link; registration emails include
+                                a private management link.
+                            </li>
+                            <li>
+                                Convex stores account and event records. Resend delivers email.
+                                Photon receives address searches. We use necessary sign-in storage,
+                                with no advertising trackers.
+                            </li>
+                            <li>
+                                Sponsorships are arranged by email. Billing details are visible to
+                                the organisation owner and our team. Job applications go directly to
+                                employers.
+                            </li>
+                            <li>
+                                To access, correct or delete your data, email{" "}
+                                <a class="text-link" href="mailto:hello@zurich.tech">
+                                    hello@zurich.tech
+                                </a>
+                                .
+                            </li>
+                        </ul>
+                    </div>
                 </Card>
-                <Card title="Credits and licences" id="licences">
-                    <p>
-                        Maps use tiles from{" "}
-                        <a class="text-link" href="https://openfreemap.org/">
-                            OpenFreeMap
-                        </a>
-                        , rendered with{" "}
-                        <a class="text-link" href="https://maplibre.org/">
-                            MapLibre
-                        </a>
-                        , and data from © OpenStreetMap contributors. Map data is available under
-                        the Open Database Licence (ODbL). See the{" "}
-                        <a class="text-link" href="https://www.openstreetmap.org/copyright">
-                            OpenStreetMap copyright and licence information
-                        </a>
-                        .
-                    </p>
-                    <p>
-                        Social icons are from Font Awesome Free by Fonticons, Inc., licensed under{" "}
-                        <a class="text-link" href="https://creativecommons.org/licenses/by/4.0/">
-                            Creative Commons Attribution 4.0
-                        </a>
-                        . See the{" "}
-                        <a class="text-link" href="https://fontawesome.com/license/free">
-                            Font Awesome licence
-                        </a>
-                        .
-                    </p>
-                    <p>
-                        Archivo and JetBrains Mono are distributed under the SIL Open Font Licence
-                        1.1. Their copyright notices and full licences are available for{" "}
-                        <a class="text-link" href="/licenses/archivo.txt">
-                            Archivo
-                        </a>{" "}
-                        and{" "}
-                        <a class="text-link" href="/licenses/jetbrains-mono.txt">
-                            JetBrains Mono
-                        </a>
-                        .
-                    </p>
+                <Card title="Licences" id="licences">
+                    <div class="markdown">
+                        <ul>
+                            <li>
+                                Map data: ©{" "}
+                                <a class="text-link" href="https://www.openstreetmap.org/copyright">
+                                    OpenStreetMap contributors
+                                </a>{" "}
+                                (ODbL). Tiles:{" "}
+                                <a class="text-link" href="https://openfreemap.org/">
+                                    OpenFreeMap
+                                </a>{" "}
+                                and OpenStreetMap. Rendering:{" "}
+                                <a class="text-link" href="https://maplibre.org/">
+                                    MapLibre
+                                </a>
+                                .
+                            </li>
+                            <li>
+                                Icons:{" "}
+                                <a class="text-link" href="https://fontawesome.com/license/free">
+                                    Font Awesome Free
+                                </a>{" "}
+                                by Fonticons, Inc. —{" "}
+                                <a
+                                    class="text-link"
+                                    href="https://creativecommons.org/licenses/by/4.0/"
+                                >
+                                    CC BY 4.0
+                                </a>
+                                .
+                            </li>
+                            <li>
+                                Fonts:{" "}
+                                <a class="text-link" href="/licenses/archivo.txt">
+                                    Archivo
+                                </a>{" "}
+                                and{" "}
+                                <a class="text-link" href="/licenses/jetbrains-mono.txt">
+                                    JetBrains Mono
+                                </a>{" "}
+                                — SIL Open Font Licence 1.1. Links include copyright notices and
+                                full licences.
+                            </li>
+                        </ul>
+                    </div>
                 </Card>
             </Page>
         </>

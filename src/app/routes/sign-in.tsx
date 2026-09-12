@@ -97,7 +97,7 @@ export default function Route() {
         <>
             <Seo
                 title={account.user() ? "Signed in" : "Sign in"}
-                description="Sign in to publish events and jobs."
+                description="Sign in to zurich.tech."
             />
             <Page class="sign-in-page">
                 <Card
