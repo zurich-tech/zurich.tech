@@ -1,7 +1,8 @@
+import { FilterPills } from "../components/filter-pills";
 import { confirmEvent } from "./actions";
 import { Empty } from "../components/empty";
 import { Card } from "../components/card";
-import { For, Show } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { useWorkspaceCommand, type Perform, type AttendeeList } from "../app/workspace";
@@ -88,6 +89,16 @@ function AttendeeTable(props: {
     /** Run a command and refresh its visible result. */
     perform: Perform;
 }) {
+    const [search, setSearch] = createSignal("");
+    const [status, setStatus] = createSignal("all");
+    const hasAnswers = () => props.list.rows.some((row) => row.answers?.some(Boolean));
+    const rows = () =>
+        props.list.rows.filter(
+            (row) =>
+                (status() === "all" || row.status === status()) &&
+                `${row.name} ${row.email}`.toLowerCase().includes(search().trim().toLowerCase()),
+        );
+
     return (
         <Card
             title="Attendees"
@@ -110,22 +121,60 @@ function AttendeeTable(props: {
             <div class="admin-context">
                 <a href={`/events/${props.list.event.slug}`}>{props.list.event.title}</a>
             </div>
-            <Show when={props.list.rows.length > 0} fallback={<Empty title="No attendees" />}>
+            <Show when={props.list.rows.length > 0}>
+                <div class="admin-filters">
+                    <input
+                        type="search"
+                        aria-label="Search attendees"
+                        placeholder="Search attendees…"
+                        value={search()}
+                        onInput={(event) => setSearch(event.currentTarget.value)}
+                    />
+                    <FilterPills
+                        label="Registration status"
+                        value={status()}
+                        onChange={setStatus}
+                        options={[
+                            { value: "all", label: "All" },
+                            { value: "going", label: "Confirmed" },
+                            { value: "pending", label: "Pending" },
+                            { value: "waitlist", label: "Waitlisted" },
+                            { value: "declined", label: "Declined" },
+                            { value: "cancelled", label: "Cancelled" },
+                        ]}
+                    />
+                </div>
+            </Show>
+            <Show
+                when={rows().length > 0}
+                fallback={
+                    <Empty
+                        title={
+                            props.list.rows.length
+                                ? "No matching registrations"
+                                : "No registrations yet"
+                        }
+                    />
+                }
+            >
                 <div class="table-scroll">
                     <table class="admin-table">
                         <thead>
                             <tr>
                                 <th>Name / email</th>
                                 <th>Status</th>
-                                <th>Answers</th>
+                                <Show when={hasAnswers()}>
+                                    <th>Answers</th>
+                                </Show>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <For each={props.list.rows}>
+                            <For each={rows()}>
                                 {(row) => (
                                     <AttendeeRow
                                         attendee={row}
+                                        hasAnswers={hasAnswers()}
                                         policy={props.list.event.registration}
                                         isOpen={
                                             props.list.event.status === "scheduled" &&
@@ -171,6 +220,8 @@ function AttendeeRow(props: {
     attendee: AttendeeList["rows"][number];
     /** Questions associated with the registration. */
     policy: Registration;
+    /** Whether any registration has answers to display. */
+    hasAnswers: boolean;
     isOpen: boolean;
     /** Disable actions while a workspace command is pending. */
     isPending: boolean;
@@ -195,17 +246,19 @@ function AttendeeRow(props: {
                     }[props.attendee.status]
                 }
             </td>
-            <td>
-                <For each={props.attendee.answers}>
-                    {(answer, index) => (
-                        <p>
-                            <strong>{questionLabel(props.policy, index())}</strong>
-                            <br />
-                            {answer}
-                        </p>
-                    )}
-                </For>
-            </td>
+            <Show when={props.hasAnswers}>
+                <td>
+                    <For each={props.attendee.answers}>
+                        {(answer, index) => (
+                            <p>
+                                <strong>{questionLabel(props.policy, index())}</strong>
+                                <br />
+                                {answer}
+                            </p>
+                        )}
+                    </For>
+                </td>
+            </Show>
             <td>
                 <div class="admin-actions" aria-label="Actions">
                     <For
@@ -240,7 +293,7 @@ function AttendeeRow(props: {
                             },
                             {
                                 decision: "cancel" as const,
-                                label: "Cancel registration",
+                                label: "Cancel",
                                 visible: !["cancelled", "declined"].includes(props.attendee.status),
                             },
                         ].filter((action) => action.visible)}
