@@ -13,9 +13,6 @@
     padding: 0;
     min-width: 0;
     cursor: pointer;
-    transition:
-        border-color 120ms,
-        background 120ms;
 }
 .stats-metric:hover {
     background: color-mix(in srgb, var(--color-accent) 5%, var(--color-paper));

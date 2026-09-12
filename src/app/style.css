@@ -119,9 +119,7 @@ a {
     align-items: center;
 }
 
-.site-topbar a:hover,
-.site-footer a:hover,
-.site-topbar__link--active {
+.site-footer a:hover {
     text-decoration: underline;
     text-decoration-color: var(--color-accent);
     text-underline-offset: 0.25rem;
@@ -152,13 +150,6 @@ a {
 .command-trigger {
     min-height: var(--site-control-height);
     color: var(--color-soft);
-}
-
-.site-theme-toggle:hover {
-    color: var(--color-ink);
-    text-decoration: underline;
-    text-decoration-color: var(--color-accent);
-    text-underline-offset: 0.25rem;
 }
 
 .command-trigger:hover {
@@ -1956,13 +1947,6 @@ td button {
     background: var(--color-paper);
     color: var(--color-soft);
 }
-.filter-pills > button:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-}
-.filter-pills > button.selected:hover {
-    color: var(--color-paper);
-}
 
 /* carry the same lettering into compact page branding */
 .wordmark {
@@ -2699,12 +2683,6 @@ td button {
     background: transparent;
     color: var(--color-soft);
 }
-.site-shell .site-topbar__primary > a:not(.site-topbar__logo):hover,
-.site-shell .header-links > a:hover,
-.site-shell .site-theme-toggle:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-}
 .site-shell .site-topbar__logo {
     margin-right: 16px;
 }
@@ -2728,7 +2706,9 @@ td button {
     }
 }
 
-.filter-pills > button.selected {
+.filter-pills > button.selected,
+.site-shell .site-topbar__primary > a.active:not(.site-topbar__logo),
+.site-shell .header-links > a.active {
     border-color: var(--color-accent);
     background: var(--color-accent);
     color: var(--color-paper);
@@ -4062,10 +4042,6 @@ select.field__control:not([multiple]) {
     width: 26px;
     height: 26px;
 }
-.site-shell .header-links .header-avatar:hover,
-.site-shell .site-theme-toggle:hover {
-    background: var(--color-line);
-}
 .patron-wall {
     display: flex;
     flex-wrap: wrap;
@@ -4665,7 +4641,6 @@ iframe.email-preview {
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 120ms ease;
 }
 .map-organisation:hover,
 .map-organisation:focus-visible {
@@ -4696,11 +4671,6 @@ iframe.email-preview {
     color: var(--color-ink);
     padding: 8px 12px;
     font-size: 12px;
-}
-@media (prefers-reduced-motion: reduce) {
-    .map-organisation-label {
-        transition: none;
-    }
 }
 
 /* Present organisations with the same row rhythm as vacancies. */
@@ -4813,10 +4783,6 @@ iframe.email-preview {
     border-radius: 3px;
     color: var(--color-soft);
     text-decoration: none;
-}
-.news-tags > a:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
 }
 .news-tags > a.selected {
     background: var(--color-accent);
@@ -5235,27 +5201,59 @@ iframe.email-preview {
 }
 
 /* keep control feedback consistent for buttons and button-shaped links */
-:where(button, .button, [role="button"], .row-actions > a) {
+:where(
+    button,
+    .button,
+    [role="button"],
+    .row-actions > a,
+    .site-topbar__primary > a:not(.site-topbar__logo),
+    .header-links > a,
+    .news-tags > a,
+    a.tag,
+    .social-links > a
+) {
     cursor: pointer;
-    transition:
-        background-color 120ms ease,
-        border-color 120ms ease,
-        color 120ms ease,
-        box-shadow 120ms ease;
+    text-decoration: none;
 }
-:is(button, .button, [role="button"], .row-actions > a):not(:disabled):not(
-        [aria-disabled="true"]
-    ):not(.button--primary):not(.active):not(.selected):not([aria-pressed="true"]):hover {
+:is(
+        button,
+        .button,
+        [role="button"],
+        .row-actions > a,
+        .site-topbar__primary > a:not(.site-topbar__logo),
+        .header-links > a,
+        .news-tags > a,
+        a.tag
+    ):not(:disabled):not([aria-disabled="true"]):not(.button--primary):not(.active):not(
+        .selected
+    ):not([aria-pressed="true"]):hover {
     background-color: color-mix(in srgb, var(--color-accent) 10%, var(--color-paper));
     border-color: var(--color-accent);
     color: var(--color-accent);
 }
-:is(button, .button, [role="button"], .row-actions > a):not(:disabled):not(
-        [aria-disabled="true"]
-    ):active {
+:is(
+        button,
+        .button,
+        [role="button"],
+        .row-actions > a,
+        .site-topbar__primary > a:not(.site-topbar__logo),
+        .header-links > a,
+        .news-tags > a,
+        a.tag
+    ):not(:disabled):not([aria-disabled="true"]):active {
     box-shadow: inset 0 0 0 2px currentColor;
 }
-:is(button, .button, [role="button"], .row-actions > a):focus-visible {
+:is(
+    button,
+    .button,
+    [role="button"],
+    .row-actions > a,
+    .site-topbar__primary > a:not(.site-topbar__logo),
+    .header-links > a,
+    .news-tags > a,
+    a.tag,
+    .social-links > a
+):focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
 }
@@ -5264,16 +5262,15 @@ iframe.email-preview {
     opacity: 0.55;
     box-shadow: none;
 }
-:where(button.active, button.selected, button[aria-pressed="true"]):not(:disabled):hover {
+:is(
+        button,
+        .site-topbar__primary > a:not(.site-topbar__logo),
+        .header-links > a,
+        .news-tags > a
+    ):is(.active, .selected, [aria-pressed="true"]):not(:disabled):hover {
     background-color: color-mix(in srgb, var(--color-accent) 85%, var(--color-ink));
     border-color: var(--color-accent);
 }
-@media (prefers-reduced-motion: reduce) {
-    :where(button, .button, [role="button"], .row-actions > a) {
-        transition: none;
-    }
-}
-
 /* keep account fields compact and aligned */
 .account-page .editor {
     gap: var(--space-4);

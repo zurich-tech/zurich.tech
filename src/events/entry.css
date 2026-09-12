@@ -58,15 +58,6 @@
     flex-wrap: wrap;
     gap: 6px;
 }
-a.tag:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-}
-a.tag:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 3px;
-}
-
 /* keep series previews on the same event grid without doubled section padding */
 .series-preview > .card-body > .series-events {
     padding-block: 0;
