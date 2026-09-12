@@ -208,7 +208,8 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
                                     >
                                         {current()?.recipients?.toLocaleString("en-CH")}{" "}
                                     </Show>
-                                    {current()?.audience ?? "recipients"}
+                                    {current()?.audience ??
+                                        (current()?.recipients === 1 ? "recipient" : "recipients")}
                                 </span>
                             </Show>
                         </div>
