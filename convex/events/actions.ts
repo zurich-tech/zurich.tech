@@ -1,3 +1,5 @@
+import { isAnnounced } from "./mail";
+import { confirmationDecision, isTentative } from "./conditions";
 import { receivesAnnouncement } from "../mail/events";
 import { v, type Infer } from "convex/values";
 import { query, type QueryCtx } from "../_generated/server";
@@ -8,7 +10,13 @@ import { eventPlace } from "./place";
 import { registrations, waitingForSeats } from "./registrations";
 
 /** Event transitions that require confirmation. */
-export const action = v.union(v.literal("publish"), v.literal("unpublish"), v.literal("cancel"));
+export const action = v.union(
+    v.literal("publish"),
+    v.literal("unpublish"),
+    v.literal("cancel"),
+    v.literal("approve"),
+    v.literal("confirm"),
+);
 /** Editable event content used to preview publication. */
 const fields = v.object(submissionFields);
 
@@ -18,6 +26,7 @@ export async function eventAction(
     event: Doc<"events"> | null,
     intent: Infer<typeof action>,
     proposed?: Infer<typeof fields>,
+    announce = false,
 ) {
     const now = Date.now();
     if (intent !== "publish" && !event) throw new Error("Event not found.");
@@ -44,12 +53,21 @@ export async function eventAction(
     let announcements = 0;
     let updates = 0;
     let promotions = 0;
-    if (intent === "cancel" && event!.startsAt > now) {
+    const confirms =
+        event &&
+        isTentative(event) &&
+        (intent === "confirm" ||
+            (intent === "approve" &&
+                confirmationDecision({ ...event, approvedAt: now }, rows, now) === "confirmed"));
+    if ((intent === "cancel" || confirms) && event!.startsAt > now) {
         updates = active.length;
         for (const row of active) recipients.add(row.email);
     }
     if (intent === "publish" && proposed) {
-        if (!event && proposed.startsAt > now) {
+        if (announce) {
+            if (proposed.startsAt <= now) throw new Error("Only upcoming events can be announced.");
+            if (event && (await isAnnounced(ctx, event)))
+                throw new Error("This event has already been announced.");
             const subscribers = subscriptions.filter((row) => receivesAnnouncement(row, now));
             announcements = subscribers.length;
             for (const row of subscribers) recipients.add(row.email);
@@ -66,27 +84,68 @@ export async function eventAction(
                 for (const row of active) recipients.add(row.email);
             }
             const promoted = waitingForSeats(
-                { ...proposed, status: proposed.startsAt > now ? "scheduled" : "finished" },
+                {
+                    ...proposed,
+                    confirmedAt: event.confirmedAt,
+                    status: proposed.startsAt > now ? "scheduled" : "finished",
+                },
                 rows,
             ).filter((row) => !suppressed.has(row.email));
             promotions = promoted.length;
             for (const row of promoted) recipients.add(row.email);
+
+            // include confirmation notices triggered by a newly available seat
+            const allocated = new Set(
+                waitingForSeats(
+                    {
+                        ...proposed,
+                        confirmedAt: event.confirmedAt,
+                        status: proposed.startsAt > now ? "scheduled" : "finished",
+                    },
+                    rows,
+                ).map((row) => row._id),
+            );
+            const after = rows.map((row) =>
+                allocated.has(row._id) ? { ...row, status: "going" } : row,
+            );
+            if (
+                proposed.startsAt > now &&
+                confirmationDecision({ ...event, confirmation: proposed.confirmation }, after, now)
+            ) {
+                updates += active.length;
+                for (const row of active) recipients.add(row.email);
+            }
         }
     }
 
     const emails = announcements + updates + promotions;
     return {
+        title: proposed?.title ?? event!.title,
         emails,
+        followUp: proposed?.followUp?.isEnabled
+            ? {
+                  delayHours: proposed.followUp.delayHours,
+                  isAttendanceRequired: !!proposed.checkIn?.isEnabled,
+                  currentRegistrations: rows.filter((row) => row.status === "going").length,
+              }
+            : undefined,
         recipients: recipients.size,
         announcements,
         updates,
         promotions,
         receipt: JSON.stringify([
             intent,
+            proposed?.followUp,
+            proposed?.checkIn,
+            proposed?.endsAt,
+            announce,
             recipients.size,
             event?._id,
             event?.updatedAt,
             event?.status,
+            event?.confirmation,
+            event?.confirmedAt,
+            event?.approvedAt,
             announcements,
             updates,
             promotions,
@@ -101,6 +160,7 @@ export const preview = query({
         eventId: v.optional(v.id("events")),
         action,
         fields: v.optional(fields),
+        announce: v.optional(v.boolean()),
     },
     handler: async (ctx, args) => {
         await requireTeam(ctx);
@@ -110,7 +170,7 @@ export const preview = query({
         const event = id ? await ctx.db.get(id) : null;
         if (id && !event) throw new Error("Event not found.");
 
-        return await eventAction(ctx, event, args.action, args.fields);
+        return await eventAction(ctx, event, args.action, args.fields, args.announce);
     },
 });
 

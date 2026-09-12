@@ -1,3 +1,5 @@
+import { ensureToken } from "../events/checkin";
+import { isTentative } from "../events/conditions";
 import type { Doc } from "../_generated/dataModel";
 import { eventEmail } from "./templates";
 import { v } from "convex/values";
@@ -73,14 +75,21 @@ export const tick = internalMutation({
 
 /** Queue one reminder per confirmed registration, rechecking eligibility on delivery. */
 export const remind = internalMutation({
-    args: { eventId: v.id("events"), cursor: v.union(v.string(), v.null()) },
+    args: {
+        eventId: v.id("events"),
+        cursor: v.union(v.string(), v.null()),
+        manualAt: v.optional(v.number()),
+        startsAt: v.optional(v.number()),
+    },
     handler: async (ctx, args) => {
         const event = await ctx.db.get(args.eventId);
         if (
             !event ||
             event.status !== "scheduled" ||
+            isTentative(event) ||
             event.startsAt <= Date.now() ||
-            event.startsAt > Date.now() + 86400000
+            (args.startsAt !== undefined && event.startsAt !== args.startsAt) ||
+            (!args.manualAt && event.startsAt > Date.now() + 86400000)
         )
             return;
         const page = await ctx.db
@@ -91,11 +100,17 @@ export const remind = internalMutation({
             // the confirmation already serves as a reminder for last-minute registrations
             if (
                 registration.status !== "going" ||
-                event.startsAt - (registration.approvedAt ?? registration.createdAt) < 86400000
+                (args.manualAt
+                    ? registration.createdAt > args.manualAt
+                    : event.startsAt - (registration.approvedAt ?? registration.createdAt) <
+                      86400000)
             )
                 continue;
             const message = eventEmail(event, "Event reminder", {
                 subject: "Reminder",
+                passUrl: event.checkIn?.isEnabled
+                    ? `${process.env.CONVEX_SITE_URL}/passes/qr?token=${encodeURIComponent(await ensureToken(ctx, registration))}`
+                    : undefined,
                 manageUrl: registration.token
                     ? `${siteOrigin()}/registration?token=${encodeURIComponent(registration.token)}`
                     : undefined,
@@ -138,3 +153,59 @@ export function receivesAnnouncement(
         (subscription.verifiedAt ?? subscription.createdAt) <= publishedAt
     );
 }
+
+/** Deliver final event outcomes in bounded batches to active registrants. */
+export const outcome = internalMutation({
+    args: {
+        eventId: v.id("events"),
+        outcome: v.union(v.literal("confirmed"), v.literal("cancelled")),
+        description: v.optional(v.string()),
+        cursor: v.union(v.string(), v.null()),
+    },
+    handler: async (ctx, args) => {
+        const event = await ctx.db.get(args.eventId);
+        if (!event) return;
+        const page = await ctx.db
+            .query("registrations")
+            .withIndex("by_event", (q) => q.eq("eventId", event._id))
+            .paginate({ numItems: 100, cursor: args.cursor });
+        for (const [position, row] of page.page.entries()) {
+            if (!row.email || row.status === "cancelled" || row.status === "declined") continue;
+            const message = eventEmail(
+                event,
+                args.outcome === "confirmed" ? "Event confirmed" : "Event cancelled",
+                {
+                    passUrl:
+                        args.outcome === "confirmed" &&
+                        row.status === "going" &&
+                        event.checkIn?.isEnabled
+                            ? `${process.env.CONVEX_SITE_URL}/passes/qr?token=${encodeURIComponent(await ensureToken(ctx, row))}`
+                            : undefined,
+                    description:
+                        args.outcome === "confirmed"
+                            ? "The event is going ahead. Your registration status is unchanged."
+                            : args.description,
+                    manageUrl: row.token
+                        ? `${siteOrigin()}/registration?token=${encodeURIComponent(row.token)}`
+                        : undefined,
+                },
+            );
+            await enqueue(
+                ctx,
+                `event-${args.outcome}:${event._id}:${row._id}`,
+                row.email,
+                message.subject,
+                message.text,
+                undefined,
+                position * 600,
+                message.html,
+                { category: args.outcome, eventId: event._id, registrationId: row._id },
+            );
+        }
+        if (!page.isDone)
+            await ctx.scheduler.runAfter(page.page.length * 600, internal.mail.events.outcome, {
+                ...args,
+                cursor: page.continueCursor,
+            });
+    },
+});

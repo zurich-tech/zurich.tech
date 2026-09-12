@@ -1,3 +1,5 @@
+import { EventCounts } from "./counts";
+import { isTentative } from "../../convex/events/conditions";
 import { useNavigate } from "@solidjs/router";
 import { Empty } from "../components/empty";
 import { For, Show, createSignal } from "solid-js";
@@ -22,13 +24,18 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
             title: event.title,
             slug: event.slug,
             startsAt: event.startsAt,
+            capacity: event.registration.kind === "none" ? undefined : event.registration.capacity,
+            venueCapacity: event.venueCapacity,
+            counts: props.workspace.counts.find((row) => row.eventId === event._id),
             status:
                 event.status === "draft"
                     ? "Draft"
                     : event.status === "cancelled"
                       ? "Cancelled"
                       : event.startsAt > Date.now()
-                        ? "Upcoming"
+                        ? isTentative(event)
+                            ? "Tentative"
+                            : "Upcoming"
                         : "Past",
         }));
         const drafts = props.workspace.submissions.map((draft) => ({
@@ -38,6 +45,9 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
             title: draft.title,
             slug: draft.slug,
             startsAt: draft.startsAt,
+            capacity: draft.registration.kind === "none" ? undefined : draft.registration.capacity,
+            venueCapacity: draft.venueCapacity,
+            counts: props.workspace.counts.find((row) => row.eventId === draft.eventId),
             status:
                 props.workspace.statuses.find((event) => event.id === draft.eventId)?.status ===
                 "cancelled"
@@ -47,7 +57,13 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                             ?.status === "draft"
                       ? "Draft"
                       : draft.startsAt > Date.now()
-                        ? "Upcoming"
+                        ? isTentative(
+                              props.workspace.statuses.find(
+                                  (event) => event.id === draft.eventId,
+                              ) ?? {},
+                          )
+                            ? "Tentative"
+                            : "Upcoming"
                         : "Past",
         }));
 
@@ -57,14 +73,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                     (filter() === "All" || row.status === filter()) &&
                     row.title.toLowerCase().includes(search().trim().toLowerCase()),
             )
-            .sort((a, b) => {
-                const rank = (status: string) =>
-                    ({ Upcoming: 0, Draft: 1, Past: 2, Cancelled: 3 })[status] ?? 4;
-                return (
-                    rank(a.status) - rank(b.status) ||
-                    (a.status === "Upcoming" ? a.startsAt - b.startsAt : b.startsAt - a.startsAt)
-                );
-            });
+            .sort((a, b) => b.startsAt - a.startsAt);
     };
 
     return (
@@ -87,7 +96,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                     onInput={(event) => setSearch(event.currentTarget.value)}
                 />
                 <div class="filter-bar">
-                    <For each={["All", "Upcoming", "Past", "Draft", "Cancelled"]}>
+                    <For each={["All", "Upcoming", "Tentative", "Past", "Draft", "Cancelled"]}>
                         {(value) => (
                             <button
                                 classList={{ active: filter() === value }}
@@ -107,6 +116,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                             <th scope="col">Event</th>
                             <th scope="col">Date</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Registrations</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -115,9 +125,17 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                             {(row) => (
                                 <tr>
                                     <td>
-                                        <Show when={row.eventId} fallback={row.title}>
-                                            <a href={`/events/${row.slug}`}>{row.title}</a>
-                                        </Show>
+                                        <a
+                                            href={
+                                                row.status === "Draft"
+                                                    ? row.draftId
+                                                        ? `/submit?edit=${row.draftId}`
+                                                        : `/submit?event=${row.eventId}`
+                                                    : `/events/${row.slug}`
+                                            }
+                                        >
+                                            {row.title}
+                                        </a>
                                     </td>
                                     <td>
                                         {new Date(row.startsAt).toLocaleDateString("en-GB", {
@@ -136,6 +154,17 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                         >
                                             {row.status}
                                         </span>
+                                    </td>
+                                    <td>
+                                        <EventCounts
+                                            confirmed={row.counts?.confirmed}
+                                            limit={row.capacity}
+                                            waitlist={row.counts?.waitlist}
+                                            pending={row.counts?.pending}
+                                        />
+                                        <Show when={row.venueCapacity}>
+                                            <div class="text-soft">Venue: {row.venueCapacity}</div>
+                                        </Show>
                                     </td>
                                     <td>
                                         <div class="admin-actions" aria-label="Actions">

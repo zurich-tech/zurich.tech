@@ -1,3 +1,8 @@
+import { ParticipationFields } from "../../events/participation";
+import { useConfirmation } from "../../components/dialog";
+import { EventMail } from "../../events/mail";
+import { ConfirmationFields, readConfirmation } from "../../events/confirmation";
+import { isTentative } from "../../../convex/events/conditions";
 import { confirmEvent } from "../../events/actions";
 import {
     EventFields,
@@ -17,12 +22,13 @@ import { useAccount } from "../../auth/index";
 import { memberClient } from "../../auth/convex";
 import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
-import { FormMessage } from "../../components/form";
+import { Editor, FormMessage } from "../../components/form";
 import { errorMessage } from "../../components/errors";
 import { timestamp } from "../../events/time";
 
 /** Create, duplicate, and revise an event in the organiser workspace. */
 export default function Route() {
+    const confirm = useConfirmation();
     const navigate = useNavigate();
     const account = useAccount();
     const [params, setParams] = useSearchParams();
@@ -35,6 +41,19 @@ export default function Route() {
         () => access()?.isTeam,
         async () => await (await memberClient()).query(api.events.workspace.events, {}),
     );
+    createEffect(() => {
+        const eventId = typeof params.event === "string" ? params.event : undefined;
+        if (!eventId || !access()?.isTeam) return;
+        void memberClient()
+            .then((client) =>
+                client.mutation(api.events.mutations.edit, { eventId: eventId as Id<"events"> }),
+            )
+            .then(async (id) => {
+                await startTransition(refreshWorkspace);
+                setParams({ event: undefined, edit: id }, { replace: true });
+            })
+            .catch((caught) => setError(errorMessage(caught, "Could not open the event.")));
+    });
     const draft = () => {
         const item = workspace()?.submissions.find(
             (item) => item._id === (params.edit ?? params.duplicate),
@@ -43,6 +62,9 @@ export default function Route() {
 
         return {
             ...item,
+            confirmation: item.confirmation
+                ? { ...item.confirmation, decidesAt: item.confirmation.decidesAt - item.startsAt }
+                : undefined,
             startsAt: 0,
             endsAt: undefined,
             registration:
@@ -87,11 +109,12 @@ export default function Route() {
         params.edit && draft()?.eventId
             ? workspace()?.statuses.find((event) => event.id === draft()?.eventId)?.status
             : undefined;
+    const currentEvent = () => workspace()?.statuses.find((event) => event.id === draft()?.eventId);
     const isPublished = () => eventStatus() === "scheduled" || eventStatus() === "finished";
     const isCancelled = () => eventStatus() === "cancelled";
 
     /** Confirm hiding or cancelling an existing event without saving form edits. */
-    async function transition(action: "unpublish" | "cancel") {
+    async function transition(action: "unpublish" | "cancel" | "approve" | "confirm") {
         const eventId = draft()?.eventId;
         if (!eventId) return;
         setIsPending(true);
@@ -99,10 +122,23 @@ export default function Route() {
         try {
             const receipt = await confirmEvent(
                 { eventId, action },
-                action === "unpublish" ? "Unpublish event" : "Cancel event",
+                {
+                    unpublish: "Unpublish event",
+                    cancel: "Cancel event",
+                    approve: "Approve event",
+                    confirm: "Confirm event despite unmet requirements",
+                }[action],
+                confirm,
             );
             if (receipt === undefined) return;
             const client = await memberClient();
+            if (action === "approve" || action === "confirm") {
+                await client.mutation(api.events.confirmation.decide, { eventId, action, receipt });
+                await startTransition(refreshWorkspace);
+                setSuccess(action === "approve" ? "Team approval recorded." : "Event confirmed.");
+                await revalidate();
+                return;
+            }
             await client.mutation(
                 action === "unpublish"
                     ? api.events.mutations.unpublish
@@ -129,6 +165,8 @@ export default function Route() {
         const intent = (event.submitter as HTMLButtonElement)?.value;
         const text = (name: string) => String(fields.get(name) ?? "").trim();
         try {
+            if (intent === "publish" && (!text("description") || !text("location")))
+                throw new Error("Add a description and venue before publishing.");
             const policy: Registration =
                 kind() === "external"
                     ? {
@@ -159,6 +197,7 @@ export default function Route() {
                     .map((tag) => tag.trim().toLowerCase())
                     .filter(Boolean),
                 startsAt: timestamp(text("startsAt")),
+                confirmation: readConfirmation(fields, timestamp(text("startsAt"))),
                 endsAt: text("endsAt") ? timestamp(text("endsAt")) : undefined,
                 location: text("location"),
                 address: text("address"),
@@ -167,7 +206,23 @@ export default function Route() {
                 registration: policy,
                 organiserIds: fields.getAll("organiserIds") as Id<"members">[],
                 organisations: fields.getAll("organisations") as Id<"organisations">[],
+                venueCapacity: text("venueCapacity") ? Number(text("venueCapacity")) : undefined,
+                checkIn: { isEnabled: fields.has("checkIn") },
+                feedback: {
+                    isEventEnabled: fields.has("eventFeedback"),
+                    isSpeakerEnabled: fields.has("speakerFeedback"),
+                },
+                followUp: {
+                    isEnabled: fields.has("followUp"),
+                    delayHours: Number(text("followUpDelay") || 24),
+                },
                 speakers: fields.getAll("speakerName").map((name, index) => ({
+                    id: params.duplicate
+                        ? undefined
+                        : ((String(fields.getAll("speakerId")[index] || "") || undefined) as
+                              Id<"speakers"> | undefined),
+                    memberId: (String(fields.getAll("speakerMember")[index] || "") || undefined) as
+                        Id<"members"> | undefined,
                     name: String(name).trim(),
                     title: String(fields.getAll("speakerTitle")[index] ?? "").trim(),
                     links: String(fields.getAll("speakerLinks")[index] ?? "")
@@ -184,12 +239,14 @@ export default function Route() {
                     time: String(fields.getAll("agendaTime")[index] ?? "").trim(),
                 })),
             };
+            const announce = intent === "publish" && fields.get("announce") === "on";
             const sourceId = params.edit ? draft()?._id : undefined;
             const receipt =
                 intent === "publish"
                     ? await confirmEvent(
-                          { id: sourceId, action: "publish", fields: values },
+                          { id: sourceId, action: "publish", fields: values, announce },
                           isPublished() ? "Save changes" : "Publish event",
+                          confirm,
                       )
                     : undefined;
             if (intent === "publish" && receipt === undefined) return;
@@ -197,6 +254,7 @@ export default function Route() {
                 ...values,
                 id: sourceId,
                 publish: intent === "publish",
+                announce,
                 receipt,
             });
             setSuccess(
@@ -232,6 +290,39 @@ export default function Route() {
                     title={params.edit ? "Edit event" : "New event"}
                     actions={
                         <>
+                            <Show
+                                when={
+                                    access()?.isTeam &&
+                                    workspace() &&
+                                    !isCancelled() &&
+                                    (!(params.edit || params.duplicate) || draft())
+                                }
+                            >
+                                <Show when={!isPublished()}>
+                                    <button
+                                        type="submit"
+                                        form="event-editor"
+                                        value="draft"
+                                        class="button"
+                                        disabled={isPending()}
+                                    >
+                                        Save draft
+                                    </button>
+                                </Show>
+                                <button
+                                    type="submit"
+                                    form="event-editor"
+                                    value="publish"
+                                    class="button button--primary"
+                                    disabled={isPending()}
+                                >
+                                    {isPending()
+                                        ? "Saving…"
+                                        : isPublished()
+                                          ? "Save changes"
+                                          : "Publish event"}
+                                </button>
+                            </Show>
                             <a class="button" href="/admin">
                                 Back to events
                             </a>
@@ -287,7 +378,58 @@ export default function Route() {
                         </p>
                     </Show>
                     <Show when={workspace() && (!(params.edit || params.duplicate) || draft())}>
-                        <form class="editor event-editor" ref={form} onSubmit={save}>
+                        <Editor
+                            id="event-editor"
+                            class="editor event-editor"
+                            ref={form}
+                            onSubmit={save}
+                            actions={() => (
+                                <div class="form-actions">
+                                    <Show when={!isCancelled()} fallback={<p>Cancelled</p>}>
+                                        <Show when={!isPublished()}>
+                                            <button
+                                                class="button"
+                                                type="submit"
+                                                value="draft"
+                                                disabled={isPending()}
+                                            >
+                                                Save draft
+                                            </button>
+                                        </Show>
+                                        <button
+                                            class="button button--primary"
+                                            type="submit"
+                                            value="publish"
+                                            disabled={isPending()}
+                                        >
+                                            {isPending()
+                                                ? "Saving…"
+                                                : isPublished()
+                                                  ? "Save changes"
+                                                  : "Publish event"}
+                                        </button>
+                                        <Show when={isPublished()}>
+                                            <button
+                                                class="button"
+                                                type="button"
+                                                disabled={isPending()}
+                                                onClick={() => void transition("unpublish")}
+                                            >
+                                                Unpublish
+                                            </button>
+                                            <button
+                                                class="button"
+                                                type="button"
+                                                disabled={isPending()}
+                                                onClick={() => void transition("cancel")}
+                                            >
+                                                Cancel event
+                                            </button>
+                                        </Show>
+                                    </Show>
+                                </div>
+                            )}
+                        >
                             <Show when={!params.edit}>
                                 <Card title="Duplicate from">
                                     <select
@@ -328,7 +470,7 @@ export default function Route() {
                                         <div class="organiser-options">
                                             <For each={workspace()?.organisers}>
                                                 {(person) => (
-                                                    <label class="checkbox-label">
+                                                    <label class="checkbox">
                                                         <input
                                                             type="checkbox"
                                                             name="organiserIds"
@@ -348,6 +490,68 @@ export default function Route() {
                                     </Card>
                                     {/* enter real Zürich local dates and an optional map position */}
                                     <VenueFields draft={draft()} />
+                                    <Card title="Options" class="event-options">
+                                        <ParticipationFields draft={draft()} />
+                                        <ConfirmationFields
+                                            confirmation={draft()?.confirmation}
+                                            startsAt={draft()?.startsAt}
+                                            confirmedAt={
+                                                params.edit
+                                                    ? currentEvent()?.confirmedAt
+                                                    : undefined
+                                            }
+                                        />
+                                    </Card>
+                                    <Show
+                                        when={
+                                            isPublished() &&
+                                            currentEvent() &&
+                                            isTentative(currentEvent()!)
+                                        }
+                                    >
+                                        <Card title="Tentative">
+                                            <div class="form-actions">
+                                                <Show
+                                                    when={
+                                                        currentEvent()?.confirmation
+                                                            ?.isApprovalRequired &&
+                                                        !currentEvent()?.approvedAt
+                                                    }
+                                                >
+                                                    <button
+                                                        class="button"
+                                                        type="button"
+                                                        disabled={isPending()}
+                                                        onClick={() => void transition("approve")}
+                                                    >
+                                                        Approve event
+                                                    </button>
+                                                </Show>
+                                                <button
+                                                    class="button"
+                                                    type="button"
+                                                    disabled={isPending()}
+                                                    onClick={() => void transition("confirm")}
+                                                >
+                                                    Confirm now
+                                                </button>
+                                            </div>
+                                            <Show when={currentEvent()?.approvedAt}>
+                                                <p>Team approval recorded</p>
+                                            </Show>
+                                        </Card>
+                                    </Show>
+                                    <Show when={currentEvent()?.scheduleId}>
+                                        <a
+                                            class="button"
+                                            href={`/admin?section=series&schedule=${currentEvent()!.scheduleId}`}
+                                        >
+                                            Edit series schedule
+                                        </a>
+                                    </Show>
+                                    <Show when={isPublished() && currentEvent()}>
+                                        <EventMail eventId={currentEvent()!.id} />
+                                    </Show>
                                     {/* compose admission, capacity, and overflow independently */}
                                     <RegistrationFields
                                         draft={draft()}
@@ -358,52 +562,15 @@ export default function Route() {
                                     />
                                 </div>
                             </div>
-                            <div class="form-actions">
-                                <Show when={!isCancelled()} fallback={<p>Cancelled</p>}>
-                                    <Show when={!isPublished()}>
-                                        <button
-                                            class="button"
-                                            type="submit"
-                                            value="draft"
-                                            disabled={isPending()}
-                                        >
-                                            Save draft
-                                        </button>
-                                    </Show>
-                                    <button
-                                        class="button button--primary"
-                                        type="submit"
-                                        value="publish"
-                                        disabled={isPending()}
-                                    >
-                                        {isPending()
-                                            ? "Saving…"
-                                            : isPublished()
-                                              ? "Save changes"
-                                              : "Publish event"}
-                                    </button>
-                                    <Show when={isPublished()}>
-                                        <button
-                                            class="button"
-                                            type="button"
-                                            disabled={isPending()}
-                                            onClick={() => void transition("unpublish")}
-                                        >
-                                            Unpublish
-                                        </button>
-                                        <button
-                                            class="button"
-                                            type="button"
-                                            disabled={isPending()}
-                                            onClick={() => void transition("cancel")}
-                                        >
-                                            Cancel event
-                                        </button>
-                                    </Show>
-                                </Show>
-                            </div>
+                            <Show when={!isPublished() && !isCancelled()}>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="announce" />
+                                    Email subscribers
+                                </label>
+                            </Show>
+
                             <FormMessage error={error()} success={success()} />
-                        </form>
+                        </Editor>
                     </Show>
                 </Show>
             </Page>

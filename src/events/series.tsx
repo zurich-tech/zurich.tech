@@ -1,10 +1,10 @@
 import { Card } from "../components/card";
-import { createSignal, For, Show } from "solid-js";
+import { createSignal, createUniqueId, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { useWorkspaceCommand } from "../app/workspace";
-import { FormMessage } from "../components/form";
-import { createAsync, revalidate } from "@solidjs/router";
+import { Editor, FormMessage } from "../components/form";
+import { createAsync, revalidate, useSearchParams } from "@solidjs/router";
 import { getDirectory } from "../organisations/queries";
 import type { Id } from "../../convex/_generated/dataModel";
 
@@ -13,6 +13,7 @@ type Directory = Awaited<ReturnType<typeof getDirectory>>;
 
 /** Edit the recurring event series catalogue. */
 export function SeriesAdmin() {
+    const formId = createUniqueId();
     const directory = createAsync(() => getDirectory());
     const { perform, isPending, error, success } = useWorkspaceCommand(() =>
         revalidate(getDirectory.key),
@@ -44,7 +45,10 @@ export function SeriesAdmin() {
         );
     }
 
-    const [selected, setSelected] = createSignal<string>();
+    const [params] = useSearchParams();
+    const [selected, setSelected] = createSignal<string | undefined>(
+        typeof params.series === "string" && !params.schedule ? params.series : undefined,
+    );
     const editing = () => directory()?.series.find((item) => item._id === selected());
 
     return (
@@ -52,15 +56,27 @@ export function SeriesAdmin() {
             title="Series"
             class={!selected() ? "admin-table-card" : undefined}
             toolbar={
-                <button
-                    class="button"
-                    classList={{ "button--primary": !selected() }}
-                    onClick={() => {
-                        setSelected(selected() ? undefined : "new");
-                    }}
-                >
-                    {selected() ? "Cancel" : "New series"}
-                </button>
+                <>
+                    <Show when={selected()}>
+                        <button
+                            class="button button--primary"
+                            type="submit"
+                            form={formId}
+                            disabled={isPending()}
+                        >
+                            {isPending() ? "Saving…" : "Save series"}
+                        </button>
+                    </Show>
+                    <button
+                        class="button"
+                        classList={{ "button--primary": !selected() }}
+                        onClick={() => {
+                            setSelected(selected() ? undefined : "new");
+                        }}
+                    >
+                        {selected() ? "Cancel" : "New series"}
+                    </button>
+                </>
             }
         >
             <FormMessage error={error()} success={success()} />
@@ -90,6 +106,12 @@ export function SeriesAdmin() {
                                                     >
                                                         Edit
                                                     </button>
+                                                    <a
+                                                        class="button"
+                                                        href={`/admin?section=series&schedule=new&series=${item._id}`}
+                                                    >
+                                                        Add schedule
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -100,7 +122,12 @@ export function SeriesAdmin() {
                     </div>
                 }
             >
-                <SeriesForm item={editing()} onSubmit={saveSeries} isPending={isPending()} />
+                <SeriesForm
+                    formId={formId}
+                    item={editing()}
+                    onSubmit={saveSeries}
+                    isPending={isPending()}
+                />
             </Show>
         </Card>
     );
@@ -108,6 +135,7 @@ export function SeriesAdmin() {
 
 /** Edit a recurring series and its default topics. */
 function SeriesForm(props: {
+    formId: string;
     /** Series being edited, or absent for a new series. */
     item?: Directory["series"][number];
     /** Save the authored series. */
@@ -116,7 +144,18 @@ function SeriesForm(props: {
     isPending: boolean;
 }) {
     return (
-        <form class="editor" onSubmit={props.onSubmit}>
+        <Editor
+            id={props.formId}
+            class="editor"
+            onSubmit={props.onSubmit}
+            actions={() => (
+                <div class="form-actions">
+                    <button class="button button--primary" disabled={props.isPending}>
+                        {props.isPending ? "Saving…" : "Save series"}
+                    </button>
+                </div>
+            )}
+        >
             <input type="hidden" name="id" value={props.item?._id ?? ""} />
             <div class="form-columns">
                 <label>
@@ -136,9 +175,6 @@ function SeriesForm(props: {
                 Topics
                 <input name="topics" value={props.item?.topics.join(", ") ?? ""} />
             </label>
-            <button class="button button--primary" disabled={props.isPending}>
-                Save series
-            </button>
-        </form>
+        </Editor>
     );
 }

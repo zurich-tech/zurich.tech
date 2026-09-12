@@ -1,3 +1,7 @@
+import { EventTags } from "../../../events/tags";
+import { EventCounts } from "../../../events/counts";
+import { ConfirmationNotice } from "../../../events/confirmation";
+import { isTentative } from "../../../../convex/events/conditions";
 import { useAccount } from "../../../auth";
 import { memberClient } from "../../../auth/convex";
 import { api } from "../../../../convex/_generated/api";
@@ -6,13 +10,13 @@ import { SocialLinks } from "../../../components/social";
 import { Image } from "../../../components/image";
 import { Share } from "../../../components/share";
 import { site, timeZone } from "../../site";
-import { getEvent, type PublicEvent } from "../../../events/queries";
+import { getEvent, useConfirmationRefresh, type PublicEvent } from "../../../events/queries";
 
 import { VenueMap } from "../../../map/venue";
 import { Card } from "../../../components/card";
 import { isCurrentYear } from "../../../events/time";
 import { Arrow } from "../../../components/arrow";
-import { createAsync, useParams } from "@solidjs/router";
+import { createAsync, useParams, revalidate } from "@solidjs/router";
 import {
     startTransition,
     For,
@@ -30,7 +34,7 @@ import { Field, Input } from "../../../components/field";
 import { FormMessage } from "../../../components/form";
 import { Markdown } from "../../../components/markdown";
 import { NotFound } from "../../notfound";
-import { DetailList, DetailRow, Page, PageHeader } from "../../page";
+import { DetailList, DetailRow, Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 import { rsvp } from "../../../events/registration";
 
@@ -52,6 +56,10 @@ export default function Route() {
     // event
     const event = createAsync(() => getEvent(slug()), { deferStream: true });
     const title = () => event()?.title ?? slug();
+    useConfirmationRefresh(
+        () => !!event() && event()!.status === "scheduled" && isTentative(event()!),
+        () => revalidate(getEvent.key),
+    );
 
     const registrationKey = () => (account.user() ? `${account.user()!.id}:${slug()}` : undefined);
     const [registration, { refetch: refreshRegistration }] = createResource(
@@ -116,7 +124,10 @@ export default function Route() {
                   ).action(api.events.registrations.join, { eventSlug: slug(), answers })
                 : (await rsvp({ email, eventSlug: slug(), name, answers }),
                   "Check your inbox to confirm.");
-            if (account.user()) await startTransition(refreshRegistration);
+            if (account.user())
+                await startTransition(async () => {
+                    await Promise.all([refreshRegistration(), revalidate(getEvent.key)]);
+                });
             form.reset();
             setRsvpSuccess(message);
         } catch (caught) {
@@ -145,50 +156,82 @@ export default function Route() {
                         <a class="eyebrow" href="/events">
                             <Arrow direction="left" /> Events
                         </a>
-                        <header class="event-heading">
-                            <div class="event-schedule">
-                                <time dateTime={new Date(event()!.startsAt).toISOString()}>
-                                    {eventTime(event())}
-                                </time>
-                                <Show when={event()?.status === "cancelled"}>
-                                    <span class="tag">Cancelled</span>
-                                </Show>
-                                <Show
-                                    when={
-                                        event()?.status !== "cancelled" &&
-                                        event()!.startsAt < Date.now()
-                                    }
-                                >
-                                    <span class="tag">Past</span>
-                                </Show>
-                                <Show
-                                    when={
-                                        event()?.status === "scheduled" &&
-                                        event()!.startsAt > Date.now()
-                                    }
-                                >
-                                    <span class="tag tag-upcoming">Upcoming</span>
-                                </Show>
-                                <Show when={event()?.registration?.kind === "external"}>
-                                    <span class="tag tag-external">
-                                        External <Arrow direction="external" />
-                                    </span>
-                                </Show>
-                            </div>
-
-                            <PageHeader
-                                title={title()}
-                                actions={<TeamEdit eventId={event()!.id} />}
-                            />
-                            <Show when={event()?.summary}>
-                                <p class="page-lead">{event()?.summary}</p>
+                        <ItemHeader
+                            title={title()}
+                            summary={event()?.summary}
+                            actions={
+                                <div class="row-actions">
+                                    <TeamEdit eventId={event()!.id} />
+                                    <Show when={event()!.checkIn?.isEnabled}>
+                                        <TeamEdit
+                                            href={`/checkin?event=${event()!.id}`}
+                                            label="Check in"
+                                        />
+                                    </Show>
+                                    <Show
+                                        when={
+                                            event()!.feedback?.isEventEnabled ||
+                                            event()!.feedback?.isSpeakerEnabled
+                                        }
+                                    >
+                                        <TeamEdit
+                                            href={`/feedback?event=${event()!.id}`}
+                                            label="Feedback"
+                                        />
+                                    </Show>
+                                </div>
+                            }
+                        >
+                            <Show when={event()?.status === "cancelled"}>
+                                <span class="tag">Cancelled</span>
                             </Show>
-                        </header>
+                            <Show
+                                when={
+                                    event()?.status !== "cancelled" &&
+                                    event()!.startsAt < Date.now()
+                                }
+                            >
+                                <span class="tag">Past</span>
+                            </Show>
+                            <Show
+                                when={
+                                    event()?.status === "scheduled" &&
+                                    event()!.startsAt > Date.now()
+                                }
+                            >
+                                <span class="tag tag-upcoming">
+                                    {isTentative(event()!) ? "Tentative" : "Upcoming"}
+                                </span>
+                            </Show>
+                            <Show when={event()?.registration?.kind === "external"}>
+                                <span class="tag tag-external">
+                                    External <Arrow direction="external" />
+                                </span>
+                            </Show>
+                            <time dateTime={new Date(event()!.startsAt).toISOString()}>
+                                {eventTime(event())}
+                            </time>
+                            <EventTags
+                                series={event()!.series ?? undefined}
+                                topics={event()!.topics}
+                            />
+                            <EventCounts
+                                confirmed={
+                                    event()!.registration.kind === "native" ||
+                                    event()!.rsvpCount > 0
+                                        ? event()!.rsvpCount
+                                        : undefined
+                                }
+                                waitlist={event()!.waitlistCount}
+                            />
+                        </ItemHeader>
 
                         {/* content */}
                         <div class="event-layout">
                             {/* main column */}
                             <div class="event-content">
+                                <ConfirmationNotice event={event()!} />
+
                                 <Show
                                     when={event()?.description?.trim() !== event()?.summary?.trim()}
                                 >
@@ -215,7 +258,9 @@ export default function Route() {
                                                     (event()?.status === "cancelled"
                                                         ? "Event cancelled"
                                                         : {
-                                                              going: "Confirmed",
+                                                              going: isTentative(event()!)
+                                                                  ? "Registered · Event tentative"
+                                                                  : "Confirmed",
                                                               pending: "Pending approval",
                                                               waitlist: "Waitlisted",
                                                               declined: "Declined",
@@ -228,7 +273,14 @@ export default function Route() {
                                                 class="button"
                                                 href={`/registration?token=${encodeURIComponent(currentRegistration()!.token!)}`}
                                             >
-                                                Manage registration
+                                                {event()!.startsAt < Date.now() &&
+                                                (event()!.feedback?.isEventEnabled ||
+                                                    event()!.feedback?.isSpeakerEnabled)
+                                                    ? "Give feedback"
+                                                    : event()!.checkIn?.isEnabled &&
+                                                        currentRegistration()?.status === "going"
+                                                      ? "View pass"
+                                                      : "Manage registration"}
                                             </a>
                                         </Show>
                                     </Card>
@@ -584,9 +636,7 @@ function RsvpForm(props: {
                 props.event?.registration?.kind === "native" &&
                 props.event.registration.admission === "approval"
                     ? "Apply to attend"
-                    : props.event?.registration?.kind === "native" &&
-                        props.event.registration.capacity !== null &&
-                        props.event.rsvpCount >= props.event.registration.capacity
+                    : props.event?.registration?.kind === "native" && props.event.isFull
                       ? "Join the waitlist"
                       : "Register"
             }
@@ -709,7 +759,11 @@ function Speakers(props: { event: PublicEvent | null | undefined }) {
                                     loading="lazy"
                                 />
                             </Show>
-                            <p class="speaker-name">{speaker.name}</p>
+                            <p class="speaker-name">
+                                <Show when={speaker.profileUrl} fallback={speaker.name}>
+                                    <a href={speaker.profileUrl}>{speaker.name}</a>
+                                </Show>
+                            </p>
 
                             {/* affiliation */}
                             <Show when={speaker.title}>
@@ -752,9 +806,8 @@ function isRsvpOpen(event: PublicEvent | null | undefined): boolean {
         event?.status === "scheduled" &&
         event.startsAt > Date.now() &&
         event.registration?.kind === "native" &&
-        (event.registration.overflow !== "closed" ||
-            event.registration.capacity === null ||
-            event.rsvpCount < event.registration.capacity) &&
+        (!isTentative(event) || event.confirmation!.decidesAt > Date.now()) &&
+        (event.registration.overflow !== "closed" || !event.isFull) &&
         (event.registration.closesAt === undefined || event.registration.closesAt > Date.now())
     );
 }
@@ -762,6 +815,8 @@ function isRsvpOpen(event: PublicEvent | null | undefined): boolean {
 /** Explain why a future native event cannot accept another registration. */
 function registrationNotice(event: PublicEvent | null | undefined): string {
     const policy = event?.registration;
+    if (event && isTentative(event) && event.confirmation!.decidesAt <= Date.now())
+        return "Event decision pending.";
 
     return policy?.kind === "native" &&
         policy.closesAt !== undefined &&

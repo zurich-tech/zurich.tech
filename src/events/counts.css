@@ -1,0 +1,24 @@
+.event-counts {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 0.25em;
+    color: var(--color-soft);
+    font: 400 var(--text-body)/1.5 var(--font-sans);
+    font-variant-numeric: tabular-nums;
+}
+.event-counts strong {
+    color: var(--color-ink);
+    font-weight: 600;
+}
+
+.event-counts--compact {
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.event-counts--compact svg {
+    flex-shrink: 0;
+}

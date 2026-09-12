@@ -8,6 +8,8 @@ export function calendar(
         endsAt?: number;
         location?: string;
         status?: string;
+        confirmation?: unknown;
+        confirmedAt?: number;
     },
     now: number,
 ): string {
@@ -29,6 +31,8 @@ export function calendar(
         `URL:https://zurich.tech/events/${event.slug}`,
     );
     if (event.status === "cancelled") lines.push("STATUS:CANCELLED");
+    else if (event.confirmation && event.confirmedAt === undefined) lines.push("STATUS:TENTATIVE");
+    else lines.push("STATUS:CONFIRMED");
     lines.push("END:VEVENT", "END:VCALENDAR");
     const encoder = new TextEncoder();
 

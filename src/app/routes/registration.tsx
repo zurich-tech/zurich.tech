@@ -1,3 +1,8 @@
+import { Pass } from "../../events/checkin";
+import { FeedbackForm } from "../../events/feedback";
+import { useConfirmation } from "../../components/dialog";
+import { useConfirmationRefresh } from "../../events/queries";
+import { isTentative } from "../../../convex/events/conditions";
 import { timeZone } from "../site";
 
 import { Card } from "../../components/card";
@@ -12,6 +17,7 @@ import { errorMessage } from "../../components/errors";
 
 /** Manage one registration using its private email link. */
 export default function Route() {
+    const confirm = useConfirmation();
     // load attendance through the private management link
     const [params] = useSearchParams();
     const [error, setError] = createSignal<string>();
@@ -21,13 +27,40 @@ export default function Route() {
         async (token) => await publicClient().query(api.events.registrations.get, { token }),
     );
 
+    useConfirmationRefresh(
+        () =>
+            !!ticket.latest &&
+            ticket.latest.eventStatus === "scheduled" &&
+            isTentative(ticket.latest),
+        refetch,
+    );
+
     /** Release the attendee's seat after explicit cancellation. */
     async function cancel() {
         setIsPending(true);
         setError(undefined);
         try {
             if (typeof params.token !== "string") throw new Error("Missing registration token.");
-            await publicClient().mutation(api.events.registrations.cancel, { token: params.token });
+            const preview = await publicClient().query(
+                api.events.registrations.previewCancellation,
+                { token: params.token },
+            );
+            if (
+                !(await confirm({
+                    title: "Cancel registration",
+                    action: "Cancel registration",
+                    description:
+                        "Release your place. It may be offered to someone on the waitlist.",
+                    isDestructive: true,
+                    emails: preview.emails,
+                    recipients: preview.recipients,
+                }))
+            )
+                return;
+            await publicClient().mutation(api.events.registrations.cancel, {
+                token: params.token,
+                receipt: preview.receipt,
+            });
             await startTransition(refetch);
         } catch (caught) {
             setError(errorMessage(caught, "Could not cancel."));
@@ -70,72 +103,92 @@ export default function Route() {
                     }
                 >
                     {(item) => (
-                        <div class="listing-layout">
-                            <Card
-                                title={item().title}
-                                titleHref={`/events/${item().slug}`}
-                                heading="h1"
-                            >
-                                <Show when={item().summary}>
-                                    <p>{item().summary}</p>
-                                </Show>
-                                <DetailList>
-                                    <DetailRow
-                                        label="Date"
-                                        value={new Date(item().startsAt).toLocaleDateString(
-                                            "en-GB",
-                                            {
-                                                timeZone,
-                                                day: "numeric",
-                                                month: "long",
-                                                year: "numeric",
-                                            },
-                                        )}
-                                    />
-                                    <DetailRow
-                                        label="Time"
-                                        value={`${new Date(item().startsAt).toLocaleTimeString("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" })} · Zürich time`}
-                                    />
-                                    <Show when={item().location}>
-                                        <DetailRow label="Venue" value={item().location} />
+                        <div class="listing-layout registration-layout">
+                            <div class="editor-column">
+                                <Card
+                                    title={item().title}
+                                    titleHref={`/events/${item().slug}`}
+                                    heading="h1"
+                                >
+                                    <Show when={item().summary}>
+                                        <p>{item().summary}</p>
                                     </Show>
-                                </DetailList>
-                            </Card>
-                            <Card title="Registration">
-                                <DetailList>
-                                    <DetailRow
-                                        label="Status"
-                                        value={
-                                            <strong>
-                                                {item().eventStatus === "cancelled"
-                                                    ? "Event cancelled"
-                                                    : {
-                                                          going: "Confirmed",
-                                                          waitlist: "Waitlisted",
-                                                          pending: "Pending approval",
-                                                          declined: "Declined",
-                                                          cancelled: "Cancelled",
-                                                      }[item().status]}
-                                            </strong>
+                                    <DetailList>
+                                        <DetailRow
+                                            label="Date"
+                                            value={new Date(item().startsAt).toLocaleDateString(
+                                                "en-GB",
+                                                {
+                                                    timeZone,
+                                                    day: "numeric",
+                                                    month: "long",
+                                                    year: "numeric",
+                                                },
+                                            )}
+                                        />
+                                        <DetailRow
+                                            label="Time"
+                                            value={`${new Date(item().startsAt).toLocaleTimeString("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" })} · Zürich time`}
+                                        />
+                                        <Show when={item().location}>
+                                            <DetailRow label="Venue" value={item().location} />
+                                        </Show>
+                                    </DetailList>
+                                </Card>
+                                <FeedbackForm token={String(params.token)} />
+                            </div>
+                            <div class="editor-column">
+                                <Card title="Registration">
+                                    <DetailList>
+                                        <DetailRow
+                                            label="Status"
+                                            value={
+                                                <strong>
+                                                    {item().eventStatus === "cancelled"
+                                                        ? "Event cancelled"
+                                                        : {
+                                                              going: isTentative(item())
+                                                                  ? "Registered · Event tentative"
+                                                                  : "Confirmed",
+                                                              waitlist: "Waitlisted",
+                                                              pending: "Pending approval",
+                                                              declined: "Declined",
+                                                              cancelled: "Cancelled",
+                                                          }[item().status]}
+                                                </strong>
+                                            }
+                                        />
+                                        <DetailRow label="Name" value={item().name} />
+                                        <DetailRow label="Email" value={item().email} />
+                                    </DetailList>
+                                    <Show
+                                        when={
+                                            item().eventStatus !== "cancelled" &&
+                                            item().startsAt > Date.now() &&
+                                            item().status !== "cancelled" &&
+                                            item().status !== "declined"
                                         }
-                                    />
-                                    <DetailRow label="Name" value={item().name} />
-                                    <DetailRow label="Email" value={item().email} />
-                                </DetailList>
+                                    >
+                                        <button
+                                            class="button"
+                                            disabled={isPending()}
+                                            onClick={cancel}
+                                        >
+                                            {isPending() ? "Cancelling…" : "Cancel registration"}
+                                        </button>
+                                    </Show>
+                                    <FormMessage error={error()} />
+                                </Card>
                                 <Show
                                     when={
+                                        item().status === "going" &&
                                         item().eventStatus !== "cancelled" &&
-                                        item().startsAt > Date.now() &&
-                                        item().status !== "cancelled" &&
-                                        item().status !== "declined"
+                                        item().eventStatus !== "draft"
                                     }
                                 >
-                                    <button class="button" disabled={isPending()} onClick={cancel}>
-                                        {isPending() ? "Cancelling…" : "Cancel registration"}
-                                    </button>
+                                    <Pass token={String(params.token)} />
                                 </Show>
-                                <FormMessage error={error()} />
-                            </Card>
+                            </div>
                         </div>
                     )}
                 </Show>

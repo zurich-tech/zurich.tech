@@ -21,9 +21,11 @@ export default function Route() {
                 title="Events"
                 description="Upcoming tech events in Zürich and the community archive."
             />
-            <Page width="narrow">
+            <Page>
                 <Programme
                     heading="h1"
+                    isCalendarEnabled
+                    isPlanningEnabled
                     entries={events() ?? []}
                     series={directory()?.series ?? []}
                 />

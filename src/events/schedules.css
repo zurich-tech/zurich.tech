@@ -1,0 +1,15 @@
+/* Align date actions with inputs without adding a second form footer. */
+.schedule-skip {
+    display: flex;
+    align-items: end;
+}
+.schedule-exclusions {
+    padding: 16px;
+}
+.schedule-exclusions .filter-bar {
+    margin-top: 12px;
+}
+
+.schedule-occurrences {
+    margin-top: 24px;
+}

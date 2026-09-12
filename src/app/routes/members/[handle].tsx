@@ -53,6 +53,9 @@ export default function Route() {
                                 <Show when={member()?.headline}>
                                     <p>{member()?.headline}</p>
                                 </Show>
+                                <Show when={member()?.isSpeaker}>
+                                    <span class="tag">Speaker</span>
+                                </Show>
                                 <Show when={member()?.sponsorTier}>
                                     <span class="tag">
                                         {

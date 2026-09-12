@@ -1,3 +1,4 @@
+import { SpeakerMember } from "./speaker";
 import { createEffect, createSignal, For, Index, Show, type Setter } from "solid-js";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { getDirectory } from "../organisations/queries";
@@ -66,12 +67,7 @@ export function EventFields(props: {
             </label>
             <label>
                 Description <span>Markdown supported</span>
-                <textarea
-                    name="description"
-                    required
-                    rows="8"
-                    value={props.draft?.description ?? ""}
-                />
+                <textarea name="description" rows="8" value={props.draft?.description ?? ""} />
             </label>
             <div class="form-columns">
                 <label>
@@ -126,7 +122,6 @@ export function VenueFields(props: {
                 Venue
                 <input
                     name="location"
-                    required
                     maxlength="500"
                     value={props.draft?.location ?? ""}
                     placeholder="ETH AI Center"
@@ -175,6 +170,16 @@ export function ProgrammeFields(props: {
                     {(speaker, index) => (
                         <fieldset>
                             <legend>Speaker {index + 1}</legend>
+                            <input type="hidden" name="speakerId" value={speaker().id ?? ""} />
+                            <SpeakerMember
+                                id={speaker().memberId}
+                                onChange={(memberId, name, title) =>
+                                    updateSpeaker(index, {
+                                        memberId,
+                                        ...(name ? { name, title: title ?? speaker().title } : {}),
+                                    })
+                                }
+                            />
                             <div class="form-columns">
                                 <label>
                                     Name
@@ -411,7 +416,7 @@ export function RegistrationFields(props: {
                         </select>
                     </label>
                     <label>
-                        Capacity <span>Leave blank for unlimited</span>
+                        Registration limit <span>Leave blank for unlimited</span>
                         <input
                             type="number"
                             name="capacity"

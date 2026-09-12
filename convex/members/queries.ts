@@ -65,6 +65,16 @@ export const member = query({
         return {
             ...(await memberRow(ctx, member)),
             sponsorTier: term !== null && term.endsAt > Date.now() ? patron?.tier : undefined,
+            isSpeaker: (
+                await ctx.db
+                    .query("speakers")
+                    .withIndex("by_member", (q) => q.eq("memberId", member._id))
+                    .collect()
+            ).some(
+                (row) =>
+                    !row.isRemoved &&
+                    events.some((event) => event._id === row.eventId && event.status !== "draft"),
+            ),
             hostedEvents: entries,
         };
     },

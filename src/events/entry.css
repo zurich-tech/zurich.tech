@@ -1,0 +1,93 @@
+/* keep team controls independent of the public entry link */
+.entry-container {
+    position: relative;
+}
+/* share the title row without reserving metadata space for team controls */
+.entry-title-row {
+    grid-column: 2 / -1;
+    grid-row: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+}
+.entry .event-title {
+    color: inherit;
+    min-width: 0;
+}
+.entry .event-title:hover {
+    color: var(--color-accent);
+}
+.entry-actions {
+    flex-shrink: 0;
+}
+.entry.event-row {
+    grid-template-columns: 64px minmax(0, 1fr);
+}
+.entry-publication .entry-title-row {
+    grid-column: 1;
+}
+.entry .event-taxonomy {
+    display: contents;
+}
+@media (max-width: 600px) {
+    .entry.event-row {
+        grid-template-columns: 42px minmax(0, 1fr);
+        column-gap: 16px;
+    }
+}
+.calendar-edit {
+    display: inline-block;
+    margin: 0 6px 8px;
+    font-size: 11px;
+}
+
+.entry-actions .button {
+    min-height: 30px;
+    padding: 6px 10px;
+    font-size: 11px;
+}
+
+.entry-actions:empty {
+    display: none;
+}
+
+.event-taxonomy {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+a.tag:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+a.tag:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+/* keep series previews on the same event grid without doubled section padding */
+.series-preview > .card-body > .series-events {
+    padding-block: 0;
+}
+.series-events > .entry-container:last-child .entry {
+    border-bottom: 0;
+}
+
+/* keep status and tags left while reserving the right edge for registration counts */
+.entry.event-row .event-venue {
+    flex-wrap: nowrap;
+}
+.entry-tags {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.entry.event-row .event-counts {
+    flex-shrink: 0;
+    margin-inline-start: auto;
+}

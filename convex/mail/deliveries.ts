@@ -1,3 +1,5 @@
+import { eligible as receivesFollowUp } from "./followup";
+import { isTentative } from "../events/conditions";
 import { v } from "convex/values";
 import {
     internalAction,
@@ -75,12 +77,36 @@ export const read = internalQuery({
         }
         if (delivery.eventId) {
             const event = await ctx.db.get(delivery.eventId);
-            if (!event || event.status !== "scheduled" || event.startsAt <= Date.now()) return null;
+            if (!event) return null;
+            if (delivery.category === "followup") {
+                const registration = delivery.registrationId
+                    ? await ctx.db.get(delivery.registrationId)
+                    : null;
+                if (!registration || !(await receivesFollowUp(ctx, event, registration)))
+                    return null;
+                return delivery;
+            }
+            if (delivery.category === "cancelled") {
+                if (event.status !== "cancelled") return null;
+            } else if (
+                event.status !== "scheduled" ||
+                (delivery.category !== "confirmed" && event.startsAt <= Date.now())
+            )
+                return null;
+            if (delivery.category === "confirmed" && isTentative(event)) return null;
+            if (
+                (delivery.category === "confirmed" || delivery.category === "cancelled") &&
+                delivery.registrationId
+            ) {
+                const row = await ctx.db.get(delivery.registrationId);
+                if (!row || row.status === "cancelled" || row.status === "declined") return null;
+            }
             if (delivery.category === "reminder") {
                 const registration = delivery.registrationId
                     ? await ctx.db.get(delivery.registrationId)
                     : null;
                 if (
+                    isTentative(event) ||
                     subscription?.reminders === false ||
                     !registration ||
                     registration.status !== "going" ||

@@ -1,3 +1,4 @@
+import { calendarRow } from "./queries";
 import { eventPlace } from "./place";
 import { readTeam } from "../members/team";
 import { query } from "../_generated/server";
@@ -49,6 +50,24 @@ export const events = query({
                 return { ...revision, ...place };
             }),
         );
+        // expose aggregate registration counts only to the event management table
+        const counts = await Promise.all(
+            events.map(async (event) => {
+                const rows = await ctx.db
+                    .query("registrations")
+                    .withIndex("by_event", (q) => q.eq("eventId", event._id))
+                    .collect();
+                return {
+                    eventId: event._id,
+                    confirmed:
+                        event.registration.kind === "native" || rows.length
+                            ? rows.filter((row) => row.status === "going").length
+                            : undefined,
+                    waitlist: rows.filter((row) => row.status === "waitlist").length,
+                    pending: rows.filter((row) => row.status === "pending").length,
+                };
+            }),
+        );
         const digest = await ctx.db.query("digests").unique();
 
         return {
@@ -59,8 +78,63 @@ export const events = query({
                 .map((member) => ({ id: member._id, name: member.name }))
                 .sort((a, b) => a.name.localeCompare(b.name)),
             published,
+            counts,
             digest,
-            statuses: events.map((event) => ({ id: event._id, status: event.status })),
+            statuses: events.map((event) => ({
+                id: event._id,
+                status: event.status,
+                confirmation: event.confirmation,
+                confirmedAt: event.confirmedAt,
+                approvedAt: event.approvedAt,
+                scheduleId: event.scheduleId,
+            })),
         };
+    },
+});
+
+/** Read unpublished planning entries without exposing them to public queries. */
+export const planning = query({
+    args: {},
+    handler: async (ctx) => {
+        await requireTeam(ctx);
+        const events = await ctx.db.query("events").collect();
+        const submissions = await ctx.db.query("submissions").collect();
+        const drafts = submissions.filter(
+            (draft) =>
+                !draft.eventId ||
+                events.find((event) => event._id === draft.eventId)?.status === "draft",
+        );
+        const revised = new Set(drafts.map((draft) => draft.eventId));
+        const unpublished = await Promise.all(
+            events
+                .filter((event) => event.status === "draft" && !revised.has(event._id))
+                .map(async (event) => ({
+                    ...(await calendarRow(ctx, event)),
+                    href: `/submit?event=${event._id}`,
+                })),
+        );
+
+        return [
+            ...unpublished,
+            ...drafts.map((draft) => ({
+                id: draft._id,
+                href: `/submit?edit=${draft._id}`,
+                slug: draft.slug,
+                title: draft.title,
+                summary: draft.summary,
+                startsAt: draft.startsAt,
+                location: draft.location,
+                tags: draft.topics,
+                seriesId: draft.seriesId,
+                status: "draft" as const,
+                confirmation: draft.confirmation,
+                confirmedAt: undefined,
+                registrationKind: draft.registration.kind,
+                capacity:
+                    draft.registration.kind === "none" ? undefined : draft.registration.capacity,
+                rsvpCount: undefined,
+                waitlistCount: undefined,
+            })),
+        ];
     },
 });

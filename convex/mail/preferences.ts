@@ -11,6 +11,7 @@ const preferences = {
     weekly: v.boolean(),
     announcements: v.boolean(),
     reminders: v.boolean(),
+    followUps: v.boolean(),
 };
 
 /** Read private email preferences. */
@@ -29,6 +30,7 @@ export const current = query({
             announcements:
                 subscription?.status === "subscribed" && subscription.announcements !== false,
             reminders: subscription?.reminders !== false,
+            followUps: subscription?.followUps ?? subscription?.status !== "unsubscribed",
             isSuppressed: subscription?.status === "suppressed",
         };
     },
@@ -68,6 +70,7 @@ export const update = internalMutation({
             weekly: args.weekly,
             announcements: args.announcements,
             reminders: args.reminders,
+            followUps: args.followUps,
             status:
                 args.weekly || args.announcements
                     ? ("subscribed" as const)
@@ -121,6 +124,7 @@ export const subscribe = internalMutation({
             weekly: true,
             announcements: true,
             reminders: true,
+            followUps: true,
             source: "account",
             verifiedAt: now,
             createdAt: now,

@@ -1,14 +1,17 @@
+import { internal } from "../_generated/api";
+import { validateConfirmation, sameConfirmation } from "./conditions";
+import { scheduleDecision, settle } from "./confirmation";
+import { queueAnnouncement } from "./mail";
 import { eventAction, confirmAction } from "./actions";
 import { eventPlace } from "./place";
 import { eventEmail, eventChanges } from "../mail/templates";
 import { readLinks, writeLinks } from "../members/links";
 import { v } from "convex/values";
-import { internal } from "../_generated/api";
 import { readTeam } from "../members/team";
 import type { Id } from "../_generated/dataModel";
 import { mutation, type MutationCtx } from "../_generated/server";
 import { requireTeam } from "../auth/access";
-import { submissionFields } from "./fields";
+import { eventFields, submissionFields } from "./fields";
 import { normalizeUrl, normalizeImageUrl } from "../members/urls";
 import { promoteWaitlist } from "./registrations";
 import { enqueue } from "../mail/deliveries";
@@ -18,13 +21,15 @@ export const save = mutation({
     args: {
         id: v.optional(v.id("submissions")),
         publish: v.optional(v.boolean()),
+        announce: v.optional(v.boolean()),
         receipt: v.optional(v.string()),
         ...submissionFields,
     },
     handler: async (ctx, args) => {
         // require team access before changing an event
         const viewer = await requireTeam(ctx);
-        const { id, publish, receipt, ...values } = args;
+        const { id, publish, announce, receipt, ...values } = args;
+        if (announce && !publish) throw new Error("Publish the event before announcing it.");
         const existing = id ? await ctx.db.get(id) : null;
         if (id && !existing) throw new Error("Submission not found.");
 
@@ -36,7 +41,7 @@ export const save = mutation({
             throw new Error("Use Save changes for a published event.");
         if (publish) {
             if (receipt === undefined) throw new Error("Confirm publication first.");
-            confirmAction(await eventAction(ctx, event, "publish", values), receipt);
+            confirmAction(await eventAction(ctx, event, "publish", values, announce), receipt);
         }
 
         // keep named organisers independent of record ownership
@@ -49,7 +54,11 @@ export const save = mutation({
         ];
         await validateOrganisers(ctx, values.organiserIds, values.startsAt);
 
-        // validate public content before accepting a draft
+        // allow planning drafts before their description and venue are confirmed
+        if (publish && (!values.description.trim() || !values.location.trim()))
+            throw new Error("Add a description and venue before publishing.");
+
+        // validate authored content before accepting a draft
         if (!values.title.trim() || values.title.length > 180)
             throw new Error("Enter a title of at most 180 characters.");
         if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(values.slug))
@@ -67,6 +76,39 @@ export const save = mutation({
             (values.endsAt !== undefined && values.endsAt <= values.startsAt)
         )
             throw new Error("The event must end after it starts.");
+
+        // keep physical attendance capacity separate from the registration limit
+        if (
+            values.venueCapacity !== undefined &&
+            (!Number.isInteger(values.venueCapacity) || values.venueCapacity < 1)
+        )
+            throw new Error("Venue capacity must be a positive whole number.");
+
+        // require a definite end and native registrations for attendance and follow-up
+        if (
+            (values.checkIn?.isEnabled ||
+                values.followUp?.isEnabled ||
+                values.feedback?.isEventEnabled ||
+                values.feedback?.isSpeakerEnabled) &&
+            values.registration.kind !== "native"
+        )
+            throw new Error("Use zurich.tech registration for check-in and feedback.");
+        if (
+            values.followUp?.isEnabled &&
+            (!values.endsAt || (!event?.followUp?.isEnabled && values.endsAt <= Date.now()))
+        )
+            throw new Error("Set a future end time before enabling follow-up.");
+        if (
+            values.followUp &&
+            (!Number.isInteger(values.followUp.delayHours) ||
+                values.followUp.delayHours < 1 ||
+                values.followUp.delayHours > 168)
+        )
+            throw new Error("Choose a follow-up delay of 1 to 168 hours.");
+        for (const speaker of values.speakers) {
+            if (speaker.memberId && !(await ctx.db.get(speaker.memberId)))
+                throw new Error("Speaker member not found.");
+        }
 
         // validate speaker links before they can appear in a public event
         if (values.speakers.length > 40) throw new Error("Use at most forty speakers.");
@@ -105,6 +147,15 @@ export const save = mutation({
             )
                 throw new Error("Use at most ten questions, each up to 200 characters.");
         }
+        validateConfirmation(values.confirmation, values.registration, values.startsAt);
+        if (
+            publish &&
+            values.confirmation &&
+            values.confirmation.decidesAt <= Date.now() &&
+            !event?.confirmedAt
+        )
+            throw new Error("Set a confirmation deadline in the future.");
+
         // require a complete geographic coordinate pair
         if (
             (values.latitude === undefined) !== (values.longitude === undefined) ||
@@ -127,16 +178,18 @@ export const save = mutation({
             existing?._id ??
             (await ctx.db.insert("submissions", { ...record, ownerId: viewer.memberId }));
         if (existing) await ctx.db.patch(existing._id, record);
-        if (publish) await publishEvent(ctx, draftId);
+        if (publish) {
+            const eventId = await publishEvent(ctx, draftId);
+            if (announce) await queueAnnouncement(ctx, (await ctx.db.get(eventId))!);
+        }
 
         return draftId;
     },
 });
 
 /** Publish an authorised revision into the public calendar atomically. */
-async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
-    // require team access before changing an event
-    await requireTeam(ctx);
+export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
+    // load the validated revision
     const draft = await ctx.db.get(id);
     if (!draft) throw new Error("Submission not found.");
 
@@ -164,6 +217,13 @@ async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
         if (existing.status === "cancelled")
             throw new Error("Duplicate a cancelled event to schedule it again.");
         if (existing.slug !== draft.slug) throw new Error("A published event's URL cannot change.");
+        if (
+            (active.length > 0 || existing.confirmedAt !== undefined) &&
+            !sameConfirmation(existing.confirmation, draft.confirmation)
+        )
+            throw new Error(
+                "Keep confirmation requirements unchanged after registration or confirmation. Confirm or cancel this occurrence instead.",
+            );
         if (active.length > 0) {
             const previous = existing.registration;
             const next = draft.registration;
@@ -198,23 +258,11 @@ async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
     // build the public revision from approved fields
     const values = {
         ownerId: draft.ownerId,
+        ...eventFields(draft),
         organiserIds: draft.organiserIds ?? [],
-        slug: draft.slug,
-        title: draft.title,
-        description: draft.description,
         summary: draft.summary ?? existing?.summary,
-        format: draft.format,
-        seriesId: draft.seriesId,
-        topics: draft.topics,
-        startsAt: draft.startsAt,
-        endsAt: draft.endsAt,
-        location: draft.location,
-        address: draft.address,
         venueId: keepsVenue ? existing?.venueId : undefined,
-        latitude: draft.latitude,
-        longitude: draft.longitude,
-        registration: draft.registration,
-        organisationIds: draft.organisations,
+        approvedAt: draft.confirmation?.isApprovalRequired ? existing?.approvedAt : undefined,
         status: draft.startsAt < now ? ("finished" as const) : ("scheduled" as const),
         updatedAt: now,
     };
@@ -260,33 +308,32 @@ async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
                     );
         }
     }
-    // announce only first publication, never an edit to an existing event
-    if (!existing && values.status === "scheduled")
-        await ctx.scheduler.runAfter(0, internal.mail.events.announce, {
-            eventId,
-            publishedAt: now,
-            cursor: null,
-        });
 
-    // replace small ordered lists without creating competing event records
-    for (const row of await ctx.db
+    // preserve speaking appearances so member links and feedback survive revisions
+    const appearances = await ctx.db
         .query("speakers")
-        .withIndex("by_event", (range) => range.eq("eventId", eventId))
-        .collect()) {
-        await writeLinks(ctx, row._id, []);
-        await ctx.db.delete(row._id);
-    }
+        .withIndex("by_event", (q) => q.eq("eventId", eventId))
+        .collect();
+    const retained = new Set<Id<"speakers">>();
+    const linkedSpeakers = [];
     for (const [position, speaker] of draft.speakers.entries()) {
-        const { links, ...fields } = speaker;
-        const speakerId = await ctx.db.insert("speakers", {
-            eventId,
-            ...fields,
-            position,
-            createdAt: now,
-            updatedAt: now,
-        });
-
+        const { id, links, ...fields } = speaker;
+        const previous = id
+            ? appearances.find((row) => row._id === id)
+            : appearances.find((row) => !retained.has(row._id) && row.name === speaker.name);
+        if (id && !previous) throw new Error("Speaker does not belong to this event.");
+        if (previous && retained.has(previous._id)) throw new Error("Speaker appears twice.");
+        const values = { ...fields, eventId, position, isRemoved: false, updatedAt: now };
+        const speakerId =
+            previous?._id ?? (await ctx.db.insert("speakers", { ...values, createdAt: now }));
+        if (previous) await ctx.db.patch(speakerId, values);
+        retained.add(speakerId);
+        linkedSpeakers.push({ ...speaker, id: speakerId });
         await writeLinks(ctx, speakerId, links ?? []);
+    }
+    for (const row of appearances) {
+        if (!retained.has(row._id))
+            await ctx.db.patch(row._id, { isRemoved: true, updatedAt: now });
     }
 
     // replace the agenda in display order
@@ -304,9 +351,19 @@ async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
             updatedAt: now,
         });
 
+    await scheduleDecision(ctx, (await ctx.db.get(eventId))!);
+    // stale schedules recheck the current policy and end time before sending
+    if (draft.followUp?.isEnabled && draft.endsAt)
+        await ctx.scheduler.runAt(
+            draft.endsAt + draft.followUp.delayHours * 3600000,
+            internal.mail.followup.deliver,
+            { eventId, cursor: null },
+        );
+
     // mark the submission as the published revision
     await ctx.db.patch(draft._id, {
         status: "published",
+        speakers: linkedSpeakers,
         eventId,
         updatedAt: now,
     });
@@ -356,15 +413,24 @@ export const edit = mutation({
             endsAt: event.endsAt,
             ...(await eventPlace(ctx, event)),
             registration: event.registration,
+            venueCapacity: event.venueCapacity,
+            checkIn: event.checkIn,
+            feedback: event.feedback,
+            followUp: event.followUp,
+            confirmation: event.confirmation,
             organisations: event.organisationIds ?? [],
             speakers: await Promise.all(
-                speakers.map(async ({ _id, name, title, imageUrl, imageDarkUrl }) => ({
-                    name,
-                    title: title ?? "",
-                    links: (await readLinks(ctx, _id)).map((link) => link.url),
-                    imageUrl,
-                    imageDarkUrl,
-                })),
+                speakers
+                    .filter((row) => !row.isRemoved)
+                    .map(async ({ _id, memberId, name, title, imageUrl, imageDarkUrl }) => ({
+                        id: _id,
+                        memberId,
+                        name,
+                        title: title ?? "",
+                        links: (await readLinks(ctx, _id)).map((link) => link.url),
+                        imageUrl,
+                        imageDarkUrl,
+                    })),
             ),
             agenda: agenda.map(({ time, title }) => ({ time, title })),
             updatedAt: Date.now(),
@@ -398,33 +464,7 @@ export const cancel = mutation({
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("You cannot manage this event.");
         confirmAction(await eventAction(ctx, event, "cancel"), args.receipt);
-        // cancel the event before notifying its active attendees
-        await ctx.db.patch(event._id, { status: "cancelled", updatedAt: Date.now() });
-
-        const message = eventEmail(event, "Event cancelled");
-
-        // read the event's attendees before queueing cancellation notices
-        const attendees = await ctx.db
-            .query("registrations")
-            .withIndex("by_event", (range) => range.eq("eventId", event._id))
-            .collect();
-        for (const row of attendees)
-            if (
-                event.startsAt > Date.now() &&
-                row.email &&
-                row.status !== "cancelled" &&
-                row.status !== "declined"
-            )
-                await enqueue(
-                    ctx,
-                    `cancel-event:${event._id}:${row._id}`,
-                    row.email,
-                    message.subject,
-                    message.text,
-                    undefined,
-                    0,
-                    message.html,
-                );
+        await settle(ctx, event, "cancelled");
     },
 });
 

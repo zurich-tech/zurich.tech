@@ -1,49 +1,55 @@
-import { getDirectory } from "../../../organisations/queries";
-import { getCalendar } from "../../../events/queries";
 import { createAsync, useParams } from "@solidjs/router";
 import { Show } from "solid-js";
-
+import { getDirectory } from "../../../organisations/queries";
+import { getCalendar } from "../../../events/queries";
 import { Programme } from "../../../events/programme";
-import { Arrow } from "../../../components/arrow";
-import { Page, PageHeader } from "../../page";
+import { EventTags } from "../../../events/tags";
+import { Markdown } from "../../../components/markdown";
+import { TeamEdit } from "../../../auth/edit";
+import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 import { NotFound } from "../../notfound";
 
-/** Begin public data requests before rendering the route. */
-export const route = {
-    preload: () => Promise.all([getDirectory(), getCalendar()]),
-};
+export const route = { preload: () => Promise.all([getDirectory(), getCalendar()]) };
 
-/** Collect the upcoming gatherings and archive of a recurring series. */
+/** Browse the description and complete programme of one series. */
 export default function Route() {
     const params = useParams();
     const directory = createAsync(() => getDirectory());
     const events = createAsync(() => getCalendar());
     const series = () => directory()?.series.find((item) => item.slug === params.slug);
-
     return (
-        <Show when={series()} fallback={directory() ? <NotFound /> : null}>
-            {(item) => (
-                <>
-                    <Seo title={item().name} description={item().description} />
-                    <Page width="narrow">
-                        <a class="eyebrow" href="/events">
-                            <Arrow direction="left" /> Events
-                        </a>
-                        <PageHeader title={item().name} summary={item().description} />
-                        <Programme
-                            series={[]}
-                            entries={
-                                events()?.filter(
-                                    (event) =>
-                                        event.seriesId === item()._id ||
-                                        event.tags.includes(item().slug),
-                                ) ?? []
-                            }
-                        />
-                    </Page>
-                </>
-            )}
+        <Show when={directory()}>
+            <Show when={series()} fallback={<NotFound />}>
+                {(item) => (
+                    <>
+                        <Seo title={item().name} description={item().description} />
+                        <Page>
+                            <ItemHeader
+                                title={item().name}
+                                summary={<Markdown source={item().description} />}
+                                actions={
+                                    <TeamEdit
+                                        href={`/admin?section=series&series=${item()._id}`}
+                                        label="Edit series"
+                                    />
+                                }
+                            >
+                                <EventTags
+                                    topics={item().topics.filter((topic) => topic !== item().slug)}
+                                />
+                            </ItemHeader>
+                            <Programme
+                                entries={events() ?? []}
+                                series={directory()!.series}
+                                seriesId={item()._id}
+                                isCalendarEnabled
+                                isPlanningEnabled
+                            />
+                        </Page>
+                    </>
+                )}
+            </Show>
         </Show>
     );
 }

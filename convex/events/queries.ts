@@ -82,8 +82,17 @@ export const event = query({
 
         return {
             id: event._id,
-            registration: event.registration,
+            checkIn: event.checkIn,
+            feedback: event.feedback,
+            registration: publicRegistration(event.registration),
+            isFull:
+                event.registration.kind === "native" &&
+                event.registration.capacity !== null &&
+                rsvps.filter((row) => row.status === "going").length >= event.registration.capacity,
+            isApproved: event.approvedAt !== undefined,
             seriesId: event.seriesId,
+            series: event.seriesId ? await ctx.db.get(event.seriesId) : null,
+            topics: event.topics,
             organisations: await Promise.all(
                 (event.organisationIds ?? []).map(async (id) => {
                     const organisation = await ctx.db.get(id);
@@ -93,7 +102,7 @@ export const event = query({
                 }),
             ),
             agenda: agenda.map((item) => ({ time: item.time, title: item.title })),
-            capacity: event.registration.kind !== "none" ? event.registration.capacity : undefined,
+
             description: event.description,
             endsAt: event.endsAt,
             format: event.format,
@@ -104,16 +113,23 @@ export const event = query({
             waitlistCount: rsvps.filter((rsvp) => rsvp.status === "waitlist").length,
             slug: event.slug,
             speakers: await Promise.all(
-                speakers.map(async (speaker) => ({
-                    name: speaker.name,
-                    title: speaker.title,
-                    imageUrl: speaker.imageUrl,
-                    imageDarkUrl: speaker.imageDarkUrl,
-                    links: (await readLinks(ctx, speaker._id)).map((link) => link.url),
-                })),
+                speakers
+                    .filter((speaker) => !speaker.isRemoved)
+                    .map(async (speaker) => ({
+                        profileUrl: speaker.memberId
+                            ? await speakerProfile(ctx, speaker.memberId)
+                            : undefined,
+                        name: speaker.name,
+                        title: speaker.title,
+                        imageUrl: speaker.imageUrl,
+                        imageDarkUrl: speaker.imageDarkUrl,
+                        links: (await readLinks(ctx, speaker._id)).map((link) => link.url),
+                    })),
             ),
             startsAt: event.startsAt,
             status: event.status,
+            confirmation: event.confirmation,
+            confirmedAt: event.confirmedAt,
             summary: event.summary,
             tags: eventTags(event.topics, event.startsAt, args.now),
             timezone: "Europe/Zurich",
@@ -139,16 +155,11 @@ export const event = query({
 
 /** Expand one published calendar entry with event records. */
 export async function calendarRow(ctx: QueryCtx, event: Doc<"events">) {
-    const isLive =
-        event.registration.kind === "native" &&
-        event.status === "scheduled" &&
-        event.startsAt > Date.now();
-    const registrations = isLive
-        ? await ctx.db
-              .query("registrations")
-              .withIndex("by_event", (q) => q.eq("eventId", event._id))
-              .collect()
-        : undefined;
+    const rows = await ctx.db
+        .query("registrations")
+        .withIndex("by_event", (q) => q.eq("eventId", event._id))
+        .collect();
+    const registrations = event.registration.kind === "native" || rows.length ? rows : undefined;
 
     return {
         id: event._id,
@@ -162,8 +173,35 @@ export async function calendarRow(ctx: QueryCtx, event: Doc<"events">) {
         registrationKind: event.registration.kind,
         seriesId: event.seriesId,
         status: event.status,
-        capacity: event.registration.kind === "none" ? undefined : event.registration.capacity,
+        confirmation: event.confirmation,
+        confirmedAt: event.confirmedAt,
+
         rsvpCount: registrations?.filter((row) => row.status === "going").length,
         waitlistCount: registrations?.filter((row) => row.status === "waitlist").length,
     };
+}
+
+/** Resolve public member profiles without exposing private membership records. */
+async function speakerProfile(ctx: QueryCtx, memberId: Doc<"members">["_id"]) {
+    const member = await ctx.db.get(memberId);
+    if (
+        !member ||
+        member.visibility !== "public" ||
+        member.status === "deleted" ||
+        member.status === "blocked"
+    )
+        return undefined;
+    const handle = await ctx.db
+        .query("handles")
+        .withIndex("by_member", (q) => q.eq("memberId", memberId))
+        .collect();
+    const active = handle.find((row) => row.status === "active");
+    return active ? `/members/${active.name}` : undefined;
+}
+
+/** Publish admission rules without disclosing internal booking limits. */
+function publicRegistration(registration: Doc<"events">["registration"]) {
+    if (registration.kind === "none") return registration;
+    const { capacity, ...policy } = registration;
+    return policy;
 }

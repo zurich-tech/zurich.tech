@@ -1,3 +1,4 @@
+import type { Doc } from "../_generated/dataModel";
 import { newsletterEdition, newsletterEmail } from "./templates";
 import { siteOrigin } from "../auth/environment";
 import { v } from "convex/values";
@@ -39,8 +40,8 @@ export const preview = query({
         const sponsors = await activeSponsors(ctx);
 
         return {
-            html: newsletterEmail(newsletterEdition(entries, sponsors)).html,
-            events: entries,
+            html: newsletterEmail(newsletterEdition(digestEvents(entries, now), sponsors)).html,
+            events: digestEvents(entries, now),
             subscribers: subscribers.filter((row) => row.weekly !== false).length,
             failures: deliveries.map((row) => ({
                 id: row._id,
@@ -101,11 +102,12 @@ export const tick = internalMutation({
                 range.eq("status", "scheduled").gte("startsAt", now.getTime()),
             )
             .collect();
-        if (entries.length === 0) return;
+        const selected = digestEvents(entries, now.getTime());
+        if (selected.length === 0) return;
 
         // include only the sponsor placements promised by each tier
         const sponsors = await activeSponsors(ctx);
-        const edition = newsletterEdition(entries, sponsors);
+        const edition = newsletterEdition(selected, sponsors);
 
         // queue bounded batches rather than one scheduled job per subscriber here
         await ctx.scheduler.runAfter(0, internal.mail.digests.queue, {
@@ -163,3 +165,8 @@ export const queue = internalMutation({
         return page.isDone ? null : page.continueCursor;
     },
 });
+
+/** Include the coming week's recurring occurrences alongside standalone announcements. */
+export function digestEvents(events: Doc<"events">[], now: number) {
+    return events.filter((event) => !event.scheduleId || event.startsAt < now + 7 * 86400000);
+}

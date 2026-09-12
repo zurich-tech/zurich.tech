@@ -1,3 +1,4 @@
+import type { Doc } from "../_generated/dataModel";
 import { v, type Infer } from "convex/values";
 
 /** Supported ways to gather in the community. */
@@ -43,8 +44,27 @@ export function resolveSeat(policy: SeatPolicy, confirmed: number): "going" | "w
     return "waitlist";
 }
 
+/** Requirements for a published event to happen. */
+export const confirmation = v.object({
+    minimum: v.optional(v.number()),
+    isApprovalRequired: v.boolean(),
+    timing: v.union(v.literal("immediate"), v.literal("deadline")),
+    decidesAt: v.number(),
+});
+export type Confirmation = Infer<typeof confirmation>;
+
+/** Independent attendance and follow-up policies carried by each occurrence. */
+export const participationFields = {
+    venueCapacity: v.optional(v.number()),
+    checkIn: v.optional(v.object({ isEnabled: v.boolean() })),
+    feedback: v.optional(v.object({ isEventEnabled: v.boolean(), isSpeakerEnabled: v.boolean() })),
+    followUp: v.optional(v.object({ isEnabled: v.boolean(), delayHours: v.number() })),
+};
+
 /** Fields an organiser may edit before publication. */
 export const submissionFields = {
+    ...participationFields,
+    confirmation: v.optional(confirmation),
     organiserIds: v.optional(v.array(v.id("members"))),
     title: v.string(),
     slug: v.string(),
@@ -63,6 +83,8 @@ export const submissionFields = {
     organisations: v.array(v.id("organisations")),
     speakers: v.array(
         v.object({
+            id: v.optional(v.id("speakers")),
+            memberId: v.optional(v.id("members")),
             name: v.string(),
             title: v.string(),
             links: v.optional(v.array(v.string())),
@@ -72,3 +94,30 @@ export const submissionFields = {
     ),
     agenda: v.array(v.object({ time: v.string(), title: v.string() })),
 };
+
+/** Authored event details shared by publication and generated drafts. */
+export function eventFields(draft: Pick<Doc<"submissions">, keyof typeof submissionFields>) {
+    return {
+        organiserIds: draft.organiserIds,
+        title: draft.title,
+        slug: draft.slug,
+        description: draft.description,
+        summary: draft.summary,
+        format: draft.format,
+        seriesId: draft.seriesId,
+        topics: draft.topics,
+        startsAt: draft.startsAt,
+        endsAt: draft.endsAt,
+        location: draft.location,
+        address: draft.address,
+        latitude: draft.latitude,
+        longitude: draft.longitude,
+        registration: draft.registration,
+        venueCapacity: draft.venueCapacity,
+        checkIn: draft.checkIn,
+        feedback: draft.feedback,
+        followUp: draft.followUp,
+        confirmation: draft.confirmation,
+        organisationIds: draft.organisations,
+    };
+}

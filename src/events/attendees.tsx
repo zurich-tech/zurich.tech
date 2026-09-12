@@ -1,3 +1,4 @@
+import { useConfirmation } from "../components/dialog";
 import { FilterPills } from "../components/filter-pills";
 import { confirmEvent } from "./actions";
 import { Empty } from "../components/empty";
@@ -89,6 +90,7 @@ function AttendeeTable(props: {
     /** Run a command and refresh its visible result. */
     perform: Perform;
 }) {
+    const confirm = useConfirmation();
     const [search, setSearch] = createSignal("");
     const [status, setStatus] = createSignal("all");
     const hasAnswers = () => props.list.rows.some((row) => row.answers?.some(Boolean));
@@ -118,6 +120,16 @@ function AttendeeTable(props: {
                 </div>
             }
         >
+            <div class="form-actions">
+                <Show when={props.list.event.checkIn?.isEnabled}>
+                    <a class="button" href={`/checkin?event=${props.list.event._id}`}>
+                        Check in
+                    </a>
+                </Show>
+                <a class="button" href={`/feedback?event=${props.list.event._id}`}>
+                    Feedback
+                </a>
+            </div>
             <div class="admin-context">
                 <a href={`/events/${props.list.event.slug}`}>{props.list.event.title}</a>
             </div>
@@ -199,6 +211,7 @@ function AttendeeTable(props: {
                             const receipt = await confirmEvent(
                                 { eventId, action: "cancel" },
                                 "Cancel event",
+                                confirm,
                             );
                             if (receipt !== undefined)
                                 await (
@@ -228,6 +241,7 @@ function AttendeeRow(props: {
     /** Run a command and refresh its visible result. */
     perform: Perform;
 }) {
+    const confirm = useConfirmation();
     return (
         <tr>
             <td>
@@ -304,9 +318,44 @@ function AttendeeRow(props: {
                                 disabled={props.isPending}
                                 onClick={() =>
                                     props.perform(async () => {
-                                        await (
-                                            await memberClient()
-                                        ).mutation(api.events.registrations.decide, {
+                                        const client = await memberClient();
+                                        const preview = await client.query(
+                                            api.events.registrations.previewDecision,
+                                            { id: props.attendee._id, decision: action.decision },
+                                        );
+                                        if (
+                                            !(await confirm({
+                                                title:
+                                                    action.decision === "cancel"
+                                                        ? "Cancel registration"
+                                                        : action.label,
+                                                action:
+                                                    action.decision === "cancel"
+                                                        ? "Cancel registration"
+                                                        : action.label,
+                                                description: `Update ${preview.name}’s registration to ${preview.status === "going" ? "confirmed" : preview.status === "pending" ? "pending approval" : preview.status === "waitlist" ? "waitlisted" : preview.status}.`,
+                                                isDestructive: [
+                                                    "cancel",
+                                                    "decline",
+                                                    "rescind",
+                                                ].includes(action.decision),
+                                                emails: preview.emails,
+                                                recipients: preview.recipients,
+                                                details: [
+                                                    preview.promotions
+                                                        ? `${preview.promotions} waitlist registrations will be confirmed.`
+                                                        : "",
+                                                    preview.outcome
+                                                        ? `The event will also be ${preview.outcome}.`
+                                                        : "",
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join(" "),
+                                            }))
+                                        )
+                                            return false;
+                                        await client.mutation(api.events.registrations.decide, {
+                                            receipt: preview.receipt,
                                             id: props.attendee._id,
                                             decision: action.decision,
                                         });

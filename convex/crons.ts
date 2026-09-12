@@ -12,4 +12,6 @@ crons.daily(
     internal.statistics.queries.record,
     {},
 );
+crons.interval("event confirmation", { minutes: 5 }, internal.events.confirmation.tick, {});
+crons.hourly("recurring events", { minuteUTC: 5 }, internal.events.schedules.tick, {});
 export default crons;

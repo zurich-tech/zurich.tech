@@ -1,3 +1,4 @@
+import { image } from "./events/checkin";
 import { webhook } from "./billing/stripe";
 import { httpRouter } from "convex/server";
 
@@ -15,5 +16,7 @@ authComponent.registerRoutesLazy(http, createAuth, {
 });
 
 http.route({ path: "/stripe/webhook", method: "POST", handler: webhook });
+
+http.route({ path: "/passes/qr", method: "GET", handler: image });
 
 export default http;

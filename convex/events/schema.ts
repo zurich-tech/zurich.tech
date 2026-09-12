@@ -1,6 +1,13 @@
+import { recurrence } from "./recurrence";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
-import { registration, format, submissionFields } from "./fields";
+import {
+    registration,
+    format,
+    submissionFields,
+    confirmation,
+    participationFields,
+} from "./fields";
 
 /** How physical attendance was recorded. */
 const attendanceMethod = v.union(v.literal("qr"), v.literal("manual"), v.literal("import"));
@@ -27,6 +34,7 @@ const rsvpStatus = v.union(
 
 /** Stored series. */
 export const series = defineTable({
+    announcedAt: v.optional(v.number()),
     status: v.union(v.literal("active"), v.literal("proposed")),
     slug: v.string(),
     name: v.string(),
@@ -36,6 +44,15 @@ export const series = defineTable({
 
 /** Stored events. */
 export const events = defineTable({
+    ...participationFields,
+    announcedAt: v.optional(v.number()),
+    reminderStartsAt: v.optional(v.number()),
+    confirmation: v.optional(confirmation),
+    confirmedAt: v.optional(v.number()),
+    approvedAt: v.optional(v.number()),
+    scheduleId: v.optional(v.id("schedules")),
+    occurrence: v.optional(v.string()),
+    number: v.optional(v.number()),
     organiserIds: v.optional(v.array(v.id("members"))),
     ownerId: v.id("members"),
     registration,
@@ -60,7 +77,24 @@ export const events = defineTable({
 })
     .index("by_slug", ["slug"])
     .index("by_owner", ["ownerId"])
+    .index("by_schedule_and_occurrence", ["scheduleId", "occurrence"])
     .index("by_status_and_start", ["status", "startsAt"]);
+
+/** Event templates and bounded automatic recurrence. */
+export const schedules = defineTable({
+    seriesId: v.id("series"),
+    ownerId: v.id("members"),
+    status: v.union(v.literal("active"), v.literal("paused")),
+    publication: v.union(v.literal("draft"), v.literal("published")),
+    recurrence,
+    template: v.object(submissionFields),
+    nextNumber: v.optional(v.number()),
+    errors: v.optional(v.array(v.string())),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+})
+    .index("by_status", ["status"])
+    .index("by_series", ["seriesId"]);
 
 /** Stored sessions. */
 export const sessions = defineTable({
@@ -76,6 +110,7 @@ export const sessions = defineTable({
 
 /** Stored speakers. */
 export const speakers = defineTable({
+    isRemoved: v.optional(v.boolean()),
     eventId: v.id("events"),
     memberId: v.optional(v.id("members")),
     name: v.string(),
@@ -87,7 +122,22 @@ export const speakers = defineTable({
     updatedAt: v.number(),
 })
     .index("by_event", ["eventId"])
-    .index("by_event_and_position", ["eventId", "position"]);
+    .index("by_event_and_position", ["eventId", "position"])
+    .index("by_member", ["memberId"]);
+
+/** Private responses about an event or a particular speaking appearance. */
+export const feedback = defineTable({
+    eventId: v.id("events"),
+    speakerId: v.optional(v.id("speakers")),
+    registrationId: v.id("registrations"),
+    rating: v.optional(v.number()),
+    comment: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+})
+    .index("by_event", ["eventId"])
+    .index("by_registration", ["registrationId"])
+    .index("by_speaker", ["speakerId"]);
 
 /** Stored submissions. */
 export const submissions = defineTable({
@@ -102,6 +152,7 @@ export const submissions = defineTable({
 
 /** Stored registrations. */
 export const registrations = defineTable({
+    checkInToken: v.optional(v.string()),
     source: v.optional(v.string()),
     eventId: v.id("events"),
     memberId: v.optional(v.id("members")),
@@ -118,6 +169,7 @@ export const registrations = defineTable({
     .index("by_event", ["eventId"])
     .index("by_member", ["memberId"])
     .index("by_event_and_email", ["eventId", "email"])
+    .index("by_check_in_token", ["checkInToken"])
     .index("by_token", ["token"]);
 
 /** Stored photos. */

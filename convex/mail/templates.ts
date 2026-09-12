@@ -1,3 +1,6 @@
+import { isTentative } from "../events/conditions";
+import type { Recurrence } from "../events/recurrence";
+import type { Confirmation } from "../events/fields";
 import { layout, paragraph, escapeHtml } from "./layout";
 import { tiers } from "../../src/sponsorships/plans";
 import type { activeSponsors } from "../sponsorships/organisations";
@@ -17,13 +20,16 @@ type Event = {
     location?: string;
     address?: string;
     summary?: string;
+    confirmation?: Confirmation;
+    confirmedAt?: number;
+    status?: string;
 };
 
 /** Render an event title, local date, venue and optional summary. */
 export function eventDetails(event: Event, includeSummary = false) {
     const url = `${siteOrigin()}/events/${event.slug}`;
     const time = eventTime(event.startsAt);
-    return `<h2 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a href="${escapeHtml(url)}" style="color:#174ed8;text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(time)}${event.location ? `<br>${escapeHtml(event.location)}` : ""}</p>${event.address ? paragraph(event.address) : ""}${includeSummary && event.summary ? paragraph(event.summary) : ""}`;
+    return `<h2 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a href="${escapeHtml(url)}" style="color:#174ed8;text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(time)}${event.location ? `<br>${escapeHtml(event.location)}` : ""}</p>${event.address ? paragraph(event.address) : ""}${includeSummary && event.summary ? paragraph(event.summary) : ""}${isTentative(event) && event.status !== "cancelled" ? paragraph("Tentative · Awaiting event confirmation") : ""}`;
 }
 
 /** Registration subjects, headings and explanations. */
@@ -62,6 +68,9 @@ export function eventTime(timestamp: number) {
 export function eventText(event: Event, includeSummary = false) {
     return [
         event.title,
+        isTentative(event) && event.status !== "cancelled"
+            ? "Tentative · Awaiting event confirmation"
+            : undefined,
         eventTime(event.startsAt),
         event.location,
         event.address,
@@ -98,6 +107,8 @@ export function eventEmail(
     title: string,
     options: {
         subject?: string;
+        actionLabel?: string;
+        passUrl?: string;
         description?: string;
         summary?: boolean;
         manageUrl?: string;
@@ -107,7 +118,10 @@ export function eventEmail(
     const links = [{ label: "Notifications", url: `${siteOrigin()}/settings` }];
     if (options.unsubscribeUrl) links.push({ label: "Unsubscribe", url: options.unsubscribeUrl });
     const action = options.manageUrl
-        ? { label: "Manage registration", url: options.manageUrl }
+        ? {
+              label: options.actionLabel ?? (options.passUrl ? "View pass" : "Manage registration"),
+              url: options.manageUrl,
+          }
         : { label: "View event", url: `${siteOrigin()}/events/${event.slug}` };
     return {
         subject: `${options.subject ?? title}: ${event.title}`,
@@ -124,7 +138,7 @@ export function eventEmail(
         html: layout({
             title,
             preview: `${title}: ${event.title}`,
-            body: `${options.description ? paragraph(options.description) : ""}${eventDetails(event, options.summary)}`,
+            body: `${options.description ? paragraph(options.description) : ""}${eventDetails(event, options.summary)}${options.passUrl ? `<p style="margin:24px 0"><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code" width="240" height="240" style="display:block;width:240px;height:240px;background:white" /></p>` : ""}`,
             action,
             links,
         }),
@@ -225,5 +239,47 @@ export function newsletterEmail(edition: { text: string; html: string }, unsubsc
             `Legal: ${siteOrigin()}/legal`,
         ].join("\n\n"),
         html: layout({ title: "Upcoming events", body: edition.html, links }),
+    };
+}
+
+/** Render the once-only launch announcement for a recurring series. */
+export function seriesEmail(
+    series: { name: string; slug: string; description: string },
+    rule: Recurrence,
+    unsubscribeUrl: string,
+) {
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const unit = { daily: "day", weekly: "week", monthly: "month" }[rule.frequency];
+    const cadence = `Every ${rule.interval === 1 ? unit : `${rule.interval} ${unit}s`}`;
+    const days =
+        rule.frequency === "weekly"
+            ? rule.weekdays.map((day) => weekdays[day]).join(", ")
+            : rule.frequency === "monthly"
+              ? `Day ${Number(rule.start.slice(-2))}`
+              : "";
+    const timing = [cadence, days, rule.time, "Zürich time"].filter(Boolean).join(" · ");
+    const dates = `From ${rule.start}${rule.end ? ` until ${rule.end}` : ""}`;
+    const url = `${siteOrigin()}/series/${series.slug}`;
+    const links = [
+        { label: "Notifications", url: `${siteOrigin()}/settings` },
+        { label: "Unsubscribe", url: unsubscribeUrl },
+    ];
+    const subject = `New series: ${series.name}`;
+    return {
+        subject,
+        text: [
+            subject,
+            timing,
+            dates,
+            series.description,
+            `View events: ${url}`,
+            ...links.map((link) => `${link.label}: ${link.url}`),
+        ].join("\n\n"),
+        html: layout({
+            title: "New series",
+            body: `<h2>${escapeHtml(series.name)}</h2>${paragraph(timing)}${paragraph(dates)}${paragraph(series.description)}`,
+            action: { label: "View events", url },
+            links,
+        }),
     };
 }

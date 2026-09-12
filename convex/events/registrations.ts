@@ -1,3 +1,6 @@
+import { ensureToken } from "./checkin";
+import { confirmationDecision, isTentative } from "./conditions";
+import { evaluate } from "./confirmation";
 import { eventEmail, registrationCopy } from "../mail/templates";
 import { siteOrigin } from "../auth/environment";
 import { v } from "convex/values";
@@ -144,6 +147,8 @@ export const get = query({
             location: event.location,
             status: row.status,
             eventStatus: event.status,
+            confirmation: event.confirmation,
+            confirmedAt: event.confirmedAt,
             title: event.title,
             slug: event.slug,
             startsAt: event.startsAt,
@@ -153,7 +158,7 @@ export const get = query({
 
 /** Cancel a registration and promote the oldest approved waiting attendee. */
 export const cancel = mutation({
-    args: { token: v.string() },
+    args: { token: v.string(), receipt: v.string() },
     handler: async (ctx, args) => {
         // resolve the attendee through their private management token
         const row = await ctx.db
@@ -161,14 +166,26 @@ export const cancel = mutation({
             .withIndex("by_token", (range) => range.eq("token", args.token))
             .unique();
         if (!row) throw new Error("Registration not found.");
-        const event = await ctx.db.get(row.eventId);
-        if (!event) throw new Error("Event not found.");
         if (row.status === "cancelled") return;
-        if (row.status === "declined") throw new Error("This registration was declined.");
-        if (event.status === "cancelled" || event.startsAt <= Date.now())
-            throw new Error("This event no longer accepts registration changes.");
-        await ctx.db.patch(row._id, { status: "cancelled", updatedAt: Date.now() });
-        await promoteWaitlist(ctx, event);
+        const plan = await decisionPlan(ctx, { id: row._id, decision: "cancel" }, true);
+        if (plan.receipt !== args.receipt)
+            throw new Error("Registration changes are pending. Please review and confirm again.");
+        await ctx.db.patch(row._id, { status: "cancelled", updatedAt: plan.now });
+        await promoteWaitlist(ctx, plan.event);
+    },
+});
+
+/** Preview the consequences of releasing a privately managed registration. */
+export const previewCancellation = query({
+    args: { token: v.string() },
+    handler: async (ctx, args) => {
+        const row = await ctx.db
+            .query("registrations")
+            .withIndex("by_token", (q) => q.eq("token", args.token))
+            .unique();
+        if (!row) throw new Error("Registration not found.");
+        const plan = await decisionPlan(ctx, { id: row._id, decision: "cancel" }, true);
+        return { receipt: plan.receipt, emails: plan.emails, recipients: plan.recipients };
     },
 });
 
@@ -186,63 +203,158 @@ export const list = query({
     },
 });
 
-/** Review admission and manage attendance without exceeding event capacity. */
-export const decide = mutation({
+/** Supported admission decisions. */
+const decision = v.union(
+    v.literal("approve"),
+    v.literal("waitlist"),
+    v.literal("rescind"),
+    v.literal("decline"),
+    v.literal("cancel"),
+);
+
+/** Calculate admission changes and every resulting notification before committing them. */
+async function decisionPlan(
+    ctx: QueryCtx,
     args: {
-        id: v.id("registrations"),
-        decision: v.union(
-            v.literal("approve"),
-            v.literal("waitlist"),
-            v.literal("rescind"),
-            v.literal("decline"),
-            v.literal("cancel"),
-        ),
+        id: Doc<"registrations">["_id"];
+        decision: "approve" | "waitlist" | "rescind" | "decline" | "cancel";
     },
+    isSelf = false,
+) {
+    const row = await ctx.db.get(args.id);
+    if (!row) throw new Error("Registration not found.");
+    const event = await ctx.db.get(row.eventId);
+    if (!event) throw new Error("You cannot manage this event.");
+    if (isTentative(event) && event.confirmation!.decidesAt <= Date.now())
+        throw new Error("The confirmation deadline has passed. Wait for the event decision.");
+    const policy = event.registration;
+    if (isSelf && (event.status !== "scheduled" || event.startsAt <= Date.now()))
+        throw new Error("This event no longer accepts registration changes.");
+    if (policy.kind !== "native") throw new Error("This event does not use native registration.");
+
+    // never allocate seats after an event has ended or been cancelled
+    if (
+        ["approve", "waitlist", "rescind"].includes(args.decision) &&
+        (event.status !== "scheduled" || event.startsAt <= Date.now())
+    )
+        throw new Error("Admission is closed for this event.");
+    if (args.decision === "approve" && row.status !== "pending" && row.status !== "waitlist")
+        throw new Error("Only pending or waitlisted applications can be approved.");
+    if (args.decision === "waitlist" && row.status !== "pending" && row.status !== "going")
+        throw new Error("Only pending or confirmed attendees can be waitlisted.");
+    if (
+        args.decision === "rescind" &&
+        row.status !== "going" &&
+        !(row.status === "waitlist" && row.approvedAt !== undefined)
+    )
+        throw new Error("This registration has no approval to rescind.");
+    if (args.decision === "cancel" && (row.status === "cancelled" || row.status === "declined"))
+        throw new Error("This registration is already closed.");
+    if (args.decision === "decline" && row.status !== "pending" && row.status !== "waitlist")
+        throw new Error("Only pending or waitlisted applications can be declined.");
+
+    // resolve the decision against current confirmed attendance
+    const rows = await registrations(ctx, event);
+    const status: Doc<"registrations">["status"] =
+        args.decision === "approve"
+            ? resolveSeat(policy, rows.filter((item) => item.status === "going").length)
+            : args.decision === "waitlist"
+              ? "waitlist"
+              : args.decision === "rescind"
+                ? "pending"
+                : args.decision === "decline"
+                  ? "declined"
+                  : "cancelled";
+    const now = Date.now();
+
+    // simulate seat allocation and conditional confirmation using the same rules as execution
+    let changed = rows.map((item) =>
+        item._id === row._id
+            ? { ...item, status, approvedAt: args.decision === "approve" ? now : undefined }
+            : item,
+    );
+    const promoted =
+        isSelf || (row.status === "going" && status !== "going")
+            ? waitingForSeats(event, changed)
+            : [];
+    const promotedIds = new Set(promoted.map((item) => item._id));
+    changed = changed.map((item) =>
+        promotedIds.has(item._id) ? { ...item, status: "going" as const } : item,
+    );
+    const outcome =
+        event.status === "scheduled" && event.startsAt > now
+            ? confirmationDecision(event, changed, now)
+            : undefined;
+    const notifications = [...(isSelf ? [] : [row]), ...promoted];
+    if (outcome)
+        notifications.push(
+            ...changed.filter((item) => item.status !== "cancelled" && item.status !== "declined"),
+        );
+
+    // suppress the same addresses as delivery and bind consent to the affected registrations
+    const suppressed = new Set(
+        (
+            await ctx.db
+                .query("subscriptions")
+                .withIndex("by_status", (q) => q.eq("status", "suppressed"))
+                .collect()
+        ).map((item) => item.email),
+    );
+    const addresses = notifications
+        .filter((item) => !suppressed.has(item.email))
+        .map((item) => item.email);
+    const receipt = JSON.stringify([
+        args.id,
+        args.decision,
+        isSelf,
+        event.updatedAt,
+        event.status,
+        event.confirmedAt,
+        event.approvedAt,
+        event.confirmation,
+        rows.map((item) => [item._id, item.status, item.updatedAt, item.approvedAt]),
+        addresses.sort(),
+    ]);
+    return {
+        row,
+        event,
+        status,
+        now,
+        receipt,
+        emails: addresses.length,
+        recipients: new Set(addresses).size,
+        promotions: promoted.length,
+        outcome,
+    };
+}
+
+/** Preview admission and all downstream email effects for the team. */
+export const previewDecision = query({
+    args: { id: v.id("registrations"), decision },
     handler: async (ctx, args) => {
-        // require team access
         await requireTeam(ctx);
-        const row = await ctx.db.get(args.id);
-        if (!row) throw new Error("Registration not found.");
-        const event = await ctx.db.get(row.eventId);
-        if (!event) throw new Error("You cannot manage this event.");
-        const policy = event.registration;
-        if (policy.kind !== "native")
-            throw new Error("This event does not use native registration.");
+        const plan = await decisionPlan(ctx, args);
+        return {
+            receipt: plan.receipt,
+            emails: plan.emails,
+            recipients: plan.recipients,
+            promotions: plan.promotions,
+            outcome: plan.outcome,
+            status: plan.status,
+            name: plan.row.name,
+        };
+    },
+});
 
-        // never allocate seats after an event has ended or been cancelled
-        if (
-            ["approve", "waitlist", "rescind"].includes(args.decision) &&
-            (event.status !== "scheduled" || event.startsAt <= Date.now())
-        )
-            throw new Error("Admission is closed for this event.");
-        if (args.decision === "approve" && row.status !== "pending" && row.status !== "waitlist")
-            throw new Error("Only pending or waitlisted applications can be approved.");
-        if (args.decision === "waitlist" && row.status !== "pending" && row.status !== "going")
-            throw new Error("Only pending or confirmed attendees can be waitlisted.");
-        if (
-            args.decision === "rescind" &&
-            row.status !== "going" &&
-            !(row.status === "waitlist" && row.approvedAt !== undefined)
-        )
-            throw new Error("This registration has no approval to rescind.");
-        if (args.decision === "cancel" && (row.status === "cancelled" || row.status === "declined"))
-            throw new Error("This registration is already closed.");
-        if (args.decision === "decline" && row.status !== "pending" && row.status !== "waitlist")
-            throw new Error("Only pending or waitlisted applications can be declined.");
-
-        // resolve the decision against current confirmed attendance
-        const rows = await registrations(ctx, event);
-        const status =
-            args.decision === "approve"
-                ? resolveSeat(policy, rows.filter((item) => item.status === "going").length)
-                : args.decision === "waitlist"
-                  ? "waitlist"
-                  : args.decision === "rescind"
-                    ? "pending"
-                    : args.decision === "decline"
-                      ? "declined"
-                      : "cancelled";
-        const now = Date.now();
+/** Apply the reviewed admission decision only while its effects match the confirmation. */
+export const decide = mutation({
+    args: { id: v.id("registrations"), decision, receipt: v.string() },
+    handler: async (ctx, args) => {
+        await requireTeam(ctx);
+        const plan = await decisionPlan(ctx, { id: args.id, decision: args.decision });
+        if (plan.receipt !== args.receipt)
+            throw new Error("The event or registrations changed. Please review and confirm again.");
+        const { row, event, status, now } = plan;
 
         // record the decision and notify affected attendees
         await ctx.db.patch(row._id, {
@@ -252,6 +364,7 @@ export const decide = mutation({
         });
         await notify(ctx, event, { ...row, status }, `decision:${row._id}:${args.decision}:${now}`);
         if (row.status === "going" && status !== "going") await promoteWaitlist(ctx, event);
+        await evaluate(ctx, event);
     },
 });
 
@@ -259,6 +372,8 @@ export const decide = mutation({
 export function requireOpenEvent(event: Doc<"events">) {
     // check the native policy and registration window
     const policy = event.registration;
+    if (isTentative(event) && event.confirmation!.decidesAt <= Date.now())
+        throw new Error("Registration is closed while the event decision is pending.");
     if (event.status !== "scheduled" || event.startsAt <= Date.now())
         throw new Error("Registration is closed.");
     if (policy.kind !== "native") throw new Error("This event does not accept registrations here.");
@@ -290,16 +405,21 @@ export async function promoteWaitlist(ctx: MutationCtx, event: Doc<"events">) {
             `promote:${row._id}:${row.updatedAt}:${Date.now()}`,
         );
     }
+    await evaluate(ctx, event);
 }
 
 /** Select approved waitlisted registrations that fit the event's open seats. */
 export function waitingForSeats(
-    event: Pick<Doc<"events">, "registration" | "status" | "startsAt">,
+    event: Pick<
+        Doc<"events">,
+        "registration" | "status" | "startsAt" | "confirmation" | "confirmedAt"
+    >,
     rows: Doc<"registrations">[],
 ) {
     const policy = event.registration;
     const now = Date.now();
     if (
+        (isTentative(event) && event.confirmation!.decidesAt <= now) ||
         policy.kind !== "native" ||
         event.status !== "scheduled" ||
         event.startsAt <= now ||
@@ -324,11 +444,21 @@ async function notify(
     key: string,
 ) {
     if (!row.email) throw new Error("Registration has no email address.");
-    const copy = registrationCopy[row.status];
+    const copy =
+        row.status === "going" && isTentative(event)
+            ? {
+                  title: "Registration received",
+                  description: "You’re registered. The event is awaiting confirmation.",
+              }
+            : registrationCopy[row.status];
 
     // keep private management actions on active registrations
     const message = eventEmail(event, copy.title, {
         ...copy,
+        passUrl:
+            row.status === "going" && event.checkIn?.isEnabled && !isTentative(event)
+                ? `${process.env.CONVEX_SITE_URL}/passes/qr?token=${encodeURIComponent(await ensureToken(ctx, row))}`
+                : undefined,
         manageUrl:
             row.token && row.status !== "declined" && row.status !== "cancelled"
                 ? `${siteOrigin()}/registration?token=${encodeURIComponent(row.token)}`
@@ -383,11 +513,15 @@ export async function register(
     if (existing) await ctx.db.patch(id, values);
     const registration = await ctx.db.get(id);
     if (!registration) throw new Error("Registration disappeared.");
-    await notify(ctx, event, registration, `registered:${ticket.token}`);
+    await evaluate(ctx, event);
+    const currentEvent = (await ctx.db.get(event._id))!;
+    await notify(ctx, currentEvent, registration, `registered:${ticket.token}`);
 
     return status === "pending"
         ? "Your application is awaiting the organiser’s approval."
         : status === "waitlist"
           ? "You’re on the waitlist. We’ll email you when a place opens."
-          : "You’re confirmed. Your event details are on their way by email.";
+          : isTentative(currentEvent)
+            ? "You’re registered. The event is awaiting confirmation."
+            : "You’re confirmed. Your event details are on their way by email.";
 }

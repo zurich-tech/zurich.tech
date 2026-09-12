@@ -1,3 +1,4 @@
+import type { Confirm } from "../components/dialog";
 import type { FunctionArgs } from "convex/server";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
@@ -6,6 +7,7 @@ import { memberClient } from "../auth/convex";
 export async function confirmEvent(
     args: FunctionArgs<typeof api.events.actions.preview>,
     title: string,
+    confirm: Confirm,
 ) {
     const preview = await (await memberClient()).query(api.events.actions.preview, args);
     const effects =
@@ -13,10 +15,30 @@ export async function confirmEvent(
             ? "This hides the event and closes registration. Existing registrations are kept."
             : args.action === "cancel"
               ? "This cancels the event and closes registration."
-              : "This publishes your changes.";
-    const mail = preview.emails
-        ? `This will email ${preview.recipients.toLocaleString("en-CH")} recipient${preview.recipients === 1 ? "" : "s"}${preview.emails > preview.recipients ? ` (${preview.emails} emails)` : ""}.${preview.promotions ? ` ${preview.promotions} waitlist confirmation${preview.promotions === 1 ? "" : "s"} included.` : ""}`
-        : "No emails will be sent.";
+              : args.action === "confirm"
+                ? "This confirms the event even if its requirements are unmet."
+                : args.action === "approve"
+                  ? "This records team approval. Other requirements still apply."
+                  : "This publishes your changes.";
+    const accepted = await confirm({
+        title,
+        subject: preview.title,
+        action: title,
+        description: effects,
+        isDestructive: args.action === "cancel" || args.action === "unpublish",
+        emails: preview.emails,
+        recipients: preview.recipients,
+        details: [
+            preview.followUp
+                ? `Follow-up scheduled ${preview.followUp.delayHours} hours after the event, for ${preview.followUp.isAttendanceRequired ? "checked-in attendees" : "confirmed registrants"}. ${preview.followUp.currentRegistrations} currently confirmed; the final email count depends on eligibility at delivery.`
+                : "",
+            preview.announcements ? `${preview.announcements} subscriber announcements.` : "",
+            preview.updates ? `${preview.updates} registration updates.` : "",
+            preview.promotions ? `${preview.promotions} waitlist confirmations.` : "",
+        ]
+            .filter(Boolean)
+            .join(" "),
+    });
 
-    return window.confirm(`${title}?\n\n${effects}\n\n${mail}`) ? preview.receipt : undefined;
+    return accepted ? preview.receipt : undefined;
 }

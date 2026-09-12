@@ -34,6 +34,7 @@ export const unsubscribe = mutation({
             const now = Date.now();
             await ctx.db.patch(row._id, {
                 status: "unsubscribed",
+                followUps: false,
                 history: subscriptionHistory(
                     row,
                     { ...row, status: "unsubscribed" },

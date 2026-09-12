@@ -1,15 +1,22 @@
+import { isTentative } from "../../convex/events/conditions";
+import { EventCalendar } from "./month";
 import { pageSize } from "../app/site";
-import { type CalendarEntry } from "./queries";
+import { usePlanning, useConfirmationRefresh, getCalendar, type CalendarEntry } from "./queries";
 
 import { Card } from "../components/card";
 import { FilterPills } from "../components/filter-pills";
-import { Entry } from "./entry";
+import { EventEntry } from "./entry";
 import { createSignal, createMemo, createEffect, on, For, Show } from "solid-js";
-import { useSearchParams } from "@solidjs/router";
+import { useSearchParams, revalidate } from "@solidjs/router";
 
 /** Browse events in a single aligned calendar, filtered by period, year and series. */
 export function Programme(props: {
-    /** Published events to filter and paginate. */
+    /** Include private drafts for signed-in team members. */
+    isPlanningEnabled?: boolean;
+    seriesId?: string;
+    /** Offer a month view on the main Events page. */
+    isCalendarEnabled?: boolean;
+    /** Events to filter and paginate. */
     entries: CalendarEntry[];
     /** Maximum listings before linking to the full programme. */
     limit?: number;
@@ -23,8 +30,22 @@ export function Programme(props: {
     const [series, setSeries] = createSignal("all");
     const [visibleCount, setVisibleCount] = createSignal(pageSize);
     const now = Date.now();
+    const compare = (left: CalendarEntry, right: CalendarEntry) => right.startsAt - left.startsAt;
+    const planning = usePlanning(() => !!props.isPlanningEnabled);
+    const entries = () =>
+        [...props.entries, ...(planning.current()?.entries ?? [])].filter(
+            (event) => !props.seriesId || event.seriesId === props.seriesId,
+        );
+    useConfirmationRefresh(
+        () => props.entries.some((event) => event.status === "scheduled" && isTentative(event)),
+        () => revalidate(getCalendar.key),
+    );
+    const isCalendar = () => !!props.isCalendarEnabled && params.view === "calendar";
     const isPreview = () => props.limit !== undefined;
-    const period = () => (isPreview() ? "all" : (params.period ?? "all"));
+    const period = () =>
+        isPreview() || (params.period === "draft" && !planning.current()?.isTeam)
+            ? "all"
+            : (params.period ?? "all");
 
     const year = () => (!isPreview() && typeof params.year === "string" ? params.year : "all");
     const yearFormat = new Intl.DateTimeFormat("en", {
@@ -33,49 +54,91 @@ export function Programme(props: {
     });
     const eventYear = (startsAt: number) => yearFormat.format(startsAt);
     const years = createMemo(() =>
-        [...new Set(props.entries.map((event) => eventYear(event.startsAt)))].sort(),
+        [...new Set(entries().map((event) => eventYear(event.startsAt)))].sort(),
     );
 
     // keep homepage series filters relevant to the unfiltered preview
     const availableSeries = createMemo(() => {
         if (!isPreview()) return props.series;
-        const recent = [...props.entries]
-            .sort((a, b) => b.startsAt - a.startsAt)
-            .slice(0, props.limit);
+        const recent = [...entries()].sort(compare).slice(0, props.limit);
 
         return props.series.filter((item) => recent.some((event) => event.seriesId === item._id));
     });
 
-    // filter one catalogue and order it by the selected period
+    // filter one catalogue and show events in reverse chronological order
     const matches = createMemo(() =>
-        props.entries
+        entries()
             .filter(
                 (event) =>
                     (period() === "all" ||
-                        (period() === "past" ? event.startsAt < now : event.startsAt >= now)) &&
-                    (year() === "all" || eventYear(event.startsAt) === year()) &&
-                    (series() === "all" ||
-                        event.seriesId === series() ||
-                        event.tags.includes(series())),
+                        (period() === "draft"
+                            ? event.status === "draft"
+                            : period() === "past"
+                              ? event.startsAt < now
+                              : event.startsAt >= now)) &&
+                    (isCalendar() || year() === "all" || eventYear(event.startsAt) === year()) &&
+                    (isPreview() || !params.tag || event.tags.includes(String(params.tag))) &&
+                    (series() === "all" || event.seriesId === series()),
             )
-            .sort((a, b) =>
-                period() === "upcoming" ? a.startsAt - b.startsAt : b.startsAt - a.startsAt,
-            ),
+            .sort(compare),
     );
 
-    // restart the visible page whenever the matching event set changes
-    createEffect(on(matches, () => setVisibleCount(pageSize)));
+    // restart pagination only for filters, keeping background refreshes in place
+    createEffect(
+        on([series, period, year, isCalendar, () => params.tag], () => setVisibleCount(pageSize)),
+    );
 
     return (
         <Card
             class={isPreview() ? "programme" : "programme programme--full"}
             heading={props.heading}
+            meta={
+                isPreview()
+                    ? `${Math.min(props.limit!, matches().length)} of ${matches().length}`
+                    : undefined
+            }
+            toolbar={
+                <div class="row-actions">
+                    <a class="button" href="/series">
+                        Series
+                    </a>
+                    <Show when={planning.current()?.isTeam}>
+                        <a class="button" href="/submit">
+                            New event
+                        </a>
+                    </Show>
+                    <Show when={props.isCalendarEnabled}>
+                        <FilterPills
+                            label="Event view"
+                            value={isCalendar() ? "calendar" : "list"}
+                            options={[
+                                { value: "list", label: "List" },
+                                { value: "calendar", label: "Calendar" },
+                            ]}
+                            onChange={(view) =>
+                                setParams({
+                                    view: view === "list" ? undefined : view,
+                                    period: undefined,
+                                    year: undefined,
+                                })
+                            }
+                        />
+                    </Show>
+                </div>
+            }
             title={
                 <Show when={props.heading !== "h1"} fallback="Events">
                     <a href="/events">Events</a>
                 </Show>
             }
         >
+            <Show when={!isPreview() && params.tag}>
+                <div class="filter-bar">
+                    <a class="tag" href="/events" aria-label={`Clear topic ${params.tag}`}>
+                        {params.tag} ×
+                    </a>
+                </div>
+            </Show>
             {/* combine time and series filters over one chronological list */}
             <div class="programme-tagbar" aria-label="Filter events">
                 <Show when={!isPreview()}>
@@ -90,6 +153,9 @@ export function Programme(props: {
                             { value: "all", label: "All" },
                             { value: "upcoming", label: "Upcoming" },
                             { value: "past", label: "Past" },
+                            ...(planning.current()?.isTeam
+                                ? [{ value: "draft", label: "Draft" }]
+                                : []),
                         ]}
                         onChange={(value) => {
                             if (value === "all") setSeries("all");
@@ -100,16 +166,21 @@ export function Programme(props: {
                         }}
                     />
                 </Show>
-                <FilterPills
-                    label="Event series"
-                    value={series()}
-                    options={[
-                        ...(isPreview() ? [{ value: "all", label: "All" }] : []),
-                        ...availableSeries().map((item) => ({ value: item._id, label: item.name })),
-                    ]}
-                    onChange={(value) => setSeries(value === series() ? "all" : value)}
-                />
-                <Show when={!isPreview()}>
+                <Show when={!props.seriesId}>
+                    <FilterPills
+                        label="Event series"
+                        value={series()}
+                        options={[
+                            ...(isPreview() ? [{ value: "all", label: "All" }] : []),
+                            ...availableSeries().map((item) => ({
+                                value: item._id,
+                                label: item.name,
+                            })),
+                        ]}
+                        onChange={(value) => setSeries(value === series() ? "all" : value)}
+                    />
+                </Show>
+                <Show when={!isPreview() && !isCalendar()}>
                     <FilterPills
                         label="Event year"
                         value={year()}
@@ -120,86 +191,95 @@ export function Programme(props: {
                     />
                 </Show>
             </div>
-            {/* render the current page with venue and upcoming tags */}
-            <ol class="event-list">
-                <For each={matches().slice(0, props.limit ?? visibleCount())}>
-                    {(event, index) => (
-                        <li>
-                            {/* mark the transition from upcoming events into the archive */}
-                            <Show
-                                when={
-                                    period() === "all" &&
-                                    (year() === "all" || year() === eventYear(now)) &&
-                                    event.startsAt < now &&
-                                    (index() === 0 || matches()[index() - 1].startsAt >= now)
-                                }
-                            >
-                                <div class="programme-today">
-                                    <span>Today</span>
-                                </div>
-                            </Show>
-                            <Entry
-                                class={
-                                    event.startsAt < now ? "event-row event-row-past" : "event-row"
-                                }
-                                href={event.href}
-                                date={event.startsAt}
-                                title={event.title}
-                                description={event.summary}
-                                meta={
-                                    <>
-                                        <span class="tag">
-                                            {event.location}
-                                            {event.status === "cancelled" ? " · Cancelled" : ""}
-                                        </span>
-                                        <Show
-                                            when={
-                                                event.status === "scheduled" && event.startsAt > now
-                                            }
-                                        >
-                                            <span class="tag tag-upcoming">Upcoming</span>
-                                        </Show>
-                                    </>
-                                }
-                            />
-                        </li>
-                    )}
-                </For>
-            </ol>
-            {/* reveal the next page without replacing existing entries */}
-            <Show when={(props.limit ?? visibleCount()) < matches().length}>
-                <div class="programme-more">
-                    <Show
-                        when={props.limit === undefined}
-                        fallback={
-                            <a class="button" href="/events">
-                                All events
-                            </a>
-                        }
-                    >
-                        <button
-                            class="button"
-                            type="button"
-                            onClick={() => setVisibleCount((count) => count + pageSize)}
-                        >
-                            Load more
-                        </button>
-                    </Show>
-                    <span>
-                        {Math.min(props.limit ?? visibleCount(), matches().length)} of{" "}
-                        {matches().length}
-                    </span>
+            <Show when={planning.error()}>
+                <div class="programme-planning-error">
+                    <span>Could not load planning events.</span>
+                    <button class="button" onClick={() => void planning.retry()}>
+                        Try again
+                    </button>
                 </div>
             </Show>
-            {/* explain an empty result without inventing events */}
-            <Show when={matches().length === 0}>
-                <p class="programme-empty-state">
-                    {series() !== "all" || year() !== "all"
-                        ? "No events match these filters."
-                        : period() === "upcoming"
-                          ? "No upcoming events published."
-                          : "No events published."}
-                </p>
+            <Show
+                when={isCalendar()}
+                fallback={
+                    <>
+                        {/* render the current page with venue and upcoming tags */}
+                        <ol class="event-list">
+                            <For each={matches().slice(0, props.limit ?? visibleCount())}>
+                                {(event, index) => (
+                                    <li>
+                                        {/* mark the transition from upcoming events into the archive */}
+                                        <Show
+                                            when={
+                                                period() === "all" &&
+                                                (year() === "all" || year() === eventYear(now)) &&
+                                                event.startsAt < now &&
+                                                (index() === 0 ||
+                                                    matches()[index() - 1].startsAt >= now)
+                                            }
+                                        >
+                                            <div class="programme-today">
+                                                <span>Today</span>
+                                            </div>
+                                        </Show>
+                                        <EventEntry
+                                            event={event}
+                                            now={now}
+                                            series={
+                                                props.seriesId
+                                                    ? undefined
+                                                    : props.series.find(
+                                                          (series) => series._id === event.seriesId,
+                                                      )
+                                            }
+                                            actions={
+                                                <Show when={planning.current()?.isTeam}>
+                                                    <a
+                                                        class="button"
+                                                        aria-label={`Edit ${event.title}`}
+                                                        href={`/submit?event=${event.id}`}
+                                                    >
+                                                        Edit
+                                                    </a>
+                                                </Show>
+                                            }
+                                        />
+                                    </li>
+                                )}
+                            </For>
+                        </ol>
+                        {/* reveal the next page without replacing existing entries */}
+                        <Show when={!isPreview() && visibleCount() < matches().length}>
+                            <div class="programme-more">
+                                <button
+                                    class="button"
+                                    type="button"
+                                    onClick={() => setVisibleCount((count) => count + pageSize)}
+                                >
+                                    Load more
+                                </button>
+                                <span>
+                                    {Math.min(visibleCount(), matches().length)} of{" "}
+                                    {matches().length}
+                                </span>
+                            </div>
+                        </Show>
+                        {/* explain an empty result without inventing events */}
+                        <Show when={matches().length === 0}>
+                            <p class="programme-empty-state">
+                                {series() !== "all" || year() !== "all"
+                                    ? "No events match these filters."
+                                    : period() === "upcoming"
+                                      ? "No upcoming events."
+                                      : period() === "draft"
+                                        ? "No draft events."
+                                        : "No events."}
+                            </p>
+                        </Show>
+                    </>
+                }
+            >
+                <EventCalendar entries={matches()} isTeam={planning.current()?.isTeam} />
             </Show>
         </Card>
     );
