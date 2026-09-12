@@ -13,9 +13,9 @@ import { Seo } from "../seo";
 
 /** Stated reach shown with the sponsorship options. */
 const reach = [
-    `${site.subscribers.toLocaleString("en-GB")}+ mailing-list subscribers.`,
-    `${site.attendees.toLocaleString("en-GB")}+ attendees at most of our events.`,
-    `>${site.eventsPerYear} events/year.`,
+    `${site.members.toLocaleString("en-GB")}+ members`,
+    `${site.attendees.toLocaleString("en-GB")}+ attendees at most events`,
+    `More than ${site.eventsPerYear} events a year`,
 ];
 
 /** Present annual support and open sponsorship inquiries. */
@@ -27,6 +27,10 @@ export default function Route() {
             <Seo title="Sponsor" description={reach.join(" ")} />
             <Page>
                 <Card title="Support zurich.tech" heading="h1">
+                    <p>
+                        Help us bring Zürich’s tech community together through talks, dinners,
+                        hackathons and more.
+                    </p>
                     <ul class="plan-benefits">
                         <For each={reach}>
                             {(sentence) => (
@@ -99,8 +103,15 @@ export default function Route() {
                                     <Show when={tier.news}>
                                         <li>
                                             <Arrow />
-                                            <strong>Partner news</strong>
-                                            <span>{tier.news}</span>
+                                            <strong>{tier.news?.title}</strong>
+                                            <span>{tier.news?.description}</span>
+                                        </li>
+                                    </Show>
+                                    <Show when={tier.events}>
+                                        <li>
+                                            <Arrow />
+                                            <strong>Partner events</strong>
+                                            <span>{tier.events}</span>
                                         </li>
                                     </Show>
                                 </ul>

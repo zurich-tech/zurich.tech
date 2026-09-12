@@ -19,18 +19,18 @@ export default function Route() {
                     <p>
                         Every newsletter has an unsubscribe link. Registration emails include a
                         private management link. Account and event records are stored in Convex;
-                        email is delivered through Resend. The site uses necessary authentication
-                        storage and does not include advertising trackers.
+                        email is delivered through Resend. Address searches are sent to Photon. The
+                        site uses necessary authentication storage and does not include advertising
+                        trackers.
                     </p>
                     <p>
-                        Signing in with GitHub or X shares your name, verified email and profile
-                        image with us. Your avatar refreshes when you sign in. Patron recognition is
-                        public only if you enable it in settings.
+                        Signing in with GitHub or Google shares your name, verified email and
+                        profile image with us. Patron recognition is public only if you enable it in
+                        settings.
                     </p>
                     <p>
-                        Stripe processes payments and invoices. We retain payment references and
-                        membership terms; card details stay with Stripe. Company billing details are
-                        visible to the company owner and our team. Job applications go to the
+                        Sponsorships are arranged by email. Organisation billing details are visible
+                        to the organisation owner and our team. Job applications go to the
                         employer’s application site.
                     </p>
                     <p>
