@@ -54,7 +54,7 @@ export const status = query({
             .query("subscriptions")
             .withIndex("by_token", (q) => q.eq("token", args.token))
             .unique();
-        if (!subscription) throw new Error("Subscription not found.");
+        if (!subscription) return null;
         return {
             isSubscribed:
                 subscription.status === "subscribed" &&

@@ -1,7 +1,7 @@
 import { Card } from "../../components/card";
 import { Arrow } from "../../components/arrow";
 import { useSearchParams } from "@solidjs/router";
-import { createSignal, createResource, Show } from "solid-js";
+import { startTransition, createSignal, createResource, createEffect, Show } from "solid-js";
 import { api } from "../../../convex/_generated/api";
 import { publicClient } from "../../auth/convex";
 import { Page } from "../page";
@@ -21,6 +21,13 @@ export default function Route() {
     const [error, setError] = createSignal<string>();
     const [isPending, setIsPending] = createSignal(false);
 
+    // clear the previous result when opening a different email link
+    createEffect(() => {
+        params.token;
+        setSuccess(undefined);
+        setError(undefined);
+    });
+
     /** Consume the verification link only after the recipient clicks. */
     async function confirm() {
         setIsPending(true);
@@ -33,7 +40,7 @@ export default function Route() {
                     token: params.token,
                 }),
             );
-            await refetch();
+            await startTransition(refetch);
         } catch (caught) {
             setError(errorMessage(caught, "Could not confirm."));
         } finally {
@@ -41,13 +48,16 @@ export default function Route() {
         }
     }
 
+    // keep link failures inside the recovery card
+    const currentVerification = () => (verification.error ? undefined : verification());
+
     return (
         <>
             <Seo
                 title={
-                    verification()?.status === "confirmed"
+                    currentVerification()?.status === "confirmed"
                         ? "Email confirmed"
-                        : verification()?.purpose === "subscription"
+                        : currentVerification()?.purpose === "subscription"
                           ? "Confirm subscription"
                           : "Confirm email"
                 }
@@ -56,9 +66,9 @@ export default function Route() {
             <Page width="narrow">
                 <Card
                     title={
-                        verification()?.status === "confirmed"
+                        currentVerification()?.status === "confirmed"
                             ? "Email confirmed"
-                            : verification()?.purpose === "subscription"
+                            : currentVerification()?.purpose === "subscription"
                               ? "Confirm subscription"
                               : "Confirm email"
                     }
@@ -68,7 +78,7 @@ export default function Route() {
                         <Show
                             when={
                                 !success() &&
-                                verification()?.status === "pending" &&
+                                currentVerification()?.status === "pending" &&
                                 !verification.loading &&
                                 !verification.error
                             }
@@ -80,10 +90,13 @@ export default function Route() {
                             >
                                 {isPending()
                                     ? "Confirming…"
-                                    : verification()?.purpose === "subscription"
+                                    : currentVerification()?.purpose === "subscription"
                                       ? "Confirm subscription"
                                       : "Confirm email"}
                             </button>
+                        </Show>
+                        <Show when={!verification.error && verification() === null}>
+                            <p>This link is invalid. Open the latest link from your email.</p>
                         </Show>
                         <Show when={!params.token}>
                             <p>Open the confirmation link from your email.</p>
@@ -91,10 +104,10 @@ export default function Route() {
                         <Show when={verification.loading}>
                             <p role="status">Loading…</p>
                         </Show>
-                        <Show when={!success() && verification()?.status === "confirmed"}>
+                        <Show when={!success() && currentVerification()?.status === "confirmed"}>
                             <p>Email confirmed.</p>
                         </Show>
-                        <Show when={verification()?.status === "expired"}>
+                        <Show when={currentVerification()?.status === "expired"}>
                             <p>This link has expired. Request a new one.</p>
                         </Show>
                         <FormMessage

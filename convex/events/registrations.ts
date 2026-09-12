@@ -133,7 +133,7 @@ export const get = query({
             .query("registrations")
             .withIndex("by_token", (range) => range.eq("token", args.token))
             .unique();
-        if (!row) throw new Error("Registration not found.");
+        if (!row) return null;
         const event = await ctx.db.get(row.eventId);
         if (!event) throw new Error("Event not found.");
 

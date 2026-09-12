@@ -2,7 +2,7 @@ import { timeZone } from "../site";
 
 import { Card } from "../../components/card";
 import { useSearchParams } from "@solidjs/router";
-import { createResource, createSignal, Show } from "solid-js";
+import { startTransition, createResource, createSignal, Show } from "solid-js";
 import { api } from "../../../convex/_generated/api";
 import { publicClient } from "../../auth/convex";
 import { Page, DetailList, DetailRow } from "../page";
@@ -28,7 +28,7 @@ export default function Route() {
         try {
             if (typeof params.token !== "string") throw new Error("Missing registration token.");
             await publicClient().mutation(api.events.registrations.cancel, { token: params.token });
-            await refetch();
+            await startTransition(refetch);
         } catch (caught) {
             setError(errorMessage(caught, "Could not cancel."));
         } finally {
@@ -36,15 +36,22 @@ export default function Route() {
         }
     }
 
+    // keep link failures inside the recovery card
+    const currentTicket = () => (ticket.error ? undefined : ticket());
+
     return (
         <>
             <Seo
-                title={ticket()?.title ? `Registration: ${ticket()!.title}` : "Registration"}
+                title={
+                    currentTicket()?.title
+                        ? `Registration: ${currentTicket()!.title}`
+                        : "Registration"
+                }
                 description="Manage your event registration."
             />
             <Page>
                 <Show
-                    when={ticket()}
+                    when={currentTicket()}
                     fallback={
                         <Card title="Registration" heading="h1">
                             <p role="status">
@@ -52,8 +59,13 @@ export default function Route() {
                                     ? "Loading…"
                                     : ticket.error
                                       ? errorMessage(ticket.error, "Could not load registration.")
-                                      : "Open the link from your registration email."}
+                                      : params.token
+                                        ? "This link is invalid. Open the latest link from your registration email."
+                                        : "Open the link from your registration email."}
                             </p>
+                            <a class="button" href="/events">
+                                View events
+                            </a>
                         </Card>
                     }
                 >

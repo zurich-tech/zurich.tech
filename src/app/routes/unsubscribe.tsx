@@ -1,7 +1,7 @@
 import { Card } from "../../components/card";
 import { Arrow } from "../../components/arrow";
 import { useSearchParams } from "@solidjs/router";
-import { createSignal, createResource, Show } from "solid-js";
+import { startTransition, createSignal, createResource, createEffect, Show } from "solid-js";
 import { api } from "../../../convex/_generated/api";
 import { publicClient } from "../../auth/convex";
 import { Page } from "../page";
@@ -21,6 +21,13 @@ export default function Route() {
     const [error, setError] = createSignal<string>();
     const [isPending, setIsPending] = createSignal(false);
 
+    // clear the previous result when opening a different email link
+    createEffect(() => {
+        params.token;
+        setSuccess(undefined);
+        setError(undefined);
+    });
+
     /** Confirm the recipient's request to stop optional event emails. */
     async function unsubscribe() {
         setIsPending(true);
@@ -31,7 +38,7 @@ export default function Route() {
             await publicClient().mutation(api.mail.subscriptions.unsubscribe, {
                 token: params.token,
             });
-            await refetch();
+            await startTransition(refetch);
             setSuccess("Unsubscribed.");
         } catch (caught) {
             setError(errorMessage(caught, "Could not unsubscribe."));
@@ -39,6 +46,9 @@ export default function Route() {
             setIsPending(false);
         }
     }
+
+    // keep link failures inside the recovery card
+    const currentSubscription = () => (subscription.error ? undefined : subscription());
 
     return (
         <>
@@ -52,7 +62,7 @@ export default function Route() {
                         <Show
                             when={
                                 !success() &&
-                                subscription()?.isSubscribed &&
+                                currentSubscription()?.isSubscribed &&
                                 !subscription.loading &&
                                 !subscription.error
                             }
@@ -62,13 +72,22 @@ export default function Route() {
                                 {isPending() ? "Unsubscribing…" : "Unsubscribe"}
                             </button>
                         </Show>
+                        <Show when={!subscription.error && subscription() === null}>
+                            <p>This link is invalid. Open the latest link from your email.</p>
+                        </Show>
                         <Show when={!params.token}>
                             <p>Open the unsubscribe link from your email.</p>
                         </Show>
                         <Show when={subscription.loading}>
                             <p role="status">Loading…</p>
                         </Show>
-                        <Show when={!success() && subscription() && !subscription()!.isSubscribed}>
+                        <Show
+                            when={
+                                !success() &&
+                                currentSubscription() &&
+                                !currentSubscription()!.isSubscribed
+                            }
+                        >
                             <p>Unsubscribed.</p>
                         </Show>
                         <FormMessage

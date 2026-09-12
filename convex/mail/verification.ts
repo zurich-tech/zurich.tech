@@ -149,7 +149,7 @@ export const status = query({
             .query("verifications")
             .withIndex("by_token", (q) => q.eq("token", args.token))
             .unique();
-        if (!ticket) throw new Error("Verification link not found.");
+        if (!ticket) return null;
         return {
             purpose: ticket.purpose,
             status: ticket.usedAt
