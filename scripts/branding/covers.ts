@@ -55,6 +55,7 @@ for (const format of formats) {
                 if (!layer) continue;
                 for (let index = 0; index < layer.length; index++) {
                     const feature = layer.feature(index);
+                    if (name === "transportation" && feature.properties.class === "ferry") continue;
                     const coordinates = feature.loadGeometry();
                     const path = coordinates
                         .map(

@@ -32,7 +32,7 @@ const style: StyleSpecification = {
             type: "line",
             source: "geography",
             "source-layer": "transportation",
-            filter: ["!=", ["get", "class"], "rail"],
+            filter: ["!", ["in", ["get", "class"], ["literal", ["rail", "ferry"]]]],
             paint: {
                 "line-color": "#ffffff",
                 "line-opacity": 0.8,
