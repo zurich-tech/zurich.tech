@@ -7,6 +7,15 @@ import { calendarRow } from "../events/queries";
 /** Visibility admitted by public directory queries. */
 const publicVisibility = "public" as const;
 
+/** Allow explicitly public profiles without requiring a claimed login account. */
+export function isPublicMember(member: Doc<"members"> | null): member is Doc<"members"> {
+    return (
+        member !== null &&
+        member.visibility === publicVisibility &&
+        (member.status === "active" || member.status === "imported")
+    );
+}
+
 /** Read every active public member. */
 export const membersList = query({
     args: {},
@@ -36,11 +45,7 @@ export const member = query({
         }
 
         const member = await ctx.db.get(handle.memberId);
-        if (
-            member === null ||
-            member.status !== "active" ||
-            member.visibility !== publicVisibility
-        ) {
+        if (!isPublicMember(member)) {
             return null;
         }
 
@@ -96,9 +101,7 @@ export const handle = query({
 
         const member = await ctx.db.get(handle.memberId);
 
-        return member === null ||
-            member.status !== "active" ||
-            member.visibility !== publicVisibility
+        return !isPublicMember(member)
             ? null
             : {
                   href: `/members/${handle.name}`,

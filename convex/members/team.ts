@@ -1,3 +1,4 @@
+import { isPublicMember, memberHandle } from "./queries";
 import { query, type QueryCtx } from "../_generated/server";
 import { readProfiles } from "./links";
 
@@ -20,15 +21,12 @@ export const list = query({
                 .sort((a, b) => a.position - b.position)
                 .map(async (role) => {
                     const member = await ctx.db.get(role.memberId);
-                    if (
-                        !member ||
-                        member.visibility !== "public" ||
-                        member.status === "blocked" ||
-                        member.status === "deleted"
-                    )
-                        return null;
+                    if (!isPublicMember(member)) return null;
+                    const handle = await memberHandle(ctx, member._id);
+                    if (!handle) throw new Error("Public team member has no active handle.");
                     return {
                         name: member.name,
+                        href: `/members/${handle.name}`,
                         role: role.status === "former" ? "Emeritus" : role.name,
                         profession: member.headline,
                         image: member.avatarUrl,

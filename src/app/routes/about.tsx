@@ -38,16 +38,18 @@ export default function Route() {
                         <For each={team()}>
                             {(member) => (
                                 <li class="team-person">
-                                    <Image
-                                        class="team-portrait"
-                                        src={member.image}
-                                        darkSrc={member.imageDark}
-                                        alt={member.name}
-                                        width={320}
-                                        height={320}
-                                        loading="lazy"
-                                    />
-                                    <h2>{member.name}</h2>
+                                    <a class="team-profile" href={member.href}>
+                                        <Image
+                                            class="team-portrait"
+                                            src={member.image}
+                                            darkSrc={member.imageDark}
+                                            alt=""
+                                            width={320}
+                                            height={320}
+                                            loading="lazy"
+                                        />
+                                        <h2>{member.name}</h2>
+                                    </a>
                                     <p class="team-role">{member.role}</p>
                                     <p class="team-profession">{member.profession}</p>
                                     <SocialLinks name={member.name} profiles={member.links} />
