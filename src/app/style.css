@@ -3948,7 +3948,25 @@ select.field__control:not([multiple]) {
 }
 
 .sponsor-plans--personal {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
+}
+/* arrange the personal plan's price and benefits alongside each other */
+@media (min-width: 701px) {
+    .sponsor-plans--personal .card-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 32px;
+    }
+    .sponsor-plans--personal .card-body > :not(.plan-benefits) {
+        grid-column: 1;
+    }
+    .sponsor-plans--personal .plan-benefits {
+        grid-column: 2;
+        grid-row: 1 / span 3;
+        margin: 0;
+        padding-left: 32px;
+        border-left: 1px solid var(--color-line);
+    }
 }
 
 /* keep prices and actions together, then list the actual benefits */

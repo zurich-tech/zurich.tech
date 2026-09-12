@@ -10,7 +10,7 @@ export type PublicMember = FunctionReturnType<typeof api.members.queries.members
     /** Events published by this member. */
     hostedEvents?: CalendarEntry[];
     /** Public personal sponsorship level. */
-    sponsorTier?: "friend" | "patron";
+    sponsorTier?: "friend";
 };
 
 /** One resolved public handle. */

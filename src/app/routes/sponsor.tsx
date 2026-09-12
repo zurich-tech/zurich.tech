@@ -175,10 +175,7 @@ export default function Route() {
                 <div class="sponsor-plans sponsor-plans--personal">
                     <For each={personalTiers}>
                         {(tier) => (
-                            <Card
-                                title={tier.name}
-                                class={`offer-card sponsor-plan${tier.id === "patron" ? " sponsor-plan--featured" : ""}`}
-                            >
+                            <Card title={tier.name} class="offer-card sponsor-plan">
                                 <p class="tier-price">
                                     <span>CHF</span> {tier.price}
                                     <span>/ year</span>

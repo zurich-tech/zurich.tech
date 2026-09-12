@@ -35,9 +35,9 @@ export const tiers = [
         name: "Bronze",
         logoWidth: 80,
         map: "Small logo on the map",
-        price: 1000,
+        price: 500,
         purpose: "Help cover our event costs.",
-        jobs: 5,
+        jobs: 2,
         description: "Small linked logo",
         newsletter: "Logo in the sponsor footer",
         slides: "Logo on opening slides",
@@ -56,14 +56,6 @@ export const personalTiers = [
         avatarSize: 36,
         purpose: "Express your friendship.",
         recognition: "Linked avatar on the sponsor wall",
-    },
-    {
-        id: "patron",
-        name: "Patron",
-        price: 200,
-        avatarSize: 52,
-        purpose: "Help keep zurich.tech running.",
-        recognition: "Larger linked avatar or logo on the sponsor wall",
     },
 ] as const;
 
