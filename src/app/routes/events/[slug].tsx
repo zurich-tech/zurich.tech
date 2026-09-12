@@ -8,7 +8,7 @@ import { Share } from "../../../components/share";
 import { site, timeZone } from "../../site";
 import { getEvent, type PublicEvent } from "../../../events/queries";
 
-import { VenueMap } from "../../../events/venue";
+import { VenueMap } from "../../../map/venue";
 import { Card } from "../../../components/card";
 import { isCurrentYear } from "../../../events/time";
 import { Arrow } from "../../../components/arrow";
@@ -667,7 +667,14 @@ function Details(props: { event: PublicEvent | null | undefined }) {
 /** Event speakers. */
 function Speakers(props: { event: PublicEvent | null | undefined }) {
     return (
-        <Card title="Speakers">
+        <Card
+            title="Speakers"
+            toolbar={
+                <a class="button" href="/contribute#speakers">
+                    Suggest a speaker
+                </a>
+            }
+        >
             <div class="speaker-list">
                 <For each={props.event?.speakers ?? []}>
                     {(speaker) => (

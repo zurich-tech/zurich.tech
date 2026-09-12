@@ -1,0 +1,19 @@
+/* keep contribution options on the shared card rhythm */
+.contribute-options {
+    display: grid;
+    gap: var(--space-6);
+}
+.contribute-options section {
+    scroll-margin-top: 100px;
+}
+.contribute-options section + section {
+    border-top: 1px solid var(--color-line);
+    padding-top: var(--space-6);
+}
+.contribute-options h3 {
+    margin: 0;
+    font: 600 18px/1.4 var(--font-sans);
+}
+.contribute-options section p {
+    margin: var(--space-2) 0 var(--space-4);
+}

@@ -8,6 +8,7 @@ export function Footer() {
                 <Wordmark />
             </span>
             <nav aria-label="Footer">
+                <a href="/contribute">Contribute</a>
                 <a href="/legal">Legal</a>
             </nav>
         </footer>

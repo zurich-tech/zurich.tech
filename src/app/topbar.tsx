@@ -1,4 +1,3 @@
-import { site } from "./site";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { A, useLocation } from "@solidjs/router";
@@ -36,12 +35,7 @@ export function Topbar() {
                 </nav>
                 <div class="site-topbar__actions">
                     <div class="header-links">
-                        <a
-                            class="header-host"
-                            href={site.socials.discord}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
+                        <a class="header-host" href="/contribute#events">
                             Suggest an event
                         </a>
                         <Show
