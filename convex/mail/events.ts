@@ -1,3 +1,4 @@
+import type { Doc } from "../_generated/dataModel";
 import { eventEmail } from "./templates";
 import { v } from "convex/values";
 import { internalMutation } from "../_generated/server";
@@ -20,13 +21,7 @@ export const announce = internalMutation({
             .withIndex("by_status", (q) => q.eq("status", "subscribed"))
             .paginate({ numItems: 100, cursor: args.cursor });
         for (const [position, subscription] of page.page.entries()) {
-            if (
-                subscription.announcements === false ||
-                !subscription.verifiedAt ||
-                subscription.verifiedAt > args.publishedAt ||
-                !subscription.token
-            )
-                continue;
+            if (!receivesAnnouncement(subscription, args.publishedAt)) continue;
             const unsubscribe = `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscription.token)}`;
             const message = eventEmail(event, "New event", {
                 summary: true,
@@ -130,3 +125,16 @@ export const remind = internalMutation({
             });
     },
 });
+
+/** Apply announcement preferences and the publication cutoff to a subscriber. */
+export function receivesAnnouncement(
+    subscription: Doc<"subscriptions">,
+    publishedAt: number,
+): subscription is Doc<"subscriptions"> & { token: string } {
+    return (
+        subscription.status === "subscribed" &&
+        subscription.announcements !== false &&
+        !!subscription.token &&
+        (subscription.verifiedAt ?? subscription.createdAt) <= publishedAt
+    );
+}

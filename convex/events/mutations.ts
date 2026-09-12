@@ -1,8 +1,12 @@
+import { eventAction, confirmAction } from "./actions";
+import { eventPlace } from "./place";
 import { eventEmail, eventChanges } from "../mail/templates";
 import { readLinks, writeLinks } from "../members/links";
 import { v } from "convex/values";
 import { internal } from "../_generated/api";
-import { mutation } from "../_generated/server";
+import { readTeam } from "../members/team";
+import type { Id } from "../_generated/dataModel";
+import { mutation, type MutationCtx } from "../_generated/server";
 import { requireTeam } from "../auth/access";
 import { submissionFields } from "./fields";
 import { normalizeUrl, normalizeImageUrl } from "../members/urls";
@@ -11,27 +15,39 @@ import { enqueue } from "../mail/deliveries";
 
 /** Save a draft while preserving its published revision. */
 export const save = mutation({
-    args: { id: v.optional(v.id("submissions")), ...submissionFields },
+    args: {
+        id: v.optional(v.id("submissions")),
+        publish: v.optional(v.boolean()),
+        receipt: v.optional(v.string()),
+        ...submissionFields,
+    },
     handler: async (ctx, args) => {
         // require team access before changing an event
         const viewer = await requireTeam(ctx);
-        const { id, ...values } = args;
+        const { id, publish, receipt, ...values } = args;
         const existing = id ? await ctx.db.get(id) : null;
         if (id && !existing) throw new Error("Submission not found.");
 
-        // require named organisers independently of editing permissions
+        const event = existing?.eventId ? await ctx.db.get(existing.eventId) : null;
+        if (existing?.eventId && !event) throw new Error("Published event not found.");
+        if (event?.status === "cancelled")
+            throw new Error("Cancelled events cannot be edited. Duplicate the event instead.");
+        if (!publish && event && event.status !== "draft")
+            throw new Error("Use Save changes for a published event.");
+        if (publish) {
+            if (receipt === undefined) throw new Error("Confirm publication first.");
+            confirmAction(await eventAction(ctx, event, "publish", values), receipt);
+        }
+
+        // keep named organisers independent of record ownership
         values.organiserIds = [
             ...new Set(
                 values.organiserIds ??
-                    existing?.organiserIds ?? [existing?.ownerId ?? viewer.memberId],
+                    existing?.organiserIds ??
+                    (existing ? [] : [viewer.memberId]),
             ),
         ];
-        if (!values.organiserIds.length) throw new Error("Choose at least one organiser.");
-        for (const id of values.organiserIds) {
-            const member = await ctx.db.get(id);
-            if (!member || !["active", "imported"].includes(member.status))
-                throw new Error("Choose an active organiser.");
-        }
+        await validateOrganisers(ctx, values.organiserIds, values.startsAt);
 
         // validate public content before accepting a draft
         if (!values.title.trim() || values.title.length > 180)
@@ -40,7 +56,9 @@ export const save = mutation({
             throw new Error("Use a lowercase URL slug with hyphens.");
         if (
             values.description.length > 50000 ||
+            (values.summary?.length ?? 0) > 500 ||
             values.location.length > 500 ||
+            (values.address?.length ?? 0) > 500 ||
             values.topics.length > 12
         )
             throw new Error("Event content is too long.");
@@ -105,185 +123,196 @@ export const save = mutation({
 
         // keep changes separate until an authorised person publishes them
         const record = { ...values, status: "draft" as const, updatedAt: Date.now() };
-        if (existing) {
-            await ctx.db.patch(existing._id, record);
+        const draftId =
+            existing?._id ??
+            (await ctx.db.insert("submissions", { ...record, ownerId: viewer.memberId }));
+        if (existing) await ctx.db.patch(existing._id, record);
+        if (publish) await publishEvent(ctx, draftId);
 
-            return existing._id;
-        }
-        return await ctx.db.insert("submissions", { ...record, ownerId: viewer.memberId });
+        return draftId;
     },
 });
 
 /** Publish an authorised revision into the public calendar atomically. */
-export const publish = mutation({
-    args: { id: v.id("submissions") },
-    handler: async (ctx, args) => {
-        // require team access before changing an event
-        await requireTeam(ctx);
-        const draft = await ctx.db.get(args.id);
-        if (!draft) throw new Error("Submission not found.");
+async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
+    // require team access before changing an event
+    await requireTeam(ctx);
+    const draft = await ctx.db.get(id);
+    if (!draft) throw new Error("Submission not found.");
 
-        // reserve a stable public URL for this event
-        const collision = await ctx.db
-            .query("events")
-            .withIndex("by_slug", (range) => range.eq("slug", draft.slug))
-            .unique();
-        if (collision && collision._id !== draft.eventId)
-            throw new Error("An event already uses this URL.");
-        const now = Date.now();
-        const existing = draft.eventId ? await ctx.db.get(draft.eventId) : null;
-        if (draft.eventId && !existing) throw new Error("Published event not found.");
+    // reserve a stable public URL for this event
+    const collision = await ctx.db
+        .query("events")
+        .withIndex("by_slug", (range) => range.eq("slug", draft.slug))
+        .unique();
+    if (collision && collision._id !== draft.eventId)
+        throw new Error("An event already uses this URL.");
+    const now = Date.now();
+    const existing = draft.eventId ? await ctx.db.get(draft.eventId) : null;
+    if (draft.eventId && !existing) throw new Error("Published event not found.");
 
-        // preserve existing registrations and reject incompatible policy changes
-        if (existing) {
+    // preserve existing registrations and reject incompatible policy changes
+    if (existing) {
+        const attendees = await ctx.db
+            .query("registrations")
+            .withIndex("by_event", (range) => range.eq("eventId", existing._id))
+            .collect();
+        const active = attendees.filter(
+            (row) => row.status !== "cancelled" && row.status !== "declined",
+        );
+        const confirmed = active.filter((row) => row.status === "going").length;
+        if (existing.status === "cancelled")
+            throw new Error("Duplicate a cancelled event to schedule it again.");
+        if (existing.slug !== draft.slug) throw new Error("A published event's URL cannot change.");
+        if (active.length > 0) {
+            const previous = existing.registration;
+            const next = draft.registration;
+            if (
+                previous.kind !== "native" ||
+                next.kind !== "native" ||
+                previous.admission !== next.admission ||
+                JSON.stringify(previous.questions) !== JSON.stringify(next.questions)
+            )
+                throw new Error(
+                    "Keep the registration method, admission policy, and questions unchanged while registrations exist.",
+                );
+        }
+        if (
+            draft.registration.kind === "native" &&
+            draft.registration.capacity !== null &&
+            draft.registration.capacity < confirmed
+        )
+            throw new Error("Capacity is below confirmed attendance.");
+    }
+    await validateOrganisers(ctx, draft.organiserIds ?? [], draft.startsAt);
+
+    // retain a shared venue only while its name, address and map position match
+    const previousPlace = existing ? await eventPlace(ctx, existing) : undefined;
+    const keepsVenue =
+        previousPlace &&
+        previousPlace.location === draft.location &&
+        previousPlace.address === (draft.address ?? "") &&
+        previousPlace.latitude === draft.latitude &&
+        previousPlace.longitude === draft.longitude;
+
+    // build the public revision from approved fields
+    const values = {
+        ownerId: draft.ownerId,
+        organiserIds: draft.organiserIds ?? [],
+        slug: draft.slug,
+        title: draft.title,
+        description: draft.description,
+        summary: draft.summary ?? existing?.summary,
+        format: draft.format,
+        seriesId: draft.seriesId,
+        topics: draft.topics,
+        startsAt: draft.startsAt,
+        endsAt: draft.endsAt,
+        location: draft.location,
+        address: draft.address,
+        venueId: keepsVenue ? existing?.venueId : undefined,
+        latitude: draft.latitude,
+        longitude: draft.longitude,
+        registration: draft.registration,
+        organisationIds: draft.organisations,
+        status: draft.startsAt < now ? ("finished" as const) : ("scheduled" as const),
+        updatedAt: now,
+    };
+
+    // publish the revision and fill newly available seats
+    const eventId = existing
+        ? existing._id
+        : await ctx.db.insert("events", { ...values, createdAt: now });
+    if (existing) {
+        await ctx.db.patch(eventId, values);
+        await promoteWaitlist(ctx, { ...existing, ...values });
+
+        // email active attendees when the time or venue changes
+        if (
+            (existing.startsAt > now || draft.startsAt > now) &&
+            (existing.startsAt !== draft.startsAt ||
+                existing.endsAt !== draft.endsAt ||
+                previousPlace?.location !== draft.location ||
+                previousPlace?.address !== (draft.address ?? ""))
+        ) {
+            const message = eventEmail(draft, "Event updated", {
+                description: eventChanges({ ...existing, ...previousPlace }, draft),
+            });
             const attendees = await ctx.db
                 .query("registrations")
-                .withIndex("by_event", (range) => range.eq("eventId", existing._id))
+                .withIndex("by_event", (range) => range.eq("eventId", eventId))
                 .collect();
-            const active = attendees.filter(
-                (row) => row.status !== "cancelled" && row.status !== "declined",
-            );
-            const confirmed = active.filter((row) => row.status === "going").length;
-            if (existing.status === "cancelled")
-                throw new Error("Duplicate a cancelled event to schedule it again.");
-            if (existing.slug !== draft.slug)
-                throw new Error("A published event's URL cannot change.");
-            if (active.length > 0) {
-                const previous = existing.registration;
-                const next = draft.registration;
+            for (const attendee of attendees)
                 if (
-                    previous.kind !== "native" ||
-                    next.kind !== "native" ||
-                    previous.admission !== next.admission ||
-                    JSON.stringify(previous.questions) !== JSON.stringify(next.questions)
+                    attendee.email &&
+                    attendee.status !== "cancelled" &&
+                    attendee.status !== "declined"
                 )
-                    throw new Error(
-                        "Keep the registration method, admission policy, and questions unchanged while registrations exist.",
+                    await enqueue(
+                        ctx,
+                        `event-change:${eventId}:${now}:${attendee._id}`,
+                        attendee.email,
+                        message.subject,
+                        message.text,
+                        undefined,
+                        0,
+                        message.html,
                     );
-            }
-            if (
-                draft.registration.kind === "native" &&
-                draft.registration.capacity !== null &&
-                draft.registration.capacity < confirmed
-            )
-                throw new Error("Capacity is below confirmed attendance.");
         }
-        // build the public revision from approved fields
-        const values = {
-            ownerId: draft.ownerId,
-            organiserIds: draft.organiserIds ?? [draft.ownerId],
-            slug: draft.slug,
-            title: draft.title,
-            description: draft.description,
-            summary: draft.description.slice(0, 220),
-            format: draft.format,
-            seriesId: draft.seriesId,
-            topics: draft.topics,
-            startsAt: draft.startsAt,
-            endsAt: draft.endsAt,
-            location: draft.location,
-            venueId: existing?.location === draft.location ? existing.venueId : undefined,
-            latitude: draft.latitude,
-            longitude: draft.longitude,
-            registration: draft.registration,
-            organisationIds: draft.organisations,
-            status: draft.startsAt < now ? ("finished" as const) : ("scheduled" as const),
-            updatedAt: now,
-        };
-
-        // publish the revision and fill newly available seats
-        const eventId = existing
-            ? existing._id
-            : await ctx.db.insert("events", { ...values, createdAt: now });
-        if (existing) {
-            await ctx.db.patch(eventId, values);
-            await promoteWaitlist(ctx, { ...existing, ...values });
-
-            // email active attendees when the time or venue changes
-            if (
-                existing.startsAt !== draft.startsAt ||
-                existing.endsAt !== draft.endsAt ||
-                existing.location !== draft.location
-            ) {
-                const message = eventEmail(draft, "Event updated", {
-                    description: eventChanges(existing, draft),
-                });
-                const attendees = await ctx.db
-                    .query("registrations")
-                    .withIndex("by_event", (range) => range.eq("eventId", eventId))
-                    .collect();
-                for (const attendee of attendees)
-                    if (
-                        attendee.email &&
-                        attendee.status !== "cancelled" &&
-                        attendee.status !== "declined"
-                    )
-                        await enqueue(
-                            ctx,
-                            `event-change:${eventId}:${now}:${attendee._id}`,
-                            attendee.email,
-                            message.subject,
-                            message.text,
-                            undefined,
-                            0,
-                            message.html,
-                        );
-            }
-        }
-        // announce only first publication, never an edit to an existing event
-        if (!existing && values.status === "scheduled")
-            await ctx.scheduler.runAfter(0, internal.mail.events.announce, {
-                eventId,
-                publishedAt: now,
-                cursor: null,
-            });
-
-        // replace small ordered lists without creating competing event records
-        for (const row of await ctx.db
-            .query("speakers")
-            .withIndex("by_event", (range) => range.eq("eventId", eventId))
-            .collect()) {
-            await writeLinks(ctx, row._id, []);
-            await ctx.db.delete(row._id);
-        }
-        for (const [position, speaker] of draft.speakers.entries()) {
-            const { links, ...fields } = speaker;
-            const speakerId = await ctx.db.insert("speakers", {
-                eventId,
-                ...fields,
-                position,
-                createdAt: now,
-                updatedAt: now,
-            });
-
-            await writeLinks(ctx, speakerId, links ?? []);
-        }
-
-        // replace the agenda in display order
-        for (const row of await ctx.db
-            .query("sessions")
-            .withIndex("by_event", (range) => range.eq("eventId", eventId))
-            .collect())
-            await ctx.db.delete(row._id);
-        for (const [position, item] of draft.agenda.entries())
-            await ctx.db.insert("sessions", {
-                eventId,
-                ...item,
-                position,
-                createdAt: now,
-                updatedAt: now,
-            });
-
-        // mark the submission as the published revision
-        await ctx.db.patch(draft._id, {
-            status: "published",
+    }
+    // announce only first publication, never an edit to an existing event
+    if (!existing && values.status === "scheduled")
+        await ctx.scheduler.runAfter(0, internal.mail.events.announce, {
             eventId,
+            publishedAt: now,
+            cursor: null,
+        });
+
+    // replace small ordered lists without creating competing event records
+    for (const row of await ctx.db
+        .query("speakers")
+        .withIndex("by_event", (range) => range.eq("eventId", eventId))
+        .collect()) {
+        await writeLinks(ctx, row._id, []);
+        await ctx.db.delete(row._id);
+    }
+    for (const [position, speaker] of draft.speakers.entries()) {
+        const { links, ...fields } = speaker;
+        const speakerId = await ctx.db.insert("speakers", {
+            eventId,
+            ...fields,
+            position,
+            createdAt: now,
             updatedAt: now,
         });
 
-        return eventId;
-    },
-});
+        await writeLinks(ctx, speakerId, links ?? []);
+    }
+
+    // replace the agenda in display order
+    for (const row of await ctx.db
+        .query("sessions")
+        .withIndex("by_event", (range) => range.eq("eventId", eventId))
+        .collect())
+        await ctx.db.delete(row._id);
+    for (const [position, item] of draft.agenda.entries())
+        await ctx.db.insert("sessions", {
+            eventId,
+            ...item,
+            position,
+            createdAt: now,
+            updatedAt: now,
+        });
+
+    // mark the submission as the published revision
+    await ctx.db.patch(draft._id, {
+        status: "published",
+        eventId,
+        updatedAt: now,
+    });
+
+    return eventId;
+}
 
 /** Open an editable revision of an existing event, including imported archive entries. */
 export const edit = mutation({
@@ -313,20 +342,19 @@ export const edit = mutation({
 
         return await ctx.db.insert("submissions", {
             ownerId: event.ownerId,
-            organiserIds: event.organiserIds ?? [event.ownerId],
+            organiserIds: event.organiserIds ?? [],
             eventId: event._id,
             status: "published",
             title: event.title,
             slug: event.slug,
             description: event.description ?? "",
+            summary: event.summary,
             format: event.format,
             seriesId: event.seriesId,
             topics: event.topics,
             startsAt: event.startsAt,
             endsAt: event.endsAt,
-            location: event.location ?? "",
-            latitude: event.latitude,
-            longitude: event.longitude,
+            ...(await eventPlace(ctx, event)),
             registration: event.registration,
             organisations: event.organisationIds ?? [],
             speakers: await Promise.all(
@@ -344,15 +372,32 @@ export const edit = mutation({
     },
 });
 
+/** Hide an event and close registration while retaining its attendee records. */
+export const unpublish = mutation({
+    args: { eventId: v.id("events"), receipt: v.string() },
+    handler: async (ctx, args) => {
+        await requireTeam(ctx);
+        const event = await ctx.db.get(args.eventId);
+        if (!event) throw new Error("Event not found.");
+        confirmAction(await eventAction(ctx, event, "unpublish"), args.receipt);
+        await ctx.db.patch(event._id, { status: "draft", updatedAt: Date.now() });
+        const draft = await ctx.db
+            .query("submissions")
+            .filter((q) => q.eq(q.field("eventId"), event._id))
+            .unique();
+        if (draft) await ctx.db.patch(draft._id, { status: "draft", updatedAt: Date.now() });
+    },
+});
+
 /** Cancel an event and notify every active attendee. */
 export const cancel = mutation({
-    args: { eventId: v.id("events") },
+    args: { eventId: v.id("events"), receipt: v.string() },
     handler: async (ctx, args) => {
         // require team access
         await requireTeam(ctx);
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("You cannot manage this event.");
-        if (event.status === "cancelled") return;
+        confirmAction(await eventAction(ctx, event, "cancel"), args.receipt);
         // cancel the event before notifying its active attendees
         await ctx.db.patch(event._id, { status: "cancelled", updatedAt: Date.now() });
 
@@ -364,7 +409,12 @@ export const cancel = mutation({
             .withIndex("by_event", (range) => range.eq("eventId", event._id))
             .collect();
         for (const row of attendees)
-            if (row.email && row.status !== "cancelled" && row.status !== "declined")
+            if (
+                event.startsAt > Date.now() &&
+                row.email &&
+                row.status !== "cancelled" &&
+                row.status !== "declined"
+            )
                 await enqueue(
                     ctx,
                     `cancel-event:${event._id}:${row._id}`,
@@ -377,3 +427,11 @@ export const cancel = mutation({
                 );
     },
 });
+
+/** Require team organisers for upcoming events and permit unknown historical organisers. */
+async function validateOrganisers(ctx: MutationCtx, ids: Id<"members">[], startsAt: number) {
+    // keep upcoming events assigned to a named team member
+    if (startsAt > Date.now() && !ids.length) throw new Error("Choose at least one organiser.");
+    const team = new Set((await readTeam(ctx)).map((member) => member._id));
+    if (ids.some((id) => !team.has(id))) throw new Error("Choose a team member as organiser.");
+}

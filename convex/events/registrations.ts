@@ -278,21 +278,10 @@ export async function registrations(ctx: Pick<QueryCtx, "db">, event: Doc<"event
 
 /** Fill available seats from the approved queue in signup order. */
 export async function promoteWaitlist(ctx: MutationCtx, event: Doc<"events">) {
-    // check the native policy and registration window
-    const policy = event.registration;
-    if (policy.kind !== "native" || event.status !== "scheduled" || event.startsAt <= Date.now())
-        return;
-    if (policy.closesAt !== undefined && policy.closesAt <= Date.now()) return;
-    // read approved waiting attendees in signup order
-    const rows = await registrations(ctx, event);
-    let count = rows.filter((row) => row.status === "going").length;
-    const waiting = rows
-        .filter((row) => row.status === "waitlist" && row.approvedAt !== undefined)
-        .sort((a, b) => a.createdAt - b.createdAt);
+    const waiting = waitingForSeats(event, await registrations(ctx, event));
 
     // fill available seats and email each promoted attendee
     for (const row of waiting) {
-        if (policy.capacity !== null && count >= policy.capacity) break;
         await ctx.db.patch(row._id, { status: "going", updatedAt: Date.now() });
         await notify(
             ctx,
@@ -300,8 +289,31 @@ export async function promoteWaitlist(ctx: MutationCtx, event: Doc<"events">) {
             { ...row, status: "going" },
             `promote:${row._id}:${row.updatedAt}:${Date.now()}`,
         );
-        count++;
     }
+}
+
+/** Select approved waitlisted registrations that fit the event's open seats. */
+export function waitingForSeats(
+    event: Pick<Doc<"events">, "registration" | "status" | "startsAt">,
+    rows: Doc<"registrations">[],
+) {
+    const policy = event.registration;
+    const now = Date.now();
+    if (
+        policy.kind !== "native" ||
+        event.status !== "scheduled" ||
+        event.startsAt <= now ||
+        (policy.closesAt !== undefined && policy.closesAt <= now)
+    )
+        return [];
+    const confirmed = rows.filter((row) => row.status === "going").length;
+    const available =
+        policy.capacity === null ? rows.length : Math.max(0, policy.capacity - confirmed);
+
+    return rows
+        .filter((row) => row.status === "waitlist" && row.approvedAt !== undefined)
+        .sort((a, b) => a.createdAt - b.createdAt)
+        .slice(0, available);
 }
 
 /** Queue the exact attendee state and a private cancellation link. */

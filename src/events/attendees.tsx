@@ -1,3 +1,4 @@
+import { confirmEvent } from "./actions";
 import { Empty } from "../components/empty";
 import { Card } from "../components/card";
 import { For, Show } from "solid-js";
@@ -143,18 +144,19 @@ function AttendeeTable(props: {
                 <button
                     class="button"
                     disabled={props.isPending || props.list.event.status === "cancelled"}
-                    onClick={() => {
-                        if (window.confirm("Cancel this event and notify its attendees?"))
-                            void props.perform(
-                                async () =>
-                                    await (
-                                        await memberClient()
-                                    ).mutation(api.events.mutations.cancel, {
-                                        eventId: props.list.event._id,
-                                    }),
-                                "Event cancelled.",
+                    onClick={() =>
+                        void props.perform(async () => {
+                            const eventId = props.list.event._id;
+                            const receipt = await confirmEvent(
+                                { eventId, action: "cancel" },
+                                "Cancel event",
                             );
-                    }}
+                            if (receipt !== undefined)
+                                await (
+                                    await memberClient()
+                                ).mutation(api.events.mutations.cancel, { eventId, receipt });
+                        }, "")
+                    }
                 >
                     Cancel event
                 </button>
@@ -205,7 +207,7 @@ function AttendeeRow(props: {
                 </For>
             </td>
             <td>
-                <div class="admin-event-actions">
+                <div class="admin-actions" aria-label="Actions">
                     <For
                         each={[
                             {
@@ -245,6 +247,7 @@ function AttendeeRow(props: {
                     >
                         {(action) => (
                             <button
+                                class="button"
                                 disabled={props.isPending}
                                 onClick={() =>
                                     props.perform(async () => {

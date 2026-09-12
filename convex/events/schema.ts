@@ -49,6 +49,7 @@ export const events = defineTable({
     format,
     venueId: v.optional(v.id("venues")),
     location: v.optional(v.string()),
+    address: v.optional(v.string()),
     title: v.string(),
     description: v.optional(v.string()),
     summary: v.optional(v.string()),
@@ -101,6 +102,7 @@ export const submissions = defineTable({
 
 /** Stored registrations. */
 export const registrations = defineTable({
+    source: v.optional(v.string()),
     eventId: v.id("events"),
     memberId: v.optional(v.id("members")),
     email: v.string(),

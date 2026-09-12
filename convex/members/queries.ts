@@ -49,8 +49,7 @@ export const member = query({
             events
                 .filter(
                     (event) =>
-                        event.status !== "draft" &&
-                        (event.organiserIds ?? [event.ownerId]).includes(member._id),
+                        event.status !== "draft" && (event.organiserIds ?? []).includes(member._id),
                 )
                 .map((event) => calendarRow(ctx, event)),
         );

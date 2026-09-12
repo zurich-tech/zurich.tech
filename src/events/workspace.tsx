@@ -1,3 +1,4 @@
+import { useNavigate } from "@solidjs/router";
 import { Empty } from "../components/empty";
 import { For, Show, createSignal } from "solid-js";
 import { api } from "../../convex/_generated/api";
@@ -9,6 +10,7 @@ import { timeZone } from "../app/site";
 
 /** Manage published events and drafts in one searchable table. */
 export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => unknown }) {
+    const navigate = useNavigate();
     const command = useWorkspaceCommand(props.refresh);
     const [search, setSearch] = createSignal("");
     const [filter, setFilter] = createSignal("All");
@@ -21,11 +23,13 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
             slug: event.slug,
             startsAt: event.startsAt,
             status:
-                event.status === "cancelled"
-                    ? "Cancelled"
-                    : event.startsAt > Date.now()
-                      ? "Upcoming"
-                      : "Past",
+                event.status === "draft"
+                    ? "Draft"
+                    : event.status === "cancelled"
+                      ? "Cancelled"
+                      : event.startsAt > Date.now()
+                        ? "Upcoming"
+                        : "Past",
         }));
         const drafts = props.workspace.submissions.map((draft) => ({
             id: draft._id,
@@ -38,7 +42,9 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                 props.workspace.statuses.find((event) => event.id === draft.eventId)?.status ===
                 "cancelled"
                     ? "Cancelled"
-                    : draft.status === "draft"
+                    : !draft.eventId ||
+                        props.workspace.statuses.find((event) => event.id === draft.eventId)
+                            ?.status === "draft"
                       ? "Draft"
                       : draft.startsAt > Date.now()
                         ? "Upcoming"
@@ -132,11 +138,12 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                         </span>
                                     </td>
                                     <td>
-                                        <div class="admin-event-actions">
+                                        <div class="admin-actions" aria-label="Actions">
                                             <Show
                                                 when={row.draftId}
                                                 fallback={
                                                     <button
+                                                        class="button"
                                                         disabled={command.isPending()}
                                                         onClick={() =>
                                                             command.perform(async () => {
@@ -146,9 +153,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                                                     api.events.mutations.edit,
                                                                     { eventId: row.eventId! },
                                                                 );
-                                                                window.location.assign(
-                                                                    `/submit?edit=${id}`,
-                                                                );
+                                                                navigate(`/submit?edit=${id}`);
                                                             }, "Opened event editor.")
                                                         }
                                                     >
@@ -156,15 +161,47 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                                     </button>
                                                 }
                                             >
-                                                <a href={`/submit?edit=${row.draftId}`}>Edit</a>
+                                                <a
+                                                    class="button"
+                                                    href={`/submit?edit=${row.draftId}`}
+                                                >
+                                                    Edit
+                                                </a>
                                             </Show>
                                             <Show when={row.eventId}>
-                                                <a href={`/admin?event=${row.eventId}`}>
+                                                <a
+                                                    class="button"
+                                                    href={`/admin?event=${row.eventId}`}
+                                                >
                                                     Attendees
                                                 </a>
                                             </Show>
-                                            <Show when={row.draftId}>
-                                                <a href={`/submit?duplicate=${row.draftId}`}>
+                                            <Show
+                                                when={row.draftId}
+                                                fallback={
+                                                    <button
+                                                        class="button"
+                                                        disabled={command.isPending()}
+                                                        onClick={() =>
+                                                            command.perform(async () => {
+                                                                const id = await (
+                                                                    await memberClient()
+                                                                ).mutation(
+                                                                    api.events.mutations.edit,
+                                                                    { eventId: row.eventId! },
+                                                                );
+                                                                navigate(`/submit?duplicate=${id}`);
+                                                            }, "Opened event template.")
+                                                        }
+                                                    >
+                                                        Duplicate
+                                                    </button>
+                                                }
+                                            >
+                                                <a
+                                                    class="button"
+                                                    href={`/submit?duplicate=${row.draftId}`}
+                                                >
                                                     Duplicate
                                                 </a>
                                             </Show>

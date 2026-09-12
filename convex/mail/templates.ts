@@ -15,6 +15,7 @@ type Event = {
     startsAt: number;
     endsAt?: number;
     location?: string;
+    address?: string;
     summary?: string;
 };
 
@@ -22,7 +23,7 @@ type Event = {
 export function eventDetails(event: Event, includeSummary = false) {
     const url = `${siteOrigin()}/events/${event.slug}`;
     const time = eventTime(event.startsAt);
-    return `<h2 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a href="${escapeHtml(url)}" style="color:#174ed8;text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(time)}${event.location ? `<br>${escapeHtml(event.location)}` : ""}</p>${includeSummary && event.summary ? paragraph(event.summary) : ""}`;
+    return `<h2 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a href="${escapeHtml(url)}" style="color:#174ed8;text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(time)}${event.location ? `<br>${escapeHtml(event.location)}` : ""}</p>${event.address ? paragraph(event.address) : ""}${includeSummary && event.summary ? paragraph(event.summary) : ""}`;
 }
 
 /** Registration subjects, headings and explanations. */
@@ -63,6 +64,7 @@ export function eventText(event: Event, includeSummary = false) {
         event.title,
         eventTime(event.startsAt),
         event.location,
+        event.address,
         includeSummary ? event.summary : undefined,
         `${siteOrigin()}/events/${event.slug}`,
     ]
@@ -82,6 +84,10 @@ export function eventChanges(previous: Event, current: Event) {
     if (previous.location !== current.location)
         changes.push(
             `Venue: ${previous.location || "Not specified"} → ${current.location || "Not specified"}`,
+        );
+    if ((previous.address ?? "") !== (current.address ?? ""))
+        changes.push(
+            `Address: ${previous.address || "Not specified"} → ${current.address || "Not specified"}`,
         );
     return changes.join("\n");
 }

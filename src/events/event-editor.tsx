@@ -1,7 +1,8 @@
-import { For, Index, Show, type Setter } from "solid-js";
+import { createEffect, createSignal, For, Index, Show, type Setter } from "solid-js";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { getDirectory } from "../organisations/queries";
 import { civilTime } from "./time";
+import { AddressField } from "../components/address";
 import { Card } from "../components/card";
 
 /** Edit the event title, description and series. */
@@ -26,11 +27,7 @@ export function EventFields(props: {
                         name="slug"
                         required
                         pattern="[a-z0-9]+(-[a-z0-9]+)*"
-                        value={
-                            props.isDuplicate
-                                ? `${props.draft?.slug}-new`
-                                : (props.draft?.slug ?? "")
-                        }
+                        value={props.isDuplicate ? "" : (props.draft?.slug ?? "")}
                         placeholder="builders-dinner-september"
                     />
                 </label>
@@ -58,6 +55,15 @@ export function EventFields(props: {
                     </select>
                 </label>
             </div>
+            <label>
+                Summary
+                <textarea
+                    name="summary"
+                    maxlength="500"
+                    rows="2"
+                    value={props.draft?.summary ?? ""}
+                />
+            </label>
             <label>
                 Description <span>Markdown supported</span>
                 <textarea
@@ -97,7 +103,6 @@ export function VenueFields(props: {
 }) {
     return (
         <Card title="Time and place">
-            <p>All dates and times are Europe/Zurich.</p>
             <div class="form-columns">
                 <label>
                     Starts
@@ -105,7 +110,7 @@ export function VenueFields(props: {
                         type="datetime-local"
                         name="startsAt"
                         required
-                        value={props.draft ? civilTime(props.draft!.startsAt) : ""}
+                        value={props.draft?.startsAt ? civilTime(props.draft.startsAt) : ""}
                     />
                 </label>
                 <label>
@@ -118,38 +123,16 @@ export function VenueFields(props: {
                 </label>
             </div>
             <label>
-                Venue & address
+                Venue
                 <input
                     name="location"
                     required
+                    maxlength="500"
                     value={props.draft?.location ?? ""}
-                    placeholder="Venue, street, Zürich — or an online meeting link"
+                    placeholder="ETH AI Center"
                 />
             </label>
-            <div class="form-columns">
-                <label>
-                    Latitude <span>Optional coordinates</span>
-                    <input
-                        type="number"
-                        step="any"
-                        min="-90"
-                        max="90"
-                        name="latitude"
-                        value={props.draft?.latitude ?? ""}
-                    />
-                </label>
-                <label>
-                    Longitude
-                    <input
-                        type="number"
-                        step="any"
-                        min="-180"
-                        max="180"
-                        name="longitude"
-                        value={props.draft?.longitude ?? ""}
-                    />
-                </label>
-            </div>
+            <AddressField value={props.draft} />
         </Card>
     );
 }
@@ -161,51 +144,202 @@ export function ProgrammeFields(props: {
     /** Organisations available for this event. */
     directory: Awaited<ReturnType<typeof getDirectory>> | undefined;
 }) {
+    const [speakers, setSpeakers] = createSignal<Doc<"submissions">["speakers"]>([]);
+    const [agenda, setAgenda] = createSignal<Doc<"submissions">["agenda"]>([]);
+    createEffect(() => {
+        setSpeakers(props.draft?.speakers ?? []);
+        setAgenda(props.draft?.agenda ?? []);
+    });
+
+    /** Update one speaker while keeping the other input values. */
+    function updateSpeaker(
+        index: number,
+        changes: Partial<Doc<"submissions">["speakers"][number]>,
+    ) {
+        setSpeakers((items) =>
+            items.map((item, position) => (position === index ? { ...item, ...changes } : item)),
+        );
+    }
+
+    /** Update one agenda entry while keeping its position. */
+    function updateSession(index: number, changes: Partial<Doc<"submissions">["agenda"][number]>) {
+        setAgenda((items) =>
+            items.map((item, position) => (position === index ? { ...item, ...changes } : item)),
+        );
+    }
+
     return (
-        <Card title="People and programme">
-            <label>
-                Speakers <span>One per line: name | affiliation | links | photo | dark photo</span>
-                <textarea
-                    name="speakers"
-                    rows="3"
-                    value={
-                        props.draft?.speakers
-                            .map(
-                                (item) =>
-                                    `${item.name} | ${item.title} | ${(item.links ?? []).join(", ")} | ${item.imageUrl ?? ""} | ${item.imageDarkUrl ?? ""}`,
-                            )
-                            .join("\n") ?? ""
-                    }
-                />
-            </label>
-            <label>
-                Agenda <span>One per line: time | activity</span>
-                <textarea
-                    name="agenda"
-                    rows="3"
-                    value={
-                        props.draft?.agenda
-                            .map((item) => `${item.time} | ${item.title}`)
-                            .join("\n") ?? ""
-                    }
-                />
-            </label>
-            <label>
-                Hosts & supporters <span>Hold Command / Ctrl to select several</span>
-                <select multiple name="organisations">
-                    <For each={props.directory?.organisations}>
-                        {(item) => (
-                            <option
-                                value={item._id}
-                                selected={props.draft?.organisations.includes(item._id)}
+        <>
+            <Card title="Speakers">
+                <Index each={speakers()}>
+                    {(speaker, index) => (
+                        <fieldset>
+                            <legend>Speaker {index + 1}</legend>
+                            <div class="form-columns">
+                                <label>
+                                    Name
+                                    <input
+                                        name="speakerName"
+                                        required
+                                        maxlength="120"
+                                        value={speaker().name}
+                                        onInput={(event) =>
+                                            updateSpeaker(index, {
+                                                name: event.currentTarget.value,
+                                            })
+                                        }
+                                    />
+                                </label>
+                                <label>
+                                    Affiliation
+                                    <input
+                                        name="speakerTitle"
+                                        maxlength="300"
+                                        value={speaker().title}
+                                        onInput={(event) =>
+                                            updateSpeaker(index, {
+                                                title: event.currentTarget.value,
+                                            })
+                                        }
+                                    />
+                                </label>
+                            </div>
+                            <label>
+                                Links<span>One URL per line</span>
+                                <textarea
+                                    name="speakerLinks"
+                                    rows="2"
+                                    value={(speaker().links ?? []).join("\n")}
+                                    onInput={(event) =>
+                                        updateSpeaker(index, {
+                                            links: event.currentTarget.value.split("\n"),
+                                        })
+                                    }
+                                />
+                            </label>
+                            <details
+                                class="speaker-photos"
+                                open={!!(speaker().imageUrl || speaker().imageDarkUrl)}
                             >
-                                {item.name}
-                            </option>
-                        )}
-                    </For>
-                </select>
-            </label>
-        </Card>
+                                <summary>Photos</summary>
+                                <div class="form-columns">
+                                    <label>
+                                        Photo URL
+                                        <input
+                                            type="url"
+                                            name="speakerImage"
+                                            value={speaker().imageUrl ?? ""}
+                                            onInput={(event) =>
+                                                updateSpeaker(index, {
+                                                    imageUrl: event.currentTarget.value,
+                                                })
+                                            }
+                                        />
+                                    </label>
+                                    <label>
+                                        Dark photo URL
+                                        <input
+                                            type="url"
+                                            name="speakerImageDark"
+                                            value={speaker().imageDarkUrl ?? ""}
+                                            onInput={(event) =>
+                                                updateSpeaker(index, {
+                                                    imageDarkUrl: event.currentTarget.value,
+                                                })
+                                            }
+                                        />
+                                    </label>
+                                </div>
+                            </details>
+                            <button
+                                type="button"
+                                class="button"
+                                onClick={() =>
+                                    setSpeakers((items) =>
+                                        items.filter((_, position) => position !== index),
+                                    )
+                                }
+                            >
+                                Remove speaker
+                            </button>
+                        </fieldset>
+                    )}
+                </Index>
+                <button
+                    type="button"
+                    class="button"
+                    disabled={speakers().length >= 40}
+                    onClick={() => setSpeakers((items) => [...items, { name: "", title: "" }])}
+                >
+                    Add speaker
+                </button>
+            </Card>
+            <Card title="Programme">
+                <Index each={agenda()}>
+                    {(session, index) => (
+                        <div class="form-columns">
+                            <label>
+                                Time
+                                <input
+                                    name="agendaTime"
+                                    value={session().time}
+                                    onInput={(event) =>
+                                        updateSession(index, { time: event.currentTarget.value })
+                                    }
+                                />
+                            </label>
+                            <label>
+                                Activity
+                                <input
+                                    name="agendaTitle"
+                                    required
+                                    value={session().title}
+                                    onInput={(event) =>
+                                        updateSession(index, { title: event.currentTarget.value })
+                                    }
+                                />
+                            </label>
+                            <button
+                                type="button"
+                                class="button"
+                                onClick={() =>
+                                    setAgenda((items) =>
+                                        items.filter((_, position) => position !== index),
+                                    )
+                                }
+                            >
+                                Remove activity
+                            </button>
+                        </div>
+                    )}
+                </Index>
+                <button
+                    type="button"
+                    class="button"
+                    onClick={() => setAgenda((items) => [...items, { time: "", title: "" }])}
+                >
+                    Add activity
+                </button>
+                <fieldset>
+                    <legend>Hosts &amp; supporters</legend>
+                    <div class="organiser-options">
+                        <For each={props.directory?.organisations}>
+                            {(item) => (
+                                <label class="checkbox-label">
+                                    <input
+                                        type="checkbox"
+                                        name="organisations"
+                                        value={item._id}
+                                        checked={props.draft?.organisations.includes(item._id)}
+                                    />
+                                    {item.name}
+                                </label>
+                            )}
+                        </For>
+                    </div>
+                </fieldset>
+            </Card>
+        </>
     );
 }
 
@@ -283,7 +417,7 @@ export function RegistrationFields(props: {
                             name="capacity"
                             min="1"
                             step="1"
-                            value={native()?.capacity ?? ""}
+                            value={native() ? (native()!.capacity ?? "") : 200}
                         />
                     </label>
                 </div>

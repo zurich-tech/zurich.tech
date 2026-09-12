@@ -98,7 +98,7 @@ export const event = query({
             endsAt: event.endsAt,
             format: event.format,
             links,
-            location: event.location,
+            location: [event.location, event.address].filter(Boolean).join(", "),
             media: images,
             rsvpCount: rsvps.filter((rsvp) => rsvp.status === "going").length,
             waitlistCount: rsvps.filter((rsvp) => rsvp.status === "waitlist").length,
@@ -125,11 +125,12 @@ export const event = query({
                         : undefined,
                 access: venue?.accessNotes,
                 address:
-                    address === null
+                    event.address ??
+                    (address === null
                         ? undefined
                         : [address.line1, address.line2, address.postalCode, address.locality]
                               .filter(Boolean)
-                              .join(", "),
+                              .join(", ")),
                 name: venue?.name ?? event.location,
             },
         };
