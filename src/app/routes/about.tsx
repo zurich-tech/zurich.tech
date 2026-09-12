@@ -1,8 +1,10 @@
+import { Sponsors } from "../../sponsorships/sponsors";
+import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 import { TeamEdit } from "../../auth/edit";
 import { createAsync } from "@solidjs/router";
 import { getTeam } from "../../members/queries";
 import { For } from "solid-js";
-import { Card, CardIntro } from "../../components/card";
+import { Card } from "../../components/card";
 import { Page } from "../page";
 import { Seo } from "../seo";
 import { Image } from "../../components/image";
@@ -10,7 +12,7 @@ import { SocialLinks } from "../../components/social";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
-    preload: () => getTeam(),
+    preload: () => Promise.all([getTeam(), getSponsors(), getPersonalSponsors()]),
 };
 
 /** Introduce the people behind zurich.tech. */
@@ -24,16 +26,11 @@ export default function Route() {
             />
             <Page>
                 <Card
-                    toolbar={<TeamEdit href="/admin?section=team" label="Manage" />}
-                    title="About"
+                    title="Team"
                     heading="h1"
+                    toolbar={<TeamEdit href="/admin?section=team" label="Manage" />}
                     class="team card--sections"
                 >
-                    <CardIntro>
-                        zurich.tech is a registered nonprofit organising talks, events, dinners,
-                        hackathons and other fun and interesting things around tech in and around
-                        Zürich.
-                    </CardIntro>
                     <ul class="team-grid card-section">
                         <For each={team()}>
                             {(member) => (
@@ -58,6 +55,7 @@ export default function Route() {
                         </For>
                     </ul>
                 </Card>
+                <Sponsors isFullPage />
             </Page>
         </>
     );
