@@ -35,3 +35,24 @@
 .item-metadata > .event-counts {
     margin-inline-start: auto;
 }
+
+/* keep registration state and its actions together on narrow and wide cards */
+.registration-actions,
+.registration-actions__buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.registration-actions__buttons {
+    margin-inline-start: auto;
+}
+
+/* match registration labels and actions without making status labels interactive */
+.registration-status,
+.registration-actions .button {
+    min-height: 40px;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.4;
+}

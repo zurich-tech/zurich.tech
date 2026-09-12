@@ -1,13 +1,14 @@
 import { Pass } from "../../events/checkin";
 import { FeedbackForm } from "../../events/feedback";
-import { useConfirmation } from "../../components/dialog";
+import { useCancellation } from "../../events/cancellation";
+import { RegistrationStatus } from "../../events/status";
 import { useConfirmationRefresh } from "../../events/queries";
 import { isTentative } from "../../../convex/events/conditions";
 import { timeZone } from "../site";
 
 import { Card } from "../../components/card";
 import { useSearchParams } from "@solidjs/router";
-import { startTransition, createResource, createSignal, Show } from "solid-js";
+import { createResource, Show } from "solid-js";
 import { api } from "../../../convex/_generated/api";
 import { publicClient } from "../../auth/convex";
 import { Page, DetailList, DetailRow } from "../page";
@@ -17,14 +18,18 @@ import { errorMessage } from "../../components/errors";
 
 /** Manage one registration using its private email link. */
 export default function Route() {
-    const confirm = useConfirmation();
     // load attendance through the private management link
     const [params] = useSearchParams();
-    const [error, setError] = createSignal<string>();
-    const [isPending, setIsPending] = createSignal(false);
     const [ticket, { refetch }] = createResource(
         () => (typeof params.token === "string" ? params.token : undefined),
         async (token) => await publicClient().query(api.events.registrations.get, { token }),
+    );
+
+    const { cancel, error, isPending } = useCancellation(
+        () => String(params.token),
+        async () => {
+            await refetch();
+        },
     );
 
     useConfirmationRefresh(
@@ -34,40 +39,6 @@ export default function Route() {
             isTentative(ticket.latest),
         refetch,
     );
-
-    /** Release the attendee's seat after explicit cancellation. */
-    async function cancel() {
-        setIsPending(true);
-        setError(undefined);
-        try {
-            if (typeof params.token !== "string") throw new Error("Missing registration token.");
-            const preview = await publicClient().query(
-                api.events.registrations.previewCancellation,
-                { token: params.token },
-            );
-            if (
-                !(await confirm({
-                    title: "Cancel registration",
-                    action: "Cancel",
-                    description:
-                        "Release your place. It may be offered to someone on the waitlist.",
-                    isDestructive: true,
-                    emails: preview.emails,
-                    recipients: preview.recipients,
-                }))
-            )
-                return;
-            await publicClient().mutation(api.events.registrations.cancel, {
-                token: params.token,
-                receipt: preview.receipt,
-            });
-            await startTransition(refetch);
-        } catch (caught) {
-            setError(errorMessage(caught, "Could not cancel."));
-        } finally {
-            setIsPending(false);
-        }
-    }
 
     // keep link failures inside the recovery card
     const currentTicket = () => (ticket.error ? undefined : ticket());
@@ -143,19 +114,11 @@ export default function Route() {
                                         <DetailRow
                                             label="Status"
                                             value={
-                                                <strong>
-                                                    {item().eventStatus === "cancelled"
-                                                        ? "Event cancelled"
-                                                        : {
-                                                              going: isTentative(item())
-                                                                  ? "Registered · Event tentative"
-                                                                  : "Confirmed",
-                                                              waitlist: "Waitlisted",
-                                                              pending: "Pending approval",
-                                                              declined: "Declined",
-                                                              cancelled: "Cancelled",
-                                                          }[item().status]}
-                                                </strong>
+                                                <RegistrationStatus
+                                                    status={item().status}
+                                                    isCancelled={item().eventStatus === "cancelled"}
+                                                    isTentative={isTentative(item())}
+                                                />
                                             }
                                         />
                                         <DetailRow label="Name" value={item().name} />

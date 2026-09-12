@@ -1,3 +1,5 @@
+import { useCancellation } from "../../../events/cancellation";
+import { RegistrationStatus } from "../../../events/status";
 import { EventTags } from "../../../events/tags";
 import { EventCounts } from "../../../events/counts";
 import { ConfirmationNotice } from "../../../events/confirmation";
@@ -84,6 +86,15 @@ export default function Route() {
         isCurrentRegistration() ? registrationResult()?.value : undefined;
     const hasRegistration = () =>
         !!currentRegistration() && currentRegistration()?.status !== "cancelled";
+
+    const cancellation = useCancellation(
+        () => currentRegistration()?.token ?? "",
+        () => Promise.all([refreshRegistration(), revalidate(getEvent.key)]),
+    );
+    const registrationHref = () =>
+        currentRegistration()?.token
+            ? `/registration?token=${encodeURIComponent(currentRegistration()!.token!)}`
+            : undefined;
 
     // refresh after returning from the registration management page
     onMount(() => {
@@ -251,38 +262,59 @@ export default function Route() {
                                     </Card>
                                 </Show>
                                 <Show when={!isRegistrationLoading() && hasRegistration()}>
-                                    <Card title="Registration">
-                                        <p>
-                                            <strong>
-                                                {currentRegistration() &&
-                                                    (event()?.status === "cancelled"
-                                                        ? "Event cancelled"
-                                                        : {
-                                                              going: isTentative(event()!)
-                                                                  ? "Registered · Event tentative"
-                                                                  : "Confirmed",
-                                                              pending: "Pending approval",
-                                                              waitlist: "Waitlisted",
-                                                              declined: "Declined",
-                                                              cancelled: "Cancelled",
-                                                          }[currentRegistration()!.status])}
-                                            </strong>
-                                        </p>
-                                        <Show when={currentRegistration()?.token}>
-                                            <a
-                                                class="button"
-                                                href={`/registration?token=${encodeURIComponent(currentRegistration()!.token!)}`}
-                                            >
-                                                {event()!.startsAt < Date.now() &&
-                                                (event()!.feedback?.isEventEnabled ||
-                                                    event()!.feedback?.isSpeakerEnabled)
-                                                    ? "Give feedback"
-                                                    : event()!.checkIn?.isEnabled &&
-                                                        currentRegistration()?.status === "going"
-                                                      ? "View pass"
-                                                      : "Manage registration"}
-                                            </a>
-                                        </Show>
+                                    <Card title="Registration" titleHref={registrationHref()}>
+                                        <div class="registration-actions">
+                                            <RegistrationStatus
+                                                status={currentRegistration()!.status}
+                                                isCancelled={event()?.status === "cancelled"}
+                                                isTentative={isTentative(event()!)}
+                                            />
+                                            <div class="registration-actions__buttons">
+                                                <Show
+                                                    when={
+                                                        event()!.checkIn?.isEnabled &&
+                                                        currentRegistration()?.status === "going" &&
+                                                        event()?.status !== "cancelled"
+                                                    }
+                                                >
+                                                    <a class="button" href={registrationHref()}>
+                                                        View pass
+                                                    </a>
+                                                </Show>
+                                                <Show
+                                                    when={
+                                                        event()!.startsAt < Date.now() &&
+                                                        (event()!.feedback?.isEventEnabled ||
+                                                            event()!.feedback?.isSpeakerEnabled) &&
+                                                        currentRegistration()?.status === "going" &&
+                                                        event()?.status !== "cancelled"
+                                                    }
+                                                >
+                                                    <a class="button" href={registrationHref()}>
+                                                        Give feedback
+                                                    </a>
+                                                </Show>
+                                                <Show
+                                                    when={
+                                                        currentRegistration()?.token &&
+                                                        event()?.status !== "cancelled" &&
+                                                        event()!.startsAt > Date.now() &&
+                                                        currentRegistration()?.status !== "declined"
+                                                    }
+                                                >
+                                                    <button
+                                                        class="button"
+                                                        disabled={cancellation.isPending()}
+                                                        onClick={() => void cancellation.cancel()}
+                                                    >
+                                                        {cancellation.isPending()
+                                                            ? "Cancelling…"
+                                                            : "Cancel"}
+                                                    </button>
+                                                </Show>
+                                            </div>
+                                        </div>
+                                        <FormMessage error={cancellation.error()} />
                                     </Card>
                                 </Show>
                                 <Show when={registration.error}>
@@ -319,6 +351,7 @@ export default function Route() {
                                 <Show
                                     when={
                                         isRsvpOpen(event()) &&
+                                        !isRegistrationLoading() &&
                                         !hasRegistration() &&
                                         !registration.error
                                     }
