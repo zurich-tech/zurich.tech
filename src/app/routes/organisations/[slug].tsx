@@ -8,9 +8,14 @@ import { Arrow } from "../../../components/arrow";
 import { Card } from "../../../components/card";
 import { createAsync, useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
-import { Page, PageHeader, DetailList, DetailRow } from "../../page";
+import { Page, PageHeader } from "../../page";
 import { Seo } from "../../seo";
 import { NotFound } from "../../notfound";
+
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => getDirectory(),
+};
 
 /** Present an organisation in the same card layout as event details. */
 export default function Route() {
@@ -43,11 +48,16 @@ export default function Route() {
                                 }
                             />
                             <div class="event-schedule">
+                                <Show when={item().isSponsor && item().sponsorTier}>
+                                    <a class="tag sponsorship-badge" href="/sponsor">
+                                        {item().sponsorTier}
+                                    </a>
+                                </Show>
                                 <span>
                                     {
                                         {
                                             company: "Company",
-                                            lab: "Research lab",
+                                            lab: "Lab",
                                             community: "Community",
                                             space: "Space",
                                         }[item().kind]
@@ -141,26 +151,6 @@ export default function Route() {
                                         profiles={item().socials ?? {}}
                                     />
                                 </Card>
-                                <Show when={item().isSponsor}>
-                                    <Card title="Sponsorship">
-                                        <DetailList>
-                                            <DetailRow
-                                                label="Sponsor"
-                                                value={
-                                                    item().sponsorTier
-                                                        ? item()
-                                                              .sponsorTier!.charAt(0)
-                                                              .toUpperCase() +
-                                                          item().sponsorTier!.slice(1)
-                                                        : "Active"
-                                                }
-                                            />
-                                        </DetailList>
-                                        <a class="text-link" href="/sponsor">
-                                            Our sponsors <Arrow />
-                                        </a>
-                                    </Card>
-                                </Show>
                             </aside>
                         </div>
                     </Page>

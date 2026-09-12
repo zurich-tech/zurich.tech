@@ -79,15 +79,6 @@ export function CompanyForm(props: {
     return (
         <>
             <form class="editor" onSubmit={submit}>
-                <label>
-                    Headline
-                    <input
-                        name="headline"
-                        maxlength="160"
-                        placeholder="Company, non-profit, research lab…"
-                        value={props.item?.headline ?? ""}
-                    />
-                </label>
                 <div class="form-columns">
                     <label>
                         Name
@@ -99,7 +90,7 @@ export function CompanyForm(props: {
                         />
                     </label>
                     <label>
-                        URL slug
+                        Slug
                         <input
                             name="slug"
                             required
@@ -110,6 +101,15 @@ export function CompanyForm(props: {
                 </div>
                 <div class="form-columns">
                     <label>
+                        Title
+                        <input
+                            name="headline"
+                            maxlength="160"
+                            placeholder="Company, non-profit, research lab…"
+                            value={props.item?.headline ?? ""}
+                        />
+                    </label>
+                    <label>
                         Website
                         <input
                             name="website"
@@ -118,22 +118,24 @@ export function CompanyForm(props: {
                             value={props.item?.website ?? ""}
                         />
                     </label>
+                </div>
+                <div class="form-columns">
                     <label>
-                        Logo URL
+                        Logo · light
                         <input name="logoUrl" value={props.item?.logoUrl ?? ""} />
                     </label>
                     <label>
-                        Dark logo URL
+                        Logo · dark
                         <input name="logoDarkUrl" value={props.item?.logoDarkUrl ?? ""} />
                     </label>
                 </div>
                 <div class="form-columns">
                     <label>
-                        Map symbol URL
+                        Map symbol · light
                         <input name="mapLogoUrl" value={props.item?.mapLogoUrl ?? ""} />
                     </label>
                     <label>
-                        Dark map symbol URL
+                        Map symbol · dark
                         <input name="mapLogoDarkUrl" value={props.item?.mapLogoDarkUrl ?? ""} />
                     </label>
                 </div>
@@ -156,7 +158,7 @@ export function CompanyForm(props: {
                 </label>
                 <Show when={props.isTeam}>
                     <label>
-                        Assign owner by email
+                        Owner email
                         <input
                             name="ownerEmail"
                             type="email"

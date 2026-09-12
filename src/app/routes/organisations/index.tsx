@@ -8,6 +8,11 @@ import { Card } from "../../../components/card";
 import { Page } from "../../page";
 import { Seo } from "../../seo";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => getDirectory(),
+};
+
 /** Discover the organisations building and gathering in Zürich. */
 export default function Route() {
     const directory = createAsync(() => getDirectory());
@@ -69,7 +74,9 @@ export default function Route() {
                                                 <span class="tag">{item.location}</span>
                                             </Show>
                                             <Show when={item.isSponsor}>
-                                                <span class="tag">Sponsor</span>
+                                                <span class="tag sponsorship-badge">
+                                                    {item.sponsorTier ?? "Sponsor"}
+                                                </span>
                                             </Show>
                                         </div>
                                     </div>

@@ -12,12 +12,11 @@ export function TableToolbar(props: TableToolbarProps) {
         <div class="table-toolbar">
             {/* search */}
             <label class="table-toolbar__search">
-                <span aria-hidden="true">/</span>
-                <span class="sr-only">search</span>
+                <span class="sr-only">{props.placeholder ?? "Search"}</span>
                 <input
                     autocomplete="off"
                     onInput={(event) => props.onSearch(event.currentTarget.value)}
-                    placeholder={props.placeholder ?? "search..."}
+                    placeholder={props.placeholder ?? "Search…"}
                     type="search"
                 />
             </label>

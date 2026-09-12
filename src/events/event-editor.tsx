@@ -375,7 +375,7 @@ export function RegistrationFields(props: {
     return (
         <Card title="Registration">
             <label>
-                Registration happens
+                Registration
                 <select
                     value={props.kind}
                     onChange={(event) => props.setKind(event.currentTarget.value)}
@@ -406,8 +406,8 @@ export function RegistrationFields(props: {
                     <label>
                         Admission
                         <select name="admission" value={native()?.admission ?? "automatic"}>
-                            <option value="automatic">Automatic confirmation</option>
-                            <option value="approval">Organiser approval</option>
+                            <option value="automatic">Automatic</option>
+                            <option value="approval">Approval required</option>
                         </select>
                     </label>
                     <label>

@@ -3,10 +3,16 @@ import { Card } from "../../../components/card";
 import { createAsync } from "@solidjs/router";
 import { For, Show, createMemo, createSignal } from "solid-js";
 
-import { DirectoryList, DirectoryRow } from "../../../components/list";
-import { Page, PageHeader } from "../../page";
+import { Avatar } from "../../../components/avatar";
+import { DirectoryList } from "../../../components/list";
+import { Page } from "../../page";
 import { Seo } from "../../seo";
 import { TableToolbar } from "../../../components/toolbar";
+
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => getMembers(),
+};
 
 /** Member index. */
 export default function Route() {
@@ -17,8 +23,6 @@ export default function Route() {
         <>
             <Seo title="Members" description="zurich.tech members." />
             <Page>
-                <PageHeader title="Members" />
-
                 {/* members */}
                 <MemberDirectory members={members() ?? []} />
             </Page>
@@ -45,24 +49,33 @@ function MemberDirectory(props: { members: PublicMember[] }) {
     });
 
     return (
-        <Card
-            title="Profiles"
-            toolbar={<TableToolbar onSearch={setQuery} placeholder="Search members" />}
-        >
+        <Card title="Members" heading="h1">
+            <TableToolbar onSearch={setQuery} placeholder="Search members…" />
             {/* empty */}
             <Show
                 when={visible().length > 0}
-                fallback={<p class="text-soft">No public member profiles yet.</p>}
+                fallback={
+                    <p class="text-soft">
+                        {props.members.length ? "No matching members." : "No public profiles yet."}
+                    </p>
+                }
             >
                 <DirectoryList>
                     <For each={visible()}>
                         {(member) => (
-                            <DirectoryRow
-                                eyebrow={`@${member.handle}`}
-                                href={`/members/${member.handle}`}
-                                summary={member.headline}
-                                title={member.name}
-                            />
+                            <a class="directory-row member-row" href={`/members/${member.handle}`}>
+                                <Avatar
+                                    name={member.name}
+                                    image={member.avatarUrl}
+                                    imageDark={member.avatarDarkUrl}
+                                />
+                                <span class="member-row__copy">
+                                    <strong>{member.name}</strong>
+                                    <Show when={member.headline}>
+                                        <span class="text-soft">{member.headline}</span>
+                                    </Show>
+                                </span>
+                            </a>
                         )}
                     </For>
                 </DirectoryList>

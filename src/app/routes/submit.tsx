@@ -8,7 +8,7 @@ import {
 import { getDirectory } from "../../organisations/queries";
 import { Arrow } from "../../components/arrow";
 import { Card } from "../../components/card";
-import { createEffect, createResource, createSignal, For, Show } from "solid-js";
+import { startTransition, createEffect, createResource, createSignal, For, Show } from "solid-js";
 import { useNavigate, revalidate, createAsync, useSearchParams } from "@solidjs/router";
 import type { Registration } from "../../../convex/events/fields";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
@@ -63,7 +63,7 @@ export default function Route() {
                       await memberClient()
                   ).mutation(api.events.mutations.edit, { eventId: published._id })
                 : value;
-            if (published) await refreshWorkspace();
+            if (published) await startTransition(refreshWorkspace);
             setParams({ duplicate: id || undefined });
         } catch (caught) {
             setError(errorMessage(caught, "Could not open the event."));
@@ -231,18 +231,32 @@ export default function Route() {
                 <PageHeader
                     title={params.edit ? "Edit event" : "New event"}
                     actions={
-                        <Show when={workspace() && (!(params.edit || params.duplicate) || draft())}>
-                            <span
-                                class="event-publication"
-                                classList={{ "event-publication--published": isPublished() }}
+                        <>
+                            <a class="button" href="/admin">
+                                Back to events
+                            </a>
+                            <Show when={params.edit && draft()?.eventId && isPublished()}>
+                                <a class="button" href={`/events/${draft()!.slug}`}>
+                                    View event
+                                </a>
+                            </Show>
+                            <Show
+                                when={
+                                    workspace() && (!(params.edit || params.duplicate) || draft())
+                                }
                             >
-                                {isCancelled()
-                                    ? "Cancelled"
-                                    : isPublished()
-                                      ? "Published"
-                                      : "Draft"}
-                            </span>
-                        </Show>
+                                <span
+                                    class="event-publication"
+                                    classList={{ "event-publication--published": isPublished() }}
+                                >
+                                    {isCancelled()
+                                        ? "Cancelled"
+                                        : isPublished()
+                                          ? "Published"
+                                          : "Draft"}
+                                </span>
+                            </Show>
+                        </>
                     }
                 />
                 <Show
@@ -298,8 +312,8 @@ export default function Route() {
                                     </select>
                                 </Card>
                             </Show>
-                            <div class="event-editor__columns">
-                                <div class="event-editor__column">
+                            <div class="editor-columns">
+                                <div class="editor-column">
                                     {/* describe the event and its relationship to a series */}
                                     <EventFields
                                         draft={draft()}
@@ -309,7 +323,7 @@ export default function Route() {
                                     {/* keep programme details optional and quick to enter */}
                                     <ProgrammeFields draft={draft()} directory={directory()} />
                                 </div>
-                                <div class="event-editor__column">
+                                <div class="editor-column">
                                     <Card title="Organisers">
                                         <div class="organiser-options">
                                             <For each={workspace()?.organisers}>

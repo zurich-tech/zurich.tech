@@ -48,12 +48,10 @@ export function ArticleList(props: ArticleListProps) {
             class={props.isCompact ? "news-overview" : undefined}
             title={props.isPage || props.isCompact ? "News" : "Articles"}
             titleHref={props.titleHref ?? (props.isPage ? undefined : "/news")}
-            toolbar={
-                props.isSearchable === true ? (
-                    <TableToolbar onSearch={setQuery} placeholder="Search articles" />
-                ) : undefined
-            }
         >
+            <Show when={props.isSearchable}>
+                <TableToolbar onSearch={setQuery} placeholder="Search news…" />
+            </Show>
             {/* articles */}
             <Show
                 when={articles().length > 0}

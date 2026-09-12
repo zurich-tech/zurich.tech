@@ -1,3 +1,4 @@
+import { Loading } from "../../../components/loading";
 import { jobPrice, jobDurationMonths } from "../../../sponsorships/plans";
 import { Show, createSignal } from "solid-js";
 import { useNavigate, revalidate, useSearchParams } from "@solidjs/router";
@@ -6,7 +7,7 @@ import type { Doc, Id } from "../../../../convex/_generated/dataModel";
 import { useEmployerWorkspace } from "../../workspace";
 import { CompanySelect } from "../../../organisations/company";
 import { memberClient } from "../../../auth/convex";
-import { Page } from "../../page";
+import { Page, PageHeader } from "../../page";
 import { Card } from "../../../components/card";
 import { Seo } from "../../seo";
 import { FormMessage } from "../../../components/form";
@@ -86,8 +87,8 @@ export default function Route() {
                 }
                 description="Publish a tech vacancy in Zürich."
             />
-            <Page width="narrow">
-                <Card
+            <Page>
+                <PageHeader
                     title={
                         params.edit
                             ? draft()?.title
@@ -95,59 +96,64 @@ export default function Route() {
                                 : "Edit job"
                             : "Post a job"
                     }
-                    heading="h1"
-                >
-                    <Show
-                        when={account.user()}
-                        fallback={
+                    actions={
+                        <a class="button" href="/manage?section=jobs">
+                            Back to jobs
+                        </a>
+                    }
+                />
+                <Show
+                    when={account.user()}
+                    fallback={
+                        <Show when={!account.isPending()} fallback={<Loading />}>
                             <a
                                 class="button"
                                 href={`/sign-in?next=${encodeURIComponent(locationPath(params.edit))}`}
                             >
                                 Sign in to post a job
                             </a>
-                        }
-                    >
-                        <Show when={workspace.error}>
-                            <p class="form-error">
-                                {errorMessage(workspace.error, "Could not load workspace.")}
-                            </p>
                         </Show>
-                        <Show when={workspace()}>
-                            {(current) => (
-                                <Show
-                                    when={!params.edit || job()}
-                                    fallback={<p>This job was not found in your workspace.</p>}
-                                >
-                                    <Show
-                                        when={current().organisations.length > 0}
-                                        fallback={
-                                            <p>
-                                                <a
-                                                    class="text-link"
-                                                    href="/manage?section=organisations"
-                                                >
-                                                    Add your company
-                                                </a>{" "}
-                                                before posting a job.
-                                            </p>
-                                        }
-                                    >
-                                        <JobForm
-                                            draft={draft()}
-                                            job={job()}
-                                            companies={current().organisations}
-                                            isPending={isPending()}
-                                            email={account.user()?.email}
-                                            error={error()}
-                                            onSubmit={submit}
-                                        />
-                                    </Show>
-                                </Show>
-                            )}
-                        </Show>
+                    }
+                >
+                    <Show when={workspace.error}>
+                        <p class="form-error">
+                            {errorMessage(workspace.error, "Could not load workspace.")}
+                        </p>
                     </Show>
-                </Card>
+                    <Show when={workspace()}>
+                        {(current) => (
+                            <Show
+                                when={!params.edit || job()}
+                                fallback={<p>This job was not found in your workspace.</p>}
+                            >
+                                <Show
+                                    when={current().organisations.length > 0}
+                                    fallback={
+                                        <p>
+                                            <a
+                                                class="text-link"
+                                                href="/manage?section=organisations"
+                                            >
+                                                Add your company
+                                            </a>{" "}
+                                            before posting a job.
+                                        </p>
+                                    }
+                                >
+                                    <JobForm
+                                        draft={draft()}
+                                        job={job()}
+                                        companies={current().organisations}
+                                        isPending={isPending()}
+                                        email={account.user()?.email}
+                                        error={error()}
+                                        onSubmit={submit}
+                                    />
+                                </Show>
+                            </Show>
+                        )}
+                    </Show>
+                </Show>
             </Page>
         </>
     );
@@ -172,129 +178,156 @@ function JobForm(props: {
 }) {
     return (
         <form class="editor" onSubmit={props.onSubmit}>
-            <CompanySelect
-                companies={props.companies}
-                value={props.draft?.organisationId}
-                isDisabled={!!props.job?.publishedAt}
-            />
-            <div class="form-columns">
-                <label>
-                    Role title
-                    <input name="title" required maxlength="180" value={props.draft?.title ?? ""} />
-                </label>
-                <label>
-                    URL slug
-                    <input
-                        name="slug"
-                        required
-                        pattern="[a-z0-9]+(-[a-z0-9]+)*"
-                        readonly={!!props.job?.publishedAt}
-                        value={props.draft?.slug ?? ""}
-                    />
-                </label>
-            </div>
-            <label>
-                Description <span>Markdown supported</span>
-                <textarea
-                    name="description"
-                    required
-                    rows="12"
-                    maxlength="50000"
-                    value={props.draft?.description ?? ""}
-                />
-            </label>
-            <label>
-                Location
-                <input
-                    name="location"
-                    required
-                    placeholder="Zürich, Switzerland"
-                    value={props.draft?.location ?? ""}
-                />
-            </label>
-            <div class="form-columns">
-                <label>
-                    Workplace
-                    <select name="workplace" value={props.draft?.workplace ?? "hybrid"}>
-                        <option value="onsite">On-site</option>
-                        <option value="hybrid">Hybrid</option>
-                        <option value="remote">Remote</option>
-                    </select>
-                </label>
-                <label>
-                    Employment
-                    <select name="employment" value={props.draft?.employment ?? "full-time"}>
-                        <option value="full-time">Full-time</option>
-                        <option value="part-time">Part-time</option>
-                        <option value="contract">Contract</option>
-                        <option value="internship">Internship</option>
-                    </select>
-                </label>
-            </div>
-            <div class="form-columns">
-                <label>
-                    Minimum salary (CHF)
-                    <input
-                        name="min"
-                        type="number"
-                        min="0"
-                        step="any"
-                        value={props.draft?.salary?.min ?? ""}
-                    />
-                </label>
-                <label>
-                    Maximum salary (CHF)
-                    <input
-                        name="max"
-                        type="number"
-                        min="0"
-                        step="any"
-                        value={props.draft?.salary?.max ?? ""}
-                    />
-                </label>
-            </div>
-            <label>
-                Salary period
-                <select name="period" value={props.draft?.salary?.period ?? "year"}>
-                    <option value="year">Per year</option>
-                    <option value="hour">Per hour</option>
-                </select>
-            </label>
-            <label>
-                Technologies <span>Comma-separated, up to twelve</span>
-                <input name="tags" value={props.draft?.tags.join(", ") ?? ""} />
-            </label>
-            <label>
-                Application URL
-                <input
-                    name="applicationUrl"
-                    type="url"
-                    required
-                    value={props.draft?.applicationUrl ?? ""}
-                />
-            </label>
-            <label>
-                Invoice email
-                <input
-                    name="billingEmail"
-                    type="email"
-                    required
-                    value={props.draft?.billingEmail ?? props.email ?? ""}
-                />
-            </label>
+            <div class="editor-columns">
+                <div class="editor-column">
+                    <Card title="Job">
+                        <div class="form-columns">
+                            <label>
+                                Title
+                                <input
+                                    name="title"
+                                    required
+                                    maxlength="180"
+                                    value={props.draft?.title ?? ""}
+                                />
+                            </label>
+                            <label>
+                                Slug
+                                <input
+                                    name="slug"
+                                    required
+                                    pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                                    readonly={!!props.job?.publishedAt}
+                                    value={props.draft?.slug ?? ""}
+                                />
+                            </label>
+                        </div>
+                        <label>
+                            Description <span>Markdown supported</span>
+                            <textarea
+                                name="description"
+                                required
+                                rows="8"
+                                maxlength="50000"
+                                value={props.draft?.description ?? ""}
+                            />
+                        </label>
+                        <label>
+                            Technologies <span>Comma-separated, up to twelve</span>
+                            <input name="tags" value={props.draft?.tags.join(", ") ?? ""} />
+                        </label>
+                        <label>
+                            Application URL
+                            <input
+                                name="applicationUrl"
+                                type="url"
+                                required
+                                value={props.draft?.applicationUrl ?? ""}
+                            />
+                        </label>
+                    </Card>
+                </div>
+                <aside class="editor-column">
+                    <Card title="Details">
+                        <CompanySelect
+                            companies={props.companies}
+                            value={props.draft?.organisationId}
+                            isDisabled={!!props.job?.publishedAt}
+                        />
+                        <label>
+                            Location
+                            <input
+                                name="location"
+                                required
+                                placeholder="Zürich, Switzerland"
+                                value={props.draft?.location ?? ""}
+                            />
+                        </label>
+                        <div class="form-columns">
+                            <label>
+                                Workplace
+                                <select name="workplace" value={props.draft?.workplace ?? "hybrid"}>
+                                    <option value="onsite">On-site</option>
+                                    <option value="hybrid">Hybrid</option>
+                                    <option value="remote">Remote</option>
+                                </select>
+                            </label>
+                            <label>
+                                Employment
+                                <select
+                                    name="employment"
+                                    value={props.draft?.employment ?? "full-time"}
+                                >
+                                    <option value="full-time">Full-time</option>
+                                    <option value="part-time">Part-time</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="internship">Internship</option>
+                                </select>
+                            </label>
+                        </div>
+                    </Card>
+                    <Card title="Salary">
+                        <div class="form-columns">
+                            <label>
+                                Minimum salary (CHF)
+                                <input
+                                    name="min"
+                                    type="number"
+                                    min="0"
+                                    step="any"
+                                    value={props.draft?.salary?.min ?? ""}
+                                />
+                            </label>
+                            <label>
+                                Maximum salary (CHF)
+                                <input
+                                    name="max"
+                                    type="number"
+                                    min="0"
+                                    step="any"
+                                    value={props.draft?.salary?.max ?? ""}
+                                />
+                            </label>
+                        </div>
+                        <label>
+                            Salary period
+                            <select name="period" value={props.draft?.salary?.period ?? "year"}>
+                                <option value="year">Per year</option>
+                                <option value="hour">Per hour</option>
+                            </select>
+                        </label>
+                    </Card>
+                    <Card title="Listing">
+                        <label>
+                            Invoice email
+                            <input
+                                name="billingEmail"
+                                type="email"
+                                required
+                                value={props.draft?.billingEmail ?? props.email ?? ""}
+                            />
+                        </label>
 
-            <p class="text-soft">
-                CHF {jobPrice} for {jobDurationMonths} months, or an included sponsor listing. The
-                team reviews your submission and confirms payment before publication. Reconfirm
-                every 90 days that the role is open.
-            </p>
+                        <p>
+                            CHF {jobPrice} · {jobDurationMonths} months. Included for sponsors.
+                        </p>
+                        <p class="text-soft">
+                            Reviewed before publication. Reconfirm every 90 days.
+                        </p>
+                    </Card>
+                </aside>
+            </div>
             <FormMessage error={props.error} />
             <div class="row-actions">
                 <button class="button" value="draft" disabled={props.isPending}>
-                    Save draft
+                    {props.isPending
+                        ? "Saving…"
+                        : props.job?.status === "published"
+                          ? "Save changes"
+                          : "Save draft"}
                 </button>
                 <button class="button button--primary" value="review" disabled={props.isPending}>
-                    Submit for review
+                    {props.isPending ? "Saving…" : "Submit for review"}
                 </button>
             </div>
         </form>

@@ -9,6 +9,11 @@ import { Page, PageHeader } from "../../page";
 import { Seo } from "../../seo";
 import { NotFound } from "../../notfound";
 
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () => Promise.all([getDirectory(), getCalendar()]),
+};
+
 /** Collect the upcoming gatherings and archive of a recurring series. */
 export default function Route() {
     const params = useParams();
@@ -25,8 +30,7 @@ export default function Route() {
                         <a class="eyebrow" href="/events">
                             <Arrow direction="left" /> Events
                         </a>
-                        <PageHeader title={item().name} />
-                        <p class="page-lead">{item().description}</p>
+                        <PageHeader title={item().name} summary={item().description} />
                         <Programme
                             series={[]}
                             entries={

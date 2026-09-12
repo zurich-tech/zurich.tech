@@ -16,11 +16,9 @@ export function Team(props: {
     const command = useWorkspaceCommand(props.refresh);
 
     return (
-        <Card title="Team">
+        <Card title="Team" class="admin-table-card">
             <FormMessage error={command.error()} success={command.success()} />
-            <p>
-                Team members can manage events and grant team access. Sign in once to appear here.
-            </p>
+            <p class="admin-context">Team members can manage events and team access.</p>
             <div class="table-scroll">
                 <table class="admin-table">
                     <thead>

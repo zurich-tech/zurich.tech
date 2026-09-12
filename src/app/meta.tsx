@@ -9,22 +9,3 @@ export function Tags(props: { values: string[] }) {
         </div>
     );
 }
-
-/** External links. */
-export function ExternalLinks(props: { links: Array<{ href: string; label: string }> }) {
-    return (
-        <div class="flex flex-wrap gap-3 text-xs lowercase">
-            {/* links */}
-            <For each={props.links}>
-                {(link) => (
-                    <a
-                        class="text-soft underline underline-offset-4 hover:text-ink"
-                        href={link.href}
-                    >
-                        {link.label}
-                    </a>
-                )}
-            </For>
-        </div>
-    );
-}
