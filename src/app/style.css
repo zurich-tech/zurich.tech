@@ -3907,7 +3907,7 @@ select.field__control:not([multiple]) {
 }
 .sponsor-overview h2 {
     margin: 0 0 18px;
-    font: 600 18px/1.3 var(--font-mono);
+    font: 600 22px/1.3 var(--font-mono);
 }
 .sponsor-overview .plan-benefits {
     margin: 0;
@@ -3953,7 +3953,7 @@ select.field__control:not([multiple]) {
     letter-spacing: -2px;
 }
 .offer-card .tier-price > span {
-    font: 13px/1.4 var(--font-mono);
+    font: 14px/1.5 var(--font-sans);
     letter-spacing: 0;
 }
 .offer-card .button {
@@ -3986,9 +3986,9 @@ select.field__control:not([multiple]) {
     font-weight: 600;
 }
 .plan-benefits span {
-    color: var(--color-soft);
-    font-size: 13px;
-    line-height: 1.45;
+    color: inherit;
+    font-size: 14px;
+    line-height: 1.5;
 }
 .sponsor-plan--featured {
     background: #174ed8;
@@ -4084,26 +4084,12 @@ select.field__control:not([multiple]) {
     }
 }
 
-/* use the same purpose and cost hierarchy for every support option */
-.plan-intro p {
+/* keep sponsorship introductions at the same size as their benefits */
+.sponsor-intro .card-intro p,
+.plan-intro {
     margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-}
-.plan-intro .plan-byline {
-    font-weight: 400;
-    margin-top: 5px;
-    color: var(--color-soft);
-    font-size: 12px;
-    line-height: 1.5;
-}
-.sponsor-plan--featured .plan-byline {
-    color: #d3dfff;
-}
-@media (min-width: 701px) {
-    .sponsor-plans .plan-intro {
-        min-height: 60px;
-    }
+    font: 400 14px/1.5 var(--font-sans);
+    color: inherit;
 }
 
 /* keep short sections from stretching to match adjacent content */

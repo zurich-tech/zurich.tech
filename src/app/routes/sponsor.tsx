@@ -33,8 +33,8 @@ export default function Route() {
                     class="sponsor-intro card--sections"
                 >
                     <CardIntro>
-                        Meet the people building tech in Zürich. Reach developers, researchers,
-                        founders and future colleagues through our events and newsletter.
+                        We run zurich.tech as volunteers. Your sponsorship pays for our events and
+                        operations.
                     </CardIntro>
                     <div class="sponsor-overview card-section">
                         <section>
@@ -42,7 +42,7 @@ export default function Route() {
                             <ul class="plan-benefits">
                                 <li>
                                     <Arrow />
-                                    <strong>Visibility throughout the year</strong>
+                                    <strong>Share your work</strong>
                                     <span>
                                         Your company on our website, in our newsletter and at our
                                         events.
@@ -50,18 +50,13 @@ export default function Route() {
                                 </li>
                                 <li>
                                     <Arrow />
-                                    <strong>Reach people you want to hire</strong>
-                                    <span>
-                                        Job listings shared with a local community interested in
-                                        tech.
-                                    </span>
+                                    <strong>Find colleagues</strong>
+                                    <span>Share your open roles with our members.</span>
                                 </li>
                                 <li>
                                     <Arrow />
-                                    <strong>Meet the community</strong>
-                                    <span>
-                                        Get to know people at talks, dinners and hackathons.
-                                    </span>
+                                    <strong>Meet people</strong>
+                                    <span>Talk to people at our events.</span>
                                 </li>
                             </ul>
                         </section>
@@ -70,18 +65,20 @@ export default function Route() {
                             <ul class="plan-benefits">
                                 <li>
                                     <Arrow />
-                                    <strong>100% towards operating costs</strong>
-                                    <span>We’re a nonprofit run entirely by volunteers.</span>
+                                    <strong>No salaries</strong>
+                                    <span>All sponsorship money goes to operating costs.</span>
                                 </li>
                                 <li>
                                     <Arrow />
-                                    <strong>The essentials</strong>
-                                    <span>Venues, food, equipment and community services.</span>
+                                    <strong>Event costs</strong>
+                                    <span>Venues, food and equipment.</span>
                                 </li>
                                 <li>
                                     <Arrow />
-                                    <strong>More room to grow</strong>
-                                    <span>The more support we have, the more we can do.</span>
+                                    <strong>Community services</strong>
+                                    <span>
+                                        The website, email and tools we use to organise events.
+                                    </span>
                                 </li>
                             </ul>
                         </section>
@@ -101,10 +98,7 @@ export default function Route() {
                                     <span>CHF</span> {tier.price.toLocaleString("de-CH")}
                                     <span>/ year</span>
                                 </p>
-                                <PlanIntro
-                                    purpose={tier.purpose}
-                                    contribution={tier.contribution}
-                                />
+                                <p class="plan-intro">{tier.purpose}</p>
                                 <a
                                     class="button button--primary"
                                     href={sponsorshipInquiry(tier.name, account.user()?.name)}
@@ -134,9 +128,7 @@ export default function Route() {
                                     <li>
                                         <Arrow />
                                         <strong>{tier.map}</strong>
-                                        <span>
-                                            Your local office links to your organisation page.
-                                        </span>
+                                        <span>Your office, linked to your organisation page.</span>
                                     </li>
                                     <Show when={tier.newsletter}>
                                         <li>
@@ -148,7 +140,7 @@ export default function Route() {
                                     <Show when={tier.slides}>
                                         <li>
                                             <Arrow />
-                                            <strong>Represented at every event</strong>
+                                            <strong>At every event</strong>
                                             <span>{tier.slides}</span>
                                         </li>
                                     </Show>
@@ -182,10 +174,7 @@ export default function Route() {
                                     <span>CHF</span> {tier.price}
                                     <span>/ year</span>
                                 </p>
-                                <PlanIntro
-                                    purpose={tier.purpose}
-                                    contribution={tier.contribution}
-                                />
+                                <p class="plan-intro">{tier.purpose}</p>
                                 <button class="button button--primary" disabled>
                                     Become a {tier.name.toLowerCase()}
                                 </button>
@@ -218,18 +207,5 @@ export default function Route() {
                 </div>
             </Page>
         </>
-    );
-}
-
-/** Pair each support option with its purpose and a muted cost byline. */
-function PlanIntro(props: {
-    /** Main reason to support. */ purpose: string;
-    /** Costs supported by the contribution. */ contribution: string;
-}) {
-    return (
-        <div class="plan-intro">
-            <p>{props.purpose}</p>
-            <p class="plan-byline">{props.contribution}</p>
-        </div>
     );
 }
