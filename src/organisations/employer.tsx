@@ -1,3 +1,4 @@
+import { useConfirmation } from "../components/dialog";
 import { useAccount } from "../auth";
 import { sponsorshipInquiry } from "../sponsorships/inquiries";
 import { Show, createSignal } from "solid-js";
@@ -27,6 +28,7 @@ export function JobCard(props: {
     /** Run a command and refresh its visible result. */
     perform: Perform;
 }) {
+    const confirm = useConfirmation();
     const status = () =>
         ({
             draft: "Draft",
@@ -106,14 +108,24 @@ export function JobCard(props: {
                         class="button"
                         disabled={props.isPending}
                         onClick={() =>
-                            props.perform(
-                                async () =>
-                                    (await memberClient()).mutation(api.jobs.jobs.updateStatus, {
-                                        id: props.job._id,
-                                        action: "close",
-                                    }),
-                                "Listing closed.",
-                            )
+                            props.perform(async () => {
+                                if (
+                                    !(await confirm({
+                                        title: "Close job listing",
+                                        action: "Close listing",
+                                        description: "Remove this job from public listings.",
+                                        isDestructive: true,
+                                        emails: 0,
+                                    }))
+                                )
+                                    return false;
+                                await (
+                                    await memberClient()
+                                ).mutation(api.jobs.jobs.updateStatus, {
+                                    id: props.job._id,
+                                    action: "close",
+                                });
+                            }, "Listing closed.")
                         }
                     >
                         Close listing
@@ -140,14 +152,24 @@ export function SponsorshipCard(props: {
     /** Run a command and refresh its visible result. */
     perform: Perform;
 }) {
+    const confirm = useConfirmation();
     /** Activate the paid sponsorship term. */
-    function activate(event: SubmitEvent) {
+    async function activate(event: SubmitEvent) {
         // read the submitted review fields
         event.preventDefault();
         const invoiceReference = String(
             new FormData(event.currentTarget as HTMLFormElement).get("invoiceReference"),
         );
 
+        if (
+            !(await confirm({
+                title: "Activate sponsorship",
+                action: "Activate sponsorship",
+                description: "Start the annual sponsorship and enable its benefits.",
+                emails: 0,
+            }))
+        )
+            return;
         // apply the decision and refresh the workspace
         void props.perform(
             async () =>
@@ -160,14 +182,19 @@ export function SponsorshipCard(props: {
     }
 
     /** End or decline the sponsorship request. */
-    function end(event: SubmitEvent) {
+    async function end(event: SubmitEvent) {
         event.preventDefault();
         if (
-            !window.confirm(
-                props.sponsor.status === "requested"
-                    ? "Decline this sponsorship request?"
-                    : "End this sponsorship?",
-            )
+            !(await confirm({
+                title:
+                    props.sponsor.status === "requested"
+                        ? "Decline sponsorship"
+                        : "End sponsorship",
+                action:
+                    props.sponsor.status === "requested" ? "Decline request" : "End sponsorship",
+                description: "Remove this sponsorship and its benefits.",
+                isDestructive: true,
+            }))
         )
             return;
         void props.perform(
@@ -257,17 +284,25 @@ export function SponsorshipCard(props: {
                     class="button"
                     disabled={props.isPending}
                     onClick={() =>
-                        props.perform(
-                            async () =>
-                                (await memberClient()).mutation(
-                                    api.sponsorships.organisations.updateRequest,
-                                    {
-                                        id: props.sponsor._id,
-                                        action: "renew",
-                                    },
-                                ),
-                            "Renewal requested.",
-                        )
+                        props.perform(async () => {
+                            if (
+                                !(await confirm({
+                                    title: "Request renewal",
+                                    action: "Request renewal",
+                                    description:
+                                        "Request another year of sponsorship. No payment is taken.",
+                                    isDestructive: false,
+                                    emails: 0,
+                                }))
+                            )
+                                return false;
+                            await (
+                                await memberClient()
+                            ).mutation(api.sponsorships.organisations.updateRequest, {
+                                id: props.sponsor._id,
+                                action: "renew",
+                            });
+                        }, "Renewal requested.")
                     }
                 >
                     Request renewal
@@ -278,17 +313,24 @@ export function SponsorshipCard(props: {
                     class="button"
                     disabled={props.isPending}
                     onClick={() =>
-                        props.perform(
-                            async () =>
-                                (await memberClient()).mutation(
-                                    api.sponsorships.organisations.updateRequest,
-                                    {
-                                        id: props.sponsor._id,
-                                        action: "withdraw",
-                                    },
-                                ),
-                            "Request withdrawn.",
-                        )
+                        props.perform(async () => {
+                            if (
+                                !(await confirm({
+                                    title: "Withdraw request",
+                                    action: "Withdraw request",
+                                    description: "Withdraw this sponsorship request.",
+                                    isDestructive: true,
+                                    emails: 0,
+                                }))
+                            )
+                                return false;
+                            await (
+                                await memberClient()
+                            ).mutation(api.sponsorships.organisations.updateRequest, {
+                                id: props.sponsor._id,
+                                action: "withdraw",
+                            });
+                        }, "Request withdrawn.")
                     }
                 >
                     Withdraw request
@@ -357,14 +399,24 @@ function JobReview(props: {
     /** Apply the review and refresh the vacancy. */
     perform: Perform;
 }) {
+    const confirm = useConfirmation();
     const [funding, setFunding] = createSignal("invoice");
 
     /** Publish the reviewed vacancy with its funding. */
-    function publish(event: SubmitEvent) {
+    async function publish(event: SubmitEvent) {
         // read the submitted review fields
         event.preventDefault();
         const fields = new FormData(event.currentTarget as HTMLFormElement);
 
+        if (
+            !(await confirm({
+                title: "Publish job",
+                action: "Publish job",
+                description: "Publish this listing and apply the selected funding.",
+                emails: 0,
+            }))
+        )
+            return;
         // apply the decision and refresh the workspace
         void props.perform(
             async () =>
@@ -378,11 +430,20 @@ function JobReview(props: {
     }
 
     /** Return the vacancy to its author with a review note. */
-    function decline(event: SubmitEvent) {
+    async function decline(event: SubmitEvent) {
         // read the submitted review fields
         event.preventDefault();
         const note = String(new FormData(event.currentTarget as HTMLFormElement).get("note"));
 
+        if (
+            !(await confirm({
+                title: "Return job for changes",
+                action: "Return for changes",
+                description: "Return this listing to its author with your review note.",
+                emails: 0,
+            }))
+        )
+            return;
         // apply the decision and refresh the workspace
         void props.perform(
             async () =>

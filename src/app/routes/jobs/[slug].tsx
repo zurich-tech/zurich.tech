@@ -1,3 +1,4 @@
+import { TeamEdit } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { getJob } from "../../../jobs/queries";
 import { createAsync, useParams } from "@solidjs/router";
@@ -5,7 +6,7 @@ import { Show, For } from "solid-js";
 import { routeParam } from "../../params";
 
 import { Card } from "../../../components/card";
-import { Page } from "../../page";
+import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 import { NotFound } from "../../notfound";
 import { Markdown } from "../../../components/markdown";
@@ -35,18 +36,17 @@ export default function Route() {
                         <a class="eyebrow" href="/jobs">
                             <Arrow direction="left" /> Jobs
                         </a>
+                        <ItemHeader
+                            title={item().title}
+                            summary={`${item().company.name} · ${item().location}`}
+                            actions={<TeamEdit href={`/jobs/submit?edit=${item().id}`} />}
+                        >
+                            <span class="tag">{workplaces[item().workplace]}</span>
+                            <span class="tag">{employments[item().employment]}</span>
+                            <For each={item().tags}>{(tag) => <span class="tag">{tag}</span>}</For>
+                        </ItemHeader>
                         <div class="listing-layout">
-                            <Card title={item().title} heading="h1">
-                                <p class="page-lead">
-                                    {item().company.name} · {item().location}
-                                </p>
-                                <div class="tags">
-                                    <span class="tag">{workplaces[item().workplace]}</span>
-                                    <span class="tag">{employments[item().employment]}</span>
-                                    <For each={item().tags}>
-                                        {(tag) => <span class="tag">{tag}</span>}
-                                    </For>
-                                </div>
+                            <Card title="About">
                                 <Markdown source={item().description} />
                             </Card>
                             <aside class="listing-sidebar">

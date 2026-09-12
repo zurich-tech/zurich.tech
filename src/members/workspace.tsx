@@ -1,3 +1,4 @@
+import { useConfirmation } from "../components/dialog";
 import { Card } from "../components/card";
 import { For, Show, createResource } from "solid-js";
 import { api } from "../../convex/_generated/api";
@@ -13,6 +14,7 @@ export function Team(props: {
     /** Reload permissions after a change. */
     refresh: () => unknown;
 }) {
+    const confirm = useConfirmation();
     const command = useWorkspaceCommand(props.refresh);
 
     return (
@@ -43,16 +45,31 @@ export function Team(props: {
                                                 disabled={command.isPending() || person.isSelf}
                                                 onChange={(event) => {
                                                     const isTeam = event.currentTarget.checked;
-                                                    void command.perform(
-                                                        async () =>
-                                                            await (
-                                                                await memberClient()
-                                                            ).mutation(api.auth.access.setTeam, {
-                                                                id: person.id,
-                                                                isTeam,
-                                                            }),
-                                                        "Team access updated.",
-                                                    );
+                                                    event.currentTarget.checked = person.isTeam;
+                                                    void command.perform(async () => {
+                                                        if (
+                                                            !(await confirm({
+                                                                title: isTeam
+                                                                    ? "Grant team access"
+                                                                    : "Revoke team access",
+                                                                action: isTeam
+                                                                    ? "Grant access"
+                                                                    : "Revoke access",
+                                                                description: isTeam
+                                                                    ? `${person.name} will be able to manage events, send emails and change team access.`
+                                                                    : `${person.name} will lose team permissions.`,
+                                                                isDestructive: !isTeam,
+                                                                emails: 0,
+                                                            }))
+                                                        )
+                                                            return false;
+                                                        await (
+                                                            await memberClient()
+                                                        ).mutation(api.auth.access.setTeam, {
+                                                            id: person.id,
+                                                            isTeam,
+                                                        });
+                                                    }, "Team access updated.");
                                                 }}
                                             />
                                         </label>
@@ -74,6 +91,7 @@ export function NewsletterAdmin(props: {
     /** Reload scheduling state after a change. */
     refresh: () => unknown;
 }) {
+    const confirm = useConfirmation();
     const [edition] = createResource(async () =>
         (await memberClient()).query(api.mail.digests.preview, {}),
     );
@@ -82,11 +100,27 @@ export function NewsletterAdmin(props: {
     /** Save the team’s scheduling preference. */
     function setPaused(event: Event & { currentTarget: HTMLInputElement }) {
         const isPaused = event.currentTarget.checked;
+        event.currentTarget.checked = props.isPaused;
 
-        void command.perform(
-            async () => (await memberClient()).mutation(api.mail.digests.pause, { isPaused }),
-            "Newsletter schedule updated.",
-        );
+        void command.perform(async () => {
+            const client = await memberClient();
+            const preview = await client.query(api.mail.digests.preview, {});
+            if (
+                !(await confirm({
+                    title: isPaused ? "Pause newsletter" : "Resume newsletter",
+                    action: isPaused ? "Pause newsletter" : "Resume newsletter",
+                    description: isPaused
+                        ? "Stop scheduled weekly newsletters."
+                        : `Enable Monday newsletters for ${preview.subscribers.toLocaleString("en-CH")} current subscribers.`,
+                    emails: 0,
+                    details: isPaused
+                        ? "Already queued emails are unaffected."
+                        : "Emails will be sent at the next scheduled delivery.",
+                }))
+            )
+                return false;
+            await client.mutation(api.mail.digests.pause, { isPaused });
+        }, "Newsletter schedule updated.");
     }
 
     return (

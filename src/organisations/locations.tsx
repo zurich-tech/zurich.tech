@@ -1,3 +1,5 @@
+import { Editor } from "../components/form";
+import { useConfirmation } from "../components/dialog";
 import { startTransition, createResource, createSignal, For, Show } from "solid-js";
 import type { FunctionReturnType } from "convex/server";
 import type { Id } from "../../convex/_generated/dataModel";
@@ -15,6 +17,7 @@ export function OrganisationLocations(props: {
     /** Organisation managed by the signed-in account. */ organisationId: Id<"organisations">;
     /** Allow team curation independently of sponsorship. */ isTeam: boolean;
 }) {
+    const confirm = useConfirmation();
     const [locations, { refetch }] = createResource(
         () => props.organisationId,
         async (organisationId) =>
@@ -62,6 +65,16 @@ export function OrganisationLocations(props: {
 
     /** Remove only the selected location, leaving the organisation intact. */
     async function remove(id: Id<"locations">) {
+        if (
+            !(await confirm({
+                title: "Remove location",
+                action: "Remove location",
+                description: "Remove this location from the organisation and map.",
+                isDestructive: true,
+                emails: 0,
+            }))
+        )
+            return;
         setPending(true);
         setError(undefined);
         try {
@@ -76,7 +89,21 @@ export function OrganisationLocations(props: {
     }
 
     return (
-        <Card title="Locations">
+        <Card
+            title="Locations"
+            toolbar={
+                <Show when={true}>
+                    <button
+                        type="submit"
+                        form="location-editor"
+                        class="button button--primary"
+                        disabled={isPending()}
+                    >
+                        {editing() ? "Save location" : "Add location"}
+                    </button>
+                </Show>
+            }
+        >
             <For each={locations() ?? []}>
                 {(location) => (
                     <div class="location-actions">
@@ -102,7 +129,19 @@ export function OrganisationLocations(props: {
                     </div>
                 )}
             </For>
-            <form ref={locationForm} class="editor" onSubmit={save}>
+            <Editor
+                id="location-editor"
+                ref={locationForm}
+                class="editor"
+                onSubmit={save}
+                actions={() => (
+                    <div class="form-actions">
+                        <button class="button button--primary" type="submit" disabled={isPending()}>
+                            {editing() ? "Save location" : "Add location"}
+                        </button>
+                    </div>
+                )}
+            >
                 <label>
                     Name
                     <input
@@ -167,9 +206,7 @@ export function OrganisationLocations(props: {
                 <Show when={error()}>
                     <p role="alert">{error()}</p>
                 </Show>
-                <button class="button button--primary" type="submit" disabled={isPending()}>
-                    {editing() ? "Save location" : "Add location"}
-                </button>
+
                 <Show when={editing()}>
                     <button
                         class="button button--ghost"
@@ -180,7 +217,7 @@ export function OrganisationLocations(props: {
                         Cancel edit
                     </button>
                 </Show>
-            </form>
+            </Editor>
         </Card>
     );
 }

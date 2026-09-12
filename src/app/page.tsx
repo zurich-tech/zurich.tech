@@ -1,3 +1,5 @@
+import { Card } from "../components/card";
+import "./page.css";
 import type { JSX } from "solid-js";
 import { Show } from "solid-js";
 
@@ -47,5 +49,20 @@ export function DetailRow(props: { label: string; value: JSX.Element }) {
             <dt>{props.label}</dt>
             <dd>{props.value}</dd>
         </div>
+    );
+}
+
+/** Introduce an item with title-bar actions, description and supporting metadata. */
+export function ItemHeader(props: {
+    title: string;
+    summary?: JSX.Element;
+    actions?: JSX.Element;
+    children?: JSX.Element;
+}) {
+    return (
+        <Card title={props.title} heading="h1" class="item-header" toolbar={props.actions}>
+            <div class="item-summary">{props.summary}</div>
+            <div class="item-metadata">{props.children}</div>
+        </Card>
     );
 }

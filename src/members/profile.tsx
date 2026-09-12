@@ -1,3 +1,4 @@
+import { Suspense } from "solid-js";
 import { DemographicFields, readDemographics } from "./demographics";
 import { startTransition, createResource, createSignal, Show, For, onCleanup } from "solid-js";
 import { auth } from "../auth";
@@ -6,7 +7,7 @@ import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { errorMessage } from "../components/errors";
 import { Card } from "../components/card";
-import { FormMessage } from "../components/form";
+import { Editor, FormMessage } from "../components/form";
 import { ProfileLinkFields } from "../components/social";
 
 /** Edit the member profile independently of purchasing a tier. */
@@ -165,13 +166,57 @@ export function ProfileSettings() {
     }
 
     return (
-        <Card title="Profile">
+        <Card
+            title="Profile"
+            toolbar={
+                <Suspense>
+                    <Show when={profile.latest}>
+                        <button
+                            type="submit"
+                            form="profile-editor"
+                            class="button button--primary"
+                            disabled={
+                                isPending() ||
+                                availability.loading ||
+                                (!!candidate() && availability.latest?.isAvailable === false)
+                            }
+                        >
+                            {isPending() ? "Saving…" : "Save profile"}
+                        </button>
+                    </Show>
+                </Suspense>
+            }
+        >
             <Show when={profile.error}>
                 <p class="form-error">{errorMessage(profile.error, "Could not load profile.")}</p>
             </Show>
             <Show when={profile()}>
                 {(current) => (
-                    <form class="editor profile-editor" onSubmit={save}>
+                    <Editor
+                        id="profile-editor"
+                        class="editor profile-editor"
+                        onSubmit={save}
+                        actions={() => (
+                            <div class="form-actions">
+                                <button
+                                    class="button button--primary"
+                                    disabled={
+                                        isPending() ||
+                                        availability.loading ||
+                                        (!!candidate() &&
+                                            availability.latest?.isAvailable === false)
+                                    }
+                                >
+                                    {isPending() ? "Saving…" : "Save profile"}
+                                </button>
+                                <Show when={current().visibility === "public" && current().handle}>
+                                    <a class="button" href={`/members/${current().handle}`}>
+                                        View profile
+                                    </a>
+                                </Show>
+                            </div>
+                        )}
+                    >
                         <div class="profile-photo">
                             <Avatar
                                 name={current().name}
@@ -307,25 +352,9 @@ export function ProfileSettings() {
                         <p class="profile-privacy">
                             Optional. Private answers; shared only as grouped stats.
                         </p>
-                        <div class="form-actions">
-                            <button
-                                class="button button--primary"
-                                disabled={
-                                    isPending() ||
-                                    availability.loading ||
-                                    (!!candidate() && availability.latest?.isAvailable === false)
-                                }
-                            >
-                                {isPending() ? "Saving…" : "Save profile"}
-                            </button>
-                            <Show when={current().visibility === "public" && current().handle}>
-                                <a class="button" href={`/members/${current().handle}`}>
-                                    View profile
-                                </a>
-                            </Show>
-                        </div>
+
                         <FormMessage error={error()} success={success()} />
-                    </form>
+                    </Editor>
                 )}
             </Show>
         </Card>

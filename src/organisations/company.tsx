@@ -3,7 +3,7 @@ import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { memberClient } from "../auth/convex";
 import { ProfileLinkFields, type SocialProfiles } from "../components/social";
-import { FormMessage } from "../components/form";
+import { Editor, FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 
 /** Edit the public company identity shared by jobs and sponsorships. */
@@ -28,10 +28,13 @@ export function CompanyForm(props: {
     isTeam?: boolean;
     /** Refresh company records after a successful save. */
     onSave: () => unknown;
+    isPending: boolean;
+    setIsPending: (value: boolean) => void;
 }) {
     const [error, setError] = createSignal<string>();
     const [success, setSuccess] = createSignal<string>();
-    const [isPending, setIsPending] = createSignal(false);
+    const isPending = () => props.isPending;
+    const setIsPending = props.setIsPending;
 
     /** Save the company profile and any team-authorized ownership assignment. */
     async function submit(event: SubmitEvent) {
@@ -78,7 +81,18 @@ export function CompanyForm(props: {
 
     return (
         <>
-            <form class="editor" onSubmit={submit}>
+            <Editor
+                id="organisation-editor"
+                class="editor"
+                onSubmit={submit}
+                actions={() => (
+                    <div class="form-actions">
+                        <button class="button button--primary" disabled={isPending()}>
+                            {isPending() ? "Saving…" : "Save organisation"}
+                        </button>
+                    </div>
+                )}
+            >
                 <div class="form-columns">
                     <label>
                         Name
@@ -166,11 +180,9 @@ export function CompanyForm(props: {
                         />
                     </label>
                 </Show>
-                <button class="button button--primary" disabled={isPending()}>
-                    {isPending() ? "Saving…" : "Save organisation"}
-                </button>
+
                 <FormMessage error={error()} success={success()} />
-            </form>
+            </Editor>
         </>
     );
 }

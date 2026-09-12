@@ -1,4 +1,4 @@
-import { Show } from "solid-js";
+import { Show, splitProps, type JSX } from "solid-js";
 
 /** Visible form result announced to assistive technology. */
 export function FormMessage(props: { error?: string; success?: string }) {
@@ -14,5 +14,21 @@ export function FormMessage(props: { error?: string; success?: string }) {
                 {props.error ?? props.success}
             </p>
         </Show>
+    );
+}
+
+/** Keep editor submission and bottom actions in one native form. */
+export function Editor(
+    props: JSX.FormHTMLAttributes<HTMLFormElement> & {
+        actions: () => JSX.Element;
+    },
+) {
+    const [local, attributes] = splitProps(props, ["actions", "children"]);
+
+    return (
+        <form {...attributes}>
+            {local.children}
+            {local.actions()}
+        </form>
     );
 }

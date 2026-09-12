@@ -2950,20 +2950,6 @@ a.eyebrow:hover {
 }
 
 /* group each event into a readable main column and a consistent action sidebar */
-.event-heading {
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--color-line);
-    display: grid;
-    gap: 16px;
-}
-.event-heading .event-schedule {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    font: 12px/1.6 var(--font-mono);
-    color: var(--color-soft);
-}
 .event-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
@@ -3164,6 +3150,10 @@ select.field__control:not([multiple]) {
     padding-top: 24px;
     border-top: 1px solid var(--color-line);
     gap: 12px;
+}
+.editor > .form-actions:first-child {
+    border-top: 0;
+    padding-top: 0;
 }
 .sign-in-form {
     max-width: 440px;
@@ -3460,7 +3450,6 @@ select.field__control:not([multiple]) {
     padding-top: 32px;
 }
 .page > .page-header,
-.event-heading,
 .article-header {
     padding: 16px;
     border: 1px solid var(--color-line);
@@ -3469,10 +3458,6 @@ select.field__control:not([multiple]) {
 .page-header h1,
 .article-header h1 {
     font-size: 30px;
-}
-.event-heading .page-header {
-    padding: 0;
-    border: 0;
 }
 .event-content,
 .event-aside {
@@ -3934,17 +3919,11 @@ select.field__control:not([multiple]) {
 }
 
 /* explain company benefits and volunteer funding before the plans */
-.sponsor-intro .sponsor-lead {
-    margin: 0;
-    max-width: 72ch;
-    font-size: 18px;
-    line-height: 1.55;
-}
 .sponsor-overview {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 32px;
-    margin-top: 24px;
+    margin: 0;
 }
 .sponsor-overview h2 {
     margin: 0 0 18px;
@@ -3957,30 +3936,12 @@ select.field__control:not([multiple]) {
     border-left: 1px solid var(--color-line);
     padding-left: 32px;
 }
-.sponsor-funding p {
-    margin: 12px 0 0;
-    font-size: 14px;
-    line-height: 1.5;
-}
-.sponsor-funding .sponsor-allocation {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin: 0 0 18px;
-}
-.sponsor-allocation strong {
-    color: var(--color-accent);
-    font: 600 38px/1.1 var(--font-mono);
-}
 .sponsor-reach {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     list-style: none;
-    margin: 24px 0 0;
-    padding: 18px 0 0;
-    border-top: 1px solid var(--color-line);
+    margin: 0;
     font: 600 14px/1.5 var(--font-sans);
 }
 @media (max-width: 700px) {
@@ -4241,25 +4202,10 @@ iframe.email-preview {
 }
 
 /* introduce each organiser through a portrait and compact profile links */
-.team > .card-body {
-    padding: 0;
-}
-.team-intro {
-    margin: 0;
-    padding: 24px;
-    border-bottom: 1px solid var(--color-line);
-}
-.team-intro p {
-    max-width: 65ch;
-    margin: 0;
-    font-size: 17px;
-    line-height: 1.65;
-}
 .team-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 32px 24px;
-    padding: 24px;
     margin: 0;
     list-style: none;
 }
@@ -4324,13 +4270,9 @@ iframe.email-preview {
     }
 }
 @media (max-width: 600px) {
-    .team-intro {
-        padding: 20px 16px;
-    }
     .team-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 24px 16px;
-        padding: 16px;
     }
 }
 
@@ -5016,7 +4958,12 @@ iframe.email-preview {
 .admin-event-card > .card-body {
     padding: 0;
 }
-.admin-event-card .admin-filters {
+.admin-event-card > .card-body > .admin-filters {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
     padding: var(--space-4);
     border-bottom: 1px solid var(--color-line);
     justify-content: space-between;
@@ -5549,4 +5496,44 @@ iframe.email-preview {
     width: 80px;
     height: 80px;
     flex: 0 0 80px;
+}
+
+.admin-event-card .admin-filters > input {
+    width: auto;
+    flex: 1 1 240px;
+}
+.admin-event-card .admin-filters > .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+.admin-event-card .admin-table td:nth-child(4) {
+    min-width: 130px;
+}
+
+/* align introductions and full-width sections across public cards */
+.card--sections > .card-body {
+    padding: 0;
+    display: block;
+}
+.card--sections > .card-body > .card-section {
+    padding: 24px 16px;
+}
+.card--sections > .card-body > .card-section + .card-section {
+    border-top: 1px solid var(--color-line);
+}
+.card-intro p {
+    max-width: 72ch;
+    margin: 0;
+    font: 400 17px/1.65 var(--font-sans);
+}
+
+:root[data-theme="dark"] .wordmark {
+    color: var(--color-ink);
+}
+:root[data-theme="dark"] .wordmark__dot::after {
+    background: var(--color-ink);
 }

@@ -31,6 +31,7 @@ export function Newsletter() {
                 weekly: true,
                 announcements: current.announcements,
                 reminders: current.reminders,
+                followUps: current.followUps,
             });
             await startTransition(refetch);
         } catch (caught) {

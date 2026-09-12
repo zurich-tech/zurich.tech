@@ -16,6 +16,7 @@ export function Management(props: {
     const { workspace, refetch } = useEmployerWorkspace();
     const command = useWorkspaceCommand(refetch);
     const [selected, setSelected] = createSignal<string | undefined>(props.organisationId);
+    const [isSaving, setIsSaving] = createSignal(false);
     const isCreating = () => selected() === "new";
     const organisation = () => workspace()?.organisations.find((item) => item._id === selected());
 
@@ -91,15 +92,29 @@ export function Management(props: {
                                 }
                                 class={isCreating() || selected() ? undefined : "admin-table-card"}
                                 toolbar={
-                                    <button
-                                        class="button"
-                                        classList={{ "button--primary": !selected() }}
-                                        onClick={() => {
-                                            setSelected(selected() ? undefined : "new");
-                                        }}
-                                    >
-                                        {isCreating() || selected() ? "Cancel" : "New organisation"}
-                                    </button>
+                                    <>
+                                        <Show when={selected()}>
+                                            <button
+                                                type="submit"
+                                                form="organisation-editor"
+                                                class="button button--primary"
+                                                disabled={isSaving()}
+                                            >
+                                                {isSaving() ? "Saving…" : "Save organisation"}
+                                            </button>
+                                        </Show>
+                                        <button
+                                            class="button"
+                                            classList={{ "button--primary": !selected() }}
+                                            onClick={() => {
+                                                setSelected(selected() ? undefined : "new");
+                                            }}
+                                        >
+                                            {isCreating() || selected()
+                                                ? "Cancel"
+                                                : "New organisation"}
+                                        </button>
+                                    </>
                                 }
                             >
                                 <Show
@@ -162,6 +177,8 @@ export function Management(props: {
                                     }
                                 >
                                     <CompanyForm
+                                        isPending={isSaving()}
+                                        setIsPending={setIsSaving}
                                         item={organisation()}
                                         isTeam={current().isTeam}
                                         onSave={async () => {

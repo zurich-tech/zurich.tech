@@ -66,3 +66,12 @@ export function Card(props: {
         </section>
     );
 }
+
+/** Introduce a card with the same typography and section spacing. */
+export function CardIntro(props: { children: JSX.Element }) {
+    return (
+        <div class="card-section card-intro">
+            <p>{props.children}</p>
+        </div>
+    );
+}

@@ -42,6 +42,7 @@ export default function Route() {
             <div class="bulletin-body">
                 <section class="bulletin-events" aria-label="Events">
                     <Programme
+                        isPlanningEnabled
                         entries={entries() ?? []}
                         series={directory()?.series ?? []}
                         limit={5}

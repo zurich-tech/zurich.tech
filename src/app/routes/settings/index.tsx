@@ -1,3 +1,4 @@
+import { Speaking } from "../../../events/speaking";
 import { useNavigate } from "@solidjs/router";
 import { Loading } from "../../../components/loading";
 import { Card } from "../../../components/card";
@@ -83,6 +84,7 @@ export default function Route() {
                         <div class="event-layout account-layout">
                             <div class="event-content">
                                 <ProfileSettings />
+                                <Speaking />
                             </div>
                             <aside class="event-aside">
                                 <Notifications />

@@ -35,12 +35,12 @@ export function Topbar() {
                         <Wordmark />
                         <span class="site-symbol" innerHTML={logo} />
                     </A>
-                    <A href="/events">Events</A>
-                    <A href="/news">News</A>
-                    <A href="/jobs">Jobs</A>
-                    <A href="/sponsor">Sponsor</A>
                     <A href="/about">About</A>
+                    <A href="/events">Events</A>
+                    <A href="/jobs">Jobs</A>
+                    <A href="/news">News</A>
                     <A href="/map">Map</A>
+                    <A href="/sponsor">Sponsor</A>
                     <A href="/stats">Stats</A>
                 </nav>
                 <div class="site-topbar__actions">

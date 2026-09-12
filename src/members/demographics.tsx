@@ -1,3 +1,4 @@
+import { Suspense } from "solid-js";
 import { Empty } from "../components/empty";
 import { startTransition, createResource, createSignal, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
@@ -7,7 +8,7 @@ import {
 } from "../../convex/members/demographics";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
-import { FormMessage } from "../components/form";
+import { Editor, FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 
 /** Read optional survey fields, using empty values to clear answers. */
@@ -68,7 +69,27 @@ export function Demographics(props: { onComplete?: () => void }) {
     }
 
     return (
-        <Card title="Community">
+        <Card
+            title="Community"
+            toolbar={
+                <Suspense>
+                    <Show when={current.latest}>
+                        <button
+                            type="submit"
+                            form="demographics-editor"
+                            class="button button--primary"
+                            disabled={isPending()}
+                        >
+                            {isPending()
+                                ? "Saving…"
+                                : props.onComplete
+                                  ? "Continue"
+                                  : "Save answers"}
+                        </button>
+                    </Show>
+                </Suspense>
+            }
+        >
             <p class="survey-intro">Optional. Private answers; shared only as grouped stats.</p>
             <Show when={current.error}>
                 <p class="form-error">
@@ -77,29 +98,36 @@ export function Demographics(props: { onComplete?: () => void }) {
             </Show>
             <Show when={current()}>
                 {(value) => (
-                    <form class="editor" onSubmit={save}>
-                        <DemographicFields values={value().demographics} />
-                        <div class="form-actions">
-                            <button class="button button--primary" disabled={isPending()}>
-                                {isPending()
-                                    ? "Saving…"
-                                    : props.onComplete
-                                      ? "Continue"
-                                      : "Save answers"}
-                            </button>
-                            <Show when={props.onComplete}>
-                                <button
-                                    type="button"
-                                    class="button"
-                                    disabled={isPending()}
-                                    onClick={skip}
-                                >
-                                    Skip for now
+                    <Editor
+                        id="demographics-editor"
+                        class="editor"
+                        onSubmit={save}
+                        actions={() => (
+                            <div class="form-actions">
+                                <button class="button button--primary" disabled={isPending()}>
+                                    {isPending()
+                                        ? "Saving…"
+                                        : props.onComplete
+                                          ? "Continue"
+                                          : "Save answers"}
                                 </button>
-                            </Show>
-                        </div>
+                                <Show when={props.onComplete}>
+                                    <button
+                                        type="button"
+                                        class="button"
+                                        disabled={isPending()}
+                                        onClick={skip}
+                                    >
+                                        Skip for now
+                                    </button>
+                                </Show>
+                            </div>
+                        )}
+                    >
+                        <DemographicFields values={value().demographics} />
+
                         <FormMessage error={error()} success={success()} />
-                    </form>
+                    </Editor>
                 )}
             </Show>
         </Card>

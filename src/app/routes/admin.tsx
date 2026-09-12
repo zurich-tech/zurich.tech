@@ -10,6 +10,7 @@ import { Card } from "../../components/card";
 import { Seo } from "../seo";
 import { EventAdmin } from "../../events/workspace";
 import { Attendees } from "../../events/attendees";
+import { Schedules } from "../../events/schedules";
 import { SeriesAdmin } from "../../events/series";
 import { Management } from "../../organisations/management";
 import { Team, NewsletterAdmin } from "../../members/workspace";
@@ -147,7 +148,10 @@ export default function Route() {
                                         />
                                     </Match>
                                     <Match when={section() === "series"}>
-                                        <SeriesAdmin />
+                                        <Show when={!params.schedule && !params.source}>
+                                            <SeriesAdmin />
+                                        </Show>
+                                        <Schedules workspace={current()} />
                                     </Match>
                                     <Match when={access()?.isTeam && section() === "people"}>
                                         <Team people={current().people} refresh={refetch} />

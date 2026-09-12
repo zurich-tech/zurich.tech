@@ -40,7 +40,7 @@ export function useWorkspaceCommand(refresh: () => unknown) {
 
         // refresh the owning section only after a successful mutation
         try {
-            await operation();
+            if ((await operation()) === false) return;
             await startTransition(refresh);
             setSuccess(message);
         } catch (caught) {

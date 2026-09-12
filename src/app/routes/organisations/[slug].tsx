@@ -8,7 +8,7 @@ import { Arrow } from "../../../components/arrow";
 import { Card } from "../../../components/card";
 import { createAsync, useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
-import { Page, PageHeader } from "../../page";
+import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 import { NotFound } from "../../notfound";
 
@@ -34,38 +34,35 @@ export default function Route() {
                 <>
                     <Seo title={item().name} description={item().description} />
                     <Page class="organisation-page">
-                        <header class="event-heading">
-                            <a class="eyebrow" href="/organisations">
-                                <Arrow direction="left" /> Organisations
-                            </a>
-                            <PageHeader
-                                title={item().name}
-                                summary={item().headline}
-                                actions={
-                                    <TeamEdit
-                                        href={`/admin?section=organisations&organisation=${item()._id}`}
-                                    />
-                                }
-                            />
-                            <div class="event-schedule">
-                                <Show when={item().isSponsor && item().sponsorTier}>
-                                    <a class="tag sponsorship-badge" href="/sponsor">
-                                        {item().sponsorTier}
-                                    </a>
-                                </Show>
-                                <span>
+                        <a class="eyebrow" href="/organisations">
+                            <Arrow direction="left" /> Organisations
+                        </a>
+                        <ItemHeader
+                            title={item().name}
+                            summary={item().headline}
+                            actions={
+                                <TeamEdit
+                                    href={`/admin?section=organisations&organisation=${item()._id}`}
+                                />
+                            }
+                        >
+                            <Show when={item().isSponsor && item().sponsorTier}>
+                                <a class="tag sponsorship-badge" href="/sponsor">
+                                    {item().sponsorTier}
+                                </a>
+                            </Show>
+                            <span>
+                                {
                                     {
-                                        {
-                                            company: "Company",
-                                            lab: "Lab",
-                                            community: "Community",
-                                            space: "Space",
-                                        }[item().kind]
-                                    }
-                                </span>
-                                <span>{item().location}</span>
-                            </div>
-                        </header>
+                                        company: "Company",
+                                        lab: "Lab",
+                                        community: "Community",
+                                        space: "Space",
+                                    }[item().kind]
+                                }
+                            </span>
+                            <span>{item().location}</span>
+                        </ItemHeader>
                         <div class="event-layout">
                             <div class="event-content">
                                 <Card title="About">

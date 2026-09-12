@@ -10,7 +10,7 @@ import { memberClient } from "../../../auth/convex";
 import { Page, PageHeader } from "../../page";
 import { Card } from "../../../components/card";
 import { Seo } from "../../seo";
-import { FormMessage } from "../../../components/form";
+import { Editor, FormMessage } from "../../../components/form";
 import { errorMessage } from "../../../components/errors";
 
 /** Prepare a vacancy for team review without modifying its published revision. */
@@ -97,9 +97,35 @@ export default function Route() {
                             : "Post a job"
                     }
                     actions={
-                        <a class="button" href="/manage?section=jobs">
-                            Back to jobs
-                        </a>
+                        <>
+                            <Show when={account.user() && workspace()?.organisations.length}>
+                                <button
+                                    type="submit"
+                                    form="job-editor"
+                                    value="draft"
+                                    class="button"
+                                    disabled={isPending()}
+                                >
+                                    {isPending()
+                                        ? "Saving…"
+                                        : job()?.status === "published"
+                                          ? "Save changes"
+                                          : "Save draft"}
+                                </button>
+                                <button
+                                    type="submit"
+                                    form="job-editor"
+                                    value="review"
+                                    class="button button--primary"
+                                    disabled={isPending()}
+                                >
+                                    Submit for review
+                                </button>
+                            </Show>
+                            <a class="button" href="/manage?section=jobs">
+                                Back to jobs
+                            </a>
+                        </>
                     }
                 />
                 <Show
@@ -177,7 +203,29 @@ function JobForm(props: {
     onSubmit: (event: SubmitEvent) => Promise<void>;
 }) {
     return (
-        <form class="editor" onSubmit={props.onSubmit}>
+        <Editor
+            id="job-editor"
+            class="editor"
+            onSubmit={props.onSubmit}
+            actions={() => (
+                <div class="row-actions">
+                    <button class="button" value="draft" disabled={props.isPending}>
+                        {props.isPending
+                            ? "Saving…"
+                            : props.job?.status === "published"
+                              ? "Save changes"
+                              : "Save draft"}
+                    </button>
+                    <button
+                        class="button button--primary"
+                        value="review"
+                        disabled={props.isPending}
+                    >
+                        {props.isPending ? "Saving…" : "Submit for review"}
+                    </button>
+                </div>
+            )}
+        >
             <div class="editor-columns">
                 <div class="editor-column">
                     <Card title="Job">
@@ -318,19 +366,7 @@ function JobForm(props: {
                 </aside>
             </div>
             <FormMessage error={props.error} />
-            <div class="row-actions">
-                <button class="button" value="draft" disabled={props.isPending}>
-                    {props.isPending
-                        ? "Saving…"
-                        : props.job?.status === "published"
-                          ? "Save changes"
-                          : "Save draft"}
-                </button>
-                <button class="button button--primary" value="review" disabled={props.isPending}>
-                    {props.isPending ? "Saving…" : "Submit for review"}
-                </button>
-            </div>
-        </form>
+        </Editor>
     );
 }
 

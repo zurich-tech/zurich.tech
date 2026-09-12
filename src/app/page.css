@@ -1,0 +1,37 @@
+/* use one hierarchy for event, organisation, job and series introductions */
+.card.item-header > .card-heading > .card-title {
+    font-size: 30px;
+}
+.item-header > .card-body {
+    display: grid;
+    gap: 16px;
+}
+.item-summary {
+    max-width: 72ch;
+    color: var(--color-soft);
+    font: 400 17px/1.65 var(--font-sans);
+}
+.item-summary > :first-child {
+    margin-top: 0;
+}
+.item-summary > :last-child {
+    margin-bottom: 0;
+}
+.item-summary:empty,
+.item-metadata:empty {
+    display: none;
+}
+.item-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    font-size: 12px;
+    color: var(--color-soft);
+}
+.item-metadata .event-taxonomy {
+    display: contents;
+}
+.item-metadata > .event-counts {
+    margin-inline-start: auto;
+}

@@ -1,3 +1,4 @@
+import { TeamEdit } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { getDirectory } from "../../../organisations/queries";
 import { Arrow } from "../../../components/arrow";
@@ -32,7 +33,12 @@ export default function Route() {
             />
             <Page>
                 <div class="listing-layout">
-                    <Card title="Organisations" heading="h1" class="listing-card">
+                    <Card
+                        title="Organisations"
+                        heading="h1"
+                        class="listing-card"
+                        toolbar={<TeamEdit href="/admin?section=organisations" label="Manage" />}
+                    >
                         <div class="listing-filters">
                             <input
                                 aria-label="Search organisations"
