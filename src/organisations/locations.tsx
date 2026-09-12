@@ -99,7 +99,7 @@ export function OrganisationLocations(props: {
                         class="button button--primary"
                         disabled={isPending()}
                     >
-                        {editing() ? "Save location" : "Add location"}
+                        {editing() ? "Save" : "Add location"}
                     </button>
                 </Show>
             }
@@ -137,7 +137,7 @@ export function OrganisationLocations(props: {
                 actions={() => (
                     <div class="form-actions">
                         <button class="button button--primary" type="submit" disabled={isPending()}>
-                            {editing() ? "Save location" : "Add location"}
+                            {editing() ? "Save" : "Add location"}
                         </button>
                     </div>
                 )}
@@ -214,7 +214,7 @@ export function OrganisationLocations(props: {
                         disabled={isPending()}
                         onClick={() => setEditing(undefined)}
                     >
-                        Cancel edit
+                        Back
                     </button>
                 </Show>
             </Editor>

@@ -108,7 +108,7 @@ function AttendeeTable(props: {
             toolbar={
                 <div class="admin-attendee-actions">
                     <a class="button" href="/admin">
-                        Back to events
+                        Back
                     </a>
                     <button
                         class="button"
@@ -220,7 +220,7 @@ function AttendeeTable(props: {
                         }, "")
                     }
                 >
-                    Cancel event
+                    Cancel
                 </button>
             </div>
         </Card>
@@ -329,10 +329,7 @@ function AttendeeRow(props: {
                                                     action.decision === "cancel"
                                                         ? "Cancel registration"
                                                         : action.label,
-                                                action:
-                                                    action.decision === "cancel"
-                                                        ? "Cancel registration"
-                                                        : action.label,
+                                                action: action.label,
                                                 description: `Update ${preview.name}’s registration to ${preview.status === "going" ? "confirmed" : preview.status === "pending" ? "pending approval" : preview.status === "waitlist" ? "waitlisted" : preview.status}.`,
                                                 isDestructive: [
                                                     "cancel",

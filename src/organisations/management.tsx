@@ -100,7 +100,7 @@ export function Management(props: {
                                                 class="button button--primary"
                                                 disabled={isSaving()}
                                             >
-                                                {isSaving() ? "Saving…" : "Save organisation"}
+                                                {isSaving() ? "Saving…" : "Save"}
                                             </button>
                                         </Show>
                                         <button
@@ -111,7 +111,7 @@ export function Management(props: {
                                             }}
                                         >
                                             {isCreating() || selected()
-                                                ? "Cancel"
+                                                ? "Back"
                                                 : "New organisation"}
                                         </button>
                                     </>

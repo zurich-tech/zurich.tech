@@ -181,7 +181,7 @@ export function ProfileSettings() {
                                 (!!candidate() && availability.latest?.isAvailable === false)
                             }
                         >
-                            {isPending() ? "Saving…" : "Save profile"}
+                            {isPending() ? "Saving…" : "Save"}
                         </button>
                     </Show>
                 </Suspense>
@@ -207,7 +207,7 @@ export function ProfileSettings() {
                                             availability.latest?.isAvailable === false)
                                     }
                                 >
-                                    {isPending() ? "Saving…" : "Save profile"}
+                                    {isPending() ? "Saving…" : "Save"}
                                 </button>
                                 <Show when={current().visibility === "public" && current().handle}>
                                     <a class="button" href={`/members/${current().handle}`}>

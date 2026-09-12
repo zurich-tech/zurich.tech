@@ -106,11 +106,7 @@ export default function Route() {
                                     class="button"
                                     disabled={isPending()}
                                 >
-                                    {isPending()
-                                        ? "Saving…"
-                                        : job()?.status === "published"
-                                          ? "Save changes"
-                                          : "Save draft"}
+                                    {isPending() ? "Saving…" : "Save"}
                                 </button>
                                 <button
                                     type="submit"
@@ -123,7 +119,7 @@ export default function Route() {
                                 </button>
                             </Show>
                             <a class="button" href="/manage?section=jobs">
-                                Back to jobs
+                                Back
                             </a>
                         </>
                     }
@@ -210,11 +206,7 @@ function JobForm(props: {
             actions={() => (
                 <div class="row-actions">
                     <button class="button" value="draft" disabled={props.isPending}>
-                        {props.isPending
-                            ? "Saving…"
-                            : props.job?.status === "published"
-                              ? "Save changes"
-                              : "Save draft"}
+                        {props.isPending ? "Saving…" : "Save"}
                     </button>
                     <button
                         class="button button--primary"

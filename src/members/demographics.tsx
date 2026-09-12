@@ -80,11 +80,7 @@ export function Demographics(props: { onComplete?: () => void }) {
                             class="button button--primary"
                             disabled={isPending()}
                         >
-                            {isPending()
-                                ? "Saving…"
-                                : props.onComplete
-                                  ? "Continue"
-                                  : "Save answers"}
+                            {isPending() ? "Saving…" : props.onComplete ? "Continue" : "Save"}
                         </button>
                     </Show>
                 </Suspense>
@@ -109,7 +105,7 @@ export function Demographics(props: { onComplete?: () => void }) {
                                         ? "Saving…"
                                         : props.onComplete
                                           ? "Continue"
-                                          : "Save answers"}
+                                          : "Save"}
                                 </button>
                                 <Show when={props.onComplete}>
                                     <button

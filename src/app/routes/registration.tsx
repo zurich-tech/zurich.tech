@@ -48,7 +48,7 @@ export default function Route() {
             if (
                 !(await confirm({
                     title: "Cancel registration",
-                    action: "Cancel registration",
+                    action: "Cancel",
                     description:
                         "Release your place. It may be offered to someone on the waitlist.",
                     isDestructive: true,
@@ -174,7 +174,7 @@ export default function Route() {
                                             disabled={isPending()}
                                             onClick={cancel}
                                         >
-                                            {isPending() ? "Cancelling…" : "Cancel registration"}
+                                            {isPending() ? "Cancelling…" : "Cancel"}
                                         </button>
                                     </Show>
                                     <FormMessage error={error()} />

@@ -98,7 +98,7 @@ export function useConfirmation(): Confirm {
 /** Host queued confirmations above every route and cancel them on navigation. */
 export function ConfirmationProvider(props: { children: JSX.Element }) {
     const location = useLocation();
-    let cancelButton!: HTMLButtonElement;
+    let dismissButton!: HTMLButtonElement;
     const [current, setCurrent] = createSignal<Confirmation>();
     const [origin, setOrigin] = createSignal<HTMLElement>();
     let lastFocused: HTMLElement | undefined;
@@ -127,7 +127,7 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
         queue.shift()?.resolve(answer);
         setOrigin(queue[0]?.origin);
         setCurrent(queue[0]?.options);
-        if (queue.length) cancelButton.focus();
+        if (queue.length) dismissButton.focus();
     }
 
     /** Prevent a pending operation from completing after its page has been left. */
@@ -165,10 +165,10 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
                             type="button"
                             class="button"
                             autofocus
-                            ref={cancelButton}
+                            ref={dismissButton}
                             onClick={() => finish(false)}
                         >
-                            Cancel
+                            Dismiss
                         </button>
                         <button
                             type="button"

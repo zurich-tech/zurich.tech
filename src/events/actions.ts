@@ -23,7 +23,7 @@ export async function confirmEvent(
     const accepted = await confirm({
         title,
         subject: preview.title,
-        action: title,
+        action: args.action === "cancel" ? "Cancel" : title,
         description: effects,
         isDestructive: args.action === "cancel" || args.action === "unpublish",
         emails: preview.emails,

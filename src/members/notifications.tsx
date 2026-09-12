@@ -53,7 +53,7 @@ export function Notifications() {
                             class="button button--primary"
                             disabled={isPending() || preferences.latest?.isSuppressed}
                         >
-                            {isPending() ? "Saving…" : "Save preferences"}
+                            {isPending() ? "Saving…" : "Save"}
                         </button>
                     </Show>
                 </Suspense>
@@ -76,7 +76,7 @@ export function Notifications() {
                                     class="button button--primary"
                                     disabled={isPending() || current().isSuppressed}
                                 >
-                                    {isPending() ? "Saving…" : "Save preferences"}
+                                    {isPending() ? "Saving…" : "Save"}
                                 </button>
                             </div>
                         )}

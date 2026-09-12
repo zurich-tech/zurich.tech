@@ -88,7 +88,7 @@ export function CompanyForm(props: {
                 actions={() => (
                     <div class="form-actions">
                         <button class="button button--primary" disabled={isPending()}>
-                            {isPending() ? "Saving…" : "Save organisation"}
+                            {isPending() ? "Saving…" : "Save"}
                         </button>
                     </div>
                 )}
