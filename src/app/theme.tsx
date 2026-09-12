@@ -85,7 +85,17 @@ export function ThemeToggle() {
             title={`Alt+T: select ${nextPreference()} theme`}
             type="button"
         >
-            <span aria-hidden="true">◐</span>{" "}
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                />
+                <path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" />
+            </svg>
             <span class="site-theme-toggle__preference">{preference()}</span>
         </button>
     );

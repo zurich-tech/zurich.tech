@@ -83,12 +83,14 @@ export function SeriesAdmin() {
                                             <td>{item.name}</td>
                                             <td>{item.slug}</td>
                                             <td>
-                                                <button
-                                                    class="text-link"
-                                                    onClick={() => setSelected(item._id)}
-                                                >
-                                                    Edit
-                                                </button>
+                                                <div class="admin-actions">
+                                                    <button
+                                                        class="button"
+                                                        onClick={() => setSelected(item._id)}
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     )}

@@ -100,7 +100,7 @@ export function NewsletterAdmin(props: {
                     disabled={command.isPending()}
                     onChange={setPaused}
                 />
-                Pause automatic sending
+                Pause weekly newsletter
             </label>
             <FormMessage error={command.error()} success={command.success()} />
             <Show when={edition.error}>

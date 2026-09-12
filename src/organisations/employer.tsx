@@ -62,7 +62,7 @@ export function JobCard(props: {
             <Show when={props.job.displayStatus === "unconfirmed"}>
                 <p class="form-error">Hidden until you confirm this role is still open.</p>
             </Show>
-            <div class="row-actions">
+            <div class="admin-actions">
                 <Show
                     when={
                         props.job.status !== "draft" &&
@@ -75,12 +75,17 @@ export function JobCard(props: {
                         reference={props.job._id}
                     />
                 </Show>
-                <a href={`/jobs/submit?edit=${props.job._id}`}>Edit</a>
+                <a class="button" href={`/jobs/submit?edit=${props.job._id}`}>
+                    Edit
+                </a>
                 <Show when={props.job.publishedAt}>
-                    <a href={`/jobs/${props.job.slug}`}>View</a>
+                    <a class="button" href={`/jobs/${props.job.slug}`}>
+                        View
+                    </a>
                 </Show>
                 <Show when={props.job.status === "published" && hasFunding()}>
                     <button
+                        class="button"
                         disabled={props.isPending}
                         onClick={() =>
                             props.perform(
@@ -98,6 +103,7 @@ export function JobCard(props: {
                 </Show>
                 <Show when={props.job.status !== "closed"}>
                     <button
+                        class="button"
                         disabled={props.isPending}
                         onClick={() =>
                             props.perform(

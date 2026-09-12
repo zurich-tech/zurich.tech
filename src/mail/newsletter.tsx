@@ -69,7 +69,7 @@ export function Newsletter() {
                 <Show
                     when={!account.user()}
                     fallback={
-                        <>
+                        <div class="newsletter-member">
                             <Show
                                 when={preferences.error}
                                 fallback={
@@ -89,27 +89,29 @@ export function Newsletter() {
                                     )}
                                 </p>
                             </Show>
-                            <Show
-                                when={
-                                    preferences() &&
-                                    !preferences()!.weekly &&
-                                    !preferences()!.isSuppressed &&
-                                    !preferences.error
-                                }
-                            >
-                                <button
-                                    class="button button--primary"
-                                    disabled={isPending()}
-                                    onClick={subscribeMember}
+                            <div class="newsletter-actions">
+                                <Show
+                                    when={
+                                        preferences() &&
+                                        !preferences()!.weekly &&
+                                        !preferences()!.isSuppressed &&
+                                        !preferences.error
+                                    }
                                 >
-                                    {isPending() ? "Subscribing…" : "Subscribe"}
-                                </button>
-                            </Show>
-                            <a class="text-link" href="/settings">
-                                Notifications
-                            </a>
+                                    <button
+                                        class="button button--primary"
+                                        disabled={isPending()}
+                                        onClick={subscribeMember}
+                                    >
+                                        {isPending() ? "Subscribing…" : "Subscribe"}
+                                    </button>
+                                </Show>
+                                <a class="button" href="/settings#notifications">
+                                    Notifications
+                                </a>
+                            </div>
                             <FormMessage error={error()} />
-                        </>
+                        </div>
                     }
                 >
                     <form onSubmit={submit}>

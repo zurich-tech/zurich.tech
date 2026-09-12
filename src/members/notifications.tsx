@@ -39,7 +39,7 @@ export function Notifications() {
     }
 
     return (
-        <Card title="Notifications">
+        <Card title="Notifications" id="notifications">
             <Show when={preferences.error}>
                 <p class="form-error">
                     {errorMessage(preferences.error, "Could not load email preferences.")}

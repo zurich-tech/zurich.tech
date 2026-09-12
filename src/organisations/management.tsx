@@ -140,16 +140,18 @@ export function Management(props: {
                                                                     </a>
                                                                 </td>
                                                                 <td>
-                                                                    <button
-                                                                        class="text-link"
-                                                                        onClick={() =>
-                                                                            setSelected(
-                                                                                organisation._id,
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        Edit
-                                                                    </button>
+                                                                    <div class="admin-actions">
+                                                                        <button
+                                                                            class="button"
+                                                                            onClick={() =>
+                                                                                setSelected(
+                                                                                    organisation._id,
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            Edit
+                                                                        </button>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         )}

@@ -1188,8 +1188,9 @@ textarea::placeholder {
     background: none;
     border: 0;
 }
-.site-theme-toggle > span:first-child {
-    font-size: 19px;
+.site-theme-toggle > svg {
+    display: block;
+    flex-shrink: 0;
 }
 
 /* place programme controls over a continuous city scene */
@@ -2734,10 +2735,9 @@ td button {
     color: var(--color-paper);
 }
 
-.site-shell .site-theme-toggle,
-.site-shell .site-theme-toggle:hover {
-    border: 0;
-    background: transparent;
+.site-shell .site-theme-toggle {
+    padding: 0;
+    border-radius: 50%;
 }
 
 /* give each content card the same heading, border and inset */
@@ -3443,6 +3443,19 @@ select.field__control:not([multiple]) {
 .newsletter-compact > .card-body {
     margin: 0;
 }
+.newsletter-member {
+    display: grid;
+    gap: 12px;
+}
+.newsletter-member p {
+    margin: 0;
+}
+.newsletter-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
 .page {
     gap: 24px;
     padding-top: 32px;
@@ -4026,10 +4039,19 @@ select.field__control:not([multiple]) {
     object-fit: cover;
 }
 .site-shell .header-links .header-avatar {
-    border: 0;
-    padding: 0;
-    background: none;
-    min-width: 36px;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    padding: 1px;
+    border-radius: 50%;
+}
+.header-avatar .avatar {
+    width: 26px;
+    height: 26px;
+}
+.site-shell .header-links .header-avatar:hover,
+.site-shell .site-theme-toggle:hover {
+    background: var(--color-line);
 }
 .patron-wall {
     display: flex;
@@ -4963,33 +4985,55 @@ iframe.email-preview {
     color: var(--color-soft);
 }
 .admin-table td:first-child {
-    width: 46%;
     font-size: var(--text-body);
 }
 .admin-table tbody tr:hover {
     background: var(--color-wash);
 }
-.admin-event-actions {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: var(--space-4);
+/* align compact action controls across tables and management cards */
+.admin-table th:last-child,
+.admin-table td:last-child {
+    width: 1%;
+    text-align: right;
     white-space: nowrap;
-    font-size: inherit;
 }
-.admin-event-actions > button {
-    padding: 0;
-    border: 0;
-    background: transparent;
-    font: inherit;
-    cursor: pointer;
-    color: inherit;
+.admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
 }
-.admin-event-actions > a:hover,
-.admin-event-actions > button:hover:not(:disabled) {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+.admin-table .admin-actions {
+    flex-wrap: nowrap;
+}
+.admin-actions > :is(a, button) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-height: 32px;
+    padding: 6px 10px;
+    margin: 0;
+    border: 1px solid var(--color-line);
+    border-radius: 3px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: 500 12px/18px var(--font-sans);
+    white-space: nowrap;
+    text-decoration: none;
+}
+.admin-actions > a:hover {
+    text-decoration: none;
+}
+.admin-attendees .admin-actions {
+    width: 280px;
+    flex-wrap: wrap;
+}
+.admin-table td:last-child > .checkbox {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
 }
 .admin-event-card .card-body > .text-soft {
     padding: var(--space-4);
@@ -5022,10 +5066,6 @@ iframe.email-preview {
 }
 .admin-table-card .table-scroll {
     border: 0;
-}
-.admin-table td:last-child .text-link {
-    color: var(--color-ink);
-    font-size: inherit;
 }
 
 .admin-attendee-actions {
@@ -5153,14 +5193,6 @@ iframe.email-preview {
     padding: 0;
 }
 
-.admin-table td > button.text-link {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    min-height: 0;
-    font: inherit;
-    background: transparent;
-}
 .admin-page .editor > button {
     justify-self: start;
     width: auto;
@@ -5299,4 +5331,25 @@ iframe.email-preview {
     .account-page .demographic-fields {
         grid-template-columns: 1fr;
     }
+}
+
+/* space photo fields beneath their disclosure control */
+.speaker-photos[open] > .form-columns {
+    margin-top: var(--space-3);
+}
+
+/* show publication state beside the event editor title */
+.event-publication {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid var(--color-line);
+    border-radius: 3px;
+    color: var(--color-ink);
+    font: 600 12px/18px var(--font-sans);
+}
+.event-publication--published {
+    background: var(--brand-blue);
+    border-color: var(--brand-blue);
+    color: white;
 }
