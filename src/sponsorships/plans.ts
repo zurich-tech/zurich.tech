@@ -22,7 +22,7 @@ export const tiers = [
         map: "Medium logo on the map",
         price: 2000,
         purpose: "Help us run more events.",
-        jobs: 10,
+        jobs: 5,
         description: "Medium linked logo",
         newsletter: "Logo in the sponsor footer",
         slides: "Logo on opening slides",
