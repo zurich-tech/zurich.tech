@@ -1,9 +1,10 @@
-import { createResource, createSignal, For, Show } from "solid-js";
+import { startTransition, createResource, createSignal, For, Show } from "solid-js";
 import type { FunctionReturnType } from "convex/server";
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { errorMessage } from "../components/errors";
+import { AddressField } from "../components/address";
 import { Card } from "../components/card";
 
 /** Editable public location and its resolved address. */
@@ -21,7 +22,8 @@ export function OrganisationLocations(props: {
     );
     const [error, setError] = createSignal<string>();
     const [isPending, setPending] = createSignal(false);
-    const [editing, setEditing] = createSignal<Location>();
+    const [editing, setEditing] = createSignal<Location | undefined>(undefined, { equals: false });
+    let locationForm!: HTMLFormElement;
 
     /** Persist the selected public address and refresh the list. */
     async function save(event: SubmitEvent) {
@@ -32,6 +34,8 @@ export function OrganisationLocations(props: {
         setPending(true);
         setError(undefined);
         try {
+            if (!text("latitude") || !text("longitude"))
+                throw new Error("Select an address from the suggestions.");
             await (
                 await memberClient()
             ).mutation(api.places.locations.save, {
@@ -48,7 +52,7 @@ export function OrganisationLocations(props: {
             });
             setEditing(undefined);
             form.reset();
-            await refetch();
+            await startTransition(refetch);
         } catch (caught) {
             setError(errorMessage(caught, "Could not save location."));
         } finally {
@@ -63,7 +67,7 @@ export function OrganisationLocations(props: {
         try {
             await (await memberClient()).mutation(api.places.locations.remove, { id });
             if (editing()?._id === id) setEditing(undefined);
-            await refetch();
+            await startTransition(refetch);
         } catch (caught) {
             setError(errorMessage(caught, "Could not remove location."));
         } finally {
@@ -73,7 +77,6 @@ export function OrganisationLocations(props: {
 
     return (
         <Card title="Locations">
-            <p>Public offices and campuses. Local sponsors appear on the map.</p>
             <For each={locations() ?? []}>
                 {(location) => (
                     <div class="location-actions">
@@ -99,9 +102,9 @@ export function OrganisationLocations(props: {
                     </div>
                 )}
             </For>
-            <form class="editor" onSubmit={save}>
+            <form ref={locationForm} class="editor" onSubmit={save}>
                 <label>
-                    Location name
+                    Name
                     <input
                         name="name"
                         required
@@ -109,6 +112,21 @@ export function OrganisationLocations(props: {
                         placeholder="Zürich office"
                     />
                 </label>
+                <AddressField
+                    value={{
+                        address: editing()?.address?.line1,
+                        latitude: editing()?.address?.latitude,
+                        longitude: editing()?.address?.longitude,
+                    }}
+                    onSelect={(place) => {
+                        for (const [name, value] of Object.entries(place.address)) {
+                            const field = locationForm.elements.namedItem(
+                                name,
+                            ) as HTMLInputElement | null;
+                            if (field) field.value = value ?? "";
+                        }
+                    }}
+                />
                 <label>
                     Street address
                     <input name="line1" required value={editing()?.address?.line1 ?? ""} />
@@ -136,32 +154,6 @@ export function OrganisationLocations(props: {
                         />
                     </label>
                 </div>
-                <div class="form-columns">
-                    <label>
-                        Latitude
-                        <input
-                            name="latitude"
-                            type="number"
-                            step="any"
-                            min="-90"
-                            max="90"
-                            required
-                            value={editing()?.address?.latitude ?? ""}
-                        />
-                    </label>
-                    <label>
-                        Longitude
-                        <input
-                            name="longitude"
-                            type="number"
-                            step="any"
-                            min="-180"
-                            max="180"
-                            required
-                            value={editing()?.address?.longitude ?? ""}
-                        />
-                    </label>
-                </div>
                 <Show when={props.isTeam}>
                     <label>
                         <input
@@ -169,7 +161,7 @@ export function OrganisationLocations(props: {
                             name="isCurated"
                             checked={editing()?.isCurated ?? false}
                         />{" "}
-                        Show as a curated institution without sponsorship
+                        Show on map
                     </label>
                 </Show>
                 <Show when={error()}>

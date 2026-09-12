@@ -7,6 +7,8 @@ import "./address.css";
 export function AddressField(props: {
     /** Saved address and coordinates. */
     value?: { address?: string; latitude?: number; longitude?: number };
+    /** Receive the selected postal address and coordinates. */
+    onSelect?: (place: Place) => void;
 }) {
     const id = createUniqueId();
     const [text, setText] = createSignal("");
@@ -64,8 +66,7 @@ export function AddressField(props: {
             setResults(places);
             setStatus(places.length ? "" : "No places found.");
         } catch {
-            if (!controller.signal.aborted)
-                setStatus("Address search is unavailable. Enter the address manually.");
+            if (!controller.signal.aborted) setStatus("Address search is unavailable. Try again.");
         }
     }
 
@@ -78,6 +79,7 @@ export function AddressField(props: {
         setResults([]);
         setStatus("");
         setActive(-1);
+        props.onSelect?.(place);
     }
 
     return (

@@ -2,6 +2,8 @@
 export interface Place {
     /** Venue and postal address. */
     label: string;
+    /** Structured postal address for organisation locations. */
+    address: { line1: string; locality: string; postalCode?: string; countryCode: string };
     /** Latitude in degrees. */
     latitude: number;
     /** Longitude in degrees. */
@@ -17,7 +19,7 @@ export async function searchPlaces(text: string, signal: AbortSignal): Promise<P
     const result = await response.json();
 
     // retain names and street numbers without repeating identical address parts
-    return result.features.map(
+    const places: Place[] = result.features.map(
         (feature: {
             geometry: { coordinates: [number, number] };
             properties: {
@@ -42,9 +44,20 @@ export async function searchPlaces(text: string, signal: AbortSignal): Promise<P
 
             return {
                 label: [...new Set(parts)].join(", "),
+                address: {
+                    line1: street || place.name || "",
+                    locality: place.city ?? place.locality ?? "",
+                    postalCode: place.postcode,
+                    countryCode: place.countrycode?.toUpperCase() ?? "",
+                },
                 longitude: feature.geometry.coordinates[0],
                 latitude: feature.geometry.coordinates[1],
             };
         },
+    );
+
+    // collapse repeated points for the same postal address
+    return places.filter(
+        (place, index) => places.findIndex((other) => other.label === place.label) === index,
     );
 }
