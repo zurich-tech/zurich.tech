@@ -203,7 +203,8 @@ export const publish = mutation({
             const used = jobs.filter(
                 (item) => item._id !== row._id && item.sponsorshipId === sponsor._id,
             ).length;
-            if (used >= allowance) throw new Error("All included job slots are in use.");
+            if (allowance !== null && used >= allowance)
+                throw new Error("All included job slots are in use.");
             sponsorshipId = sponsor._id;
             expiresAt = sponsor.term!.endsAt;
         }
@@ -275,6 +276,7 @@ async function publicJob(ctx: QueryCtx, row: Doc<"jobs">) {
     const isOpen = jobStatus(row, expiresAt, now) === "published";
 
     return {
+        id: row._id,
         slug: row.slug,
         title: row.title,
         description: row.description,

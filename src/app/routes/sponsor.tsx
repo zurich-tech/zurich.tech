@@ -1,3 +1,4 @@
+import { TeamEdit } from "../../auth/edit";
 import { useAccount } from "../../auth";
 import { sponsorshipInquiry } from "../../sponsorships/inquiries";
 import { site } from "../site";
@@ -7,7 +8,7 @@ import { Sponsors } from "../../sponsorships/sponsors";
 import { Arrow } from "../../components/arrow";
 import { tiers, personalTiers } from "../../sponsorships/plans";
 import { Page } from "../page";
-import { Card } from "../../components/card";
+import { Card, CardIntro } from "../../components/card";
 import { Seo } from "../seo";
 
 /** Stated reach shown with the sponsorship options. */
@@ -25,12 +26,17 @@ export default function Route() {
         <>
             <Seo title="Sponsor" description={reach.join(" ")} />
             <Page>
-                <Card title="Support zurich.tech" heading="h1" class="sponsor-intro">
-                    <p class="sponsor-lead">
+                <Card
+                    toolbar={<TeamEdit href="/admin?section=sponsors" label="Manage" />}
+                    title="Support zurich.tech"
+                    heading="h1"
+                    class="sponsor-intro card--sections"
+                >
+                    <CardIntro>
                         Meet the people building tech in Zürich. Reach developers, researchers,
                         founders and future colleagues through our events and newsletter.
-                    </p>
-                    <div class="sponsor-overview">
+                    </CardIntro>
+                    <div class="sponsor-overview card-section">
                         <section>
                             <h2>What you get</h2>
                             <ul class="plan-benefits">
@@ -54,29 +60,33 @@ export default function Route() {
                                     <Arrow />
                                     <strong>Meet the community</strong>
                                     <span>
-                                        Build relationships at talks, dinners and hackathons. Gold
-                                        also includes a jointly organised event.
+                                        Get to know people at talks, dinners and hackathons.
                                     </span>
                                 </li>
                             </ul>
                         </section>
                         <section class="sponsor-funding">
                             <h2>What you fund</h2>
-                            <p class="sponsor-allocation">
-                                <strong>100%</strong>
-                                <span>goes to operating costs</span>
-                            </p>
-                            <p>We’re a nonprofit run entirely by volunteers.</p>
-                            <p>
-                                Your support pays for venues, food, equipment and the services that
-                                keep the community running.
-                            </p>
-                            <p>
-                                <strong>The more support we have, the more we can do.</strong>
-                            </p>
+                            <ul class="plan-benefits">
+                                <li>
+                                    <Arrow />
+                                    <strong>100% towards operating costs</strong>
+                                    <span>We’re a nonprofit run entirely by volunteers.</span>
+                                </li>
+                                <li>
+                                    <Arrow />
+                                    <strong>The essentials</strong>
+                                    <span>Venues, food, equipment and community services.</span>
+                                </li>
+                                <li>
+                                    <Arrow />
+                                    <strong>More room to grow</strong>
+                                    <span>The more support we have, the more we can do.</span>
+                                </li>
+                            </ul>
                         </section>
                     </div>
-                    <ul class="sponsor-reach">
+                    <ul class="sponsor-reach card-section">
                         <For each={reach}>{(sentence) => <li>{sentence}</li>}</For>
                     </ul>
                 </Card>
@@ -104,7 +114,11 @@ export default function Route() {
                                 <ul class="plan-benefits">
                                     <li>
                                         <Arrow />
-                                        <strong>{tier.jobs} included jobs</strong>
+                                        <strong>
+                                            {tier.jobs === null
+                                                ? "Unlimited active jobs"
+                                                : `${tier.jobs} active jobs`}
+                                        </strong>
                                         <span>Replace roles as you hire.</span>
                                     </li>
                                     <li>
