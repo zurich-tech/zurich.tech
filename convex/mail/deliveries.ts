@@ -187,6 +187,14 @@ export async function send(message: {
     key: string;
 }) {
     requireMail();
+
+    // enforce the configured recipient restriction
+    const recipients = process.env.MAIL_RECIPIENTS?.split(",").map((email) =>
+        email.trim().toLowerCase(),
+    );
+    if (recipients && !recipients.includes(message.to.trim().toLowerCase()))
+        throw new Error("Email delivery is restricted to approved recipients.");
+
     const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
