@@ -140,7 +140,7 @@ export function CommunityMap(props: {
         const markers = entries.map((organisation) => {
             const element = document.createElement("div");
             const diameter =
-                organisation.tier === "partner" ? 40 : organisation.tier === "champion" ? 32 : 26;
+                organisation.tier === "gold" ? 40 : organisation.tier === "silver" ? 32 : 26;
             const dispose = render(
                 () => (
                     <a

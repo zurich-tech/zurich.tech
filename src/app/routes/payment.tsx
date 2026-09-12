@@ -13,16 +13,28 @@ export default function Route() {
     // load the signed in purchaser’s payment result
     const account = useAccount();
     const [params] = useSearchParams();
-    const [payment, { refetch }] = createResource(
-        () =>
-            account.user() && typeof params.session_id === "string" ? params.session_id : undefined,
-        async (sessionId) =>
-            (await memberClient()).query(api.billing.checkouts.status, { sessionId }),
-    );
+    const checkout = () =>
+        account.user() && typeof params.session_id === "string"
+            ? { accountId: account.user()!.id, sessionId: params.session_id }
+            : undefined;
+    const [payment, { refetch }] = createResource(checkout, async (request) => ({
+        ...request,
+        value: await (
+            await memberClient()
+        ).query(api.billing.checkouts.status, { sessionId: request.sessionId }),
+    }));
+    // keep polling results attached to their account and checkout
+    const currentPayment = () => {
+        if (payment.error || payment.state === "pending") return undefined;
+        const result = payment.latest;
+        return result?.accountId === account.user()?.id && result?.sessionId === params.session_id
+            ? result?.value
+            : undefined;
+    };
 
     // refresh while Stripe's signed webhook is still arriving
     createEffect(() => {
-        if (payment()?.status !== "pending") return;
+        if (currentPayment()?.status !== "pending") return;
         const interval = setInterval(() => void refetch(), 2500);
         onCleanup(() => clearInterval(interval));
     });
@@ -33,7 +45,12 @@ export default function Route() {
             <Page width="narrow">
                 <Card title="Payment" heading="h1">
                     <Switch fallback={<p>Open your payment confirmation to view its status.</p>}>
-                        <Match when={account.isPending() || payment.loading}>
+                        <Match
+                            when={
+                                account.isPending() ||
+                                (!!checkout() && !payment.error && !currentPayment())
+                            }
+                        >
                             <p role="status">Loading…</p>
                         </Match>
                         <Match when={account.user() && payment.error}>
@@ -52,7 +69,7 @@ export default function Route() {
                                 Sign in to view payment
                             </a>
                         </Match>
-                        <Match when={account.user() && payment()}>
+                        <Match when={account.user() && currentPayment()}>
                             {(current) => (
                                 <>
                                     <p>
@@ -97,12 +114,12 @@ export default function Route() {
                                         <a
                                             class="button"
                                             href={
-                                                current().isPatron
+                                                current().isPersonal
                                                     ? "/settings"
                                                     : `/manage?section=${current().purchase.kind === "job" ? "jobs" : "sponsors"}`
                                             }
                                         >
-                                            {current().isPatron ? "Patron settings" : "Manage"}
+                                            {current().isPersonal ? "Support settings" : "Manage"}
                                         </a>
                                     </div>
                                 </>

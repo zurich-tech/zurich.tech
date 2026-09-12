@@ -1,6 +1,6 @@
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
-import { tier } from "../billing/purchases";
+import { tier, personalTier } from "../billing/purchases";
 
 /** Recognition and contribution terms shared by every sponsor. */
 const agreement = {
@@ -21,11 +21,11 @@ const agreement = {
     updatedAt: v.number(),
 };
 
-/** A member supports as a patron; an organisation selects an organisation tier. */
+/** A member selects personal support; an organisation selects a company package. */
 export const sponsorships = defineTable(
     v.union(
         v.object({ ...agreement, organisationId: v.id("organisations"), tier }),
-        v.object({ ...agreement, memberId: v.id("members"), tier: v.literal("patron") }),
+        v.object({ ...agreement, memberId: v.id("members"), tier: personalTier }),
     ),
 )
     .index("by_organisation", ["organisationId"])

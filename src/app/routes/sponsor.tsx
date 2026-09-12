@@ -3,10 +3,9 @@ import { sponsorshipInquiry } from "../../sponsorships/inquiries";
 import { site } from "../site";
 import { For, Show } from "solid-js";
 import { Sponsors } from "../../sponsorships/sponsors";
-import { Patrons } from "../../sponsorships/patrons";
 
 import { Arrow } from "../../components/arrow";
-import { tiers, patron } from "../../sponsorships/plans";
+import { tiers, personalTiers } from "../../sponsorships/plans";
 import { Page } from "../page";
 import { Card } from "../../components/card";
 import { Seo } from "../seo";
@@ -26,20 +25,59 @@ export default function Route() {
         <>
             <Seo title="Sponsor" description={reach.join(" ")} />
             <Page>
-                <Card title="Support zurich.tech" heading="h1">
-                    <p>
-                        Help us bring Zürich’s tech community together through talks, dinners,
-                        hackathons and more.
+                <Card title="Support zurich.tech" heading="h1" class="sponsor-intro">
+                    <p class="sponsor-lead">
+                        Meet the people building tech in Zürich. Reach developers, researchers,
+                        founders and future colleagues through our events and newsletter.
                     </p>
-                    <ul class="plan-benefits">
-                        <For each={reach}>
-                            {(sentence) => (
+                    <div class="sponsor-overview">
+                        <section>
+                            <h2>What you get</h2>
+                            <ul class="plan-benefits">
                                 <li>
                                     <Arrow />
-                                    <strong>{sentence}</strong>
+                                    <strong>Visibility throughout the year</strong>
+                                    <span>
+                                        Your company on our website, in our newsletter and at our
+                                        events.
+                                    </span>
                                 </li>
-                            )}
-                        </For>
+                                <li>
+                                    <Arrow />
+                                    <strong>Reach people you want to hire</strong>
+                                    <span>
+                                        Job listings shared with a local community interested in
+                                        tech.
+                                    </span>
+                                </li>
+                                <li>
+                                    <Arrow />
+                                    <strong>Meet the community</strong>
+                                    <span>
+                                        Build relationships at talks, dinners and hackathons. Gold
+                                        also includes a jointly organised event.
+                                    </span>
+                                </li>
+                            </ul>
+                        </section>
+                        <section class="sponsor-funding">
+                            <h2>What you fund</h2>
+                            <p class="sponsor-allocation">
+                                <strong>100%</strong>
+                                <span>goes to operating costs</span>
+                            </p>
+                            <p>We’re a nonprofit run entirely by volunteers.</p>
+                            <p>
+                                Your support pays for venues, food, equipment and the services that
+                                keep the community running.
+                            </p>
+                            <p>
+                                <strong>The more support we have, the more we can do.</strong>
+                            </p>
+                        </section>
+                    </div>
+                    <ul class="sponsor-reach">
+                        <For each={reach}>{(sentence) => <li>{sentence}</li>}</For>
                     </ul>
                 </Card>
                 <div class="sponsor-plans">
@@ -47,7 +85,7 @@ export default function Route() {
                         {(tier) => (
                             <Card
                                 title={tier.name}
-                                class={`offer-card sponsor-plan sponsor-plan--${tier.id}`}
+                                class={`offer-card sponsor-plan${tier.id === "silver" ? " sponsor-plan--featured" : ""}`}
                             >
                                 <p class="tier-price">
                                     <span>CHF</span> {tier.price.toLocaleString("de-CH")}
@@ -61,7 +99,7 @@ export default function Route() {
                                     class="button button--primary"
                                     href={sponsorshipInquiry(tier.name, account.user()?.name)}
                                 >
-                                    Become a {tier.name.toLowerCase()}
+                                    Choose {tier.name}
                                 </a>
                                 <ul class="plan-benefits">
                                     <li>
@@ -96,7 +134,7 @@ export default function Route() {
                                     <Show when={tier.slides}>
                                         <li>
                                             <Arrow />
-                                            <strong>At our events</strong>
+                                            <strong>Represented at every event</strong>
                                             <span>{tier.slides}</span>
                                         </li>
                                     </Show>
@@ -119,32 +157,41 @@ export default function Route() {
                         )}
                     </For>
                 </div>
-                <Card
-                    title="Patron"
-                    class="patron-plan"
-                    toolbar={
-                        <button class="button button--primary" disabled>
-                            Become a patron
-                        </button>
-                    }
-                >
-                    <div class="patron-offer">
-                        <p class="tier-price">
-                            <span>CHF</span> {patron.price}
-                            <span>/ year</span>
-                        </p>
-                        <PlanIntro purpose={patron.purpose} contribution={patron.contribution} />
-                        <ul class="plan-benefits">
-                            <li>
-                                <Arrow />
-                                <strong>Linked avatar on the patron wall</strong>
-                                <span>Patron badge on your profile</span>
-                            </li>
-                        </ul>
-                    </div>
-                </Card>
+                <div class="sponsor-plans sponsor-plans--personal">
+                    <For each={personalTiers}>
+                        {(tier) => (
+                            <Card
+                                title={tier.name}
+                                class={`offer-card sponsor-plan${tier.id === "patron" ? " sponsor-plan--featured" : ""}`}
+                            >
+                                <p class="tier-price">
+                                    <span>CHF</span> {tier.price}
+                                    <span>/ year</span>
+                                </p>
+                                <PlanIntro
+                                    purpose={tier.purpose}
+                                    contribution={tier.contribution}
+                                />
+                                <button class="button button--primary" disabled>
+                                    Become a {tier.name.toLowerCase()}
+                                </button>
+                                <ul class="plan-benefits">
+                                    <li>
+                                        <Arrow />
+                                        <strong>{tier.recognition}</strong>
+                                        <span>Linked to your chosen website.</span>
+                                    </li>
+                                    <li>
+                                        <Arrow />
+                                        <strong>{tier.name} badge on your profile</strong>
+                                        <span>Your title appears on hover.</span>
+                                    </li>
+                                </ul>
+                            </Card>
+                        )}
+                    </For>
+                </div>
                 <Sponsors isFullPage />
-                <Patrons isFullPage />
                 <div class="sponsor-details">
                     <Card title="Become a sponsor" id="request">
                         <a

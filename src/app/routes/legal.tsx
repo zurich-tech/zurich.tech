@@ -25,8 +25,8 @@ export default function Route() {
                     </p>
                     <p>
                         Signing in with GitHub or Google shares your name, verified email and
-                        profile image with us. Patron recognition is public only if you enable it in
-                        settings.
+                        profile image with us. Sponsor recognition is public only if you enable it
+                        in settings.
                     </p>
                     <p>
                         Sponsorships are arranged by email. Organisation billing details are visible

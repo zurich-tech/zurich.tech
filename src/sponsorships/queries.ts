@@ -4,10 +4,10 @@ import { api } from "../../convex/_generated/api";
 
 import { publicClient } from "../auth/convex";
 
-/** Active patrons who opted into the sponsor wall. */
-export const getPatrons = query(
+/** Active personal sponsors who opted into the sponsor wall. */
+export const getPersonalSponsors = query(
     async () => await publicClient().query(api.sponsorships.members.list, {}),
-    "patrons",
+    "personalSponsors",
 );
 
 /** Active public sponsors. */

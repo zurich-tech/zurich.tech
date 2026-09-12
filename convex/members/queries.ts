@@ -64,7 +64,7 @@ export const member = query({
 
         return {
             ...(await memberRow(ctx, member)),
-            isPatron: term !== null && term.endsAt > Date.now(),
+            sponsorTier: term !== null && term.endsAt > Date.now() ? patron?.tier : undefined,
             hostedEvents: entries,
         };
     },

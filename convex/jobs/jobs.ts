@@ -189,7 +189,7 @@ export const publish = mutation({
             );
             const sponsor = terms.find(
                 (item) =>
-                    item.tier !== "patron" &&
+                    "organisationId" in item &&
                     item.organisationId === row.organisationId &&
                     item.term &&
                     item.term.endsAt > now,

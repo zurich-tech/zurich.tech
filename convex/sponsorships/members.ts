@@ -5,7 +5,7 @@ import { v } from "convex/values";
 import { query, mutation } from "../_generated/server";
 import { requireAccount } from "../auth/access";
 
-/** List current patrons who opted into public recognition. */
+/** List current personal sponsors who opted into public recognition. */
 export const list = query({
     args: {},
     handler: async (ctx) => {
@@ -14,18 +14,19 @@ export const list = query({
         const patrons = await Promise.all(
             rows
                 .filter(
-                    (row): row is Extract<Doc<"sponsorships">, { tier: "patron" }> =>
-                        row.tier === "patron" && row.isPublic,
+                    (row): row is Extract<Doc<"sponsorships">, { memberId: unknown }> =>
+                        "memberId" in row && row.isPublic,
                 )
                 .map(async (row) => {
                     const term = await paidTerm(ctx, row._id);
                     if (!term || term.endsAt <= Date.now()) return null;
                     const member = await ctx.db.get(row.memberId);
-                    if (!member) throw new Error("Patron member is missing.");
+                    if (!member) throw new Error("Sponsor member is missing.");
 
                     return member.status === "active"
                         ? {
                               id: row._id,
+                              tier: row.tier,
                               name: member.name,
                               headline: member.headline,
                               avatarUrl: member.avatarUrl,
@@ -40,7 +41,7 @@ export const list = query({
     },
 });
 
-/** Read the signed in member's patron term and visibility. */
+/** Read the signed in member's support term and visibility. */
 export const current = query({
     args: {},
     handler: async (ctx) => {
@@ -56,7 +57,7 @@ export const current = query({
     },
 });
 
-/** Let a patron choose whether their name and avatar appear publicly. */
+/** Let a member choose whether their name and avatar appear publicly. */
 export const setVisibility = mutation({
     args: { isPublic: v.boolean() },
     handler: async (ctx, args) => {
@@ -65,7 +66,7 @@ export const setVisibility = mutation({
             .query("sponsorships")
             .withIndex("by_member", (q) => q.eq("memberId", viewer.memberId))
             .unique();
-        if (!patron) throw new Error("Patron membership not found.");
+        if (!patron) throw new Error("Support plan not found.");
         await ctx.db.patch(patron._id, { isPublic: args.isPublic });
     },
 });

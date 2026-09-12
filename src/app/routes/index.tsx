@@ -9,13 +9,18 @@ import { Card } from "../../components/card";
 import { Button } from "../../components/button";
 import { JobEntry } from "../../jobs/job";
 import { Sponsors } from "../../sponsorships/sponsors";
-import { Patrons } from "../../sponsorships/patrons";
 import { createAsync } from "@solidjs/router";
 import { Gallery } from "../../events/gallery";
 import { Hero } from "../hero";
 import { Newsletter } from "../../mail/newsletter";
 import { Programme } from "../../events/programme";
 import { Seo } from "../seo";
+
+/** Begin public data requests before rendering the route. */
+export const route = {
+    preload: () =>
+        Promise.all([getCalendar(), getArticles(), getDirectory(), getJobs(), getGallery()]),
+};
 
 /** Present the map and published event programme. */
 export default function Route() {
@@ -51,7 +56,6 @@ export default function Route() {
                         <Newsletter />
                     </div>
                     <Sponsors />
-                    <Patrons />
                     <Card title="Jobs" titleHref="/jobs" class="jobs-overview">
                         <Show when={jobs()}>
                             {(listings) => (

@@ -84,7 +84,7 @@ export default function Route() {
                         <Card title="Support">
                             <p>Support our events as an individual or an organisation.</p>
                             <a class="button" href="/sponsor">
-                                Patrons &amp; sponsors <Arrow />
+                                Sponsors <Arrow />
                             </a>
                         </Card>
                     </aside>

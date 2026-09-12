@@ -63,7 +63,8 @@ export const activate = mutation({
         // require team access and a closed checkout before recording payment
         const reviewer = await requireTeam(ctx);
         const row = await ctx.db.get(args.id);
-        if (!row || row.tier === "patron") throw new Error("Organisation sponsorship not found.");
+        if (!row || !("organisationId" in row))
+            throw new Error("Organisation sponsorship not found.");
         if (row.inKind)
             throw new Error("Update the in-kind agreement instead of recording payment.");
         await requireCheckoutClosed(ctx, row._id);
@@ -114,7 +115,8 @@ export const end = mutation({
         // require a team decision and prevent changes during checkout
         await requireTeam(ctx);
         const row = await ctx.db.get(args.id);
-        if (!row || row.tier === "patron") throw new Error("Organisation sponsorship not found.");
+        if (!row || !("organisationId" in row))
+            throw new Error("Organisation sponsorship not found.");
         await requireCheckoutClosed(ctx, row._id);
         if (row.status !== "active" && row.status !== "requested")
             throw new Error("This sponsorship is already closed.");
@@ -131,7 +133,8 @@ export const updateRequest = mutation({
     handler: async (ctx, args) => {
         // require ownership before renewal or withdrawal
         const row = await ctx.db.get(args.id);
-        if (!row || row.tier === "patron") throw new Error("Organisation sponsorship not found.");
+        if (!row || !("organisationId" in row))
+            throw new Error("Organisation sponsorship not found.");
         await requireCompany(ctx, row.organisationId);
 
         // withdraw only an unpaid request with no open checkout
@@ -169,7 +172,7 @@ export async function activeSponsors(ctx: Pick<QueryCtx, "db">) {
         .map(({ row }) => row)
         .filter(
             (row): row is Extract<Doc<"sponsorships">, { organisationId: unknown }> =>
-                row.tier !== "patron" && row.isPublic,
+                "organisationId" in row && row.isPublic,
         );
 
     return await Promise.all(

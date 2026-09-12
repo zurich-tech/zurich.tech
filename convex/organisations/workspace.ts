@@ -60,7 +60,7 @@ export const employer = query({
                 sponsorships
                     .filter(
                         (row): row is Extract<Doc<"sponsorships">, { organisationId: unknown }> =>
-                            row.tier !== "patron",
+                            "organisationId" in row,
                     )
                     .sort((a, b) => b.updatedAt - a.updatedAt)
                     .map(async (sponsor) => ({

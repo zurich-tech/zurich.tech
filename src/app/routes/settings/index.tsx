@@ -1,11 +1,12 @@
 import { useNavigate } from "@solidjs/router";
+import { Loading } from "../../../components/loading";
 import { Card } from "../../../components/card";
 import { Match, Show, Switch, createSignal } from "solid-js";
 
 import { PaymentHistory } from "../../../billing/payments";
 import { Notifications } from "../../../members/notifications";
 import { ProfileSettings } from "../../../members/profile";
-import { PatronSettings } from "../../../sponsorships/patrons";
+import { SupportSettings } from "../../../sponsorships/members";
 import { auth, useAccount } from "../../../auth/index";
 import { Button } from "../../../components/button";
 import { Page, PageHeader } from "../../page";
@@ -71,7 +72,9 @@ export default function Route() {
                     }
                 >
                     <Match when={account.isPending()}>
-                        <Card title="Profile">Loading…</Card>
+                        <Card title="Profile">
+                            <Loading />
+                        </Card>
                     </Match>
                     <Match when={account.error()}>
                         <p class="form-error">Could not load your account.</p>
@@ -79,12 +82,12 @@ export default function Route() {
                     <Match when={account.user()}>
                         <div class="event-layout account-layout">
                             <div class="event-content">
-                                <ProfileSettings email={account.user()!.email} />
+                                <ProfileSettings />
                             </div>
                             <aside class="event-aside">
                                 <Notifications />
                                 <Card title="Billing">
-                                    <PatronSettings />
+                                    <SupportSettings />
                                     <PaymentHistory />
                                 </Card>
                             </aside>

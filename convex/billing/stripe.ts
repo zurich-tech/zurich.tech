@@ -40,7 +40,7 @@ export const start = action({
                 metadata: { checkoutId: checkout._id },
                 expires_at: Math.floor(checkout.expiresAt / 1000),
                 success_url: `${siteOrigin()}/payment?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `${siteOrigin()}/${args.purchase.kind === "patron" ? "sponsor" : "manage"}`,
+                cancel_url: `${siteOrigin()}/${args.purchase.kind === "support" ? "sponsor" : "manage"}`,
             },
             { idempotencyKey: checkout._id },
         );

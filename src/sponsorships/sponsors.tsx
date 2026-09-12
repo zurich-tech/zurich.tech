@@ -1,3 +1,4 @@
+import { PersonalSponsors } from "./members";
 import { Image } from "../components/image";
 import { getSponsors } from "./queries";
 import { createAsync } from "@solidjs/router";
@@ -17,6 +18,7 @@ export function Sponsors(props: {
     return (
         <Card
             class={props.isFullPage ? "sponsors sponsors--full" : "sponsors"}
+            id="sponsors"
             title="Sponsors"
             titleHref={props.isFullPage ? undefined : "/sponsor"}
         >
@@ -70,7 +72,7 @@ export function Sponsors(props: {
                                 <a
                                     class="sponsor-logo sponsor-vacancy"
                                     href={`/sponsor?tier=${tier.id}`}
-                                    aria-label={`Become a ${tier.name.toLowerCase()}`}
+                                    aria-label={`Choose ${tier.name} sponsorship`}
                                 >
                                     <span aria-hidden="true">+</span>
                                 </a>
@@ -79,6 +81,7 @@ export function Sponsors(props: {
                     </section>
                 )}
             </For>
+            <PersonalSponsors />
             <Show when={!props.isFullPage}>
                 <div class="sponsor-action">
                     <a class="button button--primary" href="/sponsor">

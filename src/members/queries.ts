@@ -9,8 +9,8 @@ import type { CalendarEntry } from "../events/queries";
 export type PublicMember = FunctionReturnType<typeof api.members.queries.membersList>[number] & {
     /** Events published by this member. */
     hostedEvents?: CalendarEntry[];
-    /** Whether the member publicly identifies as a current patron. */
-    isPatron?: boolean;
+    /** Public personal sponsorship level. */
+    sponsorTier?: "friend" | "patron";
 };
 
 /** One resolved public handle. */

@@ -4,9 +4,9 @@ import { internalMutation, query, type MutationCtx } from "../_generated/server"
 import type { Id } from "../_generated/dataModel";
 import { requireAccount } from "../auth/access";
 import { authComponent } from "../auth/component";
-import { recordPayment } from "./payments";
+import { paidTerm, recordPayment } from "./payments";
 import { requireCompany } from "../organisations/mutations";
-import { tiers, patron, jobPrice, jobDurationMonths } from "../../src/sponsorships/plans";
+import { tiers, personalTiers, jobPrice, jobDurationMonths } from "../../src/sponsorships/plans";
 import { purchase } from "./purchases";
 
 /** Reserve one purchase before creating its Stripe session. */
@@ -17,12 +17,12 @@ export const reserve = internalMutation({
         const viewer = await requireAccount(ctx);
         const user = await authComponent.getAuthUser(ctx);
         const now = Date.now();
-        let amount: number = patron.price;
-        let name = "Patron · one year";
+        let amount = 0;
+        let name = "";
         let email = user.email;
 
         let selected = args.purchase;
-        if (selected.kind === "patron") {
+        if (selected.kind === "support") {
             let agreement = await ctx.db
                 .query("sponsorships")
                 .withIndex("by_member", (q) => q.eq("memberId", viewer.memberId))
@@ -30,7 +30,7 @@ export const reserve = internalMutation({
             if (!agreement) {
                 const id = await ctx.db.insert("sponsorships", {
                     memberId: viewer.memberId,
-                    tier: "patron",
+                    tier: selected.tier,
                     status: "requested",
                     isPublic: false,
                     createdAt: now,
@@ -39,6 +39,13 @@ export const reserve = internalMutation({
                 agreement = await ctx.db.get(id);
             }
             if (!agreement) throw new Error("Sponsorship not found.");
+            if (agreement.tier !== selected.tier) {
+                await requireCheckoutClosed(ctx, agreement._id);
+                const term = await paidTerm(ctx, agreement._id);
+                if (term && term.endsAt > now)
+                    throw new Error("Contact us to change your active support plan.");
+                await ctx.db.patch(agreement._id, { tier: selected.tier, updatedAt: now });
+            }
             selected = { kind: "sponsorship", id: agreement._id };
         }
 
@@ -52,19 +59,20 @@ export const reserve = internalMutation({
             amount = jobPrice;
             name = `${job.title} · ${jobDurationMonths} months`;
             email = job.billingEmail;
-        } else if (args.purchase.kind === "sponsorship") {
-            const sponsor = await ctx.db.get(args.purchase.id);
+        } else if (selected.kind === "sponsorship") {
+            const sponsor = await ctx.db.get(selected.id);
             if (!sponsor) throw new Error("Sponsorship not found.");
-            if (sponsor.tier === "patron") {
+            if ("memberId" in sponsor) {
                 if (sponsor.memberId !== viewer.memberId) throw new Error("Sponsorship not found.");
             } else await requireCompany(ctx, sponsor.organisationId);
             if (sponsor.status === "declined" || sponsor.status === "ended")
                 throw new Error("Request a new sponsorship before paying.");
             if (sponsor.inKind)
                 throw new Error("This sponsorship is covered by an in-kind agreement.");
-            if (sponsor.tier === "patron") {
-                amount = patron.price;
-                name = "Patron · one year";
+            if ("memberId" in sponsor) {
+                const plan = personalTiers.find((tier) => tier.id === sponsor.tier)!;
+                amount = plan.price;
+                name = `${plan.name} support · one year`;
                 email = user.email;
             } else {
                 if (!sponsor.billingEmail) throw new Error("Sponsorship billing email is missing.");
@@ -207,7 +215,7 @@ export const status = query({
                     : row.status,
             publication,
             purchase: row.purchase,
-            isPatron: sponsorship?.tier === "patron",
+            isPersonal: !!sponsorship && "memberId" in sponsorship,
             invoiceUrl: row.invoiceUrl,
         };
     },
