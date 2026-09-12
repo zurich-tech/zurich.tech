@@ -1,3 +1,5 @@
+import "./article.css";
+import { TagPills } from "./tags";
 import { type Article } from "./queries";
 import { For, Show, createMemo, createSignal } from "solid-js";
 
@@ -45,10 +47,15 @@ export function ArticleList(props: ArticleListProps) {
     return (
         <Card
             heading={props.isPage ? "h1" : "h2"}
-            class={props.isCompact ? "news-overview" : undefined}
+            class={props.isCompact ? "news-card news-overview" : "news-card"}
             title={props.isPage || props.isCompact ? "News" : "Articles"}
             titleHref={props.titleHref ?? (props.isPage ? undefined : "/news")}
         >
+            <Show when={props.isCompact}>
+                <div class="news-filters">
+                    <TagPills articles={props.articles} selected={props.tag} />
+                </div>
+            </Show>
             <Show when={props.isSearchable}>
                 <TableToolbar onSearch={setQuery} placeholder="Search news…" />
             </Show>

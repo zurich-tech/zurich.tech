@@ -46,8 +46,10 @@ export default function Route() {
                                                         metric.field
                                                     ].toLocaleString()}
                                                 </strong>
-                                                <Show when={current().growth[metric.field]}>
-                                                    {(growth) => (
+                                            </div>
+                                            <Show when={current().growth[metric.field]}>
+                                                {(growth) => (
+                                                    <div class="stats-change">
                                                         <span
                                                             class="stats-growth"
                                                             classList={{
@@ -58,13 +60,13 @@ export default function Route() {
                                                         >
                                                             {growth().value > 0 ? "+" : ""}
                                                             {growth().value.toLocaleString()}
-                                                            <span class="stats-period">
-                                                                Last 30 days
-                                                            </span>
                                                         </span>
-                                                    )}
-                                                </Show>
-                                            </div>
+                                                        <span class="stats-period">
+                                                            Last 30 days
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </Show>
                                         </button>
                                     )}
                                 </For>

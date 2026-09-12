@@ -1,0 +1,17 @@
+/* align sidebar filter rows with the event filters */
+.news-overview > .card-body {
+    padding-top: 10px;
+}
+
+/* separate navigation from articles without a trailing row divider */
+.news-filters {
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: 10px;
+}
+.news-list > .entry-container:last-child .entry {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+.news-list:first-child > .entry-container:first-child .entry {
+    padding-top: 0;
+}
