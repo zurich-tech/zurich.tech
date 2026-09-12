@@ -167,8 +167,12 @@ export const save = mutation({
             throw new Error("Enter valid latitude and longitude together.");
 
         // reject missing series and organisation references
-        if (values.seriesId && !(await ctx.db.get(values.seriesId)))
-            throw new Error("Series not found.");
+        if (values.seriesId) {
+            const series = await ctx.db.get(values.seriesId);
+            if (!series) throw new Error("Series not found.");
+            if (series.status === "archived" && values.seriesId !== existing?.seriesId)
+                throw new Error("Restore the series before adding events.");
+        }
         for (const id of values.organisations)
             if (!(await ctx.db.get(id))) throw new Error("Organisation not found.");
 

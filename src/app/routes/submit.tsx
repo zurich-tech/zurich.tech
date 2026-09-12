@@ -1,3 +1,4 @@
+import { DeleteRecord } from "../../events/delete";
 import { ParticipationFields } from "../../events/participation";
 import { useConfirmation } from "../../components/dialog";
 import { EventMail } from "../../events/mail";
@@ -245,7 +246,7 @@ export default function Route() {
                 intent === "publish"
                     ? await confirmEvent(
                           { id: sourceId, action: "publish", fields: values, announce },
-                          isPublished() ? "Save changes" : "Publish event",
+                          isPublished() ? "Save" : "Publish event",
                           confirm,
                       )
                     : undefined;
@@ -306,7 +307,7 @@ export default function Route() {
                                         class="button"
                                         disabled={isPending()}
                                     >
-                                        Save draft
+                                        Save
                                     </button>
                                 </Show>
                                 <button
@@ -319,12 +320,24 @@ export default function Route() {
                                     {isPending()
                                         ? "Saving…"
                                         : isPublished()
-                                          ? "Save changes"
+                                          ? "Save"
                                           : "Publish event"}
                                 </button>
                             </Show>
+                            <Show when={params.edit ? draft() : undefined}>
+                                {(item) => (
+                                    <DeleteRecord
+                                        id={item()._id}
+                                        name="event"
+                                        onDeleted={async () => {
+                                            await revalidate();
+                                            navigate("/admin");
+                                        }}
+                                    />
+                                )}
+                            </Show>
                             <a class="button" href="/admin">
-                                Back to events
+                                Back
                             </a>
                             <Show when={params.edit && draft()?.eventId && isPublished()}>
                                 <a class="button" href={`/events/${draft()!.slug}`}>
@@ -393,7 +406,7 @@ export default function Route() {
                                                 value="draft"
                                                 disabled={isPending()}
                                             >
-                                                Save draft
+                                                Save
                                             </button>
                                         </Show>
                                         <button
@@ -405,7 +418,7 @@ export default function Route() {
                                             {isPending()
                                                 ? "Saving…"
                                                 : isPublished()
-                                                  ? "Save changes"
+                                                  ? "Save"
                                                   : "Publish event"}
                                         </button>
                                         <Show when={isPublished()}>
@@ -423,7 +436,7 @@ export default function Route() {
                                                 disabled={isPending()}
                                                 onClick={() => void transition("cancel")}
                                             >
-                                                Cancel event
+                                                Cancel
                                             </button>
                                         </Show>
                                     </Show>

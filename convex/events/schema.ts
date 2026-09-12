@@ -35,7 +35,7 @@ const rsvpStatus = v.union(
 /** Stored series. */
 export const series = defineTable({
     announcedAt: v.optional(v.number()),
-    status: v.union(v.literal("active"), v.literal("proposed")),
+    status: v.union(v.literal("active"), v.literal("proposed"), v.literal("archived")),
     slug: v.string(),
     name: v.string(),
     description: v.string(),

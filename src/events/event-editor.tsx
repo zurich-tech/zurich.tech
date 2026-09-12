@@ -74,7 +74,13 @@ export function EventFields(props: {
                     Series
                     <select name="series" value={props.draft?.seriesId ?? ""}>
                         <option value="">None</option>
-                        <For each={props.directory?.series}>
+                        <For
+                            each={props.directory?.series.filter(
+                                (item: Doc<"series">) =>
+                                    item.status !== "archived" ||
+                                    item._id === props.draft?.seriesId,
+                            )}
+                        >
                             {(item) => <option value={item._id}>{item.name}</option>}
                         </For>
                     </select>

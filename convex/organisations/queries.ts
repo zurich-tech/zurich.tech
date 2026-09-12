@@ -15,7 +15,7 @@ export const directory = query({
         return {
             series: await ctx.db
                 .query("series")
-                .filter((q) => q.eq(q.field("status"), "active"))
+                .filter((q) => q.neq(q.field("status"), "proposed"))
                 .collect(),
             organisations: await Promise.all(
                 organisations.map(async (organisation) => ({

@@ -25,6 +25,7 @@ import type * as events_actions from "../events/actions.js";
 import type * as events_checkin from "../events/checkin.js";
 import type * as events_conditions from "../events/conditions.js";
 import type * as events_confirmation from "../events/confirmation.js";
+import type * as events_deletions from "../events/deletions.js";
 import type * as events_feedback from "../events/feedback.js";
 import type * as events_fields from "../events/fields.js";
 import type * as events_gallery from "../events/gallery.js";
@@ -100,6 +101,7 @@ declare const fullApi: ApiFromModules<{
   "events/checkin": typeof events_checkin;
   "events/conditions": typeof events_conditions;
   "events/confirmation": typeof events_confirmation;
+  "events/deletions": typeof events_deletions;
   "events/feedback": typeof events_feedback;
   "events/fields": typeof events_fields;
   "events/gallery": typeof events_gallery;

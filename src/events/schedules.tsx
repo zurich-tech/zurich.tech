@@ -1,3 +1,4 @@
+import { DeleteRecord } from "./delete";
 import { useConfirmation } from "../components/dialog";
 import "./schedules.css";
 import { isTentative } from "../../convex/events/conditions";
@@ -111,6 +112,18 @@ export function Schedules(props: { workspace: EventWorkspace }) {
             title="Schedules"
             toolbar={
                 <>
+                    <Show when={item()}>
+                        {(schedule) => (
+                            <DeleteRecord
+                                id={schedule()._id}
+                                name="schedule"
+                                onDeleted={async () => {
+                                    setParams({ schedule: undefined });
+                                    await refetch();
+                                }}
+                            />
+                        )}
+                    </Show>
                     <Show when={selected() === "new" || item()}>
                         <button
                             class="button button--primary"
@@ -118,7 +131,7 @@ export function Schedules(props: { workspace: EventWorkspace }) {
                             form="schedule-editor"
                             disabled={command.isPending()}
                         >
-                            {command.isPending() ? "Saving…" : "Save schedule"}
+                            {command.isPending() ? "Saving…" : "Save"}
                         </button>
                     </Show>
                     <button
@@ -131,7 +144,7 @@ export function Schedules(props: { workspace: EventWorkspace }) {
                             })
                         }
                     >
-                        {selected() ? "Back to schedules" : "New schedule"}
+                        {selected() ? "Back" : "New schedule"}
                     </button>
                 </>
             }
@@ -336,7 +349,7 @@ function ScheduleForm(props: {
             actions={() => (
                 <div class="form-actions">
                     <button class="button button--primary" disabled={props.isPending}>
-                        {props.isPending ? "Saving…" : "Save schedule"}
+                        {props.isPending ? "Saving…" : "Save"}
                     </button>
                     <a class="button" href="/submit">
                         New template event
@@ -363,7 +376,13 @@ function ScheduleForm(props: {
                         value={props.item?.seriesId ?? props.seriesId ?? source()?.seriesId ?? ""}
                     >
                         <option value="">Choose a series</option>
-                        <For each={directory()?.series}>
+                        <For
+                            each={directory()?.series.filter(
+                                (series) =>
+                                    series.status !== "archived" ||
+                                    series._id === props.item?.seriesId,
+                            )}
+                        >
                             {(series) => (
                                 <option
                                     value={series._id}

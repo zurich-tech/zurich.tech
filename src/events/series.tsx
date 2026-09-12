@@ -1,3 +1,5 @@
+import { DeleteRecord } from "./delete";
+import { useConfirmation } from "../components/dialog";
 import { Card } from "../components/card";
 import { createSignal, createUniqueId, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
@@ -13,6 +15,7 @@ type Directory = Awaited<ReturnType<typeof getDirectory>>;
 
 /** Edit the recurring event series catalogue. */
 export function SeriesAdmin() {
+    const confirm = useConfirmation();
     const formId = createUniqueId();
     const directory = createAsync(() => getDirectory());
     const { perform, isPending, error, success } = useWorkspaceCommand(() =>
@@ -57,6 +60,50 @@ export function SeriesAdmin() {
             class={!selected() ? "admin-table-card" : undefined}
             toolbar={
                 <>
+                    <Show when={editing()}>
+                        {(item) => (
+                            <>
+                                <DeleteRecord
+                                    id={item()._id}
+                                    name="series"
+                                    onDeleted={async () => {
+                                        setSelected(undefined);
+                                        await revalidate(getDirectory.key);
+                                    }}
+                                />
+                                <button
+                                    class="button"
+                                    disabled={isPending()}
+                                    onClick={async () => {
+                                        const isArchived = item().status !== "archived";
+                                        if (
+                                            !(await confirm({
+                                                title: isArchived
+                                                    ? "Archive series"
+                                                    : "Restore series",
+                                                action: isArchived ? "Archive" : "Restore",
+                                                description: isArchived
+                                                    ? "Pause all schedules and retain existing events."
+                                                    : "Make the series available again. Schedules remain paused.",
+                                                emails: 0,
+                                            }))
+                                        )
+                                            return;
+                                        await perform(
+                                            async () =>
+                                                (await memberClient()).mutation(
+                                                    api.events.series.archive,
+                                                    { id: item()._id, isArchived },
+                                                ),
+                                            isArchived ? "Series archived." : "Series restored.",
+                                        );
+                                    }}
+                                >
+                                    {item().status === "archived" ? "Restore" : "Archive"}
+                                </button>
+                            </>
+                        )}
+                    </Show>
                     <Show when={selected()}>
                         <button
                             class="button button--primary"
@@ -64,7 +111,7 @@ export function SeriesAdmin() {
                             form={formId}
                             disabled={isPending()}
                         >
-                            {isPending() ? "Saving…" : "Save series"}
+                            {isPending() ? "Saving…" : "Save"}
                         </button>
                     </Show>
                     <button
@@ -74,7 +121,7 @@ export function SeriesAdmin() {
                             setSelected(selected() ? undefined : "new");
                         }}
                     >
-                        {selected() ? "Cancel" : "New series"}
+                        {selected() ? "Back" : "New series"}
                     </button>
                 </>
             }
@@ -96,7 +143,13 @@ export function SeriesAdmin() {
                                 <For each={directory()?.series}>
                                     {(item) => (
                                         <tr>
-                                            <td>{item.name}</td>
+                                            <td>
+                                                {item.name}
+                                                <Show when={item.status === "archived"}>
+                                                    {" "}
+                                                    · Archived
+                                                </Show>
+                                            </td>
                                             <td>{item.slug}</td>
                                             <td>
                                                 <div class="admin-actions">
@@ -106,12 +159,14 @@ export function SeriesAdmin() {
                                                     >
                                                         Edit
                                                     </button>
-                                                    <a
-                                                        class="button"
-                                                        href={`/admin?section=series&schedule=new&series=${item._id}`}
-                                                    >
-                                                        Add schedule
-                                                    </a>
+                                                    <Show when={item.status !== "archived"}>
+                                                        <a
+                                                            class="button"
+                                                            href={`/admin?section=series&schedule=new&series=${item._id}`}
+                                                        >
+                                                            New schedule
+                                                        </a>
+                                                    </Show>
                                                 </div>
                                             </td>
                                         </tr>
@@ -151,7 +206,7 @@ function SeriesForm(props: {
             actions={() => (
                 <div class="form-actions">
                     <button class="button button--primary" disabled={props.isPending}>
-                        {props.isPending ? "Saving…" : "Save series"}
+                        {props.isPending ? "Saving…" : "Save"}
                     </button>
                 </div>
             )}

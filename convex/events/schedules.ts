@@ -65,8 +65,14 @@ export const save = mutation({
     handler: async (ctx, args) => {
         const viewer = await requireTeam(ctx);
         validateRecurrence(args.recurrence);
-        if (!(await ctx.db.get(args.seriesId))) throw new Error("Series not found.");
+        const series = await ctx.db.get(args.seriesId);
+        if (!series) throw new Error("Series not found.");
         const existing = args.id ? await ctx.db.get(args.id) : null;
+        if (
+            series.status === "archived" &&
+            (args.status === "active" || existing?.seriesId !== args.seriesId)
+        )
+            throw new Error("Restore the series before adding or activating schedules.");
         if (args.id && !existing) throw new Error("Schedule not found.");
         if (existing) {
             const events = await ctx.db
@@ -172,7 +178,11 @@ export const save = mutation({
 
 /** Materialise a rolling six-week window with stable date identities and URLs. */
 export async function generate(ctx: MutationCtx, schedule: Doc<"schedules">) {
-    if (schedule.status !== "active") return;
+    if (
+        schedule.status !== "active" ||
+        (await ctx.db.get(schedule.seriesId))?.status === "archived"
+    )
+        return;
     const now = Date.now();
     const result = occurrences(schedule.recurrence, now);
     const errors = [...result.errors];
