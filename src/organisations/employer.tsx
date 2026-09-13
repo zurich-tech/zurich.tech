@@ -23,7 +23,7 @@ export function JobCard(props: {
     /** Company identities displayed in the card. */
     companies: EmployerWorkspace["organisations"];
     /** Allow team review controls. */
-    isTeam: boolean;
+    isAdmin: boolean;
     /** Disable actions while a workspace command is pending. */
     isPending: boolean;
     /** Run a command and refresh its visible result. */
@@ -133,7 +133,7 @@ export function JobCard(props: {
                     </button>
                 </Show>
             </div>
-            <Show when={props.isTeam}>
+            <Show when={props.isAdmin}>
                 <JobReview job={props.job} isPending={props.isPending} perform={props.perform} />
             </Show>
         </Card>
@@ -147,7 +147,7 @@ export function SponsorshipCard(props: {
     /** Company identities displayed in the card. */
     companies: EmployerWorkspace["organisations"];
     /** Allow team review controls. */
-    isTeam: boolean;
+    isAdmin: boolean;
     /** Disable actions while a workspace command is pending. */
     isPending: boolean;
     /** Run a command and refresh its visible result. */
@@ -360,7 +360,7 @@ export function SponsorshipCard(props: {
                     Sponsorship inquiry
                 </a>
             </Show>
-            <Show when={props.isTeam}>
+            <Show when={props.isAdmin}>
                 <Show
                     when={
                         !props.sponsor.inKind &&

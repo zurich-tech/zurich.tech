@@ -4,7 +4,7 @@ import { receivesAnnouncement } from "../mail/events";
 import { v, type Infer } from "convex/values";
 import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
-import { requireTeam } from "../auth/access";
+import { requireEvent, requireRevision } from "../auth/grants";
 import { submissionFields } from "./fields";
 import { eventPlace } from "./place";
 import { registrations, waitingForSeats } from "./registrations";
@@ -163,12 +163,19 @@ export const preview = query({
         announce: v.optional(v.boolean()),
     },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
         const draft = args.id ? await ctx.db.get(args.id) : null;
         if (args.id && !draft) throw new Error("Draft not found.");
         const id = args.eventId ?? draft?.eventId;
         const event = id ? await ctx.db.get(id) : null;
         if (id && !event) throw new Error("Event not found.");
+        if (id) await requireEvent(ctx, id);
+        else
+            await requireRevision(
+                ctx,
+                draft,
+                args.fields?.seriesId ?? draft?.seriesId,
+                "organiser",
+            );
 
         return await eventAction(ctx, event, args.action, args.fields, args.announce);
     },

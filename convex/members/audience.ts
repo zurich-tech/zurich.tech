@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "../_generated/server";
-import { requireAccount, requireTeam } from "../auth/access";
+import { requireAccount, requireAdmin } from "../auth/access";
 import { demographics, demographicOptions } from "./demographics";
 
 /** Read only the current account's private survey responses. */
@@ -38,7 +38,7 @@ export const skip = mutation({
 export const summary = query({
     args: {},
     handler: async (ctx) => {
-        await requireTeam(ctx);
+        await requireAdmin(ctx);
         const accounts = (await ctx.db.query("accounts").collect()).filter(
             (account) => account.status === "active",
         );

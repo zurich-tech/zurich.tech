@@ -1,5 +1,5 @@
 import { createResource, onMount, onCleanup, startTransition } from "solid-js";
-import { useAccount } from "../auth";
+import { useAccess } from "../auth/edit";
 import { query } from "@solidjs/router";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
@@ -38,26 +38,26 @@ export type GalleryAlbum = FunctionReturnType<typeof api.events.gallery.gallery>
 
 /** Keep private planning entries scoped to the currently signed-in team account. */
 export function usePlanning(enabled: () => boolean) {
-    const account = useAccount();
+    const access = useAccess();
+    const account = access.account;
     const [planning, { refetch }] = createResource(
-        () => (enabled() ? account.user()?.id : undefined),
-        async (accountId) => {
+        () => (enabled() ? access.key() : undefined),
+        async (key) => {
             const client = await memberClient();
-            const access = await client.query(api.auth.queries.current, {});
-            const entries = access.isTeam
-                ? await client.query(api.events.workspace.planning, {})
-                : [];
-            return { accountId, isTeam: access.isTeam, entries };
+            const entries = await client.query(api.events.workspace.planning, {});
+            return { key, entries };
         },
         { initialValue: null },
     );
     const current = () =>
-        enabled() && !planning.error && planning.latest?.accountId === account.user()?.id
+        enabled() && access.key() && !planning.error && planning.latest?.key === access.key()
             ? planning.latest
             : undefined;
 
     return {
         current,
+        canEdit: access.canEvent,
+        canCreate: access.canCreate,
         error: () => enabled() && !!account.user() && planning.error,
         retry: refetch,
     };

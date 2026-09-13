@@ -1,3 +1,4 @@
+import { useAccess } from "../auth/edit";
 import { DeleteRecord } from "./delete";
 import { useConfirmation } from "../components/dialog";
 import "./schedules.css";
@@ -340,6 +341,7 @@ function ScheduleForm(props: {
     const [days, setDays] = createSignal(props.item?.recurrence.weekdays ?? [4]);
     const [excluded, setExcluded] = createSignal(props.item?.recurrence.excluded ?? []);
     const [skip, setSkip] = createSignal("");
+    const access = useAccess();
     const [directory] = createResource(async () =>
         (await memberClient()).query(api.organisations.queries.directory, {}),
     );
@@ -381,8 +383,9 @@ function ScheduleForm(props: {
                         <For
                             each={directory()?.series.filter(
                                 (series) =>
-                                    series.status !== "archived" ||
-                                    series._id === props.item?.seriesId,
+                                    access.canSeries(series._id, "organiser") &&
+                                    (series.status !== "archived" ||
+                                        series._id === props.item?.seriesId),
                             )}
                         >
                             {(series) => (

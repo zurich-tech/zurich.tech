@@ -13,7 +13,7 @@ export const employer = query({
         const viewer = await requireAccount(ctx);
         const organisations = await ctx.db.query("organisations").collect();
         const companies = organisations.filter(
-            (row) => viewer.isTeam || row.ownerId === viewer.memberId,
+            (row) => viewer.isAdmin || row.ownerId === viewer.memberId,
         );
 
         // read jobs belonging to the visible companies
@@ -41,7 +41,7 @@ export const employer = query({
         ).flat();
 
         return {
-            isTeam: viewer.isTeam,
+            isAdmin: viewer.isAdmin,
             organisations: await Promise.all(
                 companies.map(async (company) => ({
                     ...company,

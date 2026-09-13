@@ -2,7 +2,8 @@ import type { Doc } from "../_generated/dataModel";
 import { isTentative } from "./conditions";
 import { v } from "convex/values";
 import { query, mutation, type QueryCtx } from "../_generated/server";
-import { requireAccount, requireTeam } from "../auth/access";
+import { requireAccount } from "../auth/access";
+import { requireEvent } from "../auth/grants";
 
 /** Resolve the event and registration that own a private response. */
 async function context(ctx: QueryCtx, token: string) {
@@ -113,7 +114,7 @@ export const received = query({
     args: { eventId: v.optional(v.id("events")) },
     handler: async (ctx, args) => {
         const account = await requireAccount(ctx);
-        if (args.eventId) await requireTeam(ctx);
+        if (args.eventId) await requireEvent(ctx, args.eventId);
         const appearances = args.eventId
             ? await ctx.db
                   .query("speakers")

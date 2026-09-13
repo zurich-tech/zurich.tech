@@ -5,6 +5,7 @@
     "type": "module",
     "packageManager": "bun@1.3.3",
     "scripts": {
+        "test": "bun test tests",
         "build": "bun run content && vinxi build",
         "check": "just check",
         "convex:codegen": "convex codegen",
@@ -38,6 +39,7 @@
         "@mapbox/vector-tile": "3.0.0",
         "@types/bun": "1.3.14",
         "@types/node": "26.1.1",
+        "convex-test": "^0.0.58",
         "opentype.js": "^2.0.0",
         "pbf": "5.1.2",
         "prettier": "3.9.6",

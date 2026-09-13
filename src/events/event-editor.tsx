@@ -8,6 +8,8 @@ import { Card } from "../components/card";
 
 /** Edit the event title, description and series. */
 export function EventFields(props: {
+    initialSeriesId?: string;
+    allowStandalone?: boolean;
     /** Existing revision, if editing or duplicating. */
     draft: Doc<"submissions"> | undefined;
     /** Clear fields that must be unique when duplicating. */
@@ -72,8 +74,13 @@ export function EventFields(props: {
             <div class="form-columns">
                 <label>
                     Series
-                    <select name="series" value={props.draft?.seriesId ?? ""}>
-                        <option value="">None</option>
+                    <select
+                        name="series"
+                        value={props.draft?.seriesId ?? props.initialSeriesId ?? ""}
+                    >
+                        <option value="" disabled={props.allowStandalone === false}>
+                            None
+                        </option>
                         <For
                             each={props.directory?.series.filter(
                                 (item: Doc<"series">) =>

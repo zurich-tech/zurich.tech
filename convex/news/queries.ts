@@ -1,5 +1,5 @@
 import { query } from "../_generated/server";
-import { requireTeam } from "../auth/access";
+import { requireAdmin } from "../auth/access";
 
 /** Published news only; drafts never enter the public response. */
 export const list = query({
@@ -63,7 +63,7 @@ export const list = query({
 export const workspace = query({
     args: {},
     handler: async (ctx) => {
-        await requireTeam(ctx);
+        await requireAdmin(ctx);
         return {
             posts: await ctx.db.query("posts").order("desc").collect(),
             members: (await ctx.db.query("members").collect())

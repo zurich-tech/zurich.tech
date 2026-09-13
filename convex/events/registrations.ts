@@ -19,7 +19,8 @@ import { resolveSeat } from "./fields";
 import { authComponent } from "../auth/component";
 import { normalizeEmail } from "../members/emails";
 import { consumeLimit } from "../mail/limits";
-import { requireAccount, requireTeam } from "../auth/access";
+import { requireAccount } from "../auth/access";
+import { requireEvent, requireRegistration } from "../auth/grants";
 import { enqueue, requireMail } from "../mail/deliveries";
 
 /** Send a verification link without allocating an unverified seat. */
@@ -193,13 +194,13 @@ export const previewCancellation = query({
 export const list = query({
     args: { eventId: v.id("events") },
     handler: async (ctx, args) => {
-        // require team access
-        await requireTeam(ctx);
+        // require organiser access to this event
+        await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("You cannot manage this event.");
         const rows = await registrations(ctx, event);
 
-        return { event, rows: rows.map(({ token, ...row }) => row) };
+        return { event, rows: rows.map(({ token, checkInToken, ...row }) => row) };
     },
 });
 
@@ -332,7 +333,7 @@ async function decisionPlan(
 export const previewDecision = query({
     args: { id: v.id("registrations"), decision },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireRegistration(ctx, args.id);
         const plan = await decisionPlan(ctx, args);
         return {
             receipt: plan.receipt,
@@ -350,7 +351,7 @@ export const previewDecision = query({
 export const decide = mutation({
     args: { id: v.id("registrations"), decision, receipt: v.string() },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireRegistration(ctx, args.id);
         const plan = await decisionPlan(ctx, { id: args.id, decision: args.decision });
         if (plan.receipt !== args.receipt)
             throw new Error("The event or registrations changed. Please review and confirm again.");

@@ -1,5 +1,55 @@
 import { useUnsavedChanges } from "./unsaved";
-import { onMount, onCleanup, Show, splitProps, type JSX } from "solid-js";
+import {
+    onMount,
+    onCleanup,
+    Show,
+    splitProps,
+    createSignal,
+    createEffect,
+    type JSX,
+} from "solid-js";
+
+/** Group related controls with a consistent heading and divider. */
+export function FormSection(props: { title: string; children: JSX.Element }) {
+    return (
+        <section class="form-section">
+            <h3>{props.title}</h3>
+            {props.children}
+        </section>
+    );
+}
+
+/** Keep dependent values while excluding disabled options from validation and submission. */
+export function OptionalFields(props: {
+    name: string;
+    label: string;
+    checked?: boolean;
+    children: JSX.Element;
+}) {
+    const [enabled, setEnabled] = createSignal(!!props.checked);
+    createEffect(() => setEnabled(!!props.checked));
+    return (
+        <div class="optional-fields">
+            <label class="checkbox">
+                <input
+                    type="checkbox"
+                    name={props.name}
+                    checked={enabled()}
+                    onChange={(event) => setEnabled(event.currentTarget.checked)}
+                />
+                {props.label}
+            </label>
+            <fieldset
+                class="optional-fields__body"
+                hidden={!enabled()}
+                disabled={!enabled()}
+                aria-label={props.label}
+            >
+                {props.children}
+            </fieldset>
+        </div>
+    );
+}
 
 /** Visible form result announced to assistive technology. */
 export function FormMessage(props: { error?: string; success?: string }) {

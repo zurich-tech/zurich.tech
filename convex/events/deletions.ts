@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation, type QueryCtx } from "../_generated/server";
-import { requireTeam } from "../auth/access";
+import { requireAdmin } from "../auth/access";
 import type { Id } from "../_generated/dataModel";
 
 const id = v.union(v.id("submissions"), v.id("series"), v.id("schedules"));
@@ -10,7 +10,7 @@ type Target = Id<"submissions"> | Id<"series"> | Id<"schedules">;
 export const reason = query({
     args: { id },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireAdmin(ctx);
         return await deletionReason(ctx, args.id);
     },
 });
@@ -19,13 +19,29 @@ export const reason = query({
 export const remove = mutation({
     args: { id },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireAdmin(ctx);
         const reason = await deletionReason(ctx, args.id);
         if (reason) throw new Error(reason);
 
         // delete event content together with all of its editable revisions
         const draftId = ctx.db.normalizeId("submissions", args.id);
         const draft = draftId ? await ctx.db.get(draftId) : null;
+        const scopeId = draft?.eventId ?? ctx.db.normalizeId("series", args.id);
+        if (scopeId) {
+            // remove assignments together with their deleted scope
+            const grants = await ctx.db.query("accessGrants").collect();
+            for (const grant of grants) {
+                if (grant.scope.id === scopeId) await ctx.db.delete(grant._id);
+            }
+        }
+        const seriesId = ctx.db.normalizeId("series", args.id);
+        if (seriesId) {
+            const revisions = await ctx.db
+                .query("seriesRevisions")
+                .withIndex("by_series", (q) => q.eq("seriesId", seriesId))
+                .collect();
+            for (const revision of revisions) await ctx.db.delete(revision._id);
+        }
         if (draft?.eventId) {
             for (const table of ["sessions", "speakers", "photos", "submissions"] as const) {
                 const rows = await ctx.db

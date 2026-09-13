@@ -6,7 +6,7 @@ import { useAccount } from "../auth/index";
 import { memberClient } from "../auth/convex";
 
 /** Events and publishing permissions visible to the current account. */
-export type EventWorkspace = FunctionReturnType<typeof api.events.workspace.events>;
+export type EventWorkspace = FunctionReturnType<typeof api.events.management.workspace>;
 
 /** The selected event and its private attendee records. */
 export type AttendeeList = FunctionReturnType<typeof api.events.registrations.list>;

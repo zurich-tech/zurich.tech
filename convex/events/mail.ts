@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { query, mutation, type QueryCtx, type MutationCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { internal } from "../_generated/api";
-import { requireTeam } from "../auth/access";
+import { requireEvent } from "../auth/grants";
 import { receivesAnnouncement } from "../mail/events";
 import { requireMail } from "../mail/deliveries";
 import { isTentative } from "./conditions";
@@ -107,7 +107,7 @@ async function audience(ctx: QueryCtx, event: Doc<"events">, intent: "announceme
 export const preview = query({
     args: { eventId: v.id("events") },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("Event not found.");
 
@@ -123,7 +123,7 @@ export const preview = query({
 export const send = mutation({
     args: { eventId: v.id("events"), kind, receipt: v.string() },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("Event not found.");
         const actual = await audience(ctx, event, args.kind);

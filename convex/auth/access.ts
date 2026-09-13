@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, internalMutation } from "../_generated/server";
+import { internalMutation } from "../_generated/server";
 import { authComponent } from "./component";
 import type { QueryCtx, MutationCtx } from "../_generated/server";
 
@@ -14,34 +14,12 @@ export async function requireAccount(ctx: QueryCtx | MutationCtx) {
     if (record === null || record.status !== "active")
         throw new Error("An active account is required.");
 
-    return record;
+    // preserve legacy administrators until the explicit backfill runs
+    return { ...record, isAdmin: record.isAdmin ?? record.isTeam };
 }
 
-/** Require shared team access. */
-export async function requireTeam(ctx: QueryCtx | MutationCtx) {
-    const viewer = await requireAccount(ctx);
-    if (!viewer.isTeam) throw new Error("Team access is required.");
-
-    return viewer;
-}
-
-/** Grant or revoke team access for another signed-in account. */
-export const setTeam = mutation({
-    args: { id: v.id("accounts"), isTeam: v.boolean() },
-    handler: async (ctx, args) => {
-        const viewer = await requireTeam(ctx);
-        if (viewer._id === args.id) throw new Error("You cannot change your own team access.");
-        const account = await ctx.db.get(args.id);
-        if (!account || account.status !== "active")
-            throw new Error("An active account is required.");
-
-        // keep administrative access independent of public team titles
-        await ctx.db.patch(args.id, { isTeam: args.isTeam, updatedAt: Date.now() });
-    },
-});
-
-/** Grant initial team membership through the authenticated deployment CLI. */
-export const grantTeam = internalMutation({
+/** Grant initial administrative access through the authenticated deployment CLI. */
+export const grantAdmin = internalMutation({
     args: { email: v.string() },
     handler: async (ctx, args) => {
         // find the member through their signed in email
@@ -49,13 +27,34 @@ export const grantTeam = internalMutation({
             .query("emails")
             .withIndex("by_email", (range) => range.eq("email", args.email.trim().toLowerCase()))
             .unique();
-        if (!email) throw new Error("Sign in once before granting team access.");
+        if (!email) throw new Error("Sign in once before granting admin access.");
         // Grant administrative access without changing public titles.
         const account = await ctx.db
             .query("accounts")
             .withIndex("by_member", (q) => q.eq("memberId", email.memberId))
             .unique();
-        if (!account) throw new Error("Sign in once before granting team access.");
-        await ctx.db.patch(account._id, { isTeam: true, updatedAt: Date.now() });
+        if (!account) throw new Error("Sign in once before granting admin access.");
+        await ctx.db.patch(account._id, { isAdmin: true, updatedAt: Date.now() });
+    },
+});
+
+/** Require explicit global authority; public team membership is not a permission. */
+export async function requireAdmin(ctx: QueryCtx | MutationCtx) {
+    const account = await requireAccount(ctx);
+    if (!account.isAdmin) throw new Error("Admin access is required.");
+    return account;
+}
+
+/** Backfill existing administrators once before switching access enforcement. */
+export const migrate = internalMutation({
+    args: {},
+    handler: async (ctx) => {
+        let count = 0;
+        for (const account of await ctx.db.query("accounts").collect()) {
+            if (account.isAdmin !== undefined) continue;
+            await ctx.db.patch(account._id, { isAdmin: account.isTeam });
+            count++;
+        }
+        return count;
     },
 });

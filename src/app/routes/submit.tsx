@@ -5,12 +5,7 @@ import { EventMail } from "../../events/mail";
 import { ConfirmationFields, readConfirmation } from "../../events/confirmation";
 import { isTentative } from "../../../convex/events/conditions";
 import { confirmEvent } from "../../events/actions";
-import {
-    EventFields,
-    VenueFields,
-    ProgrammeFields,
-    RegistrationFields,
-} from "../../events/event-editor";
+import { EventFields, VenueFields, ProgrammeFields, RegistrationFields } from "../../events/event-editor";
 import { getDirectory } from "../../organisations/queries";
 import { Arrow } from "../../components/arrow";
 import { Card } from "../../components/card";
@@ -19,7 +14,7 @@ import { useNavigate, revalidate, createAsync, useSearchParams } from "@solidjs/
 import type { Registration } from "../../../convex/events/fields";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
 import { api } from "../../../convex/_generated/api";
-import { useAccount } from "../../auth/index";
+import { useAccess } from "../../auth/edit";
 import { memberClient } from "../../auth/convex";
 import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
@@ -31,20 +26,25 @@ import { timestamp } from "../../events/time";
 export default function Route() {
     const confirm = useConfirmation();
     const navigate = useNavigate();
-    const account = useAccount();
+    const authority = useAccess();
+    const { account } = authority;
     const [params, setParams] = useSearchParams();
     const directory = createAsync(() => getDirectory());
-    const [access] = createResource(
-        () => account.user()?.id,
-        async () => (await memberClient()).query(api.auth.queries.current, {}),
+    const access = authority.access;
+    const [workspaceResult, { refetch: refreshWorkspace }] = createResource(
+        authority.key,
+        async (key) => ({
+            key,
+            value: await (
+                await memberClient()
+            ).query(api.events.management.workspace, { editor: true }),
+        }),
     );
-    const [workspace, { refetch: refreshWorkspace }] = createResource(
-        () => access()?.isTeam,
-        async () => await (await memberClient()).query(api.events.workspace.events, {}),
-    );
+    const workspace = () =>
+        workspaceResult()?.key === authority.key() ? workspaceResult()?.value : undefined;
     createEffect(() => {
         const eventId = typeof params.event === "string" ? params.event : undefined;
-        if (!eventId || !access()?.isTeam) return;
+        if (!eventId || !authority.canEvent(eventId)) return;
         void memberClient()
             .then((client) =>
                 client.mutation(api.events.mutations.edit, { eventId: eventId as Id<"events"> }),
@@ -113,6 +113,48 @@ export default function Route() {
     const currentEvent = () => workspace()?.statuses.find((event) => event.id === draft()?.eventId);
     const isPublished = () => eventStatus() === "scheduled" || eventStatus() === "finished";
     const isCancelled = () => eventStatus() === "cancelled";
+    const canPublish = () =>
+        params.edit && draft()?.eventId
+            ? authority.canEvent(draft()!.eventId, "organiser")
+            : !!authority.current()?.isAdmin ||
+              !!authority
+                  .current()
+                  ?.grants.some(
+                      (grant) => grant.scope.kind === "series" && grant.role === "organiser",
+                  );
+    const initialSeries = () =>
+        typeof params.series === "string"
+            ? params.series
+            : authority
+                  .current()
+                  ?.grants.find(
+                      (grant) => grant.scope.kind === "series" && grant.role === "organiser",
+                  )?.scope.id;
+    const saveActions = () => (
+        <>
+            <button
+                type="submit"
+                form="event-editor"
+                value={isPublished() && canPublish() ? "publish" : "draft"}
+                class="button"
+                classList={{ "button--primary": !canPublish() || isPublished() }}
+                disabled={isPending()}
+            >
+                {isPending() ? "Saving…" : "Save"}
+            </button>
+            <Show when={canPublish() && !isPublished()}>
+                <button
+                    type="submit"
+                    form="event-editor"
+                    value="publish"
+                    class="button button--primary"
+                    disabled={isPending()}
+                >
+                    Publish event
+                </button>
+            </Show>
+        </>
+    );
 
     /** Confirm hiding or cancelling an existing event without saving form edits. */
     async function transition(action: "unpublish" | "cancel" | "approve" | "confirm") {
@@ -302,38 +344,21 @@ export default function Route() {
                         <>
                             <Show
                                 when={
-                                    access()?.isTeam &&
+                                    authority.current()?.canManage &&
                                     workspace() &&
                                     !isCancelled() &&
                                     (!(params.edit || params.duplicate) || draft())
                                 }
                             >
-                                <Show when={!isPublished()}>
-                                    <button
-                                        type="submit"
-                                        form="event-editor"
-                                        value="draft"
-                                        class="button"
-                                        disabled={isPending()}
-                                    >
-                                        Save
-                                    </button>
-                                </Show>
-                                <button
-                                    type="submit"
-                                    form="event-editor"
-                                    value="publish"
-                                    class="button button--primary"
-                                    disabled={isPending()}
-                                >
-                                    {isPending()
-                                        ? "Saving…"
-                                        : isPublished()
-                                          ? "Save"
-                                          : "Publish event"}
-                                </button>
+                                {saveActions()}
                             </Show>
-                            <Show when={params.edit ? draft() : undefined}>
+                            <Show
+                                when={
+                                    authority.current()?.isAdmin && params.edit
+                                        ? draft()
+                                        : undefined
+                                }
+                            >
                                 {(item) => (
                                     <DeleteRecord
                                         id={item()._id}
@@ -373,11 +398,11 @@ export default function Route() {
                     }
                 />
                 <Show
-                    when={access()?.isTeam}
+                    when={authority.current()?.canManage}
                     fallback={
                         <div class="empty-panel">
-                            <h2>Team access required</h2>
-                            <p>Event creation and editing are available to the zurich.tech team.</p>
+                            <h2>Editing access required</h2>
+                            <p>Ask an admin for event or series access.</p>
                             <a class="button button--primary" href="/contribute#events">
                                 Suggest event <Arrow />
                             </a>
@@ -394,9 +419,9 @@ export default function Route() {
                         </div>
                     }
                 >
-                    <Show when={workspace.error}>
+                    <Show when={workspaceResult.error}>
                         <p role="alert" class="form-error">
-                            {errorMessage(workspace.error, "Could not load your workspace.")}
+                            {errorMessage(workspaceResult.error, "Could not load your workspace.")}
                         </p>
                     </Show>
                     <Show when={workspace() && (!(params.edit || params.duplicate) || draft())}>
@@ -407,7 +432,10 @@ export default function Route() {
                             onSubmit={save}
                             actions={() => (
                                 <Card title="Publication" class="editor-publication">
-                                    <Show when={!isCancelled()}>
+                                    <Show
+                                        when={!isCancelled() && canPublish()}
+                                        fallback={<p>Save a draft for an organiser to publish.</p>}
+                                    >
                                         <Show
                                             when={!isPublished()}
                                             fallback={
@@ -430,29 +458,8 @@ export default function Route() {
                                     </Show>
                                     <div class="form-actions">
                                         <Show when={!isCancelled()} fallback={<p>Cancelled</p>}>
-                                            <Show when={!isPublished()}>
-                                                <button
-                                                    class="button"
-                                                    type="submit"
-                                                    value="draft"
-                                                    disabled={isPending()}
-                                                >
-                                                    Save
-                                                </button>
-                                            </Show>
-                                            <button
-                                                class="button button--primary"
-                                                type="submit"
-                                                value="publish"
-                                                disabled={isPending()}
-                                            >
-                                                {isPending()
-                                                    ? "Saving…"
-                                                    : isPublished()
-                                                      ? "Save"
-                                                      : "Publish event"}
-                                            </button>
-                                            <Show when={isPublished()}>
+                                            {saveActions()}
+                                            <Show when={isPublished() && canPublish()}>
                                                 <button
                                                     class="button"
                                                     type="button"
@@ -505,7 +512,26 @@ export default function Route() {
                                     <EventFields
                                         draft={draft()}
                                         isDuplicate={!!params.duplicate}
-                                        directory={directory()}
+                                        directory={
+                                            directory()
+                                                ? {
+                                                      ...directory()!,
+                                                      series: directory()!.series.filter(
+                                                          (item) =>
+                                                              item._id === draft()?.seriesId ||
+                                                              authority.canSeries(
+                                                                  item._id,
+                                                                  "organiser",
+                                                              ),
+                                                      ),
+                                                  }
+                                                : undefined
+                                        }
+                                        initialSeriesId={initialSeries()}
+                                        allowStandalone={
+                                            !!authority.current()?.isAdmin ||
+                                            (!!draft() && !draft()?.seriesId)
+                                        }
                                     />
                                     {/* keep programme details optional and quick to enter */}
                                     <ProgrammeFields draft={draft()} directory={directory()} />
@@ -549,6 +575,7 @@ export default function Route() {
                                     </Card>
                                     <Show
                                         when={
+                                            canPublish() &&
                                             isPublished() &&
                                             currentEvent() &&
                                             isTentative(currentEvent()!)
@@ -586,7 +613,15 @@ export default function Route() {
                                             </Show>
                                         </Card>
                                     </Show>
-                                    <Show when={currentEvent()?.scheduleId}>
+                                    <Show
+                                        when={
+                                            currentEvent()?.scheduleId &&
+                                            authority.canSeries(
+                                                currentEvent()?.seriesId,
+                                                "organiser",
+                                            )
+                                        }
+                                    >
                                         <a
                                             class="button"
                                             href={`/admin?section=series&schedule=${currentEvent()!.scheduleId}`}
@@ -594,7 +629,7 @@ export default function Route() {
                                             Edit series schedule
                                         </a>
                                     </Show>
-                                    <Show when={isPublished() && currentEvent()}>
+                                    <Show when={canPublish() && isPublished() && currentEvent()}>
                                         <EventMail eventId={currentEvent()!.id} />
                                     </Show>
                                     {/* compose admission, capacity, and overflow independently */}

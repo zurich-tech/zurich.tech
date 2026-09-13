@@ -99,7 +99,7 @@ export const event = query({
                     const organisation = await ctx.db.get(id);
                     if (!organisation) throw new Error("Event organisation is missing.");
 
-                    return organisation;
+                    return { slug: organisation.slug, name: organisation.name };
                 }),
             ),
             agenda: agenda.map((item) => ({ time: item.time, title: item.title })),

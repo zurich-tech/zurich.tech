@@ -7,7 +7,7 @@ import { isTentative } from "../../../../convex/events/conditions";
 import { useAccount } from "../../../auth";
 import { memberClient } from "../../../auth/convex";
 import { api } from "../../../../convex/_generated/api";
-import { TeamEdit } from "../../../auth/edit";
+import { EditLink } from "../../../auth/edit";
 import { SocialLinks } from "../../../components/social";
 import { Image } from "../../../components/image";
 import { CalendarButton } from "../../../events/calendar-button";
@@ -174,10 +174,12 @@ export default function Route() {
                             class="item-header event-overview"
                             toolbar={
                                 <div class="row-actions">
-                                    <TeamEdit eventId={event()!.id} />
+                                    <EditLink eventId={event()!.id} />
                                     <Show when={event()!.checkIn?.isEnabled}>
-                                        <TeamEdit
+                                        <EditLink
                                             href={`/checkin?event=${event()!.id}`}
+                                            eventId={event()!.id}
+                                            role="organiser"
                                             label="Check in"
                                         />
                                     </Show>
@@ -187,8 +189,10 @@ export default function Route() {
                                             event()!.feedback?.isSpeakerEnabled
                                         }
                                     >
-                                        <TeamEdit
+                                        <EditLink
                                             href={`/feedback?event=${event()!.id}`}
+                                            eventId={event()!.id}
+                                            role="organiser"
                                             label="Feedback"
                                         />
                                     </Show>

@@ -15,7 +15,7 @@ type Location = FunctionReturnType<typeof api.places.locations.list>[number];
 /** Manage an organisation's public office locations and team curation. */
 export function OrganisationLocations(props: {
     /** Organisation managed by the signed-in account. */ organisationId: Id<"organisations">;
-    /** Allow team curation independently of sponsorship. */ isTeam: boolean;
+    /** Allow team curation independently of sponsorship. */ isAdmin: boolean;
 }) {
     const confirm = useConfirmation();
     const [locations, { refetch }] = createResource(
@@ -51,7 +51,7 @@ export function OrganisationLocations(props: {
                 countryCode: text("countryCode").toUpperCase(),
                 latitude: Number(text("latitude")),
                 longitude: Number(text("longitude")),
-                ...(props.isTeam ? { isCurated: data.has("isCurated") } : {}),
+                ...(props.isAdmin ? { isCurated: data.has("isCurated") } : {}),
             });
             savedEditor(form);
             setEditing(undefined);
@@ -199,7 +199,7 @@ export function OrganisationLocations(props: {
                         />
                     </label>
                 </div>
-                <Show when={props.isTeam}>
+                <Show when={props.isAdmin}>
                     <label>
                         <input
                             type="checkbox"

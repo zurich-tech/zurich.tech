@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { internalMutation, mutation, type MutationCtx } from "../_generated/server";
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
-import { requireTeam } from "../auth/access";
+import { requireEvent } from "../auth/grants";
 import { confirmAction, eventAction } from "./actions";
 import { confirmationDecision, isTentative } from "./conditions";
 
@@ -93,7 +93,7 @@ export const decide = mutation({
         receipt: v.string(),
     },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
         if (
             !event ||

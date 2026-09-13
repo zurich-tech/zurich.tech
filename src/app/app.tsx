@@ -1,4 +1,4 @@
-import { TeamProvider } from "../auth/edit";
+import { AccessProvider } from "../auth/edit";
 import { ConfirmationProvider } from "../components/dialog";
 import { Loading } from "../components/loading";
 import { MetaProvider } from "@solidjs/meta";
@@ -29,7 +29,7 @@ export default function App() {
 
                 return (
                     <MetaProvider>
-                        <TeamProvider>
+                        <AccessProvider>
                             <Shell>
                                 <ConfirmationProvider>
                                     <ErrorBoundary
@@ -67,7 +67,7 @@ export default function App() {
                                     </ErrorBoundary>
                                 </ConfirmationProvider>
                             </Shell>
-                        </TeamProvider>
+                        </AccessProvider>
                     </MetaProvider>
                 );
             }}

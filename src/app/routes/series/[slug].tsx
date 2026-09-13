@@ -5,7 +5,7 @@ import { getCalendar } from "../../../events/queries";
 import { Programme } from "../../../events/programme";
 import { EventTags } from "../../../events/tags";
 import { Markdown } from "../../../components/markdown";
-import { TeamEdit } from "../../../auth/edit";
+import { EditLink } from "../../../auth/edit";
 import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 import { NotFound } from "../../notfound";
@@ -29,8 +29,9 @@ export default function Route() {
                                 title={item().name}
                                 summary={<Markdown source={item().description} />}
                                 actions={
-                                    <TeamEdit
+                                    <EditLink
                                         href={`/admin?section=series&series=${item()._id}`}
+                                        seriesId={item()._id}
                                         label="Edit series"
                                     />
                                 }

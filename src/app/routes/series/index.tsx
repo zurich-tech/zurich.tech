@@ -6,7 +6,7 @@ import { Card } from "../../../components/card";
 import { Markdown } from "../../../components/markdown";
 import { EventTags } from "../../../events/tags";
 import { EventEntry } from "../../../events/entry";
-import { TeamEdit } from "../../../auth/edit";
+import { EditLink } from "../../../auth/edit";
 import { Page, PageHeader } from "../../page";
 import { Seo } from "../../seo";
 
@@ -26,7 +26,7 @@ export default function Route() {
                 <PageHeader
                     title="Series"
                     actions={
-                        <TeamEdit href="/admin?section=series&series=new" label="New series" />
+                        <EditLink href="/admin?section=series&series=new" label="New series" />
                     }
                 />
                 <For each={directory()?.series}>
@@ -47,12 +47,15 @@ export default function Route() {
                                         <a class="button" href={`/series/${series.slug}`}>
                                             View series
                                         </a>
-                                        <TeamEdit
+                                        <EditLink
                                             href={`/admin?section=series&series=${series._id}`}
+                                            seriesId={series._id}
                                             label="Edit"
                                         />
-                                        <TeamEdit
+                                        <EditLink
                                             href={`/admin?section=series&schedule=new&series=${series._id}`}
+                                            seriesId={series._id}
+                                            role="organiser"
                                             label="Add schedule"
                                         />
                                     </div>
@@ -74,7 +77,7 @@ export default function Route() {
                                                     event={event}
                                                     now={now}
                                                     actions={
-                                                        <TeamEdit
+                                                        <EditLink
                                                             href={`/submit?event=${event.id}`}
                                                         />
                                                     }

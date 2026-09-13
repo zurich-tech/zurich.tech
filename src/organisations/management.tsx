@@ -50,7 +50,7 @@ export function Management(props: {
                                         <JobCard
                                             job={job}
                                             companies={current().organisations}
-                                            isTeam={current().isTeam}
+                                            isAdmin={current().isAdmin}
                                             isPending={command.isPending()}
                                             perform={command.perform}
                                         />
@@ -75,7 +75,7 @@ export function Management(props: {
                                         <SponsorshipCard
                                             sponsor={sponsor}
                                             companies={current().organisations}
-                                            isTeam={current().isTeam}
+                                            isAdmin={current().isAdmin}
                                             isPending={command.isPending()}
                                             perform={command.perform}
                                         />
@@ -180,7 +180,7 @@ export function Management(props: {
                                         isPending={isSaving()}
                                         setIsPending={setIsSaving}
                                         item={organisation()}
-                                        isTeam={current().isTeam}
+                                        isAdmin={current().isAdmin}
                                         onSave={async () => {
                                             await startTransition(refetch);
                                             setSelected(undefined);
@@ -190,7 +190,7 @@ export function Management(props: {
                                         {(item) => (
                                             <OrganisationLocations
                                                 organisationId={item()._id}
-                                                isTeam={current().isTeam}
+                                                isAdmin={current().isAdmin}
                                             />
                                         )}
                                     </Show>

@@ -3,104 +3,22 @@ import { Card } from "../components/card";
 import { For, Show, createResource } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
-import { useWorkspaceCommand, type EventWorkspace } from "../app/workspace";
+import { useWorkspaceCommand } from "../app/workspace";
 import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 
-/** Manage team access for signed-in accounts. */
-export function Team(props: {
-    /** Accounts visible to the team. */
-    people: EventWorkspace["people"];
-    /** Reload permissions after a change. */
-    refresh: () => unknown;
-}) {
-    const confirm = useConfirmation();
-    const command = useWorkspaceCommand(props.refresh);
-
-    return (
-        <Card title="Team" class="admin-table-card">
-            <FormMessage error={command.error()} success={command.success()} />
-            <p class="admin-context">Team members can manage events and team access.</p>
-            <div class="table-scroll">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Team access</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <For each={props.people}>
-                            {(person) => (
-                                <tr>
-                                    <td>{person.name}</td>
-                                    <td>{person.email}</td>
-                                    <td>
-                                        <label class="checkbox">
-                                            <input
-                                                type="checkbox"
-                                                aria-label={`Team access for ${person.name}`}
-                                                checked={person.isTeam}
-                                                disabled={command.isPending() || person.isSelf}
-                                                onChange={(event) => {
-                                                    const isTeam = event.currentTarget.checked;
-                                                    event.currentTarget.checked = person.isTeam;
-                                                    void command.perform(async () => {
-                                                        if (
-                                                            !(await confirm({
-                                                                title: isTeam
-                                                                    ? "Grant team access"
-                                                                    : "Revoke team access",
-                                                                action: isTeam
-                                                                    ? "Grant access"
-                                                                    : "Revoke access",
-                                                                description: isTeam
-                                                                    ? `${person.name} will be able to manage events, send emails and change team access.`
-                                                                    : `${person.name} will lose team permissions.`,
-                                                                isDestructive: !isTeam,
-                                                                emails: 0,
-                                                            }))
-                                                        )
-                                                            return false;
-                                                        await (
-                                                            await memberClient()
-                                                        ).mutation(api.auth.access.setTeam, {
-                                                            id: person.id,
-                                                            isTeam,
-                                                        });
-                                                    }, "Team access updated.");
-                                                }}
-                                            />
-                                        </label>
-                                    </td>
-                                </tr>
-                            )}
-                        </For>
-                    </tbody>
-                </table>
-            </div>
-        </Card>
-    );
-}
-
 /** Preview and pause the weekly newsletter. */
-export function NewsletterAdmin(props: {
-    /** Current scheduling preference. */
-    isPaused: boolean;
-    /** Reload scheduling state after a change. */
-    refresh: () => unknown;
-}) {
+export function NewsletterAdmin() {
     const confirm = useConfirmation();
-    const [edition] = createResource(async () =>
+    const [edition, { refetch }] = createResource(async () =>
         (await memberClient()).query(api.mail.digests.preview, {}),
     );
-    const command = useWorkspaceCommand(props.refresh);
+    const command = useWorkspaceCommand(refetch);
 
     /** Save the team’s scheduling preference. */
     function setPaused(event: Event & { currentTarget: HTMLInputElement }) {
         const isPaused = event.currentTarget.checked;
-        event.currentTarget.checked = props.isPaused;
+        event.currentTarget.checked = edition()?.isPaused ?? false;
 
         void command.perform(async () => {
             const client = await memberClient();
@@ -128,7 +46,7 @@ export function NewsletterAdmin(props: {
             <label class="checkbox">
                 <input
                     type="checkbox"
-                    checked={props.isPaused}
+                    checked={edition()?.isPaused ?? false}
                     disabled={command.isPending()}
                     onChange={setPaused}
                 />

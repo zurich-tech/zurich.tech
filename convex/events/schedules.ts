@@ -8,7 +8,8 @@ import {
 } from "../_generated/server";
 import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
-import { requireTeam } from "../auth/access";
+import { requireWorkspace, requireSeries, requireRevision, requireSchedule } from "../auth/grants";
+import { allows } from "../auth/permissions";
 import { readTeam } from "../members/team";
 import { recurrence, occurrences, validateRecurrence } from "./recurrence";
 import { eventFields, submissionFields } from "./fields";
@@ -21,8 +22,10 @@ import { receivesAnnouncement } from "../mail/events";
 export const list = query({
     args: {},
     handler: async (ctx) => {
-        await requireTeam(ctx);
-        const schedules = await ctx.db.query("schedules").collect();
+        const access = await requireWorkspace(ctx);
+        const schedules = (await ctx.db.query("schedules").collect()).filter((schedule) =>
+            allows(access, { seriesId: schedule.seriesId }, "organiser"),
+        );
         return await Promise.all(
             schedules.map(async (schedule) => ({
                 ...schedule,
@@ -63,7 +66,7 @@ export const save = mutation({
         status: v.union(v.literal("active"), v.literal("paused")),
     },
     handler: async (ctx, args) => {
-        const viewer = await requireTeam(ctx);
+        const viewer = await requireSeries(ctx, args.seriesId);
         validateRecurrence(args.recurrence);
         const series = await ctx.db.get(args.seriesId);
         if (!series) throw new Error("Series not found.");
@@ -74,6 +77,7 @@ export const save = mutation({
         )
             throw new Error("Restore the series before adding or activating schedules.");
         if (args.id && !existing) throw new Error("Schedule not found.");
+        if (existing) await requireSchedule(ctx, existing._id);
         if (existing) {
             const events = await ctx.db
                 .query("events")
@@ -93,6 +97,7 @@ export const save = mutation({
         }
         const source = args.sourceId ? await ctx.db.get(args.sourceId) : null;
         if (args.sourceId && !source) throw new Error("Template event not found.");
+        if (source) await requireRevision(ctx, source, source.seriesId, "organiser");
         if (!existing && !source) throw new Error("Choose a saved event as the template.");
         const template = source
             ? (Object.fromEntries(
@@ -163,7 +168,7 @@ export const save = mutation({
             if (event) {
                 const generated = await ctx.db
                     .query("submissions")
-                    .filter((q) => q.eq(q.field("eventId"), event._id))
+                    .withIndex("by_event", (q) => q.eq("eventId", event._id))
                     .unique();
                 if (generated) {
                     const { _id, _creationTime, ...revision } = generated;
@@ -287,7 +292,7 @@ export const fill = internalMutation({
 export const announcement = query({
     args: { id: v.id("schedules") },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireSchedule(ctx, args.id);
         return await announcementPreview(ctx, args.id);
     },
 });
@@ -296,7 +301,7 @@ export const announcement = query({
 export const announce = mutation({
     args: { id: v.id("schedules"), receipt: v.string() },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireSchedule(ctx, args.id);
         requireMail();
         const preview = await announcementPreview(ctx, args.id);
         if (!preview.recipients) throw new Error("No subscribers to announce to.");

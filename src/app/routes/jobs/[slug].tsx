@@ -1,4 +1,4 @@
-import { TeamEdit } from "../../../auth/edit";
+import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { getJob } from "../../../jobs/queries";
 import { createAsync, useParams } from "@solidjs/router";
@@ -39,7 +39,7 @@ export default function Route() {
                         <ItemHeader
                             title={item().title}
                             summary={`${item().company.name} · ${item().location}`}
-                            actions={<TeamEdit href={`/jobs/submit?edit=${item().id}`} />}
+                            actions={<EditLink href={`/jobs/submit?edit=${item().id}`} />}
                         >
                             <span class="tag">{workplaces[item().workplace]}</span>
                             <span class="tag">{employments[item().employment]}</span>

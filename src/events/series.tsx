@@ -1,12 +1,13 @@
 import { DeleteRecord } from "./delete";
 import { useConfirmation } from "../components/dialog";
 import { Card } from "../components/card";
-import { createSignal, createUniqueId, For, Show } from "solid-js";
+import { createResource, createSignal, createUniqueId, For, Show } from "solid-js";
+import { useAccess } from "../auth/edit";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { useWorkspaceCommand } from "../app/workspace";
 import { leaveEditor, savedEditor, Editor, FormMessage } from "../components/form";
-import { createAsync, revalidate, useSearchParams } from "@solidjs/router";
+import { revalidate, useSearchParams } from "@solidjs/router";
 import { getDirectory } from "../organisations/queries";
 import type { Id } from "../../convex/_generated/dataModel";
 
@@ -15,12 +16,18 @@ type Directory = Awaited<ReturnType<typeof getDirectory>>;
 
 /** Edit the recurring event series catalogue. */
 export function SeriesAdmin() {
+    const access = useAccess();
     const confirm = useConfirmation();
     const formId = createUniqueId();
-    const directory = createAsync(() => getDirectory());
-    const { perform, isPending, error, success } = useWorkspaceCommand(() =>
-        revalidate(getDirectory.key),
-    );
+    const [result, { refetch }] = createResource(access.key, async (key) => ({
+        key,
+        value: await (await memberClient()).query(api.events.series.workspace, {}),
+    }));
+    const series = () => (result()?.key === access.key() ? result()?.value : undefined);
+    const { perform, isPending, error, success } = useWorkspaceCommand(async () => {
+        await refetch();
+        await revalidate(getDirectory.key);
+    });
 
     /** Save a team-maintained event series. */
     async function saveSeries(event: SubmitEvent) {
@@ -31,28 +38,34 @@ export function SeriesAdmin() {
         const text = (key: string) => String(values.get(key) ?? "");
 
         // save and refresh the visible catalogue
-        await perform(async () => {
-            await (
-                await memberClient()
-            ).mutation(api.events.series.upsert, {
-                id: text("id") ? (text("id") as Id<"series">) : undefined,
-                name: text("name"),
-                slug: text("slug"),
-                description: text("description"),
-                topics: text("topics")
-                    .split(",")
-                    .map((item) => item.trim())
-                    .filter(Boolean),
-            });
-            savedEditor(editor);
-        }, "Series saved.");
+        await perform(
+            async () => {
+                await (
+                    await memberClient()
+                ).mutation(api.events.series.upsert, {
+                    id: text("id") ? (text("id") as Id<"series">) : undefined,
+                    publish: access.canSeries(text("id") || undefined, "organiser"),
+                    name: text("name"),
+                    slug: text("slug"),
+                    description: text("description"),
+                    topics: text("topics")
+                        .split(",")
+                        .map((item) => item.trim())
+                        .filter(Boolean),
+                });
+                savedEditor(editor);
+            },
+            access.canSeries(text("id") || undefined, "organiser")
+                ? "Series saved."
+                : "Draft saved for an organiser to publish.",
+        );
     }
 
     const [params] = useSearchParams();
     const [selected, setSelected] = createSignal<string | undefined>(
         typeof params.series === "string" && !params.schedule ? params.series : undefined,
     );
-    const editing = () => directory()?.series.find((item) => item._id === selected());
+    const editing = () => series()?.find((item) => item._id === selected());
 
     return (
         <Card
@@ -60,17 +73,25 @@ export function SeriesAdmin() {
             class={!selected() ? "admin-table-card" : undefined}
             toolbar={
                 <>
-                    <Show when={editing()}>
+                    <Show
+                        when={
+                            editing() && access.canSeries(selected(), "organiser")
+                                ? editing()
+                                : undefined
+                        }
+                    >
                         {(item) => (
                             <>
-                                <DeleteRecord
-                                    id={item()._id}
-                                    name="series"
-                                    onDeleted={async () => {
-                                        setSelected(undefined);
-                                        await revalidate(getDirectory.key);
-                                    }}
-                                />
+                                <Show when={access.current()?.isAdmin}>
+                                    <DeleteRecord
+                                        id={item()._id}
+                                        name="series"
+                                        onDeleted={async () => {
+                                            setSelected(undefined);
+                                            await revalidate(getDirectory.key);
+                                        }}
+                                    />
+                                </Show>
                                 <button
                                     class="button"
                                     disabled={isPending()}
@@ -114,20 +135,28 @@ export function SeriesAdmin() {
                             {isPending() ? "Saving…" : "Save"}
                         </button>
                     </Show>
-                    <button
-                        class="button"
-                        classList={{ "button--primary": !selected() }}
-                        onClick={async () => {
-                            if (!(await leaveEditor(formId))) return;
-                            setSelected(selected() ? undefined : "new");
-                        }}
-                    >
-                        {selected() ? "Back" : "New series"}
-                    </button>
+                    <Show when={selected() || access.current()?.isAdmin}>
+                        <button
+                            class="button"
+                            classList={{ "button--primary": !selected() }}
+                            onClick={async () => {
+                                if (!(await leaveEditor(formId))) return;
+                                setSelected(selected() ? undefined : "new");
+                            }}
+                        >
+                            {selected() ? "Back" : "New series"}
+                        </button>
+                    </Show>
                 </>
             }
         >
             <FormMessage error={error()} success={success()} />
+            <Show when={result.error}>
+                <p class="form-error">Could not load series.</p>
+            </Show>
+            <Show when={editing()?.hasDraft}>
+                <p>Unpublished changes</p>
+            </Show>
             <Show
                 when={selected()}
                 fallback={
@@ -141,7 +170,7 @@ export function SeriesAdmin() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <For each={directory()?.series}>
+                                <For each={series()}>
                                     {(item) => (
                                         <tr>
                                             <td>
@@ -160,7 +189,12 @@ export function SeriesAdmin() {
                                                     >
                                                         Edit
                                                     </button>
-                                                    <Show when={item.status !== "archived"}>
+                                                    <Show
+                                                        when={
+                                                            item.status !== "archived" &&
+                                                            access.canSeries(item._id, "organiser")
+                                                        }
+                                                    >
                                                         <a
                                                             class="button"
                                                             href={`/admin?section=series&schedule=new&series=${item._id}`}

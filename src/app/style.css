@@ -5727,3 +5727,37 @@ iframe.email-preview {
 .registration-status-link:hover .status-control {
     border-color: var(--color-accent);
 }
+
+/* Group settings by the decisions they support. */
+.form-section,
+.optional-fields {
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+}
+.form-section + .form-section {
+    border-top: 1px solid var(--color-line);
+    padding-top: 20px;
+}
+.event-options > .card-body {
+    display: grid;
+    gap: 20px;
+}
+.editor label[hidden] {
+    display: none;
+}
+.form-section > h3 {
+    margin: 0;
+    font: 500 18px/1.4 var(--font-mono);
+}
+.editor .optional-fields__body {
+    margin: 0;
+    padding: 0 0 0 24px;
+    border: 0;
+    min-width: 0;
+    background: none;
+    gap: 16px;
+}
+.editor .optional-fields__body[hidden] {
+    display: none;
+}

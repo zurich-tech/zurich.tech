@@ -2,7 +2,7 @@ import { jobPrice, jobDurationMonths } from "../../src/sponsorships/plans";
 import { v } from "convex/values";
 import { mutation, query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
-import { requireTeam } from "../auth/access";
+import { requireAdmin } from "../auth/access";
 import { paidTerm, recordPayment } from "../billing/payments";
 import { requireCompany } from "../organisations/mutations";
 import { tiers } from "../../src/sponsorships/plans";
@@ -150,7 +150,7 @@ export const publish = mutation({
     },
     handler: async (ctx, args) => {
         // require team review before allocating paid publication
-        const reviewer = await requireTeam(ctx);
+        const reviewer = await requireAdmin(ctx);
 
         // require management access before changing publication state
         const row = await ctx.db.get(args.id);
@@ -243,7 +243,7 @@ export const updateStatus = mutation({
 
         // return unapproved changes to the employer with the review note
         if (args.action === "decline") {
-            if (!viewer.isTeam || !args.note?.trim())
+            if (!viewer.isAdmin || !args.note?.trim())
                 throw new Error("Team review and a reason are required.");
             await ctx.db.patch(row._id, {
                 status: row.publishedAt ? row.status : "draft",

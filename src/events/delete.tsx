@@ -1,4 +1,5 @@
 import { createResource, createSignal, Show, Suspense } from "solid-js";
+import { useAccess } from "../auth/edit";
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
@@ -12,10 +13,11 @@ export function DeleteRecord(props: {
     onDeleted: () => void | Promise<void>;
 }) {
     const confirm = useConfirmation();
+    const access = useAccess();
     const [error, setError] = createSignal<string>();
     const [isPending, setIsPending] = createSignal(false);
     const [reason] = createResource(
-        () => props.id,
+        () => (access.current()?.isAdmin ? props.id : undefined),
         async (id) => (await memberClient()).query(api.events.deletions.reason, { id }),
     );
 
@@ -43,36 +45,38 @@ export function DeleteRecord(props: {
         }
     }
     return (
-        <Suspense
-            fallback={
-                <button class="button" disabled>
-                    Delete
-                </button>
-            }
-        >
-            <div>
-                <button
-                    type="button"
-                    class="button"
-                    disabled={reason.loading || !!reason.error || !!reason() || isPending()}
-                    title={
-                        reason.error
-                            ? "Could not check deletion availability."
-                            : (reason() ?? undefined)
-                    }
-                    aria-description={
-                        reason.error
-                            ? "Could not check deletion availability."
-                            : (reason() ?? undefined)
-                    }
-                    onClick={() => void remove()}
-                >
-                    Delete
-                </button>
-                <Show when={error() || reason.error}>
-                    <p role="alert">{error() || "Could not check deletion availability."}</p>
-                </Show>
-            </div>
-        </Suspense>
+        <Show when={access.current()?.isAdmin}>
+            <Suspense
+                fallback={
+                    <button class="button" disabled>
+                        Delete
+                    </button>
+                }
+            >
+                <div>
+                    <button
+                        type="button"
+                        class="button"
+                        disabled={reason.loading || !!reason.error || !!reason() || isPending()}
+                        title={
+                            reason.error
+                                ? "Could not check deletion availability."
+                                : (reason() ?? undefined)
+                        }
+                        aria-description={
+                            reason.error
+                                ? "Could not check deletion availability."
+                                : (reason() ?? undefined)
+                        }
+                        onClick={() => void remove()}
+                    >
+                        Delete
+                    </button>
+                    <Show when={error() || reason.error}>
+                        <p role="alert">{error() || "Could not check deletion availability."}</p>
+                    </Show>
+                </div>
+            </Suspense>
+        </Show>
     );
 }

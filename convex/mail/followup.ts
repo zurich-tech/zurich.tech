@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { internalMutation, mutation, query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { internal } from "../_generated/api";
-import { requireTeam } from "../auth/access";
+import { requireEvent } from "../auth/grants";
 import { isTentative } from "../events/conditions";
 import { siteOrigin } from "../auth/environment";
 import { enqueue, requireMail } from "./deliveries";
@@ -65,7 +65,7 @@ async function audience(ctx: QueryCtx, eventId: Doc<"events">["_id"]) {
 export const preview = query({
     args: { eventId: v.id("events") },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireEvent(ctx, args.eventId);
         return await audience(ctx, args.eventId);
     },
 });
@@ -74,7 +74,7 @@ export const preview = query({
 export const send = mutation({
     args: { eventId: v.id("events"), receipt: v.string() },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireEvent(ctx, args.eventId);
         requireMail();
         const actual = await audience(ctx, args.eventId);
         if (actual.receipt !== args.receipt)

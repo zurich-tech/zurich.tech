@@ -1,6 +1,6 @@
 import "./article.css";
 import { NewsActions } from "./actions";
-import { TeamEdit } from "../auth/edit";
+import { EditLink } from "../auth/edit";
 import { TagPills } from "./tags";
 import { type Article } from "./queries";
 import { For, Show, createMemo, createSignal } from "solid-js";
@@ -92,7 +92,7 @@ export function ArticleList(props: ArticleListProps) {
                                 href={article.url ?? `/news/${article.slug}`}
                                 actions={
                                     article.id && !props.isCompact ? (
-                                        <TeamEdit href={`/news/edit?id=${article.id}`} />
+                                        <EditLink href={`/news/edit?id=${article.id}`} />
                                     ) : undefined
                                 }
                                 description={

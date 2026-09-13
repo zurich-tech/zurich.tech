@@ -1,4 +1,4 @@
-import { TeamEdit } from "../../../auth/edit";
+import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { getDirectory } from "../../../organisations/queries";
 import { Arrow } from "../../../components/arrow";
@@ -37,7 +37,7 @@ export default function Route() {
                         title="Organisations"
                         heading="h1"
                         class="listing-card"
-                        toolbar={<TeamEdit href="/admin?section=organisations" label="Manage" />}
+                        toolbar={<EditLink href="/admin?section=organisations" label="Manage" />}
                     >
                         <div class="listing-filters">
                             <input

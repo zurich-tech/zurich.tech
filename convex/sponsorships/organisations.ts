@@ -3,7 +3,7 @@ import { requireCheckoutClosed } from "../billing/checkouts";
 import { v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import { query, mutation, internalMutation, type QueryCtx } from "../_generated/server";
-import { requireTeam } from "../auth/access";
+import { requireAdmin } from "../auth/access";
 import { paidTerm, recordPayment } from "../billing/payments";
 import { requireCompany } from "../organisations/mutations";
 import { tiers } from "../../src/sponsorships/plans";
@@ -61,7 +61,7 @@ export const activate = mutation({
     args: { id: v.id("sponsorships"), invoiceReference: v.string() },
     handler: async (ctx, args) => {
         // require team access and a closed checkout before recording payment
-        const reviewer = await requireTeam(ctx);
+        const reviewer = await requireAdmin(ctx);
         const row = await ctx.db.get(args.id);
         if (!row || !("organisationId" in row))
             throw new Error("Organisation sponsorship not found.");
@@ -113,7 +113,7 @@ export const end = mutation({
     args: { id: v.id("sponsorships") },
     handler: async (ctx, args) => {
         // require a team decision and prevent changes during checkout
-        await requireTeam(ctx);
+        await requireAdmin(ctx);
         const row = await ctx.db.get(args.id);
         if (!row || !("organisationId" in row))
             throw new Error("Organisation sponsorship not found.");

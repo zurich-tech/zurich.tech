@@ -1,3 +1,4 @@
+import { useAccess } from "../auth/edit";
 import { isTentative } from "../../convex/events/conditions";
 import { createMemo, createSignal, For, Show } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
@@ -7,7 +8,7 @@ import type { CalendarEntry } from "./queries";
 import "./month.css";
 
 /** Browse a month in Zürich time, with a compact day agenda on phones. */
-export function EventCalendar(props: { entries: CalendarEntry[]; isTeam?: boolean }) {
+export function EventCalendar(props: { entries: CalendarEntry[] }) {
     const [params, setParams] = useSearchParams();
     const today = civilTime(Date.now()).slice(0, 10);
     const [chosen, setChosen] = createSignal(today);
@@ -124,9 +125,7 @@ export function EventCalendar(props: { entries: CalendarEntry[]; isTeam?: boolea
                             </button>
                             <div class="calendar-events">
                                 <For each={byDay().get(day)}>
-                                    {(event) => (
-                                        <CalendarEvent event={event} isTeam={props.isTeam} />
-                                    )}
+                                    {(event) => <CalendarEvent event={event} />}
                                 </For>
                             </div>
                         </div>
@@ -136,7 +135,7 @@ export function EventCalendar(props: { entries: CalendarEntry[]; isTeam?: boolea
             <section class="calendar-agenda" aria-label="Selected day">
                 <h3>{fullDate(selected())}</h3>
                 <For each={byDay().get(selected())} fallback={<p class="text-soft">No events.</p>}>
-                    {(event) => <CalendarEvent event={event} isTeam={props.isTeam} />}
+                    {(event) => <CalendarEvent event={event} />}
                 </For>
             </section>
         </div>
@@ -144,7 +143,8 @@ export function EventCalendar(props: { entries: CalendarEntry[]; isTeam?: boolea
 }
 
 /** Keep event links and publication labels identical in the grid and day agenda. */
-function CalendarEvent(props: { event: CalendarEntry; isTeam?: boolean }) {
+function CalendarEvent(props: { event: CalendarEntry }) {
+    const access = useAccess();
     return (
         <div>
             <a
@@ -173,11 +173,15 @@ function CalendarEvent(props: { event: CalendarEntry; isTeam?: boolean }) {
                     </span>
                 </Show>
             </a>
-            <Show when={props.isTeam}>
+            <Show when={access.canEvent(props.event.id)}>
                 <a
                     class="calendar-edit"
                     aria-label={`Edit ${props.event.title}`}
-                    href={`/submit?event=${props.event.id}`}
+                    href={
+                        props.event.status === "draft"
+                            ? props.event.href
+                            : `/submit?event=${props.event.id}`
+                    }
                 >
                     Edit
                 </a>

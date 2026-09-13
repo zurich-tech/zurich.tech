@@ -1,4 +1,5 @@
 import { EventCounts } from "./counts";
+import { useAccess } from "../auth/edit";
 import { isTentative } from "../../convex/events/conditions";
 import { useNavigate } from "@solidjs/router";
 import { Empty } from "../components/empty";
@@ -12,6 +13,7 @@ import { timeZone } from "../app/site";
 
 /** Manage published events and drafts in one searchable table. */
 export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => unknown }) {
+    const access = useAccess();
     const navigate = useNavigate();
     const command = useWorkspaceCommand(props.refresh);
     const [search, setSearch] = createSignal("");
@@ -81,9 +83,11 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
             title="Events"
             class="admin-event-card"
             toolbar={
-                <a class="button button--primary" href="/submit">
-                    New event
-                </a>
+                <Show when={access.canCreate()}>
+                    <a class="button button--primary" href="/submit">
+                        New event
+                    </a>
+                </Show>
             }
         >
             <FormMessage error={command.error()} success={command.success()} />
@@ -197,7 +201,12 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                                     Edit
                                                 </a>
                                             </Show>
-                                            <Show when={row.eventId}>
+                                            <Show
+                                                when={
+                                                    row.eventId &&
+                                                    access.canEvent(row.eventId, "organiser")
+                                                }
+                                            >
                                                 <a
                                                     class="button"
                                                     href={`/admin?event=${row.eventId}`}
@@ -205,34 +214,26 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                                     Attendees
                                                 </a>
                                             </Show>
-                                            <Show
-                                                when={row.draftId}
-                                                fallback={
-                                                    <button
-                                                        class="button"
-                                                        disabled={command.isPending()}
-                                                        onClick={() =>
-                                                            command.perform(async () => {
-                                                                const id = await (
+                                            <Show when={access.canCreate()}>
+                                                <button
+                                                    class="button"
+                                                    disabled={command.isPending()}
+                                                    onClick={() =>
+                                                        command.perform(async () => {
+                                                            const id =
+                                                                row.draftId ??
+                                                                (await (
                                                                     await memberClient()
                                                                 ).mutation(
                                                                     api.events.mutations.edit,
                                                                     { eventId: row.eventId! },
-                                                                );
-                                                                navigate(`/submit?duplicate=${id}`);
-                                                            }, "Opened event template.")
-                                                        }
-                                                    >
-                                                        Duplicate
-                                                    </button>
-                                                }
-                                            >
-                                                <a
-                                                    class="button"
-                                                    href={`/submit?duplicate=${row.draftId}`}
+                                                                ));
+                                                            navigate(`/submit?duplicate=${id}`);
+                                                        }, "Opened event template.")
+                                                    }
                                                 >
                                                     Duplicate
-                                                </a>
+                                                </button>
                                             </Show>
                                         </div>
                                     </td>

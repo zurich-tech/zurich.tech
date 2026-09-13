@@ -1,4 +1,4 @@
-import { TeamEdit } from "../../../auth/edit";
+import { EditLink } from "../../../auth/edit";
 import { SocialCopy } from "../../../news/social";
 import { timeZone } from "../../site";
 import { getArticle, getArticles } from "../../../news/queries";
@@ -45,7 +45,7 @@ export default function Route() {
                                 class="news-article"
                                 toolbar={
                                     post().id ? (
-                                        <TeamEdit href={`/news/edit?id=${post().id}`} />
+                                        <EditLink href={`/news/edit?id=${post().id}`} />
                                     ) : undefined
                                 }
                             >

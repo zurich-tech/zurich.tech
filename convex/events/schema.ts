@@ -42,6 +42,16 @@ export const series = defineTable({
     topics: v.array(v.string()),
 }).index("by_slug", ["slug"]);
 
+/** Private series edits awaiting publication. */
+export const seriesRevisions = defineTable({
+    seriesId: v.id("series"),
+    slug: v.string(),
+    name: v.string(),
+    description: v.string(),
+    topics: v.array(v.string()),
+    updatedAt: v.number(),
+}).index("by_series", ["seriesId"]);
+
 /** Stored events. */
 export const events = defineTable({
     ...participationFields,
@@ -78,6 +88,7 @@ export const events = defineTable({
 })
     .index("by_slug", ["slug"])
     .index("by_owner", ["ownerId"])
+    .index("by_series", ["seriesId"])
     .index("by_schedule_and_occurrence", ["scheduleId", "occurrence"])
     .index("by_status_and_start", ["status", "startsAt"]);
 
@@ -149,6 +160,8 @@ export const submissions = defineTable({
     updatedAt: v.number(),
 })
     .index("by_owner", ["ownerId"])
+    .index("by_event", ["eventId"])
+    .index("by_series", ["seriesId"])
     .index("by_status", ["status"]);
 
 /** Stored registrations. */

@@ -3,7 +3,7 @@ import { v } from "convex/values";
 import { mutation, type QueryCtx, type MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { normalizeEmail } from "../members/emails";
-import { requireAccount, requireTeam } from "../auth/access";
+import { requireAccount, requireAdmin } from "../auth/access";
 import { normalizeUrl, normalizeImageUrl, socialLinks } from "../members/urls";
 
 /** Upsert a curated organisation. */
@@ -25,7 +25,7 @@ export const upsert = mutation({
     },
     handler: async (ctx, args) => {
         // restrict directory editing to the team
-        await requireTeam(ctx);
+        await requireAdmin(ctx);
         const { id, ...values } = args;
         if (
             !values.name.trim() ||
@@ -61,7 +61,7 @@ export const upsert = mutation({
 export async function requireCompany(ctx: QueryCtx | MutationCtx, id: Id<"organisations">) {
     const viewer = await requireAccount(ctx);
     const organisation = await ctx.db.get(id);
-    if (!organisation || (!viewer.isTeam && organisation.ownerId !== viewer.memberId))
+    if (!organisation || (!viewer.isAdmin && organisation.ownerId !== viewer.memberId))
         throw new Error("You cannot manage this company.");
 
     return { viewer, organisation };
@@ -112,7 +112,7 @@ export const upsertCompany = mutation({
         // let the team assign an existing company to a verified signed in member
         let ownerId: Id<"members"> | undefined;
         if (args.ownerEmail) {
-            if (!viewer.isTeam) throw new Error("Team access is required to assign a company.");
+            if (!viewer.isAdmin) throw new Error("Admin access is required to assign a company.");
             const address = await ctx.db
                 .query("emails")
                 .withIndex("by_email", (q) => q.eq("email", normalizeEmail(args.ownerEmail!)))

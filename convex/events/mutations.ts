@@ -10,7 +10,7 @@ import { v } from "convex/values";
 import { readTeam } from "../members/team";
 import type { Id } from "../_generated/dataModel";
 import { mutation, type MutationCtx } from "../_generated/server";
-import { requireTeam } from "../auth/access";
+import { requireEvent, requireRevision } from "../auth/grants";
 import { eventFields, submissionFields } from "./fields";
 import { normalizeUrl, normalizeImageUrl } from "../members/urls";
 import { promoteWaitlist } from "./registrations";
@@ -26,19 +26,22 @@ export const save = mutation({
         ...submissionFields,
     },
     handler: async (ctx, args) => {
-        // require team access before changing an event
-        const viewer = await requireTeam(ctx);
         const { id, publish, announce, receipt, ...values } = args;
         if (announce && !publish) throw new Error("Publish the event before announcing it.");
         const existing = id ? await ctx.db.get(id) : null;
         if (id && !existing) throw new Error("Submission not found.");
+        const viewer = await requireRevision(
+            ctx,
+            existing,
+            values.seriesId,
+            publish ? "organiser" : "editor",
+        );
 
         const event = existing?.eventId ? await ctx.db.get(existing.eventId) : null;
         if (existing?.eventId && !event) throw new Error("Published event not found.");
         if (event?.status === "cancelled")
             throw new Error("Cancelled events cannot be edited. Duplicate the event instead.");
-        if (!publish && event && event.status !== "draft")
-            throw new Error("Use Save changes for a published event.");
+        // editor saves remain in submissions; only publication changes the live event
         if (publish) {
             if (receipt === undefined) throw new Error("Confirm publication first.");
             confirmAction(await eventAction(ctx, event, "publish", values, announce), receipt);
@@ -186,6 +189,22 @@ export const save = mutation({
             existing?._id ??
             (await ctx.db.insert("submissions", { ...record, ownerId: viewer.memberId }));
         if (existing) await ctx.db.patch(existing._id, record);
+        // reserve an event identity so unpublished events can receive scoped assignments
+        if (!publish && !existing?.eventId) {
+            const collision = await ctx.db
+                .query("events")
+                .withIndex("by_slug", (q) => q.eq("slug", values.slug))
+                .unique();
+            if (collision) throw new Error("An event already uses this URL.");
+            const eventId = await ctx.db.insert("events", {
+                ...eventFields(values),
+                ownerId: viewer.memberId,
+                status: "draft",
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+            });
+            await ctx.db.patch(draftId, { eventId });
+        }
         if (publish) {
             const eventId = await publishEvent(ctx, draftId);
             if (announce) await queueAnnouncement(ctx, (await ctx.db.get(eventId))!);
@@ -224,7 +243,8 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
         const confirmed = active.filter((row) => row.status === "going").length;
         if (existing.status === "cancelled")
             throw new Error("Duplicate a cancelled event to schedule it again.");
-        if (existing.slug !== draft.slug) throw new Error("A published event's URL cannot change.");
+        if (existing.status !== "draft" && existing.slug !== draft.slug)
+            throw new Error("A published event's URL cannot change.");
         if (
             (active.length > 0 || existing.confirmedAt !== undefined) &&
             !sameConfirmation(existing.confirmation, draft.confirmation)
@@ -383,15 +403,15 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
 export const edit = mutation({
     args: { eventId: v.id("events") },
     handler: async (ctx, args) => {
-        // require team access before changing an event
-        await requireTeam(ctx);
+        // require editing access before opening the revision
+        await requireEvent(ctx, args.eventId, "editor");
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("You cannot edit this event.");
 
         // reuse the existing revision when the event is already editable
         const existing = await ctx.db
             .query("submissions")
-            .filter((q) => q.eq(q.field("eventId"), event._id))
+            .withIndex("by_event", (q) => q.eq("eventId", event._id))
             .unique();
         if (existing) return existing._id;
 
@@ -451,14 +471,14 @@ export const edit = mutation({
 export const unpublish = mutation({
     args: { eventId: v.id("events"), receipt: v.string() },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("Event not found.");
         confirmAction(await eventAction(ctx, event, "unpublish"), args.receipt);
         await ctx.db.patch(event._id, { status: "draft", updatedAt: Date.now() });
         const draft = await ctx.db
             .query("submissions")
-            .filter((q) => q.eq(q.field("eventId"), event._id))
+            .withIndex("by_event", (q) => q.eq("eventId", event._id))
             .unique();
         if (draft) await ctx.db.patch(draft._id, { status: "draft", updatedAt: Date.now() });
     },
@@ -468,8 +488,8 @@ export const unpublish = mutation({
 export const cancel = mutation({
     args: { eventId: v.id("events"), receipt: v.string() },
     handler: async (ctx, args) => {
-        // require team access
-        await requireTeam(ctx);
+        // require organiser access to this event
+        await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("You cannot manage this event.");
         confirmAction(await eventAction(ctx, event, "cancel"), args.receipt);

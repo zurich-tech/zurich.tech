@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { mutation, query, internalQuery, httpAction, type MutationCtx } from "../_generated/server";
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
-import { requireTeam } from "../auth/access";
+import { requireEvent, requireRegistration } from "../auth/grants";
 import { isTentative } from "./conditions";
 import qrcode from "qrcode-generator";
 
@@ -53,7 +53,7 @@ export const pass = mutation({
 export const roster = query({
     args: { eventId: v.id("events") },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("Event not found.");
         const rows = await ctx.db
@@ -89,7 +89,7 @@ export const record = mutation({
         registrationId: v.optional(v.id("registrations")),
     },
     handler: async (ctx, args) => {
-        const viewer = await requireTeam(ctx);
+        const viewer = await requireEvent(ctx, args.eventId);
         if (!!args.token === !!args.registrationId)
             throw new Error("Choose a pass or registration.");
         const row = args.registrationId
@@ -139,7 +139,7 @@ export const record = mutation({
 export const undo = mutation({
     args: { registrationId: v.id("registrations") },
     handler: async (ctx, args) => {
-        await requireTeam(ctx);
+        await requireRegistration(ctx, args.registrationId);
         const row = await ctx.db
             .query("attendances")
             .withIndex("by_registrationId", (q) => q.eq("registrationId", args.registrationId))

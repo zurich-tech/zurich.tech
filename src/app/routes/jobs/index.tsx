@@ -1,4 +1,4 @@
-import { TeamEdit } from "../../../auth/edit";
+import { EditLink } from "../../../auth/edit";
 import { pageSize } from "../../site";
 import { getJobs } from "../../../jobs/queries";
 
@@ -55,7 +55,7 @@ export default function Route() {
                         title="Jobs"
                         heading="h1"
                         class="listing-card"
-                        toolbar={<TeamEdit href="/admin?section=jobs" label="Manage" />}
+                        toolbar={<EditLink href="/admin?section=jobs" label="Manage" />}
                     >
                         {/* filter the published vacancies */}
                         <div class="listing-filters">

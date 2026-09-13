@@ -1,6 +1,6 @@
 import { Sponsors } from "../../sponsorships/sponsors";
 import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
-import { TeamEdit } from "../../auth/edit";
+import { EditLink } from "../../auth/edit";
 import { createAsync } from "@solidjs/router";
 import { getTeam } from "../../members/queries";
 import { For } from "solid-js";
@@ -28,7 +28,7 @@ export default function Route() {
                 <Card
                     title="Team"
                     heading="h1"
-                    toolbar={<TeamEdit href="/admin?section=team" label="Manage" />}
+                    toolbar={<EditLink href="/admin?section=people" label="Manage" />}
                     class="team card--sections"
                 >
                     <ul class="team-grid card-section">

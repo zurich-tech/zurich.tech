@@ -1,11 +1,11 @@
 import { NewsAdmin } from "../../news/workspace";
 import { Loading } from "../../components/loading";
-import { createResource, Show, Switch, Match, For } from "solid-js";
+import { createResource, Show, Switch, Match, For, Suspense } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
 import { api } from "../../../convex/_generated/api";
-import { useAccount } from "../../auth/index";
+import { useAccess } from "../../auth/edit";
+import { AccessManager } from "../../auth/management";
 import { memberClient } from "../../auth/convex";
-import { errorMessage } from "../../components/errors";
 import { Page } from "../page";
 import { Card } from "../../components/card";
 import { Seo } from "../seo";
@@ -14,165 +14,180 @@ import { Attendees } from "../../events/attendees";
 import { Schedules } from "../../events/schedules";
 import { SeriesAdmin } from "../../events/series";
 import { Management } from "../../organisations/management";
-import { Team, NewsletterAdmin } from "../../members/workspace";
+import { NewsletterAdmin } from "../../members/workspace";
 
-/** Team-only workspace tabs. */
-const teamTabs = [
+const adminTabs = [
     { id: "news", label: "News" },
     { id: "organisations", label: "Organisations" },
     { id: "jobs", label: "Jobs" },
     { id: "sponsors", label: "Sponsors" },
-    { id: "series", label: "Series" },
-    { id: "people", label: "Team" },
+    { id: "people", label: "Access" },
     { id: "email", label: "Email" },
-] as const;
+];
 
-/** Route signed in organisers to their event and team controls. */
+/** Load only the selected panel, with server-enforced scoped access. */
 export default function Route() {
-    // load only the signed in account’s event workspace
-    const account = useAccount();
+    const access = useAccess();
     const [params, setParams] = useSearchParams();
     const section = () => (typeof params.section === "string" ? params.section : "events");
-    const [access] = createResource(
-        () => account.user()?.id,
-        async () => (await memberClient()).query(api.auth.queries.current, {}),
-    );
-    const [workspace, { refetch }] = createResource(
-        () => access()?.isTeam,
-        async () => (await memberClient()).query(api.events.workspace.events, {}),
-    );
-
+    const tabs = () => [
+        { id: "events", label: "Events" },
+        ...(access.current()?.isAdmin ||
+        access.current()?.grants.some((grant) => grant.scope.kind === "series")
+            ? [{ id: "series", label: "Series" }]
+            : []),
+        ...(access.current()?.isAdmin ? adminTabs : []),
+    ];
     return (
         <>
             <Seo title="Admin" description="Manage events and registrations." />
             <Page class="admin-page">
                 <Card title="Admin" heading="h1" class="admin-navigation">
-                    <Show when={access()?.isTeam}>
-                        {/* select one workspace section without loading hidden panels */}
+                    <Show when={access.current()?.canManage}>
                         <nav class="filter-bar admin-tabs" aria-label="Admin sections">
-                            <button
-                                classList={{ active: section() === "events" }}
-                                aria-pressed={section() === "events"}
-                                onClick={() => {
-                                    setParams({
-                                        section: undefined,
-                                        event: undefined,
-                                        organisation: undefined,
-                                    });
-                                }}
-                            >
-                                Events
-                            </button>
-                            <Show when={access()?.isTeam}>
-                                <For each={teamTabs}>
-                                    {(tab) => (
-                                        <button
-                                            classList={{ active: section() === tab.id }}
-                                            aria-pressed={section() === tab.id}
-                                            onClick={() => {
-                                                setParams({
-                                                    section: tab.id,
-                                                    event: undefined,
-                                                    organisation: undefined,
-                                                });
-                                            }}
-                                        >
-                                            {tab.label}
-                                        </button>
-                                    )}
-                                </For>
-                            </Show>
+                            <For each={tabs()}>
+                                {(tab) => (
+                                    <button
+                                        classList={{ active: section() === tab.id }}
+                                        aria-pressed={section() === tab.id}
+                                        onClick={() =>
+                                            setParams({
+                                                section: tab.id === "events" ? undefined : tab.id,
+                                                event: undefined,
+                                                organisation: undefined,
+                                                series: undefined,
+                                                schedule: undefined,
+                                                source: undefined,
+                                            })
+                                        }
+                                    >
+                                        {tab.label}
+                                    </button>
+                                )}
+                            </For>
                         </nav>
                     </Show>
                 </Card>
                 <Show
-                    when={account.user()}
+                    when={access.current()?.canManage}
                     fallback={
-                        <Show when={!account.isPending()} fallback={<Loading />}>
-                            <a class="button" href="/sign-in?next=%2Fadmin">
-                                Sign in to manage the site
-                            </a>
+                        <Show
+                            when={!access.account.isPending() && !access.access.loading}
+                            fallback={<Loading />}
+                        >
+                            <p>
+                                {access.account.user()
+                                    ? "No editing access assigned."
+                                    : "Sign in to manage events."}
+                            </p>
+                            <Show when={!access.account.user()}>
+                                <a class="button" href="/sign-in?next=%2Fadmin">
+                                    Sign in
+                                </a>
+                            </Show>
                         </Show>
                     }
                 >
-                    <Show when={access.error}>
-                        <p class="form-error" role="alert">
-                            {errorMessage(access.error, "Could not load your account.")}
-                        </p>
-                    </Show>
-                    <Show when={access() && !access()?.isTeam}>
-                        <a class="button" href="/manage">
-                            Manage your organisations
-                        </a>
-                    </Show>
-                    <Show when={workspace.error}>
-                        <p class="form-error" role="alert">
-                            {errorMessage(workspace.error, "Could not load admin controls.")}
-                        </p>
-                    </Show>
-                    <Show when={workspace()}>
-                        {(current) => (
-                            <>
-                                <Switch>
-                                    <Match when={section() === "news"}>
-                                        <NewsAdmin />
-                                    </Match>
-                                    <Match when={section() === "events"}>
-                                        <Show
-                                            when={
-                                                typeof params.event === "string"
-                                                    ? params.event
-                                                    : undefined
-                                            }
-                                            fallback={
-                                                <EventAdmin
-                                                    workspace={current()}
-                                                    refresh={refetch}
-                                                />
-                                            }
-                                        >
-                                            {(eventId) => <Attendees eventId={eventId()} />}
-                                        </Show>
-                                    </Match>
-                                    <Match
-                                        when={
-                                            section() === "jobs" ||
-                                            section() === "sponsors" ||
-                                            section() === "organisations"
-                                        }
-                                    >
-                                        <Management
-                                            organisationId={
-                                                typeof params.organisation === "string"
-                                                    ? params.organisation
-                                                    : undefined
-                                            }
-                                            section={
-                                                section() as "jobs" | "sponsors" | "organisations"
-                                            }
-                                        />
-                                    </Match>
-                                    <Match when={section() === "series"}>
-                                        <Show when={!params.schedule && !params.source}>
-                                            <SeriesAdmin />
-                                        </Show>
-                                        <Schedules workspace={current()} />
-                                    </Match>
-                                    <Match when={access()?.isTeam && section() === "people"}>
-                                        <Team people={current().people} refresh={refetch} />
-                                    </Match>
-                                    <Match when={access()?.isTeam && section() === "email"}>
-                                        <NewsletterAdmin
-                                            isPaused={current().digest?.isPaused ?? false}
-                                            refresh={refetch}
-                                        />
-                                    </Match>
-                                </Switch>
-                            </>
-                        )}
-                    </Show>
+                    <Suspense fallback={<Loading />}>
+                        <Switch fallback={<p>You do not have access to this section.</p>}>
+                            <Match when={section() === "events"}>
+                                <Show
+                                    when={
+                                        typeof params.event === "string" ? params.event : undefined
+                                    }
+                                    fallback={<EventPanel />}
+                                >
+                                    {(eventId) => <Attendees eventId={eventId()} />}
+                                </Show>
+                            </Match>
+                            <Match
+                                when={
+                                    section() === "series" &&
+                                    tabs().some((tab) => tab.id === "series")
+                                }
+                            >
+                                <Show when={!params.schedule && !params.source}>
+                                    <SeriesAdmin />
+                                </Show>
+                                <Show
+                                    when={
+                                        access.current()?.isAdmin ||
+                                        access
+                                            .current()
+                                            ?.grants.some(
+                                                (grant) =>
+                                                    grant.scope.kind === "series" &&
+                                                    grant.role === "organiser",
+                                            )
+                                    }
+                                >
+                                    <EventPanel schedules />
+                                </Show>
+                            </Match>
+                            <Match when={access.current()?.isAdmin && section() === "people"}>
+                                <AccessManager />
+                            </Match>
+                            <Match when={access.current()?.isAdmin && section() === "email"}>
+                                <NewsletterAdmin />
+                            </Match>
+                            <Match when={access.current()?.isAdmin && section() === "news"}>
+                                <NewsAdmin />
+                            </Match>
+                            <Match
+                                when={
+                                    access.current()?.isAdmin &&
+                                    ["jobs", "sponsors", "organisations"].includes(section())
+                                }
+                            >
+                                <Management
+                                    organisationId={
+                                        typeof params.organisation === "string"
+                                            ? params.organisation
+                                            : undefined
+                                    }
+                                    section={section() as "jobs" | "sponsors" | "organisations"}
+                                />
+                            </Match>
+                        </Switch>
+                    </Suspense>
                 </Show>
             </Page>
         </>
+    );
+}
+
+/** Event and schedule panels share records without loading account or newsletter data. */
+function EventPanel(props: { schedules?: boolean }) {
+    const access = useAccess();
+    const [result, { refetch }] = createResource(access.key, async (key) => ({
+        key,
+        value: await (
+            await memberClient()
+        ).query(api.events.management.workspace, {
+            editor: !!props.schedules,
+        }),
+    }));
+    const workspace = () => (result()?.key === access.key() ? result()?.value : undefined);
+    return (
+        <Show
+            when={workspace()}
+            fallback={
+                <Show when={result.error} fallback={<Loading />}>
+                    <p class="form-error">Could not load events.</p>
+                    <button class="button" onClick={() => void refetch()}>
+                        Retry
+                    </button>
+                </Show>
+            }
+        >
+            {(current) => (
+                <Show
+                    when={props.schedules}
+                    fallback={<EventAdmin workspace={current()} refresh={refetch} />}
+                >
+                    <Schedules workspace={current()} />
+                </Show>
+            )}
+        </Show>
     );
 }

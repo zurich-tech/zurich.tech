@@ -25,7 +25,7 @@ export function CompanyForm(props: {
         description: string;
     };
     /** Allow team members to assign company ownership. */
-    isTeam?: boolean;
+    isAdmin?: boolean;
     /** Refresh company records after a successful save. */
     onSave: () => unknown;
     isPending: boolean;
@@ -51,7 +51,7 @@ export function CompanyForm(props: {
                 await memberClient()
             ).mutation(api.organisations.mutations.upsertCompany, {
                 id: props.item?._id,
-                ownerEmail: props.isTeam ? text("ownerEmail") || undefined : undefined,
+                ownerEmail: props.isAdmin ? text("ownerEmail") || undefined : undefined,
                 name: text("name"),
                 headline: text("headline") || undefined,
                 slug: text("slug"),
@@ -174,7 +174,7 @@ export function CompanyForm(props: {
                         value={props.item?.description ?? ""}
                     />
                 </label>
-                <Show when={props.isTeam}>
+                <Show when={props.isAdmin}>
                     <label>
                         Owner email
                         <input

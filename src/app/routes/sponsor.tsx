@@ -1,9 +1,10 @@
-import { TeamEdit } from "../../auth/edit";
+import { EditLink } from "../../auth/edit";
 import { useAccount } from "../../auth";
 import { sponsorshipInquiry } from "../../sponsorships/inquiries";
 import { site } from "../site";
 import { For, Show } from "solid-js";
 import { Sponsors } from "../../sponsorships/sponsors";
+import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 
 import { Arrow } from "../../components/arrow";
 import { tiers, personalTiers } from "../../sponsorships/plans";
@@ -11,6 +12,11 @@ import { Page } from "../page";
 import { Card } from "../../components/card";
 import { Seo } from "../seo";
 import "../../statistics/style.css";
+
+/** Start sponsor requests when navigation is preloaded, before rendering the page. */
+export const route = {
+    preload: () => Promise.all([getSponsors(), getPersonalSponsors()]),
+};
 
 /** Stated reach shown with the sponsorship options. */
 const reach = [
@@ -31,7 +37,7 @@ export default function Route() {
             />
             <Page>
                 <Card
-                    toolbar={<TeamEdit href="/admin?section=sponsors" label="Manage" />}
+                    toolbar={<EditLink href="/admin?section=sponsors" label="Manage" />}
                     title="Support zurich.tech"
                     heading="h1"
                     class="sponsor-intro card--sections"

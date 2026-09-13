@@ -5,7 +5,7 @@ import { v } from "convex/values";
 import { query, mutation, internalMutation } from "../_generated/server";
 import { internal } from "../_generated/api";
 import { activeSponsors } from "../sponsorships/organisations";
-import { requireTeam } from "../auth/access";
+import { requireAdmin } from "../auth/access";
 import { enqueue } from "./deliveries";
 
 /** Read all upcoming published events for the digest preview. */
@@ -13,7 +13,7 @@ export const preview = query({
     args: {},
     handler: async (ctx) => {
         // restrict newsletter controls to the team
-        await requireTeam(ctx);
+        await requireAdmin(ctx);
         const now = Date.now();
 
         // read upcoming published events in chronological order
@@ -40,6 +40,7 @@ export const preview = query({
         const sponsors = await activeSponsors(ctx);
 
         return {
+            isPaused: (await ctx.db.query("digests").unique())?.isPaused ?? false,
             html: newsletterEmail(newsletterEdition(digestEvents(entries, now), sponsors)).html,
             events: digestEvents(entries, now),
             subscribers: subscribers.filter((row) => row.weekly !== false).length,
@@ -58,7 +59,7 @@ export const pause = mutation({
     args: { isPaused: v.boolean() },
     handler: async (ctx, args) => {
         // restrict newsletter controls to the team
-        await requireTeam(ctx);
+        await requireAdmin(ctx);
         const settings = await ctx.db.query("digests").unique();
         if (settings) await ctx.db.patch(settings._id, args);
         else await ctx.db.insert("digests", args);

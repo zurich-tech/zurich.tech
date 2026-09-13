@@ -43,7 +43,7 @@ export function Programme(props: {
     const isCalendar = () => !!props.isCalendarEnabled && params.view === "calendar";
     const isPreview = () => props.limit !== undefined;
     const period = () =>
-        isPreview() || (params.period === "draft" && !planning.current()?.isTeam)
+        isPreview() || (params.period === "draft" && !planning.current())
             ? "all"
             : (params.period ?? "all");
 
@@ -102,8 +102,11 @@ export function Programme(props: {
                     <a class="button" href="/series">
                         Series
                     </a>
-                    <Show when={planning.current()?.isTeam}>
-                        <a class="button" href="/submit">
+                    <Show when={planning.canCreate(props.seriesId)}>
+                        <a
+                            class="button"
+                            href={props.seriesId ? `/submit?series=${props.seriesId}` : "/submit"}
+                        >
                             New event
                         </a>
                     </Show>
@@ -153,9 +156,7 @@ export function Programme(props: {
                             { value: "all", label: "All" },
                             { value: "upcoming", label: "Upcoming" },
                             { value: "past", label: "Past" },
-                            ...(planning.current()?.isTeam
-                                ? [{ value: "draft", label: "Draft" }]
-                                : []),
+                            ...(planning.current() ? [{ value: "draft", label: "Draft" }] : []),
                         ]}
                         onChange={(value) => {
                             if (value === "all") setSeries("all");
@@ -233,11 +234,15 @@ export function Programme(props: {
                                                       )
                                             }
                                             actions={
-                                                <Show when={planning.current()?.isTeam}>
+                                                <Show when={planning.canEdit(event.id)}>
                                                     <a
                                                         class="button"
                                                         aria-label={`Edit ${event.title}`}
-                                                        href={`/submit?event=${event.id}`}
+                                                        href={
+                                                            event.status === "draft"
+                                                                ? event.href
+                                                                : `/submit?event=${event.id}`
+                                                        }
                                                     >
                                                         Edit
                                                     </a>
@@ -279,7 +284,7 @@ export function Programme(props: {
                     </>
                 }
             >
-                <EventCalendar entries={matches()} isTeam={planning.current()?.isTeam} />
+                <EventCalendar entries={matches()} />
             </Show>
         </Card>
     );

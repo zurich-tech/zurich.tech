@@ -13,7 +13,7 @@ async function requireOwner(
     const organisationId = ctx.db.normalizeId("organisations", ownerId);
     if (organisationId)
         return { ...(await requireCompany(ctx, organisationId)), isOrganisation: true };
-    if (ownerId !== viewer.memberId && !viewer.isTeam)
+    if (ownerId !== viewer.memberId && !viewer.isAdmin)
         throw new Error("You cannot manage this location.");
     if (!(await ctx.db.get(ownerId))) throw new Error("Location owner is missing.");
     return { viewer, isOrganisation: false };
@@ -35,7 +35,7 @@ export const save = mutation({
     },
     handler: async (ctx, args) => {
         const { viewer, isOrganisation } = await requireOwner(ctx, args.ownerId);
-        if (args.isCurated && (!viewer.isTeam || !isOrganisation))
+        if (args.isCurated && (!viewer.isAdmin || !isOrganisation))
             throw new Error("Only the team can curate map locations.");
         if (
             !args.name.trim() ||

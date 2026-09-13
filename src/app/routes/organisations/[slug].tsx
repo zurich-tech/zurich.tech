@@ -1,4 +1,4 @@
-import { TeamEdit } from "../../../auth/edit";
+import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { SocialLinks } from "../../../components/social";
 import { JobEntry } from "../../../jobs/job";
@@ -41,7 +41,7 @@ export default function Route() {
                             title={item().name}
                             summary={item().headline}
                             actions={
-                                <TeamEdit
+                                <EditLink
                                     href={`/admin?section=organisations&organisation=${item()._id}`}
                                 />
                             }
