@@ -145,7 +145,7 @@ export function eventEmail(
     };
 }
 
-/** Render a short-lived sign-in code without images or external fonts. */
+/** Render a short-lived sign-in code as selectable text. */
 export function signInEmail(code: string) {
     const expiry = "Expires in 10 minutes. If you didn’t request this, ignore this email.";
     return {
