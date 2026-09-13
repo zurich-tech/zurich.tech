@@ -18,7 +18,16 @@ const wordmark = await sharp(
     .png()
     .toBuffer();
 const dimensions = await sharp(wordmark).metadata();
+
+// identify the community above the map
+const logo = await sharp(new URL("../../src/components/assets/logo.svg", import.meta.url).pathname)
+    .resize(80, 80)
+    .png()
+    .toBuffer();
 await sharp(map)
-    .composite([{ input: wordmark, left: 0, top: height - dimensions.height! }])
+    .composite([
+        { input: logo, left: 40, top: 40 },
+        { input: wordmark, left: 0, top: height - dimensions.height! },
+    ])
     .png()
     .toFile(new URL("../../public/og.png", import.meta.url).pathname);

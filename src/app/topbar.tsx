@@ -5,9 +5,8 @@ import { Show, createResource } from "solid-js";
 import { useAccount } from "../auth/index";
 import { Avatar } from "../components/avatar";
 import { site } from "./site";
-import { Wordmark } from "./wordmark";
+import { Brand } from "./brand";
 import { ThemeToggle } from "./theme";
-import logo from "../components/assets/logo.svg?raw";
 
 /** Navigate the community's public pages and organiser workspace. */
 export function Topbar() {
@@ -33,8 +32,7 @@ export function Topbar() {
             <div class="site-topbar__body">
                 <nav aria-label="Primary navigation" class="site-topbar__primary">
                     <A class="site-topbar__logo" href="/" aria-label="zurich.tech home">
-                        <Wordmark />
-                        <span class="site-symbol" innerHTML={logo} />
+                        <Brand />
                     </A>
                     <A href="/about">About</A>
                     <A href="/events">Events</A>

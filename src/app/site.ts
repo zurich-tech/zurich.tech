@@ -5,8 +5,7 @@ export const site = {
     /** Contact for sponsorships and invoices. */
     email: "florian@zurich.tech",
     /** Shared homepage and social sharing description. */
-    description:
-        "Talks, dinners, workshops, hackathons, events, jobs and more around tech in Zurich.",
+    description: "zurich.tech is a volunteer-run non-profit growing the local tech community.",
     /** Community accounts and public invitation. */
     socials: {
         linkedin: "https://www.linkedin.com/company/zurichai/",
