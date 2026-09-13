@@ -3416,6 +3416,9 @@ select.field__control:not([multiple]) {
 .newsletter-compact > .card-body {
     margin: 0;
 }
+.newsletter-description {
+    margin: 0 0 16px;
+}
 .newsletter-member {
     display: grid;
     gap: 12px;

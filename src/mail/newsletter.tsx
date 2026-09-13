@@ -62,7 +62,19 @@ export function Newsletter() {
     }
 
     return (
-        <Card title="Newsletter" class="newsletter newsletter-compact" id="newsletter">
+        <Card
+            title="Newsletter"
+            class="newsletter newsletter-compact"
+            id="newsletter"
+            toolbar={
+                <Show when={account.user()}>
+                    <a class="button" href="/settings#notifications">
+                        Settings
+                    </a>
+                </Show>
+            }
+        >
+            <p class="newsletter-description">Upcoming events, every Monday.</p>
             <Show
                 when={!account.isPending() && preferences.state !== "pending"}
                 fallback={<p role="status">Loading…</p>}
@@ -71,26 +83,33 @@ export function Newsletter() {
                     when={!account.user()}
                     fallback={
                         <div class="newsletter-member">
-                            <Show
-                                when={preferences.error}
-                                fallback={
-                                    <p>
-                                        {preferences()?.isSuppressed
-                                            ? "Delivery blocked"
-                                            : preferences()?.weekly
-                                              ? "Subscribed"
-                                              : "Not subscribed"}
-                                    </p>
-                                }
-                            >
-                                <p class="form-error">
-                                    {errorMessage(
-                                        preferences.error,
-                                        "Could not load subscription.",
-                                    )}
-                                </p>
-                            </Show>
                             <div class="newsletter-actions">
+                                <Show
+                                    when={preferences.error}
+                                    fallback={
+                                        <span
+                                            class="tag"
+                                            classList={{
+                                                "tag-upcoming":
+                                                    !!preferences()?.weekly &&
+                                                    !preferences()?.isSuppressed,
+                                            }}
+                                        >
+                                            {preferences()?.isSuppressed
+                                                ? "Delivery blocked"
+                                                : preferences()?.weekly
+                                                  ? "Subscribed"
+                                                  : "Not subscribed"}
+                                        </span>
+                                    }
+                                >
+                                    <p class="form-error">
+                                        {errorMessage(
+                                            preferences.error,
+                                            "Could not load subscription.",
+                                        )}
+                                    </p>
+                                </Show>
                                 <Show
                                     when={
                                         preferences() &&
@@ -107,9 +126,6 @@ export function Newsletter() {
                                         {isPending() ? "Subscribing…" : "Subscribe"}
                                     </button>
                                 </Show>
-                                <a class="button" href="/settings#notifications">
-                                    Notifications
-                                </a>
                             </div>
                             <FormMessage error={error()} />
                         </div>
