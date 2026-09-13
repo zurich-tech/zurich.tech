@@ -4118,7 +4118,7 @@ iframe.email-preview {
     position: relative;
     overflow: hidden;
     width: 100%;
-    height: 240px;
+    height: 200px;
     border: 1px solid var(--color-line);
     background: var(--color-wash);
 }
@@ -4126,13 +4126,34 @@ iframe.email-preview {
     width: 100%;
     height: 100%;
 }
+.venue-map__location {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+}
+.venue-map__location:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -2px;
+}
+.venue-map__pin {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 3px solid var(--color-paper);
+    box-shadow: 0 0 0 1px var(--color-accent);
+}
+.venue-map__location:hover .venue-map__pin {
+    box-shadow: 0 0 0 4px var(--color-line);
+}
 .venue-map__credit {
     position: absolute;
     right: 0;
     bottom: 0;
     padding: 2px 5px;
-    background: #fff;
-    color: #172b4d;
+    background: var(--color-paper);
+    color: var(--color-soft);
     font: 11px/1.4 var(--font-sans);
 }
 .venue-map .text-link,

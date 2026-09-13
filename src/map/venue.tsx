@@ -1,5 +1,5 @@
 import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
-import type { Map as GeographicMap, Marker } from "maplibre-gl";
+import type { Map as GeographicMap, StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { Arrow } from "../components/arrow";
@@ -13,7 +13,6 @@ export function VenueMap(props: {
 }) {
     let container!: HTMLDivElement;
     let map: GeographicMap | undefined;
-    let marker: Marker | undefined;
     const [hasError, setError] = createSignal(false);
     const position = (): [number, number] => [
         props.coordinates.longitude,
@@ -30,13 +29,17 @@ export function VenueMap(props: {
     createEffect(() => {
         const coordinates = position();
         map?.jumpTo({ center: coordinates });
-        marker?.setLngLat(coordinates);
     });
 
     // request tiles only when the venue map enters the viewport
     onMount(() => {
         let isDisposed = false;
         const resize = new ResizeObserver(() => map?.resize());
+        const theme = new MutationObserver(() => map?.setStyle(venueStyle(container)));
+        theme.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["data-theme"],
+        });
         const observer = new IntersectionObserver((entries) => {
             if (!entries.some((entry) => entry.isIntersecting)) return;
             observer.disconnect();
@@ -48,36 +51,13 @@ export function VenueMap(props: {
                         container,
                         center: position(),
                         zoom: 15,
-                        maxZoom: 19,
+                        interactive: false,
                         attributionControl: false,
-                        dragRotate: false,
-                        pitchWithRotate: false,
-                        touchPitch: false,
-                        scrollZoom: false,
                         fadeDuration: 0,
-                        style: {
-                            version: 8,
-                            sources: {
-                                streets: {
-                                    type: "raster",
-                                    tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-                                    tileSize: 256,
-                                    maxzoom: 19,
-                                },
-                            },
-                            layers: [{ id: "streets", type: "raster", source: "streets" }],
-                        },
+                        style: venueStyle(container),
                     });
-                    map.touchZoomRotate.disableRotation();
-                    map.getCanvas().setAttribute("aria-label", `Map showing ${props.name}`);
-                    map.addControl(
-                        new library.NavigationControl({ showCompass: false }),
-                        "top-right",
-                    );
-                    marker = new library.Marker({ color: "#174ed8" })
-                        .setLngLat(position())
-                        .addTo(map);
-                    marker.getElement().setAttribute("aria-label", props.name);
+                    map.getCanvas().tabIndex = -1;
+                    map.getCanvas().setAttribute("aria-hidden", "true");
                     map.on("error", () => setError(true));
                     map.on("idle", () => {
                         if (map?.areTilesLoaded()) setError(false);
@@ -91,6 +71,7 @@ export function VenueMap(props: {
             isDisposed = true;
             observer.disconnect();
             resize.disconnect();
+            theme.disconnect();
             map?.remove();
         });
     });
@@ -100,12 +81,21 @@ export function VenueMap(props: {
             <div class="venue-map__frame">
                 <div ref={container} class="venue-map__canvas" />
                 <a
+                    class="venue-map__location"
+                    href={directions()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Directions to ${props.name}`}
+                >
+                    <span class="venue-map__pin" aria-hidden="true" />
+                </a>
+                <a
                     class="venue-map__credit"
-                    href="https://www.openstreetmap.org/copyright"
+                    href="/legal#licences"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    © OpenStreetMap contributors
+                    © OpenStreetMap · OpenFreeMap
                 </a>
             </div>
             <Show when={hasError()}>
@@ -116,4 +106,48 @@ export function VenueMap(props: {
             </a>
         </div>
     );
+}
+
+/** Draw only the streets and waterways needed to place the venue. */
+function venueStyle(container: HTMLElement): StyleSpecification {
+    const colors = getComputedStyle(container);
+    const color = (name: string) => colors.getPropertyValue(`--color-${name}`).trim();
+
+    return {
+        version: 8,
+        sources: { geography: { type: "vector", url: "https://tiles.openfreemap.org/planet" } },
+        layers: [
+            { id: "background", type: "background", paint: { "background-color": color("paper") } },
+            {
+                id: "water",
+                type: "fill",
+                source: "geography",
+                "source-layer": "water",
+                paint: { "fill-color": color("wash") },
+            },
+            {
+                id: "rivers",
+                type: "line",
+                source: "geography",
+                "source-layer": "waterway",
+                paint: { "line-color": color("line"), "line-width": 2 },
+            },
+            {
+                id: "streets",
+                type: "line",
+                source: "geography",
+                "source-layer": "transportation",
+                filter: ["!", ["in", ["get", "class"], ["literal", ["rail", "ferry", "path"]]]],
+                paint: { "line-color": color("line"), "line-width": 2 },
+            },
+            {
+                id: "railways",
+                type: "line",
+                source: "geography",
+                "source-layer": "transportation",
+                filter: ["==", ["get", "class"], "rail"],
+                paint: { "line-color": color("line"), "line-width": 1, "line-dasharray": [2, 3] },
+            },
+        ],
+    };
 }
