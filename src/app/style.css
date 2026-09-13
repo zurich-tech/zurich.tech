@@ -5540,4 +5540,79 @@ iframe.email-preview {
         display: inline-flex;
         min-height: 30px;
     }
+    .event-layout,
+    .editor-columns,
+    .listing-layout,
+    .bulletin-body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+@media (max-width: 700px) {
+    .bulletin-masthead {
+        min-height: 240px;
+    }
+    .bulletin-masthead.hero-compact {
+        min-height: 100px;
+    }
+    .card-heading {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .card-title {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+    .card-toolbar {
+        margin-left: auto;
+        flex-wrap: wrap;
+    }
+    .listing-pills,
+    .admin-event-card .admin-filters > .filter-bar,
+    .programme .programme-tagbar,
+    .filter-pills {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        min-width: 0;
+        max-width: 100%;
+    }
+    .listing-pills button,
+    .filter-bar > *,
+    .filter-pills > *,
+    .programme-tagbar > * {
+        flex-shrink: 0;
+    }
+    .form-columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .table-scroll {
+        max-width: 100%;
+    }
+    .site-shell .utility-footer {
+        gap: 16px;
+    }
+    .utility-footer nav {
+        gap: 10px;
+    }
+    .programme .programme-tagbar > .filter-pills {
+        flex: 0 0 auto;
+        overflow: visible;
+        max-width: none;
+    }
+    .admin-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+    .admin-tabs > button {
+        flex-shrink: 0;
+    }
+}
+@media (max-width: 420px) {
+    .utility-footer nav {
+        grid-column: 1 / -1;
+        justify-self: center;
+        margin: 0;
+    }
+    .footer-wordmark {
+        grid-column: 2;
+    }
 }
