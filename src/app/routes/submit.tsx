@@ -23,7 +23,7 @@ import { useAccount } from "../../auth/index";
 import { memberClient } from "../../auth/convex";
 import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
-import { Editor, FormMessage } from "../../components/form";
+import { savedEditor, Editor, FormMessage } from "../../components/form";
 import { errorMessage } from "../../components/errors";
 import { timestamp } from "../../events/time";
 
@@ -258,6 +258,7 @@ export default function Route() {
                 announce,
                 receipt,
             });
+            savedEditor(form);
             setSuccess(
                 intent === "publish" ? "Published. Your event is on the calendar." : "Draft saved.",
             );

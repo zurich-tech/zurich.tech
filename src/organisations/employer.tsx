@@ -1,3 +1,4 @@
+import { Editor, savedEditor } from "../components/form";
 import { useConfirmation } from "../components/dialog";
 import { useAccount } from "../auth";
 import { sponsorshipInquiry } from "../sponsorships/inquiries";
@@ -157,6 +158,7 @@ export function SponsorshipCard(props: {
     async function activate(event: SubmitEvent) {
         // read the submitted review fields
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         const invoiceReference = String(
             new FormData(event.currentTarget as HTMLFormElement).get("invoiceReference"),
         );
@@ -171,19 +173,21 @@ export function SponsorshipCard(props: {
         )
             return;
         // apply the decision and refresh the workspace
-        void props.perform(
-            async () =>
-                (await memberClient()).mutation(api.sponsorships.organisations.activate, {
-                    id: props.sponsor._id,
-                    invoiceReference,
-                }),
-            "Annual sponsorship activated.",
-        );
+        void props.perform(async () => {
+            await (
+                await memberClient()
+            ).mutation(api.sponsorships.organisations.activate, {
+                id: props.sponsor._id,
+                invoiceReference,
+            });
+            savedEditor(editor);
+        }, "Annual sponsorship activated.");
     }
 
     /** End or decline the sponsorship request. */
     async function end(event: SubmitEvent) {
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         if (
             !(await confirm({
                 title:
@@ -197,13 +201,14 @@ export function SponsorshipCard(props: {
             }))
         )
             return;
-        void props.perform(
-            async () =>
-                (await memberClient()).mutation(api.sponsorships.organisations.end, {
-                    id: props.sponsor._id,
-                }),
-            "Sponsorship updated.",
-        );
+        void props.perform(async () => {
+            await (
+                await memberClient()
+            ).mutation(api.sponsorships.organisations.end, {
+                id: props.sponsor._id,
+            });
+            savedEditor(editor);
+        }, "Sponsorship updated.");
     }
 
     const account = useAccount();
@@ -362,7 +367,7 @@ export function SponsorshipCard(props: {
                         (props.sponsor.status === "active" || props.sponsor.status === "requested")
                     }
                 >
-                    <form class="editor" onSubmit={activate}>
+                    <Editor class="editor" onSubmit={activate}>
                         <label>
                             Paid invoice reference
                             <input name="invoiceReference" required />
@@ -372,18 +377,18 @@ export function SponsorshipCard(props: {
                                 ? "Confirm renewal payment"
                                 : "Confirm payment & activate"}
                         </button>
-                    </form>
+                    </Editor>
                 </Show>
                 <Show
                     when={props.sponsor.status === "active" || props.sponsor.status === "requested"}
                 >
-                    <form class="sponsorship-actions" onSubmit={end}>
+                    <Editor class="sponsorship-actions" onSubmit={end}>
                         <button class="button" disabled={props.isPending}>
                             {props.sponsor.status === "requested"
                                 ? "Decline request"
                                 : "End sponsorship"}
                         </button>
-                    </form>
+                    </Editor>
                 </Show>
             </Show>
         </article>
@@ -406,6 +411,7 @@ function JobReview(props: {
     async function publish(event: SubmitEvent) {
         // read the submitted review fields
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         const fields = new FormData(event.currentTarget as HTMLFormElement);
 
         if (
@@ -418,21 +424,23 @@ function JobReview(props: {
         )
             return;
         // apply the decision and refresh the workspace
-        void props.perform(
-            async () =>
-                (await memberClient()).mutation(api.jobs.jobs.publish, {
-                    id: props.job._id,
-                    funding: String(fields.get("funding")) as "existing" | "invoice" | "sponsor",
-                    invoiceReference: String(fields.get("invoiceReference") ?? "") || undefined,
-                }),
-            "Job published.",
-        );
+        void props.perform(async () => {
+            await (
+                await memberClient()
+            ).mutation(api.jobs.jobs.publish, {
+                id: props.job._id,
+                funding: String(fields.get("funding")) as "existing" | "invoice" | "sponsor",
+                invoiceReference: String(fields.get("invoiceReference") ?? "") || undefined,
+            });
+            savedEditor(editor);
+        }, "Job published.");
     }
 
     /** Return the vacancy to its author with a review note. */
     async function decline(event: SubmitEvent) {
         // read the submitted review fields
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         const note = String(new FormData(event.currentTarget as HTMLFormElement).get("note"));
 
         if (
@@ -445,15 +453,16 @@ function JobReview(props: {
         )
             return;
         // apply the decision and refresh the workspace
-        void props.perform(
-            async () =>
-                (await memberClient()).mutation(api.jobs.jobs.updateStatus, {
-                    id: props.job._id,
-                    action: "decline",
-                    note,
-                }),
-            "Review returned to the employer.",
-        );
+        void props.perform(async () => {
+            await (
+                await memberClient()
+            ).mutation(api.jobs.jobs.updateStatus, {
+                id: props.job._id,
+                action: "decline",
+                note,
+            });
+            savedEditor(editor);
+        }, "Review returned to the employer.");
     }
 
     return (
@@ -474,7 +483,7 @@ function JobReview(props: {
             </p>
             <details>
                 <summary>Record a manual payment</summary>
-                <form class="editor" onSubmit={publish}>
+                <Editor class="editor" onSubmit={publish}>
                     <label>
                         Funding
                         <select
@@ -500,9 +509,9 @@ function JobReview(props: {
                     <button class="button button--primary" disabled={props.isPending}>
                         Approve & publish
                     </button>
-                </form>
+                </Editor>
             </details>
-            <form class="editor" onSubmit={decline}>
+            <Editor class="editor" onSubmit={decline}>
                 <label>
                     Review note
                     <textarea name="note" required rows="2" />
@@ -510,7 +519,7 @@ function JobReview(props: {
                 <button class="button" disabled={props.isPending}>
                     Return for changes
                 </button>
-            </form>
+            </Editor>
         </details>
     );
 }

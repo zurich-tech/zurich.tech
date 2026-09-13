@@ -77,6 +77,7 @@ export type Confirmation = {
     description: string;
     subject?: string;
     action: string;
+    dismiss?: string;
     isDestructive?: boolean;
     emails?: number;
     recipients?: number;
@@ -168,7 +169,7 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
                             ref={dismissButton}
                             onClick={() => finish(false)}
                         >
-                            Dismiss
+                            {current()?.dismiss ?? "Dismiss"}
                         </button>
                         <button
                             type="button"

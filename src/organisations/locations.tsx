@@ -1,4 +1,4 @@
-import { Editor } from "../components/form";
+import { leaveEditor, resetEditor, savedEditor, Editor } from "../components/form";
 import { useConfirmation } from "../components/dialog";
 import { startTransition, createResource, createSignal, For, Show } from "solid-js";
 import type { FunctionReturnType } from "convex/server";
@@ -53,8 +53,10 @@ export function OrganisationLocations(props: {
                 longitude: Number(text("longitude")),
                 ...(props.isTeam ? { isCurated: data.has("isCurated") } : {}),
             });
+            savedEditor(form);
             setEditing(undefined);
             form.reset();
+            queueMicrotask(() => resetEditor(form));
             await startTransition(refetch);
         } catch (caught) {
             setError(errorMessage(caught, "Could not save location."));
@@ -114,7 +116,11 @@ export function OrganisationLocations(props: {
                             type="button"
                             class="button button--ghost"
                             disabled={isPending()}
-                            onClick={() => setEditing(location)}
+                            onClick={async () => {
+                                if (!(await leaveEditor(locationForm))) return;
+                                setEditing(location);
+                                queueMicrotask(() => resetEditor(locationForm));
+                            }}
                         >
                             Edit
                         </button>
@@ -212,7 +218,11 @@ export function OrganisationLocations(props: {
                         class="button button--ghost"
                         type="button"
                         disabled={isPending()}
-                        onClick={() => setEditing(undefined)}
+                        onClick={async () => {
+                            if (!(await leaveEditor(locationForm))) return;
+                            setEditing(undefined);
+                            queueMicrotask(() => resetEditor(locationForm));
+                        }}
                     >
                         Back
                     </button>

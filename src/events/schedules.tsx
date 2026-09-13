@@ -9,7 +9,7 @@ import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
-import { Editor, FormMessage } from "../components/form";
+import { savedEditor, Editor, FormMessage } from "../components/form";
 import { useWorkspaceCommand, type EventWorkspace } from "../app/workspace";
 import { civilTime } from "./time";
 
@@ -32,6 +32,7 @@ export function Schedules(props: { workspace: EventWorkspace }) {
     /** Save new defaults without rewriting individually edited occurrences. */
     async function save(event: SubmitEvent) {
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         const form = new FormData(event.currentTarget as HTMLFormElement);
         const text = (name: string) => String(form.get(name) ?? "");
         const isPublished = text("publication") === "published";
@@ -77,6 +78,7 @@ export function Schedules(props: { workspace: EventWorkspace }) {
                         .filter(Boolean),
                 },
             });
+            savedEditor(editor);
             setParams({ schedule: id, source: undefined });
         }, "Schedule saved.");
     }

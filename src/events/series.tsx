@@ -5,7 +5,7 @@ import { createSignal, createUniqueId, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { useWorkspaceCommand } from "../app/workspace";
-import { Editor, FormMessage } from "../components/form";
+import { leaveEditor, savedEditor, Editor, FormMessage } from "../components/form";
 import { createAsync, revalidate, useSearchParams } from "@solidjs/router";
 import { getDirectory } from "../organisations/queries";
 import type { Id } from "../../convex/_generated/dataModel";
@@ -26,26 +26,26 @@ export function SeriesAdmin() {
     async function saveSeries(event: SubmitEvent) {
         // read the submitted fields
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         const values = new FormData(event.currentTarget as HTMLFormElement);
         const text = (key: string) => String(values.get(key) ?? "");
 
         // save and refresh the visible catalogue
-        await perform(
-            async () =>
-                await (
-                    await memberClient()
-                ).mutation(api.events.series.upsert, {
-                    id: text("id") ? (text("id") as Id<"series">) : undefined,
-                    name: text("name"),
-                    slug: text("slug"),
-                    description: text("description"),
-                    topics: text("topics")
-                        .split(",")
-                        .map((item) => item.trim())
-                        .filter(Boolean),
-                }),
-            "Series saved.",
-        );
+        await perform(async () => {
+            await (
+                await memberClient()
+            ).mutation(api.events.series.upsert, {
+                id: text("id") ? (text("id") as Id<"series">) : undefined,
+                name: text("name"),
+                slug: text("slug"),
+                description: text("description"),
+                topics: text("topics")
+                    .split(",")
+                    .map((item) => item.trim())
+                    .filter(Boolean),
+            });
+            savedEditor(editor);
+        }, "Series saved.");
     }
 
     const [params] = useSearchParams();
@@ -117,7 +117,8 @@ export function SeriesAdmin() {
                     <button
                         class="button"
                         classList={{ "button--primary": !selected() }}
-                        onClick={() => {
+                        onClick={async () => {
+                            if (!(await leaveEditor(formId))) return;
                             setSelected(selected() ? undefined : "new");
                         }}
                     >

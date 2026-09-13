@@ -8,7 +8,7 @@ import {
 } from "../../convex/members/demographics";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
-import { Editor, FormMessage } from "../components/form";
+import { savedEditor, Editor, FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 
 /** Read optional survey fields, using empty values to clear answers. */
@@ -33,6 +33,7 @@ export function Demographics(props: { onComplete?: () => void }) {
     /** Save only selected answers; blank values remove previous answers. */
     async function save(event: SubmitEvent) {
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         const fields = new FormData(event.currentTarget as HTMLFormElement);
         const answers = readDemographics(fields);
         setIsPending(true);
@@ -45,6 +46,7 @@ export function Demographics(props: { onComplete?: () => void }) {
                 demographics: answers,
                 isOnboarding: !!props.onComplete,
             });
+            savedEditor(editor);
             await startTransition(refetch);
             setSuccess("Community profile saved.");
             props.onComplete?.();

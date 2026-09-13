@@ -1,3 +1,4 @@
+import { leaveEditor, resetEditor } from "../../../components/form";
 import { Speaking } from "../../../events/speaking";
 import { useNavigate } from "@solidjs/router";
 import { Loading } from "../../../components/loading";
@@ -23,6 +24,7 @@ export default function Route() {
 
     // end the current session
     async function signOut() {
+        if (!(await leaveEditor())) return;
         setError(undefined);
         setIsPending(true);
 
@@ -30,6 +32,7 @@ export default function Route() {
         try {
             const result = await auth.signOut();
             if (result.error === null) {
+                Array.from(document.forms).forEach(resetEditor);
                 navigate("/", { replace: true });
 
                 return;

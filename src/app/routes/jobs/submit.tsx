@@ -10,7 +10,7 @@ import { memberClient } from "../../../auth/convex";
 import { Page, PageHeader } from "../../page";
 import { Card } from "../../../components/card";
 import { Seo } from "../../seo";
-import { Editor, FormMessage } from "../../../components/form";
+import { savedEditor, Editor, FormMessage } from "../../../components/form";
 import { errorMessage } from "../../../components/errors";
 
 /** Prepare a vacancy for team review without modifying its published revision. */
@@ -28,6 +28,7 @@ export default function Route() {
     async function submit(event: SubmitEvent) {
         // read the authored vacancy fields
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         const fields = new FormData(event.currentTarget as HTMLFormElement);
         const text = (key: string) => String(fields.get(key) ?? "").trim();
         setIsPending(true);
@@ -67,6 +68,7 @@ export default function Route() {
                     .filter(Boolean),
                 applicationUrl: text("applicationUrl"),
             });
+            savedEditor(editor);
             await revalidate();
             navigate("/manage?section=jobs");
         } catch (caught) {

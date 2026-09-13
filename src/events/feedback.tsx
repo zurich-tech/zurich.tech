@@ -1,3 +1,4 @@
+import { useUnsavedChanges } from "../components/unsaved";
 import { Rating } from "../components/rating";
 import { useAccount } from "../auth";
 import "./participation.css";
@@ -54,8 +55,12 @@ function Response(props: {
     const [comment, setComment] = createSignal(props.initial?.comment ?? "");
     const [message, setMessage] = createSignal("");
     const [pending, setPending] = createSignal(false);
+    const snapshot = () => JSON.stringify([rating(), comment()]);
+    const [saved, setSaved] = createSignal(snapshot());
+    useUnsavedChanges(() => snapshot() !== saved());
     async function save(event: SubmitEvent) {
         event.preventDefault();
+        const submitted = snapshot();
         setPending(true);
         setMessage("");
         try {
@@ -65,6 +70,7 @@ function Response(props: {
                 rating: rating(),
                 comment: comment(),
             });
+            setSaved(submitted);
             setMessage("Saved");
         } catch (error) {
             setMessage(errorMessage(error, "Could not save feedback."));

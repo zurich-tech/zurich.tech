@@ -7,7 +7,7 @@ import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { errorMessage } from "../components/errors";
 import { Card } from "../components/card";
-import { Editor, FormMessage } from "../components/form";
+import { savedEditor, Editor, FormMessage } from "../components/form";
 import { ProfileLinkFields } from "../components/social";
 
 /** Edit the member profile independently of purchasing a tier. */
@@ -117,6 +117,7 @@ export function ProfileSettings() {
     /** Validate and save the signed-in member's destinations. */
     async function save(event: SubmitEvent) {
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         const fields = new FormData(event.currentTarget as HTMLFormElement);
         const text = (key: string) => String(fields.get(key) ?? "").trim() || undefined;
         setIsPending(true);
@@ -135,6 +136,7 @@ export function ProfileSettings() {
                 profileUrl: text("profileUrl"),
                 socials: { linkedin: text("linkedin"), github: text("github"), x: text("x") },
             });
+            savedEditor(editor);
             await startTransition(refetch);
             setSuccess("Profile saved.");
         } catch (caught) {

@@ -3,7 +3,7 @@ import { startTransition, createResource, createSignal, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
-import { Editor, FormMessage } from "../components/form";
+import { savedEditor, Editor, FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 
 /** Edit email preferences. */
@@ -18,6 +18,7 @@ export function Notifications() {
     /** Save only the current account's verified email preferences. */
     async function save(event: SubmitEvent) {
         event.preventDefault();
+        const editor = event.currentTarget as HTMLFormElement;
         const fields = new FormData(event.currentTarget as HTMLFormElement);
         setIsPending(true);
         setError(undefined);
@@ -31,6 +32,7 @@ export function Notifications() {
                 reminders: fields.has("reminders"),
                 followUps: fields.has("followUps"),
             });
+            savedEditor(editor);
             await startTransition(refetch);
             setSuccess("Email preferences saved.");
         } catch (caught) {

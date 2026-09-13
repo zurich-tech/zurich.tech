@@ -3,7 +3,7 @@ import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { memberClient } from "../auth/convex";
 import { ProfileLinkFields, type SocialProfiles } from "../components/social";
-import { Editor, FormMessage } from "../components/form";
+import { resetEditor, savedEditor, Editor, FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 
 /** Edit the public company identity shared by jobs and sponsorships. */
@@ -69,8 +69,12 @@ export function CompanyForm(props: {
                 location: text("location"),
                 description: text("description"),
             });
+            savedEditor(form);
             await props.onSave();
-            if (!props.item) form.reset();
+            if (!props.item) {
+                form.reset();
+                resetEditor(form);
+            }
             setSuccess("Organisation saved.");
         } catch (caught) {
             setError(errorMessage(caught, "Could not save organisation."));
