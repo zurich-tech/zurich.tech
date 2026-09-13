@@ -186,7 +186,7 @@ test("saving a published-event draft changes neither the live event nor email qu
     await backend.run(async (ctx) => {
         expect((await ctx.db.get(ids.eventId))?.description).toBe("Original");
         expect((await ctx.db.get(ids.draftId))?.description).toBe("Revised");
-        expect(await ctx.db.query("deliveries").collect()).toEqual([]);
+        expect(await ctx.db.query("messages").collect()).toEqual([]);
     });
     await expect(
         editor.mutation(api.events.mutations.save, {
@@ -287,6 +287,6 @@ test("a new draft gets an assignable event identity without publication or mail"
             .withIndex("by_event", (q) => q.eq("eventId", event!._id))
             .unique();
         expect(revision).not.toBeNull();
-        expect(await ctx.db.query("deliveries").collect()).toEqual([]);
+        expect(await ctx.db.query("messages").collect()).toEqual([]);
     });
 });

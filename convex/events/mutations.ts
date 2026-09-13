@@ -14,7 +14,7 @@ import { requireEvent, requireRevision } from "../auth/grants";
 import { eventFields, submissionFields } from "./fields";
 import { normalizeUrl, normalizeImageUrl } from "../members/urls";
 import { promoteWaitlist } from "./registrations";
-import { enqueue } from "../mail/deliveries";
+import { create as createCampaign } from "../mail/campaigns";
 
 /** Save a draft while preserving its published revision. */
 export const save = mutation({
@@ -184,10 +184,17 @@ export const save = mutation({
             throw new Error("Partners must be linked event organisations.");
 
         // keep changes separate until an authorised person publishes them
-        const record = { ...values, status: "draft" as const, updatedAt: Date.now() };
+        const record = {
+            ...values,
+            status: "draft" as const,
+            updatedAt: Date.now(),
+        };
         const draftId =
             existing?._id ??
-            (await ctx.db.insert("submissions", { ...record, ownerId: viewer.memberId }));
+            (await ctx.db.insert("submissions", {
+                ...record,
+                ownerId: viewer.memberId,
+            }));
         if (existing) await ctx.db.patch(existing._id, record);
         // reserve an event identity so unpublished events can receive scoped assignments
         if (!publish && !existing?.eventId) {
@@ -314,26 +321,14 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
             const message = eventEmail(draft, "Event updated", {
                 description: eventChanges({ ...existing, ...previousPlace }, draft),
             });
-            const attendees = await ctx.db
-                .query("registrations")
-                .withIndex("by_event", (range) => range.eq("eventId", eventId))
-                .collect();
-            for (const attendee of attendees)
-                if (
-                    attendee.email &&
-                    attendee.status !== "cancelled" &&
-                    attendee.status !== "declined"
-                )
-                    await enqueue(
-                        ctx,
-                        `event-change:${eventId}:${now}:${attendee._id}`,
-                        attendee.email,
-                        message.subject,
-                        message.text,
-                        undefined,
-                        0,
-                        message.html,
-                    );
+            await createCampaign(ctx, {
+                key: `event-change:${eventId}:${now}`,
+                audience: { kind: "registrations", eventId, status: "active" },
+                category: "update",
+                eventId,
+                seriesId: draft.seriesId,
+                content: message,
+            });
         }
     }
 
@@ -351,7 +346,13 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
             : appearances.find((row) => !retained.has(row._id) && row.name === speaker.name);
         if (id && !previous) throw new Error("Speaker does not belong to this event.");
         if (previous && retained.has(previous._id)) throw new Error("Speaker appears twice.");
-        const values = { ...fields, eventId, position, isRemoved: false, updatedAt: now };
+        const values = {
+            ...fields,
+            eventId,
+            position,
+            isRemoved: false,
+            updatedAt: now,
+        };
         const speakerId =
             previous?._id ?? (await ctx.db.insert("speakers", { ...values, createdAt: now }));
         if (previous) await ctx.db.patch(speakerId, values);

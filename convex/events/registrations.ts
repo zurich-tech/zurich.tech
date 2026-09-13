@@ -21,7 +21,8 @@ import { normalizeEmail } from "../members/emails";
 import { consumeLimit } from "../mail/limits";
 import { requireAccount } from "../auth/access";
 import { requireEvent, requireRegistration } from "../auth/grants";
-import { enqueue, requireMail } from "../mail/deliveries";
+import { enqueue } from "../mail/messages";
+import { requireMail } from "../mail/provider";
 
 /** Send a verification link without allocating an unverified seat. */
 export const request = action({

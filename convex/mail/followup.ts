@@ -1,42 +1,14 @@
+import { eventPlace } from "../events/place";
 import { v } from "convex/values";
 import { internalMutation, mutation, query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { internal } from "../_generated/api";
 import { requireEvent } from "../auth/grants";
-import { isTentative } from "../events/conditions";
-import { siteOrigin } from "../auth/environment";
-import { enqueue, requireMail } from "./deliveries";
+import { receivesFollowUp as eligible } from "./audiences";
+import { create } from "./campaigns";
+import { links } from "./personalization";
+import { requireMail } from "./provider";
 import { eventEmail } from "./templates";
-
-/** Recheck the recipient, admission and attendance policy before delivery. */
-export async function eligible(ctx: QueryCtx, event: Doc<"events">, row: Doc<"registrations">) {
-    if (
-        !event.followUp?.isEnabled ||
-        !event.endsAt ||
-        event.endsAt > Date.now() ||
-        event.status === "cancelled" ||
-        event.status === "draft" ||
-        isTentative(event) ||
-        row.status !== "going" ||
-        !row.token
-    )
-        return false;
-    const subscription = await ctx.db
-        .query("subscriptions")
-        .withIndex("by_email", (q) => q.eq("email", row.email))
-        .unique();
-    if (
-        subscription?.status === "suppressed" ||
-        subscription?.followUps === false ||
-        (subscription?.status === "unsubscribed" && subscription.followUps !== true)
-    )
-        return false;
-    if (!event.checkIn?.isEnabled) return true;
-    return !!(await ctx.db
-        .query("attendances")
-        .withIndex("by_registrationId", (q) => q.eq("registrationId", row._id))
-        .unique());
-}
 
 /** Compute the unsent audience used by both confirmation and sending. */
 async function audience(ctx: QueryCtx, eventId: Doc<"events">["_id"]) {
@@ -49,7 +21,7 @@ async function audience(ctx: QueryCtx, eventId: Doc<"events">["_id"]) {
     const recipients: string[] = [];
     for (const row of rows) {
         const sent = await ctx.db
-            .query("deliveries")
+            .query("messages")
             .withIndex("by_key", (q) => q.eq("key", `followup:${row._id}`))
             .unique();
         if (!sent && (await eligible(ctx, event, row))) recipients.push(row._id);
@@ -102,58 +74,36 @@ export const deliver = internalMutation({
             (!args.isManual && Date.now() < event.endsAt + event.followUp.delayHours * 3600000)
         )
             return;
-        const page = await ctx.db
+        const rows = await ctx.db
             .query("registrations")
-            .withIndex("by_event", (q) => q.eq("eventId", args.eventId))
-            .paginate({ numItems: 100, cursor: args.cursor });
-        for (const [position, row] of page.page.entries()) {
-            if (!(await eligible(ctx, event, row))) continue;
-            // keep the unsubscribe destination available to guests as well as members
-            const subscription = await ctx.db
-                .query("subscriptions")
-                .withIndex("by_email", (q) => q.eq("email", row.email))
-                .unique();
-            const token = subscription?.token ?? crypto.randomUUID() + crypto.randomUUID();
-            if (subscription && !subscription.token)
-                await ctx.db.patch(subscription._id, { token });
-            if (!subscription)
-                await ctx.db.insert("subscriptions", {
-                    email: row.email,
-                    memberId: row.memberId,
-                    status: "unsubscribed",
-                    weekly: false,
-                    announcements: false,
-                    followUps: true,
-                    token,
-                    source: "registration",
-                    createdAt: Date.now(),
-                    updatedAt: Date.now(),
-                });
-            const hasFeedback = event.feedback?.isEventEnabled || event.feedback?.isSpeakerEnabled;
-            const message = eventEmail(event, "Thank you", {
-                unsubscribeUrl: `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(token)}`,
-                description: event.checkIn?.isEnabled
-                    ? `Thanks for coming to ${event.title}.`
-                    : `Thanks for your interest in ${event.title}.`,
-                manageUrl: `${siteOrigin()}/registration?token=${encodeURIComponent(row.token!)}${hasFeedback ? "#feedback" : ""}`,
-                actionLabel: hasFeedback ? "Give feedback" : "View registration",
-            });
-            await enqueue(
-                ctx,
-                `followup:${row._id}`,
-                row.email,
-                message.subject,
-                message.text,
-                undefined,
-                position * 600,
-                message.html,
-                { category: "followup", eventId: event._id, registrationId: row._id },
-            );
-        }
-        if (!page.isDone)
-            await ctx.scheduler.runAfter(page.page.length * 600, internal.mail.followup.deliver, {
-                ...args,
-                cursor: page.continueCursor,
-            });
+            .withIndex("by_event", (q) => q.eq("eventId", event._id))
+            .collect();
+        const recipients = [];
+        for (const row of rows) if (await eligible(ctx, event, row)) recipients.push(row._id);
+        const hasFeedback = event.feedback?.isEventEnabled || event.feedback?.isSpeakerEnabled;
+        await create(
+            ctx,
+            {
+                key: `followup:${event._id}`,
+                audience: {
+                    kind: "registrations",
+                    eventId: event._id,
+                    status: event.checkIn?.isEnabled ? "attended" : "going",
+                },
+                category: "followup",
+                eventId: event._id,
+                seriesId: event.seriesId,
+                expiresAt: event.endsAt + 7 * 86400000,
+                content: eventEmail({ ...event, ...(await eventPlace(ctx, event)) }, "Thank you", {
+                    unsubscribeUrl: links.unsubscribe,
+                    description: event.checkIn?.isEnabled
+                        ? `Thanks for coming to ${event.title}.`
+                        : `Thanks for your interest in ${event.title}.`,
+                    manageUrl: links.registration + (hasFeedback ? "#feedback" : ""),
+                    actionLabel: hasFeedback ? "Give feedback" : "View registration",
+                }),
+            },
+            recipients,
+        );
     },
 });

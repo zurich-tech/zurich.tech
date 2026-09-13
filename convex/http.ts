@@ -1,3 +1,4 @@
+import { receive, unsubscribe } from "./mail/webhooks";
 import { image } from "./events/checkin";
 import { webhook } from "./billing/stripe";
 import { httpRouter } from "convex/server";
@@ -18,5 +19,9 @@ authComponent.registerRoutesLazy(http, createAuth, {
 http.route({ path: "/stripe/webhook", method: "POST", handler: webhook });
 
 http.route({ path: "/passes/qr", method: "GET", handler: image });
+
+http.route({ path: "/mail/webhook", method: "POST", handler: receive });
+http.route({ path: "/mail/unsubscribe", method: "POST", handler: unsubscribe });
+http.route({ path: "/mail/unsubscribe", method: "GET", handler: unsubscribe });
 
 export default http;

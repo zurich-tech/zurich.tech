@@ -31,6 +31,7 @@
         "qrcode-generator": "^2.0.4",
         "solid-js": "1.9.14",
         "stripe": "22.6.1",
+        "svix": "^2.5.0",
         "tailwindcss": "4.3.3",
         "vinxi": "0.5.11",
         "vite": "8.1.5"

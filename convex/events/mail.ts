@@ -4,7 +4,7 @@ import type { Doc } from "../_generated/dataModel";
 import { internal } from "../_generated/api";
 import { requireEvent } from "../auth/grants";
 import { receivesAnnouncement } from "../mail/events";
-import { requireMail } from "../mail/deliveries";
+import { requireMail } from "../mail/provider";
 import { isTentative } from "./conditions";
 
 /** Explicit event mail audiences. */
@@ -15,7 +15,7 @@ export async function isAnnounced(ctx: QueryCtx, event: Doc<"events">) {
     return (
         !!event.announcedAt ||
         !!(await ctx.db
-            .query("deliveries")
+            .query("messages")
             .withIndex("by_event_and_category", (q) =>
                 q.eq("eventId", event._id).eq("category", "announcement"),
             )
@@ -62,7 +62,7 @@ async function audience(ctx: QueryCtx, event: Doc<"events">, intent: "announceme
     } else if (!reason) {
         const preferences = new Map(subscriptions.map((row) => [row.email, row]));
         const deliveries = await ctx.db
-            .query("deliveries")
+            .query("messages")
             .withIndex("by_event_and_category", (q) =>
                 q.eq("eventId", event._id).eq("category", "reminder"),
             )

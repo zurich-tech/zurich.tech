@@ -3,7 +3,7 @@ import { v } from "convex/values";
 import { action, mutation, query } from "../_generated/server";
 import { internal } from "../_generated/api";
 
-import { requireMail } from "./deliveries";
+import { requireMail } from "./provider";
 
 /** Send a subscription confirmation without subscribing an unverified address. */
 export const subscribe = action({

@@ -15,7 +15,7 @@ import { recurrence, occurrences, validateRecurrence } from "./recurrence";
 import { eventFields, submissionFields } from "./fields";
 import { validateConfirmation } from "./conditions";
 import { publishEvent } from "./mutations";
-import { requireMail } from "../mail/deliveries";
+import { requireMail } from "../mail/provider";
 import { receivesAnnouncement } from "../mail/events";
 
 /** List editable schedules and their materialised occurrences for the team. */

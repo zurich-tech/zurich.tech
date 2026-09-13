@@ -283,3 +283,31 @@ export function seriesEmail(
         }),
     };
 }
+
+/** Use the same email frame and private preferences as other communications. */
+export function campaignEmail(
+    campaign: { subject: string; message: string },
+    unsubscribeUrl?: string,
+) {
+    const origin = siteOrigin();
+    const links = [{ label: "Notifications", url: `${origin}/settings` }];
+    if (unsubscribeUrl) links.push({ label: "Unsubscribe", url: unsubscribeUrl });
+    return {
+        subject: campaign.subject,
+        text: [
+            campaign.message,
+            `zurich.tech: ${origin}`,
+            ...links.map((link) => `${link.label}: ${link.url}`),
+            `Legal: ${origin}/legal`,
+        ].join("\n\n"),
+        html: layout({
+            title: campaign.subject,
+            body: campaign.message
+                .split(/\n\s*\n/)
+                .map(paragraph)
+                .join(""),
+            action: { label: "Visit zurich.tech", url: origin },
+            links,
+        }),
+    };
+}

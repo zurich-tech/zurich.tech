@@ -1,12 +1,14 @@
+import { select } from "./audiences";
+import { recipientsLocked } from "./policy";
 import type { Doc } from "../_generated/dataModel";
 import { newsletterEdition, newsletterEmail } from "./templates";
-import { siteOrigin } from "../auth/environment";
+import { create } from "./campaigns";
+import { links } from "./personalization";
 import { v } from "convex/values";
 import { query, mutation, internalMutation } from "../_generated/server";
 import { internal } from "../_generated/api";
 import { activeSponsors } from "../sponsorships/organisations";
 import { requireAdmin } from "../auth/access";
-import { enqueue } from "./deliveries";
 
 /** Read all upcoming published events for the digest preview. */
 export const preview = query({
@@ -24,32 +26,17 @@ export const preview = query({
             )
             .collect();
 
-        // include recent delivery failures in the preview
-        const deliveries = await ctx.db
-            .query("deliveries")
-            .withIndex("by_status", (range) => range.eq("status", "failed"))
-            .take(30);
-
-        // count newsletter recipients who enabled the weekly digest
-        const subscribers = await ctx.db
-            .query("subscriptions")
-            .withIndex("by_status", (range) => range.eq("status", "subscribed"))
-            .collect();
+        // use the same eligibility rules for the preview and the actual edition
+        const subscribers = await select(ctx, { kind: "subscribers" }, "weekly");
 
         // include only the sponsor placements promised by each tier
         const sponsors = await activeSponsors(ctx);
 
         return {
-            isPaused: (await ctx.db.query("digests").unique())?.isPaused ?? false,
+            isPaused: (await ctx.db.query("mailSchedules").unique())?.isPaused ?? true,
             html: newsletterEmail(newsletterEdition(digestEvents(entries, now), sponsors)).html,
             events: digestEvents(entries, now),
-            subscribers: subscribers.filter((row) => row.weekly !== false).length,
-            failures: deliveries.map((row) => ({
-                id: row._id,
-                to: row.to,
-                subject: row.subject,
-                error: row.error,
-            })),
+            subscribers: subscribers.recipients.length,
         };
     },
 });
@@ -60,13 +47,13 @@ export const pause = mutation({
     handler: async (ctx, args) => {
         // restrict newsletter controls to the team
         await requireAdmin(ctx);
-        const settings = await ctx.db.query("digests").unique();
+        const settings = await ctx.db.query("mailSchedules").unique();
         if (settings) await ctx.db.patch(settings._id, args);
-        else await ctx.db.insert("digests", args);
+        else await ctx.db.insert("mailSchedules", args);
     },
 });
 
-/** Queue one weekly edition at Monday 09:00 Zürich time, skipping empty weeks. */
+/** Queue one weekly edition at Monday 08:00 Zürich time, skipping empty weeks. */
 export const tick = internalMutation({
     args: {},
     handler: async (ctx) => {
@@ -80,7 +67,7 @@ export const tick = internalMutation({
         }).formatToParts(now);
         if (
             local.find((part) => part.type === "weekday")?.value !== "Mon" ||
-            local.find((part) => part.type === "hour")?.value !== "09"
+            local.find((part) => part.type === "hour")?.value !== "08"
         )
             return;
         if (!process.env.RESEND_API_KEY || !process.env.MAIL_FROM)
@@ -93,8 +80,11 @@ export const tick = internalMutation({
             month: "2-digit",
             day: "2-digit",
         }).format(now);
-        const settings = await ctx.db.query("digests").unique();
-        if (settings?.isPaused || settings?.lastWeek === week) return;
+        const settings = await ctx.db.query("mailSchedules").unique();
+        if (!settings || settings.isPaused || settings?.lastWeek === week || recipientsLocked())
+            return;
+        const bulk = await ctx.db.query("mailPolicy").unique();
+        if (!bulk || bulk.isPaused) return;
 
         // read upcoming published events in chronological order
         const entries = await ctx.db
@@ -111,17 +101,17 @@ export const tick = internalMutation({
         const edition = newsletterEdition(selected, sponsors);
 
         // queue bounded batches rather than one scheduled job per subscriber here
-        await ctx.scheduler.runAfter(0, internal.mail.digests.queue, {
+        await ctx.scheduler.runAfter(0, internal.mail.newsletter.queue, {
             week,
             ...edition,
             cursor: null,
         });
         if (settings) await ctx.db.patch(settings._id, { lastWeek: week });
-        else await ctx.db.insert("digests", { isPaused: false, lastWeek: week });
+        else await ctx.db.insert("mailSchedules", { isPaused: false, lastWeek: week });
     },
 });
 
-/** Queue one bounded page of recipients and schedule the next page. */
+/** Create the edition; the campaign owns recipient batching. */
 export const queue = internalMutation({
     args: {
         week: v.string(),
@@ -130,40 +120,14 @@ export const queue = internalMutation({
         cursor: v.union(v.string(), v.null()),
     },
     handler: async (ctx, args): Promise<string | null> => {
-        // bound both transaction work and scheduled deliveries to one hundred recipients
-        const page = await ctx.db
-            .query("subscriptions")
-            .withIndex("by_status", (range) => range.eq("status", "subscribed"))
-            .paginate({ numItems: 100, cursor: args.cursor });
-        for (const [position, subscriber] of page.page.entries()) {
-            if (subscriber.token && subscriber.weekly !== false) {
-                const message = newsletterEmail(
-                    args,
-                    `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscriber.token)}`,
-                );
-                await enqueue(
-                    ctx,
-                    `digest:${args.week}:${subscriber._id}`,
-                    subscriber.email,
-                    message.subject,
-                    message.text,
-                    subscriber._id,
-                    position * 600,
-                    message.html,
-                    { category: "weekly" },
-                );
-            }
-        }
-
-        // continue at the same delivery pace without crossing mutation scheduling limits
-        if (!page.isDone) {
-            await ctx.scheduler.runAfter(page.page.length * 600, internal.mail.digests.queue, {
-                ...args,
-                cursor: page.continueCursor,
-            });
-        }
-
-        return page.isDone ? null : page.continueCursor;
+        await create(ctx, {
+            key: `digest:${args.week}`,
+            audience: { kind: "subscribers" },
+            category: "weekly",
+            expiresAt: Date.now() + 7 * 86400000,
+            content: newsletterEmail(args, links.unsubscribe),
+        });
+        return null;
     },
 });
 

@@ -1,10 +1,9 @@
 import { v } from "convex/values";
 import { internalMutation } from "../_generated/server";
-import { internal } from "../_generated/api";
 import { receivesAnnouncement } from "./events";
-import { enqueue } from "./deliveries";
+import { create } from "./campaigns";
+import { links } from "./personalization";
 import { seriesEmail } from "./templates";
-import { siteOrigin } from "../auth/environment";
 
 /** Announce a recurring programme once while respecting global event preferences. */
 export const announce = internalMutation({
@@ -18,33 +17,22 @@ export const announce = internalMutation({
         if (!schedule || schedule.status !== "active") return;
         const series = await ctx.db.get(schedule.seriesId);
         if (!series || !series.announcedAt) return;
-        const page = await ctx.db
+        const subscriptions = await ctx.db
             .query("subscriptions")
             .withIndex("by_status", (q) => q.eq("status", "subscribed"))
-            .paginate({ numItems: 100, cursor: args.cursor });
-        for (const [position, subscription] of page.page.entries()) {
-            if (!receivesAnnouncement(subscription, args.publishedAt)) continue;
-            const message = seriesEmail(
-                series,
-                schedule.recurrence,
-                `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscription.token)}`,
-            );
-            await enqueue(
-                ctx,
-                `series:${series._id}:${subscription._id}`,
-                subscription.email,
-                message.subject,
-                message.text,
-                subscription._id,
-                position * 600,
-                message.html,
-                { category: "announcement" },
-            );
-        }
-        if (!page.isDone)
-            await ctx.scheduler.runAfter(page.page.length * 600, internal.mail.series.announce, {
-                ...args,
-                cursor: page.continueCursor,
-            });
+            .collect();
+        await create(
+            ctx,
+            {
+                key: `series:${series._id}`,
+                audience: { kind: "subscribers" },
+                category: "announcement",
+                seriesId: series._id,
+                content: seriesEmail(series, schedule.recurrence, links.unsubscribe),
+            },
+            subscriptions
+                .filter((row) => receivesAnnouncement(row, args.publishedAt))
+                .map((row) => row._id),
+        );
     },
 });

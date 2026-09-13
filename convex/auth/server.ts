@@ -6,7 +6,7 @@ import { betterAuth } from "better-auth/minimal";
 import type { DataModel } from "../_generated/dataModel";
 import authConfig from "../auth.config";
 import { requiredEnvironment } from "./environment";
-import { send } from "../mail/deliveries";
+import { send } from "../mail/provider";
 import { socialProviders } from "./providers";
 import { authComponent } from "./component";
 

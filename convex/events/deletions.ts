@@ -114,7 +114,7 @@ async function deletionReason(ctx: QueryCtx, id: Target): Promise<string | null>
             "registrations",
             "attendances",
             "feedback",
-            "deliveries",
+            "messages",
             "verifications",
         ] as const) {
             if (
@@ -123,7 +123,7 @@ async function deletionReason(ctx: QueryCtx, id: Target): Promise<string | null>
                     .filter((q) => q.eq(q.field("eventId"), event._id))
                     .first()
             )
-                return `This event has ${table === "deliveries" ? "email history" : table === "verifications" ? "registration requests" : table}.`;
+                return `This event has ${table === "messages" ? "email history" : table === "verifications" ? "registration requests" : table}.`;
         }
         if (event.announcedAt || event.reminderStartsAt) return "This event has email history.";
     }

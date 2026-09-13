@@ -1,14 +1,15 @@
-import { ensureToken } from "../events/checkin";
+import { eventPlace } from "../events/place";
 import { isTentative } from "../events/conditions";
 import type { Doc } from "../_generated/dataModel";
 import { eventEmail } from "./templates";
 import { v } from "convex/values";
 import { internalMutation } from "../_generated/server";
 import { internal } from "../_generated/api";
-import { siteOrigin } from "../auth/environment";
-import { enqueue } from "./deliveries";
+import { create } from "./campaigns";
+import { select } from "./audiences";
+import { links } from "./personalization";
 
-/** Announce a newly published event once to each subscriber. */
+/** Announce one published event to the audience present at publication. */
 export const announce = internalMutation({
     args: {
         eventId: v.id("events"),
@@ -18,36 +19,28 @@ export const announce = internalMutation({
     handler: async (ctx, args) => {
         const event = await ctx.db.get(args.eventId);
         if (!event || event.status !== "scheduled" || event.startsAt <= Date.now()) return;
-        const page = await ctx.db
+        const subscriptions = await ctx.db
             .query("subscriptions")
             .withIndex("by_status", (q) => q.eq("status", "subscribed"))
-            .paginate({ numItems: 100, cursor: args.cursor });
-        for (const [position, subscription] of page.page.entries()) {
-            if (!receivesAnnouncement(subscription, args.publishedAt)) continue;
-            const unsubscribe = `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscription.token)}`;
-            const message = eventEmail(event, "New event", {
-                summary: true,
-                unsubscribeUrl: unsubscribe,
-            });
-            await enqueue(
-                ctx,
-                `announcement:${event._id}:${subscription._id}`,
-                subscription.email,
-                message.subject,
-                message.text,
-                subscription._id,
-                position * 600,
-                message.html,
-                { category: "announcement", eventId: event._id },
-            );
-        }
-
-        // continue in bounded batches without sending an event twice
-        if (!page.isDone)
-            await ctx.scheduler.runAfter(page.page.length * 600, internal.mail.events.announce, {
-                ...args,
-                cursor: page.continueCursor,
-            });
+            .collect();
+        await create(
+            ctx,
+            {
+                key: `announcement:${event._id}`,
+                audience: { kind: "subscribers" },
+                category: "announcement",
+                eventId: event._id,
+                seriesId: event.seriesId,
+                expiresAt: event.startsAt,
+                content: eventEmail({ ...event, ...(await eventPlace(ctx, event)) }, "New event", {
+                    summary: true,
+                    unsubscribeUrl: links.unsubscribe,
+                }),
+            },
+            subscriptions
+                .filter((row) => receivesAnnouncement(row, args.publishedAt))
+                .map((row) => row._id),
+        );
     },
 });
 
@@ -73,7 +66,7 @@ export const tick = internalMutation({
     },
 });
 
-/** Queue one reminder per confirmed registration, rechecking eligibility on delivery. */
+/** Freeze eligible registrations; manual and automatic reminders share delivery keys. */
 export const remind = internalMutation({
     args: {
         eventId: v.id("events"),
@@ -92,52 +85,46 @@ export const remind = internalMutation({
             (!args.manualAt && event.startsAt > Date.now() + 86400000)
         )
             return;
-        const page = await ctx.db
-            .query("registrations")
-            .withIndex("by_event", (q) => q.eq("eventId", event._id))
-            .paginate({ numItems: 100, cursor: args.cursor });
-        for (const [position, registration] of page.page.entries()) {
-            // the confirmation already serves as a reminder for last-minute registrations
+        const audience = {
+            kind: "registrations" as const,
+            eventId: event._id,
+            status: "going" as const,
+        };
+        const selected = await select(ctx, audience, "reminder");
+        const recipients = [];
+        for (const id of selected.recipients) {
+            const row = await ctx.db.get(id);
+            if (!row || !("eventId" in row)) continue;
             if (
-                registration.status !== "going" ||
-                (args.manualAt
-                    ? registration.createdAt > args.manualAt
-                    : event.startsAt - (registration.approvedAt ?? registration.createdAt) <
-                      86400000)
+                args.manualAt
+                    ? row.createdAt > args.manualAt
+                    : event.startsAt - (row.approvedAt ?? row.createdAt) < 86400000
             )
                 continue;
-            const message = eventEmail(event, "Event reminder", {
-                subject: "Reminder",
-                passUrl: event.checkIn?.isEnabled
-                    ? `${process.env.CONVEX_SITE_URL}/passes/qr?token=${encodeURIComponent(await ensureToken(ctx, registration))}`
-                    : undefined,
-                manageUrl: registration.token
-                    ? `${siteOrigin()}/registration?token=${encodeURIComponent(registration.token)}`
-                    : undefined,
-            });
-            await enqueue(
-                ctx,
-                `reminder:${registration._id}:${event.startsAt}`,
-                registration.email,
-                message.subject,
-                message.text,
-                undefined,
-                position * 600,
-                message.html,
-                {
-                    category: "reminder",
-                    eventId: event._id,
-                    registrationId: registration._id,
-                    startsAt: event.startsAt,
-                },
-            );
+            recipients.push(id);
         }
-
-        if (!page.isDone)
-            await ctx.scheduler.runAfter(page.page.length * 600, internal.mail.events.remind, {
-                ...args,
-                cursor: page.continueCursor,
-            });
+        await create(
+            ctx,
+            {
+                key: `reminder:${event._id}:${event.startsAt}:${args.manualAt ? "manual" : "automatic"}`,
+                audience,
+                category: "reminder",
+                eventId: event._id,
+                seriesId: event.seriesId,
+                startsAt: event.startsAt,
+                expiresAt: event.startsAt,
+                content: eventEmail(
+                    { ...event, ...(await eventPlace(ctx, event)) },
+                    "Event reminder",
+                    {
+                        subject: "Reminder",
+                        passUrl: event.checkIn?.isEnabled ? links.pass : undefined,
+                        manageUrl: links.registration,
+                    },
+                ),
+            },
+            recipients,
+        );
     },
 });
 
@@ -154,7 +141,7 @@ export function receivesAnnouncement(
     );
 }
 
-/** Deliver final event outcomes in bounded batches to active registrants. */
+/** Notify active registrants when a tentative event is confirmed or cancelled. */
 export const outcome = internalMutation({
     args: {
         eventId: v.id("events"),
@@ -165,47 +152,23 @@ export const outcome = internalMutation({
     handler: async (ctx, args) => {
         const event = await ctx.db.get(args.eventId);
         if (!event) return;
-        const page = await ctx.db
-            .query("registrations")
-            .withIndex("by_event", (q) => q.eq("eventId", event._id))
-            .paginate({ numItems: 100, cursor: args.cursor });
-        for (const [position, row] of page.page.entries()) {
-            if (!row.email || row.status === "cancelled" || row.status === "declined") continue;
-            const message = eventEmail(
-                event,
+        await create(ctx, {
+            key: `event-${args.outcome}:${event._id}`,
+            audience: { kind: "registrations", eventId: event._id, status: "active" },
+            category: args.outcome,
+            eventId: event._id,
+            seriesId: event.seriesId,
+            content: eventEmail(
+                { ...event, ...(await eventPlace(ctx, event)) },
                 args.outcome === "confirmed" ? "Event confirmed" : "Event cancelled",
                 {
-                    passUrl:
-                        args.outcome === "confirmed" &&
-                        row.status === "going" &&
-                        event.checkIn?.isEnabled
-                            ? `${process.env.CONVEX_SITE_URL}/passes/qr?token=${encodeURIComponent(await ensureToken(ctx, row))}`
-                            : undefined,
                     description:
                         args.outcome === "confirmed"
                             ? "The event is going ahead. Your registration status is unchanged."
                             : args.description,
-                    manageUrl: row.token
-                        ? `${siteOrigin()}/registration?token=${encodeURIComponent(row.token)}`
-                        : undefined,
+                    manageUrl: links.registration,
                 },
-            );
-            await enqueue(
-                ctx,
-                `event-${args.outcome}:${event._id}:${row._id}`,
-                row.email,
-                message.subject,
-                message.text,
-                undefined,
-                position * 600,
-                message.html,
-                { category: args.outcome, eventId: event._id, registrationId: row._id },
-            );
-        }
-        if (!page.isDone)
-            await ctx.scheduler.runAfter(page.page.length * 600, internal.mail.events.outcome, {
-                ...args,
-                cursor: page.continueCursor,
-            });
+            ),
+        });
     },
 });

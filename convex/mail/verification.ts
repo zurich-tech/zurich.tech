@@ -8,7 +8,7 @@ import { mutation, internalMutation, query } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { normalizeEmail } from "../members/emails";
 
-import { enqueue } from "./deliveries";
+import { enqueue } from "./messages";
 import { consumeLimit } from "./limits";
 
 /** Validate and retain a short lived email verification request. */
