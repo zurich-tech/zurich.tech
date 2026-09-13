@@ -22,8 +22,7 @@ export const getCalendar = query(
 
 /** Read one published event. */
 export const getEvent = query(
-    async (slug: string) =>
-        await publicClient().query(api.events.queries.event, { now: Date.now(), slug }),
+    async (slug: string) => await publicClient().query(api.events.queries.event, { slug }),
     "event",
 );
 

@@ -23,7 +23,7 @@ export const calendar = query({
 
 /** Read one published event by slug. */
 export const event = query({
-    args: { now: v.number(), slug: v.string() },
+    args: { now: v.optional(v.number()), slug: v.string() },
     handler: async (ctx, args) => {
         const event = await ctx.db
             .query("events")
@@ -132,7 +132,7 @@ export const event = query({
             confirmation: event.confirmation,
             confirmedAt: event.confirmedAt,
             summary: event.summary,
-            tags: eventTags(event.topics, event.startsAt, args.now),
+            tags: eventTags(event.topics, event.startsAt, args.now ?? Date.now()),
             timezone: "Europe/Zurich",
             title: event.title,
             venue: {

@@ -1,8 +1,6 @@
-import { api } from "../../convex/_generated/api";
-import { memberClient } from "../auth/convex";
 import { A, useLocation } from "@solidjs/router";
-import { Show, For, createSignal, createEffect, createResource } from "solid-js";
-import { useAccount } from "../auth/index";
+import { Show, For, createSignal, createEffect } from "solid-js";
+import { useAccess } from "../auth/edit";
 import { Avatar } from "../components/avatar";
 import { site } from "./site";
 import { Brand } from "./brand";
@@ -13,7 +11,7 @@ const destinations = ["About", "Events", "Jobs", "News", "Map", "Sponsor", "Stat
 
 /** Navigate the community's public pages and organiser workspace. */
 export function Topbar() {
-    const account = useAccount();
+    const { account, access: profile, current: currentProfile, refetch } = useAccess();
     const location = useLocation();
     const [isMenuOpen, setMenuOpen] = createSignal(false);
 
@@ -22,21 +20,6 @@ export function Topbar() {
         location.pathname;
         setMenuOpen(false);
     });
-    const [profile, { refetch }] = createResource(
-        () => (account.user() ? `${account.user()!.id}:${location.pathname}` : undefined),
-        async () => ({
-            accountId: account.user()!.id,
-            ...(await (await memberClient()).query(api.auth.queries.current, {})),
-        }),
-        { initialValue: null },
-    );
-
-    // reuse the last profile only while it belongs to the signed-in account
-    const currentProfile = () =>
-        !profile.error && profile.latest?.accountId === account.user()?.id
-            ? profile.latest
-            : undefined;
-
     return (
         <header class="site-topbar">
             <div class="site-topbar__body">
@@ -89,7 +72,7 @@ export function Topbar() {
                                     Retry account
                                 </button>
                             </Show>
-                            <Show when={currentProfile()?.isTeam}>
+                            <Show when={currentProfile()?.canManage}>
                                 <A class="header-account header-admin" href="/admin">
                                     Admin
                                 </A>
@@ -156,7 +139,7 @@ export function Topbar() {
                     <a href={site.socials.discord} target="_blank" rel="noopener noreferrer">
                         Suggest news
                     </a>
-                    <Show when={currentProfile()?.isTeam}>
+                    <Show when={currentProfile()?.canManage}>
                         <A href="/admin">Admin</A>
                     </Show>
                 </nav>
