@@ -1,11 +1,11 @@
 import { DeleteRecord } from "../../events/delete";
-import { ParticipationFields } from "../../events/participation";
+import { EventOptions } from "../../events/participation";
 import { useConfirmation } from "../../components/dialog";
 import { EventMail } from "../../events/mail";
-import { ConfirmationFields, readConfirmation } from "../../events/confirmation";
+import { readConfirmation } from "../../events/confirmation";
 import { isTentative } from "../../../convex/events/conditions";
 import { confirmEvent } from "../../events/actions";
-import { EventFields, VenueFields, ProgrammeFields, RegistrationFields } from "../../events/event-editor";
+import { EventFields, VenueFields, ProgrammeFields } from "../../events/event-editor";
 import { getDirectory } from "../../organisations/queries";
 import { Arrow } from "../../components/arrow";
 import { Card } from "../../components/card";
@@ -561,18 +561,16 @@ export default function Route() {
                                     </Card>
                                     {/* enter real Zürich local dates and an optional map position */}
                                     <VenueFields draft={draft()} />
-                                    <Card title="Options" class="event-options">
-                                        <ParticipationFields draft={draft()} />
-                                        <ConfirmationFields
-                                            confirmation={draft()?.confirmation}
-                                            startsAt={draft()?.startsAt}
-                                            confirmedAt={
-                                                params.edit
-                                                    ? currentEvent()?.confirmedAt
-                                                    : undefined
-                                            }
-                                        />
-                                    </Card>
+                                    <EventOptions
+                                        draft={draft()}
+                                        kind={kind()}
+                                        setKind={setKind}
+                                        questions={questions()}
+                                        setQuestions={setQuestions}
+                                        confirmedAt={
+                                            params.edit ? currentEvent()?.confirmedAt : undefined
+                                        }
+                                    />
                                     <Show
                                         when={
                                             canPublish() &&
@@ -632,14 +630,6 @@ export default function Route() {
                                     <Show when={canPublish() && isPublished() && currentEvent()}>
                                         <EventMail eventId={currentEvent()!.id} />
                                     </Show>
-                                    {/* compose admission, capacity, and overflow independently */}
-                                    <RegistrationFields
-                                        draft={draft()}
-                                        kind={kind()}
-                                        setKind={setKind}
-                                        questions={questions()}
-                                        setQuestions={setQuestions}
-                                    />
                                 </div>
                             </div>
                             <FormMessage error={error()} success={success()} />

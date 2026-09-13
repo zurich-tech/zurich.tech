@@ -1,5 +1,6 @@
 import { Card } from "../components/card";
-import { createEffect, createSignal, Show } from "solid-js";
+import { Show } from "solid-js";
+import { OptionalFields } from "../components/form";
 import type { Confirmation } from "../../convex/events/fields";
 import { isTentative } from "../../convex/events/conditions";
 
@@ -8,76 +9,65 @@ export function ConfirmationFields(props: {
     confirmation?: Confirmation;
     startsAt?: number;
     confirmedAt?: number;
+    hasNativeRegistration?: boolean;
 }) {
-    const [enabled, setEnabled] = createSignal(!!props.confirmation);
-    createEffect(() => setEnabled(!!props.confirmation));
     return (
-        <fieldset>
-            <legend>Confirmation</legend>
+        <OptionalFields
+            name="isConditional"
+            label="Require confirmation before the event"
+            checked={!!props.confirmation}
+        >
             <Show when={props.confirmedAt}>
                 <p class="form-success">Confirmed</p>
             </Show>
+            <div classList={{ "form-columns": props.hasNativeRegistration !== false }}>
+                <label hidden={props.hasNativeRegistration === false}>
+                    Minimum registrations
+                    <input
+                        type="number"
+                        name="minimum"
+                        disabled={props.hasNativeRegistration === false}
+                        min="1"
+                        step="1"
+                        placeholder="None"
+                        value={props.confirmation?.minimum ?? ""}
+                    />
+                </label>
+                <label>
+                    Deadline before start (hours)
+                    <input
+                        required
+                        type="number"
+                        name="decisionHours"
+                        min="0.25"
+                        step="0.25"
+                        value={
+                            props.confirmation && props.startsAt
+                                ? (props.startsAt - props.confirmation.decidesAt) / 3600000
+                                : 6
+                        }
+                    />
+                </label>
+            </div>
             <label class="checkbox">
                 <input
                     type="checkbox"
-                    name="isConditional"
-                    checked={enabled()}
-                    onChange={(event) => setEnabled(event.currentTarget.checked)}
+                    name="isApprovalRequired"
+                    checked={props.confirmation?.isApprovalRequired ?? false}
                 />
-                Conditional event
+                Require organiser approval
             </label>
-            <Show when={enabled()}>
-                <div class="form-columns">
-                    <label>
-                        Minimum registrations
-                        <input
-                            type="number"
-                            name="minimum"
-                            min="1"
-                            step="1"
-                            placeholder="None"
-                            value={props.confirmation?.minimum ?? ""}
-                        />
-                    </label>
-                    <label>
-                        Deadline before start (hours)
-                        <input
-                            required
-                            type="number"
-                            name="decisionHours"
-                            min="0.25"
-                            step="0.25"
-                            value={
-                                props.confirmation && props.startsAt
-                                    ? (props.startsAt - props.confirmation.decidesAt) / 3600000
-                                    : 6
-                            }
-                        />
-                    </label>
-                </div>
-                <label class="checkbox">
-                    <input
-                        type="checkbox"
-                        name="isApprovalRequired"
-                        checked={props.confirmation?.isApprovalRequired ?? false}
-                    />
-                    Require team approval
-                </label>
-                <label>
-                    Confirm
-                    <select
-                        name="confirmationTiming"
-                        value={props.confirmation?.timing ?? "deadline"}
-                    >
-                        <option value="deadline">At the deadline</option>
-                        <option value="immediate">As soon as requirements are met</option>
-                    </select>
-                </label>
-                <p class="field-hint">
-                    Cancel automatically if requirements aren’t met by the deadline.
-                </p>
-            </Show>
-        </fieldset>
+            <label>
+                Confirm
+                <select name="confirmationTiming" value={props.confirmation?.timing ?? "deadline"}>
+                    <option value="deadline">At the deadline</option>
+                    <option value="immediate">As soon as requirements are met</option>
+                </select>
+            </label>
+            <p class="field-hint">
+                Cancel automatically if requirements aren’t met by the deadline.
+            </p>
+        </OptionalFields>
     );
 }
 

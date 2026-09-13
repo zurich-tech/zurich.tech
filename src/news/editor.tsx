@@ -1,3 +1,4 @@
+import { FormSection } from "../components/form";
 import { useUnsavedChanges } from "../components/unsaved";
 import { createSignal, For, Show } from "solid-js";
 import { useNavigate, useSearchParams, revalidate } from "@solidjs/router";
@@ -252,8 +253,7 @@ export function NewsEditor(props: {
                                 />
                             </Field>
                         </div>
-                        <fieldset>
-                            <legend>Authors</legend>
+                        <FormSection title="Authors">
                             <div class="news-options">
                                 <For each={props.workspace.members}>
                                     {(member) => (
@@ -277,9 +277,8 @@ export function NewsEditor(props: {
                                     )}
                                 </For>
                             </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Organisations</legend>
+                        </FormSection>
+                        <FormSection title="Organisations">
                             <div class="news-options">
                                 <For each={props.workspace.organisations}>
                                     {(organisation) => (
@@ -308,7 +307,7 @@ export function NewsEditor(props: {
                                     )}
                                 </For>
                             </div>
-                        </fieldset>
+                        </FormSection>
                         <div class="news-actions">
                             {actions()}
                             <button type="button" class="button" onClick={() => setIsPreview(true)}>

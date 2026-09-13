@@ -1,4 +1,5 @@
 import { useAccess } from "../auth/edit";
+import { FormSection } from "../components/form";
 import { DeleteRecord } from "./delete";
 import { useConfirmation } from "../components/dialog";
 import "./schedules.css";
@@ -532,8 +533,7 @@ function ScheduleForm(props: {
                     <option value="paused">Paused</option>
                 </select>
             </label>
-            <fieldset class="schedule-exclusions">
-                <legend>Skipped dates</legend>
+            <FormSection title="Skipped dates">
                 <input type="hidden" name="excluded" value={excluded().join(",")} />
                 <div class="form-columns">
                     <label>
@@ -573,7 +573,7 @@ function ScheduleForm(props: {
                         )}
                     </For>
                 </div>
-            </fieldset>
+            </FormSection>
             <p class="field-hint">
                 Generates six weeks ahead. Existing occurrences keep their details; edit or cancel
                 them individually.

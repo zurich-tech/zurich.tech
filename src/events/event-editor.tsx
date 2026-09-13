@@ -399,7 +399,7 @@ export function RegistrationFields(props: {
     }
 
     return (
-        <Card title="Registration">
+        <>
             <label>
                 Registration
                 <select
@@ -489,7 +489,7 @@ export function RegistrationFields(props: {
                     + Add attendee question
                 </button>
             </Show>
-        </Card>
+        </>
     );
 }
 

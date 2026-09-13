@@ -86,22 +86,3 @@
         order: 3;
     }
 }
-
-.event-options .card-body {
-    display: grid;
-    gap: 16px;
-}
-.event-options fieldset {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    min-width: 0;
-}
-.event-options fieldset + fieldset {
-    border-top: 1px solid var(--color-line);
-    padding-top: 16px;
-}
-.event-options legend {
-    padding: 0;
-    margin-bottom: 12px;
-}
