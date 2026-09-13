@@ -2918,7 +2918,7 @@ a.eyebrow:hover {
     border-top: 1px solid var(--color-line);
     padding-top: 24px;
 }
-.event-aside .button {
+.event-aside .button:not(.dialog .button) {
     width: 100%;
 }
 .event-aside .detail-row {
@@ -3211,7 +3211,7 @@ select.field__control:not([multiple]) {
     .event-aside .detail-row {
         padding: 0;
     }
-    .event-aside .button {
+    .event-aside .button:not(.dialog .button) {
         justify-self: start;
         width: auto;
     }
@@ -5629,4 +5629,18 @@ iframe.email-preview {
     .footer-wordmark {
         grid-column: 2;
     }
+}
+
+/* present calendar destinations as equal choices */
+.calendar-options {
+    display: grid;
+    gap: 8px;
+}
+.calendar-options .button {
+    justify-content: space-between;
+}
+.calendar-options p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--color-soft);
 }

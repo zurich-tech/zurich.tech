@@ -10,6 +10,7 @@ import { api } from "../../../../convex/_generated/api";
 import { TeamEdit } from "../../../auth/edit";
 import { SocialLinks } from "../../../components/social";
 import { Image } from "../../../components/image";
+import { CalendarButton } from "../../../events/calendar-button";
 import { Share } from "../../../components/share";
 import { site, timeZone } from "../../site";
 import { getEvent, useConfirmationRefresh, type PublicEvent } from "../../../events/queries";
@@ -410,13 +411,15 @@ export default function Route() {
                                         event()?.status !== "cancelled"
                                     }
                                 >
-                                    <a
-                                        class="button"
-                                        href={`/calendar/${slug()}`}
-                                        download={`${slug()}.ics`}
-                                    >
-                                        Add to calendar <Arrow direction="down" />
-                                    </a>
+                                    <CalendarButton
+                                        event={{
+                                            ...event()!,
+                                            description: event()!.summary,
+                                            location: [event()!.venue.name, event()!.venue.address]
+                                                .filter(Boolean)
+                                                .join(", "),
+                                        }}
+                                    />
                                 </Show>
                                 <Show when={(event()?.organisations.length ?? 0) > 0}>
                                     <Card title="Hosts & supporters">
