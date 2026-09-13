@@ -5665,3 +5665,65 @@ iframe.email-preview {
     font-size: 12px;
     color: var(--color-soft);
 }
+
+/* lead with the event's practical details and current admission state */
+.event-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin: 0;
+}
+.event-facts > div + div {
+    border-left: 1px solid var(--color-line);
+    padding-left: 24px;
+}
+.event-facts dt {
+    margin-bottom: 8px;
+    color: var(--color-soft);
+    font: 12px var(--font-mono);
+}
+.event-facts dd {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+.event-facts dd span {
+    display: block;
+    color: var(--color-soft);
+    font-weight: 400;
+}
+.event-facts dd > div + div {
+    margin-top: 8px;
+}
+.event-overview__summary {
+    margin: 0;
+    max-width: 80ch;
+    color: var(--color-soft);
+    font-size: 14px;
+}
+.event-overview__registration {
+    border-top: 1px solid var(--color-line);
+    padding-top: 16px;
+}
+@media (max-width: 700px) {
+    .event-facts {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .event-facts > div + div {
+        border: 0;
+        padding-left: 0;
+    }
+}
+
+.event-overview__registration > p {
+    margin: 0;
+}
+.registration-status-link {
+    display: inline-flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.registration-status-link:hover .status-control {
+    border-color: var(--color-accent);
+}
