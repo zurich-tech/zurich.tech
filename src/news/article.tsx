@@ -1,4 +1,6 @@
 import "./article.css";
+import { NewsActions } from "./actions";
+import { TeamEdit } from "../auth/edit";
 import { TagPills } from "./tags";
 import { type Article } from "./queries";
 import { For, Show, createMemo, createSignal } from "solid-js";
@@ -30,12 +32,14 @@ type ArticleListProps = {
 /** Render dated articles with optional search. */
 export function ArticleList(props: ArticleListProps) {
     const [query, setQuery] = createSignal("");
+    const [kind, setKind] = createSignal("All");
     const terms = createMemo(() => searchTerms(query()));
 
     // filter all visible article fields
     const matches = createMemo(() => {
         return props.articles.filter(
             (article) =>
+                (kind() === "All" || (article.kind ?? "post") === kind().toLowerCase()) &&
                 (!props.tag || article.tags.some((tag) => tag.slug === props.tag)) &&
                 matchesSearch(articleText(article), terms()),
         );
@@ -49,6 +53,7 @@ export function ArticleList(props: ArticleListProps) {
             heading={props.isPage ? "h1" : "h2"}
             class={props.isCompact ? "news-card news-overview" : "news-card"}
             title={props.isPage || props.isCompact ? "News" : "Articles"}
+            toolbar={<NewsActions isCompact={props.isCompact} />}
             titleHref={props.titleHref ?? (props.isPage ? undefined : "/news")}
         >
             <Show when={props.isCompact}>
@@ -58,11 +63,24 @@ export function ArticleList(props: ArticleListProps) {
             </Show>
             <Show when={props.isSearchable}>
                 <TableToolbar onSearch={setQuery} placeholder="Search news…" />
+                <nav class="filter-pills news-actions" aria-label="News type">
+                    <For each={["All", "Post", "Link"]}>
+                        {(label) => (
+                            <button
+                                classList={{ selected: kind() === label }}
+                                aria-pressed={kind() === label}
+                                onClick={() => setKind(label)}
+                            >
+                                {label}
+                            </button>
+                        )}
+                    </For>
+                </nav>
             </Show>
             {/* articles */}
             <Show
                 when={articles().length > 0}
-                fallback={<p class="text-soft">No articles match these filters.</p>}
+                fallback={<p class="text-soft">No news matches these filters.</p>}
             >
                 <div class="news-list">
                     <For each={articles()}>
@@ -71,14 +89,21 @@ export function ArticleList(props: ArticleListProps) {
                                 class="news-row"
                                 date={article.date}
                                 datePlacement="below"
-                                href={`/news/${article.slug}`}
+                                href={article.url ?? `/news/${article.slug}`}
+                                actions={
+                                    article.id && !props.isCompact ? (
+                                        <TeamEdit href={`/news/edit?id=${article.id}`} />
+                                    ) : undefined
+                                }
                                 description={
                                     <Highlight text={article.description} terms={terms()} />
                                 }
                                 meta={
-                                    props.isCompact
-                                        ? undefined
-                                        : article.authors.map((author) => author.name).join(", ")
+                                    article.url
+                                        ? new URL(article.url).hostname.replace(/^www\./, "")
+                                        : props.isCompact
+                                          ? undefined
+                                          : article.authors.map((author) => author.name).join(", ")
                                 }
                                 title={<Highlight text={article.title} terms={terms()} />}
                             />

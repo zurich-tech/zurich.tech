@@ -371,7 +371,7 @@ export default function Route() {
                             <h2>Team access required</h2>
                             <p>Event creation and editing are available to the zurich.tech team.</p>
                             <a class="button button--primary" href="/contribute#events">
-                                Suggest an event <Arrow />
+                                Suggest event <Arrow />
                             </a>
                             <Show when={!account.user() && !account.isPending()}>
                                 <a class="button" href="/sign-in?next=%2Fsubmit">

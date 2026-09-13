@@ -22,7 +22,7 @@ export function Seo(props: {
     const isPrivate = () =>
         /^\/(admin|manage|settings|welcome|sign-in|submit|confirm|registration|unsubscribe|payment)(\/|$)/.test(
             location.pathname,
-        ) || location.pathname === "/jobs/submit";
+        ) || ["/jobs/submit", "/news/edit"].includes(location.pathname);
     const url = () => `${site.url}${location.pathname}`;
     const title = () => (props.isHome ? site.name : `${props.title} - ${site.name}`);
     const image = () => props.image ?? `${site.url}/og.png`;

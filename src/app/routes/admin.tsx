@@ -1,3 +1,4 @@
+import { NewsAdmin } from "../../news/workspace";
 import { Loading } from "../../components/loading";
 import { createResource, Show, Switch, Match, For } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
@@ -17,6 +18,7 @@ import { Team, NewsletterAdmin } from "../../members/workspace";
 
 /** Team-only workspace tabs. */
 const teamTabs = [
+    { id: "news", label: "News" },
     { id: "organisations", label: "Organisations" },
     { id: "jobs", label: "Jobs" },
     { id: "sponsors", label: "Sponsors" },
@@ -112,6 +114,9 @@ export default function Route() {
                         {(current) => (
                             <>
                                 <Switch>
+                                    <Match when={section() === "news"}>
+                                        <NewsAdmin />
+                                    </Match>
                                     <Match when={section() === "events"}>
                                         <Show
                                             when={

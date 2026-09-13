@@ -58,7 +58,7 @@ export default function Route() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        Suggest an event <Arrow direction="external" />
+                                        Suggest event <Arrow direction="external" />
                                     </a>
                                 </section>
                             </div>

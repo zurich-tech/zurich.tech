@@ -1,3 +1,5 @@
+import { TeamEdit } from "../../../auth/edit";
+import { SocialCopy } from "../../../news/social";
 import { timeZone } from "../../site";
 import { getArticle, getArticles } from "../../../news/queries";
 
@@ -37,7 +39,16 @@ export default function Route() {
                             <Arrow direction="left" /> News
                         </a>
                         <div class="listing-layout">
-                            <Card title={post().title} heading="h1" class="news-article">
+                            <Card
+                                title={post().title}
+                                heading="h1"
+                                class="news-article"
+                                toolbar={
+                                    post().id ? (
+                                        <TeamEdit href={`/news/edit?id=${post().id}`} />
+                                    ) : undefined
+                                }
+                            >
                                 <div class="article-byline">
                                     <time dateTime={new Date(post().date).toISOString()}>
                                         {new Date(post().date).toLocaleDateString("en-GB", {
@@ -70,10 +81,44 @@ export default function Route() {
                                         )}
                                     </For>
                                 </div>
+                                <Show when={post().image}>
+                                    <img class="news-image" src={post().image} alt="" />
+                                </Show>
                                 <Markdown source={post().body} />
+                                <Show when={post().url}>
+                                    {(url) => (
+                                        <a
+                                            class="button"
+                                            href={url()}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Read on {new URL(url()).hostname.replace(/^www\./, "")}
+                                        </a>
+                                    )}
+                                </Show>
+                                <Show when={post().organisations?.length}>
+                                    <div class="news-actions">
+                                        <For each={post().organisations}>
+                                            {(organisation) => (
+                                                <a
+                                                    class="tag"
+                                                    href={`/organisations/${organisation.slug}`}
+                                                >
+                                                    {organisation.name}
+                                                </a>
+                                            )}
+                                        </For>
+                                    </div>
+                                </Show>
                             </Card>
                             <aside class="listing-sidebar">
                                 <Tags articles={articles() ?? []} />
+                                <SocialCopy
+                                    title={post().title}
+                                    description={post().description}
+                                    url={`https://zurich.tech/news/${post().slug}`}
+                                />
                             </aside>
                         </div>
                     </Page>

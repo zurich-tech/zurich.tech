@@ -15,3 +15,68 @@
 .news-list:first-child > .entry-container:first-child .entry {
     padding-top: 0;
 }
+
+/* share compact editor spacing and wrap actions without changing card alignment */
+.news-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-block: 16px;
+}
+.news-editor-fields {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    display: grid;
+    gap: 20px;
+}
+.news-editor-fields .news-actions {
+    margin: 0;
+}
+.news-editor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.news-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+}
+.news-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.news-editor-fields fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+.news-editor-fields legend {
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+.news-image {
+    width: 100%;
+    max-height: 440px;
+    object-fit: cover;
+    margin-bottom: 16px;
+}
+@media (max-width: 700px) {
+    .news-editor-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* keep the source or byline alongside the date instead of adding another row */
+.news-row .event-venue {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: end;
+    max-width: calc(100% - 100px);
+    text-align: right;
+}

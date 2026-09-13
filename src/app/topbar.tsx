@@ -4,6 +4,7 @@ import { A, useLocation } from "@solidjs/router";
 import { Show, createResource } from "solid-js";
 import { useAccount } from "../auth/index";
 import { Avatar } from "../components/avatar";
+import { site } from "./site";
 import { Wordmark } from "./wordmark";
 import { ThemeToggle } from "./theme";
 import logo from "../components/assets/logo.svg?raw";
@@ -46,7 +47,15 @@ export function Topbar() {
                 <div class="site-topbar__actions">
                     <div class="header-links">
                         <a class="header-host" href="/contribute#events">
-                            Suggest an event
+                            Suggest event
+                        </a>
+                        <a
+                            class="header-host"
+                            href={site.socials.discord}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Suggest news
                         </a>
                         <Show
                             when={account.user()}
