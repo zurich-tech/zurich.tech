@@ -351,8 +351,8 @@ export default function Route() {
                                 }
                             >
                                 <span
-                                    class="event-publication"
-                                    classList={{ "event-publication--published": isPublished() }}
+                                    class="tag status-control"
+                                    classList={{ "tag-upcoming": isPublished() }}
                                 >
                                     {isCancelled()
                                         ? "Cancelled"
@@ -398,50 +398,73 @@ export default function Route() {
                             ref={form}
                             onSubmit={save}
                             actions={() => (
-                                <div class="form-actions">
-                                    <Show when={!isCancelled()} fallback={<p>Cancelled</p>}>
-                                        <Show when={!isPublished()}>
-                                            <button
-                                                class="button"
-                                                type="submit"
-                                                value="draft"
-                                                disabled={isPending()}
-                                            >
-                                                Save
-                                            </button>
-                                        </Show>
-                                        <button
-                                            class="button button--primary"
-                                            type="submit"
-                                            value="publish"
-                                            disabled={isPending()}
+                                <Card title="Publication" class="editor-publication">
+                                    <Show when={!isCancelled()}>
+                                        <Show
+                                            when={!isPublished()}
+                                            fallback={
+                                                <p>Review changes and any emails before saving.</p>
+                                            }
                                         >
-                                            {isPending()
-                                                ? "Saving…"
-                                                : isPublished()
-                                                  ? "Save"
-                                                  : "Publish event"}
-                                        </button>
-                                        <Show when={isPublished()}>
-                                            <button
-                                                class="button"
-                                                type="button"
-                                                disabled={isPending()}
-                                                onClick={() => void transition("unpublish")}
-                                            >
-                                                Unpublish
-                                            </button>
-                                            <button
-                                                class="button"
-                                                type="button"
-                                                disabled={isPending()}
-                                                onClick={() => void transition("cancel")}
-                                            >
-                                                Cancel
-                                            </button>
+                                            <label class="checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                    name="announce"
+                                                    disabled={isPending()}
+                                                />
+                                                Announce to subscribers
+                                            </label>
+                                            <p>
+                                                Save keeps a draft. Publish opens a review with the
+                                                email count.
+                                            </p>
                                         </Show>
                                     </Show>
-                                </div>
+                                    <div class="form-actions">
+                                        <Show when={!isCancelled()} fallback={<p>Cancelled</p>}>
+                                            <Show when={!isPublished()}>
+                                                <button
+                                                    class="button"
+                                                    type="submit"
+                                                    value="draft"
+                                                    disabled={isPending()}
+                                                >
+                                                    Save
+                                                </button>
+                                            </Show>
+                                            <button
+                                                class="button button--primary"
+                                                type="submit"
+                                                value="publish"
+                                                disabled={isPending()}
+                                            >
+                                                {isPending()
+                                                    ? "Saving…"
+                                                    : isPublished()
+                                                      ? "Save"
+                                                      : "Publish event"}
+                                            </button>
+                                            <Show when={isPublished()}>
+                                                <button
+                                                    class="button"
+                                                    type="button"
+                                                    disabled={isPending()}
+                                                    onClick={() => void transition("unpublish")}
+                                                >
+                                                    Unpublish
+                                                </button>
+                                                <button
+                                                    class="button"
+                                                    type="button"
+                                                    disabled={isPending()}
+                                                    onClick={() => void transition("cancel")}
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </Show>
+                                        </Show>
+                                    </div>
+                                </Card>
                             )}
                         >
                             <Show when={!params.edit}>
@@ -576,13 +599,6 @@ export default function Route() {
                                     />
                                 </div>
                             </div>
-                            <Show when={!isPublished() && !isCancelled()}>
-                                <label class="checkbox">
-                                    <input type="checkbox" name="announce" />
-                                    Email subscribers
-                                </label>
-                            </Show>
-
                             <FormMessage error={error()} success={success()} />
                         </Editor>
                     </Show>

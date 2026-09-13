@@ -10,7 +10,7 @@ export function RegistrationStatus(props: {
     return (
         <>
             <span
-                class="tag registration-status"
+                class="tag status-control"
                 classList={{ "tag-upcoming": props.status === "going" && !props.isCancelled }}
             >
                 {props.isCancelled
@@ -24,7 +24,7 @@ export function RegistrationStatus(props: {
                       }[props.status]}
             </span>
             <Show when={props.isTentative && !props.isCancelled}>
-                <span class="tag registration-status">Event tentative</span>
+                <span class="tag status-control">Event tentative</span>
             </Show>
         </>
     );

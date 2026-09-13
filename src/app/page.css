@@ -48,8 +48,8 @@
     margin-inline-start: auto;
 }
 
-/* match registration labels and actions without making status labels interactive */
-.registration-status,
+/* Match status labels to adjacent actions without making labels interactive. */
+.status-control,
 .registration-actions .button {
     min-height: 40px;
     padding: 10px 14px;
