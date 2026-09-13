@@ -85,6 +85,7 @@ export const event = query({
             checkIn: event.checkIn,
             feedback: event.feedback,
             registration: publicRegistration(event.registration),
+            isPartner: !!event.partnerIds?.length,
             isFull:
                 event.registration.kind === "native" &&
                 event.registration.capacity !== null &&
@@ -171,6 +172,7 @@ export async function calendarRow(ctx: QueryCtx, event: Doc<"events">) {
         location: event.location,
         tags: event.topics,
         registrationKind: event.registration.kind,
+        isPartner: !!event.partnerIds?.length,
         seriesId: event.seriesId,
         status: event.status,
         confirmation: event.confirmation,

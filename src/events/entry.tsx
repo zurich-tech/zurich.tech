@@ -1,5 +1,5 @@
 import { EventCounts } from "./counts";
-import { EventTags } from "./tags";
+import { EventBadges, EventTags } from "./tags";
 import { isTentative } from "../../convex/events/conditions";
 import type { CalendarEntry } from "./queries";
 import "./entry.css";
@@ -118,6 +118,10 @@ export function EventEntry(props: {
                         <Show when={props.event.status === "draft"}>
                             <span class="tag">Draft</span>
                         </Show>
+                        <EventBadges
+                            isPartner={props.event.isPartner}
+                            registrationKind={props.event.registrationKind}
+                        />
                         <EventTags series={props.series} />
                         <Show when={props.event.location}>
                             <span class="tag">{props.event.location}</span>

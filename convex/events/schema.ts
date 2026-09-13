@@ -58,6 +58,7 @@ export const events = defineTable({
     registration,
     seriesId: v.optional(v.id("series")),
     organisationIds: v.optional(v.array(v.id("organisations"))),
+    partnerIds: v.optional(v.array(v.id("organisations"))),
     topics: v.array(v.string()),
     latitude: v.optional(v.number()),
     longitude: v.optional(v.number()),

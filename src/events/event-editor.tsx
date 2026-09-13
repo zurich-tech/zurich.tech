@@ -332,18 +332,26 @@ export function ProgrammeFields(props: {
                     Add activity
                 </button>
                 <fieldset>
-                    <legend>Hosts &amp; supporters</legend>
+                    <legend>Organisations</legend>
                     <div class="organiser-options">
                         <For each={props.directory?.organisations}>
                             {(item) => (
-                                <label class="checkbox-label">
-                                    <input
-                                        type="checkbox"
-                                        name="organisations"
-                                        value={item._id}
-                                        checked={props.draft?.organisations.includes(item._id)}
-                                    />
+                                <label>
                                     {item.name}
+                                    <select
+                                        name={`organisation:${item._id}`}
+                                        value={
+                                            props.draft?.partnerIds?.includes(item._id)
+                                                ? "partner"
+                                                : props.draft?.organisations.includes(item._id)
+                                                  ? "supporter"
+                                                  : "none"
+                                        }
+                                    >
+                                        <option value="none">None</option>
+                                        <option value="supporter">Host / supporter</option>
+                                        <option value="partner">Partner</option>
+                                    </select>
                                 </label>
                             )}
                         </For>

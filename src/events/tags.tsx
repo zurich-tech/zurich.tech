@@ -22,3 +22,17 @@ export function EventTags(props: { series?: { slug: string; name: string }; topi
         </div>
     );
 }
+
+/** Distinguish partnership from where registration takes place. */
+export function EventBadges(props: { isPartner?: boolean; registrationKind?: string }) {
+    return (
+        <>
+            <Show when={props.isPartner}>
+                <span class="tag tag-upcoming">Partner</span>
+            </Show>
+            <Show when={props.registrationKind === "external"}>
+                <span class="tag tag-upcoming">External</span>
+            </Show>
+        </>
+    );
+}

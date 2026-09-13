@@ -1,6 +1,6 @@
 import { useCancellation } from "../../../events/cancellation";
 import { RegistrationStatus } from "../../../events/status";
-import { EventTags } from "../../../events/tags";
+import { EventBadges, EventTags } from "../../../events/tags";
 import { EventCounts } from "../../../events/counts";
 import { ConfirmationNotice } from "../../../events/confirmation";
 import { isTentative } from "../../../../convex/events/conditions";
@@ -214,11 +214,10 @@ export default function Route() {
                                     {isTentative(event()!) ? "Tentative" : "Upcoming"}
                                 </span>
                             </Show>
-                            <Show when={event()?.registration?.kind === "external"}>
-                                <span class="tag tag-external">
-                                    External <Arrow direction="external" />
-                                </span>
-                            </Show>
+                            <EventBadges
+                                isPartner={event()?.isPartner}
+                                registrationKind={event()?.registration.kind}
+                            />
                             <time dateTime={new Date(event()!.startsAt).toISOString()}>
                                 {eventTime(event())}
                             </time>

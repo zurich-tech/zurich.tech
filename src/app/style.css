@@ -3671,17 +3671,6 @@ select.field__control:not([multiple]) {
     color: var(--color-soft);
 }
 
-/* distinguish external registration while keeping the shared tag dimensions */
-.tag.tag-external {
-    color: var(--color-accent);
-    border-color: currentColor;
-    font-weight: 600;
-    gap: 4px;
-}
-.tag-external .arrow-icon {
-    width: 12px;
-    height: 12px;
-}
 .tag.tag-upcoming {
     background: var(--brand-blue);
     border-color: var(--brand-blue);

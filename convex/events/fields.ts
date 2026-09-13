@@ -81,6 +81,7 @@ export const submissionFields = {
     longitude: v.optional(v.number()),
     registration,
     organisations: v.array(v.id("organisations")),
+    partnerIds: v.optional(v.array(v.id("organisations"))),
     speakers: v.array(
         v.object({
             id: v.optional(v.id("speakers")),
@@ -119,5 +120,6 @@ export function eventFields(draft: Pick<Doc<"submissions">, keyof typeof submiss
         followUp: draft.followUp,
         confirmation: draft.confirmation,
         organisationIds: draft.organisations,
+        partnerIds: draft.partnerIds,
     };
 }

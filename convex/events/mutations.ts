@@ -176,6 +176,10 @@ export const save = mutation({
         for (const id of values.organisations)
             if (!(await ctx.db.get(id))) throw new Error("Organisation not found.");
 
+        // require partners to be linked event organisations
+        if (values.partnerIds?.some((id) => !values.organisations.includes(id)))
+            throw new Error("Partners must be linked event organisations.");
+
         // keep changes separate until an authorised person publishes them
         const record = { ...values, status: "draft" as const, updatedAt: Date.now() };
         const draftId =
@@ -423,6 +427,7 @@ export const edit = mutation({
             followUp: event.followUp,
             confirmation: event.confirmation,
             organisations: event.organisationIds ?? [],
+            partnerIds: event.partnerIds,
             speakers: await Promise.all(
                 speakers
                     .filter((row) => !row.isRemoved)

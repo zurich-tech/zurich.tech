@@ -185,6 +185,9 @@ export default function Route() {
                             closesAt: text("closesAt") ? timestamp(text("closesAt")) : undefined,
                             questions: questions(),
                         };
+            const organisations = [...fields.entries()].filter(
+                ([name, role]) => name.startsWith("organisation:") && role !== "none",
+            );
             const client = await memberClient();
             const values = {
                 title: text("title"),
@@ -206,7 +209,12 @@ export default function Route() {
                 longitude: text("longitude") ? Number(text("longitude")) : undefined,
                 registration: policy,
                 organiserIds: fields.getAll("organiserIds") as Id<"members">[],
-                organisations: fields.getAll("organisations") as Id<"organisations">[],
+                organisations: organisations.map(
+                    ([name]) => name.slice("organisation:".length) as Id<"organisations">,
+                ),
+                partnerIds: organisations
+                    .filter(([, role]) => role === "partner")
+                    .map(([name]) => name.slice("organisation:".length) as Id<"organisations">),
                 venueCapacity: text("venueCapacity") ? Number(text("venueCapacity")) : undefined,
                 checkIn: { isEnabled: fields.has("checkIn") },
                 feedback: {

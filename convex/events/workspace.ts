@@ -130,6 +130,7 @@ export const planning = query({
                 confirmation: draft.confirmation,
                 confirmedAt: undefined,
                 registrationKind: draft.registration.kind,
+                isPartner: !!draft.partnerIds?.length,
                 capacity:
                     draft.registration.kind === "none" ? undefined : draft.registration.capacity,
                 rsvpCount: undefined,
