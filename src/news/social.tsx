@@ -11,11 +11,11 @@ export function SocialCopy(props: { title: string; description: string; url: str
     );
     const [message, setMessage] = createSignal<string>();
     const [error, setError] = createSignal<string>();
-    async function copy(network: string) {
+    async function copy() {
         try {
             await navigator.clipboard.writeText(text());
             setError(undefined);
-            setMessage(`Copied for ${network}.`);
+            setMessage("Copied.");
         } catch {
             setError("Could not copy. Select and copy the text above.");
         }
@@ -33,11 +33,8 @@ export function SocialCopy(props: { title: string; description: string; url: str
                 />
             </Field>
             <div class="news-actions">
-                <button class="button" onClick={() => copy("LinkedIn")}>
-                    Copy for LinkedIn
-                </button>
-                <button class="button" onClick={() => copy("Twitter")}>
-                    Copy for Twitter
+                <button class="button" onClick={copy}>
+                    Copy text
                 </button>
             </div>
             <FormMessage success={message()} error={error()} />

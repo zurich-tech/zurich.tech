@@ -1,0 +1,109 @@
+import { Show, createResource } from "solid-js";
+import { Card } from "../components/card";
+import { useConfirmation } from "../components/dialog";
+import { FormMessage } from "../components/form";
+import { useWorkspaceCommand } from "../app/workspace";
+import { memberClient } from "../auth/convex";
+import { api } from "../../convex/_generated/api";
+
+/** Show the next edition and its automatic schedule. */
+export function NewsletterSchedule() {
+    const confirm = useConfirmation();
+    const [edition, { refetch }] = createResource(async () =>
+        (await memberClient()).query(api.mail.newsletter.preview, {}),
+    );
+    const [sending] = createResource(async () =>
+        (await memberClient()).query(api.mail.sending.current, {}),
+    );
+    const command = useWorkspaceCommand(refetch);
+
+    /** Confirm the schedule change independently of existing campaigns. */
+    async function change() {
+        await command.perform(async () => {
+            const client = await memberClient();
+            const latest = await client.query(api.mail.newsletter.preview, {});
+            const isPaused = !latest.isPaused;
+            if (
+                !(await confirm({
+                    title: isPaused ? "Pause newsletter" : "Resume newsletter",
+                    action: isPaused ? "Pause" : "Resume",
+                    description: isPaused
+                        ? "Stop automatic weekly editions."
+                        : "Send every Monday at 08:00 Zürich time when events are ahead.",
+                    emails: 0,
+                    details: isPaused
+                        ? "Already queued campaigns are unaffected."
+                        : `${latest.subscribers.toLocaleString("en-CH")} subscribers are currently eligible. Nothing sends immediately.`,
+                }))
+            )
+                return false;
+            await client.mutation(api.mail.newsletter.pause, { isPaused });
+        }, "Schedule updated.");
+    }
+
+    return (
+        <Card
+            title="Newsletter"
+            class="mail-panel"
+            toolbar={
+                <>
+                    <span class="tag status-control">
+                        {edition()?.isPaused ? "Paused" : "Scheduled"}
+                    </span>
+                    <button
+                        class="button"
+                        disabled={
+                            command.isPending() ||
+                            !edition() ||
+                            (!!edition()?.isPaused &&
+                                (sending()?.isLocked || !sending()?.hasWebhook))
+                        }
+                        onClick={() => void change()}
+                    >
+                        {edition()?.isPaused ? "Resume" : "Pause"}
+                    </button>
+                </>
+            }
+        >
+            <FormMessage
+                error={
+                    command.error() ||
+                    (edition.error ? "Could not load the newsletter." : undefined)
+                }
+                success={command.success()}
+            />
+            <Show when={edition()}>
+                {(value) => (
+                    <>
+                        <dl class="mail-facts mail-schedule">
+                            <div>
+                                <dt>Schedule</dt>
+                                <dd>Monday, 08:00</dd>
+                                <span>Zürich time</span>
+                            </div>
+                            <div>
+                                <dt>Recipients</dt>
+                                <dd>{value().subscribers.toLocaleString("en-CH")}</dd>
+                                <span>Subscribers</span>
+                            </div>
+                            <div>
+                                <dt>Next edition</dt>
+                                <dd>{value().events.length} events</dd>
+                                <span>Empty weeks are skipped</span>
+                            </div>
+                        </dl>
+                        <section class="mail-section">
+                            <h3>Next edition</h3>
+                            <iframe
+                                class="email-preview"
+                                title="Newsletter preview"
+                                srcdoc={value().html}
+                                sandbox=""
+                            />
+                        </section>
+                    </>
+                )}
+            </Show>
+        </Card>
+    );
+}

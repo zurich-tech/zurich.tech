@@ -1,3 +1,4 @@
+import { TableToolbar } from "../components/toolbar";
 import { createResource, createSignal, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "./convex";
@@ -117,15 +118,11 @@ export function AccessManager() {
                     when={person()}
                     fallback={
                         <>
-                            <div class="filter-bar">
-                                <input
-                                    type="search"
-                                    aria-label="Search people"
-                                    placeholder="Search people…"
-                                    value={search()}
-                                    onInput={(event) => setSearch(event.currentTarget.value)}
-                                />
-                            </div>
+                            <TableToolbar
+                                value={search()}
+                                onSearch={setSearch}
+                                placeholder="Search people…"
+                            />
                             <div class="table-scroll">
                                 <table class="admin-table">
                                     <thead>

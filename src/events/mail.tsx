@@ -1,3 +1,4 @@
+import { Campaigns } from "../mail/campaigns";
 import { FollowUp } from "./followup";
 import { useConfirmation } from "../components/dialog";
 import { createResource, createSignal, For, Show, startTransition } from "solid-js";
@@ -26,7 +27,9 @@ export function EventMail(props: { eventId: Id<"events"> }) {
         setSuccess(undefined);
         try {
             const client = await memberClient();
-            const result = await client.query(api.events.mail.preview, { eventId: props.eventId });
+            const result = await client.query(api.events.mail.preview, {
+                eventId: props.eventId,
+            });
             const latest = result[kind];
             if (latest.reason) throw new Error(latest.reason);
             if (!latest.recipients) throw new Error("No eligible recipients.");
@@ -58,41 +61,46 @@ export function EventMail(props: { eventId: Id<"events"> }) {
     }
 
     return (
-        <Card title="Email">
-            <div class="grid gap-4">
-                <For each={["announcement", "reminder"] as const}>
-                    {(kind) => {
-                        const item = () => preview.latest?.[kind];
-                        return (
-                            <div class="grid gap-2">
-                                <button
-                                    type="button"
-                                    class="button button--primary"
-                                    disabled={
-                                        isPending() || !item()?.recipients || !!item()?.reason
-                                    }
-                                    onClick={() => void send(kind)}
-                                >
-                                    {kind === "announcement" ? "Announce event" : "Send reminder"}
-                                </button>
-                                <p class="text-soft" style={{ margin: "0" }}>
-                                    {item()?.reason ??
-                                        (item()
-                                            ? `${item()!.recipients.toLocaleString("en-CH")} ${kind === "announcement" ? "subscribers" : "registered participants"}`
-                                            : "Loading recipients…")}
-                                </p>
-                            </div>
-                        );
-                    }}
-                </For>
-                <Show when={preview.error}>
-                    <button type="button" class="button" onClick={() => void refetch()}>
-                        Retry recipients
-                    </button>
-                </Show>
-            </div>
-            <FollowUp eventId={props.eventId} />
-            <FormMessage error={error()} success={success()} />
-        </Card>
+        <>
+            <Card title="Email">
+                <div class="grid gap-4">
+                    <For each={["announcement", "reminder"] as const}>
+                        {(kind) => {
+                            const item = () => preview.latest?.[kind];
+                            return (
+                                <div class="grid gap-2">
+                                    <button
+                                        type="button"
+                                        class="button button--primary"
+                                        disabled={
+                                            isPending() || !item()?.recipients || !!item()?.reason
+                                        }
+                                        onClick={() => void send(kind)}
+                                    >
+                                        {kind === "announcement"
+                                            ? "Announce event"
+                                            : "Send reminder"}
+                                    </button>
+                                    <p class="text-soft" style={{ margin: "0" }}>
+                                        {item()?.reason ??
+                                            (item()
+                                                ? `${item()!.recipients.toLocaleString("en-CH")} ${kind === "announcement" ? "subscribers" : "registered participants"}`
+                                                : "Loading recipients…")}
+                                    </p>
+                                </div>
+                            );
+                        }}
+                    </For>
+                    <Show when={preview.error}>
+                        <button type="button" class="button" onClick={() => void refetch()}>
+                            Retry recipients
+                        </button>
+                    </Show>
+                </div>
+                <FollowUp eventId={props.eventId} />
+                <FormMessage error={error()} success={success()} />
+            </Card>
+            <Campaigns eventId={props.eventId} />
+        </>
     );
 }

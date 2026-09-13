@@ -2918,9 +2918,6 @@ a.eyebrow:hover {
     border-top: 1px solid var(--color-line);
     padding-top: 24px;
 }
-.event-aside .button:not(.dialog .button) {
-    width: 100%;
-}
 .event-aside .detail-row {
     display: block;
     padding: 0 0 16px;
@@ -3005,6 +3002,9 @@ a.eyebrow:hover {
     text-transform: none;
 }
 .field__control,
+.field > input:not([type="checkbox"]):not([type="radio"]),
+.field > select,
+.field > textarea,
 .editor input:not([type="checkbox"]),
 .editor select,
 .editor textarea,
@@ -3047,7 +3047,7 @@ a.eyebrow:hover {
     align-content: start;
     min-width: 0;
 }
-.editor label > span {
+.editor label > span:not(.field__label) {
     order: 1;
 }
 .editor select:not([multiple]),
@@ -5026,6 +5026,9 @@ iframe.email-preview {
     }
 }
 
+.admin-section-picker {
+    display: none;
+}
 .admin-navigation .admin-tabs {
     gap: 8px;
 }
@@ -5072,7 +5075,7 @@ iframe.email-preview {
     align-items: center;
     gap: var(--space-3);
 }
-.card-heading .card-toolbar .button {
+.card-heading .card-toolbar :is(.button, .status-control) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -5397,7 +5400,7 @@ iframe.email-preview {
 
 /* Use the same full-width search field below collection headings. */
 .card-body > .table-toolbar {
-    display: block;
+    display: grid;
     margin-bottom: var(--space-4);
     width: 100%;
 }
@@ -5633,9 +5636,11 @@ iframe.email-preview {
         overflow: visible;
         max-width: none;
     }
-    .admin-tabs {
-        flex-wrap: nowrap;
-        overflow-x: auto;
+    .admin-navigation .admin-tabs {
+        display: none;
+    }
+    .admin-navigation .admin-section-picker {
+        display: grid;
     }
     .admin-tabs > button {
         flex-shrink: 0;

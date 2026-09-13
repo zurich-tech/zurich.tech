@@ -1,6 +1,7 @@
+import { SectionTabs } from "../../components/section-tabs";
 import { NewsAdmin } from "../../news/workspace";
 import { Loading } from "../../components/loading";
-import { createResource, Show, Switch, Match, For, Suspense } from "solid-js";
+import { createResource, Show, Switch, Match, Suspense } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
 import { api } from "../../../convex/_generated/api";
 import { useAccess } from "../../auth/edit";
@@ -14,7 +15,7 @@ import { Attendees } from "../../events/attendees";
 import { Schedules } from "../../events/schedules";
 import { SeriesAdmin } from "../../events/series";
 import { Management } from "../../organisations/management";
-import { NewsletterAdmin } from "../../members/workspace";
+import { EmailAdmin } from "../../mail/workspace";
 
 const adminTabs = [
     { id: "news", label: "News" },
@@ -38,34 +39,31 @@ export default function Route() {
             : []),
         ...(access.current()?.isAdmin ? adminTabs : []),
     ];
+    /** Leave record-specific views when switching workspaces. */
+    function selectSection(id: string) {
+        setParams({
+            section: id === "events" ? undefined : id,
+            event: undefined,
+            organisation: undefined,
+            series: undefined,
+            schedule: undefined,
+            source: undefined,
+            mail: undefined,
+        });
+    }
+
     return (
         <>
             <Seo title="Admin" description="Manage events and registrations." />
             <Page class="admin-page">
                 <Card title="Admin" heading="h1" class="admin-navigation">
                     <Show when={access.current()?.canManage}>
-                        <nav class="filter-bar admin-tabs" aria-label="Admin sections">
-                            <For each={tabs()}>
-                                {(tab) => (
-                                    <button
-                                        classList={{ active: section() === tab.id }}
-                                        aria-pressed={section() === tab.id}
-                                        onClick={() =>
-                                            setParams({
-                                                section: tab.id === "events" ? undefined : tab.id,
-                                                event: undefined,
-                                                organisation: undefined,
-                                                series: undefined,
-                                                schedule: undefined,
-                                                source: undefined,
-                                            })
-                                        }
-                                    >
-                                        {tab.label}
-                                    </button>
-                                )}
-                            </For>
-                        </nav>
+                        <SectionTabs
+                            label="Admin sections"
+                            options={tabs()}
+                            value={section()}
+                            onChange={selectSection}
+                        />
                     </Show>
                 </Card>
                 <Show
@@ -128,7 +126,7 @@ export default function Route() {
                                 <AccessManager />
                             </Match>
                             <Match when={access.current()?.isAdmin && section() === "email"}>
-                                <NewsletterAdmin />
+                                <EmailAdmin />
                             </Match>
                             <Match when={access.current()?.isAdmin && section() === "news"}>
                                 <NewsAdmin />

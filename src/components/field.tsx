@@ -14,15 +14,20 @@ export function Field(props: { children: JSX.Element; label: string }) {
 
 /** Text input. */
 export function Input(props: JSX.InputHTMLAttributes<HTMLInputElement>) {
-    return <input {...props} class={inputClasses} />;
+    return <input {...props} class={[inputClasses, props.class].filter(Boolean).join(" ")} />;
 }
 
 /** Multiline input. */
 export function Textarea(props: JSX.TextareaHTMLAttributes<HTMLTextAreaElement>) {
-    return <textarea {...props} class={`${inputClasses} field__textarea`} />;
+    return (
+        <textarea
+            {...props}
+            class={[inputClasses, "field__textarea", props.class].filter(Boolean).join(" ")}
+        />
+    );
 }
 
 /** Select input. */
 export function Select(props: JSX.SelectHTMLAttributes<HTMLSelectElement>) {
-    return <select {...props} class={inputClasses} />;
+    return <select {...props} class={[inputClasses, props.class].filter(Boolean).join(" ")} />;
 }

@@ -1,3 +1,5 @@
+import { TableToolbar } from "../components/toolbar";
+import { FilterPills } from "../components/filter-pills";
 import { EventCounts } from "./counts";
 import { useAccess } from "../auth/edit";
 import { isTentative } from "../../convex/events/conditions";
@@ -81,7 +83,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
     return (
         <Card
             title="Events"
-            class="admin-event-card"
+            class="admin-event-card admin-table-card"
             toolbar={
                 <Show when={access.canCreate()}>
                     <a class="button button--primary" href="/submit">
@@ -91,28 +93,16 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
             }
         >
             <FormMessage error={command.error()} success={command.success()} />
-            <div class="table-toolbar admin-filters">
-                <input
-                    type="search"
-                    aria-label="Search events"
-                    placeholder="Search events…"
-                    value={search()}
-                    onInput={(event) => setSearch(event.currentTarget.value)}
+            <TableToolbar onSearch={setSearch} value={search()} placeholder="Search events…">
+                <FilterPills
+                    label="Event status"
+                    value={filter()}
+                    onChange={setFilter}
+                    options={["All", "Upcoming", "Tentative", "Past", "Draft", "Cancelled"].map(
+                        (label) => ({ label, value: label }),
+                    )}
                 />
-                <div class="filter-bar">
-                    <For each={["All", "Upcoming", "Tentative", "Past", "Draft", "Cancelled"]}>
-                        {(value) => (
-                            <button
-                                classList={{ active: filter() === value }}
-                                aria-pressed={filter() === value}
-                                onClick={() => setFilter(value)}
-                            >
-                                {value}
-                            </button>
-                        )}
-                    </For>
-                </div>
-            </div>
+            </TableToolbar>
             <div class="table-scroll">
                 <table class="admin-table">
                     <thead>
@@ -151,9 +141,9 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                     </td>
                                     <td>
                                         <span
-                                            class="admin-status"
+                                            class="tag"
                                             classList={{
-                                                "admin-status--upcoming": row.status === "Upcoming",
+                                                "tag-upcoming": row.status === "Upcoming",
                                             }}
                                         >
                                             {row.status}

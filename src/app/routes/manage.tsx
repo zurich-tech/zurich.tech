@@ -1,6 +1,7 @@
+import { SectionTabs } from "../../components/section-tabs";
 import { Loading } from "../../components/loading";
 import { useSearchParams } from "@solidjs/router";
-import { For, Show } from "solid-js";
+import { Show } from "solid-js";
 import { useAccount } from "../../auth";
 import { Management } from "../../organisations/management";
 import { Page } from "../page";
@@ -21,25 +22,16 @@ export default function Route() {
             <Seo title="Manage" description="Manage organisations, jobs and sponsorships." />
             <Page>
                 <Card title="Manage" heading="h1" class="admin-navigation">
-                    <nav class="filter-bar admin-tabs" aria-label="Management sections">
-                        <For
-                            each={[
-                                { id: "organisations" as const, label: "Organisations" },
-                                { id: "jobs" as const, label: "Jobs" },
-                                { id: "sponsors" as const, label: "Sponsors" },
-                            ]}
-                        >
-                            {(tab) => (
-                                <button
-                                    classList={{ active: section() === tab.id }}
-                                    aria-pressed={section() === tab.id}
-                                    onClick={() => setParams({ section: tab.id })}
-                                >
-                                    {tab.label}
-                                </button>
-                            )}
-                        </For>
-                    </nav>
+                    <SectionTabs
+                        label="Management sections"
+                        value={section()}
+                        options={[
+                            { id: "organisations", label: "Organisations" },
+                            { id: "jobs", label: "Jobs" },
+                            { id: "sponsors", label: "Sponsors" },
+                        ]}
+                        onChange={(section) => setParams({ section })}
+                    />
                 </Card>
                 <Show
                     when={account.user()}

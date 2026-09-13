@@ -69,7 +69,7 @@ export function SeriesAdmin() {
 
     return (
         <Card
-            title="Series"
+            title={selected() === "new" ? "New series" : (editing()?.name ?? "Series")}
             class={!selected() ? "admin-table-card" : undefined}
             toolbar={
                 <>
@@ -174,7 +174,7 @@ export function SeriesAdmin() {
                                     {(item) => (
                                         <tr>
                                             <td>
-                                                {item.name}
+                                                <a href={`/series/${item.slug}`}>{item.name}</a>
                                                 <Show when={item.status === "archived"}>
                                                     {" "}
                                                     · Archived

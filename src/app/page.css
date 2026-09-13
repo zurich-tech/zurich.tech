@@ -49,7 +49,7 @@
 }
 
 /* Match status labels to adjacent actions without making labels interactive. */
-.status-control,
+.tag.status-control,
 .registration-actions .button {
     min-height: 40px;
     padding: 10px 14px;

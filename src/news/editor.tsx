@@ -159,21 +159,28 @@ export function NewsEditor(props: {
                 <Card
                     title={id() ? "Edit news" : content().kind === "link" ? "Add link" : "New post"}
                     heading="h1"
-                    toolbar={actions()}
+                    toolbar={
+                        <>
+                            {actions()}
+                            <span
+                                class="tag status-control"
+                                classList={{ "tag-upcoming": !!published() }}
+                            >
+                                {published() ? "Published" : "Draft"}
+                            </span>
+                        </>
+                    }
                 >
                     <FormMessage error={error()} success={success()} />
                     <fieldset class="news-editor-fields" disabled={isPending()}>
-                        <div class="news-actions">
-                            <span class="tag">{published() ? "Published" : "Draft"}</span>
-                            <Show
-                                when={
-                                    published() &&
-                                    JSON.stringify(draftContent()) !== JSON.stringify(published())
-                                }
-                            >
-                                <span class="tag">Unpublished changes</span>
-                            </Show>
-                        </div>
+                        <Show
+                            when={
+                                published() &&
+                                JSON.stringify(draftContent()) !== JSON.stringify(published())
+                            }
+                        >
+                            <span class="tag">Unpublished changes</span>
+                        </Show>
                         <Field label="Title">
                             <Input
                                 required

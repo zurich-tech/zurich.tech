@@ -1,3 +1,4 @@
+import { FilterPills } from "../components/filter-pills";
 import "./article.css";
 import { NewsActions } from "./actions";
 import { EditLink } from "../auth/edit";
@@ -62,20 +63,14 @@ export function ArticleList(props: ArticleListProps) {
                 </div>
             </Show>
             <Show when={props.isSearchable}>
-                <TableToolbar onSearch={setQuery} placeholder="Search news…" />
-                <nav class="filter-pills news-actions" aria-label="News type">
-                    <For each={["All", "Post", "Link"]}>
-                        {(label) => (
-                            <button
-                                classList={{ selected: kind() === label }}
-                                aria-pressed={kind() === label}
-                                onClick={() => setKind(label)}
-                            >
-                                {label}
-                            </button>
-                        )}
-                    </For>
-                </nav>
+                <TableToolbar onSearch={setQuery} value={query()} placeholder="Search news…">
+                    <FilterPills
+                        label="News type"
+                        value={kind()}
+                        onChange={setKind}
+                        options={["All", "Post", "Link"].map((label) => ({ label, value: label }))}
+                    />
+                </TableToolbar>
             </Show>
             {/* articles */}
             <Show

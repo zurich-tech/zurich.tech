@@ -5,7 +5,7 @@ import { JobCard, SponsorshipCard } from "./employer";
 import { CompanyForm } from "./company";
 import { useEmployerWorkspace, useWorkspaceCommand } from "../app/workspace";
 import { Card } from "../components/card";
-import { FormMessage } from "../components/form";
+import { FormMessage, leaveEditor } from "../components/form";
 import { errorMessage } from "../components/errors";
 
 /** Manage organisations, vacancies and sponsorships in the selected panel. */
@@ -106,7 +106,8 @@ export function Management(props: {
                                         <button
                                             class="button"
                                             classList={{ "button--primary": !selected() }}
-                                            onClick={() => {
+                                            onClick={async () => {
+                                                if (!(await leaveEditor())) return;
                                                 setSelected(selected() ? undefined : "new");
                                             }}
                                         >
@@ -186,16 +187,16 @@ export function Management(props: {
                                             setSelected(undefined);
                                         }}
                                     />
-                                    <Show when={organisation()}>
-                                        {(item) => (
-                                            <OrganisationLocations
-                                                organisationId={item()._id}
-                                                isAdmin={current().isAdmin}
-                                            />
-                                        )}
-                                    </Show>
                                 </Show>
                             </Card>
+                            <Show when={organisation()}>
+                                {(item) => (
+                                    <OrganisationLocations
+                                        organisationId={item()._id}
+                                        isAdmin={current().isAdmin}
+                                    />
+                                )}
+                            </Show>
                         </Match>
                     </Switch>
                 )}

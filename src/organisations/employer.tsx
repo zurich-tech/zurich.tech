@@ -220,7 +220,7 @@ export function SponsorshipCard(props: {
                     {props.companies.find((company) => company._id === props.sponsor.organisationId)
                         ?.name ?? "Organisation"}
                 </h3>
-                <span class="sponsorship-status">
+                <span class="tag" classList={{ "tag-upcoming": props.sponsor.status === "active" }}>
                     {
                         {
                             active:

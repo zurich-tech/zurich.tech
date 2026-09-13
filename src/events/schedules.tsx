@@ -113,7 +113,7 @@ export function Schedules(props: { workspace: EventWorkspace }) {
 
     return (
         <Card
-            title="Schedules"
+            title={selected() === "new" ? "New schedule" : item() ? "Edit schedule" : "Schedules"}
             toolbar={
                 <>
                     <Show when={item()}>

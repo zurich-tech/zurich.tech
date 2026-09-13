@@ -44,9 +44,6 @@ export default function Route() {
                                 class="card--sections series-preview"
                                 toolbar={
                                     <div class="row-actions">
-                                        <a class="button" href={`/series/${series.slug}`}>
-                                            View series
-                                        </a>
                                         <EditLink
                                             href={`/admin?section=series&series=${series._id}`}
                                             seriesId={series._id}
@@ -56,7 +53,7 @@ export default function Route() {
                                             href={`/admin?section=series&schedule=new&series=${series._id}`}
                                             seriesId={series._id}
                                             role="organiser"
-                                            label="Add schedule"
+                                            label="New schedule"
                                         />
                                     </div>
                                 }

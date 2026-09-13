@@ -94,7 +94,7 @@ export function OrganisationLocations(props: {
         <Card
             title="Locations"
             toolbar={
-                <Show when={true}>
+                <>
                     <button
                         type="submit"
                         form="location-editor"
@@ -103,7 +103,7 @@ export function OrganisationLocations(props: {
                     >
                         {editing() ? "Save" : "Add location"}
                     </button>
-                </Show>
+                </>
             }
         >
             <For each={locations() ?? []}>
@@ -200,7 +200,7 @@ export function OrganisationLocations(props: {
                     </label>
                 </div>
                 <Show when={props.isAdmin}>
-                    <label>
+                    <label class="checkbox">
                         <input
                             type="checkbox"
                             name="isCurated"

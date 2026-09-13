@@ -1,0 +1,240 @@
+/* keep composition, scheduling and configuration visually separate */
+.mail-workspace {
+    display: grid;
+    gap: 20px;
+    min-width: 0;
+}
+.mail-tabs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.mail-mode {
+    margin-left: auto;
+}
+.mail-panel > .card-body {
+    display: grid;
+    gap: 20px;
+}
+.mail-panel p {
+    margin: 0;
+}
+.mail-panel .table-scroll {
+    margin: -20px -16px;
+    border: 0;
+}
+.mail-panel .table-scroll:first-child {
+    margin-top: -16px;
+}
+.mail-panel .table-scroll:last-child {
+    margin-bottom: -16px;
+}
+.mail-panel .admin-table {
+    margin: 0;
+}
+.mail-panel .admin-table td {
+    vertical-align: middle;
+}
+.mail-panel .admin-table .text-link {
+    text-align: left;
+    font-weight: 600;
+    text-decoration: none;
+}
+.mail-panel .admin-table th:last-child,
+.mail-panel .admin-table td:last-child {
+    text-align: right;
+}
+.mail-failure {
+    display: block;
+    color: var(--color-danger, #b33232);
+    margin-top: 4px;
+}
+.mail-settings {
+    margin: 0;
+    display: grid;
+    gap: 16px;
+}
+.mail-settings > div {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 16px;
+}
+.mail-settings dt,
+.mail-facts dt,
+.mail-note,
+.mail-section-heading > span {
+    color: var(--color-soft);
+    font-size: 13px;
+}
+.mail-settings dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+.mail-section {
+    border-top: 1px solid var(--color-line);
+    padding-top: 20px;
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+}
+.mail-section h3,
+.mail-section-heading h3 {
+    margin: 0;
+    font: 600 16px/1.4 var(--font-sans);
+}
+.mail-section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.mail-pace {
+    display: grid;
+    grid-template-columns: minmax(160px, 1fr) 2fr;
+    gap: 24px;
+    align-items: end;
+}
+.mail-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
+}
+.mail-facts > div {
+    padding: 0 20px;
+    border-left: 1px solid var(--color-line);
+    display: grid;
+    align-content: start;
+    gap: 6px;
+}
+.mail-facts > div:first-child {
+    border-left: 0;
+    padding-left: 0;
+}
+.mail-facts dd {
+    margin: 0;
+    font: 600 21px/1.25 var(--font-mono);
+}
+.mail-facts span {
+    font-size: 13px;
+    color: var(--color-soft);
+}
+.mail-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    border-top: 1px solid var(--color-line);
+    padding-top: 20px;
+}
+.mail-control p {
+    margin-top: 6px;
+    color: var(--color-soft);
+    font-size: 13px;
+}
+.mail-buttons {
+    display: flex;
+    gap: 8px;
+}
+@media (max-width: 640px) {
+    .mail-mode {
+        margin: 0;
+        flex-basis: 100%;
+    }
+    .mail-settings > div {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+    .mail-pace {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .mail-facts > div {
+        padding: 0 12px;
+    }
+    .mail-facts dd {
+        font-size: 18px;
+    }
+    .mail-control {
+        align-items: flex-start;
+        gap: 16px;
+    }
+    .mail-panel .table-scroll {
+        overflow-x: auto;
+    }
+    .mail-panel .admin-table {
+        min-width: 520px;
+    }
+}
+
+/* stack campaign metadata and schedule details on narrow screens */
+@media (max-width: 640px) {
+    .mail-schedule {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .mail-schedule > div,
+    .mail-schedule > div:first-child {
+        grid-template-columns: 1fr auto;
+        padding: 0 0 12px;
+        border-left: 0;
+        border-bottom: 1px solid var(--color-line);
+    }
+    .mail-schedule > div:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+    .mail-schedule span {
+        grid-column: 2;
+        text-align: right;
+    }
+    .mail-panel .mail-campaigns {
+        min-width: 0;
+    }
+    .mail-campaigns thead {
+        display: none;
+    }
+    .mail-campaigns tbody,
+    .mail-campaigns tr {
+        display: grid;
+    }
+    .mail-campaigns tr {
+        grid-template-columns: 1fr auto;
+        gap: 8px 16px;
+        padding: 16px;
+        border-bottom: 1px solid var(--color-line);
+    }
+    .mail-campaigns tr:last-child {
+        border-bottom: 0;
+    }
+    .mail-campaigns td {
+        padding: 0;
+        border: 0;
+    }
+    .mail-campaigns td:nth-child(2) {
+        text-align: right;
+    }
+    .mail-campaigns td:nth-child(n + 3) {
+        color: var(--color-soft);
+        font-size: 13px;
+    }
+}
+
+/* keep scheduling controls together without stretching the date picker */
+.mail-timing {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 16px;
+}
+.mail-send-at {
+    width: 280px;
+    max-width: 100%;
+}
+.mail-section .mail-timing .field__control {
+    border: 1px solid var(--color-line);
+    padding: 10px 12px;
+    min-height: 40px;
+    width: 100%;
+    background: transparent;
+}

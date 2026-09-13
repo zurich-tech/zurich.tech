@@ -1,3 +1,4 @@
+import { FilterPills } from "../components/filter-pills";
 import "./article.css";
 import { createResource, createSignal, For, Show } from "solid-js";
 import { memberClient } from "../auth/convex";
@@ -23,6 +24,7 @@ export function NewsAdmin() {
     return (
         <Card
             title="News"
+            class="admin-table-card"
             toolbar={
                 <>
                     <a class="button button--primary" href="/news/edit">
@@ -40,20 +42,17 @@ export function NewsAdmin() {
                     Retry
                 </button>
             </Show>
-            <TableToolbar onSearch={setSearch} placeholder="Search news…" />
-            <nav class="filter-pills news-actions" aria-label="News status">
-                <For each={["All", "Draft", "Published"]}>
-                    {(label) => (
-                        <button
-                            classList={{ selected: status() === label }}
-                            aria-pressed={status() === label}
-                            onClick={() => setStatus(label)}
-                        >
-                            {label}
-                        </button>
-                    )}
-                </For>
-            </nav>
+            <TableToolbar onSearch={setSearch} value={search()} placeholder="Search news…">
+                <FilterPills
+                    label="News status"
+                    value={status()}
+                    onChange={setStatus}
+                    options={["All", "Draft", "Published"].map((label) => ({
+                        label,
+                        value: label,
+                    }))}
+                />
+            </TableToolbar>
             <div class="table-scroll">
                 <table class="admin-table">
                     <thead>
@@ -78,7 +77,14 @@ export function NewsAdmin() {
                                         )}
                                     </td>
                                     <td>{post.draft.kind === "link" ? "Link" : "Post"}</td>
-                                    <td>{post.published ? "Published" : "Draft"}</td>
+                                    <td>
+                                        <span
+                                            class="tag"
+                                            classList={{ "tag-upcoming": !!post.published }}
+                                        >
+                                            {post.published ? "Published" : "Draft"}
+                                        </span>
+                                    </td>
                                     <td>
                                         <div class="admin-actions" aria-label="Actions">
                                             <a class="button" href={`/news/edit?id=${post._id}`}>

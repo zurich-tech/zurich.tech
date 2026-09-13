@@ -627,13 +627,13 @@ export default function Route() {
                                             Edit series schedule
                                         </a>
                                     </Show>
-                                    <Show when={canPublish() && isPublished() && currentEvent()}>
-                                        <EventMail eventId={currentEvent()!.id} />
-                                    </Show>
                                 </div>
                             </div>
                             <FormMessage error={error()} success={success()} />
                         </Editor>
+                        <Show when={canPublish() && isPublished() && currentEvent()}>
+                            <EventMail eventId={currentEvent()!.id} />
+                        </Show>
                     </Show>
                 </Show>
             </Page>

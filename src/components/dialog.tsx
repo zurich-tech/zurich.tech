@@ -199,7 +199,12 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
                                     ? "email will be sent"
                                     : "emails will be sent"}
                             </b>
-                            <Show when={(current()?.emails ?? 0) > 0}>
+                            <Show
+                                when={
+                                    (current()?.emails ?? 0) > 0 &&
+                                    (current()?.recipients !== undefined || !!current()?.audience)
+                                }
+                            >
                                 <span>
                                     <Show
                                         when={
