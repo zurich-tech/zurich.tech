@@ -38,6 +38,6 @@ export function createAuth(ctx: GenericCtx<DataModel>) {
         rateLimit: { enabled: true, storage: "database" },
         socialProviders: socialProviders(),
         account: { accountLinking: { enabled: true } },
-        trustedOrigins: [siteUrl, "http://localhost:3000"],
+        trustedOrigins: [siteUrl],
     });
 }

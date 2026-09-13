@@ -44,9 +44,12 @@ export function renderMarkdown(source: string) {
 
 /** Return whether one article link uses an allowed protocol. */
 function isSafeLink(href: string) {
-    const url = new URL(href, "https://zurich.tech");
-
-    return ["http:", "https:", "mailto:", "tel:"].includes(url.protocol);
+    try {
+        const url = new URL(href, "https://zurich.tech");
+        return ["http:", "https:", "mailto:", "tel:"].includes(url.protocol);
+    } catch {
+        return false;
+    }
 }
 
 /** Escape text for HTML content and attributes. */
