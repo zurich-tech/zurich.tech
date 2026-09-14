@@ -1,11 +1,7 @@
-import { createAsync, query } from "@solidjs/router";
+import { getTopics } from "./queries";
+import { createAsync } from "@solidjs/router";
 import { createEffect, createSignal, For, Show } from "solid-js";
-import { api } from "../../convex/_generated/api";
-import { publicClient } from "../auth/convex";
 import "./topics.css";
-
-/** Cache the small public catalogue across forms, filters and labels. */
-export const getTopics = query(() => publicClient().query(api.topics.queries.list, {}), "topics");
 
 /** Select curated topics; preserve selected values while the catalogue loads. */
 export function TopicFields(props: {

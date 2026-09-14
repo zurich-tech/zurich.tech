@@ -1,4 +1,4 @@
-import { getTopics } from "../topics/fields";
+import { getTopics } from "../topics/queries";
 import { query } from "@solidjs/router";
 import { articles } from "./articles.generated";
 import { api } from "../../convex/_generated/api";
@@ -23,8 +23,11 @@ export type Article = {
 
 /** Merge published records with the authored archive in newest-first order. */
 export const getArticles = query(async (): Promise<Article[]> => {
-    const posts = await publicClient().query(api.news.queries.list, {});
-    const topics = await getTopics();
+    // Start cached dependencies in the current render context before awaiting either request.
+    const [posts, topics] = await Promise.all([
+        publicClient().query(api.news.queries.list, {}),
+        getTopics(),
+    ]);
     const authored = articles.map((article) => ({
         ...article,
         topics: article.topics.map((slug) => {

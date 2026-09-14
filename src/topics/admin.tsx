@@ -5,7 +5,7 @@ import { memberClient, publicClient } from "../auth/convex";
 import { Card } from "../components/card";
 import { Editor, savedEditor, leaveEditor, FormMessage } from "../components/form";
 import { useWorkspaceCommand } from "../app/workspace";
-import { getTopics } from "./fields";
+import { getTopics } from "./queries";
 
 /** Edit one catalogue entry at a time, protecting unsaved changes when switching records. */
 export function TopicsAdmin() {

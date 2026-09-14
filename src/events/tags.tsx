@@ -1,5 +1,5 @@
 import { createAsync } from "@solidjs/router";
-import { getTopics } from "../topics/fields";
+import { getTopics } from "../topics/queries";
 import "./entry.css";
 import { For, Show, type JSX } from "solid-js";
 import type { Doc } from "../../convex/_generated/dataModel";
