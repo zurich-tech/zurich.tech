@@ -2,6 +2,7 @@ import {
     createContext,
     useContext,
     createSignal,
+    createRenderEffect,
     onCleanup,
     type JSX,
     type Accessor,
@@ -22,16 +23,25 @@ type Registry = {
 const Context = createContext<Registry>();
 
 /** Keep command registrations scoped to this application instance and route lifetime. */
-export function CommandProvider(props: { children: JSX.Element }) {
+export function createCommands(): Registry {
     const [sources, setSources] = createSignal<Accessor<Command[]>[]>([]);
     const registry: Registry = {
         items: () => sources().flatMap((source) => source()),
         register: (source) => {
-            setSources((items) => [...items, source]);
-            return () => setSources((items) => items.filter((item) => item !== source));
+            // Evaluate page state in its own render lifecycle, never from the global menu.
+            const [items, setItems] = createSignal<Command[]>([]);
+            createRenderEffect(() => setItems(source()));
+            setSources((sources) => [...sources, items]);
+
+            return () => setSources((sources) => sources.filter((item) => item !== items));
         },
     };
-    return <Context.Provider value={registry}>{props.children}</Context.Provider>;
+    return registry;
+}
+
+/** Provide the application command registry. */
+export function CommandProvider(props: { children: JSX.Element }) {
+    return <Context.Provider value={createCommands()}>{props.children}</Context.Provider>;
 }
 
 /** Access the shared command menu. */
