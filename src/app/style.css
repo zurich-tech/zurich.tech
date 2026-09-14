@@ -1969,7 +1969,7 @@ td button {
 }
 .hero-toolbar .social-links a {
     height: 36px;
-    border-color: white;
+    border: 1px solid white;
     color: white;
     background: var(--brand-blue);
 }
