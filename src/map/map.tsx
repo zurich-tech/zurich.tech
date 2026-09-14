@@ -1,18 +1,18 @@
+import { FilterPills } from "../components/filter-pills";
+import { organisationKinds } from "../../convex/organisations/kinds";
 import { createAsync } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, onMount, onCleanup, Show, For } from "solid-js";
 import { Dynamic, render } from "solid-js/web";
 import type { Map as GeographicMap, Marker, StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
-import { getMap } from "./queries";
+import { getMap, type MapLocation } from "./queries";
 import { Image } from "../components/image";
 import { useSearch } from "../search/local";
-import { matchesSearch } from "../search/search";
+import { filterLocations } from "./filter";
 import { Highlight } from "../components/highlight";
 import { clusterLocations } from "./clusters";
 import "./map.css";
-
-type MapLocation = Awaited<ReturnType<typeof getMap>>[number];
 
 /** Keep the circuit-map palette while fetching geographic detail at each zoom. */
 const style: StyleSpecification = {
@@ -79,23 +79,14 @@ export function CommunityMap(props: {
     const [zoom, setZoom] = createSignal(12);
     const [error, setError] = createSignal(false);
     const { query: search, setQuery: setSearch, terms } = useSearch();
+    const [category, setCategory] = createSignal("all");
+    const [hovered, setHovered] = createSignal<string[]>([]);
     const [selected, setSelected] = createSignal<string[]>([]);
     const [view, setView] = createSignal(0);
     const filtered = createMemo(() =>
-        (organisations() ?? []).filter(
-            (place) =>
-                props.isHero ||
-                matchesSearch(
-                    [
-                        place.address,
-                        ...place.organisations.flatMap((entry) => [
-                            entry.name,
-                            entry.headline ?? "",
-                        ]),
-                    ].join(" "),
-                    terms(),
-                ),
-        ),
+        props.isHero
+            ? (organisations() ?? [])
+            : filterLocations(organisations() ?? [], category(), terms()),
     );
     const organisationCount = () =>
         filtered().reduce((sum, place) => sum + place.organisations.length, 0);
@@ -112,28 +103,14 @@ export function CommunityMap(props: {
         instance()?.map.getCanvas().focus({ preventScroll: true });
     }
 
-    /** Fit real locations with room for their labels, retaining a city view when empty. */
-    function fit(places: MapLocation[]) {
-        if (!places.length) return;
-        instance()?.map.fitBounds(
-            [
-                [
-                    Math.min(...places.map((place) => place.longitude)),
-                    Math.min(...places.map((place) => place.latitude)),
-                ],
-                [
-                    Math.max(...places.map((place) => place.longitude)),
-                    Math.max(...places.map((place) => place.latitude)),
-                ],
-            ],
-            { padding: { top: 90, right: 115, bottom: 90, left: 115 }, maxZoom: 14, duration: 0 },
-        );
-    }
-
     /** Keep selection shared between the markers and the directory. */
     function select(places: MapLocation[]) {
         setSelected(places.map((place) => place.id));
-        fit(places);
+        const map = instance()?.map;
+        const first = places[0];
+        if (map && first && !map.getBounds().contains([first.longitude, first.latitude])) {
+            map.easeTo({ center: [first.longitude, first.latitude], duration: 400 });
+        }
         queueMicrotask(() =>
             (window.matchMedia("(max-width: 800px)").matches ? closeButton : backButton)?.focus({
                 preventScroll: true,
@@ -144,10 +121,6 @@ export function CommunityMap(props: {
     /** Fit the full city extent on every screen size and restore it on reset. */
     function frame() {
         setSelected([]);
-        if (!props.isHero && filtered().length) {
-            fit(filtered());
-            return;
-        }
         instance()?.map.fitBounds(
             props.isHero
                 ? [
@@ -155,8 +128,8 @@ export function CommunityMap(props: {
                       [8.68, 47.46],
                   ]
                 : [
-                      [8.47, 47.33],
-                      [8.6, 47.44],
+                      [8.44, 47.32],
+                      [8.64, 47.44],
                   ],
             { padding: props.isHero ? 0 : 64, duration: 0 },
         );
@@ -213,13 +186,6 @@ export function CommunityMap(props: {
             });
     });
 
-    // Reframe when the searchable set changes, rather than on ordinary map movement.
-    createEffect(() => {
-        const current = instance();
-        const places = filtered();
-        if (current && !props.isHero && places.length) fit(places);
-    });
-
     // Group screen-space collisions; shared addresses remain one location at every zoom.
     createEffect(() => {
         const current = instance();
@@ -229,7 +195,8 @@ export function CommunityMap(props: {
         const groups = clusterLocations(
             entries,
             (place) => current.map.project([place.longitude, place.latitude]),
-            props.isHero ? 64 : 210,
+            64,
+            52,
         );
         const markers = groups.map((places) => {
             const anchor = places[0];
@@ -251,12 +218,15 @@ export function CommunityMap(props: {
                         class="map-pin"
                         classList={{
                             "map-pin--hero": props.isHero,
+                            "map-pin--hovered": places.some((place) =>
+                                hovered().includes(place.id),
+                            ),
                             "map-pin--selected": places.some((place) =>
                                 selected().includes(place.id),
                             ),
                         }}
                         style={{
-                            "--map-logo-size": `${{ large: 40, medium: 34, small: 30 }[people.some((person) => person.prominence === "large") ? "large" : people.some((person) => person.prominence === "medium") ? "medium" : "small"]}px`,
+                            "--map-logo-size": `${{ large: 32, medium: 26, small: 22 }[people.some((person) => person.prominence === "large") ? "large" : people.some((person) => person.prominence === "medium") ? "medium" : "small"]}px`,
                         }}
                         aria-label={`${people.map((person) => person.name).join(", ")} — ${places.length > 1 ? `${places.length} locations` : anchor.address}`}
                         aria-pressed={
@@ -264,28 +234,28 @@ export function CommunityMap(props: {
                                 ? undefined
                                 : places.some((place) => selected().includes(place.id))
                         }
+                        onPointerEnter={() => setHovered(places.map((place) => place.id))}
+                        onPointerLeave={() => setHovered([])}
+                        onFocus={() => setHovered(places.map((place) => place.id))}
+                        onBlur={() => setHovered([])}
                         onClick={() => {
                             if (!props.isHero) select(places);
                         }}
                     >
                         <span class="map-pin__logos">
-                            <For each={people.slice(0, 2)}>
-                                {(person) => (
-                                    <span class="map-logo">
-                                        <Show
-                                            when={person.mapLogoUrl ?? person.logoUrl}
-                                            fallback={person.name.slice(0, 1)}
-                                        >
-                                            {(source) => <img src={source()} alt="" />}
-                                        </Show>
-                                    </span>
-                                )}
-                            </For>
+                            <span class="map-logo">
+                                <Show
+                                    when={first.mapLogoUrl ?? first.logoUrl}
+                                    fallback={first.name.slice(0, 1)}
+                                >
+                                    {(source) => <img src={source()} alt="" />}
+                                </Show>
+                            </span>
                         </span>
                         <span class="map-pin__label">
                             <Highlight text={label} terms={props.isHero ? [] : terms()} />
                         </span>
-                        <Show when={props.isHero && people.length > 1}>
+                        <Show when={people.length > 1}>
                             <span class="map-pin__count">{people.length}</span>
                         </Show>
                     </Dynamic>
@@ -315,15 +285,6 @@ export function CommunityMap(props: {
                 }
             }}
         >
-            <Show when={!props.isHero}>
-                <header class="map-heading">
-                    <div>
-                        <h1>Our community</h1>
-                        <p>Discover the people and organisations building in Zurich.</p>
-                    </div>
-                    <a href="/organisations">All organisations ↗</a>
-                </header>
-            </Show>
             <div classList={{ "map-layout": !props.isHero }}>
                 <div class="community-map" classList={{ "community-map--hero": props.isHero }}>
                     <div ref={container} class="map-canvas" />
@@ -409,18 +370,45 @@ export function CommunityMap(props: {
                 </div>
                 <Show when={!props.isHero}>
                     <aside class="map-directory-panel" aria-label="Map directory">
+                        <header class="map-directory-heading">
+                            <h1>Map</h1>
+                            <a href="/organisations">Organisations ↗</a>
+                        </header>
                         <label class="map-search">
-                            Search the map
                             <input
                                 type="search"
+                                aria-label="Search organisations or addresses"
                                 value={search()}
-                                placeholder="Organisation or address…"
+                                placeholder="Search the map…"
                                 onInput={(event) => {
                                     setSearch(event.currentTarget.value);
                                     setSelected([]);
                                 }}
                             />
                         </label>
+                        <div class="map-filters">
+                            <FilterPills
+                                label="Organisation category"
+                                value={category()}
+                                options={[
+                                    { value: "all", label: "All" },
+                                    ...Object.entries(organisationKinds)
+                                        .filter(([kind]) =>
+                                            organisations()?.some((place) =>
+                                                place.organisations.some(
+                                                    (entry) => entry.kind === kind,
+                                                ),
+                                            ),
+                                        )
+                                        .map(([value, label]) => ({ value, label })),
+                                ]}
+                                onChange={(value) => {
+                                    setCategory(value);
+                                    setSelected([]);
+                                    setHovered([]);
+                                }}
+                            />
+                        </div>
                         <Show
                             when={selectedPlaces().length}
                             fallback={
@@ -428,7 +416,7 @@ export function CommunityMap(props: {
                                     <p class="map-results" role="status">
                                         {organisations() === undefined
                                             ? "Loading locations…"
-                                            : `${organisationCount()} organisation${organisationCount() === 1 ? "" : "s"} · ${filtered().length} location${filtered().length === 1 ? "" : "s"}`}
+                                            : `${organisationCount()} organisation${organisationCount() === 1 ? "" : "s"}`}
                                     </p>
                                     <Show
                                         when={organisations() !== undefined && !filtered().length}
@@ -439,9 +427,39 @@ export function CommunityMap(props: {
                                         {(place) => (
                                             <button
                                                 class="map-location-row"
+                                                classList={{
+                                                    "is-hovered": hovered().includes(place.id),
+                                                }}
+                                                onPointerEnter={() => setHovered([place.id])}
+                                                onPointerLeave={() => setHovered([])}
+                                                onFocus={() => setHovered([place.id])}
+                                                onBlur={() => setHovered([])}
                                                 type="button"
                                                 onClick={() => select([place])}
                                             >
+                                                <span class="map-row-logo">
+                                                    <Show
+                                                        when={
+                                                            place.organisations[0].mapLogoUrl ??
+                                                            place.organisations[0].logoUrl
+                                                        }
+                                                        fallback={place.organisations[0].name.slice(
+                                                            0,
+                                                            1,
+                                                        )}
+                                                    >
+                                                        {(source) => (
+                                                            <Image
+                                                                src={source()}
+                                                                darkSrc={
+                                                                    place.organisations[0]
+                                                                        .mapLogoDarkUrl
+                                                                }
+                                                                alt=""
+                                                            />
+                                                        )}
+                                                    </Show>
+                                                </span>
                                                 <strong>
                                                     <Highlight
                                                         text={place.organisations
@@ -450,13 +468,6 @@ export function CommunityMap(props: {
                                                         terms={terms()}
                                                     />
                                                 </strong>
-                                                <span>
-                                                    <Highlight
-                                                        text={place.address}
-                                                        terms={terms()}
-                                                    />
-                                                </span>
-                                                <small>Show on map →</small>
                                             </button>
                                         )}
                                     </For>
@@ -511,6 +522,7 @@ function PlaceDetails(detail: { places: MapLocation[] }) {
                                 </span>
                                 <span>
                                     <strong>{organisation.name}</strong>
+                                    <small>{organisationKinds[organisation.kind]}</small>
                                     <Show when={organisation.recognition}>
                                         <small>{organisation.recognition}</small>
                                     </Show>

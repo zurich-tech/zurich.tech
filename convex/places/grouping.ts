@@ -1,7 +1,10 @@
+import type { OrganisationKind } from "../organisations/kinds";
+
 /** Public organisation identity at a geographic address. */
 export interface LocatedOrganisation {
     id: string;
     name: string;
+    kind: OrganisationKind;
     slug: string;
     location: string;
     logoUrl?: string;

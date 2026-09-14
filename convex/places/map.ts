@@ -34,6 +34,7 @@ export const map = query({
                         countryCode: address.countryCode,
                     },
                     name: organisation.name,
+                    kind: organisation.kind,
                     location: location.name,
                     slug: organisation.slug,
                     logoUrl: organisation.logoUrl,

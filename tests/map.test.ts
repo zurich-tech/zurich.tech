@@ -1,3 +1,4 @@
+import { filterLocations } from "../src/map/filter";
 import { expect, test } from "bun:test";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
 import { clusterLocations } from "../src/map/clusters";
@@ -7,6 +8,7 @@ function office(id: string, line1 = "Baslerstrasse 77"): LocatedOrganisation {
     return {
         id,
         name: id,
+        kind: "company",
         slug: id,
         location: "Office",
         prominence: "small",
@@ -55,4 +57,15 @@ test("nearby locations split when zoomed in without changing geographic coordina
         })),
     ).toHaveLength(3);
     expect(locations[1].longitude).toBe(1);
+});
+
+test("shared-address filters match category and search on the same organisation", () => {
+    const locations = groupLocations([
+        { ...office("zurich.tech"), kind: "community" },
+        { ...office("Symbol"), kind: "startup" },
+    ]);
+    expect(filterLocations(locations, "startup", ["zurich.tech"])).toEqual([]);
+    const startups = filterLocations(locations, "startup", []);
+    expect(startups[0].organisations.map((entry) => entry.name)).toEqual(["Symbol"]);
+    expect(filterLocations(locations, "all", ["baslerstrasse"])[0].organisations).toHaveLength(2);
 });
