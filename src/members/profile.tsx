@@ -1,3 +1,4 @@
+import { AffiliationFields, readAffiliations } from "./affiliations";
 import { Suspense } from "solid-js";
 import { DemographicFields, readDemographics } from "./demographics";
 import { startTransition, createResource, createSignal, Show, For, onCleanup } from "solid-js";
@@ -132,6 +133,7 @@ export function ProfileSettings() {
                 handle: text("handle"),
                 isPublic: fields.has("isPublic"),
                 headline: text("headline"),
+                affiliations: readAffiliations(fields.get("affiliations")),
                 bio: text("bio"),
                 profileUrl: text("profileUrl"),
                 socials: { linkedin: text("linkedin"), github: text("github"), x: text("x") },
@@ -284,14 +286,21 @@ export function ProfileSettings() {
                         </div>
                         <hr class="profile-divider" />
                         <label>
-                            Title
+                            Headline
                             <input
                                 name="headline"
                                 maxlength="160"
-                                placeholder="Student, Founder @ Company…"
+                                placeholder="A short introduction"
                                 value={current().headline ?? ""}
                             />
                         </label>
+                        <fieldset>
+                            <legend>Affiliations</legend>
+                            <AffiliationFields
+                                name="affiliations"
+                                values={current().affiliations}
+                            />
+                        </fieldset>
                         <label>
                             Bio
                             <textarea

@@ -133,21 +133,29 @@ export const event = query({
             location: [disclosed.name, disclosed.address].filter(Boolean).join(", "),
             media: images,
             rsvpCount: rsvps.filter((rsvp) => rsvp.status === "going").length,
+            registrationCapacity:
+                event.registration.kind === "native" ? event.registration.capacity : undefined,
             waitlistCount: rsvps.filter((rsvp) => rsvp.status === "waitlist").length,
             slug: event.slug,
             speakers: await Promise.all(
                 speakers
                     .filter((speaker) => !speaker.isRemoved)
-                    .map(async (speaker) => ({
-                        profileUrl: speaker.memberId
+                    .map(async (speaker) => {
+                        // Reuse a consented public profile portrait unless this appearance overrides it.
+                        const member = speaker.memberId
                             ? await speakerProfile(ctx, speaker.memberId)
-                            : undefined,
-                        name: speaker.name,
-                        title: speaker.title,
-                        imageUrl: speaker.imageUrl,
-                        imageDarkUrl: speaker.imageDarkUrl,
-                        links: (await readLinks(ctx, speaker._id)).map((link) => link.url),
-                    })),
+                            : undefined;
+                        return {
+                            profileUrl: member?.url,
+                            name: speaker.name,
+                            affiliations: speaker.affiliations ?? member?.affiliations,
+                            imageUrl: speaker.imageUrl ?? member?.imageUrl,
+                            imageDarkUrl: speaker.imageUrl
+                                ? speaker.imageDarkUrl
+                                : member?.imageDarkUrl,
+                            links: (await readLinks(ctx, speaker._id)).map((link) => link.url),
+                        };
+                    }),
             ),
             startsAt: event.startsAt,
             status: event.status,
@@ -221,7 +229,14 @@ async function speakerProfile(ctx: QueryCtx, memberId: Doc<"members">["_id"]) {
         .withIndex("by_member", (q) => q.eq("memberId", memberId))
         .collect();
     const active = handle.find((row) => row.status === "active");
-    return active ? `/members/${active.name}` : undefined;
+    return active
+        ? {
+              url: `/members/${active.name}`,
+              affiliations: member.affiliations,
+              imageUrl: member.avatarUrl,
+              imageDarkUrl: member.avatarDarkUrl,
+          }
+        : undefined;
 }
 
 /** Publish admission rules without disclosing internal booking limits. */

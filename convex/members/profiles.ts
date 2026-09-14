@@ -1,3 +1,4 @@
+import { affiliations, normaliseAffiliations, affiliationText } from "./affiliations";
 import { demographics } from "./demographics";
 import { readProfiles, writeProfiles } from "./links";
 import { v } from "convex/values";
@@ -27,6 +28,7 @@ export const current = query({
             ).find((handle) => handle.status === "active")?.name,
             name: member.name,
             headline: member.headline,
+            affiliations: member.affiliations,
             bio: member.bio,
             avatarUrl: member.avatarUrl,
             avatarDarkUrl: member.avatarDarkUrl,
@@ -43,6 +45,7 @@ export const save = mutation({
         handle: v.optional(v.string()),
         isPublic: v.boolean(),
         headline: v.optional(v.string()),
+        affiliations: v.optional(affiliations),
         bio: v.optional(v.string()),
         profileUrl: v.optional(v.string()),
         socials: v.optional(socialLinks),
@@ -102,8 +105,18 @@ export const save = mutation({
             name,
             visibility: args.isPublic ? "public" : "private",
             headline,
+            affiliations:
+                args.affiliations === undefined
+                    ? member.affiliations
+                    : normaliseAffiliations(args.affiliations),
             bio,
-            searchText: searchText(name, headline, bio, ...tags.map((tag) => tag?.name)),
+            searchText: searchText(
+                name,
+                headline,
+                affiliationText(args.affiliations ?? member.affiliations),
+                bio,
+                ...tags.map((tag) => tag?.name),
+            ),
             updatedAt: Date.now(),
         });
         await writeProfiles(ctx, viewer.memberId, args);

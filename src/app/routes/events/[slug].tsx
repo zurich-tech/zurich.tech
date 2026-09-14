@@ -1,3 +1,4 @@
+import { Affiliations } from "../../../members/affiliations";
 import { VenueCard, AddressNotice } from "../../../events/venue";
 import { Organisers } from "../../../events/organiser";
 import { useCancellation } from "../../../events/cancellation";
@@ -826,9 +827,7 @@ function Speakers(props: { event: PublicEvent | null | undefined }) {
                             </p>
 
                             {/* affiliation */}
-                            <Show when={speaker.title}>
-                                {(title) => <p class="text-soft">{title()}</p>}
-                            </Show>
+                            <Affiliations values={speaker.affiliations} />
                             <SocialLinks name={speaker.name} profiles={speaker.links} />
                         </div>
                     )}
@@ -946,9 +945,7 @@ function EventFacts(props: { event: PublicEvent }) {
                                         <a href={speaker.profileUrl || "#speakers"}>
                                             {speaker.name}
                                         </a>
-                                        <Show when={speaker.title}>
-                                            <span>{speaker.title}</span>
-                                        </Show>
+                                        <Affiliations values={speaker.affiliations} />
                                     </div>
                                 )}
                             </For>

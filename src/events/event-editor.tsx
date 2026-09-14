@@ -1,3 +1,4 @@
+import { AffiliationFields } from "../members/affiliations";
 import { SpeakerMember } from "./speaker";
 import { createEffect, createSignal, For, Index, Show, type Setter } from "solid-js";
 import type { Doc } from "../../convex/_generated/dataModel";
@@ -243,10 +244,10 @@ export function ProgrammeFields(props: {
                             <input type="hidden" name="speakerId" value={speaker().id ?? ""} />
                             <SpeakerMember
                                 id={speaker().memberId}
-                                onChange={(memberId, name, title) =>
+                                onChange={(memberId, name) =>
                                     updateSpeaker(index, {
                                         memberId,
-                                        ...(name ? { name, title: title ?? speaker().title } : {}),
+                                        ...(name ? { name, affiliations: undefined } : {}),
                                     })
                                 }
                             />
@@ -265,20 +266,12 @@ export function ProgrammeFields(props: {
                                         }
                                     />
                                 </label>
-                                <label>
-                                    Affiliation
-                                    <input
-                                        name="speakerTitle"
-                                        maxlength="300"
-                                        value={speaker().title}
-                                        onInput={(event) =>
-                                            updateSpeaker(index, {
-                                                title: event.currentTarget.value,
-                                            })
-                                        }
-                                    />
-                                </label>
                             </div>
+                            <AffiliationFields
+                                name="speakerAffiliations"
+                                values={speaker().affiliations}
+                                inherit={!!speaker().memberId}
+                            />
                             <label>
                                 Links<span>One URL per line</span>
                                 <textarea
@@ -344,7 +337,9 @@ export function ProgrammeFields(props: {
                     type="button"
                     class="button"
                     disabled={speakers().length >= 40}
-                    onClick={() => setSpeakers((items) => [...items, { name: "", title: "" }])}
+                    onClick={() =>
+                        setSpeakers((items) => [...items, { name: "", affiliations: [] }])
+                    }
                 >
                     Add speaker
                 </button>

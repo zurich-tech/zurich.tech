@@ -1,0 +1,33 @@
+.affiliations,
+.affiliation {
+    display: block;
+    color: var(--color-soft);
+    font-weight: 400;
+}
+.affiliation > span {
+    display: block;
+}
+.affiliation + .affiliation {
+    margin-top: 8px;
+}
+.affiliations--compact .affiliation > span {
+    display: inline;
+}
+.affiliations--compact .affiliation > span + span::before {
+    content: " · ";
+}
+.affiliation-fields {
+    display: grid;
+    gap: 12px;
+}
+.affiliation-fields__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: end;
+}
+@media (max-width: 600px) {
+    .affiliation-fields__row {
+        grid-template-columns: 1fr;
+    }
+}

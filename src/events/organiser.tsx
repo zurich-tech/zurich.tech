@@ -1,3 +1,5 @@
+import { Affiliations } from "../members/affiliations";
+import type { Affiliation } from "../../convex/members/affiliations";
 import { Card } from "../components/card";
 import { createAsync } from "@solidjs/router";
 import { For, Show, createSignal, createEffect } from "solid-js";
@@ -5,7 +7,13 @@ import { getTeam, getMembers } from "../members/queries";
 import "./organiser.css";
 
 /** Public identity shared by named credits and compact avatar groups. */
-export type OrganiserPerson = { name: string; href: string; image?: string; headline?: string };
+export type OrganiserPerson = {
+    name: string;
+    href: string;
+    image?: string;
+    headline?: string;
+    affiliations?: Affiliation[];
+};
 
 /** Show a linked public organiser without implying editing access. */
 export function Organiser(props: {
@@ -40,8 +48,8 @@ export function Organiser(props: {
                     <Show when={!props.compact}>
                         <div class="organiser-copy">
                             <strong>{person().name}</strong>
-                            <Show when={props.detailed && person().headline}>
-                                <span class="organiser-headline">{person().headline}</span>
+                            <Show when={props.detailed}>
+                                <Affiliations values={person().affiliations?.slice(0, 1)} />
                             </Show>
                         </div>
                     </Show>
@@ -68,21 +76,11 @@ export function Organisers(props: {
             );
     return (
         <div class="organisers" classList={{ "organisers--detailed": props.detailed }}>
-            <Show
-                when={props.detailed}
-                fallback={
-                    <For each={props.compact ? people().slice(0, 3) : people()}>
-                        {(person) => <Organiser person={person} compact={props.compact} />}
-                    </For>
-                }
-            >
-                <Organiser person={props.primary} detailed />
-                <div class="organisers">
-                    <For each={people().filter((person) => person.href !== props.primary?.href)}>
-                        {(person) => <Organiser person={person} />}
-                    </For>
-                </div>
-            </Show>
+            <For each={props.compact ? people().slice(0, 3) : people()}>
+                {(person) => (
+                    <Organiser person={person} compact={props.compact} detailed={props.detailed} />
+                )}
+            </For>
             <Show when={props.compact && people().length > 3}>
                 <a
                     class="organisers-more"

@@ -1,3 +1,4 @@
+import { affiliations } from "./affiliations";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
@@ -18,6 +19,7 @@ export const members = defineTable({
     status: memberStatus,
     name: v.string(),
     headline: v.optional(v.string()),
+    affiliations: v.optional(affiliations),
     bio: v.optional(v.string()),
     searchText: v.string(),
     avatarUrl: v.optional(v.string()),

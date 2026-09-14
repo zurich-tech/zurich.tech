@@ -1,3 +1,4 @@
+import { normaliseAffiliations } from "../members/affiliations";
 import { links } from "../mail/personalization";
 import { internal } from "../_generated/api";
 import { validateConfirmation, sameConfirmation } from "./conditions";
@@ -122,11 +123,13 @@ export const save = mutation({
         // validate speaker links before they can appear in a public event
         if (values.speakers.length > 40) throw new Error("Use at most forty speakers.");
         for (const speaker of values.speakers) {
-            if (!speaker.name.trim() || speaker.name.length > 120 || speaker.title.length > 300)
+            if (!speaker.name.trim() || speaker.name.length > 120)
                 throw new Error("Enter a speaker name and an affiliation up to 300 characters.");
             if ((speaker.links?.length ?? 0) > 6)
                 throw new Error("Use at most six links per speaker.");
             if (speaker.links) speaker.links = speaker.links.map(normalizeUrl);
+            if (speaker.affiliations)
+                speaker.affiliations = normaliseAffiliations(speaker.affiliations);
             if (speaker.imageUrl) speaker.imageUrl = normalizeImageUrl(speaker.imageUrl);
             if (speaker.imageDarkUrl)
                 speaker.imageDarkUrl = normalizeImageUrl(speaker.imageDarkUrl);
@@ -233,6 +236,11 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
     const draft = await ctx.db.get(id);
     if (!draft) throw new Error("Submission not found.");
     validateAddress(draft, true);
+
+    // Recurring publications validate affiliations just like manually saved revisions.
+    for (const speaker of draft.speakers)
+        if (speaker.affiliations)
+            speaker.affiliations = normaliseAffiliations(speaker.affiliations);
 
     // reserve a stable public URL for this event
     const collision = await ctx.db
@@ -364,6 +372,7 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
         if (previous && retained.has(previous._id)) throw new Error("Speaker appears twice.");
         const values = {
             ...fields,
+            affiliations: speaker.affiliations,
             eventId,
             position,
             isRemoved: false,
@@ -470,11 +479,11 @@ export const edit = mutation({
             speakers: await Promise.all(
                 speakers
                     .filter((row) => !row.isRemoved)
-                    .map(async ({ _id, memberId, name, title, imageUrl, imageDarkUrl }) => ({
+                    .map(async ({ _id, memberId, name, affiliations, imageUrl, imageDarkUrl }) => ({
                         id: _id,
                         memberId,
                         name,
-                        title: title ?? "",
+                        affiliations,
                         links: (await readLinks(ctx, _id)).map((link) => link.url),
                         imageUrl,
                         imageDarkUrl,

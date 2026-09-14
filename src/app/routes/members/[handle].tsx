@@ -1,3 +1,4 @@
+import { Affiliations } from "../../../members/affiliations";
 import { personalTiers } from "../../../sponsorships/plans";
 import { getMember } from "../../../members/queries";
 import { type CalendarEntry } from "../../../events/queries";
@@ -50,9 +51,7 @@ export default function Route() {
                             />
                             <div class="page-header__copy">
                                 <h1>{title()}</h1>
-                                <Show when={member()?.headline}>
-                                    <p>{member()?.headline}</p>
-                                </Show>
+                                <Affiliations values={member()?.affiliations} />
                                 <Show when={member()?.isSpeaker}>
                                     <span class="tag">Speaker</span>
                                 </Show>

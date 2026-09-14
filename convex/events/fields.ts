@@ -1,3 +1,4 @@
+import { affiliations } from "../members/affiliations";
 import type { Doc } from "../_generated/dataModel";
 import { v, type Infer } from "convex/values";
 
@@ -77,8 +78,6 @@ export const submissionFields = {
     coOrganiserIds: v.optional(v.array(v.id("members"))),
     ...participationFields,
     confirmation: v.optional(confirmation),
-    /** Retained only to read legacy records during migration. */
-    organiserIds: v.optional(v.array(v.id("members"))),
     title: v.string(),
     slug: v.string(),
     description: v.string(),
@@ -100,7 +99,7 @@ export const submissionFields = {
             id: v.optional(v.id("speakers")),
             memberId: v.optional(v.id("members")),
             name: v.string(),
-            title: v.string(),
+            affiliations: v.optional(affiliations),
             links: v.optional(v.array(v.string())),
             imageUrl: v.optional(v.string()),
             imageDarkUrl: v.optional(v.string()),

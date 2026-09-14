@@ -1,3 +1,4 @@
+import { readAffiliations } from "../../members/affiliations";
 import { OrganiserCard } from "../../events/organiser";
 import { registrationSite } from "../../events/registration";
 import { DeleteRecord } from "../../events/delete";
@@ -294,7 +295,7 @@ export default function Route() {
                     memberId: (String(fields.getAll("speakerMember")[index] || "") || undefined) as
                         Id<"members"> | undefined,
                     name: String(name).trim(),
-                    title: String(fields.getAll("speakerTitle")[index] ?? "").trim(),
+                    affiliations: readAffiliations(fields.getAll("speakerAffiliations")[index]),
                     links: String(fields.getAll("speakerLinks")[index] ?? "")
                         .split("\n")
                         .map((link) => link.trim())
@@ -561,7 +562,7 @@ export default function Route() {
                                         coOrganisers={draft()?.coOrganiserIds}
                                         inherit
                                     />
-                                    {/* enter real Zürich local dates and an optional map position */}
+                                    {/* enter real Zurich local dates and an optional map position */}
                                     <VenueFields draft={draft()} />
                                     <EventOptions
                                         draft={draft()}

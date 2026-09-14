@@ -1,3 +1,4 @@
+import { affiliations } from "../members/affiliations";
 import { recurrence } from "./recurrence";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
@@ -72,7 +73,6 @@ export const events = defineTable({
     scheduleId: v.optional(v.id("schedules")),
     occurrence: v.optional(v.string()),
     number: v.optional(v.number()),
-    organiserIds: v.optional(v.array(v.id("members"))),
     ownerId: v.id("members"),
     registration,
     seriesId: v.optional(v.id("series")),
@@ -138,7 +138,7 @@ export const speakers = defineTable({
     name: v.string(),
     imageUrl: v.optional(v.string()),
     imageDarkUrl: v.optional(v.string()),
-    title: v.optional(v.string()),
+    affiliations: v.optional(affiliations),
     position: v.number(),
     createdAt: v.number(),
     updatedAt: v.number(),

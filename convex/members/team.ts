@@ -29,7 +29,7 @@ export const list = query({
                         name: member.name,
                         href: `/members/${handle.name}`,
                         role: role.status === "former" ? "Emeritus" : role.name,
-                        profession: member.headline,
+                        affiliations: member.affiliations,
                         image: member.avatarUrl,
                         imageDark: member.avatarDarkUrl,
                         links: (await readProfiles(ctx, member._id)).socials ?? {},

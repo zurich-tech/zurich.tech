@@ -70,6 +70,7 @@ import type * as mail_subscriptions from "../mail/subscriptions.js";
 import type * as mail_templates from "../mail/templates.js";
 import type * as mail_verification from "../mail/verification.js";
 import type * as mail_webhooks from "../mail/webhooks.js";
+import type * as members_affiliations from "../members/affiliations.js";
 import type * as members_audience from "../members/audience.js";
 import type * as members_avatars from "../members/avatars.js";
 import type * as members_demographics from "../members/demographics.js";
@@ -166,6 +167,7 @@ declare const fullApi: ApiFromModules<{
   "mail/templates": typeof mail_templates;
   "mail/verification": typeof mail_verification;
   "mail/webhooks": typeof mail_webhooks;
+  "members/affiliations": typeof members_affiliations;
   "members/audience": typeof members_audience;
   "members/avatars": typeof members_avatars;
   "members/demographics": typeof members_demographics;

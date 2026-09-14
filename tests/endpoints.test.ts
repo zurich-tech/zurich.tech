@@ -86,7 +86,7 @@ async function setup() {
             location: values.location,
             registration: values.registration,
             ownerId: memberId,
-            organiserIds: [],
+
             seriesId,
             eventId,
             status: "published",
@@ -179,7 +179,7 @@ test("saving a published-event draft changes neither the live event nor email qu
     await editor.mutation(api.events.mutations.save, {
         ...fields,
         id: ids.draftId,
-        organiserIds: [ids.memberId],
+
         description: "Revised",
         publish: false,
     } as any);
@@ -192,7 +192,7 @@ test("saving a published-event draft changes neither the live event nor email qu
         editor.mutation(api.events.mutations.save, {
             ...fields,
             id: ids.draftId,
-            organiserIds: [ids.memberId],
+
             publish: true,
             receipt: "forged",
         } as any),
@@ -202,7 +202,7 @@ test("saving a published-event draft changes neither the live event nor email qu
             ...fields,
             id: ids.draftId,
             seriesId: ids.otherSeries,
-            organiserIds: [ids.memberId],
+
             publish: false,
         } as any),
     ).rejects.toThrow();
@@ -273,7 +273,7 @@ test("a new draft gets an assignable event identity without publication or mail"
     await editor.mutation(api.events.mutations.save, {
         ...fields,
         slug: "new-draft",
-        organiserIds: [ids.memberId],
+
         publish: false,
     } as any);
     await backend.run(async (ctx) => {

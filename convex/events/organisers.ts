@@ -15,6 +15,7 @@ export async function publicOrganiser(ctx: QueryCtx, id?: Id<"members">) {
         href: `/members/${handle.name}`,
         image: member.avatarUrl,
         headline: member.headline,
+        affiliations: member.affiliations,
     };
 }
 

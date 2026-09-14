@@ -6,7 +6,7 @@ import { memberClient } from "../auth/convex";
 /** Link an appearance to an existing member while allowing guest speakers. */
 export function SpeakerMember(props: {
     id?: Id<"members">;
-    onChange: (id: Id<"members"> | undefined, name?: string, title?: string) => void;
+    onChange: (id: Id<"members"> | undefined, name?: string) => void;
 }) {
     const [search, setSearch] = createSignal("");
     const [results] = createResource(search, async (search) =>
@@ -26,7 +26,7 @@ export function SpeakerMember(props: {
                             type="search"
                             value={search()}
                             onInput={(event) => setSearch(event.currentTarget.value)}
-                            placeholder="Name or title"
+                            placeholder="Name or affiliation"
                         />
                     </label>
                 }
@@ -45,12 +45,12 @@ export function SpeakerMember(props: {
                             type="button"
                             class="button"
                             onClick={() => {
-                                props.onChange(member.id, member.name, member.title);
+                                props.onChange(member.id, member.name);
                                 setSearch("");
                             }}
                         >
                             {member.name}
-                            {member.title ? ` · ${member.title}` : ""}
+                            {member.affiliation ? ` · ${member.affiliation}` : ""}
                         </button>
                     )}
                 </For>

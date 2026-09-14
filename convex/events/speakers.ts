@@ -1,3 +1,4 @@
+import { affiliationText } from "../members/affiliations";
 import { requireAccount } from "../auth/access";
 import { v } from "convex/values";
 import { query } from "../_generated/server";
@@ -19,7 +20,11 @@ export const members = query({
                     row.status !== "blocked" &&
                     row.visibility === "public",
             )
-            .map((row) => ({ id: row._id, name: row.name, title: row.headline }));
+            .map((row) => ({
+                id: row._id,
+                name: row.name,
+                affiliation: affiliationText(row.affiliations),
+            }));
     },
 });
 

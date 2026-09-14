@@ -1,3 +1,4 @@
+import { Affiliations } from "../../members/affiliations";
 import { Sponsors } from "../../sponsorships/sponsors";
 import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 import { EditLink } from "../../auth/edit";
@@ -22,7 +23,7 @@ export default function Route() {
         <>
             <Seo
                 title="About"
-                description="A registered nonprofit bringing people together around tech in and around Zürich."
+                description="A registered nonprofit bringing people together around tech in and around Zurich."
             />
             <Page>
                 <Card
@@ -48,7 +49,7 @@ export default function Route() {
                                         <h2>{member.name}</h2>
                                     </a>
                                     <p class="team-role">{member.role}</p>
-                                    <p class="team-profession">{member.profession}</p>
+                                    <Affiliations values={member.affiliations} />
                                     <SocialLinks name={member.name} profiles={member.links} />
                                 </li>
                             )}

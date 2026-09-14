@@ -181,6 +181,7 @@ async function memberRow(ctx: QueryCtx, member: Doc<"members">) {
         bio: member.bio,
         handle: handle.name,
         headline: member.headline,
+        affiliations: member.affiliations,
         interests: tags,
         links: await publicLinks(ctx, member._id),
         name: member.name,
