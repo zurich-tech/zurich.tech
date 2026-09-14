@@ -1,3 +1,4 @@
+import { requireRecipient, recipientsLocked } from "./policy";
 import { subscriptionHistory } from "./history";
 import { verificationEmail } from "./templates";
 import { register, requireOpenEvent, registrations } from "../events/registrations";
@@ -25,6 +26,7 @@ export const prepare = internalMutation({
     handler: async (ctx, args) => {
         // normalize the recipient and enforce hourly email limits
         const email = normalizeEmail(args.email);
+        requireRecipient(email);
         const now = Date.now();
         await consumeLimit(ctx, `verify:${email}`, 5, 3600000, now);
         await consumeLimit(ctx, "verify", 1000, 3600000, now);
@@ -136,7 +138,10 @@ export const confirm = mutation({
         await ctx.db.patch(ticket._id, { usedAt: now });
 
         // finish newsletter confirmation without allocating attendance
-        if (ticket.purpose === "subscription") return "You’re subscribed.";
+        if (ticket.purpose === "subscription")
+            return recipientsLocked()
+                ? "You’re subscribed. Test mode: newsletter delivery is off until Test mode is turned off."
+                : "You’re subscribed.";
         return await register(ctx, ticket, now);
     },
 });

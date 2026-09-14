@@ -1,3 +1,5 @@
+import { publicClient } from "../../auth/convex";
+import { api } from "../../../convex/_generated/api";
 import { createSignal, For, Show } from "solid-js";
 import { useNavigate, createAsync, useSearchParams } from "@solidjs/router";
 import { getSignInProviders } from "../../auth/queries";
@@ -62,6 +64,7 @@ export default function Route() {
                 }
                 navigate(`/welcome?next=${encodeURIComponent(destination())}`, { replace: true });
             } else {
+                await publicClient().query(api.mail.delivery.check, { email: email().trim() });
                 const result = await auth.emailOtp.sendVerificationOtp({
                     email: email().trim(),
                     type: "sign-in",

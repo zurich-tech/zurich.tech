@@ -1,3 +1,4 @@
+import { Alert } from "./alert";
 import { Edits } from "./edits";
 import { useUnsavedChanges } from "./unsaved";
 import {
@@ -54,17 +55,24 @@ export function OptionalFields(props: {
 
 /** Visible form result announced to assistive technology. */
 export function FormMessage(props: { error?: string; success?: string }) {
+    // test restrictions are warnings, while failures and successful actions retain their own tone
+    const isTestMode = () => props.error?.startsWith("Test mode:") ?? false;
     return (
         <Show when={props.error ?? props.success}>
-            <p
-                aria-live="polite"
-                classList={{
-                    "form-error": props.error !== undefined,
-                    "form-success": props.error === undefined,
-                }}
+            <Alert
+                tone={isTestMode() ? "warning" : props.error !== undefined ? "error" : "success"}
+                title={
+                    isTestMode()
+                        ? "Test mode"
+                        : props.error !== undefined
+                          ? "Unable to continue"
+                          : undefined
+                }
             >
-                {props.error ?? props.success}
-            </p>
+                {isTestMode()
+                    ? props.error!.slice("Test mode:".length).trim()
+                    : (props.error ?? props.success)}
+            </Alert>
         </Show>
     );
 }

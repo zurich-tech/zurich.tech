@@ -1,3 +1,4 @@
+import { Alert } from "../components/alert";
 import { Suspense } from "solid-js";
 import { startTransition, createResource, createSignal, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
@@ -127,6 +128,12 @@ export function Notifications() {
                                 </span>
                             </label>
                         </fieldset>
+                        <Show when={current().isTestMode}>
+                            <Alert tone="warning" title="Test mode">
+                                Your preferences can be saved, but audience emails are off. Only
+                                approved test addresses can receive other emails.
+                            </Alert>
+                        </Show>
                         <Show when={current().isSuppressed}>
                             <p class="form-error">Delivery blocked. Contact the team.</p>
                         </Show>

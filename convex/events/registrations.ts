@@ -1,3 +1,4 @@
+import { requireRecipient } from "../mail/policy";
 import { eventPlace, disclosePlace } from "./place";
 import { ensureToken } from "./checkin";
 import { confirmationDecision, isTentative } from "./conditions";
@@ -495,6 +496,7 @@ export async function register(
     },
     now: number,
 ) {
+    requireRecipient(ticket.email);
     if (!ticket.eventId) throw new Error("The verification request has no event.");
     const event = await ctx.db.get(ticket.eventId);
     if (!event) throw new Error("Event not found.");

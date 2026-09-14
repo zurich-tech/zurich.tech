@@ -1,3 +1,4 @@
+import { requireAudienceDelivery } from "../mail/policy";
 import { v } from "convex/values";
 import { query, mutation, type QueryCtx, type MutationCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
@@ -29,6 +30,7 @@ export async function queueAnnouncement(ctx: MutationCtx, event: Doc<"events">) 
         throw new Error("Only upcoming published events can be announced.");
     if (await isAnnounced(ctx, event)) throw new Error("This event has already been announced.");
     requireMail();
+    requireAudienceDelivery();
 
     // record the request atomically before scheduling its bounded delivery batches
     const now = Date.now();
@@ -132,6 +134,7 @@ export const send = mutation({
         if (actual.receipt !== args.receipt)
             throw new Error("The event or recipients changed. Please review and confirm again.");
         requireMail();
+        requireAudienceDelivery();
 
         // claim the action before scheduling work so repeated clicks cannot resend it
         if (args.kind === "announcement") await queueAnnouncement(ctx, event);

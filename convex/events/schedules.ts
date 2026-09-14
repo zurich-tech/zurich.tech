@@ -1,3 +1,4 @@
+import { requireAudienceDelivery } from "../mail/policy";
 import { validateAddress } from "./place";
 import { v } from "convex/values";
 import {
@@ -316,6 +317,7 @@ export const announce = mutation({
     handler: async (ctx, args) => {
         await requireSchedule(ctx, args.id);
         requireMail();
+        requireAudienceDelivery();
         const preview = await announcementPreview(ctx, args.id);
         if (!preview.recipients) throw new Error("No subscribers to announce to.");
         if (preview.receipt !== args.receipt)

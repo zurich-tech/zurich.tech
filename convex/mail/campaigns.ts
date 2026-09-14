@@ -14,7 +14,7 @@ import { requireEvent, requireSeries } from "../auth/grants";
 import { authComponent } from "../auth/component";
 import { campaignEmail } from "./templates";
 import { enqueue } from "./messages";
-import { recipientAllowed, recipientsLocked } from "./policy";
+import { recipientAllowed, recipientsLocked, requireAudienceDelivery } from "./policy";
 import { audience, type Audience, type Category, type Content, type Recipient } from "./model";
 import { select } from "./audiences";
 import { links, personalize } from "./personalization";
@@ -197,7 +197,7 @@ export const queue = mutation({
     },
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
-        if (recipientsLocked()) throw new Error("Test recipient lock is enabled.");
+        requireAudienceDelivery();
         const sending = await state(ctx);
         if (sending.isPaused || !sending.hasWebhook)
             throw new Error("Configure and enable bulk delivery first.");

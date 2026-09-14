@@ -1,3 +1,4 @@
+import { ConvexError } from "convex/values";
 /** Daily and hourly ceilings for each active sending day. */
 export const profiles = {
     new: {
@@ -36,6 +37,22 @@ export function recipientAllowed(email: string) {
             .MAIL_RECIPIENTS!.split(",")
             .some((value) => value.trim().toLowerCase() === email.trim().toLowerCase())
     );
+}
+
+/** Reject email-dependent requests before creating state the recipient cannot confirm. */
+export function requireRecipient(email: string) {
+    if (!recipientAllowed(email))
+        throw new ConvexError(
+            "Test mode: No email was sent. Use an approved test address or try again when Test mode is off.",
+        );
+}
+
+/** Explicit audience sends must not appear successful while sending is locked. */
+export function requireAudienceDelivery() {
+    if (recipientsLocked())
+        throw new ConvexError(
+            "Test mode: audience email delivery is locked. Turn off Test mode before sending.",
+        );
 }
 
 /** Use local calendar days while keeping hourly pacing continuous at midnight. */

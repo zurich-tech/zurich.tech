@@ -1,0 +1,50 @@
+.alert {
+    --alert-color: #b72c3b;
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 14px 16px;
+    margin-block: 16px 0;
+    border: 1px solid color-mix(in srgb, var(--alert-color) 35%, var(--color-line));
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--alert-color) 7%, var(--color-paper));
+    color: var(--color-ink);
+    font: 400 13px/1.6 var(--font-sans);
+    overflow-wrap: anywhere;
+}
+.alert:first-child {
+    margin-top: 0;
+}
+.alert--warning {
+    --alert-color: #a45509;
+}
+.alert--success {
+    --alert-color: var(--color-accent);
+}
+.alert__icon {
+    color: var(--alert-color);
+    margin-top: 1px;
+}
+.alert__content {
+    display: grid;
+    gap: 4px;
+}
+.alert__content > strong {
+    font: 600 13px/1.4 var(--font-sans);
+    letter-spacing: normal;
+    color: var(--alert-color);
+}
+:root[data-theme="dark"] .alert--error {
+    --alert-color: #ff9ca7;
+}
+:root[data-theme="dark"] .alert--warning {
+    --alert-color: #ffc078;
+}
+
+/* Containers with an explicit gap own spacing around their feedback. */
+.newsletter-member > .alert,
+.editor > .alert,
+.dialog-body > .alert {
+    margin-top: 0;
+}

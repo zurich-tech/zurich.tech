@@ -1,5 +1,9 @@
+import { Alert } from "./alert";
+import { api } from "../../convex/_generated/api";
+import { publicClient } from "../auth/convex";
 import {
     createContext,
+    createResource,
     useContext,
     createEffect,
     createSignal,
@@ -101,6 +105,11 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
     const location = useLocation();
     let dismissButton!: HTMLButtonElement;
     const [current, setCurrent] = createSignal<Confirmation>();
+    // fetch delivery policy only for a decision that actually requests email
+    const [delivery] = createResource(
+        () => ((current()?.emails ?? 0) > 0 ? current() : undefined),
+        () => publicClient().query(api.mail.delivery.status, {}),
+    );
     const [origin, setOrigin] = createSignal<HTMLElement>();
     let lastFocused: HTMLElement | undefined;
     const queue: {
@@ -175,6 +184,10 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
                             type="button"
                             class="button button--primary"
                             classList={{ "dialog-danger": !!current()?.isDestructive }}
+                            disabled={
+                                (current()?.emails ?? 0) > 0 &&
+                                (delivery.loading || !!delivery.error)
+                            }
                             onClick={() => finish(true)}
                         >
                             {current()?.action}
@@ -186,6 +199,17 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
                     <strong>{current()?.subject}</strong>
                 </Show>
                 <p>{current()?.description}</p>
+                <Show when={(current()?.emails ?? 0) > 0 && delivery.error}>
+                    <Alert tone="error" title="Could not check email delivery">
+                        Close this dialog and try again.
+                    </Alert>
+                </Show>
+                <Show when={delivery()?.isTestMode && (current()?.emails ?? 0) > 0}>
+                    <Alert tone="warning" title="Test mode">
+                        Audience emails will not be sent. Only approved test addresses can receive
+                        other emails.
+                    </Alert>
+                </Show>
                 <Show when={current()?.emails !== undefined}>
                     <div
                         class="dialog-mail"
@@ -195,9 +219,11 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
                         <strong>{current()?.emails?.toLocaleString("en-CH")}</strong>
                         <div>
                             <b>
-                                {current()?.emails === 1
-                                    ? "email will be sent"
-                                    : "emails will be sent"}
+                                {delivery()?.isTestMode || delivery.loading || delivery.error
+                                    ? "emails requested"
+                                    : current()?.emails === 1
+                                      ? "email will be sent"
+                                      : "emails will be sent"}
                             </b>
                             <Show
                                 when={

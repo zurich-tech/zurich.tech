@@ -1,4 +1,4 @@
-import { recipientAllowed } from "./policy";
+import { requireRecipient } from "./policy";
 
 /** Require configured delivery before accepting an email-dependent action. */
 export function requireMail() {
@@ -29,8 +29,7 @@ export async function send(message: {
     requireMail();
 
     // enforce the configured recipient restriction
-    if (!recipientAllowed(message.to))
-        throw new Error("Email delivery is restricted to approved recipients.");
+    requireRecipient(message.to);
 
     const response = await fetch("https://api.resend.com/emails", {
         method: "POST",

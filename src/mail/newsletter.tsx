@@ -1,3 +1,4 @@
+import { Alert } from "../components/alert";
 import { Card } from "../components/card";
 import { useAccount } from "../auth";
 import { memberClient } from "../auth/convex";
@@ -68,7 +69,7 @@ export function Newsletter() {
             id="newsletter"
             toolbar={
                 <Show when={account.user()}>
-                    <a class="button" href="/settings#notifications">
+                    <a class="action-link" href="/settings#notifications">
                         Settings
                     </a>
                 </Show>
@@ -127,6 +128,17 @@ export function Newsletter() {
                                     </button>
                                 </Show>
                             </div>
+                            <Show
+                                when={
+                                    preferences()?.isTestMode &&
+                                    preferences()?.weekly &&
+                                    !preferences()?.isSuppressed
+                                }
+                            >
+                                <Alert tone="warning" title="Test mode">
+                                    You’re subscribed. Delivery will start once Test mode is off.
+                                </Alert>
+                            </Show>
                             <FormMessage error={error()} />
                         </div>
                     }

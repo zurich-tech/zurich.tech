@@ -632,3 +632,23 @@ test("newsletter preview counts the same eligible audience as delivery", async (
     });
     expect((await admin.query(api.mail.newsletter.preview, {})).subscribers).toBe(1);
 });
+
+// A locked verification must fail before creating a ticket or silently queued mail.
+test("test mode rejects blocked newsletter verification without retaining a request", async () => {
+    const backend = convexTest(schema, modules);
+    process.env.MAIL_RECIPIENTS = "test@example.invalid";
+    await expect(
+        backend.action(api.mail.subscriptions.subscribe, { email: "blocked@example.invalid" }),
+    ).rejects.toThrow("Test mode: No email was sent");
+    await expect(
+        backend.query(api.mail.delivery.check, { email: "blocked@example.invalid" }),
+    ).rejects.toThrow("Test mode: No email was sent");
+    expect(
+        await backend.query(api.mail.delivery.check, { email: "TEST@example.invalid" }),
+    ).toBeNull();
+    await backend.run(async (ctx) => {
+        expect(await ctx.db.query("verifications").collect()).toEqual([]);
+        expect(await ctx.db.query("messages").collect()).toEqual([]);
+        expect(await ctx.db.query("subscriptions").collect()).toEqual([]);
+    });
+});

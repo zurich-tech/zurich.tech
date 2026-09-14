@@ -1,3 +1,4 @@
+import { recipientsLocked } from "./policy";
 import { subscriptionHistory } from "./history";
 import { v } from "convex/values";
 import { action, internalAction, internalMutation, query } from "../_generated/server";
@@ -26,6 +27,7 @@ export const current = query({
             .unique();
         return {
             email: user.email,
+            isTestMode: recipientsLocked(),
             weekly: subscription?.status === "subscribed" && subscription.weekly !== false,
             announcements:
                 subscription?.status === "subscribed" && subscription.announcements !== false,

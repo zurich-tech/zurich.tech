@@ -1,3 +1,4 @@
+import { requireAudienceDelivery } from "./policy";
 import { eventPlace } from "../events/place";
 import { v } from "convex/values";
 import { internalMutation, mutation, query, type QueryCtx } from "../_generated/server";
@@ -48,6 +49,7 @@ export const send = mutation({
     handler: async (ctx, args) => {
         await requireEvent(ctx, args.eventId);
         requireMail();
+        requireAudienceDelivery();
         const actual = await audience(ctx, args.eventId);
         if (actual.receipt !== args.receipt)
             throw new Error("Recipients changed. Review and confirm again.");
