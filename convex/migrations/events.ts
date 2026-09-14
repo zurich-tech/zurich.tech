@@ -3,7 +3,7 @@ import { internalMutation } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { addressAccess } from "../events/fields";
 import { validateAddress } from "../events/place";
-import { validatePrimaryOrganiser } from "../events/organisers";
+import { validatePrimaryOrganiser, validateCoOrganisers } from "../events/organisers";
 import { recipientsLocked } from "../mail/policy";
 
 /** Apply reviewed historical corrections without invoking publication or sending mail. */
@@ -20,6 +20,7 @@ export const apply = internalMutation({
                     slug: v.optional(v.string()),
                     title: v.optional(v.string()),
                     number: v.optional(v.number()),
+                    coOrganiserIds: v.optional(v.array(v.id("members"))),
                     summary: v.optional(v.string()),
                     description: v.optional(v.string()),
                     location: v.optional(v.string()),
@@ -106,6 +107,7 @@ export const apply = internalMutation({
                 if (collision && collision._id !== event._id)
                     throw new Error(`Event URL already exists: ${item.fields.slug}`);
             }
+            await validateCoOrganisers(ctx, item.fields.coOrganiserIds);
             validateAddress({ ...event, ...item.fields }, event.status !== "draft");
             if (!args.apply) continue;
             const removed = Object.fromEntries((item.unset ?? []).map((key) => [key, undefined]));
