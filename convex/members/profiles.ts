@@ -1,5 +1,6 @@
+import { validateTopics } from "../topics/queries";
 import { affiliations, normaliseAffiliations, affiliationText } from "./affiliations";
-import { demographics } from "./demographics";
+import { demographics, validateDemographics, validateParticipation } from "./demographics";
 import { readProfiles, writeProfiles } from "./links";
 import { v } from "convex/values";
 import { query, mutation } from "../_generated/server";
@@ -19,6 +20,8 @@ export const current = query({
         return {
             email: (await authComponent.getAuthUser(ctx)).email,
             demographics: viewer.demographics ?? {},
+            interests: viewer.interests ?? [],
+            participation: viewer.participation ?? [],
             visibility: member.visibility,
             handle: (
                 await ctx.db
@@ -41,6 +44,8 @@ export const current = query({
 export const save = mutation({
     args: {
         demographics: v.optional(demographics),
+        interests: v.optional(v.array(v.string())),
+        participation: v.optional(v.array(v.string())),
         name: v.string(),
         handle: v.optional(v.string()),
         isPublic: v.boolean(),
@@ -54,6 +59,9 @@ export const save = mutation({
         const viewer = await requireAccount(ctx);
         const member = await ctx.db.get(viewer.memberId);
         if (!member) throw new Error("Member not found.");
+        if (args.demographics) validateDemographics(args.demographics);
+        if (args.interests) await validateTopics(ctx, args.interests, viewer.interests);
+        if (args.participation) validateParticipation(args.participation);
         const name = args.name.trim();
         const bio = args.bio?.trim() || undefined;
         if (!name || name.length > 120) throw new Error("Enter a name, up to 120 characters.");
@@ -95,12 +103,7 @@ export const save = mutation({
             if (previous.name !== handle && previous.status === "active")
                 await ctx.db.patch(previous._id, { status: "released", updatedAt: Date.now() });
 
-        // rebuild searchable profile copy from the current identity and interests
-        const taggings = await ctx.db
-            .query("taggings")
-            .withIndex("by_member", (q) => q.eq("memberId", viewer.memberId))
-            .collect();
-        const tags = await Promise.all(taggings.map((tagging) => ctx.db.get(tagging.tagId)));
+        // Index only public profile copy, never private survey answers or interests.
         await ctx.db.patch(viewer.memberId, {
             name,
             visibility: args.isPublic ? "public" : "private",
@@ -115,14 +118,19 @@ export const save = mutation({
                 headline,
                 affiliationText(args.affiliations ?? member.affiliations),
                 bio,
-                ...tags.map((tag) => tag?.name),
             ),
             updatedAt: Date.now(),
         });
         await writeProfiles(ctx, viewer.memberId, args);
-        if (args.demographics !== undefined)
+        if (
+            args.demographics !== undefined ||
+            args.interests !== undefined ||
+            args.participation !== undefined
+        )
             await ctx.db.patch(viewer._id, {
-                demographics: args.demographics,
+                demographics: args.demographics ?? viewer.demographics,
+                interests: args.interests ?? viewer.interests,
+                participation: args.participation ?? viewer.participation,
                 updatedAt: Date.now(),
             });
     },

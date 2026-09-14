@@ -1,6 +1,6 @@
 import { AffiliationFields, readAffiliations } from "./affiliations";
 import { Suspense } from "solid-js";
-import { DemographicFields, readDemographics } from "./demographics";
+import { CommunityFields, readCommunity } from "./demographics";
 import { startTransition, createResource, createSignal, Show, For, onCleanup } from "solid-js";
 import { auth } from "../auth";
 import { Avatar } from "../components/avatar";
@@ -132,7 +132,7 @@ export function ProfileSettings() {
             await (
                 await memberClient()
             ).mutation(api.members.profiles.save, {
-                demographics: readDemographics(fields),
+                ...readCommunity(fields),
                 name: text("name") ?? "",
                 handle: text("handle"),
                 isPublic: fields.has("isPublic"),
@@ -363,8 +363,7 @@ export function ProfileSettings() {
                             profileUrl={current().profileUrl}
                             socials={current().socials}
                         />
-                        <hr class="profile-divider" />
-                        <DemographicFields values={current().demographics} />
+                        <CommunityFields values={current()} />
                         <p class="profile-privacy">
                             Optional. Private answers; shared only as grouped stats.
                         </p>

@@ -735,3 +735,112 @@ test("event URL correction previews changes and rejects collisions", async () =>
         else process.env.MAIL_RECIPIENTS = previous;
     }
 });
+
+// Community answers remain private and cannot change subscriptions or authority.
+test("community answers support refusal, multiple roles and clearing without changing access", async () => {
+    const { backend, editor, ids } = await setup();
+    await backend.run((ctx) =>
+        ctx.db.insert("topics", { slug: "robotics", name: "Robotics", isActive: true }),
+    );
+    const before = await backend.run((ctx) => ctx.db.get(ids.accountId));
+    await editor.mutation(api.members.audience.save, {
+        demographics: {
+            roles: ["engineering", "student"],
+            age: null,
+            education: "master",
+            experience: "2–5",
+        },
+        interests: ["robotics"],
+        participation: ["attend", "speak"],
+    });
+    const result = await editor.query(api.members.audience.current, {});
+    expect(result.demographics.roles).toEqual(["engineering", "student"]);
+    expect(result.demographics.age).toBeNull();
+    expect(result.interests).toEqual(["robotics"]);
+    await backend.run(async (ctx) => {
+        const after = await ctx.db.get(ids.accountId);
+        expect(after?.isAdmin).toBe(before?.isAdmin);
+        expect(after?.isTeam).toBe(before?.isTeam);
+        expect(await ctx.db.query("messages").collect()).toEqual([]);
+        expect(await ctx.db.query("subscriptions").collect()).toEqual([]);
+        expect((await ctx.db.get(ids.memberId))?.searchText).toBe("test");
+    });
+    await expect(
+        editor.mutation(api.members.audience.save, {
+            demographics: { roles: ["invented"] },
+            interests: [],
+            participation: [],
+        }),
+    ).rejects.toThrow();
+    await expect(
+        editor.mutation(api.members.audience.save, {
+            demographics: {},
+            interests: ["invented"],
+            participation: [],
+        }),
+    ).rejects.toThrow();
+    await editor.mutation(api.members.audience.save, {
+        demographics: { roles: null },
+        interests: [],
+        participation: [],
+    });
+    expect((await editor.query(api.members.audience.current, {})).demographics.roles).toBeNull();
+    await editor.mutation(api.members.audience.save, {
+        demographics: {},
+        interests: [],
+        participation: [],
+    });
+    expect((await editor.query(api.members.audience.current, {})).demographics).toEqual({});
+});
+
+// Archived topics retain their identity but cannot acquire new assignments.
+test("topic curation requires an admin and archived interests can only be retained", async () => {
+    const { backend, editor, ids } = await setup();
+    await expect(
+        editor.mutation(api.topics.queries.save, {
+            slug: "robotics",
+            name: "Robotics",
+            isActive: true,
+        }),
+    ).rejects.toThrow();
+    await backend.run((ctx) => ctx.db.patch(ids.accountId, { isAdmin: true }));
+    await editor.mutation(api.topics.queries.save, {
+        slug: "robotics",
+        name: "Robotics",
+        isActive: true,
+    });
+    await editor.mutation(api.members.audience.save, {
+        demographics: {},
+        interests: ["robotics"],
+        participation: [],
+    });
+    await editor.mutation(api.topics.queries.save, {
+        slug: "robotics",
+        name: "Robotics",
+        isActive: false,
+    });
+    await editor.mutation(api.members.audience.save, {
+        demographics: {},
+        interests: ["robotics"],
+        participation: [],
+    });
+    await editor.mutation(api.members.audience.save, {
+        demographics: {},
+        interests: [],
+        participation: [],
+    });
+    await expect(
+        editor.mutation(api.members.audience.save, {
+            demographics: {},
+            interests: ["robotics"],
+            participation: [],
+        }),
+    ).rejects.toThrow();
+    await expect(
+        editor.mutation(api.topics.queries.save, {
+            slug: "robots",
+            name: "Robotics",
+            isActive: true,
+        }),
+    ).rejects.toThrow();
+});
