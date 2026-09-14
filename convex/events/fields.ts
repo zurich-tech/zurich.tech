@@ -110,10 +110,13 @@ export const submissionFields = {
 
 /** Authored event details shared by publication and generated drafts. */
 export function eventFields(draft: Pick<Doc<"submissions">, keyof typeof submissionFields>) {
+    const number = ordinal(draft.title);
+
     return {
         primaryOrganiserId: draft.primaryOrganiserId,
         coOrganiserIds: draft.coOrganiserIds,
         title: draft.title,
+        ...(number === undefined ? {} : { number }),
         slug: draft.slug,
         description: draft.description,
         summary: draft.summary,
@@ -136,4 +139,12 @@ export function eventFields(draft: Pick<Doc<"submissions">, keyof typeof submiss
         organisationIds: draft.organisations,
         partnerIds: draft.partnerIds,
     };
+}
+
+/** Read the explicit edition suffix shared by authored and recurring event titles. */
+export function ordinal(title: string) {
+    const match = / #([1-9]\d*)$/.exec(title);
+    const number = match ? Number(match[1]) : undefined;
+
+    return number !== undefined && Number.isSafeInteger(number) ? number : undefined;
 }

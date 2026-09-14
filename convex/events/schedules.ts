@@ -154,7 +154,6 @@ export const save = mutation({
                 await ctx.db.patch(event._id, {
                     scheduleId: id,
                     occurrence: match.date,
-                    number: 1,
                 });
             }
         }
@@ -198,9 +197,17 @@ export async function generate(ctx: MutationCtx, schedule: Doc<"schedules">) {
         .withIndex("by_schedule_and_occurrence", (q) => q.eq("scheduleId", schedule._id))
         .collect();
     const reserved = new Set(existing.map((event) => event.occurrence));
-    let nextNumber =
-        schedule.nextNumber ??
-        Math.max(existing.length, ...existing.map((event) => event.number ?? 0)) + 1;
+    // Number across the series, including manually created events and other schedules.
+    const series = await ctx.db.get(schedule.seriesId);
+    if (!series) throw new Error("Series not found.");
+    const events = await ctx.db
+        .query("events")
+        .withIndex("by_series", (q) => q.eq("seriesId", schedule.seriesId))
+        .collect();
+    let nextNumber = Math.max(
+        schedule.nextNumber ?? 1,
+        ...events.map((event) => (event.number ?? 0) + 1),
+    );
     const credits = await publicOrganisers(
         ctx,
         schedule.template,
@@ -221,7 +228,7 @@ export async function generate(ctx: MutationCtx, schedule: Doc<"schedules">) {
             ? { ...template.confirmation, decidesAt: template.confirmation.decidesAt + shift }
             : undefined;
         if (confirmation && confirmation.decidesAt <= now) continue;
-        const slug = `${template.slug}-${occurrence.date}`;
+        const slug = `${series.slug}-${nextNumber}`;
         const collision = await ctx.db
             .query("events")
             .withIndex("by_slug", (q) => q.eq("slug", slug))

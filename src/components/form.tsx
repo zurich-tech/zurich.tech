@@ -1,3 +1,4 @@
+import { Edits } from "./edits";
 import { useUnsavedChanges } from "./unsaved";
 import {
     onMount,
@@ -70,47 +71,41 @@ export function FormMessage(props: { error?: string; success?: string }) {
 
 /** Keep editor submission and bottom actions in one native form. */
 export function Editor(
-    props: JSX.FormHTMLAttributes<HTMLFormElement> & {
+    props: Omit<JSX.FormHTMLAttributes<HTMLFormElement>, "onSubmit"> & {
+        onSubmit?: (event: SubmitEvent) => void | Promise<void>;
         actions?: () => JSX.Element;
     },
 ) {
-    const [local, attributes] = splitProps(props, ["actions", "children", "ref"]);
+    const [local, attributes] = splitProps(props, ["actions", "children", "ref", "onSubmit"]);
     let form!: HTMLFormElement;
-    let baseline: string | undefined;
-    let submitted: string | undefined;
-    let hasInteracted = false;
-    const isDirty = () => hasInteracted && baseline !== undefined && snapshot(form) !== baseline;
+    const edits = new Edits();
+    const [isSaving, setSaving] = createSignal(false);
+    const isDirty = () => edits.isDirty(snapshot(form));
     const leave = useUnsavedChanges(isDirty);
 
     onMount(() => {
-        baseline = snapshot(form);
-        // Async options and default values may finish loading before the first edit.
+        edits.reset(snapshot(form));
+        // Capture defaults before edits and track interactions while a save is in flight.
         const begin = () => {
-            if (hasInteracted) return;
-            baseline = snapshot(form);
-            hasInteracted = true;
+            if (!isSaving()) edits.interact(() => snapshot(form));
         };
-        const interactions = ["focusin", "pointerdown", "keydown", "beforeinput"];
+        const interactions = [
+            "focusin",
+            "pointerdown",
+            "keydown",
+            "beforeinput",
+            "input",
+            "change",
+            "click",
+        ];
         interactions.forEach((type) => form.addEventListener(type, begin, true));
-        const capture = () => {
-            submitted = snapshot(form);
-        };
-        form.addEventListener("submit", capture, true);
         editors.set(form, {
             isDirty,
             leave,
-            saved: () => {
-                baseline = submitted ?? snapshot(form);
-                submitted = undefined;
-            },
-            reset: () => {
-                baseline = snapshot(form);
-                submitted = undefined;
-                hasInteracted = false;
-            },
+            saved: () => edits.saved(snapshot(form)),
+            reset: () => edits.reset(snapshot(form)),
         });
         onCleanup(() => {
-            form.removeEventListener("submit", capture, true);
             interactions.forEach((type) => form.removeEventListener(type, begin, true));
             editors.delete(form);
         });
@@ -119,6 +114,20 @@ export function Editor(
     return (
         <form
             {...attributes}
+            inert={isSaving() || attributes.inert}
+            aria-busy={isSaving()}
+            onSubmit={async (event) => {
+                // Keep one submitted version stable until saving and refreshing have finished.
+                event.preventDefault();
+                if (isSaving() || attributes.inert) return;
+                edits.submit(snapshot(form));
+                setSaving(true);
+                try {
+                    await local.onSubmit?.(event);
+                } finally {
+                    setSaving(false);
+                }
+            }}
             ref={(element) => {
                 form = element;
                 if (typeof local.ref === "function") local.ref(element);

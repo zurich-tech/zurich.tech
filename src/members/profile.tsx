@@ -30,6 +30,8 @@ export function ProfileSettings() {
     const [success, setSuccess] = createSignal<string>();
     const [isPending, setIsPending] = createSignal(false);
 
+    const [photo, setPhoto] = createSignal<string>();
+
     const [slug, setSlug] = createSignal<string>();
     const [candidate, setCandidate] = createSignal<string>();
     let slugTimer: ReturnType<typeof setTimeout> | undefined;
@@ -106,7 +108,9 @@ export function ProfileSettings() {
             await (
                 await memberClient()
             ).action(api.members.avatars.upload, { bytes: await blob.arrayBuffer() });
-            await startTransition(refetch);
+            // Refresh the portrait independently so an upload cannot replace unsaved profile fields.
+            const updated = await (await memberClient()).query(api.members.profiles.current, {});
+            setPhoto(updated?.avatarUrl);
             setSuccess("Photo updated.");
         } catch (caught) {
             setError(errorMessage(caught, "Could not upload your photo."));
@@ -198,6 +202,7 @@ export function ProfileSettings() {
                 {(current) => (
                     <Editor
                         id="profile-editor"
+                        inert={isPending()}
                         class="editor profile-editor"
                         onSubmit={save}
                         actions={() => (
@@ -224,8 +229,8 @@ export function ProfileSettings() {
                         <div class="profile-photo">
                             <Avatar
                                 name={current().name}
-                                image={current().avatarUrl}
-                                imageDark={current().avatarDarkUrl}
+                                image={photo() ?? current().avatarUrl}
+                                imageDark={photo() ? undefined : current().avatarDarkUrl}
                             />
                             <div class="row-actions">
                                 <label class="button avatar-upload">

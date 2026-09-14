@@ -1,7 +1,7 @@
 import { expect, test, mock } from "bun:test";
 import { convexTest } from "convex-test";
 import schema from "../convex/schema";
-import { api } from "../convex/_generated/api";
+import { api, internal } from "../convex/_generated/api";
 import type { GenericQueryCtx, GenericDataModel } from "convex/server";
 import { submissionFields } from "../convex/events/fields";
 
@@ -641,4 +641,97 @@ test("search catalogue includes published events without private venue data", as
             (record) => record.href === "/events/discovery-event",
         ),
     ).toBe(false);
+});
+
+// Scheduling continues existing series editions and is idempotent across fills.
+test("recurring editions use series ordinal URLs and preserve an adopted edition", async () => {
+    const { backend, editor, ids } = await setup();
+    const { civilTime, timestamp } = await import("../src/events/time");
+    const start = civilTime(Date.now() + 86400000).slice(0, 10);
+    const end = civilTime(Date.now() + 2 * 86400000).slice(0, 10);
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.grantId, {
+            role: "organiser",
+            scope: { kind: "series", id: ids.seriesId },
+        });
+        await ctx.db.patch(ids.memberId, { visibility: "public" });
+        await ctx.db.insert("handles", {
+            memberId: ids.memberId,
+            name: "host",
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.patch(ids.seriesId, { primaryOrganiserId: ids.memberId });
+        await ctx.db.patch(ids.eventId, {
+            title: "Dinner #5",
+            slug: "dinners-5",
+            number: 5,
+            startsAt: timestamp(`${start}T19:00`),
+        });
+        await ctx.db.patch(ids.draftId, { startsAt: timestamp(`${start}T19:00`) });
+    });
+    const args = {
+        seriesId: ids.seriesId,
+        sourceId: ids.draftId,
+        title: "Dinner #${count}",
+        recurrence: {
+            frequency: "daily" as const,
+            interval: 1,
+            weekdays: [],
+            start,
+            end,
+            time: "19:00",
+            timezone: "Europe/Zurich" as const,
+            excluded: [],
+        },
+        publication: "draft" as const,
+        status: "active" as const,
+    };
+    const id = await editor.mutation(api.events.schedules.save, args);
+    await editor.mutation(api.events.schedules.save, { ...args, id });
+    await backend.run(async (ctx) => {
+        const events = await ctx.db
+            .query("events")
+            .withIndex("by_series", (q) => q.eq("seriesId", ids.seriesId))
+            .collect();
+        expect(events.map((event) => event.slug).sort()).toEqual(["dinners-5", "dinners-6"]);
+        expect(events.find((event) => event.slug === "dinners-6")?.title).toBe("Dinner #6");
+        expect((await ctx.db.get(ids.eventId))?.number).toBe(5);
+    });
+});
+
+// Correct canonical links in place, including clean editor copies, without enabling delivery.
+test("event URL correction previews changes and rejects collisions", async () => {
+    const previous = process.env.MAIL_RECIPIENTS;
+    process.env.MAIL_RECIPIENTS = "test@example.invalid";
+    try {
+        const { backend, ids } = await setup();
+        const args = {
+            apply: false,
+            series: [],
+            events: [{ slug: "dinner", fields: { slug: "dinners-1", number: 1 } }],
+        };
+        await backend.mutation(internal.migrations.events.apply, args);
+        expect(await backend.run(async (ctx) => (await ctx.db.get(ids.eventId))?.slug)).toBe(
+            "dinner",
+        );
+        await backend.mutation(internal.migrations.events.apply, { ...args, apply: true });
+        await backend.run(async (ctx) => {
+            expect((await ctx.db.get(ids.eventId))?.slug).toBe("dinners-1");
+            expect((await ctx.db.get(ids.eventId))?.number).toBe(1);
+            expect((await ctx.db.get(ids.draftId))?.slug).toBe("dinners-1");
+            expect((await ctx.db.get(ids.draftId))?.eventId).toBe(ids.eventId);
+        });
+        await expect(
+            backend.mutation(internal.migrations.events.apply, {
+                apply: true,
+                series: [],
+                events: [{ slug: "dinners-1", fields: { slug: "other" } }],
+            }),
+        ).rejects.toThrow("Event URL already exists");
+    } finally {
+        if (previous === undefined) delete process.env.MAIL_RECIPIENTS;
+        else process.env.MAIL_RECIPIENTS = previous;
+    }
 });

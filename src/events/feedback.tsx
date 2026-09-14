@@ -79,7 +79,7 @@ function Response(props: {
         }
     }
     return (
-        <form class="feedback-response" onSubmit={save}>
+        <form class="feedback-response" onSubmit={save} inert={pending()} aria-busy={pending()}>
             <h3>{props.title}</h3>
             <Rating
                 value={rating()}

@@ -17,6 +17,7 @@ export const apply = internalMutation({
             v.object({
                 slug: v.string(),
                 fields: v.object({
+                    slug: v.optional(v.string()),
                     title: v.optional(v.string()),
                     number: v.optional(v.number()),
                     summary: v.optional(v.string()),
@@ -89,9 +90,23 @@ export const apply = internalMutation({
                 .query("submissions")
                 .filter((q) => q.eq(q.field("eventId"), event._id))
                 .collect();
-            if (revisions.some((row) => row.status !== "published"))
+            if (
+                Object.keys(item.fields).some((key) => key !== "number") &&
+                revisions.some((row) => row.status !== "published")
+            )
                 throw new Error(`Review the pending event revision first: ${item.slug}`);
-            validateAddress({ ...event, ...item.fields }, true);
+            // A reviewed URL correction must never take another event's address.
+            if (item.fields.slug) {
+                if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.fields.slug))
+                    throw new Error("Use a lowercase URL slug with hyphens.");
+                const collision = await ctx.db
+                    .query("events")
+                    .withIndex("by_slug", (q) => q.eq("slug", item.fields.slug!))
+                    .unique();
+                if (collision && collision._id !== event._id)
+                    throw new Error(`Event URL already exists: ${item.fields.slug}`);
+            }
+            validateAddress({ ...event, ...item.fields }, event.status !== "draft");
             if (!args.apply) continue;
             const removed = Object.fromEntries((item.unset ?? []).map((key) => [key, undefined]));
             await ctx.db.patch(event._id, { ...item.fields, ...removed, updatedAt: Date.now() });

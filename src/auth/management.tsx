@@ -267,6 +267,8 @@ export function AccessManager() {
                                         </div>
                                     </Show>
                                     <form
+                                        inert={command.isPending()}
+                                        aria-busy={command.isPending()}
                                         class="editor"
                                         onSubmit={(event) => {
                                             event.preventDefault();

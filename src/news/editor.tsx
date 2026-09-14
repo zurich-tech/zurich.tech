@@ -89,6 +89,7 @@ export function NewsEditor(props: {
         return result;
     }
     async function run(action: () => Promise<void>) {
+        if (isPending()) return;
         setIsPending(true);
         setError(undefined);
         setSuccess(undefined);
@@ -148,6 +149,8 @@ export function NewsEditor(props: {
     return (
         <>
             <form
+                inert={isPending()}
+                aria-busy={isPending()}
                 onSubmit={(event) => {
                     event.preventDefault();
                     void run(async () => {

@@ -73,6 +73,7 @@ export default function Route() {
             navigate("/manage?section=jobs");
         } catch (caught) {
             setError(errorMessage(caught, "Could not save job."));
+        } finally {
             setIsPending(false);
         }
     }
