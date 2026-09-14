@@ -1,10 +1,23 @@
+import { createAsync } from "@solidjs/router";
+import { getTopics } from "../topics/fields";
 import "./entry.css";
-import { For, Show } from "solid-js";
+import { For, Show, type JSX } from "solid-js";
+import type { Doc } from "../../convex/_generated/dataModel";
+import { isTentative } from "../../convex/events/conditions";
 
 /** Link series to their own pages and topics to filtered events. */
-export function EventTags(props: { series?: { slug: string; name: string }; topics?: string[] }) {
+export function EventTags(props: {
+    series?: { slug: string; name: string };
+    topics?: string[];
+    detailed?: boolean;
+    children?: JSX.Element;
+}) {
+    const catalogue = createAsync(() => getTopics());
+    const label = (slug: string) => catalogue()?.find((topic) => topic.slug === slug)?.name;
+
     return (
-        <div class="event-taxonomy">
+        <div class="event-taxonomy" classList={{ "detail-tags": props.detailed }}>
+            {props.children}
             <Show when={props.series}>
                 {(series) => (
                     <a class="tag" href={`/series/${series().slug}`}>
@@ -12,10 +25,14 @@ export function EventTags(props: { series?: { slug: string; name: string }; topi
                     </a>
                 )}
             </Show>
-            <For each={props.topics?.filter((topic) => topic !== props.series?.slug)}>
+            <For
+                each={
+                    catalogue() ? props.topics?.filter((topic) => topic !== props.series?.slug) : []
+                }
+            >
                 {(topic) => (
                     <a class="tag" href={`/events?tag=${encodeURIComponent(topic)}`}>
-                        {topic}
+                        {label(topic)}
                     </a>
                 )}
             </For>
@@ -23,10 +40,37 @@ export function EventTags(props: { series?: { slug: string; name: string }; topi
     );
 }
 
-/** Distinguish partnership from where registration takes place. */
-export function EventBadges(props: { isPartner?: boolean; registrationKind?: string }) {
+/** Keep event state, partnership and external registration together across views. */
+export function EventBadges(props: {
+    event: Pick<Doc<"events">, "status" | "startsAt" | "confirmation" | "confirmedAt">;
+    now?: number;
+    showPast?: boolean;
+    isPartner?: boolean;
+    registrationKind?: string;
+}) {
+    // Use the same state precedence in list entries and expanded introductions.
+    const state = () => {
+        if (props.event.status === "cancelled") return "Cancelled";
+        if (props.event.status === "draft") return "Draft";
+        if (props.event.startsAt <= (props.now ?? Date.now()))
+            return props.showPast ? "Past" : undefined;
+
+        return isTentative(props.event) ? "Tentative" : "Upcoming";
+    };
     return (
         <>
+            <Show when={state()}>
+                {(label) => (
+                    <span
+                        class="tag"
+                        classList={{
+                            "tag-upcoming": label() === "Upcoming" || label() === "Tentative",
+                        }}
+                    >
+                        {label()}
+                    </span>
+                )}
+            </Show>
             <Show when={props.isPartner}>
                 <span class="tag tag-upcoming">Partner</span>
             </Show>

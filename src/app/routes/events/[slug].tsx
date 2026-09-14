@@ -271,33 +271,6 @@ export default function Route() {
                                 </div>
                             }
                         >
-                            <div class="item-metadata detail-tags">
-                                <Show when={event()?.status === "cancelled"}>
-                                    <span class="tag">Cancelled</span>
-                                </Show>
-                                <Show
-                                    when={
-                                        event()?.status !== "cancelled" &&
-                                        event()!.startsAt < Date.now()
-                                    }
-                                >
-                                    <span class="tag">Past</span>
-                                </Show>
-                                <Show
-                                    when={
-                                        event()?.status === "scheduled" &&
-                                        event()!.startsAt > Date.now()
-                                    }
-                                >
-                                    <span class="tag tag-upcoming">
-                                        {isTentative(event()!) ? "Tentative" : "Upcoming"}
-                                    </span>
-                                </Show>
-                                <EventBadges
-                                    isPartner={event()?.isPartner}
-                                    registrationKind={event()?.registration.kind}
-                                />
-                            </div>
                             <EventFacts event={visibleEvent()!} />
                             <Show when={privateVenue.error}>
                                 <FormMessage error="Could not load your private venue details. Please reload the page." />
@@ -306,12 +279,18 @@ export default function Route() {
                                 <Show when={event()?.summary}>
                                     <p class="event-overview__summary">{event()!.summary}</p>
                                 </Show>
-                                <div class="detail-tags">
-                                    <EventTags
-                                        series={event()!.series ?? undefined}
-                                        topics={event()!.topics}
+                                <EventTags
+                                    detailed
+                                    series={event()!.series ?? undefined}
+                                    topics={event()!.topics}
+                                >
+                                    <EventBadges
+                                        event={event()!}
+                                        showPast
+                                        isPartner={event()?.isPartner}
+                                        registrationKind={event()?.registration.kind}
                                     />
-                                </div>
+                                </EventTags>
                             </div>
                             <RegistrationStatistics event={event()!} />
                             <Show

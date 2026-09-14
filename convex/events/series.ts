@@ -1,3 +1,4 @@
+import { validateTopics } from "../topics/queries";
 import { validatePrimaryOrganiser, validateCoOrganisers } from "./organisers";
 import { v } from "convex/values";
 import { mutation, query } from "../_generated/server";
@@ -69,6 +70,19 @@ export const upsert = mutation({
         )
             throw new Error("Series content is too long.");
 
+        // Retain archived topics already present in the published series or its draft.
+        const current = id ? await ctx.db.get(id) : null;
+        const draft = id
+            ? await ctx.db
+                  .query("seriesRevisions")
+                  .withIndex("by_series", (range) => range.eq("seriesId", id))
+                  .unique()
+            : null;
+        await validateTopics(ctx, values.topics, [
+            ...(current?.topics ?? []),
+            ...(draft?.topics ?? []),
+        ]);
+
         // reject another series using the same URL
         const existing = await ctx.db
             .query("series")
@@ -77,11 +91,7 @@ export const upsert = mutation({
         if (existing && existing._id !== id) throw new Error("A series already uses this URL.");
         // update the existing series or create its first record
         if (id) {
-            if (!(await ctx.db.get(id))) throw new Error("Series not found.");
-            const draft = await ctx.db
-                .query("seriesRevisions")
-                .withIndex("by_series", (q) => q.eq("seriesId", id))
-                .unique();
+            if (!current) throw new Error("Series not found.");
             if (publish) {
                 await ctx.db.patch(id, values);
                 if (draft) await ctx.db.delete(draft._id);

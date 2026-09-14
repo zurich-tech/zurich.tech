@@ -7,7 +7,6 @@ import { calendar } from "../../../events/calendar";
 export async function GET(event: APIEvent) {
     const record = await publicClient().query(api.events.queries.event, {
         slug: event.params.slug,
-        now: Date.now(),
     });
     if (!record) return new Response("Event not found", { status: 404 });
 

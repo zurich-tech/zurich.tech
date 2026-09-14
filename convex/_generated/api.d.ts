@@ -31,6 +31,7 @@ import type * as events_confirmation from "../events/confirmation.js";
 import type * as events_deletions from "../events/deletions.js";
 import type * as events_feedback from "../events/feedback.js";
 import type * as events_fields from "../events/fields.js";
+import type * as events_formats from "../events/formats.js";
 import type * as events_gallery from "../events/gallery.js";
 import type * as events_mail from "../events/mail.js";
 import type * as events_management from "../events/management.js";
@@ -79,7 +80,6 @@ import type * as members_links from "../members/links.js";
 import type * as members_profiles from "../members/profiles.js";
 import type * as members_queries from "../members/queries.js";
 import type * as members_search from "../members/search.js";
-import type * as members_tags from "../members/tags.js";
 import type * as members_team from "../members/team.js";
 import type * as members_urls from "../members/urls.js";
 import type * as migrations_events from "../migrations/events.js";
@@ -98,6 +98,7 @@ import type * as sponsorships_members from "../sponsorships/members.js";
 import type * as sponsorships_organisations from "../sponsorships/organisations.js";
 import type * as statistics_history from "../statistics/history.js";
 import type * as statistics_queries from "../statistics/queries.js";
+import type * as topics_queries from "../topics/queries.js";
 
 import type {
   ApiFromModules,
@@ -129,6 +130,7 @@ declare const fullApi: ApiFromModules<{
   "events/deletions": typeof events_deletions;
   "events/feedback": typeof events_feedback;
   "events/fields": typeof events_fields;
+  "events/formats": typeof events_formats;
   "events/gallery": typeof events_gallery;
   "events/mail": typeof events_mail;
   "events/management": typeof events_management;
@@ -177,7 +179,6 @@ declare const fullApi: ApiFromModules<{
   "members/profiles": typeof members_profiles;
   "members/queries": typeof members_queries;
   "members/search": typeof members_search;
-  "members/tags": typeof members_tags;
   "members/team": typeof members_team;
   "members/urls": typeof members_urls;
   "migrations/events": typeof migrations_events;
@@ -196,6 +197,7 @@ declare const fullApi: ApiFromModules<{
   "sponsorships/organisations": typeof sponsorships_organisations;
   "statistics/history": typeof statistics_history;
   "statistics/queries": typeof statistics_queries;
+  "topics/queries": typeof topics_queries;
 }>;
 
 /**

@@ -10,7 +10,7 @@ async function generate() {
     const catalogues: Record<string, Record<string, { name: string; url?: string }>> = {};
 
     // validate canonical tag and author identities before resolving article references
-    for (const field of ["tags", "authors"]) {
+    for (const field of ["authors"]) {
         const catalogue = JSON.parse(await readFile(resolve(directory, `${field}.json`), "utf8"));
         for (const [slug, entry] of Object.entries(catalogue)) {
             const value = entry as { name?: unknown; url?: unknown };
@@ -40,7 +40,7 @@ async function generate() {
 
         // require explicit unique references instead of freeform author and tag spellings
         const references: Record<string, { slug: string; name: string; url?: string }[]> = {};
-        for (const field of ["authors", "tags"]) {
+        for (const field of ["authors"]) {
             const values = metadata[field];
             if (
                 !Array.isArray(values) ||
@@ -56,6 +56,15 @@ async function generate() {
             references[field] = values.map((slug) => ({ slug, ...catalogues[field][slug] }));
         }
 
+        const topics = metadata.topics;
+        if (
+            !Array.isArray(topics) ||
+            topics.some(
+                (topic) => typeof topic !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(topic),
+            )
+        )
+            throw new Error(`Invalid topics in ${filename}.`);
+
         // derive stable routes from filenames and preserve authored Markdown
         const slug = filename.slice(0, -3);
         const date = Date.parse(String(metadata.date) + "T12:00:00Z");
@@ -67,7 +76,7 @@ async function generate() {
             description: String(metadata.subtitle),
             authors: references.authors,
             date,
-            tags: references.tags,
+            topics: [...new Set(topics)] as string[],
             body: match[2].trim(),
         });
     }

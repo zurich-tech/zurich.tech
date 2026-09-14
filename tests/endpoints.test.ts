@@ -584,7 +584,7 @@ test("global search uses published content and returns safe highlights", async (
             title: "Robotics announcement",
             description: "Zurich research",
             body: "Public demonstration",
-            tags: [],
+            topics: [],
             authors: [],
             organisations: [],
         };

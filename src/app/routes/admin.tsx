@@ -1,3 +1,5 @@
+import { TopicsAdmin } from "../../topics/admin";
+import { Audience } from "../../members/demographics";
 import { SectionTabs } from "../../components/section-tabs";
 import { NewsAdmin } from "../../news/workspace";
 import { Loading } from "../../components/loading";
@@ -18,6 +20,7 @@ import { Management } from "../../organisations/management";
 import { EmailAdmin } from "../../mail/workspace";
 
 const adminTabs = [
+    { id: "community", label: "Community" },
     { id: "news", label: "News" },
     { id: "organisations", label: "Organisations" },
     { id: "jobs", label: "Jobs" },
@@ -121,6 +124,10 @@ export default function Route() {
                                 >
                                     <EventPanel schedules />
                                 </Show>
+                            </Match>
+                            <Match when={access.current()?.isAdmin && section() === "community"}>
+                                <TopicsAdmin />
+                                <Audience />
                             </Match>
                             <Match when={access.current()?.isAdmin && section() === "people"}>
                                 <AccessManager />

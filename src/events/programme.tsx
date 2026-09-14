@@ -95,7 +95,7 @@ export function Programme(props: {
                               ? event.startsAt < now
                               : event.startsAt >= now)) &&
                     (isCalendar() || year() === "all" || eventYear(event.startsAt) === year()) &&
-                    (isPreview() || !params.tag || event.tags.includes(String(params.tag))) &&
+                    (isPreview() || !params.tag || event.topics.includes(String(params.tag))) &&
                     (series() === "all" || event.seriesId === series()) &&
                     (searched()?.some((result) => result.href === event.href) ||
                         matchesSearch(
@@ -103,7 +103,7 @@ export function Programme(props: {
                                 event.title,
                                 event.summary,
                                 event.location,
-                                ...event.tags,
+                                ...event.topics,
                                 event.organiser?.name,
                                 ...event.coOrganisers.map((person) => person.name),
                             ].join(" "),

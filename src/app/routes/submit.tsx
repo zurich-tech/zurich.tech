@@ -241,10 +241,7 @@ export default function Route() {
                 summary: text("summary"),
                 format: text("format") as Doc<"events">["format"],
                 seriesId: text("series") ? (text("series") as Id<"series">) : undefined,
-                topics: text("topics")
-                    .split(",")
-                    .map((tag) => tag.trim().toLowerCase())
-                    .filter(Boolean),
+                topics: fields.getAll("topic").map(String),
                 startsAt: timestamp(text("startsAt")),
                 confirmation: readConfirmation(fields, timestamp(text("startsAt"))),
                 endsAt: text("endsAt") ? timestamp(text("endsAt")) : undefined,

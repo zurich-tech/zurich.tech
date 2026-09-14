@@ -26,10 +26,11 @@ function eventRecord(event: Doc<"events">): SearchRecord {
 
 /** Export only public searchable copy; never serialize stored event documents. */
 async function catalogueRecords(ctx: QueryCtx): Promise<SearchRecord[]> {
-    const [events, series, speakers] = await Promise.all([
+    const [events, series, speakers, topics] = await Promise.all([
         ctx.db.query("events").collect(),
         ctx.db.query("series").collect(),
         ctx.db.query("speakers").collect(),
+        ctx.db.query("topics").collect(),
     ]);
     const appearances = new Map<string, string[]>();
     for (const speaker of speakers) {
@@ -47,7 +48,10 @@ async function catalogueRecords(ctx: QueryCtx): Promise<SearchRecord[]> {
                 description: [
                     event.summary,
                     event.description,
-                    ...event.topics,
+                    ...event.topics.flatMap((slug) => [
+                        slug,
+                        topics.find((topic) => topic.slug === slug)?.name,
+                    ]),
                     ...(appearances.get(event._id) ?? []),
                 ]
                     .filter(Boolean)
@@ -57,7 +61,13 @@ async function catalogueRecords(ctx: QueryCtx): Promise<SearchRecord[]> {
             .filter((item) => item.status !== "proposed")
             .map((item) => ({
                 label: item.name,
-                description: [item.description, ...item.topics].join(" "),
+                description: [
+                    item.description,
+                    ...item.topics.flatMap((slug) => [
+                        slug,
+                        topics.find((topic) => topic.slug === slug)?.name,
+                    ]),
+                ].join(" "),
                 href: `/series/${item.slug}`,
                 kind: "Series",
             })),
@@ -141,7 +151,7 @@ export const search = query({
                 description: [
                     article.description,
                     article.body,
-                    ...article.tags.map((tag) => tag.name),
+                    ...article.topics,
                     ...article.authors.map((author) => author.name),
                 ].join(" "),
                 href: `/news/${article.slug}`,
@@ -154,7 +164,7 @@ export const search = query({
                     description: [
                         post.published.description,
                         post.published.body,
-                        ...post.published.tags,
+                        ...post.published.topics,
                     ]
                         .filter(Boolean)
                         .join(" "),
@@ -187,15 +197,3 @@ export const search = query({
         );
     },
 });
-
-/** Add the requested period to stable event tags. */
-export function eventTags(
-    tags: Array<string | undefined>,
-    startsAt: number,
-    now: number,
-): string[] {
-    const period = startsAt >= now ? "upcoming" : "past";
-    const defined = tags.filter((tag): tag is string => tag !== undefined);
-
-    return [...new Set([period, ...defined])];
-}

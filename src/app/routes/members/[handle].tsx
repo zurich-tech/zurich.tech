@@ -8,7 +8,6 @@ import { createAsync, useParams } from "@solidjs/router";
 import { For, Match, Show, Switch } from "solid-js";
 
 import { DirectoryList, DirectoryRow } from "../../../components/list";
-import { Tags } from "../../meta";
 import { SocialLinks } from "../../../components/social";
 import { NotFound } from "../../notfound";
 import { Page } from "../../page";
@@ -71,13 +70,10 @@ export default function Route() {
                                 profiles={(member()?.links ?? []).map((link) => link.href)}
                             />
                         </header>
-                        <Show when={member()?.bio || member()?.interests.length}>
+                        <Show when={member()?.bio}>
                             <Card title="About">
                                 <Show when={member()?.bio}>
                                     <p class="organisation-description">{member()?.bio}</p>
-                                </Show>
-                                <Show when={member()?.interests.length}>
-                                    <Tags values={member()?.interests ?? []} />
                                 </Show>
                             </Card>
                         </Show>

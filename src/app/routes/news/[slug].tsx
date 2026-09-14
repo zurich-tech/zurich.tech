@@ -90,10 +90,17 @@ export default function Route() {
                                 </div>
                                 <p class="page-lead">{post().description}</p>
                                 <div class="news-tags filter-pills">
-                                    <For each={post().tags}>
+                                    <For each={post().topics}>
                                         {(tag) => (
                                             <a href={`/news?tag=${encodeURIComponent(tag.slug)}`}>
                                                 {tag.name}
+                                            </a>
+                                        )}
+                                    </For>
+                                    <For each={post().organisations}>
+                                        {(organisation) => (
+                                            <a href={`/organisations/${organisation.slug}`}>
+                                                {organisation.name}
                                             </a>
                                         )}
                                     </For>
@@ -113,20 +120,6 @@ export default function Route() {
                                             Read on {new URL(url()).hostname.replace(/^www\./, "")}
                                         </a>
                                     )}
-                                </Show>
-                                <Show when={post().organisations?.length}>
-                                    <div class="news-actions">
-                                        <For each={post().organisations}>
-                                            {(organisation) => (
-                                                <a
-                                                    class="tag"
-                                                    href={`/organisations/${organisation.slug}`}
-                                                >
-                                                    {organisation.name}
-                                                </a>
-                                            )}
-                                        </For>
-                                    </div>
                                 </Show>
                             </Card>
                             <aside class="listing-sidebar">

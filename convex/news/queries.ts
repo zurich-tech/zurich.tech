@@ -5,6 +5,7 @@ import { requireAdmin } from "../auth/access";
 export const list = query({
     args: {},
     handler: async (ctx) => {
+        const topics = await ctx.db.query("topics").collect();
         const posts = await ctx.db.query("posts").collect();
         return await Promise.all(
             posts
@@ -45,14 +46,11 @@ export const list = query({
                                 name: organisation.name,
                                 slug: organisation.slug,
                             })),
-                        tags: content.tags.map((slug) => ({
-                            name: slug.replace(
-                                /(^|-)([a-z])/g,
-                                (_, separator, letter) =>
-                                    `${separator ? " " : ""}${letter.toUpperCase()}`,
-                            ),
-                            slug,
-                        })),
+                        topics: content.topics.map((slug) => {
+                            const topic = topics.find((topic) => topic.slug === slug);
+                            if (!topic) throw new Error(`Unknown article topic: ${slug}.`);
+                            return { slug, name: topic.name };
+                        }),
                     };
                 }),
         );

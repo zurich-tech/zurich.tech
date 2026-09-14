@@ -2,7 +2,6 @@ import { Highlight } from "../components/highlight";
 import { Organisers } from "./organiser";
 import { EventCounts } from "./counts";
 import { EventBadges, EventTags } from "./tags";
-import { isTentative } from "../../convex/events/conditions";
 import type { CalendarEntry } from "./queries";
 import "./entry.css";
 import { timeZone } from "../app/site";
@@ -111,23 +110,9 @@ export function EventEntry(props: {
             meta={
                 <>
                     <div class="entry-tags">
-                        <Show
-                            when={
-                                props.event.status === "scheduled" &&
-                                props.event.startsAt > props.now
-                            }
-                        >
-                            <span class="tag tag-upcoming">
-                                {isTentative(props.event) ? "Tentative" : "Upcoming"}
-                            </span>
-                        </Show>
-                        <Show when={props.event.status === "cancelled"}>
-                            <span class="tag">Cancelled</span>
-                        </Show>
-                        <Show when={props.event.status === "draft"}>
-                            <span class="tag">Draft</span>
-                        </Show>
                         <EventBadges
+                            event={props.event}
+                            now={props.now}
                             isPartner={props.event.isPartner}
                             registrationKind={props.event.registrationKind}
                         />

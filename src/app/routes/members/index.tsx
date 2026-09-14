@@ -48,7 +48,7 @@ function MemberDirectory(props: { members: PublicMember[] }) {
 
         return props.members.filter((member) =>
             matchesSearch(
-                `${member.name} ${member.handle} ${member.headline ?? ""} ${affiliationText(member.affiliations) ?? ""} ${member.interests.join(" ")}`,
+                `${member.name} ${member.handle} ${member.headline ?? ""} ${affiliationText(member.affiliations) ?? ""}`,
                 terms(),
             ),
         );

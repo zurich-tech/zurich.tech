@@ -1,3 +1,4 @@
+import { TopicFields } from "../topics/fields";
 import { OrganiserCard } from "./organiser";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { DeleteRecord } from "./delete";
@@ -51,10 +52,7 @@ export function SeriesAdmin() {
                         : undefined,
                     slug: text("slug"),
                     description: text("description"),
-                    topics: text("topics")
-                        .split(",")
-                        .map((item) => item.trim())
-                        .filter(Boolean),
+                    topics: values.getAll("topic").map(String),
                 });
                 savedEditor(editor);
             },
@@ -264,10 +262,7 @@ function SeriesForm(props: {
                 Description
                 <textarea required name="description" value={props.item?.description ?? ""} />
             </label>
-            <label>
-                Topics
-                <input name="topics" value={props.item?.topics.join(", ") ?? ""} />
-            </label>
+            <TopicFields values={props.item?.topics ?? []} />
             <OrganiserCard
                 value={props.item?.primaryOrganiserId}
                 coOrganisers={props.item?.coOrganiserIds}

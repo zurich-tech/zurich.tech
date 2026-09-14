@@ -1,3 +1,4 @@
+import { validateTopics } from "../topics/queries";
 import { normaliseAffiliations } from "../members/affiliations";
 import { links } from "../mail/personalization";
 import { internal } from "../_generated/api";
@@ -48,6 +49,8 @@ export const save = mutation({
             if (receipt === undefined) throw new Error("Confirm publication first.");
             confirmAction(await eventAction(ctx, event, "publish", values, announce), receipt);
         }
+
+        await validateTopics(ctx, values.topics, existing?.topics);
 
         // Public credits are the sole organiser selection.
         await validatePrimaryOrganiser(ctx, values.primaryOrganiserId);

@@ -146,33 +146,12 @@ export async function publicLinks(ctx: QueryCtx, subjectId: Id<"members"> | Id<"
         }));
 }
 
-/** Read the sorted tag slugs attached to one record. */
-async function memberTags(ctx: QueryCtx, memberId: Id<"members">) {
-    const taggings = await ctx.db
-        .query("taggings")
-        .withIndex("by_member", (query) => query.eq("memberId", memberId))
-        .collect();
-    const tags = await Promise.all(taggings.map((tagging) => ctx.db.get(tagging.tagId)));
-
-    return tags
-        .map((tag) => {
-            // reject broken tagging references
-            if (tag === null) {
-                throw new Error("A member tagging refers to a missing tag.");
-            }
-
-            return tag.slug;
-        })
-        .sort();
-}
-
 /** Expand one public member profile. */
 async function memberRow(ctx: QueryCtx, member: Doc<"members">) {
     const handle = await memberHandle(ctx, member._id);
     if (handle === null) {
         throw new Error(`Public member ${member._id} has no active handle.`);
     }
-    const tags = await memberTags(ctx, member._id);
 
     return {
         id: member._id,
@@ -182,7 +161,6 @@ async function memberRow(ctx: QueryCtx, member: Doc<"members">) {
         handle: handle.name,
         headline: member.headline,
         affiliations: member.affiliations,
-        interests: tags,
         links: await publicLinks(ctx, member._id),
         name: member.name,
         status: member.status,

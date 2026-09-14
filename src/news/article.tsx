@@ -42,7 +42,7 @@ export function ArticleList(props: ArticleListProps) {
         return props.articles.filter(
             (article) =>
                 (kind() === "All" || (article.kind ?? "post") === kind().toLowerCase()) &&
-                (!props.tag || article.tags.some((tag) => tag.slug === props.tag)) &&
+                (!props.tag || article.topics.some((tag) => tag.slug === props.tag)) &&
                 matchesSearch(articleText(article), terms()),
         );
     });
@@ -127,7 +127,7 @@ function articleText(article: Article) {
         article.title,
         article.description,
         article.body,
-        ...article.tags.map((tag) => tag.name),
+        ...article.topics.map((tag) => tag.name),
         ...article.authors.map((author) => author.name),
     ].join(" ");
 }

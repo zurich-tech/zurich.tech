@@ -1,3 +1,4 @@
+import { validateTopics } from "../topics/queries";
 import { v, ConvexError } from "convex/values";
 import { mutation } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
@@ -39,12 +40,14 @@ export const save = mutation({
         const value = {
             ...args.content,
             title: args.content.title.trim(),
-            tags: [
+            topics: [
                 ...new Set(
-                    args.content.tags.map((tag) => tag.trim().toLowerCase()).filter(Boolean),
+                    args.content.topics.map((tag) => tag.trim().toLowerCase()).filter(Boolean),
                 ),
             ],
         };
+        await validateTopics(ctx, value.topics, existing?.draft.topics);
+
         if (
             !value.title ||
             value.title.length > 200 ||
@@ -68,8 +71,8 @@ export const save = mutation({
                 throw new ConvexError("Use an HTTP or HTTPS URL.");
         }
         if (
-            value.tags.length > 12 ||
-            value.tags.some((tag) => !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag))
+            value.topics.length > 12 ||
+            value.topics.some((tag) => !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag))
         )
             throw new ConvexError("Use up to 12 tags, with words separated by hyphens.");
         if (!value.authors.length) throw new ConvexError("Select an author.");

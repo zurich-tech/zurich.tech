@@ -1,3 +1,4 @@
+import { getTopics } from "../topics/fields";
 import { query } from "@solidjs/router";
 import { articles } from "./articles.generated";
 import { api } from "../../convex/_generated/api";
@@ -16,14 +17,23 @@ export type Article = {
     url?: string;
     image?: string;
     authors: { name: string; url?: string }[];
-    tags: { name: string; slug: string }[];
+    topics: { name: string; slug: string }[];
     organisations?: { name: string; slug: string }[];
 };
 
 /** Merge published records with the authored archive in newest-first order. */
 export const getArticles = query(async (): Promise<Article[]> => {
     const posts = await publicClient().query(api.news.queries.list, {});
-    return [...articles, ...posts].sort((a, b) => b.date - a.date);
+    const topics = await getTopics();
+    const authored = articles.map((article) => ({
+        ...article,
+        topics: article.topics.map((slug) => {
+            const topic = topics.find((topic) => topic.slug === slug);
+            if (!topic) throw new Error(`Unknown article topic: ${slug}.`);
+            return { slug, name: topic.name };
+        }),
+    }));
+    return [...authored, ...posts].sort((a, b) => b.date - a.date);
 }, "articles");
 
 /** Read a published entry by its permanent slug. */

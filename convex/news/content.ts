@@ -8,7 +8,7 @@ export const content = v.object({
     kind: v.union(v.literal("post"), v.literal("link")),
     url: v.optional(v.string()),
     image: v.optional(v.string()),
-    tags: v.array(v.string()),
+    topics: v.array(v.string()),
     authors: v.array(v.id("members")),
     organisations: v.array(v.id("organisations")),
 });

@@ -2,16 +2,8 @@ import { affiliations } from "../members/affiliations";
 import type { Doc } from "../_generated/dataModel";
 import { v, type Infer } from "convex/values";
 
-/** Supported ways to gather in the community. */
-export const format = v.union(
-    v.literal("meetup"),
-    v.literal("talk"),
-    v.literal("dinner"),
-    v.literal("workshop"),
-    v.literal("hackathon"),
-    v.literal("office_hours"),
-    v.literal("other"),
-);
+export { format } from "./formats";
+import { format } from "./formats";
 
 /** A registration policy, independent of the event's publication state. */
 export const registration = v.union(

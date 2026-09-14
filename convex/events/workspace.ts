@@ -41,7 +41,7 @@ export const planning = query({
                     summary: draft.summary,
                     startsAt: draft.startsAt,
                     location: draft.location,
-                    tags: draft.topics,
+                    topics: draft.topics,
                     seriesId: draft.seriesId,
                     status: "draft" as const,
                     confirmation: draft.confirmation,

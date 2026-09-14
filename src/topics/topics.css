@@ -1,0 +1,41 @@
+.editor fieldset.topic-fields {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+.topic-fields legend {
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+.choice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    gap: 12px 20px;
+}
+.community-section {
+    display: grid;
+    gap: 16px;
+    border-top: 1px solid var(--color-line);
+    padding-top: 20px;
+    margin-top: 20px;
+}
+.community-section h3,
+.community-section p {
+    margin: 0;
+}
+.community-section .survey-intro {
+    color: var(--color-soft);
+}
+.editor fieldset.survey-choice {
+    display: grid;
+    gap: 12px;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+.survey-choice legend {
+    margin-bottom: 12px;
+    font-weight: 600;
+}

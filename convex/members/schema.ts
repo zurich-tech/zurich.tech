@@ -76,23 +76,6 @@ export const handles = defineTable({
     .index("by_name", ["name"])
     .index("by_member", ["memberId"]);
 
-/** Stored tags. */
-export const tags = defineTable({
-    slug: v.string(),
-    name: v.string(),
-    createdAt: v.number(),
-    updatedAt: v.number(),
-}).index("by_slug", ["slug"]);
-
-/** Stored taggings. */
-export const taggings = defineTable({
-    tagId: v.id("tags"),
-    memberId: v.id("members"),
-    createdAt: v.number(),
-})
-    .index("by_tag", ["tagId"])
-    .index("by_member", ["memberId"]);
-
 /** Recognized public link destinations. */
 const linkKind = v.union(
     v.literal("website"),

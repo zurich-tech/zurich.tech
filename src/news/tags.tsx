@@ -5,7 +5,7 @@ import type { Article } from "./queries";
 /** Browse the canonical tags attached to published articles. */
 export function Tags(props: { articles: Article[]; selected?: string }) {
     return (
-        <Card title="Tags">
+        <Card title="Topics">
             <TagPills {...props} />
         </Card>
     );
@@ -17,7 +17,7 @@ export function TagPills(props: { articles: Article[]; selected?: string }) {
     const tags = createMemo(() => {
         const unique = new Map(
             props.articles.flatMap((article) =>
-                article.tags.map((tag) => [tag.slug, tag] as const),
+                article.topics.map((tag) => [tag.slug, tag] as const),
             ),
         );
         return [...unique.values()].sort((left, right) => left.name.localeCompare(right.name));

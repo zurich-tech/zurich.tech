@@ -1,3 +1,5 @@
+import { TopicFields } from "../topics/fields";
+import { formats } from "../../convex/events/formats";
 import { AffiliationFields } from "../members/affiliations";
 import { SpeakerMember } from "./speaker";
 import { createEffect, createSignal, For, Index, Show, type Setter } from "solid-js";
@@ -18,6 +20,19 @@ export function EventFields(props: {
     /** Series available for this event. */
     directory: Awaited<ReturnType<typeof getDirectory>> | undefined;
 }) {
+    const [seriesId, setSeriesId] = createSignal(
+        props.draft?.seriesId ?? props.initialSeriesId ?? "",
+    );
+    const defaults = () =>
+        props.directory?.series.find((item: Doc<"series">) => item._id === seriesId())?.topics ??
+        [];
+    const [topics, setTopics] = createSignal<string[]>(props.draft?.topics ?? defaults());
+    createEffect(() => {
+        const id = props.draft?.seriesId ?? props.initialSeriesId ?? "";
+        const series = props.directory?.series.find((item: Doc<"series">) => item._id === id);
+        setSeriesId(id);
+        setTopics(props.draft?.topics ?? series?.topics ?? []);
+    });
     return (
         <Card title="Event">
             <label>
@@ -38,23 +53,8 @@ export function EventFields(props: {
                 <label>
                     Format
                     <select name="format" value={props.draft?.format ?? "talk"}>
-                        <For
-                            each={[
-                                "talk",
-                                "dinner",
-                                "meetup",
-                                "workshop",
-                                "hackathon",
-                                "office_hours",
-                                "other",
-                            ]}
-                        >
-                            {(value) => (
-                                <option value={value}>
-                                    {value.charAt(0).toUpperCase() +
-                                        value.slice(1).replace("_", " ")}
-                                </option>
-                            )}
+                        <For each={formats}>
+                            {(option) => <option value={option.value}>{option.label}</option>}
                         </For>
                     </select>
                 </label>
@@ -77,7 +77,11 @@ export function EventFields(props: {
                     Series
                     <select
                         name="series"
-                        value={props.draft?.seriesId ?? props.initialSeriesId ?? ""}
+                        value={seriesId()}
+                        onChange={(event) => {
+                            setSeriesId(event.currentTarget.value);
+                            if (!props.draft) setTopics(defaults());
+                        }}
                     >
                         <option value="" disabled={props.allowStandalone === false}>
                             None
@@ -93,14 +97,14 @@ export function EventFields(props: {
                         </For>
                     </select>
                 </label>
-                <label>
-                    Topics <span>Comma separated</span>
-                    <input
-                        name="topics"
-                        value={props.draft?.topics.join(", ") ?? ""}
-                        placeholder="robotics, hardware"
-                    />
-                </label>
+                <div class="grid gap-3">
+                    <TopicFields values={topics()} onChange={setTopics} />
+                    <Show when={seriesId()}>
+                        <button type="button" class="button" onClick={() => setTopics(defaults())}>
+                            Use series topics
+                        </button>
+                    </Show>
+                </div>
             </div>
         </Card>
     );

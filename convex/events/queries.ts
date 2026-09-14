@@ -2,7 +2,6 @@ import { eventPlace, disclosePlace } from "./place";
 import { publicOrganiser, publicOrganisers, organiserIds } from "./organisers";
 import { readLinks } from "../members/links";
 import { mediaOrigin } from "./gallery";
-import { eventTags } from "../search/search";
 import { v } from "convex/values";
 import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
@@ -49,7 +48,7 @@ export const calendar = query({
 
 /** Read one published event by slug. */
 export const event = query({
-    args: { now: v.optional(v.number()), slug: v.string() },
+    args: { slug: v.string() },
     handler: async (ctx, args) => {
         const event = await ctx.db
             .query("events")
@@ -162,7 +161,6 @@ export const event = query({
             confirmation: event.confirmation,
             confirmedAt: event.confirmedAt,
             summary: event.summary,
-            tags: eventTags(event.topics, event.startsAt, args.now ?? Date.now()),
             timezone: "Europe/Zurich",
             title: event.title,
             venue: disclosed,
@@ -201,7 +199,7 @@ export async function calendarRow(
         summary: event.summary,
         startsAt: event.startsAt,
         location: event.location,
-        tags: event.topics,
+        topics: event.topics,
         registrationKind: event.registration.kind,
         isPartner: !!event.partnerIds?.length,
         seriesId: event.seriesId,

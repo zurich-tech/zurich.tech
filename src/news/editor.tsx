@@ -1,3 +1,4 @@
+import { TopicFields } from "../topics/fields";
 import { FormSection } from "../components/form";
 import { useUnsavedChanges } from "../components/unsaved";
 import { createSignal, For, Show } from "solid-js";
@@ -37,23 +38,12 @@ export function NewsEditor(props: {
             title: "",
             description: "",
             body: "",
-            tags: [],
+            topics: [],
             authors: [],
             organisations: [],
         },
     );
-    const [tags, setTags] = createSignal(content().tags.join(", "));
-    const draftContent = () => ({
-        ...content(),
-        tags: [
-            ...new Set(
-                tags()
-                    .split(",")
-                    .map((tag) => tag.trim().toLowerCase())
-                    .filter(Boolean),
-            ),
-        ],
-    });
+    const draftContent = () => content();
     const snapshot = () => JSON.stringify({ slug: slug(), content: draftContent() });
     const [isPreview, setIsPreview] = createSignal(false);
     const [isPending, setIsPending] = createSignal(false);
@@ -252,16 +242,10 @@ export function NewsEditor(props: {
                                     }
                                 />
                             </Field>
-                            <Field label="Tags">
-                                <Input
-                                    value={tags()}
-                                    placeholder="community, research"
-                                    onInput={(event) => {
-                                        setTags(event.currentTarget.value);
-                                        setSuccess(undefined);
-                                    }}
-                                />
-                            </Field>
+                            <TopicFields
+                                values={content().topics}
+                                onChange={(values) => update("topics", values)}
+                            />
                         </div>
                         <FormSection title="Authors">
                             <div class="news-options">

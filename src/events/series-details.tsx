@@ -54,9 +54,7 @@ export function SeriesDetails(props: {
                     </div>
                 </Show>
                 <Show when={topics().length}>
-                    <div class="detail-tags">
-                        <EventTags topics={topics()} />
-                    </div>
+                    <EventTags detailed topics={topics()} />
                 </Show>
             </div>
             <Show when={props.series.organiser || props.series.coOrganisers?.length}>
