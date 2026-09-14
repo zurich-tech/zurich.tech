@@ -85,6 +85,7 @@
     padding: 0 20px;
 }
 .map-pin {
+    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -100,6 +101,7 @@
 .map-pin:hover,
 .map-pin:focus-visible,
 .map-pin--selected {
+    text-decoration: none;
     outline: 3px solid #97bcff;
     outline-offset: 3px;
 }

@@ -1,6 +1,6 @@
 import { createAsync } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, onMount, onCleanup, Show, For } from "solid-js";
-import { render } from "solid-js/web";
+import { Dynamic, render } from "solid-js/web";
 import type { Map as GeographicMap, Marker, StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
@@ -244,8 +244,10 @@ export function CommunityMap(props: {
             const element = document.createElement("div");
             const dispose = render(
                 () => (
-                    <button
-                        type="button"
+                    <Dynamic
+                        component={props.isHero ? "a" : "button"}
+                        href={props.isHero ? "/map" : undefined}
+                        type={props.isHero ? undefined : "button"}
                         class="map-pin"
                         classList={{
                             "map-pin--hero": props.isHero,
@@ -257,10 +259,13 @@ export function CommunityMap(props: {
                             "--map-logo-size": `${{ large: 40, medium: 34, small: 30 }[people.some((person) => person.prominence === "large") ? "large" : people.some((person) => person.prominence === "medium") ? "medium" : "small"]}px`,
                         }}
                         aria-label={`${people.map((person) => person.name).join(", ")} — ${places.length > 1 ? `${places.length} locations` : anchor.address}`}
-                        aria-pressed={places.some((place) => selected().includes(place.id))}
+                        aria-pressed={
+                            props.isHero
+                                ? undefined
+                                : places.some((place) => selected().includes(place.id))
+                        }
                         onClick={() => {
-                            if (props.isHero) window.location.assign("/map");
-                            else select(places);
+                            if (!props.isHero) select(places);
                         }}
                     >
                         <span class="map-pin__logos">
@@ -283,7 +288,7 @@ export function CommunityMap(props: {
                         <Show when={props.isHero && people.length > 1}>
                             <span class="map-pin__count">{people.length}</span>
                         </Show>
-                    </button>
+                    </Dynamic>
                 ),
                 element,
             );

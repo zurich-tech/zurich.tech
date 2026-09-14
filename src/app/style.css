@@ -4315,8 +4315,7 @@ iframe.email-preview {
 .map-control + .map-control {
     border-top: var(--rule) solid var(--color-line);
 }
-.map-control svg,
-.map-directory svg {
+.map-control svg {
     width: 18px;
     height: 18px;
     fill: none;
@@ -4325,13 +4324,11 @@ iframe.email-preview {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-.map-control:hover:not(:disabled),
-.map-directory:hover {
+.map-control:hover:not(:disabled) {
     background: var(--color-wash);
     color: var(--color-accent);
 }
-.map-control:focus-visible,
-.map-directory:focus-visible {
+.map-control:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: -3px;
 }
