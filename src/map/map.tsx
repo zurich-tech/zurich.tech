@@ -56,7 +56,7 @@ const style: StyleSpecification = {
 
 /** Load continuous geography, with a wider noninteractive view for page banners. */
 export function CommunityMap(props: {
-    /** Frame the wider Zürich area and link the background to the map page. */
+    /** Frame the wider Zurich area and link the background to the map page. */
     isHero?: boolean;
     /** Hide organisation markers on inner-page banners. */
     isDecorative?: boolean;
@@ -117,7 +117,7 @@ export function CommunityMap(props: {
                     attributionControl: false,
                 });
                 map.touchZoomRotate.disableRotation();
-                map.getCanvas().setAttribute("aria-label", "Zürich map");
+                map.getCanvas().setAttribute("aria-label", "Zurich map");
                 if (props.isHero) map.getCanvas().tabIndex = -1;
                 map.on("zoom", () => setZoom(map!.getZoom()));
                 map.on("error", () => setError(true));

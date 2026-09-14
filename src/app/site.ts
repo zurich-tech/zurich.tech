@@ -22,7 +22,7 @@ export const site = {
     members: 3000,
 } as const;
 
-/** Calendar timezone used for Zürich events. */
+/** Calendar timezone used for Zurich events. */
 export const timeZone = "Europe/Zurich";
 
 /** Entries revealed on each calendar or jobs page. */

@@ -19,7 +19,7 @@ export default function Route() {
         <>
             <Seo
                 title="Events"
-                description="Upcoming tech events in Zürich and the community archive."
+                description="Upcoming tech events in Zurich and the community archive."
             />
             <Page>
                 <Programme

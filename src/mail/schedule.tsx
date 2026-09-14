@@ -29,7 +29,7 @@ export function NewsletterSchedule() {
                     action: isPaused ? "Pause" : "Resume",
                     description: isPaused
                         ? "Stop automatic weekly editions."
-                        : "Send every Monday at 08:00 Zürich time when events are ahead.",
+                        : "Send every Monday at 08:00 Zurich time when events are ahead.",
                     emails: 0,
                     details: isPaused
                         ? "Already queued campaigns are unaffected."
@@ -79,7 +79,7 @@ export function NewsletterSchedule() {
                             <div>
                                 <dt>Schedule</dt>
                                 <dd>Monday, 08:00</dd>
-                                <span>Zürich time</span>
+                                <span>Zurich time</span>
                             </div>
                             <div>
                                 <dt>Recipients</dt>

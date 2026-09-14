@@ -163,7 +163,7 @@ export function CompanyForm(props: {
                 />
                 <label>
                     Location
-                    <input name="location" required value={props.item?.location ?? "Zürich"} />
+                    <input name="location" required value={props.item?.location ?? "Zurich"} />
                 </label>
                 <label>
                     Description

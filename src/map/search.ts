@@ -10,7 +10,7 @@ export interface Place {
     longitude: number;
 }
 
-/** Search places and addresses, preferring results near Zürich. */
+/** Search places and addresses, preferring results near Zurich. */
 export async function searchPlaces(text: string, signal: AbortSignal): Promise<Place[]> {
     // request a short suggestion list from Photon’s OpenStreetMap index
     const query = new URLSearchParams({ q: text, limit: "5", lat: "47.3769", lon: "8.5417" });

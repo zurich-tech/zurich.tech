@@ -84,6 +84,7 @@ import type * as members_team from "../members/team.js";
 import type * as members_urls from "../members/urls.js";
 import type * as migrations_events from "../migrations/events.js";
 import type * as migrations_mail from "../migrations/mail.js";
+import type * as migrations_spelling from "../migrations/spelling.js";
 import type * as news_content from "../news/content.js";
 import type * as news_mutations from "../news/mutations.js";
 import type * as news_queries from "../news/queries.js";
@@ -181,6 +182,7 @@ declare const fullApi: ApiFromModules<{
   "members/urls": typeof members_urls;
   "migrations/events": typeof migrations_events;
   "migrations/mail": typeof migrations_mail;
+  "migrations/spelling": typeof migrations_spelling;
   "news/content": typeof news_content;
   "news/mutations": typeof news_mutations;
   "news/queries": typeof news_queries;

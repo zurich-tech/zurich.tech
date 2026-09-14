@@ -6,12 +6,12 @@ const year = new Intl.DateTimeFormat("en-GB", {
     year: "numeric",
 });
 
-/** Compare an instant with the current calendar year in Zürich. */
+/** Compare an instant with the current calendar year in Zurich. */
 export function isCurrentYear(value: number, now = Date.now()): boolean {
     return year.format(value) === year.format(now);
 }
 
-/** Format an instant as an editable Zürich civil date and time. */
+/** Format an instant as an editable Zurich civil date and time. */
 export function civilTime(value: number): string {
     const parts = new Intl.DateTimeFormat("sv-SE", {
         timeZone,
@@ -26,7 +26,7 @@ export function civilTime(value: number): string {
     return parts.replace(" ", "T");
 }
 
-/** Resolve an unambiguous Zürich civil time, rejecting daylight saving gaps and overlaps. */
+/** Resolve an unambiguous Zurich civil time, rejecting daylight saving gaps and overlaps. */
 export function timestamp(value: string): number {
     const nominal = Date.parse(`${value}Z`);
     if (!Number.isFinite(nominal)) throw new Error("Enter a valid date and time.");
@@ -35,7 +35,7 @@ export function timestamp(value: string): number {
     );
     if (candidates.length !== 1)
         throw new Error(
-            "This Zürich time is skipped or occurs twice during the daylight saving change. Choose another time.",
+            "This Zurich time is skipped or occurs twice during the daylight saving change. Choose another time.",
         );
 
     return candidates[0];

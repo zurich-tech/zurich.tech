@@ -100,7 +100,7 @@ export default function Route() {
                                         />
                                         <DetailRow
                                             label="Time"
-                                            value={`${new Date(item().startsAt).toLocaleTimeString("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" })} · Zürich time`}
+                                            value={`${new Date(item().startsAt).toLocaleTimeString("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" })} · Zurich time`}
                                         />
                                         <Show when={item().location}>
                                             <DetailRow label="Venue" value={item().location} />

@@ -53,11 +53,11 @@ export const pause = mutation({
     },
 });
 
-/** Queue one weekly edition at Monday 08:00 Zürich time, skipping empty weeks. */
+/** Queue one weekly edition at Monday 08:00 Zurich time, skipping empty weeks. */
 export const tick = internalMutation({
     args: {},
     handler: async (ctx) => {
-        // send only during the Monday morning window in Zürich
+        // send only during the Monday morning window in Zurich
         const now = new Date();
         const local = new Intl.DateTimeFormat("en-GB", {
             timeZone: "Europe/Zurich",

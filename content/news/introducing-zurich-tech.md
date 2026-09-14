@@ -7,7 +7,7 @@ tags: ["community", "announcements"]
 ---
 
 ZurichAI is now **zurich.tech**.
-We’re a registered nonprofit bringing people together for talks, dinners, hackathons and other events around tech in Zürich.
+We’re a registered nonprofit bringing people together for talks, dinners, hackathons and other events around tech in Zurich.
 
 Our regular series—ZurichNLP, ZurichCV, ZurichRobotics and Tufa Talks—continue here.
 Browse [upcoming events and the archive](/events), explore [event photos](/photos), or [subscribe to our emails](/#newsletter).

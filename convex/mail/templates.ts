@@ -63,7 +63,7 @@ export const registrationCopy = {
     cancelled: { title: "Registration cancelled" },
 };
 
-/** Format an event date and time consistently in Zürich. */
+/** Format an event date and time consistently in Zurich. */
 export function eventTime(timestamp: number) {
     const date = new Date(timestamp);
     const day = date.toLocaleDateString("en-GB", {
@@ -77,7 +77,7 @@ export function eventTime(timestamp: number) {
         hour: "2-digit",
         minute: "2-digit",
     });
-    return `${day} · ${time} · Zürich time`;
+    return `${day} · ${time} · Zurich time`;
 }
 
 /** Render public event details as plain text. */
@@ -275,7 +275,7 @@ export function seriesEmail(
             : rule.frequency === "monthly"
               ? `Day ${Number(rule.start.slice(-2))}`
               : "";
-    const timing = [cadence, days, rule.time, "Zürich time"].filter(Boolean).join(" · ");
+    const timing = [cadence, days, rule.time, "Zurich time"].filter(Boolean).join(" · ");
     const dates = `From ${rule.start}${rule.end ? ` until ${rule.end}` : ""}`;
     const url = `${siteOrigin()}/series/${series.slug}`;
     const links = [

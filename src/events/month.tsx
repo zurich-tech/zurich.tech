@@ -7,7 +7,7 @@ import { civilTime } from "./time";
 import type { CalendarEntry } from "./queries";
 import "./month.css";
 
-/** Browse a month in Zürich time, with a compact day agenda on phones. */
+/** Browse a month in Zurich time, with a compact day agenda on phones. */
 export function EventCalendar(props: { entries: CalendarEntry[] }) {
     const [params, setParams] = useSearchParams();
     const today = civilTime(Date.now()).slice(0, 10);

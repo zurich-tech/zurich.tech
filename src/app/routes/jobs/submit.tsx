@@ -87,7 +87,7 @@ export default function Route() {
                             : "Edit job"
                         : "Post a job"
                 }
-                description="Publish a tech vacancy in Zürich."
+                description="Publish a tech vacancy in Zurich."
             />
             <Page>
                 <PageHeader
@@ -281,7 +281,7 @@ function JobForm(props: {
                             <input
                                 name="location"
                                 required
-                                placeholder="Zürich, Switzerland"
+                                placeholder="Zurich, Switzerland"
                                 value={props.draft?.location ?? ""}
                             />
                         </label>

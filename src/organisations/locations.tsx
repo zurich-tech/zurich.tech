@@ -154,7 +154,7 @@ export function OrganisationLocations(props: {
                         name="name"
                         required
                         value={editing()?.name ?? ""}
-                        placeholder="Zürich office"
+                        placeholder="Zurich office"
                     />
                 </label>
                 <AddressField
@@ -186,7 +186,7 @@ export function OrganisationLocations(props: {
                         <input
                             name="locality"
                             required
-                            value={editing()?.address?.locality ?? "Zürich"}
+                            value={editing()?.address?.locality ?? "Zurich"}
                         />
                     </label>
                     <label>
