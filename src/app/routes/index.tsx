@@ -26,7 +26,7 @@ export const route = {
 export default function Route() {
     // read published events and series from the live catalogue
     const entries = createAsync(() => getCalendar());
-    const articles = createAsync(() => getArticles());
+    const articles = createAsync(() => getArticles(), { deferStream: true });
     const directory = createAsync(() => getDirectory());
     const jobs = createAsync(() => getJobs());
     const photos = createAsync(() => getGallery());

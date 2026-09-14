@@ -27,7 +27,7 @@ export const route = {
 /** Read an authored news article in the shared card layout. */
 export default function Route() {
     const access = useAccess();
-    const articles = createAsync(() => getArticles());
+    const articles = createAsync(() => getArticles(), { deferStream: true });
     const params = useParams();
     const slug = () => routeParam("slug", params.slug);
     const article = createAsync(() => getArticle(slug()), { deferStream: true });

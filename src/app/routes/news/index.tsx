@@ -16,7 +16,7 @@ export default function Route() {
     const [params] = useSearchParams();
 
     // articles
-    const articles = createAsync(() => getArticles());
+    const articles = createAsync(() => getArticles(), { deferStream: true });
 
     return (
         <>
