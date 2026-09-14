@@ -1,6 +1,6 @@
 import { writeProfiles } from "../members/links";
 import { v } from "convex/values";
-import { mutation, type QueryCtx, type MutationCtx } from "../_generated/server";
+import { mutation, internalMutation, type QueryCtx, type MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { normalizeEmail } from "../members/emails";
 import { requireAccount, requireAdmin } from "../auth/access";
@@ -159,5 +159,20 @@ export const upsertCompany = mutation({
         });
         await writeProfiles(ctx, organisationId, { profileUrl, socials });
         return organisationId;
+    },
+});
+
+/** Designate the community host through the authenticated deployment CLI. */
+export const setHost = internalMutation({
+    args: { organisationId: v.id("organisations") },
+    handler: async (ctx, args) => {
+        if (!(await ctx.db.get(args.organisationId))) throw new Error("Organisation not found.");
+
+        // Keep a single host while allowing its identity to change without code changes.
+        for (const organisation of await ctx.db.query("organisations").collect()) {
+            const isHost = organisation._id === args.organisationId;
+            if (Boolean(organisation.isHost) !== isHost)
+                await ctx.db.patch(organisation._id, { isHost, updatedAt: Date.now() });
+        }
     },
 });

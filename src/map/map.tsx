@@ -139,8 +139,7 @@ export function CommunityMap(props: {
         if (!current) return;
         const markers = entries.map((organisation) => {
             const element = document.createElement("div");
-            const diameter =
-                organisation.tier === "gold" ? 40 : organisation.tier === "silver" ? 32 : 26;
+            const diameter = { large: 40, medium: 32, small: 26 }[organisation.prominence];
             const dispose = render(
                 () => (
                     <a

@@ -3,6 +3,8 @@ import { v } from "convex/values";
 
 /** Stored organisations. */
 export const organisations = defineTable({
+    /** The organisation operating this community, independent of sponsorship. */
+    isHost: v.optional(v.boolean()),
     /** Member allowed to manage this organisation and its purchases. */
     ownerId: v.optional(v.id("members")),
     logoUrl: v.optional(v.string()),

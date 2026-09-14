@@ -2,7 +2,7 @@ import { query } from "../_generated/server";
 
 import { activeSponsors } from "../sponsorships/organisations";
 
-/** Public geographic locations with recognition derived from current sponsorships. */
+/** Public geographic locations with recognition derived from host status and current sponsorships. */
 export const map = query({
     args: {},
     handler: async (ctx) => {
@@ -14,13 +14,13 @@ export const map = query({
         const markers = await Promise.all(
             locations.map(async (location) => {
                 const sponsor = sponsors.find((item) => item.organisationId === location.ownerId);
-                if (!sponsor && !location.isCurated) return null;
                 const organisationId = ctx.db.normalizeId("organisations", location.ownerId);
                 if (!organisationId) return null;
                 const organisation = await ctx.db.get(organisationId);
                 const address = await ctx.db.get(location.addressId);
                 if (
                     !organisation ||
+                    (!organisation.isHost && !sponsor && !location.isCurated) ||
                     address?.latitude === undefined ||
                     address.longitude === undefined
                 )
@@ -36,7 +36,12 @@ export const map = query({
                     mapLogoDarkUrl: organisation.mapLogoDarkUrl,
                     latitude: address.latitude,
                     longitude: address.longitude,
-                    tier: sponsor?.tier,
+                    prominence:
+                        organisation.isHost || sponsor?.tier === "gold"
+                            ? ("large" as const)
+                            : sponsor?.tier === "silver"
+                              ? ("medium" as const)
+                              : ("small" as const),
                 };
             }),
         );
