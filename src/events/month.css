@@ -1,5 +1,5 @@
 .event-calendar {
-    padding: 0 16px 16px;
+    padding: 0 var(--card-gutter) 16px;
 }
 .calendar-toolbar {
     display: flex;

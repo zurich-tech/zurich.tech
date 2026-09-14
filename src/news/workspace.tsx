@@ -27,10 +27,10 @@ export function NewsAdmin() {
             class="admin-table-card"
             toolbar={
                 <>
-                    <a class="button button--primary" href="/news/edit">
+                    <a class="action-link" href="/news/edit">
                         New post
                     </a>
-                    <a class="button" href="/news/edit?kind=link">
+                    <a class="action-link" href="/news/edit?kind=link">
                         Add link
                     </a>
                 </>
@@ -79,7 +79,7 @@ export function NewsAdmin() {
                                     <td>{post.draft.kind === "link" ? "Link" : "Post"}</td>
                                     <td>
                                         <span
-                                            class="tag"
+                                            class="tag tag-status"
                                             classList={{ "tag-upcoming": !!post.published }}
                                         >
                                             {post.published ? "Published" : "Draft"}
@@ -87,7 +87,10 @@ export function NewsAdmin() {
                                     </td>
                                     <td>
                                         <div class="admin-actions" aria-label="Actions">
-                                            <a class="button" href={`/news/edit?id=${post._id}`}>
+                                            <a
+                                                class="action-link"
+                                                href={`/news/edit?id=${post._id}`}
+                                            >
                                                 Edit
                                             </a>
                                         </div>

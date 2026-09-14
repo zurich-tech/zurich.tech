@@ -14,6 +14,7 @@ type TableToolbarProps = {
 export function TableToolbar(props: TableToolbarProps) {
     return (
         <div class="table-toolbar catalogue-toolbar">
+            {props.children}
             {/* search */}
             <label class="table-toolbar__search">
                 <span class="sr-only">{props.placeholder ?? "Search"}</span>
@@ -26,7 +27,6 @@ export function TableToolbar(props: TableToolbarProps) {
                     type="search"
                 />
             </label>
-            {props.children}
         </div>
     );
 }

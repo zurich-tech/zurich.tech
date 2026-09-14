@@ -9,14 +9,14 @@
     padding-top: 16px;
 }
 .series-organisers-label {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     color: var(--color-soft);
     font: 12px var(--font-mono);
 }
 .series-organisers .organisers {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px 24px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 24px 32px;
 }
 .series-header .item-summary {
     max-width: none;
@@ -24,5 +24,7 @@
 
 .series-description-tags {
     display: grid;
-    gap: 12px;
+    align-content: start;
+    min-width: 0;
+    gap: 8px;
 }

@@ -1,22 +1,37 @@
+@import "../components/statistics.css";
+
 .event-statistics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 16px;
-    margin: 0;
-    padding-top: 16px;
+    padding-top: 24px;
     border-top: 1px solid var(--color-line);
-}
-.event-statistics dt {
-    color: var(--color-soft);
-    font: 12px var(--font-mono);
-    margin-bottom: 4px;
-}
-.event-statistics dd {
-    margin: 0;
-    color: var(--color-ink);
-    font: 600 20px var(--font-mono);
 }
 .item-description {
     display: grid;
     gap: 12px;
+}
+
+.description-statistics {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 24px;
+}
+.event-overview__copy {
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+.description-statistics .event-statistics {
+    border: 0;
+    padding: 0;
+    gap: 24px;
+}
+.event-overview__account .registration-actions,
+.event-overview__account .registration-actions__buttons {
+    gap: 8px;
+}
+@media (max-width: 700px) {
+    .description-statistics:has(.statistics) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
 }

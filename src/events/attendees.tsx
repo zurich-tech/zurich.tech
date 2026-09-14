@@ -107,7 +107,7 @@ function AttendeeTable(props: {
             class="admin-attendees"
             toolbar={
                 <div class="admin-attendee-actions">
-                    <a class="button" href="/admin">
+                    <a class="action-link" href="/admin">
                         Back
                     </a>
                     <button
@@ -126,7 +126,7 @@ function AttendeeTable(props: {
                         Check in
                     </a>
                 </Show>
-                <a class="button" href={`/feedback?event=${props.list.event._id}`}>
+                <a class="action-link" href={`/feedback?event=${props.list.event._id}`}>
                     Feedback
                 </a>
             </div>

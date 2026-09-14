@@ -47,14 +47,19 @@ export function SeriesDetails(props: {
     const topics = () => props.series.topics.filter((topic) => topic !== props.series.slug);
     return (
         <div class="series-details">
-            <div class="series-description-tags">
-                <Show when={props.series.description.trim()}>
-                    <div class="series-description">
-                        <Markdown source={props.series.description} />
-                    </div>
-                </Show>
-                <Show when={topics().length}>
-                    <EventTags detailed topics={topics()} />
+            <div class="description-statistics">
+                <div class="series-description-tags">
+                    <Show when={props.series.description.trim()}>
+                        <div class="series-description">
+                            <Markdown source={props.series.description} />
+                        </div>
+                    </Show>
+                    <Show when={topics().length}>
+                        <EventTags detailed topics={topics()} />
+                    </Show>
+                </div>
+                <Show when={props.events}>
+                    {(events) => <SeriesStatistics events={events()} now={Date.now()} />}
                 </Show>
             </div>
             <Show when={props.series.organiser || props.series.coOrganisers?.length}>
@@ -66,9 +71,6 @@ export function SeriesDetails(props: {
                         others={props.series.coOrganisers}
                     />
                 </div>
-            </Show>
-            <Show when={props.events}>
-                {(events) => <SeriesStatistics events={events()} now={Date.now()} />}
             </Show>
         </div>
     );

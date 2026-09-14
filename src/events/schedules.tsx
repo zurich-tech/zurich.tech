@@ -139,8 +139,7 @@ export function Schedules(props: { workspace: EventWorkspace }) {
                         </button>
                     </Show>
                     <button
-                        class="button"
-                        classList={{ "button--primary": !selected() }}
+                        class="action-link"
                         onClick={() =>
                             setParams({
                                 schedule: selected() ? undefined : "new",
@@ -305,7 +304,7 @@ export function Schedules(props: { workspace: EventWorkspace }) {
                                                     </td>
                                                     <td>
                                                         <a
-                                                            class="button"
+                                                            class="action-link"
                                                             href={`/submit?event=${event.id}`}
                                                         >
                                                             Edit

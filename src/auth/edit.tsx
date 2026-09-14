@@ -142,12 +142,12 @@ export function EditLink(
                     <Show
                         when={props.href}
                         fallback={
-                            <button class="button" disabled={isPending()} onClick={edit}>
+                            <button class="action-link" disabled={isPending()} onClick={edit}>
                                 {isPending() ? "Opening…" : (props.label ?? "Edit")}
                             </button>
                         }
                     >
-                        <a class="button" href={props.href}>
+                        <a class="action-link" href={props.href}>
                             {props.label ?? "Edit"}
                         </a>
                     </Show>

@@ -98,7 +98,7 @@ export function AccessManager() {
             toolbar={
                 <Show when={person()}>
                     <button
-                        class="button"
+                        class="action-link"
                         onClick={() => {
                             setSelected(undefined);
                             setTarget("");
@@ -159,7 +159,7 @@ export function AccessManager() {
                                                     <td>
                                                         <div class="admin-actions">
                                                             <button
-                                                                class="button"
+                                                                class="action-link"
                                                                 onClick={() => {
                                                                     setSelected(p.id);
                                                                     setTarget("");
@@ -235,7 +235,7 @@ export function AccessManager() {
                                                                 <td>
                                                                     <div class="admin-actions">
                                                                         <button
-                                                                            class="button"
+                                                                            class="action-link"
                                                                             onClick={() => {
                                                                                 setTarget(
                                                                                     grant.scope.id,

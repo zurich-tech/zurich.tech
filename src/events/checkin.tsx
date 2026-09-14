@@ -142,7 +142,7 @@ export function CheckIn(props: { eventId: Id<"events"> }) {
         <Card
             title="Check-in"
             toolbar={
-                <a class="button" href={`/admin?event=${props.eventId}`}>
+                <a class="action-link" href={`/admin?event=${props.eventId}`}>
                     Attendees
                 </a>
             }

@@ -36,7 +36,7 @@ export function Share(props: { title: string; url: string }) {
     return (
         <Card title="Share">
             <div class="share-actions">
-                <button type="button" class="button" onClick={copy}>
+                <button type="button" class="action-link" onClick={copy}>
                     <svg
                         viewBox="0 0 24 24"
                         fill="none"
@@ -50,7 +50,7 @@ export function Share(props: { title: string; url: string }) {
                     Copy link
                 </button>
                 <a
-                    class="button"
+                    class="action-link"
                     href={`https://www.linkedin.com/sharing/share-offsite/?${new URLSearchParams({ url: props.url })}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -59,7 +59,7 @@ export function Share(props: { title: string; url: string }) {
                     LinkedIn
                 </a>
                 <a
-                    class="button"
+                    class="action-link"
                     href={`https://x.com/intent/tweet?${new URLSearchParams({ text: props.title, url: props.url })}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -68,7 +68,7 @@ export function Share(props: { title: string; url: string }) {
                     Twitter
                 </a>
                 <a
-                    class="button"
+                    class="action-link"
                     href={`mailto:?subject=${encodeURIComponent(props.title)}&body=${encodeURIComponent(`${props.title}\n${props.url}`)}`}
                 >
                     <svg
@@ -84,7 +84,7 @@ export function Share(props: { title: string; url: string }) {
                     Email
                 </a>
                 <Show when={isNative()}>
-                    <button type="button" class="button share-more" onClick={share}>
+                    <button type="button" class="action-link share-more" onClick={share}>
                         <svg
                             viewBox="0 0 24 24"
                             fill="none"

@@ -12,7 +12,7 @@ export function Speaking() {
     );
     return (
         <Show when={isSpeaker()}>
-            <a class="button" href="/feedback">
+            <a class="action-link" href="/feedback">
                 Speaker feedback
             </a>
         </Show>

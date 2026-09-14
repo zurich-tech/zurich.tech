@@ -29,7 +29,7 @@ export default function Route() {
                                         Know someone you’d like to hear speak? Tell us on Discord.
                                     </p>
                                     <a
-                                        class="button button--primary"
+                                        class="action-link"
                                         href={site.socials.discord}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -41,7 +41,7 @@ export default function Route() {
                                     <h3>Give a talk</h3>
                                     <p>Share what you’re building, researching or learning.</p>
                                     <a
-                                        class="button"
+                                        class="action-link"
                                         href={site.socials.discord}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -53,7 +53,7 @@ export default function Route() {
                                     <h3>Organise an event</h3>
                                     <p>Help run an event, or suggest one you’d like to organise.</p>
                                     <a
-                                        class="button"
+                                        class="action-link"
                                         href={site.socials.discord}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -79,7 +79,7 @@ export default function Route() {
                         </Card>
                         <Card title="Support">
                             <p>Support our events as an individual or an organisation.</p>
-                            <a class="button" href="/sponsor">
+                            <a class="action-link" href="/sponsor">
                                 Sponsors <Arrow />
                             </a>
                         </Card>

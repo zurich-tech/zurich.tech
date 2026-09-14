@@ -45,7 +45,7 @@ export function TopicsAdmin() {
                 <Show
                     when={selected()}
                     fallback={
-                        <button class="button button--primary" onClick={() => void select("new")}>
+                        <button class="action-link" onClick={() => void select("new")}>
                             New topic
                         </button>
                     }
@@ -91,7 +91,7 @@ export function TopicsAdmin() {
                                                 <td>{topic.isActive ? "Available" : "Archived"}</td>
                                                 <td>
                                                     <button
-                                                        class="button"
+                                                        class="action-link"
                                                         onClick={() => void select(topic.slug)}
                                                     >
                                                         Edit

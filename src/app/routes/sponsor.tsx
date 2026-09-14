@@ -92,7 +92,7 @@ export default function Route() {
                     <ul class="sponsor-reach card-section">
                         <For each={reach}>
                             {(item) => (
-                                <li class="stats-metric is-highlighted">
+                                <li>
                                     <div class="stats-value">
                                         <strong>{item.value}</strong>
                                     </div>

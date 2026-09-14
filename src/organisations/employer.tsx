@@ -78,11 +78,11 @@ export function JobCard(props: {
                         reference={props.job._id}
                     />
                 </Show>
-                <a class="button" href={`/jobs/submit?edit=${props.job._id}`}>
+                <a class="action-link" href={`/jobs/submit?edit=${props.job._id}`}>
                     Edit
                 </a>
                 <Show when={props.job.publishedAt}>
-                    <a class="button" href={`/jobs/${props.job.slug}`}>
+                    <a class="action-link" href={`/jobs/${props.job.slug}`}>
                         View
                     </a>
                 </Show>
@@ -220,7 +220,10 @@ export function SponsorshipCard(props: {
                     {props.companies.find((company) => company._id === props.sponsor.organisationId)
                         ?.name ?? "Organisation"}
                 </h3>
-                <span class="tag" classList={{ "tag-upcoming": props.sponsor.status === "active" }}>
+                <span
+                    class="tag tag-status"
+                    classList={{ "tag-upcoming": props.sponsor.status === "active" }}
+                >
                     {
                         {
                             active:

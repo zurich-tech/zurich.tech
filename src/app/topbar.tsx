@@ -3,7 +3,6 @@ import { A, useLocation } from "@solidjs/router";
 import { Show, For, createSignal, createEffect } from "solid-js";
 import { useAccess } from "../auth/edit";
 import { Avatar } from "../components/avatar";
-import { site } from "./site";
 import { Brand } from "./brand";
 import { Dialog } from "../components/dialog";
 import { ThemeToggle } from "./theme";
@@ -34,17 +33,6 @@ export function Topbar() {
                 </nav>
                 <div class="site-topbar__actions">
                     <div class="header-links">
-                        <a class="header-host" href="/contribute#events">
-                            Suggest event
-                        </a>
-                        <a
-                            class="header-host"
-                            href={site.socials.discord}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Suggest news
-                        </a>
                         <Show
                             when={account.user()}
                             fallback={
@@ -137,10 +125,20 @@ export function Topbar() {
                     <For each={destinations}>
                         {(name) => <A href={`/${name.toLowerCase()}`}>{name}</A>}
                     </For>
-                    <A href="/contribute#events">Suggest event</A>
-                    <a href={site.socials.discord} target="_blank" rel="noopener noreferrer">
-                        Suggest news
-                    </a>
+                    <Show
+                        when={account.user()}
+                        fallback={
+                            <Show when={!account.isPending()}>
+                                <A class="mobile-account" href="/sign-in">
+                                    Sign in
+                                </A>
+                            </Show>
+                        }
+                    >
+                        <A class="mobile-account" href="/settings">
+                            Your account
+                        </A>
+                    </Show>
                     <Show when={currentProfile()?.canManage}>
                         <A href="/admin">Admin</A>
                     </Show>

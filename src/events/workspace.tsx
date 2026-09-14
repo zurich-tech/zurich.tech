@@ -86,7 +86,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
             class="admin-event-card admin-table-card"
             toolbar={
                 <Show when={access.canCreate()}>
-                    <a class="button button--primary" href="/submit">
+                    <a class="action-link" href="/submit">
                         New event
                     </a>
                 </Show>
@@ -141,7 +141,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                     </td>
                                     <td>
                                         <span
-                                            class="tag"
+                                            class="tag tag-status"
                                             classList={{
                                                 "tag-upcoming": row.status === "Upcoming",
                                             }}
@@ -166,7 +166,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                                 when={row.draftId}
                                                 fallback={
                                                     <button
-                                                        class="button"
+                                                        class="action-link"
                                                         disabled={command.isPending()}
                                                         onClick={() =>
                                                             command.perform(async () => {
@@ -185,7 +185,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                                 }
                                             >
                                                 <a
-                                                    class="button"
+                                                    class="action-link"
                                                     href={`/submit?edit=${row.draftId}`}
                                                 >
                                                     Edit
@@ -198,7 +198,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                                 }
                                             >
                                                 <a
-                                                    class="button"
+                                                    class="action-link"
                                                     href={`/admin?event=${row.eventId}`}
                                                 >
                                                     Attendees

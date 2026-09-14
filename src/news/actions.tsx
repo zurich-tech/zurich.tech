@@ -5,7 +5,12 @@ import { site } from "../app/site";
 export function NewsActions(props: { isCompact?: boolean }) {
     return (
         <>
-            <a class="button" href={site.socials.discord} target="_blank" rel="noopener noreferrer">
+            <a
+                class="action-link"
+                href={site.socials.discord}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
                 Suggest news
             </a>
             {!props.isCompact && <EditLink href="/admin?section=news" label="Manage" />}

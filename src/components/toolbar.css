@@ -4,7 +4,7 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 12px;
     padding: 0 0 16px;
-    margin: 0 0 16px;
+    margin: 0;
     border-bottom: 1px solid var(--color-line);
 }
 .catalogue-toolbar .table-toolbar__search {
@@ -18,10 +18,29 @@
     border: 0;
 }
 .admin-table-card > .card-body > :is(.form-error, .form-success) {
-    margin: 16px;
+    margin: 16px var(--card-gutter);
 }
 
+.programme > .card-body > .catalogue-toolbar,
 .admin-table-card > .card-body > .catalogue-toolbar {
-    padding: 16px;
+    padding: 16px var(--card-gutter);
     margin: 0;
+}
+
+/* Adjacent filters and search share one gap, never stacked component padding. */
+.programme .catalogue-toolbar .programme-tagbar {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    gap: 8px 16px;
+}
+
+/* Page layout supplies separation when the toolbar sits outside a card. */
+.page > .catalogue-toolbar {
+    padding: 0;
+    border: 0;
+}
+
+.listing-card > .card-body > .catalogue-toolbar {
+    padding-block: 16px;
 }

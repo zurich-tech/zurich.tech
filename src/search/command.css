@@ -191,11 +191,6 @@
     }
 }
 
-.programme > .card-body > .catalogue-toolbar {
-    padding: 16px;
-    margin: 0;
-}
-
 /* The same emphasis in collection rows and the global dialog. */
 .site-shell mark.search-match,
 .search-dialog mark.search-match {
@@ -216,24 +211,12 @@
     overflow-x: auto;
     scrollbar-width: thin;
 }
-.search-scopes button {
-    padding: 5px 9px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    background: transparent;
-    color: var(--color-soft);
-    font-size: 13px;
+.search-scopes .filter-pills {
+    flex-wrap: nowrap;
+}
+.search-scopes .filter-pills > button {
     flex-shrink: 0;
-}
-.search-scopes button[aria-pressed="true"] {
-    color: var(--color-ink);
-    background: var(--color-wash);
-    border-color: var(--color-line);
-}
-.search-scopes > span {
-    margin-left: auto;
-    color: var(--color-soft);
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .search-group:first-child {
@@ -255,11 +238,6 @@
 }
 .search-result--collection strong {
     font-size: 12px;
-}
-@media (max-width: 600px) {
-    .search-scopes > span {
-        display: none;
-    }
 }
 
 /* Community records borrow the compact dates and portraits used in event lists. */

@@ -8,6 +8,7 @@ import { createAsync } from "@solidjs/router";
 import { createSignal, createMemo, createEffect, on, For, Show } from "solid-js";
 
 import { Arrow } from "../../../components/arrow";
+import { TableToolbar } from "../../../components/toolbar";
 import { FilterPills } from "../../../components/filter-pills";
 import { Card } from "../../../components/card";
 import { Page } from "../../page";
@@ -61,13 +62,11 @@ export default function Route() {
                         toolbar={<EditLink href="/admin?section=jobs" label="Manage" />}
                     >
                         {/* filter the published vacancies */}
-                        <div class="listing-filters">
-                            <input
-                                aria-label="Search jobs"
-                                placeholder="Role, company or technology"
-                                value={search()}
-                                onInput={(event) => setSearch(event.currentTarget.value)}
-                            />
+                        <TableToolbar
+                            value={search()}
+                            onSearch={setSearch}
+                            placeholder="Search roles, companies or technologies…"
+                        >
                             <div class="listing-pills">
                                 <FilterPills
                                     label="Workplace"
@@ -102,7 +101,7 @@ export default function Route() {
                                     ]}
                                 />
                             </div>
-                        </div>
+                        </TableToolbar>
                         {/* render the visible page of matching jobs */}
                         <For each={matches().slice(0, count())}>
                             {(job) => <JobEntry job={job} terms={terms()} />}

@@ -1,3 +1,5 @@
+@import "../components/statistics.css";
+
 /* keep composition, scheduling and configuration visually separate */
 .mail-workspace {
     display: grid;
@@ -13,6 +15,20 @@
 .mail-mode {
     margin-left: auto;
 }
+.mail-workspace .mail-warning {
+    color: #9a4000;
+}
+.mail-workspace .tag.mail-warning {
+    background: #fff0d6;
+    border-color: #d98a30;
+}
+:root[data-theme="dark"] .mail-workspace .mail-warning {
+    color: #ffc078;
+}
+:root[data-theme="dark"] .mail-workspace .tag.mail-warning {
+    background: #3c2919;
+    border-color: #a96828;
+}
 .mail-panel > .card-body {
     display: grid;
     gap: 20px;
@@ -21,7 +37,7 @@
     margin: 0;
 }
 .mail-panel .table-scroll {
-    margin: -20px -16px;
+    margin: -20px calc(-1 * var(--card-gutter));
     border: 0;
 }
 .mail-panel .table-scroll:first-child {
@@ -62,7 +78,6 @@
     gap: 16px;
 }
 .mail-settings dt,
-.mail-facts dt,
 .mail-note,
 .mail-section-heading > span {
     color: var(--color-soft);
@@ -95,30 +110,6 @@
     gap: 24px;
     align-items: end;
 }
-.mail-facts {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin: 0;
-}
-.mail-facts > div {
-    padding: 0 20px;
-    border-left: 1px solid var(--color-line);
-    display: grid;
-    align-content: start;
-    gap: 6px;
-}
-.mail-facts > div:first-child {
-    border-left: 0;
-    padding-left: 0;
-}
-.mail-facts dd {
-    margin: 0;
-    font: 600 21px/1.25 var(--font-mono);
-}
-.mail-facts span {
-    font-size: 13px;
-    color: var(--color-soft);
-}
 .mail-control {
     display: flex;
     align-items: center;
@@ -149,12 +140,6 @@
         grid-template-columns: 1fr;
         gap: 16px;
     }
-    .mail-facts > div {
-        padding: 0 12px;
-    }
-    .mail-facts dd {
-        font-size: 18px;
-    }
     .mail-control {
         align-items: flex-start;
         gap: 16px;
@@ -167,27 +152,8 @@
     }
 }
 
-/* stack campaign metadata and schedule details on narrow screens */
+/* stack campaign metadata on narrow screens */
 @media (max-width: 640px) {
-    .mail-schedule {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    .mail-schedule > div,
-    .mail-schedule > div:first-child {
-        grid-template-columns: 1fr auto;
-        padding: 0 0 12px;
-        border-left: 0;
-        border-bottom: 1px solid var(--color-line);
-    }
-    .mail-schedule > div:last-child {
-        padding-bottom: 0;
-        border-bottom: 0;
-    }
-    .mail-schedule span {
-        grid-column: 2;
-        text-align: right;
-    }
     .mail-panel .mail-campaigns {
         min-width: 0;
     }
@@ -201,13 +167,13 @@
     .mail-campaigns tr {
         grid-template-columns: 1fr auto;
         gap: 8px 16px;
-        padding: 16px;
+        padding: 16px var(--card-gutter);
         border-bottom: 1px solid var(--color-line);
     }
     .mail-campaigns tr:last-child {
         border-bottom: 0;
     }
-    .mail-campaigns td {
+    .mail-panel .mail-campaigns td {
         padding: 0;
         border: 0;
     }

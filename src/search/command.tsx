@@ -1,5 +1,6 @@
 import { SearchIcon, SearchResult, type Match } from "./result";
 import { SearchNotice } from "./notice";
+import { FilterPills } from "../components/filter-pills";
 import { useCatalogue } from "./catalogue";
 import { search as searchSite } from "./queries";
 import { site } from "../app/site";
@@ -439,21 +440,19 @@ export function CommandPalette() {
                         <kbd>Esc</kbd>
                     </button>
                 </div>
-                <div class="search-scopes" aria-label="Search scope">
-                    <For each={["All", ...searchKinds, "Commands", "Site"] as Scope[]}>
-                        {(item) => (
-                            <button
-                                type="button"
-                                aria-pressed={scope() === item}
-                                onClick={() => {
-                                    setScope(item);
-                                    input.focus();
-                                }}
-                            >
-                                {item}
-                            </button>
-                        )}
-                    </For>
+                <div class="search-scopes">
+                    <FilterPills
+                        label="Search scope"
+                        options={["All", ...searchKinds, "Commands", "Site"].map((value) => ({
+                            value,
+                            label: value,
+                        }))}
+                        value={scope()}
+                        onChange={(value) => {
+                            setScope(value as Scope);
+                            input.focus();
+                        }}
+                    />
                 </div>
                 <Show when={catalogueScope() && catalogue.error()}>
                     <SearchNotice

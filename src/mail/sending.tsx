@@ -91,7 +91,7 @@ export function Sending() {
                                 <dt>Delivery reports</dt>
                                 <dd>
                                     <span
-                                        class="tag"
+                                        class="tag tag-status"
                                         classList={{ "tag-upcoming": value().hasWebhook }}
                                     >
                                         {value().hasWebhook ? "Connected" : "Not connected"}
@@ -130,7 +130,7 @@ export function Sending() {
                                         </For>
                                     </select>
                                 </label>
-                                <dl class="mail-facts">
+                                <dl class="statistics">
                                     <div>
                                         <dt>Per day</dt>
                                         <dd>{limits().daily.toLocaleString("en-CH")}</dd>
@@ -154,7 +154,7 @@ export function Sending() {
                         <Show when={value().accepted || value().bounced || value().complained}>
                             <section class="mail-section">
                                 <h3>Since last resume</h3>
-                                <dl class="mail-facts">
+                                <dl class="statistics">
                                     <div>
                                         <dt>Accepted</dt>
                                         <dd>{value().accepted}</dd>

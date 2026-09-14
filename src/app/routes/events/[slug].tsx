@@ -246,6 +246,80 @@ export default function Route() {
                             class="item-header event-overview"
                             toolbar={
                                 <div class="row-actions">
+                                    <Show when={!isRegistrationLoading() && hasRegistration()}>
+                                        <div
+                                            class="event-overview__account"
+                                            aria-label="Your registration"
+                                        >
+                                            <div class="registration-actions">
+                                                <a
+                                                    class="registration-status-link"
+                                                    href={registrationHref()}
+                                                    title="View your registration"
+                                                >
+                                                    {" "}
+                                                    <RegistrationStatus
+                                                        status={currentRegistration()!.status}
+                                                        isCancelled={
+                                                            event()?.status === "cancelled"
+                                                        }
+                                                        isTentative={isTentative(event()!)}
+                                                    />
+                                                </a>
+                                                <div class="registration-actions__buttons">
+                                                    <Show
+                                                        when={
+                                                            event()!.checkIn?.isEnabled &&
+                                                            currentRegistration()?.status ===
+                                                                "going" &&
+                                                            event()?.status !== "cancelled"
+                                                        }
+                                                    >
+                                                        <a class="button" href={registrationHref()}>
+                                                            View pass
+                                                        </a>
+                                                    </Show>
+                                                    <Show
+                                                        when={
+                                                            event()!.startsAt < Date.now() &&
+                                                            (event()!.feedback?.isEventEnabled ||
+                                                                event()!.feedback
+                                                                    ?.isSpeakerEnabled) &&
+                                                            currentRegistration()?.status ===
+                                                                "going" &&
+                                                            event()?.status !== "cancelled"
+                                                        }
+                                                    >
+                                                        <a class="button" href={registrationHref()}>
+                                                            Give feedback
+                                                        </a>
+                                                    </Show>
+                                                    <Show
+                                                        when={
+                                                            currentRegistration()?.token &&
+                                                            event()?.status !== "cancelled" &&
+                                                            event()!.startsAt > Date.now() &&
+                                                            currentRegistration()?.status !==
+                                                                "declined"
+                                                        }
+                                                    >
+                                                        <button
+                                                            class="button"
+                                                            disabled={cancellation.isPending()}
+                                                            onClick={() =>
+                                                                void cancellation.cancel()
+                                                            }
+                                                        >
+                                                            {cancellation.isPending()
+                                                                ? "Cancelling…"
+                                                                : "Cancel"}
+                                                        </button>
+                                                    </Show>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Show>
+
                                     <EditLink eventId={event()!.id} />
                                     <Show when={event()!.checkIn?.isEnabled}>
                                         <EditLink
@@ -275,24 +349,27 @@ export default function Route() {
                             <Show when={privateVenue.error}>
                                 <FormMessage error="Could not load your private venue details. Please reload the page." />
                             </Show>
-                            <div class="item-description">
-                                <Show when={event()?.summary}>
-                                    <p class="event-overview__summary">{event()!.summary}</p>
-                                </Show>
-                                <EventTags
-                                    detailed
-                                    series={event()!.series ?? undefined}
-                                    topics={event()!.topics}
-                                >
-                                    <EventBadges
-                                        event={event()!}
-                                        showPast
-                                        isPartner={event()?.isPartner}
-                                        registrationKind={event()?.registration.kind}
-                                    />
-                                </EventTags>
+                            <FormMessage error={cancellation.error()} />
+                            <div class="item-description description-statistics">
+                                <div class="event-overview__copy">
+                                    <Show when={event()?.summary}>
+                                        <p class="event-overview__summary">{event()!.summary}</p>
+                                    </Show>
+                                    <EventTags
+                                        detailed
+                                        series={event()!.series ?? undefined}
+                                        topics={event()!.topics}
+                                    >
+                                        <EventBadges
+                                            event={event()!}
+                                            showPast
+                                            isPartner={event()?.isPartner}
+                                            registrationKind={event()?.registration.kind}
+                                        />
+                                    </EventTags>
+                                </div>
+                                <RegistrationStatistics event={event()!} />
                             </div>
-                            <RegistrationStatistics event={event()!} />
                             <Show
                                 when={
                                     event()?.registration?.kind === "native" &&
@@ -301,72 +378,6 @@ export default function Route() {
                             >
                                 <div class="event-overview__registration">
                                     <p role="status">Loading…</p>
-                                </div>
-                            </Show>
-                            <Show when={!isRegistrationLoading() && hasRegistration()}>
-                                <div
-                                    class="event-overview__registration"
-                                    aria-label="Your registration"
-                                >
-                                    <div class="registration-actions">
-                                        <a
-                                            class="registration-status-link"
-                                            href={registrationHref()}
-                                            title="View your registration"
-                                        >
-                                            {" "}
-                                            <RegistrationStatus
-                                                status={currentRegistration()!.status}
-                                                isCancelled={event()?.status === "cancelled"}
-                                                isTentative={isTentative(event()!)}
-                                            />
-                                        </a>
-                                        <div class="registration-actions__buttons">
-                                            <Show
-                                                when={
-                                                    event()!.checkIn?.isEnabled &&
-                                                    currentRegistration()?.status === "going" &&
-                                                    event()?.status !== "cancelled"
-                                                }
-                                            >
-                                                <a class="button" href={registrationHref()}>
-                                                    View pass
-                                                </a>
-                                            </Show>
-                                            <Show
-                                                when={
-                                                    event()!.startsAt < Date.now() &&
-                                                    (event()!.feedback?.isEventEnabled ||
-                                                        event()!.feedback?.isSpeakerEnabled) &&
-                                                    currentRegistration()?.status === "going" &&
-                                                    event()?.status !== "cancelled"
-                                                }
-                                            >
-                                                <a class="button" href={registrationHref()}>
-                                                    Give feedback
-                                                </a>
-                                            </Show>
-                                            <Show
-                                                when={
-                                                    currentRegistration()?.token &&
-                                                    event()?.status !== "cancelled" &&
-                                                    event()!.startsAt > Date.now() &&
-                                                    currentRegistration()?.status !== "declined"
-                                                }
-                                            >
-                                                <button
-                                                    class="button"
-                                                    disabled={cancellation.isPending()}
-                                                    onClick={() => void cancellation.cancel()}
-                                                >
-                                                    {cancellation.isPending()
-                                                        ? "Cancelling…"
-                                                        : "Cancel"}
-                                                </button>
-                                            </Show>
-                                        </div>
-                                    </div>
-                                    <FormMessage error={cancellation.error()} />
                                 </div>
                             </Show>
                             <Show when={registration.error}>
@@ -663,7 +674,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
                     <h2>{props.event?.title}</h2>
                     <button
                         aria-label="Close gallery"
-                        class="button button--ghost"
+                        class="action-link"
                         onClick={close}
                         type="button"
                         autofocus
@@ -695,7 +706,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
                 <div class="event-gallery__footer">
                     <button
                         aria-label="Previous photo"
-                        class="button button--ghost"
+                        class="action-link"
                         disabled={images().length < 2}
                         onClick={() => move(-1)}
                         type="button"
@@ -707,7 +718,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
                     </span>
                     <button
                         aria-label="Next photo"
-                        class="button button--ghost"
+                        class="action-link"
                         disabled={images().length < 2}
                         onClick={() => move(1)}
                         type="button"
@@ -816,7 +827,7 @@ function Speakers(props: { event: PublicEvent | null | undefined }) {
             title="Speakers"
             id="speakers"
             toolbar={
-                <a class="button" href="/contribute#speakers">
+                <a class="action-link" href="/contribute#speakers">
                     Suggest a speaker
                 </a>
             }

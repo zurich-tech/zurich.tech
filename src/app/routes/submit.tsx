@@ -387,11 +387,11 @@ export default function Route() {
                                     />
                                 )}
                             </Show>
-                            <a class="button" href="/admin">
+                            <a class="action-link" href="/admin">
                                 Back
                             </a>
                             <Show when={params.edit && draft()?.eventId && isPublished()}>
-                                <a class="button" href={`/events/${draft()!.slug}`}>
+                                <a class="action-link" href={`/events/${draft()!.slug}`}>
                                     View event
                                 </a>
                             </Show>
@@ -621,7 +621,7 @@ export default function Route() {
                                         }
                                     >
                                         <a
-                                            class="button"
+                                            class="action-link"
                                             href={`/admin?section=series&schedule=${currentEvent()!.scheduleId}`}
                                         >
                                             Edit series schedule

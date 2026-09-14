@@ -180,10 +180,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                     <Show
                         when={selected()}
                         fallback={
-                            <button
-                                class="button button--primary"
-                                onClick={() => void select("new")}
-                            >
+                            <button class="action-link" onClick={() => void select("new")}>
                                 New campaign
                             </button>
                         }
@@ -244,7 +241,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                             </td>
                                             <td>
                                                 <span
-                                                    class="tag"
+                                                    class="tag tag-status"
                                                     classList={{
                                                         "tag-upcoming":
                                                             item.status === "queued" ||
@@ -383,7 +380,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                             <section class="mail-section">
                                 <h3>Delivery</h3>
                                 <Show when={settings()?.isLocked}>
-                                    <p class="mail-note">
+                                    <p class="mail-note mail-warning">
                                         Test mode: only your test email can be sent.
                                     </p>
                                 </Show>

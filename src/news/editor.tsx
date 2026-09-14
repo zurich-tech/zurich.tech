@@ -172,7 +172,7 @@ export function NewsEditor(props: {
                                 JSON.stringify(draftContent()) !== JSON.stringify(published())
                             }
                         >
-                            <span class="tag">Unpublished changes</span>
+                            <span class="tag tag-status">Unpublished changes</span>
                         </Show>
                         <Field label="Title">
                             <Input
@@ -375,7 +375,7 @@ export function NewsEditor(props: {
                 <Markdown source={content().body} />
                 <Show when={content().kind === "link" && content().url}>
                     <a
-                        class="button"
+                        class="action-link"
                         href={content().url}
                         target="_blank"
                         rel="noopener noreferrer"

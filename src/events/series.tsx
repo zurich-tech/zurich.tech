@@ -138,8 +138,7 @@ export function SeriesAdmin() {
                     </Show>
                     <Show when={selected() || access.current()?.isAdmin}>
                         <button
-                            class="button"
-                            classList={{ "button--primary": !selected() }}
+                            class="action-link"
                             onClick={async () => {
                                 if (!(await leaveEditor(formId))) return;
                                 setSelected(selected() ? undefined : "new");
@@ -185,7 +184,7 @@ export function SeriesAdmin() {
                                             <td>
                                                 <div class="admin-actions">
                                                     <button
-                                                        class="button"
+                                                        class="action-link"
                                                         onClick={() => setSelected(item._id)}
                                                     >
                                                         Edit

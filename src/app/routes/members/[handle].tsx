@@ -5,9 +5,10 @@ import { type CalendarEntry } from "../../../events/queries";
 import { Avatar } from "../../../components/avatar";
 import { Card } from "../../../components/card";
 import { createAsync, useParams } from "@solidjs/router";
-import { For, Match, Show, Switch } from "solid-js";
+import { Match, Show, Switch } from "solid-js";
 
-import { DirectoryList, DirectoryRow } from "../../../components/list";
+import { EventList } from "../../../events/list";
+import { getDirectory } from "../../../organisations/queries";
 import { SocialLinks } from "../../../components/social";
 import { NotFound } from "../../notfound";
 import { Page } from "../../page";
@@ -17,7 +18,8 @@ import { routeParam } from "../../params";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
-    preload: ({ params }: { params: Record<string, string> }) => getMember(params.handle),
+    preload: ({ params }: { params: Record<string, string> }) =>
+        Promise.all([getMember(params.handle), getDirectory()]),
 };
 
 /** Member profile. */
@@ -89,25 +91,16 @@ export default function Route() {
 
 /** Events hosted by the member. */
 function HostedEvents(props: { events: CalendarEntry[] }) {
+    const directory = createAsync(() => getDirectory());
+
     return (
-        <Card title="Events">
-            <Show
-                when={props.events.length > 0}
-                fallback={<p class="text-soft">No hosted events.</p>}
-            >
-                <DirectoryList>
-                    <For each={props.events}>
-                        {(event) => (
-                            <DirectoryRow
-                                href={event.href ?? "/events"}
-                                meta={event.location}
-                                summary={event.summary}
-                                title={event.title}
-                            />
-                        )}
-                    </For>
-                </DirectoryList>
-            </Show>
+        <Card title="Events" class="programme">
+            <EventList
+                events={[...props.events].sort((left, right) => right.startsAt - left.startsAt)}
+                series={directory()?.series ?? []}
+                now={Date.now()}
+                showToday
+            />
         </Card>
     );
 }

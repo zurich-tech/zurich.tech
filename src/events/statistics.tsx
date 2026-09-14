@@ -5,7 +5,7 @@ import "./statistics.css";
 /** A consistent, labelled row of public event or series totals. */
 export function Statistics(props: { items: { label: string; value: number | string }[] }) {
     return (
-        <dl class="event-statistics">
+        <dl class="statistics event-statistics">
             <For each={props.items}>
                 {(item) => (
                     <div>
@@ -22,15 +22,13 @@ export function Statistics(props: { items: { label: string; value: number | stri
     );
 }
 
-/** Show known registrations and admission limits without implying external totals are complete. */
+/** Show known registration totals without implying external counts are complete. */
 export function RegistrationStatistics(props: { event: PublicEvent }) {
     const items = () => {
         const event = props.event;
         const values: { label: string; value: number | string }[] = [];
         if (event.registration.kind === "native" || event.rsvpCount > 0)
             values.push({ label: "Registered", value: event.rsvpCount });
-        if (event.registration.kind === "native")
-            values.push({ label: "Capacity", value: event.registrationCapacity ?? "Unlimited" });
         if (
             (event.registration.kind === "native" && event.registration.overflow === "waitlist") ||
             event.waitlistCount > 0

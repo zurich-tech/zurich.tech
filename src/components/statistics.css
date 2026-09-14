@@ -1,0 +1,24 @@
+/* Keep related totals together; long values and narrow screens wrap naturally. */
+.statistics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+    margin: 0;
+}
+.statistics > div {
+    min-width: 100px;
+}
+.statistics dt {
+    color: var(--color-soft);
+    font: 12px var(--font-mono);
+    margin-bottom: 6px;
+}
+.statistics dd {
+    margin: 0;
+    color: var(--color-ink);
+    font: 600 20px/1.4 var(--font-mono);
+}
+.statistics > div > span {
+    color: var(--color-soft);
+    font-size: 13px;
+}

@@ -75,7 +75,7 @@ export function NewsletterSchedule() {
             <Show when={edition()}>
                 {(value) => (
                     <>
-                        <dl class="mail-facts mail-schedule">
+                        <dl class="statistics">
                             <div>
                                 <dt>Schedule</dt>
                                 <dd>Monday, 08:00</dd>

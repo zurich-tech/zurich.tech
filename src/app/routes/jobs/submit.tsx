@@ -121,7 +121,7 @@ export default function Route() {
                                     Submit for review
                                 </button>
                             </Show>
-                            <a class="button" href="/manage?section=jobs">
+                            <a class="action-link" href="/manage?section=jobs">
                                 Back
                             </a>
                         </>

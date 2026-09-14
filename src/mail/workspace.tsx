@@ -22,12 +22,11 @@ export function EmailAdmin() {
 
     return (
         <div class="mail-workspace">
-            <nav class="mail-tabs" aria-label="Email sections">
+            <nav class="mail-tabs filter-pills" aria-label="Email sections">
                 <For each={sections}>
                     {(name) => (
                         <a
-                            class="button"
-                            classList={{ "button--primary": view() === name.toLowerCase() }}
+                            classList={{ selected: view() === name.toLowerCase() }}
                             aria-current={view() === name.toLowerCase() ? "page" : undefined}
                             href={`/admin?section=email&mail=${name.toLowerCase()}`}
                         >
@@ -36,7 +35,7 @@ export function EmailAdmin() {
                     )}
                 </For>
                 <Show when={sending()?.isLocked}>
-                    <span class="tag tag-upcoming status-control mail-mode">
+                    <span class="tag tag-status status-control mail-mode mail-warning">
                         Test mode · audience sending is off
                     </span>
                 </Show>

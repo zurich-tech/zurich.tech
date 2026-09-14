@@ -24,7 +24,15 @@
     flex-shrink: 0;
 }
 .entry.event-row {
-    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-columns: 48px minmax(0, 1fr);
+}
+/* Center the compact date inside its column without widening the row. */
+.entry.event-row .event-date {
+    align-items: center;
+    text-align: center;
+}
+.entry.event-row .event-day {
+    align-self: center;
 }
 .entry-publication .entry-title-row {
     grid-column: 1;
@@ -68,7 +76,7 @@
     flex: 1;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     min-width: 0;
 }
 .entry.event-row .event-counts {
@@ -91,7 +99,7 @@
 .event-list {
     list-style: none;
     padding: 0;
-    margin: 0 16px;
+    margin: 0 var(--card-gutter);
 }
 .event-list > li:last-child .entry {
     border-bottom: 0;

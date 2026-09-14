@@ -37,7 +37,7 @@ export function Management(props: {
                             <Card
                                 title="Jobs"
                                 toolbar={
-                                    <a class="button button--primary" href="/jobs/submit">
+                                    <a class="action-link" href="/jobs/submit">
                                         New job
                                     </a>
                                 }
@@ -62,7 +62,7 @@ export function Management(props: {
                             <Card
                                 title="Sponsors"
                                 toolbar={
-                                    <a class="button button--primary" href="/sponsor">
+                                    <a class="action-link" href="/sponsor">
                                         New sponsorship
                                     </a>
                                 }
@@ -104,8 +104,7 @@ export function Management(props: {
                                             </button>
                                         </Show>
                                         <button
-                                            class="button"
-                                            classList={{ "button--primary": !selected() }}
+                                            class="action-link"
                                             onClick={async () => {
                                                 if (!(await leaveEditor())) return;
                                                 setSelected(selected() ? undefined : "new");
@@ -158,7 +157,7 @@ export function Management(props: {
                                                                 <td>
                                                                     <div class="admin-actions">
                                                                         <button
-                                                                            class="button"
+                                                                            class="action-link"
                                                                             onClick={() =>
                                                                                 setSelected(
                                                                                     organisation._id,

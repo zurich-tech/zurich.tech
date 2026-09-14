@@ -1,20 +1,21 @@
 import { A } from "@solidjs/router";
-import { Brand } from "./brand";
+import { SocialLinks } from "../components/social";
+import { site } from "./site";
 
-/** Provide the site identity and consolidated legal information. */
+/** Site identity, community links and social accounts. */
 export function Footer() {
     return (
         <footer class="utility-footer">
-            <A class="footer-logo" href="/" aria-label="zurich.tech home">
-                <Brand />
-            </A>
-            <A class="footer-wordmark" href="/">
+            <A class="footer-wordmark" href="/" aria-label="zurich.tech home">
                 zurich.tech
             </A>
             <nav aria-label="Footer">
-                <a href="/contribute">Contribute</a>
-                <a href="/legal">Legal</a>
+                <A href="/about">About</A>
+                <A href="/sponsor">Sponsor</A>
+                <A href="/contribute">Contribute</A>
+                <A href="/legal">Legal</A>
             </nav>
+            <SocialLinks name={site.name} profiles={site.socials} />
         </footer>
     );
 }

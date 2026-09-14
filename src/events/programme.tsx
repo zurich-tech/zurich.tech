@@ -120,6 +120,57 @@ export function Programme(props: {
         ),
     );
 
+    // Let the collection toolbar own spacing between filters and search.
+    const filters = () => (
+        <div class="programme-tagbar" aria-label="Filter events">
+            <Show when={!isPreview()}>
+                <FilterPills
+                    label="Event period"
+                    value={
+                        period() === "all" && (series() !== "all" || year() !== "all")
+                            ? ""
+                            : String(period())
+                    }
+                    options={[
+                        { value: "all", label: "All" },
+                        { value: "upcoming", label: "Upcoming" },
+                        { value: "past", label: "Past" },
+                        ...(planning.current() ? [{ value: "draft", label: "Draft" }] : []),
+                    ]}
+                    onChange={(value) => {
+                        if (value === "all") setSeries("all");
+                        setParams({
+                            period: value === "all" ? undefined : value,
+                            ...(value === "all" ? { year: undefined } : {}),
+                        });
+                    }}
+                />
+            </Show>
+            <Show when={!props.seriesId}>
+                <FilterPills
+                    label="Event series"
+                    value={series()}
+                    options={[
+                        ...(isPreview() ? [{ value: "all", label: "All" }] : []),
+                        ...availableSeries().map((item) => ({
+                            value: item._id,
+                            label: item.name,
+                        })),
+                    ]}
+                    onChange={(value) => setSeries(value === series() ? "all" : value)}
+                />
+            </Show>
+            <Show when={!isPreview() && !isCalendar()}>
+                <FilterPills
+                    label="Event year"
+                    value={year()}
+                    options={years().map((value) => ({ value, label: value }))}
+                    onChange={(value) => setParams({ year: value === year() ? undefined : value })}
+                />
+            </Show>
+        </div>
+    );
+
     return (
         <Card
             class={isPreview() ? "programme" : "programme programme--full"}
@@ -131,12 +182,15 @@ export function Programme(props: {
             }
             toolbar={
                 <div class="row-actions">
-                    <a class="button" href="/series">
+                    <a class="action-link" href="/series">
                         Series
+                    </a>
+                    <a class="action-link" href="/contribute#events">
+                        Suggest event
                     </a>
                     <Show when={planning.canCreate(props.seriesId)}>
                         <a
-                            class="button"
+                            class="action-link"
                             href={props.seriesId ? `/submit?series=${props.seriesId}` : "/submit"}
                         >
                             New event
@@ -174,56 +228,16 @@ export function Programme(props: {
                     </a>
                 </div>
             </Show>
-            {/* combine time and series filters over one chronological list */}
-            <div class="programme-tagbar" aria-label="Filter events">
-                <Show when={!isPreview()}>
-                    <FilterPills
-                        label="Event period"
-                        value={
-                            period() === "all" && (series() !== "all" || year() !== "all")
-                                ? ""
-                                : String(period())
-                        }
-                        options={[
-                            { value: "all", label: "All" },
-                            { value: "upcoming", label: "Upcoming" },
-                            { value: "past", label: "Past" },
-                            ...(planning.current() ? [{ value: "draft", label: "Draft" }] : []),
-                        ]}
-                        onChange={(value) => {
-                            if (value === "all") setSeries("all");
-                            setParams({
-                                period: value === "all" ? undefined : value,
-                                ...(value === "all" ? { year: undefined } : {}),
-                            });
-                        }}
-                    />
-                </Show>
-                <Show when={!props.seriesId}>
-                    <FilterPills
-                        label="Event series"
-                        value={series()}
-                        options={[
-                            ...(isPreview() ? [{ value: "all", label: "All" }] : []),
-                            ...availableSeries().map((item) => ({
-                                value: item._id,
-                                label: item.name,
-                            })),
-                        ]}
-                        onChange={(value) => setSeries(value === series() ? "all" : value)}
-                    />
-                </Show>
-                <Show when={!isPreview() && !isCalendar()}>
-                    <FilterPills
-                        label="Event year"
-                        value={year()}
-                        options={years().map((value) => ({ value, label: value }))}
-                        onChange={(value) =>
-                            setParams({ year: value === year() ? undefined : value })
-                        }
-                    />
-                </Show>
-            </div>
+            <Show
+                when={isPreview()}
+                fallback={
+                    <TableToolbar value={query()} onSearch={setQuery} placeholder="Search events…">
+                        {filters()}
+                    </TableToolbar>
+                }
+            >
+                {filters()}
+            </Show>
             <Show when={planning.error()}>
                 <div class="programme-planning-error">
                     <span>Could not load planning events.</span>
@@ -231,9 +245,6 @@ export function Programme(props: {
                         Try again
                     </button>
                 </div>
-            </Show>
-            <Show when={!isPreview()}>
-                <TableToolbar value={query()} onSearch={setQuery} placeholder="Search events…" />
             </Show>
             <Show when={!isPreview() && terms().length > 0 && catalogue.error()}>
                 <SearchNotice
@@ -252,10 +263,9 @@ export function Programme(props: {
                             now={now}
                             terms={isPreview() ? [] : terms()}
                             excerpts={Object.fromEntries(
-                                (searched() ?? []).map((result) => [
-                                    result.href,
-                                    result.description,
-                                ]),
+                                (searched() ?? [])
+                                    .filter((result) => !matchesSearch(result.label, terms()))
+                                    .map((result) => [result.href, result.description]),
                             )}
                             showToday={
                                 period() === "all" &&
@@ -264,7 +274,7 @@ export function Programme(props: {
                             actions={(event) => (
                                 <Show when={planning.canEdit(event.id)}>
                                     <a
-                                        class="button"
+                                        class="action-link"
                                         aria-label={`Edit ${event.title}`}
                                         href={
                                             event.status === "draft"

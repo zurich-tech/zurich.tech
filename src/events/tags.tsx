@@ -62,7 +62,7 @@ export function EventBadges(props: {
             <Show when={state()}>
                 {(label) => (
                     <span
-                        class="tag"
+                        class="tag tag-status"
                         classList={{
                             "tag-upcoming": label() === "Upcoming" || label() === "Tentative",
                         }}
@@ -72,10 +72,10 @@ export function EventBadges(props: {
                 )}
             </Show>
             <Show when={props.isPartner}>
-                <span class="tag tag-upcoming">Partner</span>
+                <span class="tag tag-status tag-upcoming">Partner</span>
             </Show>
             <Show when={props.registrationKind === "external"}>
-                <span class="tag tag-upcoming">External</span>
+                <span class="tag tag-status tag-upcoming">External</span>
             </Show>
         </>
     );

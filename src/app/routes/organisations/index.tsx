@@ -8,6 +8,7 @@ import { Arrow } from "../../../components/arrow";
 import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
 
+import { TableToolbar } from "../../../components/toolbar";
 import { Card } from "../../../components/card";
 import { Page } from "../../page";
 import { Seo } from "../../seo";
@@ -40,14 +41,11 @@ export default function Route() {
                         class="listing-card"
                         toolbar={<EditLink href="/admin?section=organisations" label="Manage" />}
                     >
-                        <div class="listing-filters">
-                            <input
-                                aria-label="Search organisations"
-                                placeholder="Find an organisation…"
-                                value={search()}
-                                onInput={(event) => setSearch(event.currentTarget.value)}
-                            />
-                        </div>
+                        <TableToolbar
+                            value={search()}
+                            onSearch={setSearch}
+                            placeholder="Search organisations…"
+                        />
                         <For each={matches()}>
                             {(item) => (
                                 <a class="organisation-entry" href={`/organisations/${item.slug}`}>
