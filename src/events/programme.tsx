@@ -83,7 +83,7 @@ export function Programme(props: {
         return props.series.filter((item) => recent.some((event) => event.seriesId === item._id));
     });
 
-    // filter one catalogue and show events in reverse chronological order
+    // select recent events before applying the display order
     const matches = createMemo(() =>
         entries()
             .filter(
@@ -112,6 +112,13 @@ export function Programme(props: {
             )
             .sort(compare),
     );
+
+    // read the homepage preview chronologically without changing its selected events
+    const visible = createMemo(() => {
+        const selected = matches().slice(0, props.limit ?? visibleCount());
+
+        return isPreview() ? selected.reverse() : selected;
+    });
 
     // restart pagination only for filters, keeping background refreshes in place
     createEffect(
@@ -258,7 +265,7 @@ export function Programme(props: {
                     <>
                         {/* render the current page with venue and upcoming tags */}
                         <EventList
-                            events={matches().slice(0, props.limit ?? visibleCount())}
+                            events={visible()}
                             series={props.series}
                             now={now}
                             terms={isPreview() ? [] : terms()}

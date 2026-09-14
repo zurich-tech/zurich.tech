@@ -21,8 +21,8 @@ export function EventList<T extends CalendarEntry>(props: {
                             when={
                                 props.showToday &&
                                 index() > 0 &&
-                                event.startsAt < props.now &&
-                                props.events[index() - 1].startsAt >= props.now
+                                event.startsAt < props.now !==
+                                    props.events[index() - 1].startsAt < props.now
                             }
                         >
                             <div class="programme-today">
