@@ -95,6 +95,7 @@ import type * as news_queries from "../news/queries.js";
 import type * as organisations_mutations from "../organisations/mutations.js";
 import type * as organisations_queries from "../organisations/queries.js";
 import type * as organisations_workspace from "../organisations/workspace.js";
+import type * as places_grouping from "../places/grouping.js";
 import type * as places_locations from "../places/locations.js";
 import type * as places_map from "../places/map.js";
 import type * as search_search from "../search/search.js";
@@ -200,6 +201,7 @@ declare const fullApi: ApiFromModules<{
   "organisations/mutations": typeof organisations_mutations;
   "organisations/queries": typeof organisations_queries;
   "organisations/workspace": typeof organisations_workspace;
+  "places/grouping": typeof places_grouping;
   "places/locations": typeof places_locations;
   "places/map": typeof places_map;
   "search/search": typeof search_search;

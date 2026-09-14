@@ -26,7 +26,13 @@ export const map = query({
                 )
                     return null;
                 return {
-                    id: location._id,
+                    id: organisation._id,
+                    address: {
+                        line1: address.line1,
+                        postalCode: address.postalCode,
+                        locality: address.locality,
+                        countryCode: address.countryCode,
+                    },
                     name: organisation.name,
                     location: location.name,
                     slug: organisation.slug,
@@ -36,6 +42,12 @@ export const map = query({
                     mapLogoDarkUrl: organisation.mapLogoDarkUrl,
                     latitude: address.latitude,
                     longitude: address.longitude,
+                    recognition: organisation.isHost
+                        ? "Host"
+                        : sponsor
+                          ? `${sponsor.tier[0].toUpperCase()}${sponsor.tier.slice(1)} sponsor`
+                          : undefined,
+                    headline: organisation.headline,
                     prominence:
                         organisation.isHost || sponsor?.tier === "gold"
                             ? ("large" as const)
