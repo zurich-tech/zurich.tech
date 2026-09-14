@@ -2,7 +2,7 @@ import { site } from "./site";
 
 import { useLocation } from "@solidjs/router";
 import { Meta, Title } from "@solidjs/meta";
-import { Show } from "solid-js";
+import { createMemo, Show } from "solid-js";
 
 /** Set page-specific search and social metadata with a trusted image origin. */
 export function Seo(props: {
@@ -24,28 +24,35 @@ export function Seo(props: {
             location.pathname,
         ) || ["/jobs/submit", "/news/edit"].includes(location.pathname);
     const url = () => `${site.url}${location.pathname}`;
-    const title = () => (props.isHome ? site.name : `${props.title} - ${site.name}`);
-    const image = () => props.image ?? `${site.url}/og.png`;
+
+    // evaluate page props within this component, including metadata read during cleanup
+    const metadata = createMemo(() => ({
+        title: props.isHome ? site.name : `${props.title} - ${site.name}`,
+        description: props.description,
+        image: props.image ?? `${site.url}/og.png`,
+        imageAlt: props.title,
+        type: props.isArticle ? "article" : "website",
+    }));
 
     return (
         <>
-            <Title>{title()}</Title>
+            <Title>{metadata().title}</Title>
             <Show when={isPrivate()}>
                 <Meta name="robots" content="noindex, nofollow" />
             </Show>
-            <Meta name="description" content={props.description} />
-            <Meta property="og:title" content={title()} />
-            <Meta property="og:description" content={props.description} />
+            <Meta name="description" content={metadata().description} />
+            <Meta property="og:title" content={metadata().title} />
+            <Meta property="og:description" content={metadata().description} />
             <Meta property="og:url" content={url()} />
             <Meta property="og:site_name" content={site.name} />
-            <Meta property="og:type" content={props.isArticle ? "article" : "website"} />
+            <Meta property="og:type" content={metadata().type} />
             <Meta property="og:locale" content="en_GB" />
             <Meta name="twitter:card" content="summary_large_image" />
-            <Meta name="twitter:title" content={title()} />
-            <Meta name="twitter:description" content={props.description} />
-            <Meta property="og:image" content={image()} />
-            <Meta property="og:image:alt" content={props.title} />
-            <Meta name="twitter:image" content={image()} />
+            <Meta name="twitter:title" content={metadata().title} />
+            <Meta name="twitter:description" content={metadata().description} />
+            <Meta property="og:image" content={metadata().image} />
+            <Meta property="og:image:alt" content={metadata().imageAlt} />
+            <Meta name="twitter:image" content={metadata().image} />
         </>
     );
 }
