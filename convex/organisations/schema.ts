@@ -1,3 +1,4 @@
+import { organisationKind } from "./kinds";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
@@ -17,12 +18,7 @@ export const organisations = defineTable({
     name: v.string(),
     headline: v.optional(v.string()),
     description: v.string(),
-    kind: v.union(
-        v.literal("company"),
-        v.literal("lab"),
-        v.literal("community"),
-        v.literal("space"),
-    ),
+    kind: organisationKind,
     website: v.string(),
     location: v.string(),
     updatedAt: v.number(),

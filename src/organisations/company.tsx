@@ -1,3 +1,4 @@
+import { organisationKinds, type OrganisationKind } from "../../convex/organisations/kinds";
 import { createSignal, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
@@ -12,6 +13,7 @@ export function CompanyForm(props: {
     item?: {
         _id: Id<"organisations">;
         name: string;
+        kind: OrganisationKind;
         headline?: string;
         slug: string;
         website: string;
@@ -53,6 +55,7 @@ export function CompanyForm(props: {
                 id: props.item?._id,
                 ownerEmail: props.isAdmin ? text("ownerEmail") || undefined : undefined,
                 name: text("name"),
+                kind: text("kind") as OrganisationKind,
                 headline: text("headline") || undefined,
                 slug: text("slug"),
                 website: text("website"),
@@ -117,6 +120,14 @@ export function CompanyForm(props: {
                         />
                     </label>
                 </div>
+                <label>
+                    Category
+                    <select name="kind" value={props.item?.kind ?? "company"}>
+                        <For each={Object.entries(organisationKinds)}>
+                            {([value, label]) => <option value={value}>{label}</option>}
+                        </For>
+                    </select>
+                </label>
                 <div class="form-columns">
                     <label>
                         Title

@@ -1,3 +1,4 @@
+import { organisationKind } from "./kinds";
 import { writeProfiles } from "../members/links";
 import { v } from "convex/values";
 import { mutation, internalMutation, type QueryCtx, type MutationCtx } from "../_generated/server";
@@ -14,12 +15,7 @@ export const upsert = mutation({
         name: v.string(),
         headline: v.optional(v.string()),
         description: v.string(),
-        kind: v.union(
-            v.literal("company"),
-            v.literal("lab"),
-            v.literal("community"),
-            v.literal("space"),
-        ),
+        kind: organisationKind,
         website: v.string(),
         location: v.string(),
     },
@@ -73,6 +69,7 @@ export const upsertCompany = mutation({
         id: v.optional(v.id("organisations")),
         ownerEmail: v.optional(v.string()),
         name: v.string(),
+        kind: organisationKind,
         headline: v.optional(v.string()),
         slug: v.string(),
         website: v.string(),
@@ -155,7 +152,6 @@ export const upsertCompany = mutation({
         const organisationId = await ctx.db.insert("organisations", {
             ...values,
             ownerId: ownerId ?? viewer.memberId,
-            kind: "company",
         });
         await writeProfiles(ctx, organisationId, { profileUrl, socials });
         return organisationId;

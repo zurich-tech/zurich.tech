@@ -1,3 +1,4 @@
+import { organisationKinds } from "../../../../convex/organisations/kinds";
 import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { SocialLinks } from "../../../components/social";
@@ -51,16 +52,7 @@ export default function Route() {
                                     {item().sponsorTier}
                                 </a>
                             </Show>
-                            <span>
-                                {
-                                    {
-                                        company: "Company",
-                                        lab: "Lab",
-                                        community: "Community",
-                                        space: "Space",
-                                    }[item().kind]
-                                }
-                            </span>
+                            <span>{organisationKinds[item().kind]}</span>
                             <span>{item().location}</span>
                         </ItemHeader>
                         <div class="event-layout">

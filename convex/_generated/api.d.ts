@@ -92,6 +92,7 @@ import type * as migrations_topics from "../migrations/topics.js";
 import type * as news_content from "../news/content.js";
 import type * as news_mutations from "../news/mutations.js";
 import type * as news_queries from "../news/queries.js";
+import type * as organisations_kinds from "../organisations/kinds.js";
 import type * as organisations_mutations from "../organisations/mutations.js";
 import type * as organisations_queries from "../organisations/queries.js";
 import type * as organisations_workspace from "../organisations/workspace.js";
@@ -198,6 +199,7 @@ declare const fullApi: ApiFromModules<{
   "news/content": typeof news_content;
   "news/mutations": typeof news_mutations;
   "news/queries": typeof news_queries;
+  "organisations/kinds": typeof organisations_kinds;
   "organisations/mutations": typeof organisations_mutations;
   "organisations/queries": typeof organisations_queries;
   "organisations/workspace": typeof organisations_workspace;

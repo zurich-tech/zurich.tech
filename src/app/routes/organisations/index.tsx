@@ -1,3 +1,4 @@
+import { organisationKinds } from "../../../../convex/organisations/kinds";
 import { Highlight } from "../../../components/highlight";
 import { useSearch } from "../../../search/local";
 import { matchesSearch } from "../../../search/search";
@@ -72,16 +73,7 @@ export default function Route() {
                                             </p>
                                         </Show>
                                         <div class="tags">
-                                            <span class="tag">
-                                                {
-                                                    {
-                                                        company: "Company",
-                                                        lab: "Lab",
-                                                        community: "Community",
-                                                        space: "Space",
-                                                    }[item.kind]
-                                                }
-                                            </span>
+                                            <span class="tag">{organisationKinds[item.kind]}</span>
                                             <Show when={item.location}>
                                                 <span class="tag">{item.location}</span>
                                             </Show>
