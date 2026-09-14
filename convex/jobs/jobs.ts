@@ -263,7 +263,7 @@ export const updateStatus = mutation({
 });
 
 /** Resolve a public revision and its current application eligibility. */
-async function publicJob(ctx: QueryCtx, row: Doc<"jobs">) {
+export async function publicJob(ctx: QueryCtx, row: Doc<"jobs">) {
     // require the company and publication timestamps
     const organisation = await ctx.db.get(row.organisationId);
     if (!organisation) throw new Error("Job company is missing.");

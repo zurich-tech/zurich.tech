@@ -98,19 +98,6 @@ export function Organisers(props: {
     );
 }
 
-/** Suppress repeated credits only when the primary and ordered co-organisers match. */
-export function sameOrganisers(
-    left: { organiser?: OrganiserPerson | null; coOrganisers?: OrganiserPerson[] },
-    right?: { organiser?: OrganiserPerson | null; coOrganisers?: OrganiserPerson[] },
-) {
-    return (
-        !!right &&
-        left.organiser?.href === right.organiser?.href &&
-        JSON.stringify((left.coOrganisers ?? []).map((person) => person.href)) ===
-            JSON.stringify((right.coOrganisers ?? []).map((person) => person.href))
-    );
-}
-
 /** Choose public attribution separately from editing permissions, retaining display order. */
 export function OrganiserField(props: {
     value?: string;

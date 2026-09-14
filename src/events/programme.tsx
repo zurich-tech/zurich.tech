@@ -1,3 +1,8 @@
+import { SearchNotice } from "../search/notice";
+import { useCatalogue } from "../search/catalogue";
+import { useSearch } from "../search/local";
+import { matchesSearch } from "../search/search";
+import { TableToolbar } from "../components/toolbar";
 import { isTentative } from "../../convex/events/conditions";
 import { EventCalendar } from "./month";
 import { pageSize } from "../app/site";
@@ -5,9 +10,9 @@ import { usePlanning, useConfirmationRefresh, getCalendar, type CalendarEntry } 
 
 import { Card } from "../components/card";
 import { FilterPills } from "../components/filter-pills";
-import { sameOrganisers, type OrganiserPerson } from "./organiser";
-import { EventEntry } from "./entry";
-import { createSignal, createMemo, createEffect, on, For, Show } from "solid-js";
+import { type OrganiserPerson } from "./organiser";
+import { EventList } from "./list";
+import { createSignal, createMemo, createEffect, on, Show } from "solid-js";
 import { useSearchParams, revalidate } from "@solidjs/router";
 
 /** Browse events in a single aligned calendar, filtered by period, year and series. */
@@ -34,6 +39,12 @@ export function Programme(props: {
 }) {
     // retain the selected filters and visible event count
     const [params, setParams] = useSearchParams();
+    const { query, setQuery, terms } = useSearch();
+    const catalogue = useCatalogue();
+    const searched = createMemo(() =>
+        !props.limit && terms().length ? catalogue.search(query(), "Events", Infinity) : [],
+    );
+
     const [series, setSeries] = createSignal("all");
     const [visibleCount, setVisibleCount] = createSignal(pageSize);
     const now = Date.now();
@@ -85,14 +96,28 @@ export function Programme(props: {
                               : event.startsAt >= now)) &&
                     (isCalendar() || year() === "all" || eventYear(event.startsAt) === year()) &&
                     (isPreview() || !params.tag || event.tags.includes(String(params.tag))) &&
-                    (series() === "all" || event.seriesId === series()),
+                    (series() === "all" || event.seriesId === series()) &&
+                    (searched()?.some((result) => result.href === event.href) ||
+                        matchesSearch(
+                            [
+                                event.title,
+                                event.summary,
+                                event.location,
+                                ...event.tags,
+                                event.organiser?.name,
+                                ...event.coOrganisers.map((person) => person.name),
+                            ].join(" "),
+                            isPreview() ? [] : terms(),
+                        )),
             )
             .sort(compare),
     );
 
     // restart pagination only for filters, keeping background refreshes in place
     createEffect(
-        on([series, period, year, isCalendar, () => params.tag], () => setVisibleCount(pageSize)),
+        on([series, period, year, isCalendar, () => params.tag, query], () =>
+            setVisibleCount(pageSize),
+        ),
     );
 
     return (
@@ -207,68 +232,51 @@ export function Programme(props: {
                     </button>
                 </div>
             </Show>
+            <Show when={!isPreview()}>
+                <TableToolbar value={query()} onSearch={setQuery} placeholder="Search events…" />
+            </Show>
+            <Show when={!isPreview() && terms().length > 0 && catalogue.error()}>
+                <SearchNotice
+                    message="Search is limited to event summaries for now."
+                    retry={catalogue.retry}
+                />
+            </Show>
             <Show
                 when={isCalendar()}
                 fallback={
                     <>
                         {/* render the current page with venue and upcoming tags */}
-                        <ol class="event-list">
-                            <For each={matches().slice(0, props.limit ?? visibleCount())}>
-                                {(event, index) => (
-                                    <li>
-                                        {/* mark the transition from upcoming events into the archive */}
-                                        <Show
-                                            when={
-                                                period() === "all" &&
-                                                (year() === "all" || year() === eventYear(now)) &&
-                                                event.startsAt < now &&
-                                                (index() === 0 ||
-                                                    matches()[index() - 1].startsAt >= now)
-                                            }
-                                        >
-                                            <div class="programme-today">
-                                                <span>Today</span>
-                                            </div>
-                                        </Show>
-                                        <EventEntry
-                                            event={event}
-                                            hideOrganiser={
-                                                !!props.seriesId &&
-                                                sameOrganisers(
-                                                    event,
-                                                    props.series.find(
-                                                        (series) => series._id === props.seriesId,
-                                                    ),
-                                                )
-                                            }
-                                            now={now}
-                                            series={
-                                                props.seriesId
-                                                    ? undefined
-                                                    : props.series.find(
-                                                          (series) => series._id === event.seriesId,
-                                                      )
-                                            }
-                                            actions={
-                                                <Show when={planning.canEdit(event.id)}>
-                                                    <a
-                                                        class="button"
-                                                        aria-label={`Edit ${event.title}`}
-                                                        href={
-                                                            event.status === "draft"
-                                                                ? event.href
-                                                                : `/submit?event=${event.id}`
-                                                        }
-                                                    >
-                                                        Edit
-                                                    </a>
-                                                </Show>
-                                            }
-                                        />
-                                    </li>
-                                )}
-                            </For>
-                        </ol>
+                        <EventList
+                            events={matches().slice(0, props.limit ?? visibleCount())}
+                            series={props.series}
+                            now={now}
+                            terms={isPreview() ? [] : terms()}
+                            excerpts={Object.fromEntries(
+                                (searched() ?? []).map((result) => [
+                                    result.href,
+                                    result.description,
+                                ]),
+                            )}
+                            showToday={
+                                period() === "all" &&
+                                (year() === "all" || year() === eventYear(now))
+                            }
+                            actions={(event) => (
+                                <Show when={planning.canEdit(event.id)}>
+                                    <a
+                                        class="button"
+                                        aria-label={`Edit ${event.title}`}
+                                        href={
+                                            event.status === "draft"
+                                                ? event.href
+                                                : `/submit?event=${event.id}`
+                                        }
+                                    >
+                                        Edit
+                                    </a>
+                                </Show>
+                            )}
+                        />
                         {/* reveal the next page without replacing existing entries */}
                         <Show when={!isPreview() && visibleCount() < matches().length}>
                             <div class="programme-more">

@@ -14,7 +14,7 @@ type HighlightProps = {
 export function Highlight(props: HighlightProps) {
     return (
         <For each={highlightParts(props.text, props.terms)}>
-            {(part) => (part.isMatch ? <mark>{part.text}</mark> : part.text)}
+            {(part) => (part.isMatch ? <mark class="search-match">{part.text}</mark> : part.text)}
         </For>
     );
 }

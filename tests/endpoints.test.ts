@@ -498,3 +498,147 @@ test("publication validates private address policy on stored revisions", async (
         "Add the address for confirmed attendees before publishing.",
     );
 });
+
+// Reusing a portrait must respect profile visibility and appearance-specific overrides.
+test("speaker portraits inherit only from public profiles", async () => {
+    const { backend, ids } = await setup();
+    const speakerId = await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.memberId, {
+            visibility: "public",
+            avatarUrl: "https://example.com/member.jpg",
+        });
+        await ctx.db.insert("handles", {
+            memberId: ids.memberId,
+            name: "speaker",
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        return await ctx.db.insert("speakers", {
+            eventId: ids.eventId,
+            memberId: ids.memberId,
+            name: "Test",
+            position: 0,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    const read = async () =>
+        (await backend.query(api.events.queries.event, { slug: "dinner" }))!.speakers[0];
+    expect((await read()).imageUrl).toBe("https://example.com/member.jpg");
+    await backend.run((ctx) => ctx.db.patch(ids.memberId, { visibility: "private" }));
+    expect((await read()).imageUrl).toBeUndefined();
+    await backend.run((ctx) =>
+        ctx.db.patch(speakerId, { imageUrl: "https://example.com/appearance.jpg" }),
+    );
+    expect((await read()).imageUrl).toBe("https://example.com/appearance.jpg");
+});
+
+// Public profile changes may flow through credits; event overrides remain historical facts.
+test("speaker affiliations inherit privately and preserve explicit overrides", async () => {
+    const { backend, ids } = await setup();
+    const current = [{ role: "Researcher", organisation: "Current University" }];
+    const historical = [{ role: "PhD student", organisation: "Previous University" }];
+    const speakerId = await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.memberId, { visibility: "public", affiliations: current });
+        await ctx.db.insert("handles", {
+            memberId: ids.memberId,
+            name: "researcher",
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        return ctx.db.insert("speakers", {
+            eventId: ids.eventId,
+            memberId: ids.memberId,
+            name: "Test",
+            position: 0,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    const read = async () =>
+        (await backend.query(api.events.queries.event, { slug: "dinner" }))!.speakers[0];
+    expect((await read()).affiliations).toEqual(current);
+    await backend.run((ctx) => ctx.db.patch(speakerId, { affiliations: historical }));
+    expect((await read()).affiliations).toEqual(historical);
+    await backend.run((ctx) => ctx.db.patch(speakerId, { affiliations: [] }));
+    expect((await read()).affiliations).toEqual([]);
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(speakerId, { affiliations: undefined });
+        await ctx.db.patch(ids.memberId, { visibility: "private" });
+    });
+    expect((await read()).affiliations).toBeUndefined();
+});
+
+// Search must match published news and never index a draft revision or a private address.
+test("global search uses published content and returns safe highlights", async () => {
+    const { backend, ids } = await setup();
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.eventId, {
+            address: "Secretlane",
+            addressAccess: { kind: "confirmed" },
+        });
+        const content = {
+            kind: "post" as const,
+            title: "Robotics announcement",
+            description: "Zurich research",
+            body: "Public demonstration",
+            tags: [],
+            authors: [],
+            organisations: [],
+        };
+        await ctx.db.insert("posts", {
+            slug: "robotics-announcement",
+            draft: { ...content, title: "Unreleasedsecret" },
+            published: content,
+            publishedAt: 1,
+            updatedAt: 1,
+            createdBy: ids.memberId,
+        });
+    });
+    const search = (text: string) =>
+        backend.query(api.search.search.search, { text, now: Date.now() });
+    expect(await search("Secretlane")).toEqual([]);
+    expect(await search("Unreleasedsecret")).toEqual([]);
+    const result = (await search("robotics")).find(
+        (item) => item.href === "/news/robotics-announcement",
+    )!;
+    expect(result.kind).toBe("News");
+    expect(
+        result.labelParts
+            .filter((part) => part.isMatch)
+            .map((part) => part.text)
+            .join(""),
+    ).toBe("Robotics");
+    await backend.run((ctx) =>
+        ctx.db.patch(ids.eventId, { status: "draft", title: "Privateeventsecret" }),
+    );
+    expect(await search("Privateeventsecret")).toEqual([]);
+});
+
+// The opening menu is public discovery, with the same disclosure rules as full search.
+test("search catalogue includes published events without private venue data", async () => {
+    const { backend, ids } = await setup();
+    const now = Date.now();
+    await backend.run((ctx) =>
+        ctx.db.patch(ids.eventId, {
+            status: "scheduled",
+            slug: "discovery-event",
+            startsAt: now + 86400000,
+            address: "Hidden discovery address",
+            location: "Hidden venue",
+            addressAccess: { kind: "confirmed" },
+        }),
+    );
+    const records = await backend.query(api.search.search.catalogue, {});
+    expect(records.some((record) => record.href === "/events/discovery-event")).toBe(true);
+    expect(JSON.stringify(records)).not.toContain("Hidden discovery address");
+    expect(JSON.stringify(records)).not.toContain("Hidden venue");
+    await backend.run((ctx) => ctx.db.patch(ids.eventId, { status: "draft" }));
+    expect(
+        (await backend.query(api.search.search.catalogue, {})).some(
+            (record) => record.href === "/events/discovery-event",
+        ),
+    ).toBe(false);
+});

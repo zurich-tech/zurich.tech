@@ -14,13 +14,6 @@
     object-fit: cover;
     border-radius: 50%;
 }
-.entry-people {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-inline-start: auto;
-    flex-shrink: 0;
-}
 
 .organiser > .organiser-initials {
     display: inline-flex;
@@ -43,11 +36,6 @@
     min-width: 0;
     overflow-wrap: anywhere;
 }
-.organiser-headline {
-    display: block;
-    color: var(--color-soft);
-    font-weight: 400;
-}
 
 .organisers {
     display: flex;
@@ -62,9 +50,6 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 12px;
-}
-.entry-people .organisers {
-    flex-wrap: nowrap;
 }
 .organisers-more {
     color: inherit;

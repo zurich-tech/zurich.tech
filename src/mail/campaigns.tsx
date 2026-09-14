@@ -1,3 +1,4 @@
+import { registerCommands } from "../search/actions";
 import "./mail.css";
 import { timestamp } from "../events/time";
 import { createResource, createSignal, createUniqueId, Show, For } from "solid-js";
@@ -130,6 +131,39 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
             await (await memberClient()).mutation(api.mail.campaigns.cancel, { id: item._id });
         }, "Campaign cancelled.");
     }
+
+    registerCommands(() =>
+        !result.error && result()
+            ? [
+                  {
+                      id: `campaign-new-${formId}`,
+                      label: "New campaign",
+                      group: "Email",
+                      run: () => select("new"),
+                  },
+                  ...(current()?.status === "draft" &&
+                  !command.isPending() &&
+                  scheduledAt() !== "" &&
+                  settings() &&
+                  !settings()!.isLocked &&
+                  !settings()!.isPaused &&
+                  settings()!.hasWebhook
+                      ? [
+                            {
+                                id: `campaign-send-${formId}`,
+                                label:
+                                    scheduledAt() === undefined
+                                        ? "Send campaign"
+                                        : "Schedule campaign",
+                                description: "Review content and recipients before sending",
+                                group: "Email",
+                                run: queue,
+                            },
+                        ]
+                      : []),
+              ]
+            : [],
+    );
 
     return (
         <Card
@@ -387,7 +421,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                             <label class="field mail-send-at">
                                                 <span class="field__label">
                                                     Date and time{" "}
-                                                    <span class="mail-note">· Zürich time</span>
+                                                    <span class="mail-note">· Zurich time</span>
                                                 </span>
                                                 <input
                                                     class="field__control"

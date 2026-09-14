@@ -27,7 +27,14 @@ export default function Route() {
                             <ItemHeader
                                 title={item().name}
                                 class="series-header"
-                                summary={<SeriesDetails series={item()} />}
+                                summary={
+                                    <SeriesDetails
+                                        series={item()}
+                                        events={events()?.filter(
+                                            (event) => event.seriesId === item()._id,
+                                        )}
+                                    />
+                                }
                                 actions={
                                     <EditLink
                                         href={`/admin?section=series&series=${item()._id}`}

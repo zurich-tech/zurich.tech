@@ -88,7 +88,7 @@ export function Newsletter() {
                                     when={preferences.error}
                                     fallback={
                                         <span
-                                            class="tag"
+                                            class="tag status-control"
                                             classList={{
                                                 "tag-upcoming":
                                                     !!preferences()?.weekly &&

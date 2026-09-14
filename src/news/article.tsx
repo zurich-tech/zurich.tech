@@ -1,3 +1,4 @@
+import { useSearch } from "../search/local";
 import { FilterPills } from "../components/filter-pills";
 import "./article.css";
 import { NewsActions } from "./actions";
@@ -6,7 +7,7 @@ import { TagPills } from "./tags";
 import { type Article } from "./queries";
 import { For, Show, createMemo, createSignal } from "solid-js";
 
-import { matchesSearch, searchTerms } from "../search/search";
+import { matchesSearch, searchTerms, searchExcerpt } from "../search/search";
 import { Entry } from "../events/entry";
 import { Highlight } from "../components/highlight";
 import { Card } from "../components/card";
@@ -32,7 +33,7 @@ type ArticleListProps = {
 
 /** Render dated articles with optional search. */
 export function ArticleList(props: ArticleListProps) {
-    const [query, setQuery] = createSignal("");
+    const { query, setQuery } = useSearch();
     const [kind, setKind] = createSignal("All");
     const terms = createMemo(() => searchTerms(query()));
 
@@ -91,7 +92,17 @@ export function ArticleList(props: ArticleListProps) {
                                     ) : undefined
                                 }
                                 description={
-                                    <Highlight text={article.description} terms={terms()} />
+                                    <Highlight
+                                        text={
+                                            terms().length
+                                                ? searchExcerpt(
+                                                      `${article.description} ${article.body}`,
+                                                      terms(),
+                                                  )
+                                                : article.description
+                                        }
+                                        terms={terms()}
+                                    />
                                 }
                                 meta={
                                     article.url
@@ -115,6 +126,7 @@ function articleText(article: Article) {
     return [
         article.title,
         article.description,
+        article.body,
         ...article.tags.map((tag) => tag.name),
         ...article.authors.map((author) => author.name),
     ].join(" ");

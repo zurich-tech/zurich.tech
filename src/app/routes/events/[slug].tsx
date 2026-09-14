@@ -1,10 +1,12 @@
+import { useAccess } from "../../../auth/edit";
+import { PageCommands } from "../../../search/actions";
 import { Affiliations } from "../../../members/affiliations";
 import { VenueCard, AddressNotice } from "../../../events/venue";
 import { Organisers } from "../../../events/organiser";
 import { useCancellation } from "../../../events/cancellation";
 import { RegistrationStatus } from "../../../events/status";
 import { EventBadges, EventTags } from "../../../events/tags";
-import { EventCounts } from "../../../events/counts";
+import { RegistrationStatistics } from "../../../events/statistics";
 import { ConfirmationNotice } from "../../../events/confirmation";
 import { isTentative } from "../../../../convex/events/conditions";
 import { useAccount } from "../../../auth";
@@ -54,6 +56,7 @@ export const route = {
 /** Event detail page. */
 export default function Route() {
     const account = useAccount();
+    const access = useAccess();
     // params
     const params = useParams();
     const slug = () => routeParam("slug", params.slug);
@@ -195,6 +198,44 @@ export default function Route() {
                         description={event()?.summary ?? event()?.title ?? "Event"}
                         image={event()?.media[0]?.url}
                     />
+                    <PageCommands
+                        items={[
+                            ...(access.canEvent(event()!.id)
+                                ? [
+                                      {
+                                          id: "edit-current-event",
+                                          label: "Edit this event",
+                                          href: `/submit?event=${event()!.id}`,
+                                          group: "This event",
+                                      },
+                                  ]
+                                : []),
+                            ...(registrationHref()
+                                ? [
+                                      {
+                                          id: "registration",
+                                          label: "View registration",
+                                          href: registrationHref()!,
+                                          group: "This event",
+                                      },
+                                  ]
+                                : []),
+                            ...(hasRegistration() &&
+                            currentRegistration()?.status === "going" &&
+                            event()!.startsAt > Date.now() &&
+                            event()!.status !== "cancelled"
+                                ? [
+                                      {
+                                          id: "cancel-registration",
+                                          label: "Cancel registration",
+                                          description: "Review before cancelling",
+                                          group: "This event",
+                                          run: () => cancellation.cancel(),
+                                      },
+                                  ]
+                                : []),
+                        ]}
+                    />
                     <Page class="event-page">
                         <a class="eyebrow" href="/events">
                             <Arrow direction="left" /> Events
@@ -230,7 +271,7 @@ export default function Route() {
                                 </div>
                             }
                         >
-                            <div class="item-metadata">
+                            <div class="item-metadata detail-tags">
                                 <Show when={event()?.status === "cancelled"}>
                                     <span class="tag">Cancelled</span>
                                 </Show>
@@ -256,27 +297,23 @@ export default function Route() {
                                     isPartner={event()?.isPartner}
                                     registrationKind={event()?.registration.kind}
                                 />
-                                <EventTags
-                                    series={event()!.series ?? undefined}
-                                    topics={event()!.topics}
-                                />
-                                <EventCounts
-                                    confirmed={
-                                        event()!.registration.kind === "native" ||
-                                        event()!.rsvpCount > 0
-                                            ? event()!.rsvpCount
-                                            : undefined
-                                    }
-                                    waitlist={event()!.waitlistCount}
-                                />
                             </div>
                             <EventFacts event={visibleEvent()!} />
                             <Show when={privateVenue.error}>
                                 <FormMessage error="Could not load your private venue details. Please reload the page." />
                             </Show>
-                            <Show when={event()?.summary}>
-                                <p class="event-overview__summary">{event()!.summary}</p>
-                            </Show>
+                            <div class="item-description">
+                                <Show when={event()?.summary}>
+                                    <p class="event-overview__summary">{event()!.summary}</p>
+                                </Show>
+                                <div class="detail-tags">
+                                    <EventTags
+                                        series={event()!.series ?? undefined}
+                                        topics={event()!.topics}
+                                    />
+                                </div>
+                            </div>
+                            <RegistrationStatistics event={event()!} />
                             <Show
                                 when={
                                     event()?.registration?.kind === "native" &&
@@ -837,7 +874,7 @@ function Speakers(props: { event: PublicEvent | null | undefined }) {
     );
 }
 
-/** Format an event date in Zürich. */
+/** Format an event date in Zurich. */
 function eventDate(timestamp: number): string {
     return new Date(timestamp).toLocaleDateString("en-GB", {
         weekday: "long",
@@ -904,7 +941,7 @@ function EventFacts(props: { event: PublicEvent }) {
                             {eventDate(props.event.startsAt)}
                         </time>
                         <span>{eventTime(props.event)}</span>
-                        <span>Zürich time</span>
+                        <span>Zurich time</span>
                     </dd>
                 </div>
                 <div>
@@ -923,6 +960,35 @@ function EventFacts(props: { event: PublicEvent }) {
                         </Show>
                     </dd>
                 </div>
+                <Show when={props.event.speakers.length}>
+                    <div>
+                        <dt>Speakers</dt>
+                        <dd>
+                            <For each={props.event.speakers}>
+                                {(speaker) => (
+                                    <div class="speaker-credit">
+                                        <Show when={speaker.imageUrl}>
+                                            <Image
+                                                src={speaker.imageUrl!}
+                                                darkSrc={speaker.imageDarkUrl}
+                                                alt=""
+                                                width={24}
+                                                height={24}
+                                                loading="lazy"
+                                            />
+                                        </Show>
+                                        <div>
+                                            <a href={speaker.profileUrl || "#speakers"}>
+                                                {speaker.name}
+                                            </a>
+                                            <Affiliations values={speaker.affiliations} />
+                                        </div>
+                                    </div>
+                                )}
+                            </For>
+                        </dd>
+                    </div>
+                </Show>
                 <Show when={props.event.organiser || props.event.coOrganisers?.length}>
                     <div>
                         <dt>{props.event.coOrganisers?.length ? "Organisers" : "Organiser"}</dt>
@@ -932,23 +998,6 @@ function EventFacts(props: { event: PublicEvent }) {
                                 primary={props.event.organiser}
                                 others={props.event.coOrganisers}
                             />
-                        </dd>
-                    </div>
-                </Show>
-                <Show when={props.event.speakers.length}>
-                    <div>
-                        <dt>Speakers</dt>
-                        <dd>
-                            <For each={props.event.speakers}>
-                                {(speaker) => (
-                                    <div>
-                                        <a href={speaker.profileUrl || "#speakers"}>
-                                            {speaker.name}
-                                        </a>
-                                        <Affiliations values={speaker.affiliations} />
-                                    </div>
-                                )}
-                            </For>
                         </dd>
                     </div>
                 </Show>

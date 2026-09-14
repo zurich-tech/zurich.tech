@@ -1,6 +1,7 @@
 /* keep team controls independent of the public entry link */
 .entry-container {
     position: relative;
+    container-type: inline-size;
 }
 /* share the title row without reserving metadata space for team controls */
 .entry-title-row {
@@ -58,14 +59,6 @@
     flex-wrap: wrap;
     gap: 6px;
 }
-/* keep series previews on the same event grid without doubled section padding */
-.series-preview > .card-body > .series-events {
-    padding-block: 0;
-}
-.series-events > .entry-container:last-child .entry {
-    border-bottom: 0;
-}
-
 /* keep status and tags left while reserving the right edge for registration counts */
 .entry.event-row .event-venue {
     flex-wrap: nowrap;
@@ -81,4 +74,51 @@
 .entry.event-row .event-counts {
     flex-shrink: 0;
     margin-inline-start: auto;
+}
+
+.entry-people {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-inline-start: auto;
+    flex-shrink: 0;
+}
+.entry-people .organisers {
+    flex-wrap: nowrap;
+}
+
+/* share the inset and final row treatment across event lists */
+.event-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 16px;
+}
+.event-list > li:last-child .entry {
+    border-bottom: 0;
+}
+.card-section + .event-list {
+    border-top: 1px solid var(--color-line);
+}
+
+/* respond to available row space, including narrow cards on wide screens */
+@container (max-width: 600px) {
+    .entry.event-row .event-venue {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+    }
+    .entry.event-row .entry-people {
+        width: 100%;
+        min-width: 0;
+        margin-inline-start: 0;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+    }
+    .entry.event-row .entry-people .organisers {
+        order: -1;
+        margin-inline-start: 0;
+    }
+    .entry.event-row .entry-people:not(:has(.event-counts, .organiser)) {
+        display: none;
+    }
 }

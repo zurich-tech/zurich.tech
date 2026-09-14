@@ -1,3 +1,4 @@
+import { Highlight } from "../components/highlight";
 import { Image } from "../components/image";
 import { type Job } from "./queries";
 import { Show, For } from "solid-js";
@@ -8,6 +9,7 @@ import { Arrow } from "../components/arrow";
 /** Render a vacancy using the same title, tags and rule rhythm as event entries. */
 export function JobEntry(props: {
     job: Job;
+    terms?: readonly string[];
     /** Use a short row for the homepage sidebar. */ isCompact?: boolean;
 }) {
     return (
@@ -30,9 +32,14 @@ export function JobEntry(props: {
                 </Show>
             </div>
             <div class="job-copy">
-                <strong>{props.job.title}</strong>
+                <strong>
+                    <Highlight text={props.job.title} terms={props.terms ?? []} />
+                </strong>
                 <p>
-                    {props.job.company.name} · {props.job.location}
+                    <Highlight
+                        text={`${props.job.company.name} · ${props.job.location}`}
+                        terms={props.terms ?? []}
+                    />
                 </p>
                 <Show when={!props.isCompact && props.job.salary}>
                     <p class="job-salary">{salaryLabel(props.job.salary!)}</p>

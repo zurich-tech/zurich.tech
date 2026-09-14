@@ -1,7 +1,12 @@
+import { useSearch } from "../../../search/local";
+import { matchesSearch } from "../../../search/search";
+import { affiliationText } from "../../../../convex/members/affiliations";
+import { Highlight } from "../../../components/highlight";
+import { Affiliations } from "../../../members/affiliations";
 import { getMembers, type PublicMember } from "../../../members/queries";
 import { Card } from "../../../components/card";
 import { createAsync } from "@solidjs/router";
-import { For, Show, createMemo, createSignal } from "solid-js";
+import { For, Show, createMemo } from "solid-js";
 
 import { Avatar } from "../../../components/avatar";
 import { DirectoryList } from "../../../components/list";
@@ -32,7 +37,7 @@ export default function Route() {
 
 /** Member directory. */
 function MemberDirectory(props: { members: PublicMember[] }) {
-    const [query, setQuery] = createSignal("");
+    const { query, setQuery, terms } = useSearch();
 
     // filter visible members by their public profile text
     const visible = createMemo(() => {
@@ -42,15 +47,16 @@ function MemberDirectory(props: { members: PublicMember[] }) {
         }
 
         return props.members.filter((member) =>
-            `${member.name} ${member.handle} ${member.headline ?? ""} ${member.interests.join(" ")}`
-                .toLowerCase()
-                .includes(text),
+            matchesSearch(
+                `${member.name} ${member.handle} ${member.headline ?? ""} ${affiliationText(member.affiliations) ?? ""} ${member.interests.join(" ")}`,
+                terms(),
+            ),
         );
     });
 
     return (
         <Card title="Members" heading="h1">
-            <TableToolbar onSearch={setQuery} placeholder="Search members…" />
+            <TableToolbar value={query()} onSearch={setQuery} placeholder="Search members…" />
             {/* empty */}
             <Show
                 when={visible().length > 0}
@@ -70,10 +76,14 @@ function MemberDirectory(props: { members: PublicMember[] }) {
                                     imageDark={member.avatarDarkUrl}
                                 />
                                 <span class="member-row__copy">
-                                    <strong>{member.name}</strong>
-                                    <Show when={member.headline}>
-                                        <span class="text-soft">{member.headline}</span>
-                                    </Show>
+                                    <strong>
+                                        <Highlight text={member.name} terms={terms()} />
+                                    </strong>
+                                    <Affiliations
+                                        terms={terms()}
+                                        values={member.affiliations}
+                                        compact
+                                    />
                                 </span>
                             </a>
                         )}

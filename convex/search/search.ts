@@ -1,110 +1,190 @@
 import { v } from "convex/values";
-import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
+import { query, type QueryCtx } from "../_generated/server";
 import { articles } from "../../src/news/articles.generated";
-import { memberHandle } from "../members/queries";
+import { memberHandle, isPublicMember } from "../members/queries";
+import { affiliationText } from "../members/affiliations";
+import { publicJob } from "../jobs/jobs";
+import { indexRecords, searchRecords, type SearchRecord } from "../../src/search/search";
 
-/** Maximum event results in the command menu. */
-const eventSearchLimit = 6;
+/** Public event presentation deliberately excludes all venue and booking data. */
+function eventRecord(event: Doc<"events">): SearchRecord {
+    return {
+        label: event.title,
+        href: `/events/${event.slug}`,
+        kind: "Events",
+        description: event.summary ?? "",
+        startsAt: event.startsAt,
+        detail:
+            event.status === "cancelled"
+                ? "Cancelled"
+                : event.registration.kind === "external"
+                  ? "External registration"
+                  : "zurich.tech event",
+    };
+}
 
-/** Maximum search input length in characters. */
-const maximumSearchLength = 200;
+/** Export only public searchable copy; never serialize stored event documents. */
+async function catalogueRecords(ctx: QueryCtx): Promise<SearchRecord[]> {
+    const [events, series, speakers] = await Promise.all([
+        ctx.db.query("events").collect(),
+        ctx.db.query("series").collect(),
+        ctx.db.query("speakers").collect(),
+    ]);
+    const appearances = new Map<string, string[]>();
+    for (const speaker of speakers) {
+        if (speaker.isRemoved) continue;
+        const names = appearances.get(speaker.eventId) ?? [];
+        names.push(`${speaker.name} ${affiliationText(speaker.affiliations) ?? ""}`);
+        appearances.set(speaker.eventId, names);
+    }
+    return [
+        ...events
+            .filter((event) => event.status !== "draft")
+            .map((event) => ({
+                ...eventRecord(event),
+                status: event.status,
+                description: [
+                    event.summary,
+                    event.description,
+                    ...event.topics,
+                    ...(appearances.get(event._id) ?? []),
+                ]
+                    .filter(Boolean)
+                    .join(" "),
+            })),
+        ...series
+            .filter((item) => item.status !== "proposed")
+            .map((item) => ({
+                label: item.name,
+                description: [item.description, ...item.topics].join(" "),
+                href: `/series/${item.slug}`,
+                kind: "Series",
+            })),
+    ];
+}
 
-/** Supported temporal event filters. */
-type EventPeriod = "past" | "upcoming";
+/** One reactive public catalogue shared by global and collection search. */
+export const catalogue = query({ args: {}, handler: catalogueRecords });
 
-/** Search words with temporal filters removed. */
-type EventQuery = {
-    /** Empty or contradictory filters cannot match events. */
-    isImpossible: boolean;
-    /** Optional restriction relative to the requested instant. */
-    period?: EventPeriod;
-    /** Remaining words to match against event copy. */
-    text: string;
-};
-
-/** Search published public records. */
+/** Search the published catalogue; private addresses and draft revisions never enter matching. */
 export const search = query({
-    args: { now: v.number(), text: v.string() },
+    args: {
+        now: v.number(),
+        text: v.string(),
+        kinds: v.optional(
+            v.array(
+                v.union(
+                    v.literal("Events"),
+                    v.literal("Series"),
+                    v.literal("People"),
+                    v.literal("Organisations"),
+                    v.literal("Jobs"),
+                    v.literal("News"),
+                ),
+            ),
+        ),
+    },
     handler: async (ctx, args) => {
         const text = args.text.trim();
-
-        // reject empty and oversized searches
-        if (text.length < 2) {
-            return [];
-        }
-        if (text.length > maximumSearchLength) {
-            throw new Error(`Search must be at most ${maximumSearchLength} characters.`);
-        }
-
-        const eventsQuery = eventQuery(text);
-        const isEventFilter = eventsQuery.period !== undefined || eventsQuery.isImpossible;
-
-        // search each public noun independently
-        const [events, members, news] = await Promise.all([
-            searchEvents(ctx, eventsQuery, args.now),
-            isEventFilter
-                ? Promise.resolve([])
-                : ctx.db
+        if (text.length < 2) return [];
+        if (text.length > 200) throw new Error("Search must be at most 200 characters.");
+        const includes = (kind: string) =>
+            !args.kinds || args.kinds.some((value) => value === kind);
+        const [catalogue, members, organisations, posts, jobs] = await Promise.all([
+            includes("Events") || includes("Series") ? catalogueRecords(ctx) : [],
+            includes("People")
+                ? ctx.db
                       .query("members")
-                      .withSearchIndex("search_text", (query) =>
-                          query
-                              .search("searchText", text)
-                              .eq("status", "active")
-                              .eq("visibility", "public"),
+                      .withSearchIndex("search_text", (q) =>
+                          q.search("searchText", text).eq("visibility", "public"),
                       )
-                      .take(6),
-            Promise.resolve(
-                isEventFilter
-                    ? []
-                    : articles
-                          .filter((article) =>
-                              [
-                                  article.title,
-                                  article.description,
-                                  ...article.tags.map((tag) => tag.name),
-                                  ...article.authors.map((author) => author.name),
-                              ]
-                                  .join(" ")
-                                  .toLowerCase()
-                                  .includes(text.toLowerCase()),
-                          )
-                          .slice(0, 4),
-            ),
+                      .take(24)
+                : [],
+            includes("Organisations") ? ctx.db.query("organisations").collect() : [],
+            includes("News") ? ctx.db.query("posts").collect() : [],
+            includes("Jobs")
+                ? ctx.db
+                      .query("jobs")
+                      .withIndex("by_status", (q) => q.eq("status", "published"))
+                      .collect()
+                : [],
         ]);
+        const entries: SearchRecord[] = catalogue.filter((record) => includes(record.kind));
 
-        // resolve member handles in result order
-        const memberResults = await Promise.all(
-            members.map(async (member) => {
-                const handle = await memberHandle(ctx, member._id);
-                if (handle === null) {
-                    throw new Error(`Public member ${member._id} has no active handle.`);
-                }
-
-                return {
-                    description: member.headline,
-                    href: `/members/${handle.name}`,
-                    kind: "member" as const,
+        // People remain permission-filtered and searched on demand.
+        for (const member of members.filter(isPublicMember)) {
+            const handle = await memberHandle(ctx, member._id);
+            if (handle)
+                entries.push({
                     label: member.name,
-                };
-            }),
-        );
-
-        return [
-            ...events.map((event) => ({
-                description: eventSearchDescription(event, args.now),
-                href: `/events/${event.slug}`,
-                kind: "event" as const,
-                label: event.title,
-            })),
-            ...memberResults,
-            ...news.map((article) => ({
-                description: article.description,
-                href: `/news/${article.slug}`,
-                kind: "article" as const,
+                    image: member.avatarUrl,
+                    description: [affiliationText(member.affiliations), member.headline, member.bio]
+                        .filter(Boolean)
+                        .join(" "),
+                    href: `/members/${handle.name}`,
+                    kind: "People",
+                });
+        }
+        for (const item of organisations)
+            entries.push({
+                label: item.name,
+                description: [item.headline, item.description, item.location]
+                    .filter(Boolean)
+                    .join(" "),
+                href: `/organisations/${item.slug}`,
+                kind: "Organisations",
+            });
+        for (const article of includes("News") ? articles : [])
+            entries.push({
                 label: article.title,
-            })),
-        ];
+                description: [
+                    article.description,
+                    article.body,
+                    ...article.tags.map((tag) => tag.name),
+                    ...article.authors.map((author) => author.name),
+                ].join(" "),
+                href: `/news/${article.slug}`,
+                kind: "News",
+            });
+        for (const post of posts)
+            if (post.published)
+                entries.push({
+                    label: post.published.title,
+                    description: [
+                        post.published.description,
+                        post.published.body,
+                        ...post.published.tags,
+                    ]
+                        .filter(Boolean)
+                        .join(" "),
+                    href: `/news/${post.slug}`,
+                    kind: "News",
+                });
+        for (const row of jobs) {
+            const job = await publicJob(ctx, row);
+            if (job.isOpen)
+                entries.push({
+                    label: job.title,
+                    description: [
+                        job.company.name,
+                        job.location,
+                        ...job.tags,
+                        job.description,
+                    ].join(" "),
+                    href: `/jobs/${job.slug}`,
+                    kind: "Jobs",
+                });
+        }
+
+        // Use the same ranking, period matching and visible-result highlighting as the browser.
+        return searchRecords(
+            indexRecords(entries),
+            text,
+            undefined,
+            args.kinds?.length === 1 ? 1000 : 5,
+            args.now,
+        );
     },
 });
 
@@ -118,81 +198,4 @@ export function eventTags(
     const defined = tags.filter((tag): tag is string => tag !== undefined);
 
     return [...new Set([period, ...defined])];
-}
-
-/** Parse temporal event tags out of free-form search text. */
-function eventQuery(text: string): EventQuery {
-    const terms = [
-        ...new Set(
-            text
-                .toLowerCase()
-                .split(/\s+/)
-                .map((term) => term.replace(/^#+/, ""))
-                .filter(Boolean),
-        ),
-    ];
-    const isUpcoming = terms.includes("upcoming");
-    const isPast = terms.includes("past");
-    const indexed = terms.filter((term) => term !== "upcoming" && term !== "past");
-    let period: EventPeriod | undefined;
-
-    // upcoming filter
-    if (isUpcoming) {
-        period = "upcoming";
-    }
-    // past filter
-    else if (isPast) {
-        period = "past";
-    }
-
-    return {
-        isImpossible: (isUpcoming && isPast) || terms.length === 0,
-        period,
-        text: indexed.join(" "),
-    };
-}
-
-/** Search public calendar entries with optional temporal filtering. */
-async function searchEvents(
-    ctx: QueryCtx,
-    query: EventQuery,
-    now: number,
-): Promise<Doc<"events">[]> {
-    if (query.isImpossible) return [];
-    const events = await ctx.db.query("events").collect();
-    const terms = query.text.toLowerCase().split(/\s+/).filter(Boolean);
-
-    // filter the small public catalogue without maintaining a second event index
-    return events
-        .filter((event) => {
-            const text = [
-                event.title,
-                event.summary,
-                event.description,
-                event.location,
-                ...event.topics,
-            ]
-                .join(" ")
-                .toLowerCase();
-
-            return (
-                event.status !== "draft" &&
-                terms.every((term) => text.includes(term)) &&
-                (query.period === undefined ||
-                    (event.startsAt >= now ? "upcoming" : "past") === query.period)
-            );
-        })
-        .sort((left, right) =>
-            query.period === "past"
-                ? right.startsAt - left.startsAt
-                : left.startsAt - right.startsAt,
-        )
-        .slice(0, eventSearchLimit);
-}
-
-/** Describe one event search result with its searchable tags. */
-function eventSearchDescription(entry: Doc<"events">, now: number): string {
-    const tags = eventTags(entry.topics, entry.startsAt, now).map((tag) => `#${tag}`);
-
-    return [...tags, entry.summary].filter(Boolean).join(" ");
 }

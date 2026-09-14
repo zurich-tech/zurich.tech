@@ -71,9 +71,11 @@ export function ThemeToggle() {
 
         systemTheme.addEventListener("change", synchronizeSystemTheme);
         window.addEventListener("keydown", selectFromKeyboard);
+        window.addEventListener("theme-cycle", selectNextPreference);
         onCleanup(() => {
             systemTheme.removeEventListener("change", synchronizeSystemTheme);
             window.removeEventListener("keydown", selectFromKeyboard);
+            window.removeEventListener("theme-cycle", selectNextPreference);
         });
     });
 

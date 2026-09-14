@@ -1,3 +1,4 @@
+import { Highlight } from "../components/highlight";
 import { Organisers } from "./organiser";
 import { EventCounts } from "./counts";
 import { EventBadges, EventTags } from "./tags";
@@ -10,7 +11,7 @@ import { Show, type JSX } from "solid-js";
 import { Arrow } from "../components/arrow";
 import { isCurrentYear } from "./time";
 
-/** Zürich calendar fields shared by event and news entries. */
+/** Zurich calendar fields shared by event and news entries. */
 const dateFormats = {
     day: new Intl.DateTimeFormat("en-GB", { timeZone, day: "numeric" }),
     month: new Intl.DateTimeFormat("en-GB", { timeZone, month: "short" }),
@@ -36,7 +37,7 @@ export function Entry(props: {
     /** Distinguish event and news rows where needed. */
     class?: string;
 }) {
-    // format each date with shared Zürich calendar formatters
+    // format each date with shared Zurich calendar formatters
     const part = (field: "day" | "month" | "year") => dateFormats[field].format(props.date);
 
     return (
@@ -88,7 +89,8 @@ export function Entry(props: {
 /** Keep event metadata and publication labels identical across programmes and series. */
 export function EventEntry(props: {
     event: CalendarEntry;
-    hideOrganiser?: boolean;
+    description?: string;
+    terms?: readonly string[];
     now: number;
     actions?: JSX.Element;
     series?: { slug: string; name: string };
@@ -97,8 +99,13 @@ export function EventEntry(props: {
         <Entry
             href={props.event.href}
             date={props.event.startsAt}
-            title={props.event.title}
-            description={props.event.summary}
+            title={<Highlight text={props.event.title} terms={props.terms ?? []} />}
+            description={
+                <Highlight
+                    text={props.description ?? props.event.summary ?? ""}
+                    terms={props.terms ?? []}
+                />
+            }
             class={props.event.startsAt < props.now ? "event-row event-row-past" : "event-row"}
             actions={props.actions}
             meta={
@@ -135,14 +142,12 @@ export function EventEntry(props: {
                             confirmed={props.event.rsvpCount}
                             waitlist={props.event.waitlistCount}
                         />
-                        <Show when={!props.hideOrganiser}>
-                            <Organisers
-                                compact
-                                primary={props.event.organiser}
-                                others={props.event.coOrganisers}
-                                href={props.event.href}
-                            />
-                        </Show>
+                        <Organisers
+                            compact
+                            primary={props.event.organiser}
+                            others={props.event.coOrganisers}
+                            href={props.event.href}
+                        />
                     </div>
                 </>
             }

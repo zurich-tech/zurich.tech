@@ -1,9 +1,12 @@
+import { Highlight } from "../../../components/highlight";
+import { useSearch } from "../../../search/local";
+import { matchesSearch } from "../../../search/search";
 import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { getDirectory } from "../../../organisations/queries";
 import { Arrow } from "../../../components/arrow";
 import { createAsync } from "@solidjs/router";
-import { createSignal, For, Show } from "solid-js";
+import { For, Show } from "solid-js";
 
 import { Card } from "../../../components/card";
 import { Page } from "../../page";
@@ -14,22 +17,20 @@ export const route = {
     preload: () => getDirectory(),
 };
 
-/** Discover the organisations building and gathering in Zürich. */
+/** Discover the organisations building and gathering in Zurich. */
 export default function Route() {
     const directory = createAsync(() => getDirectory());
-    const [search, setSearch] = createSignal("");
+    const { query: search, setQuery: setSearch, terms } = useSearch();
     const matches = () =>
         directory()?.organisations.filter((item) =>
-            `${item.name} ${item.description} ${item.location}`
-                .toLowerCase()
-                .includes(search().toLowerCase()),
+            matchesSearch(`${item.name} ${item.description} ${item.location}`, terms()),
         ) ?? [];
 
     return (
         <>
             <Seo
                 title="Organisations"
-                description="Companies, labs, communities, and spaces in Zürich’s tech community."
+                description="Companies, labs, communities, and spaces in Zurich’s tech community."
             />
             <Page>
                 <div class="listing-layout">
@@ -61,9 +62,16 @@ export default function Route() {
                                         </Show>
                                     </div>
                                     <div class="organisation-entry-copy">
-                                        <h2>{item.name}</h2>
+                                        <h2>
+                                            <Highlight text={item.name} terms={terms()} />
+                                        </h2>
                                         <Show when={item.description}>
-                                            <p>{item.description}</p>
+                                            <p>
+                                                <Highlight
+                                                    text={item.description}
+                                                    terms={terms()}
+                                                />
+                                            </p>
                                         </Show>
                                         <div class="tags">
                                             <span class="tag">
@@ -100,7 +108,7 @@ export default function Route() {
                     </Card>
                     <aside class="listing-sidebar">
                         <Card title="Map">
-                            <p>Explore the organisations around Zürich.</p>
+                            <p>Explore the organisations around Zurich.</p>
                             <a class="button button--primary" href="/map">
                                 Explore the map
                             </a>

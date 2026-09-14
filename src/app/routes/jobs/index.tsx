@@ -1,3 +1,5 @@
+import { useSearch } from "../../../search/local";
+import { matchesSearch } from "../../../search/search";
 import { EditLink } from "../../../auth/edit";
 import { pageSize } from "../../site";
 import { getJobs } from "../../../jobs/queries";
@@ -23,7 +25,7 @@ export const route = {
 export default function Route() {
     // load approved jobs and retain the selected filters
     const jobs = createAsync(() => getJobs(), { deferStream: true });
-    const [search, setSearch] = createSignal("");
+    const { query: search, setQuery: setSearch, terms } = useSearch();
     const [workplace, setWorkplace] = createSignal("all");
     const [employment, setEmployment] = createSignal("all");
     const [count, setCount] = createSignal(pageSize);
@@ -34,9 +36,10 @@ export default function Route() {
             (job) =>
                 (workplace() === "all" || job.workplace === workplace()) &&
                 (employment() === "all" || job.employment === employment()) &&
-                `${job.title} ${job.company.name} ${job.location} ${job.tags.join(" ")}`
-                    .toLowerCase()
-                    .includes(search().trim().toLowerCase()),
+                matchesSearch(
+                    `${job.title} ${job.company.name} ${job.location} ${job.tags.join(" ")}`,
+                    terms(),
+                ),
         ),
     );
 
@@ -47,7 +50,7 @@ export default function Route() {
         <>
             <Seo
                 title="Jobs"
-                description="Tech jobs in Zürich. Browse roles, salaries and remote options from local companies."
+                description="Tech jobs in Zurich. Browse roles, salaries and remote options from local companies."
             />
             <Page>
                 <div class="listing-layout">
@@ -102,7 +105,7 @@ export default function Route() {
                         </div>
                         {/* render the visible page of matching jobs */}
                         <For each={matches().slice(0, count())}>
-                            {(job) => <JobEntry job={job} />}
+                            {(job) => <JobEntry job={job} terms={terms()} />}
                         </For>
                         <Show when={jobs() && matches().length === 0}>
                             <p class="empty-copy">

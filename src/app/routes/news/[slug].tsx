@@ -1,3 +1,5 @@
+import { PageCommands } from "../../../search/actions";
+import { useAccess } from "../../../auth/edit";
 import { EditLink } from "../../../auth/edit";
 import { SocialCopy } from "../../../news/social";
 import { timeZone } from "../../site";
@@ -24,6 +26,7 @@ export const route = {
 
 /** Read an authored news article in the shared card layout. */
 export default function Route() {
+    const access = useAccess();
     const articles = createAsync(() => getArticles());
     const params = useParams();
     const slug = () => routeParam("slug", params.slug);
@@ -33,6 +36,20 @@ export default function Route() {
         <Show when={article()} fallback={article() === null ? <NotFound /> : undefined}>
             {(post) => (
                 <>
+                    <PageCommands
+                        items={
+                            post().id && access.current()?.isAdmin
+                                ? [
+                                      {
+                                          id: "edit-news",
+                                          label: "Edit this news item",
+                                          group: "This news item",
+                                          href: `/news/edit?id=${post().id}`,
+                                      },
+                                  ]
+                                : []
+                        }
+                    />
                     <Seo title={post().title} description={post().description} isArticle />
                     <Page>
                         <a class="eyebrow" href="/news">

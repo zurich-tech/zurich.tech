@@ -1,3 +1,4 @@
+import { CommandPalette } from "../search/command";
 import { A, useLocation } from "@solidjs/router";
 import { Show, For, createSignal, createEffect } from "solid-js";
 import { useAccess } from "../auth/edit";
@@ -92,6 +93,7 @@ export function Topbar() {
                         </Show>
                     </div>
                     <ThemeToggle />
+                    <CommandPalette />
                     <button
                         class="header-menu"
                         onClick={() => setMenuOpen(true)}

@@ -1,11 +1,14 @@
-import { sameOrganisers } from "../../../events/organiser";
+import { useSearch } from "../../../search/local";
+import { matchesSearch } from "../../../search/search";
+import { TableToolbar } from "../../../components/toolbar";
+import { Highlight } from "../../../components/highlight";
 import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { getDirectory } from "../../../organisations/queries";
 import { getCalendar } from "../../../events/queries";
 import { Card } from "../../../components/card";
 import { SeriesDetails } from "../../../events/series-details";
-import { EventEntry } from "../../../events/entry";
+import { EventList } from "../../../events/list";
 import { EditLink } from "../../../auth/edit";
 import { Page, PageHeader } from "../../page";
 import { Seo } from "../../seo";
@@ -18,10 +21,11 @@ export default function Route() {
     const directory = createAsync(() => getDirectory());
     const events = createAsync(() => getCalendar());
     const now = Date.now();
+    const { query, setQuery, terms } = useSearch();
 
     return (
         <>
-            <Seo title="Series" description="Tech event series in Zürich." />
+            <Seo title="Series" description="Tech event series in Zurich." />
             <Page>
                 <PageHeader
                     title="Series"
@@ -29,17 +33,32 @@ export default function Route() {
                         <EditLink href="/admin?section=series&series=new" label="New series" />
                     }
                 />
-                <For each={directory()?.series}>
+                <TableToolbar value={query()} onSearch={setQuery} placeholder="Search series…" />
+                <For
+                    each={directory()?.series.filter((series) =>
+                        matchesSearch(
+                            [
+                                series.name,
+                                series.description,
+                                ...series.topics,
+                                series.organiser?.name,
+                                ...series.coOrganisers.map((person) => person.name),
+                            ].join(" "),
+                            terms(),
+                        ),
+                    )}
+                >
                     {(series) => {
+                        const occurrences = () =>
+                            events()?.filter((event) => event.seriesId === series._id);
                         const recent = () =>
-                            (events() ?? [])
-                                .filter((event) => event.seriesId === series._id)
+                            [...(occurrences() ?? [])]
                                 .sort((left, right) => right.startsAt - left.startsAt)
                                 .slice(0, 3);
 
                         return (
                             <Card
-                                title={series.name}
+                                title={<Highlight text={series.name} terms={terms()} />}
                                 titleHref={`/series/${series.slug}`}
                                 class="card--sections series-preview"
                                 toolbar={
@@ -59,25 +78,21 @@ export default function Route() {
                                 }
                             >
                                 <div class="card-section">
-                                    <SeriesDetails series={series} />
+                                    <SeriesDetails series={series} events={occurrences()} />
                                 </div>
                                 <Show when={recent().length}>
-                                    <div class="card-section series-events">
-                                        <For each={recent()}>
-                                            {(event) => (
-                                                <EventEntry
-                                                    event={event}
-                                                    hideOrganiser={sameOrganisers(event, series)}
-                                                    now={now}
-                                                    actions={
-                                                        <EditLink
-                                                            href={`/submit?event=${event.id}`}
-                                                        />
-                                                    }
-                                                />
-                                            )}
-                                        </For>
-                                    </div>
+                                    <EventList
+                                        events={recent()}
+                                        series={directory()!.series}
+                                        now={now}
+                                        showToday
+                                        actions={(event) => (
+                                            <EditLink
+                                                href={`/submit?event=${event.id}`}
+                                                eventId={event.id}
+                                            />
+                                        )}
+                                    />
                                 </Show>
                             </Card>
                         );
