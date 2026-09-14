@@ -37,7 +37,10 @@ export default function Route() {
         <>
             <Seo title="Welcome" description="Complete your optional community profile." />
             <Page width="narrow">
-                <PageHeader title="Welcome" summary="Help us understand our community." />
+                <PageHeader
+                    title="Welcome"
+                    summary="Help us understand our community, inform sponsors and plan future events."
+                />
                 <Show
                     when={account.user()}
                     fallback={

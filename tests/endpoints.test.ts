@@ -746,17 +746,25 @@ test("community answers support refusal, multiple roles and clearing without cha
     await editor.mutation(api.members.audience.save, {
         demographics: {
             roles: ["engineering", "student"],
+            residence: "CH",
+            citizenships: ["CH", "DE"],
+            languages: ["en", "de"],
             age: null,
             education: "master",
             experience: "2–5",
         },
         interests: ["robotics"],
         participation: ["attend", "speak"],
+        motivations: ["friends", "learning"],
     });
     const result = await editor.query(api.members.audience.current, {});
     expect(result.demographics.roles).toEqual(["engineering", "student"]);
     expect(result.demographics.age).toBeNull();
+    expect(result.demographics.residence).toBe("CH");
+    expect(result.demographics.citizenships).toEqual(["CH", "DE"]);
+    expect(result.demographics.languages).toEqual(["en", "de"]);
     expect(result.interests).toEqual(["robotics"]);
+    expect(result.motivations).toEqual(["friends", "learning"]);
     await backend.run(async (ctx) => {
         const after = await ctx.db.get(ids.accountId);
         expect(after?.isAdmin).toBe(before?.isAdmin);
@@ -770,6 +778,7 @@ test("community answers support refusal, multiple roles and clearing without cha
             demographics: { roles: ["invented"] },
             interests: [],
             participation: [],
+            motivations: [],
         }),
     ).rejects.toThrow();
     await expect(
@@ -777,20 +786,24 @@ test("community answers support refusal, multiple roles and clearing without cha
             demographics: {},
             interests: ["invented"],
             participation: [],
+            motivations: [],
         }),
     ).rejects.toThrow();
     await editor.mutation(api.members.audience.save, {
         demographics: { roles: null },
         interests: [],
         participation: [],
+        motivations: [],
     });
     expect((await editor.query(api.members.audience.current, {})).demographics.roles).toBeNull();
     await editor.mutation(api.members.audience.save, {
         demographics: {},
         interests: [],
         participation: [],
+        motivations: [],
     });
     expect((await editor.query(api.members.audience.current, {})).demographics).toEqual({});
+    expect((await editor.query(api.members.audience.current, {})).motivations).toEqual([]);
 });
 
 // Archived topics retain their identity but cannot acquire new assignments.
@@ -813,6 +826,7 @@ test("topic curation requires an admin and archived interests can only be retain
         demographics: {},
         interests: ["robotics"],
         participation: [],
+        motivations: [],
     });
     await editor.mutation(api.topics.queries.save, {
         slug: "robotics",
@@ -823,17 +837,20 @@ test("topic curation requires an admin and archived interests can only be retain
         demographics: {},
         interests: ["robotics"],
         participation: [],
+        motivations: [],
     });
     await editor.mutation(api.members.audience.save, {
         demographics: {},
         interests: [],
         participation: [],
+        motivations: [],
     });
     await expect(
         editor.mutation(api.members.audience.save, {
             demographics: {},
             interests: ["robotics"],
             participation: [],
+            motivations: [],
         }),
     ).rejects.toThrow();
     await expect(

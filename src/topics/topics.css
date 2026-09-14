@@ -1,12 +1,8 @@
-.editor fieldset.topic-fields {
+.editor fieldset:is(.topic-fields, .survey-choice) {
     border: 0;
     padding: 0;
     margin: 0;
     min-width: 0;
-}
-.topic-fields legend {
-    margin-bottom: 12px;
-    font-weight: 600;
 }
 .choice-grid {
     display: grid;
@@ -14,11 +10,12 @@
     gap: 12px 20px;
 }
 .community-section {
+    container-type: inline-size;
     display: grid;
     gap: 16px;
     border-top: 1px solid var(--color-line);
     padding-top: 20px;
-    margin-top: 20px;
+    margin-top: 0;
 }
 .community-section h3,
 .community-section p {
@@ -30,12 +27,104 @@
 .editor fieldset.survey-choice {
     display: grid;
     gap: 12px;
+}
+
+/* Legends align with their choices rather than browser-default inline padding. */
+.editor :is(.topic-fields, .survey-choice) > legend {
+    padding: 0;
+    margin-bottom: 12px;
+    font: 600 18px/1.4 var(--font-mono);
+}
+.community-section h3 {
+    font: 600 18px/1.4 var(--font-mono);
+}
+.community-section:first-child {
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+}
+.community-section .choice-grid {
+    gap: 14px 24px;
+}
+
+.choice-grid.role-choices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@container (min-width: 640px) {
+    .choice-grid.role-choices {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+@container (max-width: 359px) {
+    .choice-grid.role-choices {
+        grid-template-columns: 1fr;
+    }
+}
+
+.country-fields,
+.editor fieldset.citizenship-fields {
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+.editor fieldset.citizenship-fields {
     border: 0;
     padding: 0;
     margin: 0;
+}
+.editor .citizenship-fields > legend {
+    padding: 0;
+    margin-bottom: 8px;
+    font: inherit;
+}
+.citizenship-fields > .action-link {
+    justify-self: start;
+}
+.citizenship-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.citizenship-row select {
+    flex: 1;
     min-width: 0;
 }
-.survey-choice legend {
-    margin-bottom: 12px;
-    font-weight: 600;
+
+/* Each question owns its spacing; adjacent sections do not stack extra margins. */
+.community-section > .demographic-fields {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 0.8fr);
+    gap: 16px;
+    align-items: start;
+}
+.community-section > .country-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+.interest-groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.interest-groups .choice-grid {
+    grid-template-columns: 1fr;
+}
+@container (max-width: 540px) {
+    .community-section > .demographic-fields,
+    .community-section > .country-fields {
+        grid-template-columns: 1fr;
+    }
+    .interest-groups {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .interest-groups .choice-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.demographic-fields small {
+    color: var(--color-soft);
+    font: 12px/1.4 var(--font-sans);
 }

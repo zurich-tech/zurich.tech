@@ -1,3 +1,4 @@
+import { countries } from "./countries";
 import { v } from "convex/values";
 import { query, mutation } from "../_generated/server";
 import { requireAccount, requireAdmin } from "../auth/access";
@@ -7,6 +8,8 @@ import {
     demographicLabels,
     validateDemographics,
     validateParticipation,
+    validateMotivations,
+    motivationOptions,
 } from "./demographics";
 import { validateTopics } from "../topics/queries";
 
@@ -19,6 +22,7 @@ export const current = query({
             demographics: account.demographics ?? {},
             interests: account.interests ?? [],
             participation: account.participation ?? [],
+            motivations: account.motivations ?? [],
             onboardedAt: account.onboardedAt,
         };
     },
@@ -29,6 +33,7 @@ export const save = mutation({
     args: {
         demographics,
         interests: v.array(v.string()),
+        motivations: v.array(v.string()),
         participation: v.array(v.string()),
         isOnboarding: v.optional(v.boolean()),
     },
@@ -36,11 +41,13 @@ export const save = mutation({
         const account = await requireAccount(ctx);
         validateDemographics(args.demographics);
         validateParticipation(args.participation);
+        validateMotivations(args.motivations);
         await validateTopics(ctx, args.interests, account.interests);
         await ctx.db.patch(account._id, {
             demographics: args.demographics,
             interests: args.interests,
             participation: args.participation,
+            motivations: args.motivations,
             onboardedAt: args.isOnboarding ? Date.now() : account.onboardedAt,
             updatedAt: Date.now(),
         });
@@ -91,16 +98,45 @@ export const summary = query({
         const accounts = (await ctx.db.query("accounts").collect()).filter(
             (account) => account.status === "active",
         );
-        return (Object.keys(demographicOptions) as (keyof typeof demographicOptions)[]).map(
-            (field) => ({
-                field,
-                label: demographicLabels[field],
-                multiple: field === "roles",
-                ...summarise(
+        const background = (
+            Object.keys(demographicOptions) as (keyof typeof demographicOptions)[]
+        ).map((field) => ({
+            field,
+            label: demographicLabels[field],
+            multiple: field === "roles" || field === "languages",
+            ...summarise(
+                accounts.map((account) => account.demographics?.[field]),
+                demographicOptions[field],
+            ),
+        }));
+        return [
+            ...background,
+            ...(["residence", "citizenships"] as const).map((field) => {
+                // show only publishable country groups, not hundreds of empty or suppressed rows
+                const totals = summarise(
                     accounts.map((account) => account.demographics?.[field]),
-                    demographicOptions[field],
-                ),
+                    countries,
+                );
+                return {
+                    field,
+                    label:
+                        field === "residence"
+                            ? "Where do you live?"
+                            : "Which countries are you a citizen of?",
+                    multiple: field === "citizenships",
+                    ...totals,
+                    groups: totals.groups.filter((group) => group.count !== null),
+                };
             }),
-        );
+            {
+                field: "motivations",
+                label: "What brings you here?",
+                multiple: true,
+                ...summarise(
+                    accounts.map((account) => account.motivations),
+                    motivationOptions,
+                ),
+            },
+        ];
     },
 });

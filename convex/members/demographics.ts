@@ -1,3 +1,4 @@
+import { countries } from "./countries";
 import { v, type Infer } from "convex/values";
 
 /** Stable survey choices shared by forms, validation and aggregate reports. */
@@ -7,12 +8,22 @@ export const demographicOptions = {
         { value: "research", label: "Research" },
         { value: "product", label: "Product" },
         { value: "design", label: "Design" },
-        { value: "founding", label: "Founder / business owner" },
-        { value: "leadership", label: "Management / leadership" },
+        { value: "founding", label: "Founder" },
+        { value: "ownership", label: "Business owner" },
+        { value: "leadership", label: "Management" },
+        { value: "consulting", label: "Consulting" },
         { value: "investing", label: "Investing" },
         { value: "business", label: "Business / operations" },
         { value: "student", label: "Student" },
         { value: "other", label: "Other" },
+    ],
+    languages: [
+        { value: "en", label: "English" },
+        { value: "de", label: "German" },
+        { value: "fr", label: "French" },
+        { value: "it", label: "Italian" },
+        { value: "es", label: "Spanish" },
+        { value: "pt", label: "Portuguese" },
     ],
     experience: [
         { value: "none", label: "Not started yet" },
@@ -40,10 +51,20 @@ export const demographicOptions = {
 } as const;
 export const demographicLabels = {
     roles: "What do you do?",
-    experience: "Professional experience",
-    education: "Highest completed education",
-    age: "Age range",
+    languages: "Which languages do you speak?",
+    experience: "How long have you been working?",
+    education: "What’s your education level?",
+    age: "How old are you?",
 };
+/** Reasons to join, independent of subjects and volunteering preferences. */
+export const motivationOptions = [
+    { value: "friends", label: "Meeting friends" },
+    { value: "colleagues", label: "Meeting colleagues" },
+    { value: "collaborators", label: "Finding collaborators" },
+    { value: "learning", label: "Learning something new" },
+    { value: "sharing", label: "Sharing my work" },
+    { value: "opportunities", label: "Finding opportunities" },
+] as const;
 export const participationOptions = [
     { value: "attend", label: "Attend" },
     { value: "speak", label: "Speak" },
@@ -57,9 +78,12 @@ const choice = (options: readonly { value: string }[]) =>
     v.optional(v.union(v.null(), v.union(...options.map((option) => v.literal(option.value)))));
 export const demographics = v.object({
     roles: v.optional(v.union(v.null(), v.array(v.string()))),
+    languages: v.optional(v.union(v.null(), v.array(v.string()))),
     experience: choice(demographicOptions.experience),
     education: choice(demographicOptions.education),
     age: choice(demographicOptions.age),
+    residence: v.optional(v.union(v.null(), v.string())),
+    citizenships: v.optional(v.union(v.null(), v.array(v.string()))),
 });
 export type Demographics = Infer<typeof demographics>;
 export const participation = v.array(v.string());
@@ -74,6 +98,27 @@ export function validateDemographics(value: Demographics) {
             ))
     )
         throw new Error("Choose each professional role once from the available options.");
+
+    if (
+        value.languages &&
+        (new Set(value.languages).size !== value.languages.length ||
+            value.languages.some(
+                (language) =>
+                    !demographicOptions.languages.some((option) => option.value === language),
+            ))
+    )
+        throw new Error("Choose each language once from the available options.");
+
+    // store country codes, never free-form locations or inferred citizenship
+    const isCountry = (code: string) => countries.some((country) => country.value === code);
+    if (value.residence != null && !isCountry(value.residence))
+        throw new Error("Choose your country of residence from the list.");
+    if (
+        value.citizenships &&
+        (new Set(value.citizenships).size !== value.citizenships.length ||
+            value.citizenships.some((code) => !isCountry(code)))
+    )
+        throw new Error("Choose each country of citizenship once from the list.");
 }
 export function validateParticipation(values: string[]) {
     if (
@@ -81,4 +126,13 @@ export function validateParticipation(values: string[]) {
         values.some((value) => !participationOptions.some((option) => option.value === value))
     )
         throw new Error("Choose each way to participate once from the available options.");
+}
+
+/** Accept explicit motivations without inferring them from topic interests. */
+export function validateMotivations(values: string[]) {
+    if (
+        new Set(values).size !== values.length ||
+        values.some((value) => !motivationOptions.some((option) => option.value === value))
+    )
+        throw new Error("Choose each reason once from the available options.");
 }

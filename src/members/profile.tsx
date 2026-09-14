@@ -219,7 +219,7 @@ export function ProfileSettings() {
                                     {isPending() ? "Saving…" : "Save"}
                                 </button>
                                 <Show when={current().visibility === "public" && current().handle}>
-                                    <a class="button" href={`/members/${current().handle}`}>
+                                    <a class="action-link" href={`/members/${current().handle}`}>
                                         View profile
                                     </a>
                                 </Show>
@@ -364,9 +364,6 @@ export function ProfileSettings() {
                             socials={current().socials}
                         />
                         <CommunityFields values={current()} />
-                        <p class="profile-privacy">
-                            Optional. Private answers; shared only as grouped stats.
-                        </p>
 
                         <FormMessage error={error()} success={success()} />
                     </Editor>

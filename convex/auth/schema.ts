@@ -10,6 +10,7 @@ export const accounts = defineTable({
     authId: v.string(),
     demographics: v.optional(demographics),
     interests: v.optional(v.array(v.string())),
+    motivations: v.optional(v.array(v.string())),
     participation: v.optional(v.array(v.string())),
     onboardedAt: v.optional(v.number()),
     isTeam: v.boolean(),

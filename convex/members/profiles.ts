@@ -1,6 +1,11 @@
 import { validateTopics } from "../topics/queries";
 import { affiliations, normaliseAffiliations, affiliationText } from "./affiliations";
-import { demographics, validateDemographics, validateParticipation } from "./demographics";
+import {
+    demographics,
+    validateDemographics,
+    validateParticipation,
+    validateMotivations,
+} from "./demographics";
 import { readProfiles, writeProfiles } from "./links";
 import { v } from "convex/values";
 import { query, mutation } from "../_generated/server";
@@ -22,6 +27,7 @@ export const current = query({
             demographics: viewer.demographics ?? {},
             interests: viewer.interests ?? [],
             participation: viewer.participation ?? [],
+            motivations: viewer.motivations ?? [],
             visibility: member.visibility,
             handle: (
                 await ctx.db
@@ -45,6 +51,7 @@ export const save = mutation({
     args: {
         demographics: v.optional(demographics),
         interests: v.optional(v.array(v.string())),
+        motivations: v.optional(v.array(v.string())),
         participation: v.optional(v.array(v.string())),
         name: v.string(),
         handle: v.optional(v.string()),
@@ -62,6 +69,7 @@ export const save = mutation({
         if (args.demographics) validateDemographics(args.demographics);
         if (args.interests) await validateTopics(ctx, args.interests, viewer.interests);
         if (args.participation) validateParticipation(args.participation);
+        if (args.motivations) validateMotivations(args.motivations);
         const name = args.name.trim();
         const bio = args.bio?.trim() || undefined;
         if (!name || name.length > 120) throw new Error("Enter a name, up to 120 characters.");
@@ -125,12 +133,14 @@ export const save = mutation({
         if (
             args.demographics !== undefined ||
             args.interests !== undefined ||
-            args.participation !== undefined
+            args.participation !== undefined ||
+            args.motivations !== undefined
         )
             await ctx.db.patch(viewer._id, {
                 demographics: args.demographics ?? viewer.demographics,
                 interests: args.interests ?? viewer.interests,
                 participation: args.participation ?? viewer.participation,
+                motivations: args.motivations ?? viewer.motivations,
                 updatedAt: Date.now(),
             });
     },

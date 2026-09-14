@@ -1,3 +1,4 @@
+import { CountryFields } from "./countries";
 import { TopicFields } from "../topics/fields";
 import { Suspense } from "solid-js";
 import { Empty } from "../components/empty";
@@ -7,6 +8,7 @@ import {
     demographicOptions,
     demographicLabels,
     participationOptions,
+    motivationOptions,
     type Demographics as Answers,
 } from "../../convex/members/demographics";
 import { memberClient } from "../auth/convex";
@@ -18,15 +20,22 @@ import { errorMessage } from "../components/errors";
 export function readDemographics(fields: FormData): Answers {
     const result: Record<string, unknown> = {};
     for (const key of Object.keys(demographicOptions)) {
-        if (key === "roles") {
-            const values = fields.getAll("role").map(String);
-            if (fields.get("rolesWithheld") === "on") result.roles = null;
-            else if (values.length) result.roles = values;
+        if (key === "roles" || key === "languages") {
+            const values = fields.getAll(key === "roles" ? "role" : "language").map(String);
+            if (fields.get(`${key}Withheld`) === "on") result[key] = null;
+            else if (values.length) result[key] = values;
         } else {
             const value = String(fields.get(key) ?? "");
             if (value) result[key] = value === "withheld" ? null : value;
         }
     }
+    // keep residence and citizenship separate, with explicit refusal distinct from omission
+    const residence = String(fields.get("residence") ?? "");
+    if (residence) result.residence = residence === "withheld" ? null : residence;
+    const citizenships = fields.getAll("citizenship").map(String).filter(Boolean);
+    if (fields.get("citizenshipsWithheld") === "on") result.citizenships = null;
+    else if (citizenships.length) result.citizenships = citizenships;
+
     return result as Answers;
 }
 
@@ -36,6 +45,7 @@ export function readCommunity(fields: FormData) {
         demographics: readDemographics(fields),
         interests: fields.getAll("interest").map(String),
         participation: fields.getAll("participation").map(String),
+        motivations: fields.getAll("motivation").map(String),
     };
 }
 
@@ -106,7 +116,6 @@ export function Demographics(props: { onComplete?: () => void }) {
                 </Suspense>
             }
         >
-            <p class="survey-intro">Optional. Private answers; shared only as grouped stats.</p>
             <Show when={current.error}>
                 <p class="form-error">
                     {errorMessage(current.error, "Could not load your answers.")}
@@ -152,27 +161,59 @@ export function Demographics(props: { onComplete?: () => void }) {
 
 /** Optional private background, followed by separate interests and participation preferences. */
 export function CommunityFields(props: {
-    values: { demographics: Answers; interests: string[]; participation: string[] };
+    values: {
+        demographics: Answers;
+        interests: string[];
+        participation: string[];
+        motivations: string[];
+    };
 }) {
     return (
         <>
             <section class="community-section">
-                <h3>Community background</h3>
-                <p class="survey-intro">Optional and private. Only grouped statistics are shown.</p>
+                <p class="survey-intro">
+                    All questions are optional. Answers are private and shown only as grouped
+                    statistics.
+                </p>
                 <DemographicFields values={props.values.demographics} />
             </section>
             <section class="community-section">
-                <TopicFields label="Interests" name="interest" values={props.values.interests} />
-                <p class="survey-intro">
-                    Topics you care about. This does not subscribe you to emails.
-                </p>
+                <h3>Where are you from?</h3>
+                <CountryFields values={props.values.demographics} />
             </section>
             <section class="community-section">
-                <h3>Get involved</h3>
-                <p class="survey-intro">
-                    What would you like to do? These private preferences do not grant access or
-                    trigger emails.
-                </p>
+                <LanguageFields values={props.values.demographics} />
+            </section>
+            <section class="community-section">
+                <TopicFields
+                    label="What do you like?"
+                    isInterests
+                    name="interest"
+                    values={props.values.interests}
+                />
+            </section>
+            <section class="community-section">
+                <fieldset class="survey-choice">
+                    <legend>What brings you here?</legend>
+                    <div class="choice-grid">
+                        <For each={motivationOptions}>
+                            {(option) => (
+                                <label class="checkbox">
+                                    <input
+                                        type="checkbox"
+                                        name="motivation"
+                                        value={option.value}
+                                        checked={props.values.motivations.includes(option.value)}
+                                    />
+                                    {option.label}
+                                </label>
+                            )}
+                        </For>
+                    </div>
+                </fieldset>
+            </section>
+            <section class="community-section">
+                <h3>How would you like to get involved?</h3>
                 <div class="choice-grid">
                     <For each={participationOptions}>
                         {(option) => (
@@ -202,7 +243,7 @@ export function DemographicFields(props: { values: Answers }) {
             <fieldset class="survey-choice">
                 <legend>{demographicLabels.roles}</legend>
                 <p class="survey-intro">Select all that apply.</p>
-                <div class="choice-grid">
+                <div class="choice-grid role-choices">
                     <For each={demographicOptions.roles}>
                         {(option) => (
                             <label class="checkbox">
@@ -249,11 +290,39 @@ export function DemographicFields(props: { values: Answers }) {
                                 </For>
                                 <option value="withheld">Prefer not to say</option>
                             </select>
+                            <Show when={field === "education"}>
+                                <small>Highest completed qualification.</small>
+                            </Show>
                         </label>
                     )}
                 </For>
             </div>
         </>
+    );
+}
+
+/** Self-reported working languages, independent of citizenship or residence. */
+function LanguageFields(props: { values: Answers }) {
+    return (
+        <fieldset class="survey-choice">
+            <legend>{demographicLabels.languages}</legend>
+            <p class="survey-intro">With at least professional fluency.</p>
+            <div class="choice-grid">
+                <For each={demographicOptions.languages}>
+                    {(option) => (
+                        <label class="checkbox">
+                            <input
+                                type="checkbox"
+                                name="language"
+                                value={option.value}
+                                checked={props.values.languages?.includes(option.value) ?? false}
+                            />
+                            {option.label}
+                        </label>
+                    )}
+                </For>
+            </div>
+        </fieldset>
     );
 }
 
@@ -291,6 +360,11 @@ export function Audience() {
                                 when={chart.responses > 0}
                                 fallback={<Empty title="No responses" />}
                             >
+                                <Show when={chart.groups.length === 0}>
+                                    <p class="text-soft">
+                                        No country group has five responses yet.
+                                    </p>
+                                </Show>
                                 <For each={chart.groups}>
                                     {(group) => (
                                         <div class="audience-bar">
