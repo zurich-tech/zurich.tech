@@ -1,4 +1,5 @@
 import { OrganiserCard } from "../../events/organiser";
+import { registrationSite } from "../../events/registration";
 import { DeleteRecord } from "../../events/delete";
 import { EventOptions } from "../../events/participation";
 import { useConfirmation } from "../../components/dialog";
@@ -247,6 +248,17 @@ export default function Route() {
                 confirmation: readConfirmation(fields, timestamp(text("startsAt"))),
                 endsAt: text("endsAt") ? timestamp(text("endsAt")) : undefined,
                 location: text("location"),
+                addressAccess:
+                    text("addressKind") === "external"
+                        ? {
+                              kind: "external" as const,
+                              url: text("addressUrl")!,
+                              label: text("addressLabel") || registrationSite(text("addressUrl")),
+                          }
+                        : {
+                              kind: (text("addressKind") || "public") as
+                                  "public" | "confirmed" | "unannounced",
+                          },
                 address: text("address"),
                 latitude: text("latitude") ? Number(text("latitude")) : undefined,
                 longitude: text("longitude") ? Number(text("longitude")) : undefined,

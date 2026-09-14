@@ -1,3 +1,4 @@
+import { VenueCard } from "../../events/venue";
 import { Pass } from "../../events/checkin";
 import { FeedbackForm } from "../../events/feedback";
 import { useCancellation } from "../../events/cancellation";
@@ -106,6 +107,7 @@ export default function Route() {
                                         </Show>
                                     </DetailList>
                                 </Card>
+                                <VenueCard venue={item().venue} />
                                 <FeedbackForm token={String(params.token)} />
                             </div>
                             <div class="editor-column">

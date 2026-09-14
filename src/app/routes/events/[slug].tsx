@@ -1,3 +1,4 @@
+import { VenueCard, AddressNotice } from "../../../events/venue";
 import { Organisers } from "../../../events/organiser";
 import { useCancellation } from "../../../events/cancellation";
 import { RegistrationStatus } from "../../../events/status";
@@ -16,7 +17,6 @@ import { Share } from "../../../components/share";
 import { site, timeZone } from "../../site";
 import { getEvent, useConfirmationRefresh, type PublicEvent } from "../../../events/queries";
 
-import { VenueMap } from "../../../map/venue";
 import { Card } from "../../../components/card";
 import { isCurrentYear } from "../../../events/time";
 import { Arrow } from "../../../components/arrow";
@@ -38,9 +38,9 @@ import { Field, Input } from "../../../components/field";
 import { FormMessage } from "../../../components/form";
 import { Markdown } from "../../../components/markdown";
 import { NotFound } from "../../notfound";
-import { DetailList, DetailRow, Page } from "../../page";
+import { Page } from "../../page";
 import { Seo } from "../../seo";
-import { rsvp } from "../../../events/registration";
+import { rsvp, registrationSite } from "../../../events/registration";
 
 import { errorMessage } from "../../../components/errors";
 import { routeParam } from "../../params";
@@ -86,6 +86,31 @@ export default function Route() {
         (!!account.user() && !registration.error && !isCurrentRegistration());
     const currentRegistration = () =>
         isCurrentRegistration() ? registrationResult()?.value : undefined;
+    // Keep authorised arrival details out of public SEO and cached route data.
+    const [privateVenue, { refetch: refreshVenue }] = createResource(
+        () =>
+            account.user() && event()?.venue.availability === "confirmed"
+                ? `${account.user()!.id}:${event()!.id}:${currentRegistration()?.status ?? ""}`
+                : undefined,
+        async (key) => ({
+            key,
+            venue: await (
+                await memberClient()
+            ).query(api.events.place.get, { eventId: event()!.id }),
+        }),
+    );
+    const visibleEvent = () => {
+        const published = event();
+        const key =
+            account.user() && published
+                ? `${account.user()!.id}:${published.id}:${currentRegistration()?.status ?? ""}`
+                : undefined;
+        const venue =
+            !privateVenue.error && !privateVenue.loading && privateVenue.latest?.key === key
+                ? privateVenue.latest?.venue
+                : undefined;
+        return published ? { ...published, venue: venue ?? published.venue } : undefined;
+    };
     const hasRegistration = () =>
         !!currentRegistration() && currentRegistration()?.status !== "cancelled";
 
@@ -101,7 +126,11 @@ export default function Route() {
     // refresh after returning from the registration management page
     onMount(() => {
         const refresh = () => {
-            if (account.user()) void startTransition(refreshRegistration);
+            if (account.user())
+                void startTransition(async () => {
+                    await refreshRegistration();
+                    if (event()?.venue.availability === "confirmed") await refreshVenue();
+                });
         };
         window.addEventListener("focus", refresh);
         onCleanup(() => window.removeEventListener("focus", refresh));
@@ -240,7 +269,10 @@ export default function Route() {
                                     waitlist={event()!.waitlistCount}
                                 />
                             </div>
-                            <EventFacts event={event()!} />
+                            <EventFacts event={visibleEvent()!} />
+                            <Show when={privateVenue.error}>
+                                <FormMessage error="Could not load your private venue details. Please reload the page." />
+                            </Show>
                             <Show when={event()?.summary}>
                                 <p class="event-overview__summary">{event()!.summary}</p>
                             </Show>
@@ -363,7 +395,11 @@ export default function Route() {
                                         target="_blank"
                                         rel="noreferrer"
                                     >
-                                        Register on organiser’s site <Arrow direction="external" />
+                                        Register on{" "}
+                                        {registrationSite(
+                                            (event()!.registration as { url: string }).url,
+                                        )}{" "}
+                                        <Arrow direction="external" />
                                     </a>
                                 </div>
                             </Show>
@@ -436,7 +472,7 @@ export default function Route() {
                                 <Show when={(event()?.speakers.length ?? 0) > 0}>
                                     <Speakers event={event()} />
                                 </Show>
-                                <Details event={event()} />
+                                <VenueCard venue={visibleEvent()!.venue} />
                                 <Share
                                     title={title()}
                                     url={`${site.url}/events/${encodeURIComponent(slug())}`}
@@ -451,7 +487,10 @@ export default function Route() {
                                         event={{
                                             ...event()!,
                                             description: event()!.summary,
-                                            location: [event()!.venue.name, event()!.venue.address]
+                                            location: [
+                                                visibleEvent()!.venue.name,
+                                                visibleEvent()!.venue.address,
+                                            ]
                                                 .filter(Boolean)
                                                 .join(", "),
                                         }}
@@ -753,45 +792,6 @@ function RsvpForm(props: {
     );
 }
 
-/** Present the venue and practical arrival details. */
-function Details(props: { event: PublicEvent | null | undefined }) {
-    return (
-        <Card title="Venue" id="venue">
-            <DetailList>
-                <DetailRow label="Location" value={props.event?.venue.name} />
-                <Show when={props.event?.venue.address}>
-                    <DetailRow label="Address" value={props.event?.venue.address} />
-                </Show>
-                <Show when={props.event?.venue.access}>
-                    <DetailRow label="Access" value={props.event?.venue.access} />
-                </Show>
-            </DetailList>
-            <Show
-                when={props.event?.venue.coordinates}
-                fallback={
-                    <Show when={props.event?.venue.name}>
-                        <a
-                            class="text-link venue-search"
-                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(props.event!.venue.address ?? props.event!.venue.name!)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Find on map <Arrow direction="external" />
-                        </a>
-                    </Show>
-                }
-            >
-                {(coordinates) => (
-                    <VenueMap
-                        name={props.event?.venue.name ?? "Event venue"}
-                        coordinates={coordinates()}
-                    />
-                )}
-            </Show>
-        </Card>
-    );
-}
-
 /** Event speakers. */
 function Speakers(props: { event: PublicEvent | null | undefined }) {
     return (
@@ -896,60 +896,67 @@ function registrationNotice(event: PublicEvent | null | undefined): string {
 /** Show practical event details before the full programme. */
 function EventFacts(props: { event: PublicEvent }) {
     return (
-        <dl class="event-facts">
-            <div>
-                <dt>When</dt>
-                <dd>
-                    <time dateTime={new Date(props.event.startsAt).toISOString()}>
-                        {eventDate(props.event.startsAt)}
-                    </time>
-                    <span>{eventTime(props.event)}</span>
-                    <span>Zürich time</span>
-                </dd>
-            </div>
-            <div>
-                <dt>Where</dt>
-                <dd>
-                    <a href="#venue">
-                        {props.event.venue.name || props.event.venue.address || "To be announced"}
-                    </a>
-                    <Show when={props.event.venue.name && props.event.venue.address}>
-                        <For each={addressLines(props.event.venue.address!)}>
-                            {(line) => <span>{line}</span>}
-                        </For>
-                    </Show>
-                </dd>
-            </div>
-            <Show when={props.event.organiser || props.event.coOrganisers?.length}>
+        <>
+            <dl class="event-facts">
                 <div>
-                    <dt>{props.event.coOrganisers?.length ? "Organisers" : "Organiser"}</dt>
+                    <dt>When</dt>
                     <dd>
-                        <Organisers
-                            detailed
-                            primary={props.event.organiser}
-                            others={props.event.coOrganisers}
-                        />
+                        <time dateTime={new Date(props.event.startsAt).toISOString()}>
+                            {eventDate(props.event.startsAt)}
+                        </time>
+                        <span>{eventTime(props.event)}</span>
+                        <span>Zürich time</span>
                     </dd>
                 </div>
-            </Show>
-            <Show when={props.event.speakers.length}>
                 <div>
-                    <dt>Speakers</dt>
+                    <dt>Where</dt>
                     <dd>
-                        <For each={props.event.speakers}>
-                            {(speaker) => (
-                                <div>
-                                    <a href={speaker.profileUrl || "#speakers"}>{speaker.name}</a>
-                                    <Show when={speaker.title}>
-                                        <span>{speaker.title}</span>
-                                    </Show>
-                                </div>
-                            )}
-                        </For>
+                        <a href="#venue">
+                            {props.event.venue.name ||
+                                props.event.venue.address ||
+                                "To be announced"}
+                        </a>
+                        <AddressNotice venue={props.event.venue} />
+                        <Show when={props.event.venue.name && props.event.venue.address}>
+                            <For each={addressLines(props.event.venue.address!)}>
+                                {(line) => <span>{line}</span>}
+                            </For>
+                        </Show>
                     </dd>
                 </div>
-            </Show>
-        </dl>
+                <Show when={props.event.organiser || props.event.coOrganisers?.length}>
+                    <div>
+                        <dt>{props.event.coOrganisers?.length ? "Organisers" : "Organiser"}</dt>
+                        <dd>
+                            <Organisers
+                                detailed
+                                primary={props.event.organiser}
+                                others={props.event.coOrganisers}
+                            />
+                        </dd>
+                    </div>
+                </Show>
+                <Show when={props.event.speakers.length}>
+                    <div>
+                        <dt>Speakers</dt>
+                        <dd>
+                            <For each={props.event.speakers}>
+                                {(speaker) => (
+                                    <div>
+                                        <a href={speaker.profileUrl || "#speakers"}>
+                                            {speaker.name}
+                                        </a>
+                                        <Show when={speaker.title}>
+                                            <span>{speaker.title}</span>
+                                        </Show>
+                                    </div>
+                                )}
+                            </For>
+                        </dd>
+                    </div>
+                </Show>
+            </dl>
+        </>
     );
 }
 

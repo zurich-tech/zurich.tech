@@ -110,6 +110,10 @@ export function VenueFields(props: {
     /** Existing event schedule and venue. */
     draft: Doc<"submissions"> | undefined;
 }) {
+    const [addressKind, setAddressKind] = createSignal("public");
+    createEffect(() => setAddressKind(props.draft?.addressAccess?.kind ?? "public"));
+    const external = () =>
+        props.draft?.addressAccess?.kind === "external" ? props.draft.addressAccess : undefined;
     return (
         <Card title="Time and place">
             <div class="form-columns">
@@ -140,7 +144,60 @@ export function VenueFields(props: {
                     placeholder="ETH AI Center"
                 />
             </label>
-            <AddressField value={props.draft} />
+            <span>
+                Public venue name or city. Keep private arrival details in the address below.
+            </span>
+            <label>
+                Address availability
+                <select
+                    name="addressKind"
+                    value={addressKind()}
+                    onChange={(event) => setAddressKind(event.currentTarget.value)}
+                >
+                    <option value="public">Public</option>
+                    <option value="confirmed">Confirmed attendees</option>
+                    <option value="external">On another site</option>
+                    <option value="unannounced">Not announced</option>
+                </select>
+            </label>
+            <Show when={addressKind() !== "unannounced"}>
+                <AddressField value={props.draft} />
+            </Show>
+            <Show when={addressKind() === "confirmed"}>
+                <p>
+                    Address and map are shown to confirmed attendees and assigned editors, and
+                    included in confirmation emails.
+                </p>
+            </Show>
+            <Show when={addressKind() === "external"}>
+                <label>
+                    Address link
+                    <input
+                        name="addressUrl"
+                        type="url"
+                        required
+                        value={
+                            external()?.url ??
+                            (props.draft?.registration.kind === "external"
+                                ? props.draft.registration.url
+                                : "")
+                        }
+                    />
+                </label>
+                <label>
+                    Site name
+                    <input
+                        name="addressLabel"
+                        placeholder="Luma"
+                        maxlength="80"
+                        value={external()?.label ?? ""}
+                    />
+                </label>
+                <span>
+                    We link to this site; it controls who can see the address. Any address entered
+                    above is kept as an internal reference and is not shown to attendees.
+                </span>
+            </Show>
         </Card>
     );
 }

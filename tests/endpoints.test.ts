@@ -340,6 +340,83 @@ test("test_resolve_public_organisers_without_granting_access", async () => {
     expect((await read())?.organiser?.name).toBe("Test");
 });
 
+// Address and coordinates must travel together through public and private entry points.
+test("private addresses follow current confirmation and scoped editing access", async () => {
+    const { backend, editor, ids } = await setup();
+    const registrationId = await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.eventId, {
+            address: "Private street 42",
+            latitude: 47.3,
+            longitude: 8.5,
+            addressAccess: { kind: "confirmed" },
+            registration: {
+                kind: "native",
+                admission: "approval",
+                capacity: 20,
+                overflow: "waitlist",
+                questions: [],
+            },
+        });
+        return await ctx.db.insert("registrations", {
+            eventId: ids.eventId,
+            name: "Guest",
+            email: "guest@example.invalid",
+            status: "pending",
+            token: "private-pass",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    const publicEvent = await backend.query(api.events.queries.event, { slug: "dinner" });
+    expect(JSON.stringify(publicEvent)).not.toContain("Private street");
+    expect(publicEvent?.venue.coordinates).toBeUndefined();
+    expect((await editor.query(api.events.place.get, { eventId: ids.eventId }))?.address).toBe(
+        "Private street 42",
+    );
+    await backend.run((ctx) => ctx.db.delete(ids.grantId));
+    expect(
+        (await editor.query(api.events.place.get, { eventId: ids.eventId }))?.address,
+    ).toBeUndefined();
+
+    for (const status of ["pending", "waitlist", "going", "cancelled", "declined"] as const) {
+        await backend.run((ctx) => ctx.db.patch(registrationId, { status }));
+        const venue = await backend.query(api.events.place.get, {
+            eventId: ids.eventId,
+            token: "private-pass",
+        });
+        const ticket = await backend.query(api.events.registrations.get, { token: "private-pass" });
+        expect(!!venue?.address).toBe(status === "going");
+        expect(!!venue?.coordinates).toBe(status === "going");
+        expect(!!ticket?.venue.address).toBe(status === "going");
+    }
+    expect(
+        (await backend.query(api.events.place.get, { eventId: ids.otherId, token: "private-pass" }))
+            ?.address,
+    ).toBeUndefined();
+    await backend.run((ctx) =>
+        ctx.db.patch(ids.eventId, {
+            addressAccess: { kind: "external", url: "https://luma.com/example", label: "Luma" },
+        }),
+    );
+    const external = await backend.query(api.events.queries.event, { slug: "dinner" });
+    expect(external?.venue.label).toBe("Luma");
+    expect(external?.venue.address).toBeUndefined();
+});
+
+test("public email rendering never includes a confirmed-only address", async () => {
+    process.env.SITE_URL ||= "https://example.invalid";
+    const { eventEmail, eventChanges } = await import("../convex/mail/templates");
+    const event = {
+        title: "Private dinner",
+        slug: "private-dinner",
+        startsAt: Date.now(),
+        address: "SECRET ADDRESS",
+        addressAccess: { kind: "confirmed" as const },
+    };
+    expect(JSON.stringify(eventEmail(event, "Event updated"))).not.toContain("SECRET ADDRESS");
+    expect(eventChanges({ ...event, address: "OLD SECRET" }, event)).not.toContain("SECRET");
+});
+
 // Public credits inherit independently, preserve ordering and never grant editing rights.
 test("co-organisers inherit, deduplicate, override and respect profile privacy", async () => {
     const { backend, editor, ids } = await setup();
@@ -392,4 +469,32 @@ test("co-organisers inherit, deduplicate, override and respect profile privacy",
     expect((await read())?.coOrganisers.map((person) => person.name)).toEqual(["Test"]);
     await backend.run((ctx) => ctx.db.patch(ids.memberId, { visibility: "private" }));
     expect((await read())?.coOrganisers).toEqual([]);
+});
+
+// Recurrence publishes stored templates directly, bypassing the editor save mutation.
+test("publication validates private address policy on stored revisions", async () => {
+    const { backend, ids } = await setup();
+    const { publishEvent } = await import("../convex/events/mutations");
+    await backend.run((ctx) =>
+        ctx.db.patch(ids.draftId, {
+            addressAccess: { kind: "confirmed" },
+        }),
+    );
+    await expect(backend.run((ctx) => publishEvent(ctx, ids.draftId))).rejects.toThrow(
+        "Confirmed-only addresses require registration on zurich.tech.",
+    );
+    await backend.run((ctx) =>
+        ctx.db.patch(ids.draftId, {
+            registration: {
+                kind: "native",
+                admission: "automatic",
+                capacity: null,
+                overflow: "waitlist",
+                questions: [],
+            },
+        }),
+    );
+    await expect(backend.run((ctx) => publishEvent(ctx, ids.draftId))).rejects.toThrow(
+        "Add the address for confirmed attendees before publishing.",
+    );
 });

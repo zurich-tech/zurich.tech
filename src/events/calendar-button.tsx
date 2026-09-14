@@ -1,7 +1,7 @@
 import { createSignal, For } from "solid-js";
 import { Dialog } from "../components/dialog";
 import { Arrow } from "../components/arrow";
-import { calendarLinks, type CalendarEvent } from "./calendar";
+import { calendarLinks, calendar, type CalendarEvent } from "./calendar";
 
 /** Choose a calendar service or download an interoperable calendar file. */
 export function CalendarButton(props: { event: CalendarEvent }) {
@@ -38,7 +38,7 @@ export function CalendarButton(props: { event: CalendarEvent }) {
                     </For>
                     <a
                         class="button"
-                        href={`/calendar/${encodeURIComponent(props.event.slug)}`}
+                        href={`data:text/calendar;charset=utf-8,${encodeURIComponent(calendar(props.event, Date.now()))}`}
                         download={`${props.event.slug}.ics`}
                         onClick={() => setOpen(false)}
                     >

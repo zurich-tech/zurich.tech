@@ -78,7 +78,8 @@ export async function eventAction(
                 event.startsAt !== proposed.startsAt ||
                 event.endsAt !== proposed.endsAt ||
                 place.location !== proposed.location ||
-                place.address !== (proposed.address ?? "");
+                place.address !== (proposed.address ?? "") ||
+                JSON.stringify(event.addressAccess) !== JSON.stringify(proposed.addressAccess);
             if (changed && (event.startsAt > now || proposed.startsAt > now)) {
                 updates = active.length;
                 for (const row of active) recipients.add(row.email);

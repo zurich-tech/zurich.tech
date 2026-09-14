@@ -2,6 +2,7 @@ import { recurrence } from "./recurrence";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 import {
+    addressAccess,
     registration,
     format,
     submissionFields,
@@ -86,6 +87,7 @@ export const events = defineTable({
     venueId: v.optional(v.id("venues")),
     location: v.optional(v.string()),
     address: v.optional(v.string()),
+    addressAccess: v.optional(addressAccess),
     title: v.string(),
     description: v.optional(v.string()),
     summary: v.optional(v.string()),

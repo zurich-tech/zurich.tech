@@ -1,3 +1,4 @@
+import { validateAddress } from "./place";
 import { v } from "convex/values";
 import {
     mutation,
@@ -112,6 +113,7 @@ export const save = mutation({
             template.title = args.title.trim();
         }
         validateConfirmation(template.confirmation, template.registration, template.startsAt);
+        validateAddress(template, args.publication === "published");
         if (
             args.publication === "published" &&
             (!template.description.trim() || !template.location.trim())

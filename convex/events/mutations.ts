@@ -1,9 +1,10 @@
+import { links } from "../mail/personalization";
 import { internal } from "../_generated/api";
 import { validateConfirmation, sameConfirmation } from "./conditions";
 import { scheduleDecision, settle } from "./confirmation";
 import { queueAnnouncement } from "./mail";
 import { eventAction, confirmAction } from "./actions";
-import { eventPlace } from "./place";
+import { eventPlace, validateAddress } from "./place";
 import { eventEmail, eventChanges } from "../mail/templates";
 import { readLinks, writeLinks } from "../members/links";
 import { validatePrimaryOrganiser, validateCoOrganisers, publicOrganisers } from "./organisers";
@@ -52,6 +53,15 @@ export const save = mutation({
         values.primaryOrganiserId = args.primaryOrganiserId;
         values.coOrganiserIds = args.coOrganiserIds;
         await validateCoOrganisers(ctx, values.coOrganiserIds);
+        values.addressAccess = args.addressAccess;
+
+        // Clear undisclosed placeholders and validate the same policy used at publication.
+        validateAddress(values, publish);
+        if (values.addressAccess?.kind === "unannounced") {
+            values.address = undefined;
+            values.latitude = undefined;
+            values.longitude = undefined;
+        }
 
         // allow planning drafts before their description and venue are confirmed
         if (publish && (!values.description.trim() || !values.location.trim()))
@@ -222,6 +232,7 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
     // load the validated revision
     const draft = await ctx.db.get(id);
     if (!draft) throw new Error("Submission not found.");
+    validateAddress(draft, true);
 
     // reserve a stable public URL for this event
     const collision = await ctx.db
@@ -319,10 +330,12 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
             (existing.startsAt !== draft.startsAt ||
                 existing.endsAt !== draft.endsAt ||
                 previousPlace?.location !== draft.location ||
-                previousPlace?.address !== (draft.address ?? ""))
+                previousPlace?.address !== (draft.address ?? "") ||
+                JSON.stringify(existing.addressAccess) !== JSON.stringify(draft.addressAccess))
         ) {
             const message = eventEmail(draft, "Event updated", {
                 description: eventChanges({ ...existing, ...previousPlace }, draft),
+                manageUrl: links.registration,
             });
             await createCampaign(ctx, {
                 key: `event-change:${eventId}:${now}`,
@@ -433,6 +446,7 @@ export const edit = mutation({
             ownerId: event.ownerId,
             primaryOrganiserId: event.primaryOrganiserId,
             coOrganiserIds: event.coOrganiserIds,
+            addressAccess: event.addressAccess,
             eventId: event._id,
             status: "published",
             title: event.title,

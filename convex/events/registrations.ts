@@ -1,3 +1,4 @@
+import { eventPlace, disclosePlace } from "./place";
 import { ensureToken } from "./checkin";
 import { confirmationDecision, isTentative } from "./conditions";
 import { evaluate } from "./confirmation";
@@ -143,6 +144,11 @@ export const get = query({
         if (!event) throw new Error("Event not found.");
 
         return {
+            venue: disclosePlace(
+                await eventPlace(ctx, event),
+                event.addressAccess,
+                row.status === "going",
+            ),
             name: row.name,
             email: row.email,
             summary: event.summary,
@@ -455,17 +461,29 @@ async function notify(
             : registrationCopy[row.status];
 
     // keep private management actions on active registrations
-    const message = eventEmail(event, copy.title, {
-        ...copy,
-        passUrl:
-            row.status === "going" && event.checkIn?.isEnabled && !isTentative(event)
-                ? `${process.env.CONVEX_SITE_URL}/passes/qr?token=${encodeURIComponent(await ensureToken(ctx, row))}`
-                : undefined,
-        manageUrl:
-            row.token && row.status !== "declined" && row.status !== "cancelled"
-                ? `${siteOrigin()}/registration?token=${encodeURIComponent(row.token)}`
-                : undefined,
-    });
+    const place = await eventPlace(ctx, event);
+    const message = eventEmail(
+        {
+            ...event,
+            ...place,
+            addressAccess:
+                row.status === "going" && event.addressAccess?.kind === "confirmed"
+                    ? { kind: "public" }
+                    : event.addressAccess,
+        },
+        copy.title,
+        {
+            ...copy,
+            passUrl:
+                row.status === "going" && event.checkIn?.isEnabled && !isTentative(event)
+                    ? `${process.env.CONVEX_SITE_URL}/passes/qr?token=${encodeURIComponent(await ensureToken(ctx, row))}`
+                    : undefined,
+            manageUrl:
+                row.token && row.status !== "declined" && row.status !== "cancelled"
+                    ? `${siteOrigin()}/registration?token=${encodeURIComponent(row.token)}`
+                    : undefined,
+        },
+    );
     await enqueue(ctx, key, row.email, message.subject, message.text, undefined, 0, message.html);
 }
 

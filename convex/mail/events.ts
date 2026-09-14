@@ -114,7 +114,14 @@ export const remind = internalMutation({
                 startsAt: event.startsAt,
                 expiresAt: event.startsAt,
                 content: eventEmail(
-                    { ...event, ...(await eventPlace(ctx, event)) },
+                    {
+                        ...event,
+                        ...(await eventPlace(ctx, event)),
+                        addressAccess:
+                            event.addressAccess?.kind === "confirmed"
+                                ? { kind: "public" }
+                                : event.addressAccess,
+                    },
                     "Event reminder",
                     {
                         subject: "Reminder",

@@ -61,8 +61,18 @@ export const participationFields = {
     followUp: v.optional(v.object({ isEnabled: v.boolean(), delayHours: v.number() })),
 };
 
+/** Where an address is disclosed, independently of registration and attribution. */
+export const addressAccess = v.union(
+    v.object({ kind: v.literal("public") }),
+    v.object({ kind: v.literal("confirmed") }),
+    v.object({ kind: v.literal("external"), url: v.string(), label: v.string() }),
+    v.object({ kind: v.literal("unannounced") }),
+);
+export type AddressAccess = Infer<typeof addressAccess>;
+
 /** Fields an organiser may edit before publication. */
 export const submissionFields = {
+    addressAccess: v.optional(addressAccess),
     primaryOrganiserId: v.optional(v.id("members")),
     coOrganiserIds: v.optional(v.array(v.id("members"))),
     ...participationFields,
@@ -114,6 +124,7 @@ export function eventFields(draft: Pick<Doc<"submissions">, keyof typeof submiss
         startsAt: draft.startsAt,
         endsAt: draft.endsAt,
         location: draft.location,
+        addressAccess: draft.addressAccess,
         address: draft.address,
         latitude: draft.latitude,
         longitude: draft.longitude,

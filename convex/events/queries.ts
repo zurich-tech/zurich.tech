@@ -1,3 +1,4 @@
+import { eventPlace, disclosePlace } from "./place";
 import { publicOrganiser, publicOrganisers, organiserIds } from "./organisers";
 import { readLinks } from "../members/links";
 import { mediaOrigin } from "./gallery";
@@ -62,8 +63,8 @@ export const event = query({
         if (event.status === "draft") return null;
 
         // expand the published event records
-        const [venue, rsvps, agenda, speakers, links, media] = await Promise.all([
-            event.venueId === undefined ? null : ctx.db.get(event.venueId),
+        const [place, rsvps, agenda, speakers, links, media] = await Promise.all([
+            eventPlace(ctx, event),
             ctx.db
                 .query("registrations")
                 .withIndex("by_event", (query) => query.eq("eventId", event._id))
@@ -83,13 +84,6 @@ export const event = query({
                 .filter((query) => query.eq(query.field("status"), "approved"))
                 .collect(),
         ]);
-        const address = venue === null ? null : await ctx.db.get(venue.addressId);
-        if (event.venueId !== undefined && venue === null) {
-            throw new Error(`Published event ${event._id} refers to a missing venue.`);
-        }
-        if (venue !== null && address === null) {
-            throw new Error(`Venue ${venue._id} refers to a missing address.`);
-        }
         // resolve public image URLs in display order
         const images = media
             .sort((left, right) => left.position - right.position)
@@ -104,9 +98,8 @@ export const event = query({
 
         const series = event.seriesId ? await ctx.db.get(event.seriesId) : null;
         const credits = await publicOrganisers(ctx, event, series);
-
-        const latitude = event.latitude ?? address?.latitude;
-        const longitude = event.longitude ?? address?.longitude;
+        const venue = event.venueId ? await ctx.db.get(event.venueId) : null;
+        const disclosed = disclosePlace(place, event.addressAccess, false, venue?.accessNotes);
 
         return {
             id: event._id,
@@ -137,7 +130,7 @@ export const event = query({
             endsAt: event.endsAt,
             format: event.format,
             links,
-            location: [event.location, event.address].filter(Boolean).join(", "),
+            location: [disclosed.name, disclosed.address].filter(Boolean).join(", "),
             media: images,
             rsvpCount: rsvps.filter((rsvp) => rsvp.status === "going").length,
             waitlistCount: rsvps.filter((rsvp) => rsvp.status === "waitlist").length,
@@ -164,21 +157,7 @@ export const event = query({
             tags: eventTags(event.topics, event.startsAt, args.now ?? Date.now()),
             timezone: "Europe/Zurich",
             title: event.title,
-            venue: {
-                coordinates:
-                    latitude !== undefined && longitude !== undefined
-                        ? { latitude, longitude }
-                        : undefined,
-                access: venue?.accessNotes,
-                address:
-                    event.address ??
-                    (address === null
-                        ? undefined
-                        : [address.line1, address.line2, address.postalCode, address.locality]
-                              .filter(Boolean)
-                              .join(", ")),
-                name: venue?.name ?? event.location,
-            },
+            venue: disclosed,
         };
     },
 });

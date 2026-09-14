@@ -1,5 +1,6 @@
 import { isTentative } from "../events/conditions";
 import type { Recurrence } from "../events/recurrence";
+import type { AddressAccess } from "../events/fields";
 import type { Confirmation } from "../events/fields";
 import { layout, paragraph, escapeHtml } from "./layout";
 import { tiers } from "../../src/sponsorships/plans";
@@ -19,17 +20,32 @@ type Event = {
     endsAt?: number;
     location?: string;
     address?: string;
+    addressAccess?: AddressAccess;
     summary?: string;
     confirmation?: Confirmation;
     confirmedAt?: number;
     status?: string;
 };
 
+/** Describe address access without exposing restricted content in a public email. */
+function emailAddress(event: Event) {
+    switch (event.addressAccess?.kind) {
+        case "confirmed":
+            return "Address shared after registration confirmation. View your registration for details.";
+        case "external":
+            return `View address on ${event.addressAccess.label}: ${event.addressAccess.url}`;
+        case "unannounced":
+            return "Venue to be announced.";
+        default:
+            return event.address;
+    }
+}
+
 /** Render an event title, local date, venue and optional summary. */
 export function eventDetails(event: Event, includeSummary = false) {
     const url = `${siteOrigin()}/events/${event.slug}`;
     const time = eventTime(event.startsAt);
-    return `<h2 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a href="${escapeHtml(url)}" style="color:#174ed8;text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(time)}${event.location ? `<br>${escapeHtml(event.location)}` : ""}</p>${event.address ? paragraph(event.address) : ""}${includeSummary && event.summary ? paragraph(event.summary) : ""}${isTentative(event) && event.status !== "cancelled" ? paragraph("Tentative · Awaiting event confirmation") : ""}`;
+    return `<h2 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a href="${escapeHtml(url)}" style="color:#174ed8;text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(time)}${event.location ? `<br>${escapeHtml(event.location)}` : ""}</p>${emailAddress(event) ? paragraph(emailAddress(event)!) : ""}${includeSummary && event.summary ? paragraph(event.summary) : ""}${isTentative(event) && event.status !== "cancelled" ? paragraph("Tentative · Awaiting event confirmation") : ""}`;
 }
 
 /** Registration subjects, headings and explanations. */
@@ -73,7 +89,7 @@ export function eventText(event: Event, includeSummary = false) {
             : undefined,
         eventTime(event.startsAt),
         event.location,
-        event.address,
+        emailAddress(event),
         includeSummary ? event.summary : undefined,
         `${siteOrigin()}/events/${event.slug}`,
     ]
@@ -83,6 +99,8 @@ export function eventText(event: Event, includeSummary = false) {
 
 /** Describe each changed time or venue with its previous and current value. */
 export function eventChanges(previous: Event, current: Event) {
+    previous = { ...previous, address: emailAddress(previous) };
+    current = { ...current, address: emailAddress(current) };
     const changes: string[] = [];
     if (previous.startsAt !== current.startsAt)
         changes.push(`Start: ${eventTime(previous.startsAt)} → ${eventTime(current.startsAt)}`);
