@@ -35,6 +35,7 @@ export const checkouts = defineTable({
 export const payments = defineTable({
     /** Unique manual invoice reference or Stripe checkout session ID. */
     reference: v.string(),
+    invoiceId: v.optional(v.id("invoices")),
     /** Purchased membership, vacancy or sponsorship. */
     subjectId: v.union(v.id("jobs"), v.id("sponsorships")),
     memberId: v.optional(v.id("members")),
@@ -48,6 +49,39 @@ export const payments = defineTable({
     /** Team member who recorded a manual payment. */
     recordedBy: v.optional(v.id("members")),
 })
+    .index("by_invoice", ["invoiceId"])
     .index("by_reference", ["reference"])
     .index("by_subject", ["subjectId"])
     .index("by_member", ["memberId"]);
+
+/** Retain issued invoices and their document identity independently of receipts. */
+export const invoices = defineTable({
+    termId: v.id("sponsorshipTerms"),
+    number: v.string(),
+    reference: v.string(),
+    amount: v.number(),
+    issuedAt: v.number(),
+    dueAt: v.number(),
+    document: v.string(),
+    recordedBy: v.id("members"),
+    createdAt: v.number(),
+    voidedAt: v.optional(v.number()),
+    voidedBy: v.optional(v.id("members")),
+    voidReason: v.optional(v.string()),
+})
+    .index("by_term", ["termId"])
+    .index("by_number", ["number"])
+    .index("by_reference", ["reference"]);
+
+/** Retain each partial or full refund against its original receipt. */
+export const refunds = defineTable({
+    paymentId: v.id("payments"),
+    amount: v.number(),
+    paidAt: v.number(),
+    reference: v.string(),
+    reason: v.string(),
+    recordedBy: v.id("members"),
+    createdAt: v.number(),
+})
+    .index("by_payment", ["paymentId"])
+    .index("by_reference", ["reference"]);

@@ -1,8 +1,9 @@
+import { readTerms, selectTerm } from "../sponsorships/terms";
+import { invoiceBalance } from "../billing/invoices";
 import { readProfiles } from "../members/links";
 import type { Doc } from "../_generated/dataModel";
 import { query } from "../_generated/server";
 import { requireAccount } from "../auth/access";
-import { sponsorshipTerm } from "../sponsorships/organisations";
 import { jobExpiry, jobStatus } from "../jobs/jobs";
 
 /** Read the current employer's company, job and sponsorship workspace. */
@@ -63,10 +64,35 @@ export const employer = query({
                             "organisationId" in row,
                     )
                     .sort((a, b) => b.updatedAt - a.updatedAt)
-                    .map(async (sponsor) => ({
-                        ...sponsor,
-                        ...(await sponsorshipTerm(ctx, sponsor)),
-                    })),
+                    .map(async (sponsor) => {
+                        const terms = await readTerms(ctx, sponsor._id);
+                        const term =
+                            selectTerm(terms, Date.now()) ?? selectTerm(terms, Date.now(), true);
+                        const history = await Promise.all(
+                            terms
+                                .sort(
+                                    (a, b) => b.startsAt - a.startsAt || b.createdAt - a.createdAt,
+                                )
+                                .map(async (term) => ({
+                                    ...term,
+                                    recordedByName: (await ctx.db.get(term.recordedBy))?.name,
+                                    invoices: await Promise.all(
+                                        (
+                                            await ctx.db
+                                                .query("invoices")
+                                                .withIndex("by_term", (q) =>
+                                                    q.eq("termId", term._id),
+                                                )
+                                                .collect()
+                                        ).map(async (invoice) => ({
+                                            ...invoice,
+                                            ...(await invoiceBalance(ctx, invoice._id)),
+                                        })),
+                                    ),
+                                })),
+                        );
+                        return { ...sponsor, tier: term?.tier ?? sponsor.tier, term, history };
+                    }),
             ),
         };
     },

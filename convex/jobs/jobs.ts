@@ -192,10 +192,11 @@ export const publish = mutation({
                     "organisationId" in item &&
                     item.organisationId === row.organisationId &&
                     item.term &&
+                    item.term.startsAt <= now &&
                     item.term.endsAt > now,
             );
             if (!sponsor) throw new Error("This company has no active sponsorship.");
-            const allowance = tiers.find((item) => item.id === sponsor.tier)!.jobs;
+            const allowance = tiers.find((item) => item.id === sponsor.term!.tier)!.jobs;
             const jobs = await ctx.db
                 .query("jobs")
                 .withIndex("by_status", (q) => q.eq("status", "published"))

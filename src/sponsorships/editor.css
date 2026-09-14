@@ -1,0 +1,28 @@
+.sponsorship-history {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-line);
+}
+.sponsorship-history > header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.sponsorship-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 1rem;
+}
+.sponsorship-history details,
+.sponsorship-invoice {
+    margin-top: 1rem;
+}
+.sponsorship-history summary {
+    cursor: pointer;
+    padding-block: 0.5rem;
+}
+.sponsorship-invoice {
+    padding-block: 1rem;
+    border-top: 1px solid var(--color-line);
+    overflow-wrap: anywhere;
+}

@@ -2,14 +2,13 @@ import { readProfiles } from "../members/links";
 import { requireCheckoutClosed } from "../billing/checkouts";
 import { v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
-import { query, mutation, internalMutation, type QueryCtx } from "../_generated/server";
+import { query, mutation, type QueryCtx } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
-import { paidTerm, recordPayment } from "../billing/payments";
+import { readTerms, selectTerm } from "./terms";
+import { paidTerm } from "../billing/payments";
 import { requireCompany } from "../organisations/mutations";
-import { tiers } from "../../src/sponsorships/plans";
 import { tier } from "../billing/purchases";
 import { normalizeEmail } from "../members/emails";
-import { normalizeImageUrl } from "../members/urls";
 
 /** Read active public sponsor identities without billing or account information. */
 export const list = query({
@@ -27,22 +26,21 @@ export const request = mutation({
     handler: async (ctx, args) => {
         // require company ownership and read its existing requests
         await requireCompany(ctx, args.organisationId);
-        const rows = await ctx.db
+        const existing = await ctx.db
             .query("sponsorships")
             .withIndex("by_organisation", (q) => q.eq("organisationId", args.organisationId))
-            .collect();
-        const pending = rows.find((row) => row.status === "requested");
-        if (pending && pending.tier === args.tier) return pending._id;
-        // reject overlapping requests or current agreements
-        for (const row of rows) {
-            const term = await sponsorshipTerm(ctx, row);
-            if (
-                row.status === "requested" ||
-                (row.status === "active" && term && term.endsAt > Date.now())
-            )
-                throw new Error(
-                    "This company already has an open sponsorship. Manage or renew it in the workspace.",
-                );
+            .unique();
+        if (existing) {
+            // keep one relationship and retain all prior agreements under it
+            if (existing.status === "active")
+                throw new Error("Manage or renew this sponsorship in the workspace.");
+            await ctx.db.patch(existing._id, {
+                tier: args.tier,
+                billingEmail: normalizeEmail(args.billingEmail),
+                status: "requested",
+                updatedAt: Date.now(),
+            });
+            return existing._id;
         }
 
         return await ctx.db.insert("sponsorships", {
@@ -51,58 +49,6 @@ export const request = mutation({
             isPublic: true,
             status: "requested",
             createdAt: Date.now(),
-            updatedAt: Date.now(),
-        });
-    },
-});
-
-/** Activate or renew a sponsorship after the team confirms its invoice payment. */
-export const activate = mutation({
-    args: { id: v.id("sponsorships"), invoiceReference: v.string() },
-    handler: async (ctx, args) => {
-        // require team access and a closed checkout before recording payment
-        const reviewer = await requireAdmin(ctx);
-        const row = await ctx.db.get(args.id);
-        if (!row || !("organisationId" in row))
-            throw new Error("Organisation sponsorship not found.");
-        if (row.inKind)
-            throw new Error("Update the in-kind agreement instead of recording payment.");
-        await requireCheckoutClosed(ctx, row._id);
-        if (row.status === "declined" || row.status === "ended")
-            throw new Error("Request a new sponsorship before recording payment.");
-        const companySponsors = await ctx.db
-            .query("sponsorships")
-            .withIndex("by_organisation", (q) => q.eq("organisationId", row.organisationId))
-            .collect();
-
-        // keep one active sponsorship per company
-        for (const sponsor of companySponsors) {
-            const term = await sponsorshipTerm(ctx, sponsor);
-            if (
-                sponsor._id !== row._id &&
-                sponsor.status === "active" &&
-                term &&
-                term.endsAt > Date.now()
-            )
-                throw new Error("This company already has an active sponsorship.");
-        }
-        // record the annual payment against the company owner when assigned
-        const plan = tiers.find((tier) => tier.id === row.tier)!;
-        await recordPayment(ctx, {
-            reference: args.invoiceReference,
-            subjectId: row._id,
-            memberId: (await requireCompany(ctx, row.organisationId)).organisation.ownerId,
-            amount: plan.price,
-            name: `${plan.name} sponsorship · one year`,
-            recordedBy: reviewer.memberId,
-            paidAt: Date.now(),
-        });
-
-        // activate recognition and clear the renewal request
-        await ctx.db.patch(row._id, {
-            status: "active",
-            note: undefined,
-            isRenewalRequested: false,
             updatedAt: Date.now(),
         });
     },
@@ -118,10 +64,10 @@ export const end = mutation({
         if (!row || !("organisationId" in row))
             throw new Error("Organisation sponsorship not found.");
         await requireCheckoutClosed(ctx, row._id);
-        if (row.status !== "active" && row.status !== "requested")
-            throw new Error("This sponsorship is already closed.");
+        if (row.status !== "requested")
+            throw new Error("End individual agreements in the sponsorship history.");
         await ctx.db.patch(row._id, {
-            status: row.status === "requested" ? "declined" : "ended",
+            status: "declined",
             updatedAt: Date.now(),
         });
     },
@@ -148,7 +94,6 @@ export const updateRequest = mutation({
                 updatedAt: Date.now(),
             });
         } else {
-            if (row.inKind) throw new Error("Contact the team to renew the in-kind agreement.");
             if (row.status !== "active")
                 throw new Error("Request a sponsorship before renewing it.");
             await ctx.db.patch(row._id, { isRenewalRequested: true, updatedAt: Date.now() });
@@ -158,18 +103,24 @@ export const updateRequest = mutation({
 
 /** Resolve sponsor identities for both the website and newsletter. */
 export async function activeSponsors(ctx: Pick<QueryCtx, "db">) {
-    // select active sponsorships with current paid or in-kind coverage
+    // select public recognition from agreed publication dates
     const now = Date.now();
     const rows = await ctx.db
         .query("sponsorships")
         .withIndex("by_status", (q) => q.eq("status", "active"))
         .collect();
     const terms = await Promise.all(
-        rows.map(async (row) => ({ row, term: await sponsorshipTerm(ctx, row) })),
+        rows.map(async (row) => ({
+            row,
+            term:
+                "organisationId" in row
+                    ? selectTerm(await readTerms(ctx, row._id), now, true)
+                    : null,
+        })),
     );
     const active = terms
         .filter(({ term }) => term && term.endsAt > now)
-        .map(({ row }) => row)
+        .map(({ row, term }) => ({ ...row, tier: term!.tier }))
         .filter(
             (row): row is Extract<Doc<"sponsorships">, { organisationId: unknown }> =>
                 "organisationId" in row && row.isPublic,
@@ -194,84 +145,11 @@ export async function activeSponsors(ctx: Pick<QueryCtx, "db">) {
     );
 }
 
-/** Grant or renew an agreed in-kind sponsorship through the administrative CLI. */
-export const grantInKind = internalMutation({
-    args: {
-        organisationId: v.id("organisations"),
-        tier,
-        description: v.string(),
-        logoUrl: v.optional(v.string()),
-        logoDarkUrl: v.optional(v.string()),
-        startsAt: v.number(),
-        endsAt: v.number(),
-    },
-    handler: async (ctx, args) => {
-        // require an existing organisation and a current, bounded agreement
-        const now = Date.now();
-        const description = args.description.trim();
-        if (!(await ctx.db.get(args.organisationId))) throw new Error("Organisation not found.");
-        if (
-            !description ||
-            description.length > 240 ||
-            !Number.isFinite(args.startsAt) ||
-            !Number.isFinite(args.endsAt) ||
-            args.startsAt > now ||
-            args.endsAt <= now ||
-            args.endsAt <= args.startsAt
-        )
-            throw new Error("Enter a contribution and a term covering today.");
-
-        // renew the existing in-kind agreement without overlapping another sponsorship
-        const rows = await ctx.db
-            .query("sponsorships")
-            .withIndex("by_organisation", (q) => q.eq("organisationId", args.organisationId))
-            .collect();
-        const existing = rows.find((row) => row.status === "active" && row.inKind);
-        for (const row of rows) {
-            if (row._id === existing?._id) continue;
-            const term = await sponsorshipTerm(ctx, row);
-            if (
-                row.status === "requested" ||
-                (row.status === "active" && term && term.endsAt > now)
-            )
-                throw new Error("This organisation already has an open sponsorship.");
-        }
-
-        // retain the supplied organisation logo for all sponsor placements
-        if (args.logoUrl) {
-            await ctx.db.patch(args.organisationId, {
-                logoUrl: normalizeImageUrl(args.logoUrl),
-                logoDarkUrl: args.logoDarkUrl ? normalizeImageUrl(args.logoDarkUrl) : undefined,
-                updatedAt: now,
-            });
-        }
-
-        // require hosted checkout to finish before changing an agreement
-        if (existing) await requireCheckoutClosed(ctx, existing._id);
-        const values = {
-            organisationId: args.organisationId,
-            tier: args.tier,
-            isPublic: true,
-            inKind: { description, startsAt: args.startsAt, endsAt: args.endsAt },
-            status: "active" as const,
-            isRenewalRequested: false,
-            updatedAt: now,
-        };
-        if (existing) {
-            await ctx.db.patch(existing._id, values);
-
-            return existing._id;
-        }
-
-        return await ctx.db.insert("sponsorships", { ...values, createdAt: now });
-    },
-});
-
-/** Resolve tier coverage from an in-kind agreement or annual payments. */
+/** Resolve benefits from agreed dates; personal support retains its payment coverage. */
 export async function sponsorshipTerm(ctx: Pick<QueryCtx, "db">, sponsor: Doc<"sponsorships">) {
-    if (sponsor.inKind) {
-        return { startsAt: sponsor.inKind.startsAt, endsAt: sponsor.inKind.endsAt };
-    }
+    if ("organisationId" in sponsor)
+        return selectTerm(await readTerms(ctx, sponsor._id), Date.now());
+    const term = await paidTerm(ctx, sponsor._id);
 
-    return await paidTerm(ctx, sponsor._id);
+    return term ? { ...term, tier: sponsor.tier } : null;
 }

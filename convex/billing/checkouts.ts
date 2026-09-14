@@ -6,7 +6,7 @@ import { requireAccount } from "../auth/access";
 import { authComponent } from "../auth/component";
 import { paidTerm, recordPayment } from "./payments";
 import { requireCompany } from "../organisations/mutations";
-import { tiers, personalTiers, jobPrice, jobDurationMonths } from "../../src/sponsorships/plans";
+import { personalTiers, jobPrice, jobDurationMonths } from "../../src/sponsorships/plans";
 import { purchase } from "./purchases";
 
 /** Reserve one purchase before creating its Stripe session. */
@@ -67,19 +67,16 @@ export const reserve = internalMutation({
             } else await requireCompany(ctx, sponsor.organisationId);
             if (sponsor.status === "declined" || sponsor.status === "ended")
                 throw new Error("Request a new sponsorship before paying.");
-            if (sponsor.inKind)
-                throw new Error("This sponsorship is covered by an in-kind agreement.");
+
             if ("memberId" in sponsor) {
                 const plan = personalTiers.find((tier) => tier.id === sponsor.tier)!;
                 amount = plan.price;
                 name = `${plan.name} support · one year`;
                 email = user.email;
             } else {
-                if (!sponsor.billingEmail) throw new Error("Sponsorship billing email is missing.");
-                const tier = tiers.find((tier) => tier.id === sponsor.tier)!;
-                amount = tier.price;
-                name = `${tier.name} sponsorship · one year`;
-                email = sponsor.billingEmail;
+                throw new Error(
+                    "Company sponsorships are settled against issued invoices in the workspace.",
+                );
             }
         }
 
