@@ -206,8 +206,15 @@ export function newsletterEdition(
     entries: Event[],
     sponsors: Awaited<ReturnType<typeof activeSponsors>>,
 ) {
+    // Keep addresses and external address instructions on the event page.
+    const listings = entries.map((entry) => ({
+        ...entry,
+        address: undefined,
+        addressAccess: undefined,
+    }));
+
     // render event listings with the same typography as individual notifications
-    const events = entries
+    const events = listings
         .map(
             (entry) =>
                 `<div style="padding:20px 0;border-bottom:1px solid #d5d9df">${eventDetails(entry, true)}</div>`,
@@ -238,7 +245,7 @@ export function newsletterEdition(
     return {
         html: events + recognition.map((section) => section.html).join(""),
         text: [
-            ...entries.map((entry) => eventText(entry, true)),
+            ...listings.map((entry) => eventText(entry, true)),
             ...recognition.map((section) => section.text),
         ].join("\n\n"),
     };
