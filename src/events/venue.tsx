@@ -14,7 +14,12 @@ export function AddressNotice(props: { venue: Venue }) {
         <Show when={!props.venue.address}>
             <Switch>
                 <Match when={props.venue.availability === "external"}>
-                    <a href={props.venue.url} target="_blank" rel="noopener noreferrer">
+                    <a
+                        class="address-notice"
+                        href={props.venue.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         View address on {props.venue.label} <Arrow direction="external" />
                     </a>
                 </Match>
