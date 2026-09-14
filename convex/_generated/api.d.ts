@@ -81,6 +81,7 @@ import type * as members_search from "../members/search.js";
 import type * as members_tags from "../members/tags.js";
 import type * as members_team from "../members/team.js";
 import type * as members_urls from "../members/urls.js";
+import type * as migrations_events from "../migrations/events.js";
 import type * as migrations_mail from "../migrations/mail.js";
 import type * as news_content from "../news/content.js";
 import type * as news_mutations from "../news/mutations.js";
@@ -176,6 +177,7 @@ declare const fullApi: ApiFromModules<{
   "members/tags": typeof members_tags;
   "members/team": typeof members_team;
   "members/urls": typeof members_urls;
+  "migrations/events": typeof migrations_events;
   "migrations/mail": typeof migrations_mail;
   "news/content": typeof news_content;
   "news/mutations": typeof news_mutations;
