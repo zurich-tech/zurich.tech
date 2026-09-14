@@ -34,6 +34,9 @@ const rsvpStatus = v.union(
 
 /** Stored series. */
 export const series = defineTable({
+    /** Default public organiser, independent of editing permissions. */
+    primaryOrganiserId: v.optional(v.id("members")),
+    coOrganiserIds: v.optional(v.array(v.id("members"))),
     announcedAt: v.optional(v.number()),
     status: v.union(v.literal("active"), v.literal("proposed"), v.literal("archived")),
     slug: v.string(),
@@ -44,6 +47,8 @@ export const series = defineTable({
 
 /** Private series edits awaiting publication. */
 export const seriesRevisions = defineTable({
+    primaryOrganiserId: v.optional(v.id("members")),
+    coOrganiserIds: v.optional(v.array(v.id("members"))),
     seriesId: v.id("series"),
     slug: v.string(),
     name: v.string(),
@@ -54,6 +59,9 @@ export const seriesRevisions = defineTable({
 
 /** Stored events. */
 export const events = defineTable({
+    /** Override the series public organiser for this event. */
+    primaryOrganiserId: v.optional(v.id("members")),
+    coOrganiserIds: v.optional(v.array(v.id("members"))),
     ...participationFields,
     announcedAt: v.optional(v.number()),
     reminderStartsAt: v.optional(v.number()),

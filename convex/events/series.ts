@@ -1,3 +1,4 @@
+import { validatePrimaryOrganiser, validateCoOrganisers } from "./organisers";
 import { v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { requireSeries, requireWorkspace } from "../auth/grants";
@@ -22,6 +23,8 @@ export const workspace = query({
                     ...(draft
                         ? {
                               name: draft.name,
+                              primaryOrganiserId: draft.primaryOrganiserId,
+                              coOrganiserIds: draft.coOrganiserIds,
                               slug: draft.slug,
                               description: draft.description,
                               topics: draft.topics,
@@ -38,6 +41,8 @@ export const workspace = query({
 export const upsert = mutation({
     args: {
         id: v.optional(v.id("series")),
+        primaryOrganiserId: v.optional(v.id("members")),
+        coOrganiserIds: v.optional(v.array(v.id("members"))),
         publish: v.optional(v.boolean()),
         slug: v.string(),
         name: v.string(),
@@ -48,6 +53,10 @@ export const upsert = mutation({
         // authorise draft preparation separately from publication
         await requireSeries(ctx, args.id, args.publish ? "organiser" : "editor");
         const { id, publish, ...values } = args;
+        values.primaryOrganiserId = args.primaryOrganiserId;
+        values.coOrganiserIds = args.coOrganiserIds;
+        await validateCoOrganisers(ctx, values.coOrganiserIds);
+        await validatePrimaryOrganiser(ctx, values.primaryOrganiserId);
         if (!id && !publish) throw new Error("Publish a new series before assigning editors.");
         if (!values.name.trim() || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(values.slug))
             throw new Error("Enter a name and valid slug.");

@@ -1,10 +1,10 @@
+import { sameOrganisers } from "../../../events/organiser";
 import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { getDirectory } from "../../../organisations/queries";
 import { getCalendar } from "../../../events/queries";
 import { Card } from "../../../components/card";
-import { Markdown } from "../../../components/markdown";
-import { EventTags } from "../../../events/tags";
+import { SeriesDetails } from "../../../events/series-details";
 import { EventEntry } from "../../../events/entry";
 import { EditLink } from "../../../auth/edit";
 import { Page, PageHeader } from "../../page";
@@ -59,12 +59,7 @@ export default function Route() {
                                 }
                             >
                                 <div class="card-section">
-                                    <Markdown source={series.description} />
-                                    <EventTags
-                                        topics={series.topics.filter(
-                                            (topic) => topic !== series.slug,
-                                        )}
-                                    />
+                                    <SeriesDetails series={series} />
                                 </div>
                                 <Show when={recent().length}>
                                     <div class="card-section series-events">
@@ -72,6 +67,7 @@ export default function Route() {
                                             {(event) => (
                                                 <EventEntry
                                                     event={event}
+                                                    hideOrganiser={sameOrganisers(event, series)}
                                                     now={now}
                                                     actions={
                                                         <EditLink

@@ -1,3 +1,5 @@
+import { OrganiserCard } from "./organiser";
+import type { Doc } from "../../convex/_generated/dataModel";
 import { DeleteRecord } from "./delete";
 import { useConfirmation } from "../components/dialog";
 import { Card } from "../components/card";
@@ -10,9 +12,6 @@ import { leaveEditor, savedEditor, Editor, FormMessage } from "../components/for
 import { revalidate, useSearchParams } from "@solidjs/router";
 import { getDirectory } from "../organisations/queries";
 import type { Id } from "../../convex/_generated/dataModel";
-
-/** Public organisations and recurring event series. */
-type Directory = Awaited<ReturnType<typeof getDirectory>>;
 
 /** Edit the recurring event series catalogue. */
 export function SeriesAdmin() {
@@ -46,6 +45,10 @@ export function SeriesAdmin() {
                     id: text("id") ? (text("id") as Id<"series">) : undefined,
                     publish: access.canSeries(text("id") || undefined, "organiser"),
                     name: text("name"),
+                    coOrganiserIds: values.getAll("coOrganiserId").map(String) as Id<"members">[],
+                    primaryOrganiserId: text("primaryOrganiserId")
+                        ? (text("primaryOrganiserId") as Id<"members">)
+                        : undefined,
                     slug: text("slug"),
                     description: text("description"),
                     topics: text("topics")
@@ -227,7 +230,7 @@ export function SeriesAdmin() {
 function SeriesForm(props: {
     formId: string;
     /** Series being edited, or absent for a new series. */
-    item?: Directory["series"][number];
+    item?: Doc<"series">;
     /** Save the authored series. */
     onSubmit: (event: SubmitEvent) => Promise<void>;
     /** Disable submission while saving. */
@@ -265,6 +268,10 @@ function SeriesForm(props: {
                 Topics
                 <input name="topics" value={props.item?.topics.join(", ") ?? ""} />
             </label>
+            <OrganiserCard
+                value={props.item?.primaryOrganiserId}
+                coOrganisers={props.item?.coOrganiserIds}
+            />
         </Editor>
     );
 }

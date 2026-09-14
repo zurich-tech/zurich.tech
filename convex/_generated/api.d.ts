@@ -35,6 +35,7 @@ import type * as events_gallery from "../events/gallery.js";
 import type * as events_mail from "../events/mail.js";
 import type * as events_management from "../events/management.js";
 import type * as events_mutations from "../events/mutations.js";
+import type * as events_organisers from "../events/organisers.js";
 import type * as events_photos from "../events/photos.js";
 import type * as events_place from "../events/place.js";
 import type * as events_queries from "../events/queries.js";
@@ -129,6 +130,7 @@ declare const fullApi: ApiFromModules<{
   "events/mail": typeof events_mail;
   "events/management": typeof events_management;
   "events/mutations": typeof events_mutations;
+  "events/organisers": typeof events_organisers;
   "events/photos": typeof events_photos;
   "events/place": typeof events_place;
   "events/queries": typeof events_queries;

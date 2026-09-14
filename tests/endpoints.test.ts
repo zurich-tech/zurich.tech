@@ -290,3 +290,106 @@ test("a new draft gets an assignable event identity without publication or mail"
         expect(await ctx.db.query("messages").collect()).toEqual([]);
     });
 });
+
+// exercise inheritance, explicit overrides, privacy and authority through public queries
+test("test_resolve_public_organisers_without_granting_access", async () => {
+    const { backend, editor, ids } = await setup();
+    const second = await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.memberId, {
+            visibility: "public",
+            headline: "Researcher at Test Lab",
+        });
+        await ctx.db.insert("handles", {
+            memberId: ids.memberId,
+            name: "first",
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const memberId = await ctx.db.insert("members", {
+            name: "Second",
+            searchText: "second",
+            status: "active",
+            visibility: "public",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.insert("handles", {
+            memberId,
+            name: "second",
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.patch(ids.seriesId, { primaryOrganiserId: ids.memberId });
+        await ctx.db.delete(ids.grantId);
+        return memberId;
+    });
+    const row = await backend.run((ctx) => ctx.db.get(ids.eventId));
+    const read = () => backend.query(api.events.queries.event, { slug: row!.slug });
+    expect((await read())?.organiser?.name).toBe("Test");
+    expect((await read())?.organiser?.headline).toBe("Researcher at Test Lab");
+    await expect(
+        editor.mutation(api.events.mutations.edit, { eventId: ids.eventId }),
+    ).rejects.toThrow();
+    await backend.run((ctx) => ctx.db.patch(ids.eventId, { primaryOrganiserId: second }));
+    expect((await read())?.organiser?.name).toBe("Second");
+    await backend.run((ctx) => ctx.db.patch(second, { visibility: "private" }));
+    expect((await read())?.organiser).toBeNull();
+    await backend.run((ctx) => ctx.db.patch(ids.eventId, { primaryOrganiserId: undefined }));
+    expect((await read())?.organiser?.name).toBe("Test");
+});
+
+// Public credits inherit independently, preserve ordering and never grant editing rights.
+test("co-organisers inherit, deduplicate, override and respect profile privacy", async () => {
+    const { backend, editor, ids } = await setup();
+    const coId = await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.memberId, { visibility: "public" });
+        await ctx.db.insert("handles", {
+            memberId: ids.memberId,
+            name: "main-host",
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const memberId = await ctx.db.insert("members", {
+            name: "Co-host",
+            searchText: "co-host",
+            status: "active",
+            visibility: "public",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.insert("handles", {
+            memberId,
+            name: "co-host",
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.patch(ids.seriesId, {
+            primaryOrganiserId: ids.memberId,
+            coOrganiserIds: [ids.memberId, memberId],
+        });
+        await ctx.db.delete(ids.grantId);
+        return memberId;
+    });
+    const read = () => backend.query(api.events.queries.event, { slug: "dinner" });
+    expect((await read())?.coOrganisers.map((person) => person.name)).toEqual(["Co-host"]);
+    expect(
+        (await backend.query(api.events.queries.calendar, {}))
+            .find((event) => event.id === ids.eventId)
+            ?.coOrganisers.map((person) => person.name),
+    ).toEqual(["Co-host"]);
+    await expect(
+        editor.mutation(api.events.mutations.edit, { eventId: ids.eventId }),
+    ).rejects.toThrow();
+    await backend.run((ctx) => ctx.db.patch(ids.eventId, { coOrganiserIds: [] }));
+    expect((await read())?.coOrganisers).toEqual([]);
+    await backend.run((ctx) =>
+        ctx.db.patch(ids.eventId, { coOrganiserIds: undefined, primaryOrganiserId: coId }),
+    );
+    expect((await read())?.coOrganisers.map((person) => person.name)).toEqual(["Test"]);
+    await backend.run((ctx) => ctx.db.patch(ids.memberId, { visibility: "private" }));
+    expect((await read())?.coOrganisers).toEqual([]);
+});

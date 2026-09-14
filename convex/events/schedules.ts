@@ -10,7 +10,7 @@ import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
 import { requireWorkspace, requireSeries, requireRevision, requireSchedule } from "../auth/grants";
 import { allows } from "../auth/permissions";
-import { readTeam } from "../members/team";
+import { publicOrganisers } from "./organisers";
 import { recurrence, occurrences, validateRecurrence } from "./recurrence";
 import { eventFields, submissionFields } from "./fields";
 import { validateConfirmation } from "./conditions";
@@ -121,9 +121,9 @@ export const save = mutation({
             );
         if (template.endsAt !== undefined && template.endsAt - template.startsAt > 7 * 86400000)
             throw new Error("Recurring events must last at most seven days.");
-        const team = new Set((await readTeam(ctx)).map((member) => member._id));
-        if (!template.organiserIds?.length || template.organiserIds.some((id) => !team.has(id)))
-            throw new Error("Choose current team members as template organisers.");
+        const credits = await publicOrganisers(ctx, template, await ctx.db.get(args.seriesId));
+        if (!credits.organiser)
+            throw new Error("Choose a public primary organiser, directly or through the series.");
         const now = Date.now();
         const values = {
             seriesId: args.seriesId,
@@ -199,11 +199,15 @@ export async function generate(ctx: MutationCtx, schedule: Doc<"schedules">) {
     let nextNumber =
         schedule.nextNumber ??
         Math.max(existing.length, ...existing.map((event) => event.number ?? 0)) + 1;
-    const team = new Set((await readTeam(ctx)).map((member) => member._id));
-    if (schedule.template.organiserIds?.some((id) => !team.has(id))) {
+    const credits = await publicOrganisers(
+        ctx,
+        schedule.template,
+        await ctx.db.get(schedule.seriesId),
+    );
+    if (!credits.organiser) {
         await ctx.db.patch(schedule._id, {
             status: "paused",
-            errors: ["Choose current team members as organisers, then resume the schedule."],
+            errors: ["Choose a public primary organiser, then resume the schedule."],
         });
         return;
     }

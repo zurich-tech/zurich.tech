@@ -1,3 +1,4 @@
+import { organiserIds } from "../events/organisers";
 import { v } from "convex/values";
 import { query, type QueryCtx } from "../_generated/server";
 import type { Doc, Id } from "../_generated/dataModel";
@@ -50,12 +51,20 @@ export const member = query({
         }
 
         const events = await ctx.db.query("events").collect();
+        const series = await ctx.db.query("series").collect();
+        const seriesOrganisers = new Map(series.map((item) => [item._id, item]));
         const entries = await Promise.all(
             events
-                .filter(
-                    (event) =>
-                        event.status !== "draft" && (event.organiserIds ?? []).includes(member._id),
-                )
+                .filter((event) => {
+                    const ids = organiserIds(
+                        event,
+                        event.seriesId ? seriesOrganisers.get(event.seriesId) : undefined,
+                    );
+                    return (
+                        event.status !== "draft" &&
+                        (ids.primary === member._id || ids.others.includes(member._id))
+                    );
+                })
                 .map((event) => calendarRow(ctx, event)),
         );
 
@@ -166,6 +175,7 @@ async function memberRow(ctx: QueryCtx, member: Doc<"members">) {
     const tags = await memberTags(ctx, member._id);
 
     return {
+        id: member._id,
         avatarUrl: member.avatarUrl,
         avatarDarkUrl: member.avatarDarkUrl,
         bio: member.bio,

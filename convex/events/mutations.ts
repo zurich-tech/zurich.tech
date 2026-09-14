@@ -6,8 +6,8 @@ import { eventAction, confirmAction } from "./actions";
 import { eventPlace } from "./place";
 import { eventEmail, eventChanges } from "../mail/templates";
 import { readLinks, writeLinks } from "../members/links";
+import { validatePrimaryOrganiser, validateCoOrganisers, publicOrganisers } from "./organisers";
 import { v } from "convex/values";
-import { readTeam } from "../members/team";
 import type { Id } from "../_generated/dataModel";
 import { mutation, type MutationCtx } from "../_generated/server";
 import { requireEvent, requireRevision } from "../auth/grants";
@@ -47,15 +47,11 @@ export const save = mutation({
             confirmAction(await eventAction(ctx, event, "publish", values, announce), receipt);
         }
 
-        // keep named organisers independent of record ownership
-        values.organiserIds = [
-            ...new Set(
-                values.organiserIds ??
-                    existing?.organiserIds ??
-                    (existing ? [] : [viewer.memberId]),
-            ),
-        ];
-        await validateOrganisers(ctx, values.organiserIds, values.startsAt);
+        // Public credits are the sole organiser selection.
+        await validatePrimaryOrganiser(ctx, values.primaryOrganiserId);
+        values.primaryOrganiserId = args.primaryOrganiserId;
+        values.coOrganiserIds = args.coOrganiserIds;
+        await validateCoOrganisers(ctx, values.coOrganiserIds);
 
         // allow planning drafts before their description and venue are confirmed
         if (publish && (!values.description.trim() || !values.location.trim()))
@@ -279,7 +275,15 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
         )
             throw new Error("Capacity is below confirmed attendance.");
     }
-    await validateOrganisers(ctx, draft.organiserIds ?? [], draft.startsAt);
+    const credits = await publicOrganisers(
+        ctx,
+        draft,
+        draft.seriesId ? await ctx.db.get(draft.seriesId) : null,
+    );
+    if (draft.startsAt > Date.now() && !credits.organiser)
+        throw new Error("Choose a public primary organiser, directly or through the series.");
+    await validatePrimaryOrganiser(ctx, draft.primaryOrganiserId);
+    await validateCoOrganisers(ctx, draft.coOrganiserIds);
 
     // retain a shared venue only while its name, address and map position match
     const previousPlace = existing ? await eventPlace(ctx, existing) : undefined;
@@ -294,7 +298,6 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
     const values = {
         ownerId: draft.ownerId,
         ...eventFields(draft),
-        organiserIds: draft.organiserIds ?? [],
         summary: draft.summary ?? existing?.summary,
         venueId: keepsVenue ? existing?.venueId : undefined,
         approvedAt: draft.confirmation?.isApprovalRequired ? existing?.approvedAt : undefined,
@@ -428,7 +431,8 @@ export const edit = mutation({
 
         return await ctx.db.insert("submissions", {
             ownerId: event.ownerId,
-            organiserIds: event.organiserIds ?? [],
+            primaryOrganiserId: event.primaryOrganiserId,
+            coOrganiserIds: event.coOrganiserIds,
             eventId: event._id,
             status: "published",
             title: event.title,
@@ -497,11 +501,3 @@ export const cancel = mutation({
         await settle(ctx, event, "cancelled");
     },
 });
-
-/** Require team organisers for upcoming events and permit unknown historical organisers. */
-async function validateOrganisers(ctx: MutationCtx, ids: Id<"members">[], startsAt: number) {
-    // keep upcoming events assigned to a named team member
-    if (startsAt > Date.now() && !ids.length) throw new Error("Choose at least one organiser.");
-    const team = new Set((await readTeam(ctx)).map((member) => member._id));
-    if (ids.some((id) => !team.has(id))) throw new Error("Choose a team member as organiser.");
-}

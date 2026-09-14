@@ -5,6 +5,7 @@ import { usePlanning, useConfirmationRefresh, getCalendar, type CalendarEntry } 
 
 import { Card } from "../components/card";
 import { FilterPills } from "../components/filter-pills";
+import { sameOrganisers, type OrganiserPerson } from "./organiser";
 import { EventEntry } from "./entry";
 import { createSignal, createMemo, createEffect, on, For, Show } from "solid-js";
 import { useSearchParams, revalidate } from "@solidjs/router";
@@ -23,7 +24,13 @@ export function Programme(props: {
     /** Heading level within the containing page. */
     heading?: "h1" | "h2";
     /** Series available as calendar filters. */
-    series: { _id: string; slug: string; name: string }[];
+    series: {
+        _id: string;
+        slug: string;
+        name: string;
+        organiser?: OrganiserPerson | null;
+        coOrganisers?: OrganiserPerson[];
+    }[];
 }) {
     // retain the selected filters and visible event count
     const [params, setParams] = useSearchParams();
@@ -225,6 +232,15 @@ export function Programme(props: {
                                         </Show>
                                         <EventEntry
                                             event={event}
+                                            hideOrganiser={
+                                                !!props.seriesId &&
+                                                sameOrganisers(
+                                                    event,
+                                                    props.series.find(
+                                                        (series) => series._id === props.seriesId,
+                                                    ),
+                                                )
+                                            }
                                             now={now}
                                             series={
                                                 props.seriesId

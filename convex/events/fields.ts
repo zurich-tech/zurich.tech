@@ -63,8 +63,11 @@ export const participationFields = {
 
 /** Fields an organiser may edit before publication. */
 export const submissionFields = {
+    primaryOrganiserId: v.optional(v.id("members")),
+    coOrganiserIds: v.optional(v.array(v.id("members"))),
     ...participationFields,
     confirmation: v.optional(confirmation),
+    /** Retained only to read legacy records during migration. */
     organiserIds: v.optional(v.array(v.id("members"))),
     title: v.string(),
     slug: v.string(),
@@ -99,7 +102,8 @@ export const submissionFields = {
 /** Authored event details shared by publication and generated drafts. */
 export function eventFields(draft: Pick<Doc<"submissions">, keyof typeof submissionFields>) {
     return {
-        organiserIds: draft.organiserIds,
+        primaryOrganiserId: draft.primaryOrganiserId,
+        coOrganiserIds: draft.coOrganiserIds,
         title: draft.title,
         slug: draft.slug,
         description: draft.description,

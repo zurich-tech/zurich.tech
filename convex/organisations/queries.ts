@@ -1,3 +1,4 @@
+import { publicOrganisers } from "../events/organisers";
 import { readProfiles } from "../members/links";
 
 import { query } from "../_generated/server";
@@ -11,12 +12,18 @@ export const directory = query({
         const sponsors = await activeSponsors(ctx);
         const sponsored = new Set(sponsors.map((sponsor) => sponsor.organisationId));
         const organisations = await ctx.db.query("organisations").collect();
+        const series = await ctx.db
+            .query("series")
+            .filter((q) => q.neq(q.field("status"), "proposed"))
+            .collect();
 
         return {
-            series: await ctx.db
-                .query("series")
-                .filter((q) => q.neq(q.field("status"), "proposed"))
-                .collect(),
+            series: await Promise.all(
+                series.map(async (item) => ({
+                    ...item,
+                    ...(await publicOrganisers(ctx, item)),
+                })),
+            ),
             organisations: await Promise.all(
                 organisations.map(async (organisation) => ({
                     _id: organisation._id,

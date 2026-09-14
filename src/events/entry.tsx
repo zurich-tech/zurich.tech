@@ -1,3 +1,4 @@
+import { Organisers } from "./organiser";
 import { EventCounts } from "./counts";
 import { EventBadges, EventTags } from "./tags";
 import { isTentative } from "../../convex/events/conditions";
@@ -87,6 +88,7 @@ export function Entry(props: {
 /** Keep event metadata and publication labels identical across programmes and series. */
 export function EventEntry(props: {
     event: CalendarEntry;
+    hideOrganiser?: boolean;
     now: number;
     actions?: JSX.Element;
     series?: { slug: string; name: string };
@@ -127,11 +129,21 @@ export function EventEntry(props: {
                             <span class="tag">{props.event.location}</span>
                         </Show>
                     </div>
-                    <EventCounts
-                        compact
-                        confirmed={props.event.rsvpCount}
-                        waitlist={props.event.waitlistCount}
-                    />
+                    <div class="entry-people">
+                        <EventCounts
+                            compact
+                            confirmed={props.event.rsvpCount}
+                            waitlist={props.event.waitlistCount}
+                        />
+                        <Show when={!props.hideOrganiser}>
+                            <Organisers
+                                compact
+                                primary={props.event.organiser}
+                                others={props.event.coOrganisers}
+                                href={props.event.href}
+                            />
+                        </Show>
+                    </div>
                 </>
             }
         />

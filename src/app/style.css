@@ -5692,7 +5692,8 @@ iframe.email-preview {
     font-size: 14px;
     font-weight: 600;
 }
-.event-facts dd span {
+.event-facts dd > span,
+.event-facts dd > div:not(.organisers) > span {
     display: block;
     color: var(--color-soft);
     font-weight: 400;
@@ -5709,6 +5710,15 @@ iframe.email-preview {
 .event-overview__registration {
     border-top: 1px solid var(--color-line);
     padding-top: 16px;
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+    .event-facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .event-facts > div:nth-child(odd) {
+        border-left: 0;
+        padding-left: 0;
+    }
 }
 @media (max-width: 700px) {
     .event-facts {

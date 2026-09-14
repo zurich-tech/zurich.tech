@@ -1,3 +1,4 @@
+import { publicOrganiser, publicOrganisers, organiserIds } from "./organisers";
 import { readLinks } from "../members/links";
 import { mediaOrigin } from "./gallery";
 import { eventTags } from "../search/search";
@@ -11,12 +12,36 @@ export const calendar = query({
     args: {},
     handler: async (ctx) => {
         const events = await ctx.db.query("events").collect();
+        const series = await ctx.db.query("series").collect();
+        const bySeries = new Map(series.map((item) => [item._id, item]));
+        const credits = new Map(
+            events.map((event) => [
+                event._id,
+                organiserIds(event, event.seriesId ? bySeries.get(event.seriesId) : undefined),
+            ]),
+        );
+        const ids = [
+            ...new Set([...credits.values()].flatMap((ids) => [ids.primary, ...ids.others])),
+        ];
+        const people = new Map(
+            await Promise.all(ids.map(async (id) => [id, await publicOrganiser(ctx, id)] as const)),
+        );
 
         return await Promise.all(
             events
                 .filter((event) => event.status !== "draft")
                 .sort((left, right) => left.startsAt - right.startsAt)
-                .map((event) => calendarRow(ctx, event)),
+                .map((event) =>
+                    calendarRow(
+                        ctx,
+                        event,
+                        people.get(credits.get(event._id)!.primary) ?? null,
+                        credits
+                            .get(event._id)!
+                            .others.map((id) => people.get(id))
+                            .filter((person): person is NonNullable<typeof person> => !!person),
+                    ),
+                ),
         );
     },
 });
@@ -77,6 +102,9 @@ export const event = query({
                 width: image.width,
             }));
 
+        const series = event.seriesId ? await ctx.db.get(event.seriesId) : null;
+        const credits = await publicOrganisers(ctx, event, series);
+
         const latitude = event.latitude ?? address?.latitude;
         const longitude = event.longitude ?? address?.longitude;
 
@@ -92,7 +120,8 @@ export const event = query({
                 rsvps.filter((row) => row.status === "going").length >= event.registration.capacity,
             isApproved: event.approvedAt !== undefined,
             seriesId: event.seriesId,
-            series: event.seriesId ? await ctx.db.get(event.seriesId) : null,
+            series,
+            ...credits,
             topics: event.topics,
             organisations: await Promise.all(
                 (event.organisationIds ?? []).map(async (id) => {
@@ -155,7 +184,21 @@ export const event = query({
 });
 
 /** Expand one published calendar entry with event records. */
-export async function calendarRow(ctx: QueryCtx, event: Doc<"events">) {
+export async function calendarRow(
+    ctx: QueryCtx,
+    event: Doc<"events">,
+    organiser?: Awaited<ReturnType<typeof publicOrganiser>>,
+    coOrganisers: NonNullable<Awaited<ReturnType<typeof publicOrganiser>>>[] = [],
+) {
+    // Reuse batch-resolved credits when available; expand isolated rows on demand.
+    const credits =
+        organiser === undefined
+            ? await publicOrganisers(
+                  ctx,
+                  event,
+                  event.seriesId ? await ctx.db.get(event.seriesId) : null,
+              )
+            : { organiser, coOrganisers };
     const rows = await ctx.db
         .query("registrations")
         .withIndex("by_event", (q) => q.eq("eventId", event._id))
@@ -163,6 +206,7 @@ export async function calendarRow(ctx: QueryCtx, event: Doc<"events">) {
     const registrations = event.registration.kind === "native" || rows.length ? rows : undefined;
 
     return {
+        ...credits,
         id: event._id,
         href: `/events/${event.slug}`,
         slug: event.slug,

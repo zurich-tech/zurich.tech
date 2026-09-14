@@ -1,3 +1,4 @@
+import { OrganiserCard } from "../../events/organiser";
 import { DeleteRecord } from "../../events/delete";
 import { EventOptions } from "../../events/participation";
 import { useConfirmation } from "../../components/dialog";
@@ -250,7 +251,13 @@ export default function Route() {
                 latitude: text("latitude") ? Number(text("latitude")) : undefined,
                 longitude: text("longitude") ? Number(text("longitude")) : undefined,
                 registration: policy,
-                organiserIds: fields.getAll("organiserIds") as Id<"members">[],
+                coOrganiserIds:
+                    text("coOrganiserMode") === "inherit"
+                        ? undefined
+                        : (fields.getAll("coOrganiserId").map(String) as Id<"members">[]),
+                primaryOrganiserId: text("primaryOrganiserId")
+                    ? (text("primaryOrganiserId") as Id<"members">)
+                    : undefined,
                 organisations: organisations.map(
                     ([name]) => name.slice("organisation:".length) as Id<"organisations">,
                 ),
@@ -537,28 +544,11 @@ export default function Route() {
                                     <ProgrammeFields draft={draft()} directory={directory()} />
                                 </div>
                                 <div class="editor-column">
-                                    <Card title="Organisers">
-                                        <div class="organiser-options">
-                                            <For each={workspace()?.organisers}>
-                                                {(person) => (
-                                                    <label class="checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            name="organiserIds"
-                                                            value={person.id}
-                                                            checked={(
-                                                                draft()?.organiserIds ??
-                                                                (draft()
-                                                                    ? []
-                                                                    : [workspace()!.viewerId])
-                                                            ).includes(person.id)}
-                                                        />
-                                                        {person.name}
-                                                    </label>
-                                                )}
-                                            </For>
-                                        </div>
-                                    </Card>
+                                    <OrganiserCard
+                                        value={draft()?.primaryOrganiserId}
+                                        coOrganisers={draft()?.coOrganiserIds}
+                                        inherit
+                                    />
                                     {/* enter real Zürich local dates and an optional map position */}
                                     <VenueFields draft={draft()} />
                                     <EventOptions

@@ -1,10 +1,9 @@
+import { SeriesDetails } from "../../../events/series-details";
 import { createAsync, useParams } from "@solidjs/router";
 import { Show } from "solid-js";
 import { getDirectory } from "../../../organisations/queries";
 import { getCalendar } from "../../../events/queries";
 import { Programme } from "../../../events/programme";
-import { EventTags } from "../../../events/tags";
-import { Markdown } from "../../../components/markdown";
 import { EditLink } from "../../../auth/edit";
 import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
@@ -27,7 +26,8 @@ export default function Route() {
                         <Page>
                             <ItemHeader
                                 title={item().name}
-                                summary={<Markdown source={item().description} />}
+                                class="series-header"
+                                summary={<SeriesDetails series={item()} />}
                                 actions={
                                     <EditLink
                                         href={`/admin?section=series&series=${item()._id}`}
@@ -35,11 +35,7 @@ export default function Route() {
                                         label="Edit series"
                                     />
                                 }
-                            >
-                                <EventTags
-                                    topics={item().topics.filter((topic) => topic !== item().slug)}
-                                />
-                            </ItemHeader>
+                            />
                             <Programme
                                 entries={events() ?? []}
                                 series={directory()!.series}

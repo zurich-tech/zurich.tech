@@ -55,12 +55,18 @@ export function DetailRow(props: { label: string; value: JSX.Element }) {
 /** Introduce an item with title-bar actions, description and supporting metadata. */
 export function ItemHeader(props: {
     title: string;
+    class?: string;
     summary?: JSX.Element;
     actions?: JSX.Element;
     children?: JSX.Element;
 }) {
     return (
-        <Card title={props.title} heading="h1" class="item-header" toolbar={props.actions}>
+        <Card
+            title={props.title}
+            heading="h1"
+            class={`item-header ${props.class ?? ""}`}
+            toolbar={props.actions}
+        >
             <div class="item-summary">{props.summary}</div>
             <div class="item-metadata">{props.children}</div>
         </Card>

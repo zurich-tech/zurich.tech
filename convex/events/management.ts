@@ -2,7 +2,6 @@ import { v } from "convex/values";
 import { query } from "../_generated/server";
 import { requireWorkspace, scopedEvents, scopedRevisions } from "../auth/grants";
 import { allows } from "../auth/permissions";
-import { readTeam } from "../members/team";
 import { eventPlace } from "./place";
 
 /** Read only assigned content; account management and newsletters load separately. */
@@ -45,10 +44,6 @@ export const workspace = query({
             published: events
                 .filter((event) => !revised.has(event._id))
                 .sort((a, b) => b.startsAt - a.startsAt),
-            viewerId: access.account.memberId,
-            organisers: (await readTeam(ctx))
-                .map((member) => ({ id: member._id, name: member.name }))
-                .sort((a, b) => a.name.localeCompare(b.name)),
             isAdmin: access.isAdmin,
             organiserEventIds: events
                 .filter((event) =>

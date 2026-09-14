@@ -1,0 +1,84 @@
+.organiser {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    vertical-align: middle;
+    min-width: 0;
+    max-width: 100%;
+}
+.organiser img {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.entry-people {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-inline-start: auto;
+    flex-shrink: 0;
+}
+
+.organiser > .organiser-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.organiser--detailed {
+    align-items: flex-start;
+}
+.organiser-copy {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+.organiser-headline {
+    display: block;
+    color: var(--color-soft);
+    font-weight: 400;
+}
+
+.organisers {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.organisers:empty {
+    display: none;
+}
+.organisers--detailed {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+}
+.entry-people .organisers {
+    flex-wrap: nowrap;
+}
+.organisers-more {
+    color: inherit;
+    font-size: 12px;
+}
+.organiser-fields {
+    display: grid;
+    gap: 12px;
+}
+.co-organiser-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.co-organiser-row > span {
+    flex: 1;
+}

@@ -1,3 +1,4 @@
+import { Organisers } from "../../../events/organiser";
 import { useCancellation } from "../../../events/cancellation";
 import { RegistrationStatus } from "../../../events/status";
 import { EventBadges, EventTags } from "../../../events/tags";
@@ -919,6 +920,18 @@ function EventFacts(props: { event: PublicEvent }) {
                     </Show>
                 </dd>
             </div>
+            <Show when={props.event.organiser || props.event.coOrganisers?.length}>
+                <div>
+                    <dt>{props.event.coOrganisers?.length ? "Organisers" : "Organiser"}</dt>
+                    <dd>
+                        <Organisers
+                            detailed
+                            primary={props.event.organiser}
+                            others={props.event.coOrganisers}
+                        />
+                    </dd>
+                </div>
+            </Show>
             <Show when={props.event.speakers.length}>
                 <div>
                     <dt>Speakers</dt>

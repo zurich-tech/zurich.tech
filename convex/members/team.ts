@@ -25,6 +25,7 @@ export const list = query({
                     const handle = await memberHandle(ctx, member._id);
                     if (!handle) throw new Error("Public team member has no active handle.");
                     return {
+                        id: member._id,
                         name: member.name,
                         href: `/members/${handle.name}`,
                         role: role.status === "former" ? "Emeritus" : role.name,
