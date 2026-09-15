@@ -12,6 +12,7 @@ import { Field, Input, Textarea, Select } from "../components/field";
 import { FormMessage } from "../components/form";
 import { Dialog, useConfirmation } from "../components/dialog";
 import { Markdown } from "../components/markdown";
+import { MarkdownEditor } from "../components/markdown-editor";
 import { errorMessage } from "../components/errors";
 import { SocialCopy } from "./social";
 import { getArticles, getArticle } from "./queries";
@@ -214,6 +215,22 @@ export function NewsEditor(props: {
                                 />
                             </Field>
                         </Show>
+                        <Field label="Category">
+                            <Select
+                                value={content().category ?? ""}
+                                onChange={(event) =>
+                                    update(
+                                        "category",
+                                        event.currentTarget.value === "funding"
+                                            ? "funding"
+                                            : undefined,
+                                    )
+                                }
+                            >
+                                <option value="">General news</option>
+                                <option value="funding">Funding</option>
+                            </Select>
+                        </Field>
                         <Field label="Summary">
                             <Textarea
                                 rows={2}
@@ -224,14 +241,11 @@ export function NewsEditor(props: {
                                 }
                             />
                         </Field>
-                        <Field label={content().kind === "link" ? "Commentary" : "Body"}>
-                            <Textarea
-                                rows={10}
-                                value={content().body}
-                                onInput={(event) => update("body", event.currentTarget.value)}
-                                placeholder="Markdown supported"
-                            />
-                        </Field>
+                        <MarkdownEditor
+                            label={content().kind === "link" ? "Commentary" : "Body"}
+                            value={content().body}
+                            onChange={(value) => update("body", value)}
+                        />
                         <div class="news-editor-grid">
                             <Field label="Image URL">
                                 <Input

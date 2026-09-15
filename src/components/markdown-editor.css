@@ -1,0 +1,29 @@
+/* Keep writing and preview aligned with the surrounding form controls. */
+.markdown-editor {
+    display: grid;
+    min-width: 0;
+    gap: 8px;
+}
+.markdown-editor__tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+}
+.markdown-editor__toggle {
+    margin-left: auto;
+}
+.markdown-editor textarea {
+    font: 13px/1.7 var(--font-mono);
+}
+.markdown-editor__preview {
+    min-height: 280px;
+    max-width: none;
+    padding: 12px;
+    border: 1px solid var(--color-line);
+    overflow-wrap: anywhere;
+}
+
+.markdown-editor__hint {
+    color: var(--color-soft);
+}

@@ -1,15 +1,5 @@
 import { For, createMemo } from "solid-js";
-import { Card } from "../components/card";
-import type { Article } from "./queries";
-
-/** Browse the canonical tags attached to published articles. */
-export function Tags(props: { articles: Article[]; selected?: string }) {
-    return (
-        <Card title="Topics">
-            <TagPills {...props} />
-        </Card>
-    );
-}
+import type { Article } from "./model";
 
 /** Link to the news archive filtered by each published tag. */
 export function TagPills(props: { articles: Article[]; selected?: string }) {
@@ -17,7 +7,7 @@ export function TagPills(props: { articles: Article[]; selected?: string }) {
     const tags = createMemo(() => {
         const unique = new Map(
             props.articles.flatMap((article) =>
-                article.topics.map((tag) => [tag.slug, tag] as const),
+                articleTags(article).map((tag) => [tag.slug, tag] as const),
             ),
         );
         return [...unique.values()].sort((left, right) => left.name.localeCompare(right.name));
@@ -45,4 +35,12 @@ export function TagPills(props: { articles: Article[]; selected?: string }) {
             </For>
         </nav>
     );
+}
+
+/** Combine the announcement category and technology topics for display and filtering. */
+export function articleTags(article: Article) {
+    return [
+        ...(article.category === "funding" ? [{ slug: "funding", name: "Funding" }] : []),
+        ...article.topics,
+    ];
 }

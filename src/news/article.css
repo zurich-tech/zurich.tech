@@ -72,11 +72,65 @@
     }
 }
 
-/* keep the source or byline alongside the date instead of adding another row */
-.news-row .event-venue {
-    grid-column: 1;
+/* keep the archive readable and publication metadata together at every width */
+.news-page {
+    width: 100%;
+    max-width: 960px;
+    margin-inline: auto;
+}
+.news-row.entry-publication .event-venue {
+    grid-column: 1 / -1;
     grid-row: 3;
-    justify-self: end;
-    max-width: calc(100% - 100px);
-    text-align: right;
+    min-width: 0;
+}
+.news-row .entry-published {
+    grid-row: 4;
+}
+.news-row .event-description {
+    -webkit-line-clamp: unset;
+}
+
+/* use the shared detail card while keeping prose at a readable line length */
+.news-detail {
+    width: 100%;
+}
+.news-detail > .eyebrow {
+    margin-bottom: 12px;
+}
+.article-details {
+    display: grid;
+    gap: 12px;
+}
+.article-byline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 13px;
+    color: var(--color-soft);
+}
+.article-byline time {
+    text-transform: none;
+}
+.article-summary {
+    margin: 0;
+    color: inherit;
+}
+.article-details .entry-tags {
+    margin: 0;
+}
+.article-content {
+    max-width: 72ch;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+.article-content .markdown {
+    font-size: inherit;
+    line-height: inherit;
+}
+.article-content .markdown > :first-child {
+    margin-top: 0;
+}
+.article-content .markdown > :last-child {
+    margin-bottom: 0;
 }

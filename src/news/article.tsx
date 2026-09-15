@@ -1,11 +1,11 @@
+import { ExternalTag } from "../components/tag";
 import { useSearch } from "../search/local";
-import { FilterPills } from "../components/filter-pills";
 import "./article.css";
 import { NewsActions } from "./actions";
 import { EditLink } from "../auth/edit";
-import { TagPills } from "./tags";
-import { type Article } from "./queries";
-import { For, Show, createMemo, createSignal } from "solid-js";
+import { articleTags, TagPills } from "./tags";
+import { type Article } from "./model";
+import { For, Show, createMemo } from "solid-js";
 
 import { matchesSearch, searchTerms, searchExcerpt } from "../search/search";
 import { Entry } from "../events/entry";
@@ -34,15 +34,13 @@ type ArticleListProps = {
 /** Render dated articles with optional search. */
 export function ArticleList(props: ArticleListProps) {
     const { query, setQuery } = useSearch();
-    const [kind, setKind] = createSignal("All");
     const terms = createMemo(() => searchTerms(query()));
 
     // filter all visible article fields
     const matches = createMemo(() => {
         return props.articles.filter(
             (article) =>
-                (kind() === "All" || (article.kind ?? "post") === kind().toLowerCase()) &&
-                (!props.tag || article.topics.some((tag) => tag.slug === props.tag)) &&
+                (!props.tag || articleTags(article).some((tag) => tag.slug === props.tag)) &&
                 matchesSearch(articleText(article), terms()),
         );
     });
@@ -58,19 +56,14 @@ export function ArticleList(props: ArticleListProps) {
             toolbar={<NewsActions isCompact={props.isCompact} />}
             titleHref={props.titleHref ?? (props.isPage ? undefined : "/news")}
         >
-            <Show when={props.isCompact}>
+            <Show when={!props.isSearchable}>
                 <div class="news-filters">
                     <TagPills articles={props.articles} selected={props.tag} />
                 </div>
             </Show>
             <Show when={props.isSearchable}>
                 <TableToolbar onSearch={setQuery} value={query()} placeholder="Search news…">
-                    <FilterPills
-                        label="News type"
-                        value={kind()}
-                        onChange={setKind}
-                        options={["All", "Post", "Link"].map((label) => ({ label, value: label }))}
-                    />
+                    <TagPills articles={props.articles} selected={props.tag} />
                 </TableToolbar>
             </Show>
             {/* articles */}
@@ -83,11 +76,12 @@ export function ArticleList(props: ArticleListProps) {
                         {(article) => (
                             <Entry
                                 class="news-row"
+                                isExternal={!!article.url}
                                 date={article.date}
                                 datePlacement="below"
                                 href={article.url ?? `/news/${article.slug}`}
                                 actions={
-                                    article.id && !props.isCompact ? (
+                                    !props.isCompact ? (
                                         <EditLink href={`/news/edit?id=${article.id}`} />
                                     ) : undefined
                                 }
@@ -105,11 +99,18 @@ export function ArticleList(props: ArticleListProps) {
                                     />
                                 }
                                 meta={
-                                    article.url
-                                        ? new URL(article.url).hostname.replace(/^www\./, "")
-                                        : props.isCompact
-                                          ? undefined
-                                          : article.authors.map((author) => author.name).join(", ")
+                                    <div class="entry-tags">
+                                        <Show when={article.url}>
+                                            <ExternalTag />
+                                        </Show>
+                                        <For each={articleTags(article)}>
+                                            {(tag) => (
+                                                <a class="tag" href={`/news?tag=${tag.slug}`}>
+                                                    {tag.name}
+                                                </a>
+                                            )}
+                                        </For>
+                                    </div>
                                 }
                                 title={<Highlight text={article.title} terms={terms()} />}
                             />
@@ -127,7 +128,10 @@ function articleText(article: Article) {
         article.title,
         article.description,
         article.body,
-        ...article.topics.map((tag) => tag.name),
+        new Date(article.date).toISOString().slice(0, 10),
+        article.url ?? "",
+        ...article.organisations.map((organisation) => organisation.name),
+        ...articleTags(article).map((tag) => tag.name),
         ...article.authors.map((author) => author.name),
     ].join(" ");
 }
