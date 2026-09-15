@@ -1,3 +1,5 @@
+import { useSearchParams } from "@solidjs/router";
+import { Field, Select } from "../../../components/field";
 import { locationsLabel } from "../../../jobs/format";
 import { getTopics } from "../../../topics/queries";
 import { useSearch } from "../../../search/local";
@@ -27,6 +29,14 @@ export const route = {
 export default function Route() {
     // load approved jobs and retain the selected filters
     const jobs = getJobs.use(() => []);
+    const [params, setParams] = useSearchParams();
+    const company = () => (typeof params.company === "string" ? params.company : "");
+    const companies = createMemo(() =>
+        [...new Map((jobs() ?? []).map((job) => [job.company.slug, job.company])).values()].sort(
+            (a, b) => a.name.localeCompare(b.name),
+        ),
+    );
+
     const { query: search, setQuery: setSearch, terms } = useSearch();
     const [workplace, setWorkplace] = createSignal("all");
     const [engagement, setEngagement] = createSignal("all");
@@ -38,6 +48,7 @@ export default function Route() {
     const matches = createMemo(() =>
         (jobs() ?? []).filter(
             (job) =>
+                (!company() || job.company.slug === company()) &&
                 (workplace() === "all" || job.workplace === workplace()) &&
                 (engagement() === "all" || job.engagement === engagement()) &&
                 (topic() === "all" || job.topics.includes(topic())) &&
@@ -76,7 +87,7 @@ export default function Route() {
                                     label="Workplace"
                                     value={
                                         workplace() === "all" &&
-                                        (engagement() !== "all" || topic() !== "all")
+                                        (engagement() !== "all" || topic() !== "all" || !!company())
                                             ? ""
                                             : workplace()
                                     }
@@ -85,6 +96,7 @@ export default function Route() {
                                         if (value === "all") {
                                             setEngagement("all");
                                             setTopic("all");
+                                            setParams({ company: undefined });
                                         }
                                     }}
                                     options={[
@@ -121,6 +133,31 @@ export default function Route() {
                                         .map((topic) => ({ value: topic.slug, label: topic.name }))}
                                 />
                             </div>
+                            <Field label="Company">
+                                <Select
+                                    value={company()}
+                                    onChange={(event) =>
+                                        setParams({
+                                            company: event.currentTarget.value || undefined,
+                                        })
+                                    }
+                                >
+                                    <option value="">All companies</option>
+                                    <Show
+                                        when={
+                                            company() &&
+                                            !companies().some((item) => item.slug === company())
+                                        }
+                                    >
+                                        <option value={company()}>
+                                            {company()} (no open roles)
+                                        </option>
+                                    </Show>
+                                    <For each={companies()}>
+                                        {(item) => <option value={item.slug}>{item.name}</option>}
+                                    </For>
+                                </Select>
+                            </Field>
                         </TableToolbar>
                         {/* render the visible page of matching jobs */}
                         <For each={matches().slice(0, count())}>

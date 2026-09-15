@@ -18,7 +18,12 @@ export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX
             <ItemHeader
                 title={item().title}
                 actions={props.actions}
-                summary={`${item().company.name} · ${locationsLabel(item().locations) || workplaces[item().workplace]}`}
+                summary={
+                    <>
+                        <a href={`/organisations/${item().company.slug}`}>{item().company.name}</a>
+                        {` · ${locationsLabel(item().locations) || workplaces[item().workplace]}`}
+                    </>
+                }
             >
                 <JobTags job={item()} />
             </ItemHeader>
@@ -106,7 +111,10 @@ export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX
                             </a>
                         </Show>
                     </Card>
-                    <Card title={item().company.name}>
+                    <Card
+                        title={item().company.name}
+                        titleHref={`/organisations/${item().company.slug}`}
+                    >
                         <Show when={item().company.logoUrl}>
                             <Image
                                 class="company-image"

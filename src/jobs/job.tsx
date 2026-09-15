@@ -15,11 +15,7 @@ export function JobEntry(props: {
     /** Use a short row for the homepage sidebar. */ isCompact?: boolean;
 }) {
     return (
-        <a
-            class="job-entry"
-            classList={{ "job-entry--compact": props.isCompact }}
-            href={`/jobs/${props.job.slug}`}
-        >
+        <article class="job-entry" classList={{ "job-entry--compact": props.isCompact }}>
             <div class="company-logo">
                 <Show
                     when={props.job.company.logoUrl}
@@ -34,12 +30,20 @@ export function JobEntry(props: {
                 </Show>
             </div>
             <div class="job-copy">
-                <strong>
+                <a class="job-title" href={`/jobs/${props.job.slug}`}>
                     <Highlight text={props.job.title} terms={props.terms ?? []} />
-                </strong>
+                </a>
                 <p>
+                    <a
+                        class="job-company"
+                        href={`/jobs?company=${encodeURIComponent(props.job.company.slug)}`}
+                        title={`Show jobs at ${props.job.company.name}`}
+                    >
+                        <Highlight text={props.job.company.name} terms={props.terms ?? []} />
+                    </a>
+                    {" · "}
                     <Highlight
-                        text={`${props.job.company.name} · ${locationsLabel(props.job.locations) || "Remote"}`}
+                        text={locationsLabel(props.job.locations) || "Remote"}
                         terms={props.terms ?? []}
                     />
                 </p>
@@ -54,6 +58,6 @@ export function JobEntry(props: {
                 </Show>
             </div>
             <Arrow />
-        </a>
+        </article>
     );
 }

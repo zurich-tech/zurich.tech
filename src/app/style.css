@@ -3509,7 +3509,7 @@ select.field__control:not([multiple]) {
     color: var(--color-accent);
     margin-top: 5px;
 }
-.job-copy > strong {
+.job-copy > .job-title {
     font: 500 22px/1.3 var(--font-mono);
     letter-spacing: -0.045em;
 }
@@ -3542,7 +3542,7 @@ select.field__control:not([multiple]) {
     font: 12px/1.5 var(--font-mono);
 }
 .empty-copy {
-    padding: 24px 0;
+    padding: 16px 0;
     margin: 0;
     color: var(--color-soft);
 }
@@ -3606,7 +3606,7 @@ select.field__control:not([multiple]) {
         width: 36px;
         height: 36px;
     }
-    .job-copy > strong {
+    .job-copy > .job-title {
         font-size: 19px;
     }
 }
@@ -4065,7 +4065,7 @@ iframe.email-preview {
     width: 36px;
     height: 36px;
 }
-.job-entry--compact .job-copy > strong {
+.job-entry--compact .job-copy > .job-title {
     font: 600 16px/1.4 var(--font-sans);
     letter-spacing: -0.02em;
     overflow-wrap: anywhere;
@@ -4444,7 +4444,7 @@ iframe.email-preview {
     color: var(--color-accent);
 }
 .organisation-entry:hover h2,
-.job-entry:hover .job-copy > strong {
+.job-title:hover {
     text-decoration: underline;
     text-underline-offset: 4px;
 }
@@ -5644,4 +5644,30 @@ a.tag:focus-visible {
 }
 .job-publication-return > .editor {
     margin-top: 16px;
+}
+
+/* Keep the row destination and company filter as separate, accessible links. */
+.job-entry {
+    position: relative;
+}
+.job-title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+.job-company {
+    position: relative;
+    z-index: 1;
+}
+.job-company:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.job-company:active {
+    color: var(--color-ink);
+}
+.job-title:focus-visible::after {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
 }
