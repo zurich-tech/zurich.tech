@@ -1,3 +1,4 @@
+import { workplaces, engagements } from "./filters";
 import { countries } from "../../convex/members/countries";
 import type { Job } from "../../convex/jobs/fields";
 
@@ -34,4 +35,17 @@ export function locationsLabel(locations: Job["locations"]): string {
                 `${location.locality}, ${countries.find((country) => country.value === location.countryCode)?.label ?? location.countryCode}`,
         )
         .join(" / ");
+}
+
+/** Keep decision-making job facts identical in cards, details and email. */
+export function jobFacts(
+    job: Pick<Job, "workplace" | "engagement" | "workload" | "compensation">,
+): string[] {
+    return [
+        workplaces[job.workplace],
+        engagements[job.engagement],
+        job.workload ? `${rangeLabel(job.workload)}%` : undefined,
+        job.compensation?.salary ? `${salaryLabel(job.compensation.salary)} gross` : undefined,
+        job.compensation?.equity ? `${rangeLabel(job.compensation.equity)}% equity` : undefined,
+    ].filter((value): value is string => value !== undefined);
 }

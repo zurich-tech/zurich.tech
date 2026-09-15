@@ -3426,7 +3426,8 @@ select.field__control:not([multiple]) {
     color: var(--color-soft);
 }
 
-.tag.tag-upcoming {
+.tag.tag-upcoming,
+.tag.tag-emphasis {
     background: var(--brand-blue);
     border-color: var(--brand-blue);
     color: white;
@@ -3537,9 +3538,6 @@ select.field__control:not([multiple]) {
 }
 .company-image {
     max-height: 100px;
-}
-.job-salary {
-    font: 12px/1.5 var(--font-mono);
 }
 .empty-copy {
     padding: 16px 0;

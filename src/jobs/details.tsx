@@ -6,7 +6,7 @@ import { ItemHeader } from "../app/page";
 import { Markdown } from "../components/markdown";
 import { Image } from "../components/image";
 import { workplaces, seniorities } from "./filters";
-import { applicationHref, rangeLabel, salaryLabel } from "./format";
+import { applicationHref } from "./format";
 import { JobTags } from "./tags";
 
 /** Use the public vacancy layout for both reading and editorial preview. */
@@ -35,7 +35,6 @@ export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX
                 <aside class="listing-sidebar">
                     <Show
                         when={
-                            item().compensation ||
                             item().duration ||
                             item().seniority ||
                             item().remoteEligibility ||
@@ -45,15 +44,6 @@ export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX
                         }
                     >
                         <Card title="Details">
-                            <Show when={item().compensation?.salary}>
-                                <p class="job-salary">
-                                    {salaryLabel(item().compensation!.salary!)}
-                                </p>
-                                <p class="text-soft">Gross base pay</p>
-                            </Show>
-                            <Show when={item().compensation?.equity}>
-                                <p>Equity: {rangeLabel(item().compensation!.equity!)}%</p>
-                            </Show>
                             <Show when={item().duration}>
                                 {(duration) => {
                                     const value = duration();

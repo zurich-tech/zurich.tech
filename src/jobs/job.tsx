@@ -5,7 +5,6 @@ import { type Job } from "./queries";
 import { Show } from "solid-js";
 
 import { JobTags } from "./tags";
-import { salaryLabel } from "./format";
 import { Arrow } from "../components/arrow";
 
 /** Render a vacancy using the same title, tags and rule rhythm as event entries. */
@@ -50,12 +49,7 @@ export function JobEntry(props: {
                 <Show when={!props.isCompact}>
                     <p>{props.job.summary}</p>
                 </Show>
-                <Show when={!props.isCompact && props.job.compensation?.salary}>
-                    <p class="job-salary">{salaryLabel(props.job.compensation?.salary!)}</p>
-                </Show>
-                <Show when={!props.isCompact}>
-                    <JobTags job={props.job} />
-                </Show>
+                <JobTags job={props.job} isCompact={props.isCompact} />
             </div>
             <Arrow />
         </article>

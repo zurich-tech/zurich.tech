@@ -1,6 +1,5 @@
-import { locationsLabel } from "../../src/jobs/format";
+import { locationsLabel, jobFacts } from "../../src/jobs/format";
 import type { openJobs } from "../jobs/jobs";
-import { salaryLabel } from "../../src/jobs/format";
 import { isTentative } from "../events/conditions";
 import type { Recurrence } from "../events/recurrence";
 import type { AddressAccess } from "../events/fields";
@@ -249,16 +248,19 @@ export function newsletterEdition(
     // include only eligible jobs, linking to their complete public listing
     const vacancies = jobs.map((job) => {
         const url = `${siteOrigin()}/jobs/${job.slug}`;
-        const details = [
-            job.company.name,
-            locationsLabel(job.locations),
-            job.compensation?.salary ? salaryLabel(job.compensation.salary) : undefined,
-        ]
+        const details = [job.company.name, locationsLabel(job.locations)]
             .filter(Boolean)
             .join(" · ");
+        const facts = jobFacts(job);
+        const badges = facts
+            .map(
+                (label) =>
+                    `<span style="display:inline-block;margin:0 6px 6px 0;padding:2px 6px;border-radius:3px;background:#174ed8;color:#fff;font-size:12px;font-weight:600">${escapeHtml(label)}</span>`,
+            )
+            .join("");
         return {
-            html: `<div style="padding:16px 0;border-bottom:1px solid #d5d9df"><h3 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a style="color:#174ed8;text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(details)}</p>${paragraph(job.summary)}</div>`,
-            text: `${job.title}\n${details}\n${job.summary}\n${url}`,
+            html: `<div style="padding:16px 0;border-bottom:1px solid #d5d9df"><h3 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a style="color:#174ed8;text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(details)}</p><p style="margin:8px 0 0">${badges}</p>${paragraph(job.summary)}</div>`,
+            text: `${job.title}\n${details}\n${facts.join(" · ")}\n${job.summary}\n${url}`,
         };
     });
 
