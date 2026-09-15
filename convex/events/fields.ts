@@ -100,6 +100,15 @@ export const submissionFields = {
     agenda: v.array(v.object({ time: v.string(), title: v.string() })),
 };
 
+/** Copy editable fields without stored identity, publication or ownership metadata. */
+export function revisionFields(draft: Doc<"submissions">) {
+    return Object.fromEntries(
+        Object.keys(submissionFields)
+            .filter((key) => key in draft)
+            .map((key) => [key, draft[key as keyof typeof draft]]),
+    ) as Pick<Doc<"submissions">, keyof typeof submissionFields>;
+}
+
 /** Authored event details shared by publication and generated drafts. */
 export function eventFields(draft: Pick<Doc<"submissions">, keyof typeof submissionFields>) {
     const number = ordinal(draft.title);

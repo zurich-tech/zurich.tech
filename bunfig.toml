@@ -1,0 +1,3 @@
+[test]
+# Install the identity stub before backend modules capture the provider.
+preload = ["./tests/backend.ts"]

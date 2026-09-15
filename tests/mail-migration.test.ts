@@ -1,14 +1,7 @@
+import { convexTest, schema, modules } from "./backend";
 import { expect, test } from "bun:test";
-import { convexTest } from "convex-test";
 import { makeFunctionReference } from "convex/server";
-import schema from "../convex/schema";
 
-const modules = Object.fromEntries(
-    [...new Bun.Glob("**/*.ts").scanSync({ cwd: "convex" })].map((path) => [
-        `../convex/${path}`,
-        () => import(`../convex/${path}`),
-    ]),
-);
 const copy = makeFunctionReference<"mutation">("migrations/mail:copy");
 
 test("email migration preserves history, consent and pauses and can be repeated", async () => {

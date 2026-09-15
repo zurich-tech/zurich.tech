@@ -1,8 +1,7 @@
-import { afterEach, beforeEach, expect, mock, test, setSystemTime } from "bun:test";
-import { convexTest } from "convex-test";
-import { httpRouter, type GenericQueryCtx, type GenericDataModel } from "convex/server";
+import { convexTest, schema, modules, member } from "./backend";
+import { afterEach, beforeEach, expect, test, setSystemTime } from "bun:test";
+import { httpRouter } from "convex/server";
 import { Webhook } from "svix";
-import schema from "../convex/schema";
 import { api, internal } from "../convex/_generated/api";
 import { quotaDefaults, reserve } from "../convex/mail/sending";
 import { updateMessage } from "../convex/mail/progress";
@@ -10,31 +9,12 @@ import { enqueue } from "../convex/mail/messages";
 import { unsubscribeHeaders } from "../convex/mail/provider";
 import { receive, unsubscribe } from "../convex/mail/webhooks";
 
-mock.module("../convex/auth/component", () => ({
-    authComponent: {
-        getAuthUser: async (ctx: GenericQueryCtx<GenericDataModel>) => {
-            const identity = await ctx.auth.getUserIdentity();
-            if (!identity) throw new Error("Sign in required.");
-            return {
-                _id: identity.subject,
-                email: "test@example.invalid",
-                emailVerified: true,
-            };
-        },
-    },
-}));
-
 const http = httpRouter();
 http.route({ path: "/mail/webhook", method: "POST", handler: receive });
 http.route({ path: "/mail/unsubscribe", method: "POST", handler: unsubscribe });
 http.route({ path: "/mail/unsubscribe", method: "GET", handler: unsubscribe });
-const modules = {
-    ...Object.fromEntries(
-        [...new Bun.Glob("**/*.ts").scanSync({ cwd: "convex" })].map((path) => [
-            `../convex/${path}`,
-            () => import(`../convex/${path}`),
-        ]),
-    ),
+const mailModules = {
+    ...modules,
     "../convex/http.ts": async () => ({ default: http }),
 };
 const secret = `whsec_${btoa("only-a-local-test-secret-for-signatures")}`;
@@ -68,15 +48,12 @@ afterEach(() => {
 
 /** Seed only local database records; these tests never contact the mail provider. */
 async function setup() {
-    const backend = convexTest(schema, modules);
+    const backend = convexTest(schema, mailModules);
     const ids = await backend.run(async (ctx) => {
-        const memberId = await ctx.db.insert("members", {
+        const memberId = await member(ctx, {
             name: "Test",
-            status: "active",
             searchText: "test",
             visibility: "private",
-            createdAt: 1,
-            updatedAt: 1,
         });
         await ctx.db.insert("accounts", {
             authId: "admin",
@@ -105,7 +82,7 @@ async function setup() {
 function signed(
     type: string,
     providerId: string,
-    eventId = crypto.randomUUID(),
+    eventId: string = crypto.randomUUID(),
     date = new Date(),
 ) {
     const body = JSON.stringify({
@@ -635,7 +612,7 @@ test("newsletter preview counts the same eligible audience as delivery", async (
 
 // A locked verification must fail before creating a ticket or silently queued mail.
 test("test mode rejects blocked newsletter verification without retaining a request", async () => {
-    const backend = convexTest(schema, modules);
+    const backend = convexTest(schema, mailModules);
     process.env.MAIL_RECIPIENTS = "test@example.invalid";
     await expect(
         backend.action(api.mail.subscriptions.subscribe, { email: "blocked@example.invalid" }),

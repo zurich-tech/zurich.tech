@@ -87,15 +87,14 @@ test("dense edge placement stays within bounds and accounts for every visible or
     const result = arrangeLogos(input, { width: 390, height: 474 });
     expect(result.placed.length + result.crowded.length).toBe(200);
     expect(result.crowded.length).toBeGreaterThan(0);
-    for (const logo of result.placed) {
+    for (const [index, logo] of result.placed.entries()) {
         const x = logo.x + logo.offset[0];
         const y = logo.y + logo.offset[1];
         expect(x - logo.size / 2).toBeGreaterThanOrEqual(0);
         expect(y - logo.size / 2).toBeGreaterThanOrEqual(0);
         expect(x + logo.size / 2).toBeLessThanOrEqual(390);
         expect(y + logo.size / 2).toBeLessThanOrEqual(474);
-        for (const other of result.placed) {
-            if (logo.id === other.id) continue;
+        for (const other of result.placed.slice(index + 1)) {
             expect(
                 Math.hypot(x - other.x - other.offset[0], y - other.y - other.offset[1]),
             ).toBeGreaterThanOrEqual((logo.size + other.size) / 2 + 3);

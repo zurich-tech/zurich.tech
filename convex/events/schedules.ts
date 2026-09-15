@@ -14,7 +14,7 @@ import { requireWorkspace, requireSeries, requireRevision, requireSchedule } fro
 import { allows } from "../auth/permissions";
 import { publicOrganisers } from "./organisers";
 import { recurrence, occurrences, validateRecurrence } from "./recurrence";
-import { eventFields, submissionFields } from "./fields";
+import { eventFields, revisionFields } from "./fields";
 import { validateConfirmation } from "./conditions";
 import { publishEvent } from "./mutations";
 import { requireMail } from "../mail/provider";
@@ -101,13 +101,7 @@ export const save = mutation({
         if (args.sourceId && !source) throw new Error("Template event not found.");
         if (source) await requireRevision(ctx, source, source.seriesId, "organiser");
         if (!existing && !source) throw new Error("Choose a saved event as the template.");
-        const template = source
-            ? (Object.fromEntries(
-                  Object.keys(submissionFields)
-                      .filter((key) => key in source)
-                      .map((key) => [key, source[key as keyof typeof source]]),
-              ) as Doc<"schedules">["template"])
-            : existing!.template;
+        const template = source ? revisionFields(source) : existing!.template;
         template.seriesId = args.seriesId;
         if (args.title !== undefined) {
             if (!args.title.trim()) throw new Error("Enter an occurrence title.");

@@ -1,37 +1,15 @@
-import { expect, test, mock } from "bun:test";
-import { convexTest } from "convex-test";
-import schema from "../convex/schema";
+import { convexTest, schema, modules, member } from "./backend";
+import { expect, test } from "bun:test";
 import { api, internal } from "../convex/_generated/api";
-import type { GenericQueryCtx, GenericDataModel } from "convex/server";
-import { submissionFields } from "../convex/events/fields";
-
-// replace only the external identity provider, retaining actual account and permission checks
-mock.module("../convex/auth/component", () => ({
-    authComponent: {
-        getAuthUser: async (ctx: GenericQueryCtx<GenericDataModel>) => {
-            const identity = await ctx.auth.getUserIdentity();
-            if (!identity) throw new Error("Sign in required.");
-            return { _id: identity.subject, email: "test@example.invalid", emailVerified: true };
-        },
-    },
-}));
-const modules = Object.fromEntries(
-    [...new Bun.Glob("**/*.ts").scanSync({ cwd: "convex" })].map((path) => [
-        `../convex/${path}`,
-        () => import(`../convex/${path}`),
-    ]),
-);
+import { revisionFields } from "../convex/events/fields";
 
 async function setup() {
     const backend = convexTest(schema, modules);
     const ids = await backend.run(async (ctx) => {
-        const memberId = await ctx.db.insert("members", {
+        const memberId = await member(ctx, {
             name: "Test",
-            status: "active",
             searchText: "test",
             visibility: "private",
-            createdAt: 1,
-            updatedAt: 1,
         });
         const accountId = await ctx.db.insert("accounts", {
             authId: "editor",
@@ -171,18 +149,14 @@ test("disabled accounts lose authority even with existing grants", async () => {
 test("saving a published-event draft changes neither the live event nor email queue", async () => {
     const { backend, editor, ids } = await setup();
     const draft = await backend.run((ctx) => ctx.db.get(ids.draftId));
-    const fields = Object.fromEntries(
-        Object.keys(submissionFields)
-            .filter((key) => key in draft!)
-            .map((key) => [key, (draft as any)[key]]),
-    );
+    const fields = revisionFields(draft!);
     await editor.mutation(api.events.mutations.save, {
         ...fields,
         id: ids.draftId,
 
         description: "Revised",
         publish: false,
-    } as any);
+    });
     await backend.run(async (ctx) => {
         expect((await ctx.db.get(ids.eventId))?.description).toBe("Original");
         expect((await ctx.db.get(ids.draftId))?.description).toBe("Revised");
@@ -195,7 +169,7 @@ test("saving a published-event draft changes neither the live event nor email qu
 
             publish: true,
             receipt: "forged",
-        } as any),
+        }),
     ).rejects.toThrow();
     await expect(
         editor.mutation(api.events.mutations.save, {
@@ -204,7 +178,7 @@ test("saving a published-event draft changes neither the live event nor email qu
             seriesId: ids.otherSeries,
 
             publish: false,
-        } as any),
+        }),
     ).rejects.toThrow();
 });
 
@@ -265,17 +239,13 @@ test("a new draft gets an assignable event identity without publication or mail"
     const { backend, editor, ids } = await setup();
     await backend.run((ctx) => ctx.db.patch(ids.accountId, { isAdmin: true }));
     const draft = await backend.run((ctx) => ctx.db.get(ids.draftId));
-    const fields = Object.fromEntries(
-        Object.keys(submissionFields)
-            .filter((key) => key in draft!)
-            .map((key) => [key, (draft as any)[key]]),
-    );
+    const fields = revisionFields(draft!);
     await editor.mutation(api.events.mutations.save, {
         ...fields,
         slug: "new-draft",
 
         publish: false,
-    } as any);
+    });
     await backend.run(async (ctx) => {
         const event = await ctx.db
             .query("events")
@@ -306,13 +276,10 @@ test("test_resolve_public_organisers_without_granting_access", async () => {
             createdAt: 1,
             updatedAt: 1,
         });
-        const memberId = await ctx.db.insert("members", {
+        const memberId = await member(ctx, {
             name: "Second",
             searchText: "second",
-            status: "active",
             visibility: "public",
-            createdAt: 1,
-            updatedAt: 1,
         });
         await ctx.db.insert("handles", {
             memberId,
@@ -429,13 +396,10 @@ test("co-organisers inherit, deduplicate, override and respect profile privacy",
             createdAt: 1,
             updatedAt: 1,
         });
-        const memberId = await ctx.db.insert("members", {
+        const memberId = await member(ctx, {
             name: "Co-host",
             searchText: "co-host",
-            status: "active",
             visibility: "public",
-            createdAt: 1,
-            updatedAt: 1,
         });
         await ctx.db.insert("handles", {
             memberId,
