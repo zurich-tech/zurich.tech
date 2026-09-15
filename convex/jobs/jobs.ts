@@ -9,7 +9,7 @@ import { tiers } from "../../src/sponsorships/plans";
 import { confirmationPeriod, jobFields } from "./fields";
 import { normalizeEmail } from "../members/emails";
 import { normalizeJob } from "./validation";
-import { sponsorshipTerm } from "../sponsorships/organisations";
+import { readTerms, selectTerm } from "../sponsorships/terms";
 
 /** Read the public job board, excluding expired or unconfirmed vacancies. */
 export const list = query({
@@ -309,7 +309,7 @@ export async function jobExpiry(
         if (!sponsor) throw new Error("Job sponsorship is missing.");
         if (sponsor.status !== "active") return null;
 
-        return (await sponsorshipTerm(ctx, sponsor))?.endsAt ?? null;
+        return (await jobTerm(ctx, sponsor))?.endsAt ?? null;
     }
     const term = await paidTerm(ctx, job._id, jobDurationMonths);
 
@@ -343,8 +343,8 @@ export async function jobAllowance(
     const now = Date.now();
     for (const sponsor of sponsors) {
         if (sponsor.status !== "active") continue;
-        const term = await sponsorshipTerm(ctx, sponsor);
-        if (!term || term.startsAt > now || term.endsAt <= now) continue;
+        const term = await jobTerm(ctx, sponsor);
+        if (!term || term.endsAt <= now) continue;
         const limit = tiers.find((tier) => tier.id === term.tier)!.jobs;
         const jobs = await ctx.db
             .query("jobs")
@@ -360,10 +360,20 @@ export async function jobAllowance(
         return {
             id: sponsor._id,
             tier: term.tier,
+            startsAt: term.startsAt,
             endsAt: term.endsAt,
             limit,
             available: limit === null ? null : Math.max(0, limit - used),
         };
     }
     return null;
+}
+
+/** Permit reviewed jobs during public recognition, without altering the paid benefit dates. */
+async function jobTerm(ctx: Pick<QueryCtx, "db">, sponsor: Doc<"sponsorships">) {
+    if (!("organisationId" in sponsor)) return null;
+    const terms = await readTerms(ctx, sponsor._id);
+    const now = Date.now();
+
+    return selectTerm(terms, now) ?? selectTerm(terms, now, true);
 }

@@ -173,7 +173,12 @@ export function JobReview(props: {
             !(await confirm({
                 title: "Publish job",
                 action: "Publish job",
-                description: "Publish this listing and apply the selected funding.",
+                description:
+                    props.job.allowance &&
+                    props.job.allowance.startsAt > Date.now() &&
+                    fields.get("funding") === "sponsor"
+                        ? "Publish this job early under the publicly recognised sponsorship. The agreement dates and payment status stay unchanged."
+                        : "Publish this listing and apply the selected funding.",
                 emails: 0,
             }))
         )
@@ -272,7 +277,9 @@ export function JobReview(props: {
                                     !props.job.allowance || props.job.allowance.available === 0
                                 }
                             >
-                                Included sponsorship slot
+                                {props.job.allowance && props.job.allowance.startsAt > Date.now()
+                                    ? "Publish early · recognised sponsorship"
+                                    : "Included sponsorship slot"}
                             </option>
                             <Show when={props.job.expiresAt! > Date.now()}>
                                 <option value="existing">Keep existing paid term</option>

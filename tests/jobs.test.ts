@@ -195,3 +195,31 @@ test("reuse closed and stale sponsor slots without overbooking on reconfirmation
         "role-2",
     ]);
 });
+
+test("allow admin publication during recognition without changing sponsorship dates", async () => {
+    const { backend, admin, job } = await setup();
+    const startsAt = Date.now() + 14 * 86400000;
+    await backend.run(async (ctx) => {
+        const term = (await ctx.db.query("sponsorshipTerms").collect())[0]!;
+        await ctx.db.patch(term._id, { startsAt });
+    });
+    const id = await admin.mutation(api.jobs.jobs.save, {
+        ...job,
+        billingEmail: "billing@example.com",
+        submit: false,
+    });
+    await expect(admin.mutation(api.jobs.jobs.publish, { id, funding: "sponsor" })).rejects.toThrow(
+        "This company has no active sponsorship.",
+    );
+    await backend.run(async (ctx) => {
+        const term = (await ctx.db.query("sponsorshipTerms").collect())[0]!;
+        await ctx.db.patch(term._id, { publishedAt: Date.now() - 1 });
+    });
+    await admin.mutation(api.jobs.jobs.publish, { id, funding: "sponsor" });
+    expect((await backend.query(api.jobs.jobs.list, {})).length).toBe(1);
+    expect(
+        await backend.run(
+            async (ctx) => (await ctx.db.query("sponsorshipTerms").collect())[0]!.startsAt,
+        ),
+    ).toBe(startsAt);
+});
