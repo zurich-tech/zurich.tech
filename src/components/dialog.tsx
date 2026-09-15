@@ -211,41 +211,49 @@ export function ConfirmationProvider(props: { children: JSX.Element }) {
                     </Alert>
                 </Show>
                 <Show when={current()?.emails !== undefined}>
-                    <div
-                        class="dialog-mail"
-                        classList={{ "has-emails": (current()?.emails ?? 0) > 0 }}
-                        role="status"
+                    <Show
+                        when={(current()?.emails ?? 0) > 0}
+                        fallback={
+                            <p class="text-soft" role="status">
+                                No emails will be sent.
+                            </p>
+                        }
                     >
-                        <strong>{current()?.emails?.toLocaleString("en-CH")}</strong>
-                        <div>
-                            <b>
-                                {delivery()?.isTestMode || delivery.loading || delivery.error
-                                    ? "emails requested"
-                                    : current()?.emails === 1
-                                      ? "email will be sent"
-                                      : "emails will be sent"}
-                            </b>
-                            <Show
-                                when={
-                                    (current()?.emails ?? 0) > 0 &&
-                                    (current()?.recipients !== undefined || !!current()?.audience)
-                                }
-                            >
-                                <span>
-                                    <Show
-                                        when={
-                                            current()?.recipients !== current()?.emails ||
-                                            !current()?.audience
-                                        }
-                                    >
-                                        {current()?.recipients?.toLocaleString("en-CH")}{" "}
-                                    </Show>
-                                    {current()?.audience ??
-                                        (current()?.recipients === 1 ? "recipient" : "recipients")}
-                                </span>
-                            </Show>
+                        <div class="dialog-mail has-emails" role="status">
+                            <strong>{current()?.emails?.toLocaleString("en-CH")}</strong>
+                            <div>
+                                <b>
+                                    {delivery()?.isTestMode || delivery.loading || delivery.error
+                                        ? "emails requested"
+                                        : current()?.emails === 1
+                                          ? "email will be sent"
+                                          : "emails will be sent"}
+                                </b>
+                                <Show
+                                    when={
+                                        (current()?.emails ?? 0) > 0 &&
+                                        (current()?.recipients !== undefined ||
+                                            !!current()?.audience)
+                                    }
+                                >
+                                    <span>
+                                        <Show
+                                            when={
+                                                current()?.recipients !== current()?.emails ||
+                                                !current()?.audience
+                                            }
+                                        >
+                                            {current()?.recipients?.toLocaleString("en-CH")}{" "}
+                                        </Show>
+                                        {current()?.audience ??
+                                            (current()?.recipients === 1
+                                                ? "recipient"
+                                                : "recipients")}
+                                    </span>
+                                </Show>
+                            </div>
                         </div>
-                    </div>
+                    </Show>
                 </Show>
                 <Show when={current()?.details}>
                     <p class="dialog-details">{current()?.details}</p>

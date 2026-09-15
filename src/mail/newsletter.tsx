@@ -75,7 +75,9 @@ export function Newsletter() {
                 </Show>
             }
         >
-            <p class="newsletter-description">Upcoming events, every Monday.</p>
+            <p class="newsletter-description">
+                Upcoming events, news, jobs, and more. Every Monday
+            </p>
             <Show
                 when={!account.isPending() && preferences.state !== "pending"}
                 fallback={<p role="status">Loading…</p>}

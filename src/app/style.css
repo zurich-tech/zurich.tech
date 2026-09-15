@@ -1750,10 +1750,19 @@ td button {
     padding: 0 0 20px;
     border-bottom: 1px solid var(--color-line);
 }
+/* keep filter choices on one scrollable row at every container width */
 .filter-pills {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+.filter-pills > * {
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 .filter-pills > :is(button, a) {
     font: 12px/1.2 var(--font-sans);
@@ -1968,6 +1977,8 @@ td button {
     margin: 0;
 }
 .hero-toolbar .social-links a {
+    width: auto;
+    padding-inline: 12px;
     height: 36px;
     border: 1px solid white;
     color: white;
@@ -2315,8 +2326,6 @@ td button {
         display: none;
     }
     .hero-toolbar .social-links--labelled a {
-        width: 36px;
-        padding: 0;
         justify-content: center;
     }
     .hero-stats > div {
@@ -3262,18 +3271,6 @@ select.field__control:not([multiple]) {
     }
 }
 
-.article-byline {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 16px;
-    font: 11px/1.5 var(--font-mono);
-    color: var(--color-soft);
-}
-.news-article .markdown {
-    margin-top: 24px;
-}
-
 /* align days and titles using the same type metrics in both collections */
 .entry .event-day,
 .entry .event-title {
@@ -3348,21 +3345,11 @@ select.field__control:not([multiple]) {
     padding: 10px 0;
     overflow-x: auto;
 }
+/* let the event toolbar own scrolling across adjacent filter groups */
 .programme .filter-pills {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-shrink: 0;
-}
-.programme .filter-pills > :is(button, a) {
-    flex-shrink: 0;
-}
-/* let the full programme filters wrap together without introducing separate rows */
-.programme--full .programme-tagbar {
-    flex-wrap: wrap;
-}
-.programme--full .filter-pills {
-    flex-wrap: wrap;
-    flex-shrink: 1;
+    flex: 0 0 auto;
+    overflow: visible;
+    max-width: none;
 }
 
 @media (max-width: 700px) {
@@ -3495,12 +3482,17 @@ select.field__control:not([multiple]) {
 }
 .listing-pills {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
     flex-basis: 100%;
     gap: 8px;
 }
 .listing-pills > .filter-pills {
-    display: contents;
+    flex: 0 0 auto;
+    overflow: visible;
+    max-width: none;
 }
 .job-entry {
     display: grid;
@@ -5098,9 +5090,6 @@ iframe.email-preview {
     flex: 1 1 220px;
     min-width: 0;
 }
-.admin-filters > .filter-pills {
-    flex-wrap: wrap;
-}
 
 /* Use the same full-width search field below collection headings. */
 .table-toolbar.catalogue-toolbar {
@@ -5122,13 +5111,6 @@ iframe.email-preview {
     background: var(--color-paper);
     color: var(--color-ink);
     font: inherit;
-}
-@media (max-width: 700px) {
-    .programme .programme-tagbar,
-    .programme .filter-pills {
-        flex-wrap: wrap;
-        flex-shrink: 1;
-    }
 }
 
 .sponsorship-badge {
@@ -5209,7 +5191,9 @@ iframe.email-preview {
 }
 .editor-publication .form-actions {
     margin: 0;
-    padding-top: 16px;
+    padding: 0;
+    border: 0;
+    flex-wrap: wrap;
 }
 
 /* Navigation uses text links; circular utilities share one quiet hit area. */

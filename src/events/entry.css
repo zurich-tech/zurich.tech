@@ -130,3 +130,10 @@
         display: none;
     }
 }
+
+/* let upcoming events lead in compact programme previews */
+.programme:not(.programme--full)
+    .entry.event-row-past:not(:hover):not(:focus-within)
+    :is(.event-title, .event-date) {
+    color: var(--color-soft);
+}

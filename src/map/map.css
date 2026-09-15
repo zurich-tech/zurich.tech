@@ -231,9 +231,6 @@
 .map-filters {
     padding: 0 16px 16px;
 }
-.map-filters .filter-pills {
-    flex-wrap: wrap;
-}
 .map-location-row:active,
 .map-back:active {
     background: var(--color-wash);

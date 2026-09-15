@@ -1,4 +1,4 @@
-import { createAsync } from "@solidjs/router";
+import { ExternalTag } from "../components/tag";
 import { getTopics } from "../topics/queries";
 import "./entry.css";
 import { For, Show, type JSX } from "solid-js";
@@ -12,7 +12,7 @@ export function EventTags(props: {
     detailed?: boolean;
     children?: JSX.Element;
 }) {
-    const catalogue = createAsync(() => getTopics());
+    const catalogue = getTopics.use(() => []);
     const label = (slug: string) => catalogue()?.find((topic) => topic.slug === slug)?.name;
 
     return (
@@ -75,7 +75,7 @@ export function EventBadges(props: {
                 <span class="tag tag-status tag-upcoming">Partner</span>
             </Show>
             <Show when={props.registrationKind === "external"}>
-                <span class="tag tag-status tag-upcoming">External</span>
+                <ExternalTag />
             </Show>
         </>
     );

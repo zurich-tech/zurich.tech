@@ -21,6 +21,8 @@ const dateFormats = {
 export function Entry(props: {
     /** Entry destination. */
     href: string;
+    /** Distinguish an external reading destination. */
+    isExternal?: boolean;
     /** Team controls kept outside the public link. */
     actions?: JSX.Element;
     /** Event start or article publication time. */
@@ -76,8 +78,12 @@ export function Entry(props: {
                 <span class="event-description">{props.description}</span>
                 <div class="event-venue">{props.meta}</div>
                 <Show when={props.datePlacement === "below"}>
-                    <a class="event-arrow" href={props.href} aria-label="Read article">
-                        <Arrow />
+                    <a
+                        class="event-arrow"
+                        href={props.href}
+                        aria-label={props.isExternal ? "Read external article" : "Read article"}
+                    >
+                        <Arrow direction={props.isExternal ? "external" : "right"} />
                     </a>
                 </Show>
             </div>

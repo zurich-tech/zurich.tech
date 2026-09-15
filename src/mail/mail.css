@@ -204,3 +204,31 @@
     width: 100%;
     background: transparent;
 }
+
+/* Align event mail audiences with compact, explicit send actions. */
+.mail-actions {
+    display: grid;
+    gap: 16px;
+}
+.mail-actions .mail-control {
+    padding-top: 16px;
+}
+.mail-actions > .mail-control:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+.mail-actions .mail-control > div {
+    min-width: 0;
+}
+.mail-actions .mail-control > .button {
+    flex-shrink: 0;
+}
+.mail-actions .mail-control p {
+    margin-bottom: 0;
+}
+@media (max-width: 400px) {
+    .mail-actions .mail-control {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}

@@ -3,6 +3,7 @@ import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { memberClient } from "../auth/convex";
 import { useConfirmation } from "../components/dialog";
+import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 
 /** Confirm the current unsent follow-up audience before a manual send. */
@@ -13,10 +14,12 @@ export function FollowUp(props: { eventId: Id<"events"> }) {
         async (eventId) => (await memberClient()).query(api.mail.followup.preview, { eventId }),
     );
     const [pending, setPending] = createSignal(false);
-    const [message, setMessage] = createSignal("");
+    const [error, setError] = createSignal<string>();
+    const [success, setSuccess] = createSignal<string>();
     async function send() {
         setPending(true);
-        setMessage("");
+        setError(undefined);
+        setSuccess(undefined);
         try {
             const client = await memberClient();
             const latest = await client.query(api.mail.followup.preview, {
@@ -37,30 +40,37 @@ export function FollowUp(props: { eventId: Id<"events"> }) {
                 eventId: props.eventId,
                 receipt: latest.receipt,
             });
-            setMessage("Follow-up queued");
+            setSuccess("Follow-up queued.");
             await refetch();
         } catch (error) {
-            setMessage(errorMessage(error, "Could not send follow-up."));
+            setError(errorMessage(error, "Could not send follow-up."));
         } finally {
             setPending(false);
         }
     }
     return (
-        <div class="grid gap-2">
-            <button
-                type="button"
-                class="button button--primary"
-                disabled={pending() || !preview()?.emails}
-                onClick={send}
-            >
-                Send follow-up
-            </button>
-            <p class="text-soft">
-                {preview.error
-                    ? "Could not load recipients"
-                    : `${preview()?.emails ?? 0} eligible recipients`}
-            </p>
-            <span role="status">{message()}</span>
+        <div class="mail-followup">
+            <div class="mail-control">
+                <div>
+                    <strong>Follow-up</strong>
+                    <p>
+                        {preview.error
+                            ? "Could not load recipients."
+                            : preview()
+                              ? `${preview()!.emails.toLocaleString("en-CH")} eligible recipients`
+                              : "Loading recipients…"}
+                    </p>
+                </div>
+                <button
+                    type="button"
+                    class="button"
+                    disabled={pending() || !preview()?.emails}
+                    onClick={send}
+                >
+                    Send follow-up
+                </button>
+            </div>
+            <FormMessage error={error()} success={success()} />
         </div>
     );
 }

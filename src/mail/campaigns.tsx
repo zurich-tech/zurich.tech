@@ -217,73 +217,81 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
             <Show
                 when={selected()}
                 fallback={
-                    <div class="table-scroll">
-                        <table class="admin-table mail-campaigns">
-                            <thead>
-                                <tr>
-                                    <th>Campaign</th>
-                                    <th>Status</th>
-                                    <th>Recipients</th>
-                                    <th>Delivery</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <For each={result()?.campaigns}>
-                                    {(item) => (
-                                        <tr>
-                                            <td>
-                                                <button
-                                                    class="text-link"
-                                                    onClick={() => void select(item._id)}
-                                                >
-                                                    {item.subject}
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <span
-                                                    class="tag tag-status"
-                                                    classList={{
-                                                        "tag-upcoming":
-                                                            item.status === "queued" ||
-                                                            item.status === "scheduled",
-                                                    }}
-                                                >
-                                                    {item.state}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                {item.audience?.kind === "subscribers"
-                                                    ? "Subscribers"
-                                                    : item.audience?.kind === "registrations"
-                                                      ? {
-                                                            active: "Active registrations",
-                                                            going: "Confirmed",
-                                                            waitlist: "Waitlist",
-                                                            attended: "Checked in",
-                                                        }[item.audience.status]
-                                                      : "—"}
-                                            </td>
-                                            <td>
-                                                {item.status === "draft"
-                                                    ? "Not sent"
-                                                    : item.status === "scheduled"
-                                                      ? "Scheduled"
-                                                      : `${item.accepted.toLocaleString("en-CH")} / ${item.recipients.toLocaleString("en-CH")} accepted`}
-                                                <Show when={item.failed}>
-                                                    <span class="mail-failure">
-                                                        {item.failed} failed
+                    <Show
+                        when={result()?.campaigns.length}
+                        fallback={
+                            <Show when={!result.error}>
+                                <p class="text-soft">
+                                    {result.loading ? "Loading campaigns…" : "No campaigns yet."}
+                                </p>
+                            </Show>
+                        }
+                    >
+                        <div class="table-scroll">
+                            <table class="admin-table mail-campaigns">
+                                <thead>
+                                    <tr>
+                                        <th>Campaign</th>
+                                        <th>Status</th>
+                                        <th>Recipients</th>
+                                        <th>Delivery</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <For each={result()?.campaigns}>
+                                        {(item) => (
+                                            <tr>
+                                                <td>
+                                                    <button
+                                                        class="text-link"
+                                                        onClick={() => void select(item._id)}
+                                                    >
+                                                        {item.subject}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="tag tag-status"
+                                                        classList={{
+                                                            "tag-upcoming":
+                                                                item.status === "queued" ||
+                                                                item.status === "scheduled",
+                                                        }}
+                                                    >
+                                                        {item.state}
                                                     </span>
-                                                </Show>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </For>
-                            </tbody>
-                        </table>
-                        <Show when={result()?.campaigns.length === 0}>
-                            <p>No campaigns.</p>
-                        </Show>
-                    </div>
+                                                </td>
+                                                <td>
+                                                    {item.audience?.kind === "subscribers"
+                                                        ? "Subscribers"
+                                                        : item.audience?.kind === "registrations"
+                                                          ? {
+                                                                active: "Active registrations",
+                                                                going: "Confirmed",
+                                                                waitlist: "Waitlist",
+                                                                attended: "Checked in",
+                                                            }[item.audience.status]
+                                                          : "—"}
+                                                </td>
+                                                <td>
+                                                    {item.status === "draft"
+                                                        ? "Not sent"
+                                                        : item.status === "scheduled"
+                                                          ? "Scheduled"
+                                                          : `${item.accepted.toLocaleString("en-CH")} / ${item.recipients.toLocaleString("en-CH")} accepted`}
+                                                    <Show when={item.failed}>
+                                                        <span class="mail-failure">
+                                                            {item.failed} failed
+                                                        </span>
+                                                    </Show>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </For>
+                                </tbody>
+                            </table>
+                        </div>
+                    </Show>
                 }
             >
                 <Show

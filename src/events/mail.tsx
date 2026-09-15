@@ -63,15 +63,28 @@ export function EventMail(props: { eventId: Id<"events"> }) {
     return (
         <>
             <Card title="Email">
-                <div class="grid gap-4">
+                <div class="mail-actions">
                     <For each={["announcement", "reminder"] as const}>
                         {(kind) => {
                             const item = () => preview.latest?.[kind];
                             return (
-                                <div class="grid gap-2">
+                                <div class="mail-control">
+                                    <div>
+                                        <strong>
+                                            {kind === "announcement" ? "Announcement" : "Reminder"}
+                                        </strong>
+                                        <p>
+                                            {preview.error
+                                                ? "Could not load recipients."
+                                                : (item()?.reason ??
+                                                  (item()
+                                                      ? `${item()!.recipients.toLocaleString("en-CH")} ${kind === "announcement" ? "subscribers" : "registered participants"}`
+                                                      : "Loading recipients…"))}
+                                        </p>
+                                    </div>
                                     <button
                                         type="button"
-                                        class="button button--primary"
+                                        class="button"
                                         disabled={
                                             isPending() || !item()?.recipients || !!item()?.reason
                                         }
@@ -81,12 +94,6 @@ export function EventMail(props: { eventId: Id<"events"> }) {
                                             ? "Announce event"
                                             : "Send reminder"}
                                     </button>
-                                    <p class="text-soft" style={{ margin: "0" }}>
-                                        {item()?.reason ??
-                                            (item()
-                                                ? `${item()!.recipients.toLocaleString("en-CH")} ${kind === "announcement" ? "subscribers" : "registered participants"}`
-                                                : "Loading recipients…")}
-                                    </p>
                                 </div>
                             );
                         }}
@@ -96,8 +103,8 @@ export function EventMail(props: { eventId: Id<"events"> }) {
                             Retry recipients
                         </button>
                     </Show>
+                    <FollowUp eventId={props.eventId} />
                 </div>
-                <FollowUp eventId={props.eventId} />
                 <FormMessage error={error()} success={success()} />
             </Card>
             <Campaigns eventId={props.eventId} />
