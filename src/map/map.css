@@ -89,7 +89,7 @@
     display: flex;
     align-items: center;
     gap: 0;
-    padding: 3px;
+    padding: 1px;
     border: 1px solid #bbc8df;
     border-radius: 50%;
     background: #fff;
@@ -123,38 +123,6 @@
     width: 85%;
     height: 85%;
     object-fit: contain;
-}
-.map-pin__label {
-    display: none;
-    position: absolute;
-    top: calc(100% + 7px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-    max-width: 160px;
-    padding: 4px 7px;
-    border-radius: 3px;
-    background: #fff;
-    color: #172b49;
-    box-shadow: 0 1px 4px #081b4b30;
-    font-size: 12px;
-    line-height: 1.3;
-    pointer-events: none;
-}
-.map-pin:not(.map-pin--hero):is(:hover, :focus-visible, .map-pin--selected, .map-pin--hovered)
-    .map-pin__label {
-    display: block;
-}
-.map-pin__count {
-    position: absolute;
-    top: -5px;
-    right: -6px;
-    min-width: 17px;
-    padding: 1px 4px;
-    border-radius: 10px;
-    background: #172b49;
-    color: white;
-    font: 11px/15px var(--font-mono);
 }
 .map-place {
     padding: 0 20px 20px;
@@ -295,4 +263,16 @@
 }
 .map-person:active {
     background: var(--color-wash);
+}
+
+/* Displaced logos remain visibly connected to their true geographic position. */
+.map-connector {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 1px;
+    background: #ffffffb3;
+    transform-origin: left center;
+    pointer-events: none;
+    z-index: -1;
 }

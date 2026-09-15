@@ -11,7 +11,7 @@ import { Image } from "../components/image";
 import { useSearch } from "../search/local";
 import { filterLocations } from "./filter";
 import { Highlight } from "../components/highlight";
-import { clusterLocations } from "./clusters";
+import { arrangeLogos } from "./placement";
 import "./map.css";
 
 /** Keep the circuit-map palette while fetching geographic detail at each zoom. */
@@ -82,6 +82,8 @@ export function CommunityMap(props: {
     const [category, setCategory] = createSignal("all");
     const [hovered, setHovered] = createSignal<string[]>([]);
     const [selected, setSelected] = createSignal<string[]>([]);
+    const [selectedOrganisation, setSelectedOrganisation] = createSignal<string>();
+    const [crowdedCount, setCrowdedCount] = createSignal(0);
     const [view, setView] = createSignal(0);
     const filtered = createMemo(() =>
         props.isHero
@@ -91,7 +93,14 @@ export function CommunityMap(props: {
     const organisationCount = () =>
         filtered().reduce((sum, place) => sum + place.organisations.length, 0);
     const selectedPlaces = createMemo(() =>
-        filtered().filter((place) => selected().includes(place.id)),
+        filtered()
+            .filter((place) => selected().includes(place.id))
+            .map((place) => ({
+                ...place,
+                organisations: place.organisations.filter(
+                    (person) => !selectedOrganisation() || person.id === selectedOrganisation(),
+                ),
+            })),
     );
     let container!: HTMLDivElement;
     let closeButton: HTMLButtonElement | undefined;
@@ -105,6 +114,11 @@ export function CommunityMap(props: {
 
     /** Keep selection shared between the markers and the directory. */
     function select(places: MapLocation[]) {
+        setSelectedOrganisation(
+            places.length === 1 && places[0].organisations.length === 1
+                ? places[0].organisations[0].id
+                : undefined,
+        );
         setSelected(places.map((place) => place.id));
         const map = instance()?.map;
         const first = places[0];
@@ -186,28 +200,28 @@ export function CommunityMap(props: {
             });
     });
 
-    // Group screen-space collisions; shared addresses remain one location at every zoom.
+    // Place individual logos without hiding organisations at shared or nearby addresses.
     createEffect(() => {
         const current = instance();
         const entries = filtered();
         view();
         if (!current) return;
-        const groups = clusterLocations(
-            entries,
-            (place) => current.map.project([place.longitude, place.latitude]),
-            64,
-            52,
+        const logos = arrangeLogos(
+            entries.flatMap((place) => {
+                const point = current.map.project([place.longitude, place.latitude]);
+                return place.organisations.map((person) => ({
+                    id: `${place.id}:${person.id}`,
+                    ...point,
+                    size: { large: 36, medium: 30, small: 26 }[person.prominence],
+                    place,
+                    person,
+                }));
+            }),
+            { width: container.clientWidth, height: container.clientHeight },
         );
-        const markers = groups.map((places) => {
-            const anchor = places[0];
-            const people = places.flatMap((place) => place.organisations);
-            const first = people[0];
-            const label =
-                places.length > 1
-                    ? `${places.length} locations`
-                    : people.length > 1
-                      ? `${first.name} +${people.length - 1}`
-                      : first.name;
+        setCrowdedCount(logos.crowded.length);
+        const markers = logos.placed.map(({ place: anchor, person: first, size, offset }) => {
+            const places = [{ ...anchor, organisations: [first] }];
             const element = document.createElement("div");
             const dispose = render(
                 () => (
@@ -218,25 +232,27 @@ export function CommunityMap(props: {
                         class="map-pin"
                         classList={{
                             "map-pin--hero": props.isHero,
-                            "map-pin--hovered": places.some((place) =>
-                                hovered().includes(place.id),
-                            ),
-                            "map-pin--selected": places.some((place) =>
-                                selected().includes(place.id),
+                            "map-pin--hovered": hovered().includes(first.id),
+                            "map-pin--selected": places.some(
+                                (place) =>
+                                    selected().includes(place.id) &&
+                                    (!selectedOrganisation() ||
+                                        selectedOrganisation() === first.id),
                             ),
                         }}
                         style={{
-                            "--map-logo-size": `${{ large: 32, medium: 26, small: 22 }[people.some((person) => person.prominence === "large") ? "large" : people.some((person) => person.prominence === "medium") ? "medium" : "small"]}px`,
+                            "--map-logo-size": `${size - 4}px`,
                         }}
-                        aria-label={`${people.map((person) => person.name).join(", ")} — ${places.length > 1 ? `${places.length} locations` : anchor.address}`}
+                        aria-label={`${first.name} — ${anchor.address}`}
                         aria-pressed={
                             props.isHero
                                 ? undefined
-                                : places.some((place) => selected().includes(place.id))
+                                : places.some((place) => selected().includes(place.id)) &&
+                                  (!selectedOrganisation() || selectedOrganisation() === first.id)
                         }
-                        onPointerEnter={() => setHovered(places.map((place) => place.id))}
+                        onPointerEnter={() => setHovered([first.id])}
                         onPointerLeave={() => setHovered([])}
-                        onFocus={() => setHovered(places.map((place) => place.id))}
+                        onFocus={() => setHovered([first.id])}
                         onBlur={() => setHovered([])}
                         onClick={() => {
                             if (!props.isHero) select(places);
@@ -252,17 +268,20 @@ export function CommunityMap(props: {
                                 </Show>
                             </span>
                         </span>
-                        <span class="map-pin__label">
-                            <Highlight text={label} terms={props.isHero ? [] : terms()} />
-                        </span>
-                        <Show when={people.length > 1}>
-                            <span class="map-pin__count">{people.length}</span>
-                        </Show>
                     </Dynamic>
                 ),
                 element,
             );
-            const marker = new current.Marker({ element })
+            // draw a fine connector back to the unchanged geographic anchor
+            const distance = Math.hypot(...offset);
+            if (distance > 0) {
+                const connector = document.createElement("span");
+                connector.className = "map-connector";
+                connector.style.width = `${distance}px`;
+                connector.style.transform = `rotate(${Math.atan2(-offset[1], -offset[0])}rad)`;
+                element.prepend(connector);
+            }
+            const marker = new current.Marker({ element, offset })
                 .setLngLat([anchor.longitude, anchor.latitude])
                 .addTo(current.map);
             return { marker, dispose };
@@ -423,16 +442,36 @@ export function CommunityMap(props: {
                                     >
                                         <p class="map-empty">No locations match your search.</p>
                                     </Show>
+                                    <Show when={crowdedCount() > 0}>
+                                        <p class="map-results" role="status">
+                                            Map is crowded. {crowdedCount()} additional
+                                            organisations are listed below.
+                                        </p>
+                                    </Show>
                                     <For each={filtered()}>
                                         {(place) => (
                                             <button
                                                 class="map-location-row"
                                                 classList={{
-                                                    "is-hovered": hovered().includes(place.id),
+                                                    "is-hovered": place.organisations.some(
+                                                        (person) => hovered().includes(person.id),
+                                                    ),
                                                 }}
-                                                onPointerEnter={() => setHovered([place.id])}
+                                                onPointerEnter={() =>
+                                                    setHovered(
+                                                        place.organisations.map(
+                                                            (person) => person.id,
+                                                        ),
+                                                    )
+                                                }
                                                 onPointerLeave={() => setHovered([])}
-                                                onFocus={() => setHovered([place.id])}
+                                                onFocus={() =>
+                                                    setHovered(
+                                                        place.organisations.map(
+                                                            (person) => person.id,
+                                                        ),
+                                                    )
+                                                }
                                                 onBlur={() => setHovered([])}
                                                 type="button"
                                                 onClick={() => select([place])}

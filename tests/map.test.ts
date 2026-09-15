@@ -1,7 +1,7 @@
 import { filterLocations } from "../src/map/filter";
 import { expect, test } from "bun:test";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
-import { clusterLocations } from "../src/map/clusters";
+import { arrangeLogos } from "../src/map/placement";
 
 /** Create a public office record for grouping scenarios. */
 function office(id: string, line1 = "Baslerstrasse 77"): LocatedOrganisation {
@@ -36,27 +36,34 @@ test("shared offices merge independent address documents and retain every organi
     expect(shared.longitude).toBe(8.5);
 });
 
-test("nearby locations split when zoomed in without changing geographic coordinates", () => {
-    const locations = [
-        { id: "one", latitude: 0, longitude: 0 },
-        { id: "two", latitude: 0, longitude: 1 },
-        { id: "three", latitude: 2, longitude: 4 },
+test("separate logos stay put and overlapping logos retain individual anchors", () => {
+    const logos = [
+        { id: "one", x: 100, y: 100, size: 26 },
+        { id: "two", x: 132, y: 100, size: 26 },
     ];
-    const distant = clusterLocations(locations, (place) => ({
-        x: place.longitude * 100,
-        y: place.latitude * 100,
-    }));
-    expect(distant.map((group) => group.map((place) => place.id))).toEqual([
-        ["one", "two"],
-        ["three"],
-    ]);
     expect(
-        clusterLocations(locations, (place) => ({
-            x: place.longitude * 300,
-            y: place.latitude * 300,
-        })),
-    ).toHaveLength(3);
-    expect(locations[1].longitude).toBe(1);
+        arrangeLogos(logos, { width: 800, height: 600 }).placed.map((logo) => logo.offset),
+    ).toEqual([
+        [0, 0],
+        [0, 0],
+    ]);
+    const shared = arrangeLogos([...logos, { id: "three", x: 100, y: 100, size: 36 }], {
+        width: 800,
+        height: 600,
+    }).placed;
+    expect(shared).toHaveLength(3);
+    expect(shared[2].x).toBe(100);
+    for (let index = 0; index < shared.length; index++) {
+        for (const other of shared.slice(index + 1)) {
+            const logo = shared[index];
+            expect(
+                Math.hypot(
+                    logo.x + logo.offset[0] - other.x - other.offset[0],
+                    logo.y + logo.offset[1] - other.y - other.offset[1],
+                ),
+            ).toBeGreaterThanOrEqual((logo.size + other.size) / 2 + 3);
+        }
+    }
 });
 
 test("shared-address filters match category and search on the same organisation", () => {
@@ -68,4 +75,33 @@ test("shared-address filters match category and search on the same organisation"
     const startups = filterLocations(locations, "startup", []);
     expect(startups[0].organisations.map((entry) => entry.name)).toEqual(["Symbol"]);
     expect(filterLocations(locations, "all", ["baslerstrasse"])[0].organisations).toHaveLength(2);
+});
+
+test("dense edge placement stays within bounds and accounts for every visible organisation", () => {
+    const input = Array.from({ length: 200 }, (_, index) => ({
+        id: String(index),
+        x: 10,
+        y: 10,
+        size: index % 2 ? 26 : 36,
+    }));
+    const result = arrangeLogos(input, { width: 390, height: 474 });
+    expect(result.placed.length + result.crowded.length).toBe(200);
+    expect(result.crowded.length).toBeGreaterThan(0);
+    for (const logo of result.placed) {
+        const x = logo.x + logo.offset[0];
+        const y = logo.y + logo.offset[1];
+        expect(x - logo.size / 2).toBeGreaterThanOrEqual(0);
+        expect(y - logo.size / 2).toBeGreaterThanOrEqual(0);
+        expect(x + logo.size / 2).toBeLessThanOrEqual(390);
+        expect(y + logo.size / 2).toBeLessThanOrEqual(474);
+        for (const other of result.placed) {
+            if (logo.id === other.id) continue;
+            expect(
+                Math.hypot(x - other.x - other.offset[0], y - other.y - other.offset[1]),
+            ).toBeGreaterThanOrEqual((logo.size + other.size) / 2 + 3);
+        }
+    }
+    expect(
+        arrangeLogos([{ id: "offscreen", x: -100, y: 100, size: 36 }], { width: 390, height: 474 }),
+    ).toEqual({ placed: [], crowded: [] });
 });
