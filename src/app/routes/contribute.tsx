@@ -61,6 +61,18 @@ export default function Route() {
                                         Suggest event <Arrow direction="external" />
                                     </a>
                                 </section>
+                                <section id="venues">
+                                    <h3>Provide a venue</h3>
+                                    <p>Have space for a talk, workshop or community event?</p>
+                                    <a
+                                        class="action-link"
+                                        href={site.socials.discord}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Provide a venue <Arrow direction="external" />
+                                    </a>
+                                </section>
                             </div>
                         </Card>
                         <Share title={site.name} url={site.url} />
