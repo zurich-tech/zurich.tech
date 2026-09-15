@@ -1,23 +1,26 @@
+import { JobForm } from "../../../jobs/editor";
+import { JobReview } from "../../../organisations/employer";
+import { useWorkspaceCommand } from "../../workspace";
+import { JobDetails } from "../../../jobs/details";
+import type { Job } from "../../../jobs/queries";
 import { Loading } from "../../../components/loading";
-import { jobPrice, jobDurationMonths } from "../../../sponsorships/plans";
 import { Show, createSignal } from "solid-js";
 import { useNavigate, revalidate, useSearchParams } from "@solidjs/router";
 import { api } from "../../../../convex/_generated/api";
-import type { Doc, Id } from "../../../../convex/_generated/dataModel";
+import type { Id } from "../../../../convex/_generated/dataModel";
 import { useEmployerWorkspace } from "../../workspace";
-import { CompanySelect } from "../../../organisations/company";
 import { memberClient } from "../../../auth/convex";
 import { Page, PageHeader } from "../../page";
-import { Card } from "../../../components/card";
 import { Seo } from "../../seo";
-import { savedEditor, Editor, FormMessage } from "../../../components/form";
+import { savedEditor, FormMessage } from "../../../components/form";
 import { errorMessage } from "../../../components/errors";
 
 /** Prepare a vacancy for team review without modifying its published revision. */
 export default function Route() {
     const navigate = useNavigate();
     // load the owned job and prefer its unpublished revision
-    const { account, workspace } = useEmployerWorkspace();
+    const { account, workspace, refetch } = useEmployerWorkspace();
+    const command = useWorkspaceCommand(refetch);
     const [params] = useSearchParams();
     const job = () => workspace()?.jobs.find((item) => item._id === params.edit);
     const draft = () => job()?.draft ?? job();
@@ -34,11 +37,18 @@ export default function Route() {
         setIsPending(true);
         setError(undefined);
         try {
-            if (!!text("min") !== !!text("max"))
-                throw new Error("Enter both ends of the salary range.");
+            const range = (name: string) =>
+                text(`${name}Min`) || text(`${name}Max`)
+                    ? {
+                          min: text(`${name}Min`) ? Number(text(`${name}Min`)) : undefined,
+                          max: text(`${name}Max`) ? Number(text(`${name}Max`)) : undefined,
+                      }
+                    : undefined;
+            const salary = range("salary");
+            const equity = range("equity");
 
             // save the revision without publishing unreviewed changes
-            await (
+            const id = await (
                 await memberClient()
             ).mutation(api.jobs.jobs.save, {
                 id: job()?._id,
@@ -50,27 +60,71 @@ export default function Route() {
                 title: text("title"),
                 slug: text("slug"),
                 description: text("description"),
-                location: text("location"),
+                summary: text("summary"),
+                locations: JSON.parse(text("locations")),
                 workplace: text("workplace") as "onsite" | "hybrid" | "remote",
-                employment: text("employment") as
-                    "full-time" | "part-time" | "contract" | "internship",
-                salary:
-                    text("min") || text("max")
+                remoteEligibility:
+                    text("workplace") === "onsite"
+                        ? undefined
+                        : text("remoteEligibility") || undefined,
+                engagement: text("engagement") as
+                    "employment" | "internship" | "apprenticeship" | "freelance",
+                duration:
+                    text("duration") === "permanent"
+                        ? { kind: "permanent" }
+                        : text("duration") === "fixed"
+                          ? {
+                                kind: "fixed",
+                                months: text("months") ? Number(text("months")) : undefined,
+                            }
+                          : undefined,
+                workload: range("workload"),
+                compensation:
+                    salary || equity
                         ? {
-                              min: Number(text("min")),
-                              max: Number(text("max")),
-                              period: text("period") as "year" | "hour",
+                              salary: salary
+                                  ? {
+                                        amount: salary,
+                                        currency: text("currency"),
+                                        period: text("period") as "year" | "month" | "day" | "hour",
+                                        basis: text("basis") as "full-time" | "workload",
+                                    }
+                                  : undefined,
+                              equity,
                           }
                         : undefined,
-                tags: text("tags")
+                topics: fields.getAll("topic").map(String),
+                skills: text("skills")
                     .split(",")
-                    .map((tag) => tag.trim())
+                    .map((value) => value.trim())
                     .filter(Boolean),
-                applicationUrl: text("applicationUrl"),
+                languages: text("languages")
+                    .split(",")
+                    .map((value) => value.trim())
+                    .filter(Boolean),
+                seniority: (text("seniority") || undefined) as
+                    "junior" | "mid" | "senior" | "lead" | undefined,
+                visaSponsorship: text("visa") === "" ? undefined : text("visa") === "yes",
+                application:
+                    text("applicationKind") === "email"
+                        ? {
+                              kind: "email",
+                              email: text("applicationEmail"),
+                              subject: text("applicationSubject") || undefined,
+                          }
+                        : { kind: "url", url: text("applicationUrl") },
+                applicationDeadline: text("deadline")
+                    ? Date.parse(`${text("deadline")}T23:59:59Z`)
+                    : undefined,
             });
             savedEditor(editor);
             await revalidate();
-            navigate("/manage?section=jobs");
+            await refetch();
+            navigate(
+                (event.submitter as HTMLButtonElement)?.value === "preview"
+                    ? `/jobs/submit?edit=${id}&preview=1`
+                    : "/manage?section=jobs",
+            );
         } catch (caught) {
             setError(errorMessage(caught, "Could not save job."));
         } finally {
@@ -101,7 +155,13 @@ export default function Route() {
                     }
                     actions={
                         <>
-                            <Show when={account.user() && workspace()?.organisations.length}>
+                            <Show
+                                when={
+                                    !params.preview &&
+                                    account.user() &&
+                                    workspace()?.organisations.length
+                                }
+                            >
                                 <button
                                     type="submit"
                                     form="job-editor"
@@ -114,11 +174,11 @@ export default function Route() {
                                 <button
                                     type="submit"
                                     form="job-editor"
-                                    value="review"
+                                    value={workspace()?.isAdmin ? "preview" : "review"}
                                     class="button button--primary"
                                     disabled={isPending()}
                                 >
-                                    Submit for review
+                                    {workspace()?.isAdmin ? "Save & preview" : "Submit for review"}
                                 </button>
                             </Show>
                             <a class="action-link" href="/manage?section=jobs">
@@ -165,15 +225,60 @@ export default function Route() {
                                         </p>
                                     }
                                 >
-                                    <JobForm
-                                        draft={draft()}
-                                        job={job()}
-                                        companies={current().organisations}
-                                        isPending={isPending()}
-                                        email={account.user()?.email}
-                                        error={error()}
-                                        onSubmit={submit}
-                                    />
+                                    <Show
+                                        when={params.preview && job()}
+                                        fallback={
+                                            <JobForm
+                                                isAdmin={current().isAdmin}
+                                                draft={draft()}
+                                                job={job()}
+                                                companies={current().organisations}
+                                                isPending={isPending()}
+                                                email={account.user()?.email}
+                                                organisationId={
+                                                    typeof params.organisation === "string"
+                                                        ? params.organisation
+                                                        : undefined
+                                                }
+                                                error={error()}
+                                                onSubmit={submit}
+                                            />
+                                        }
+                                    >
+                                        <p class="text-soft">Preview · saved revision</p>
+                                        <a
+                                            class="action-link"
+                                            href={`/jobs/submit?edit=${job()!._id}`}
+                                        >
+                                            Continue editing
+                                        </a>
+                                        <JobDetails
+                                            isPreview
+                                            job={
+                                                {
+                                                    ...draft()!,
+                                                    id: job()!._id,
+                                                    publishedAt: job()!.publishedAt ?? Date.now(),
+                                                    isOpen: false,
+                                                    company: current().organisations.find(
+                                                        (company) =>
+                                                            company._id === draft()!.organisationId,
+                                                    )!,
+                                                } as Job
+                                            }
+                                        />
+                                        <Show when={current().isAdmin}>
+                                            <JobReview
+                                                job={job()!}
+                                                isPending={command.isPending()}
+                                                perform={command.perform}
+                                            />
+                                        </Show>
+                                        <FormMessage
+                                            error={command.error()}
+                                            success={command.success()}
+                                        />
+                                    </Show>
                                 </Show>
                             </Show>
                         )}
@@ -181,187 +286,6 @@ export default function Route() {
                 </Show>
             </Page>
         </>
-    );
-}
-
-/** Edit the vacancy fields and request publication review. */
-function JobForm(props: {
-    /** Editable vacancy fields. */
-    draft: Doc<"jobs">["draft"] | Doc<"jobs"> | undefined;
-    /** Existing published vacancy, if any. */
-    job: Doc<"jobs"> | undefined;
-    /** Companies available to the employer. */
-    companies: { _id: string; name: string }[];
-    /** Disable submission while saving. */
-    isPending: boolean;
-    /** Signed-in account email. */
-    email: string | undefined;
-    /** Submission failure. */
-    error: string | undefined;
-    /** Save the authored revision. */
-    onSubmit: (event: SubmitEvent) => Promise<void>;
-}) {
-    return (
-        <Editor
-            id="job-editor"
-            class="editor"
-            onSubmit={props.onSubmit}
-            actions={() => (
-                <div class="row-actions">
-                    <button class="button" value="draft" disabled={props.isPending}>
-                        {props.isPending ? "Saving…" : "Save"}
-                    </button>
-                    <button
-                        class="button button--primary"
-                        value="review"
-                        disabled={props.isPending}
-                    >
-                        {props.isPending ? "Saving…" : "Submit for review"}
-                    </button>
-                </div>
-            )}
-        >
-            <div class="editor-columns">
-                <div class="editor-column">
-                    <Card title="Job">
-                        <div class="form-columns">
-                            <label>
-                                Title
-                                <input
-                                    name="title"
-                                    required
-                                    maxlength="180"
-                                    value={props.draft?.title ?? ""}
-                                />
-                            </label>
-                            <label>
-                                Slug
-                                <input
-                                    name="slug"
-                                    required
-                                    pattern="[a-z0-9]+(-[a-z0-9]+)*"
-                                    readonly={!!props.job?.publishedAt}
-                                    value={props.draft?.slug ?? ""}
-                                />
-                            </label>
-                        </div>
-                        <label>
-                            Description <span>Markdown supported</span>
-                            <textarea
-                                name="description"
-                                required
-                                rows="8"
-                                maxlength="50000"
-                                value={props.draft?.description ?? ""}
-                            />
-                        </label>
-                        <label>
-                            Technologies <span>Comma-separated, up to twelve</span>
-                            <input name="tags" value={props.draft?.tags.join(", ") ?? ""} />
-                        </label>
-                        <label>
-                            Application URL
-                            <input
-                                name="applicationUrl"
-                                type="url"
-                                required
-                                value={props.draft?.applicationUrl ?? ""}
-                            />
-                        </label>
-                    </Card>
-                </div>
-                <aside class="editor-column">
-                    <Card title="Details">
-                        <CompanySelect
-                            companies={props.companies}
-                            value={props.draft?.organisationId}
-                            isDisabled={!!props.job?.publishedAt}
-                        />
-                        <label>
-                            Location
-                            <input
-                                name="location"
-                                required
-                                placeholder="Zurich, Switzerland"
-                                value={props.draft?.location ?? ""}
-                            />
-                        </label>
-                        <div class="form-columns">
-                            <label>
-                                Workplace
-                                <select name="workplace" value={props.draft?.workplace ?? "hybrid"}>
-                                    <option value="onsite">On-site</option>
-                                    <option value="hybrid">Hybrid</option>
-                                    <option value="remote">Remote</option>
-                                </select>
-                            </label>
-                            <label>
-                                Employment
-                                <select
-                                    name="employment"
-                                    value={props.draft?.employment ?? "full-time"}
-                                >
-                                    <option value="full-time">Full-time</option>
-                                    <option value="part-time">Part-time</option>
-                                    <option value="contract">Contract</option>
-                                    <option value="internship">Internship</option>
-                                </select>
-                            </label>
-                        </div>
-                    </Card>
-                    <Card title="Salary">
-                        <div class="form-columns">
-                            <label>
-                                Minimum salary (CHF)
-                                <input
-                                    name="min"
-                                    type="number"
-                                    min="0"
-                                    step="any"
-                                    value={props.draft?.salary?.min ?? ""}
-                                />
-                            </label>
-                            <label>
-                                Maximum salary (CHF)
-                                <input
-                                    name="max"
-                                    type="number"
-                                    min="0"
-                                    step="any"
-                                    value={props.draft?.salary?.max ?? ""}
-                                />
-                            </label>
-                        </div>
-                        <label>
-                            Salary period
-                            <select name="period" value={props.draft?.salary?.period ?? "year"}>
-                                <option value="year">Per year</option>
-                                <option value="hour">Per hour</option>
-                            </select>
-                        </label>
-                    </Card>
-                    <Card title="Listing">
-                        <label>
-                            Invoice email
-                            <input
-                                name="billingEmail"
-                                type="email"
-                                required
-                                value={props.draft?.billingEmail ?? props.email ?? ""}
-                            />
-                        </label>
-
-                        <p>
-                            CHF {jobPrice} · {jobDurationMonths} months. Included for sponsors.
-                        </p>
-                        <p class="text-soft">
-                            Reviewed before publication. Reconfirm every 90 days.
-                        </p>
-                    </Card>
-                </aside>
-            </div>
-            <FormMessage error={props.error} />
-        </Editor>
     );
 }
 

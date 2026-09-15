@@ -1,3 +1,4 @@
+import { Select } from "../components/field";
 import { Editor, savedEditor } from "../components/form";
 import { useConfirmation } from "../components/dialog";
 export { SponsorshipCard } from "../sponsorships/editor";
@@ -10,6 +11,7 @@ import { memberClient } from "../auth/convex";
 import type { Perform } from "../app/workspace";
 import { Card } from "../components/card";
 import { InvoiceButton } from "../billing/payments";
+import { applicationHref } from "../jobs/format";
 import { Markdown } from "../components/markdown";
 
 /** Owned companies, vacancies and sponsorship agreements. */
@@ -77,6 +79,9 @@ export function JobCard(props: {
                         reference={props.job._id}
                     />
                 </Show>
+                <a class="action-link" href={`/jobs/submit?edit=${props.job._id}&preview=1`}>
+                    Preview
+                </a>
                 <a class="action-link" href={`/jobs/submit?edit=${props.job._id}`}>
                     Edit
                 </a>
@@ -140,7 +145,7 @@ export function JobCard(props: {
 }
 
 /** Review a vacancy and allocate its publication funding. */
-function JobReview(props: {
+export function JobReview(props: {
     /** Vacancy and pending editorial revision. */
     job: EmployerWorkspace["jobs"][number];
     /** Disable controls during a workspace command. */
@@ -149,7 +154,13 @@ function JobReview(props: {
     perform: Perform;
 }) {
     const confirm = useConfirmation();
-    const [funding, setFunding] = createSignal("invoice");
+    const [funding, setFunding] = createSignal(
+        props.job.expiresAt && props.job.expiresAt > Date.now()
+            ? "existing"
+            : props.job.allowance
+              ? "sponsor"
+              : "invoice",
+    );
 
     /** Publish the reviewed vacancy with its funding. */
     async function publish(event: SubmitEvent) {
@@ -213,24 +224,41 @@ function JobReview(props: {
         <details class="review-details">
             <summary>Review & publication</summary>
             <h3>{(props.job.draft ?? props.job).title}</h3>
-            <p>{(props.job.draft ?? props.job).billingEmail}</p>
+            <p>{props.job.billingEmail}</p>
+            <Show
+                when={props.job.allowance}
+                fallback={
+                    <p class="text-soft">
+                        No current sponsorship allowance. A paid listing is required.
+                    </p>
+                }
+            >
+                {(allowance) => (
+                    <p class="text-soft">
+                        {allowance().available === null
+                            ? "Unlimited"
+                            : `${allowance().available} of ${allowance().limit}`}{" "}
+                        sponsorship slots available · term ends {date(allowance().endsAt)}
+                    </p>
+                )}
+            </Show>
             <Markdown source={(props.job.draft ?? props.job).description} />
             <p>
                 <a
                     class="text-link"
-                    href={(props.job.draft ?? props.job).applicationUrl}
+                    href={applicationHref((props.job.draft ?? props.job).application)}
                     target="_blank"
                     rel="noreferrer"
                 >
                     Application destination
                 </a>
             </p>
-            <details>
-                <summary>Record a manual payment</summary>
+            <details open>
+                <summary>Publication funding</summary>
                 <Editor class="editor" onSubmit={publish}>
                     <label>
                         Funding
-                        <select
+                        <Select
                             name="funding"
                             value={funding()}
                             onChange={(event) => setFunding(event.currentTarget.value)}
@@ -238,11 +266,18 @@ function JobReview(props: {
                             <option value="invoice">
                                 Paid invoice · CHF {jobPrice} / {jobDurationMonths} months
                             </option>
-                            <option value="sponsor">Included sponsorship slot</option>
+                            <option
+                                value="sponsor"
+                                disabled={
+                                    !props.job.allowance || props.job.allowance.available === 0
+                                }
+                            >
+                                Included sponsorship slot
+                            </option>
                             <Show when={props.job.expiresAt! > Date.now()}>
                                 <option value="existing">Keep existing paid term</option>
                             </Show>
-                        </select>
+                        </Select>
                     </label>
                     <Show when={funding() === "invoice"}>
                         <label>

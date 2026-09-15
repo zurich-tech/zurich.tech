@@ -1,9 +1,11 @@
+import { locationsLabel } from "./format";
 import { Highlight } from "../components/highlight";
 import { Image } from "../components/image";
 import { type Job } from "./queries";
-import { Show, For } from "solid-js";
+import { Show } from "solid-js";
 
-import { workplaces, employments } from "./filters";
+import { JobTags } from "./tags";
+import { salaryLabel } from "./format";
 import { Arrow } from "../components/arrow";
 
 /** Render a vacancy using the same title, tags and rule rhythm as event entries. */
@@ -37,29 +39,21 @@ export function JobEntry(props: {
                 </strong>
                 <p>
                     <Highlight
-                        text={`${props.job.company.name} · ${props.job.location}`}
+                        text={`${props.job.company.name} · ${locationsLabel(props.job.locations) || "Remote"}`}
                         terms={props.terms ?? []}
                     />
                 </p>
-                <Show when={!props.isCompact && props.job.salary}>
-                    <p class="job-salary">{salaryLabel(props.job.salary!)}</p>
+                <Show when={!props.isCompact}>
+                    <p>{props.job.summary}</p>
+                </Show>
+                <Show when={!props.isCompact && props.job.compensation?.salary}>
+                    <p class="job-salary">{salaryLabel(props.job.compensation?.salary!)}</p>
                 </Show>
                 <Show when={!props.isCompact}>
-                    <div class="tags">
-                        <span class="tag">{workplaces[props.job.workplace]}</span>
-                        <span class="tag">{employments[props.job.employment]}</span>
-                        <For each={props.job.tags}>{(tag) => <span class="tag">{tag}</span>}</For>
-                    </div>
+                    <JobTags job={props.job} />
                 </Show>
             </div>
             <Arrow />
         </a>
     );
-}
-
-/** Format the declared compensation range without implying missing salary information. */
-export function salaryLabel(salary: NonNullable<Job["salary"]>): string {
-    const amount = new Intl.NumberFormat("de-CH");
-
-    return `CHF ${amount.format(salary.min)}–${amount.format(salary.max)} / ${salary.period}`;
 }

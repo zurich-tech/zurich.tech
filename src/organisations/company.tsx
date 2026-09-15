@@ -1,3 +1,4 @@
+import { Select, Textarea } from "../components/field";
 import { organisationKinds, type OrganisationKind } from "../../convex/organisations/kinds";
 import { createSignal, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
@@ -12,6 +13,7 @@ export function CompanyForm(props: {
     /** Existing editable company, absent when creating a company. */
     item?: {
         _id: Id<"organisations">;
+        ownerId?: Id<"members">;
         name: string;
         kind: OrganisationKind;
         headline?: string;
@@ -28,6 +30,7 @@ export function CompanyForm(props: {
     };
     /** Allow team members to assign company ownership. */
     isAdmin?: boolean;
+    owners?: { memberId: Id<"members">; name: string; email?: string }[];
     /** Refresh company records after a successful save. */
     onSave: () => unknown;
     isPending: boolean;
@@ -122,11 +125,11 @@ export function CompanyForm(props: {
                 </div>
                 <label>
                     Category
-                    <select name="kind" value={props.item?.kind ?? "company"}>
+                    <Select name="kind" value={props.item?.kind ?? "company"}>
                         <For each={Object.entries(organisationKinds)}>
                             {([value, label]) => <option value={value}>{label}</option>}
                         </For>
-                    </select>
+                    </Select>
                 </label>
                 <div class="form-columns">
                     <label>
@@ -178,7 +181,7 @@ export function CompanyForm(props: {
                 </label>
                 <label>
                     Description
-                    <textarea
+                    <Textarea
                         name="description"
                         maxlength="5000"
                         rows="3"
@@ -187,12 +190,23 @@ export function CompanyForm(props: {
                 </label>
                 <Show when={props.isAdmin}>
                     <label>
-                        Owner email
+                        Owner <span>Can manage this organisation and its jobs</span>
                         <input
                             name="ownerEmail"
                             type="email"
-                            placeholder="Leave blank to keep the current owner"
+                            list="organisation-owners"
+                            value={
+                                props.owners?.find(
+                                    (owner) => owner.memberId === props.item?.ownerId,
+                                )?.email ?? ""
+                            }
+                            placeholder="Search by name or verified email"
                         />
+                        <datalist id="organisation-owners">
+                            <For each={props.owners?.filter((owner) => owner.email)}>
+                                {(owner) => <option value={owner.email}>{owner.name}</option>}
+                            </For>
+                        </datalist>
                     </label>
                 </Show>
 
@@ -214,7 +228,7 @@ export function CompanySelect(props: {
     return (
         <label>
             Company
-            <select
+            <Select
                 name="organisationId"
                 required
                 disabled={props.isDisabled}
@@ -226,7 +240,7 @@ export function CompanySelect(props: {
                 <For each={props.companies}>
                     {(item) => <option value={item._id}>{item.name}</option>}
                 </For>
-            </select>
+            </Select>
         </label>
     );
 }

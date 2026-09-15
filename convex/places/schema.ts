@@ -1,15 +1,16 @@
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
+import { localityFields } from "./fields";
+
 /** Stored addresses. */
 export const addresses = defineTable({
     label: v.optional(v.string()),
     line1: v.string(),
     line2: v.optional(v.string()),
     postalCode: v.optional(v.string()),
-    locality: v.string(),
+    ...localityFields,
     region: v.optional(v.string()),
-    countryCode: v.string(),
     latitude: v.optional(v.number()),
     longitude: v.optional(v.number()),
     createdAt: v.number(),

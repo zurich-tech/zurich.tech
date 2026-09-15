@@ -1,3 +1,5 @@
+import { locationsLabel } from "../../../jobs/format";
+import { getTopics } from "../../../topics/queries";
 import { useSearch } from "../../../search/local";
 import { matchesSearch } from "../../../search/search";
 import { EditLink } from "../../../auth/edit";
@@ -13,7 +15,7 @@ import { Card } from "../../../components/card";
 import { Page } from "../../page";
 import { Seo } from "../../seo";
 import { JobEntry } from "../../../jobs/job";
-import { workplaces, employments } from "../../../jobs/filters";
+import { workplaces, engagements } from "../../../jobs/filters";
 import { jobPrice, jobDurationMonths } from "../../../sponsorships/plans";
 
 /** Begin public data requests before rendering the route. */
@@ -27,7 +29,9 @@ export default function Route() {
     const jobs = getJobs.use(() => []);
     const { query: search, setQuery: setSearch, terms } = useSearch();
     const [workplace, setWorkplace] = createSignal("all");
-    const [employment, setEmployment] = createSignal("all");
+    const [engagement, setEngagement] = createSignal("all");
+    const topics = getTopics.use(() => []);
+    const [topic, setTopic] = createSignal("all");
     const [count, setCount] = createSignal(pageSize);
 
     // match location, contract and search terms
@@ -35,9 +39,10 @@ export default function Route() {
         (jobs() ?? []).filter(
             (job) =>
                 (workplace() === "all" || job.workplace === workplace()) &&
-                (employment() === "all" || job.employment === employment()) &&
+                (engagement() === "all" || job.engagement === engagement()) &&
+                (topic() === "all" || job.topics.includes(topic())) &&
                 matchesSearch(
-                    `${job.title} ${job.company.name} ${job.location} ${job.tags.join(" ")}`,
+                    `${job.title} ${job.company.name} ${locationsLabel(job.locations)} ${[...job.topics, ...job.skills].join(" ")}`,
                     terms(),
                 ),
         ),
@@ -70,13 +75,17 @@ export default function Route() {
                                 <FilterPills
                                     label="Workplace"
                                     value={
-                                        workplace() === "all" && employment() !== "all"
+                                        workplace() === "all" &&
+                                        (engagement() !== "all" || topic() !== "all")
                                             ? ""
                                             : workplace()
                                     }
                                     onChange={(value) => {
                                         setWorkplace(value === workplace() ? "all" : value);
-                                        if (value === "all") setEmployment("all");
+                                        if (value === "all") {
+                                            setEngagement("all");
+                                            setTopic("all");
+                                        }
                                     }}
                                     options={[
                                         { value: "all", label: "All" },
@@ -88,16 +97,28 @@ export default function Route() {
                                 />
                                 <FilterPills
                                     label="Employment"
-                                    value={employment()}
+                                    value={engagement()}
                                     onChange={(value) =>
-                                        setEmployment(value === employment() ? "all" : value)
+                                        setEngagement(value === engagement() ? "all" : value)
                                     }
                                     options={[
-                                        ...Object.entries(employments).map(([value, label]) => ({
+                                        ...Object.entries(engagements).map(([value, label]) => ({
                                             value,
                                             label,
                                         })),
                                     ]}
+                                />
+                                <FilterPills
+                                    label="Topics"
+                                    value={topic()}
+                                    onChange={(value) =>
+                                        setTopic(value === topic() ? "all" : value)
+                                    }
+                                    options={(topics() ?? [])
+                                        .filter((topic) =>
+                                            jobs()?.some((job) => job.topics.includes(topic.slug)),
+                                        )
+                                        .map((topic) => ({ value: topic.slug, label: topic.name }))}
                                 />
                             </div>
                         </TableToolbar>
@@ -147,7 +168,7 @@ export default function Route() {
                                 </li>
                                 <li>
                                     <Arrow />
-                                    <strong>Applications go directly to your hiring site</strong>
+                                    <strong>Applications go directly to you</strong>
                                 </li>
                             </ul>
                             <a class="text-link" href="/manage">

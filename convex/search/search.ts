@@ -167,8 +167,12 @@ export const search = query({
                     label: job.title,
                     description: [
                         job.company.name,
-                        job.location,
-                        ...job.tags,
+                        ...job.locations.map(
+                            (location) => `${location.locality} ${location.countryCode}`,
+                        ),
+                        job.summary,
+                        ...job.topics,
+                        ...job.skills,
                         job.description,
                     ].join(" "),
                     href: `/jobs/${job.slug}`,

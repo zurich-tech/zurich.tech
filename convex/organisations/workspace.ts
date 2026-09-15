@@ -4,7 +4,7 @@ import { readProfiles } from "../members/links";
 import type { Doc } from "../_generated/dataModel";
 import { query } from "../_generated/server";
 import { requireAccount } from "../auth/access";
-import { jobExpiry, jobStatus } from "../jobs/jobs";
+import { jobExpiry, jobStatus, jobAllowance } from "../jobs/jobs";
 
 /** Read the current employer's company, job and sponsorship workspace. */
 export const employer = query({
@@ -41,11 +41,32 @@ export const employer = query({
             )
         ).flat();
 
+        // expose assignable account identities only to administrators
+        const owners = viewer.isAdmin
+            ? await Promise.all(
+                  (await ctx.db.query("accounts").collect())
+                      .filter((account) => account.status === "active")
+                      .map(async (account) => {
+                          const profile = await ctx.db.get(account.memberId);
+                          const emails = await ctx.db
+                              .query("emails")
+                              .withIndex("by_member", (q) => q.eq("memberId", account.memberId))
+                              .collect();
+                          return {
+                              memberId: account.memberId,
+                              name: profile?.name ?? "",
+                              email: emails.find((email) => email.verifiedAt)?.email,
+                          };
+                      }),
+              )
+            : [];
         return {
+            owners,
             isAdmin: viewer.isAdmin,
             organisations: await Promise.all(
                 companies.map(async (company) => ({
                     ...company,
+                    jobAllowance: await jobAllowance(ctx, company._id),
                     ...(await readProfiles(ctx, company._id, "all")),
                 })),
             ),
@@ -54,7 +75,12 @@ export const employer = query({
                     .sort((a, b) => b.updatedAt - a.updatedAt)
                     .map(async (job) => {
                         const expiresAt = await jobExpiry(ctx, job);
-                        return { ...job, expiresAt, displayStatus: jobStatus(job, expiresAt) };
+                        return {
+                            ...job,
+                            allowance: await jobAllowance(ctx, job.organisationId, job._id),
+                            expiresAt,
+                            displayStatus: jobStatus(job, expiresAt),
+                        };
                     }),
             ),
             sponsorships: await Promise.all(

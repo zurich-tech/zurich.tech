@@ -5,6 +5,9 @@ import { jobFields } from "./fields";
 /** Stored jobs. */
 export const jobs = defineTable({
     ...jobFields,
+    billingEmail: v.string(),
+    createdBy: v.id("members"),
+    updatedBy: v.id("members"),
     status: v.union(
         v.literal("draft"),
         v.literal("review"),

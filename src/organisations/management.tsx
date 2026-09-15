@@ -93,6 +93,14 @@ export function Management(props: {
                                 class={isCreating() || selected() ? undefined : "admin-table-card"}
                                 toolbar={
                                     <>
+                                        <Show when={organisation()}>
+                                            <a
+                                                class="action-link"
+                                                href={`/jobs/submit?organisation=${organisation()!._id}`}
+                                            >
+                                                Add job
+                                            </a>
+                                        </Show>
                                         <Show when={selected()}>
                                             <button
                                                 type="submit"
@@ -181,6 +189,7 @@ export function Management(props: {
                                         setIsPending={setIsSaving}
                                         item={organisation()}
                                         isAdmin={current().isAdmin}
+                                        owners={current().owners}
                                         onSave={async () => {
                                             await startTransition(refetch);
                                             setSelected(undefined);

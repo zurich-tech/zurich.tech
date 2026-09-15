@@ -8,29 +8,34 @@ import { requireCompany } from "../organisations/mutations";
 import { tiers } from "../../src/sponsorships/plans";
 import { confirmationPeriod, jobFields } from "./fields";
 import { normalizeEmail } from "../members/emails";
-import { normalizeUrl } from "../members/urls";
+import { normalizeJob } from "./validation";
 import { sponsorshipTerm } from "../sponsorships/organisations";
 
 /** Read the public job board, excluding expired or unconfirmed vacancies. */
 export const list = query({
     args: { organisationId: v.optional(v.id("organisations")) },
     handler: async (ctx, args) => {
-        // read published vacancies for one organisation or the entire board
-        const rows = args.organisationId
-            ? await ctx.db
-                  .query("jobs")
-                  .withIndex("by_organisation", (q) => q.eq("organisationId", args.organisationId!))
-                  .filter((q) => q.eq(q.field("status"), "published"))
-                  .collect()
-            : await ctx.db
-                  .query("jobs")
-                  .withIndex("by_status", (q) => q.eq("status", "published"))
-                  .collect();
-        const entries = await Promise.all(rows.map((row) => publicJob(ctx, row)));
-
-        return entries.filter((row) => row.isOpen).sort((a, b) => b.publishedAt - a.publishedAt);
+        return await openJobs(ctx, args.organisationId);
     },
 });
+
+/** Select the same eligible vacancies for the website and newsletter. */
+export async function openJobs(ctx: QueryCtx, organisationId?: Doc<"jobs">["organisationId"]) {
+    // read published vacancies for one organisation or the entire board
+    const rows = organisationId
+        ? await ctx.db
+              .query("jobs")
+              .withIndex("by_organisation", (q) => q.eq("organisationId", organisationId!))
+              .filter((q) => q.eq(q.field("status"), "published"))
+              .collect()
+        : await ctx.db
+              .query("jobs")
+              .withIndex("by_status", (q) => q.eq("status", "published"))
+              .collect();
+    const entries = await Promise.all(rows.map((row) => publicJob(ctx, row)));
+
+    return entries.filter((row) => row.isOpen).sort((a, b) => b.publishedAt - a.publishedAt);
+}
 
 /** Read an approved job, retaining its page after applications close. */
 export const detail = query({
@@ -47,38 +52,18 @@ export const detail = query({
 
 /** Save a separate job revision and optionally request editorial review. */
 export const save = mutation({
-    args: { id: v.optional(v.id("jobs")), submit: v.boolean(), ...jobFields },
+    args: {
+        id: v.optional(v.id("jobs")),
+        submit: v.boolean(),
+        billingEmail: v.string(),
+        ...jobFields,
+    },
     handler: async (ctx, args) => {
         // require access to both the current and proposed company
-        await requireCompany(ctx, args.organisationId);
+        const { viewer } = await requireCompany(ctx, args.organisationId);
         const row = args.id ? await ctx.db.get(args.id) : null;
         if (args.id && !row) throw new Error("Job not found.");
         if (row) await requireCompany(ctx, row.organisationId);
-        // validate public copy and the URL slug
-        if (
-            !args.title.trim() ||
-            args.title.length > 180 ||
-            !args.description.trim() ||
-            args.description.length > 50000 ||
-            !args.location.trim() ||
-            args.location.length > 300 ||
-            args.tags.length > 12 ||
-            args.tags.some((tag) => tag.length > 40) ||
-            !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(args.slug)
-        )
-            throw new Error(
-                "Enter a title, description, location, valid URL slug and up to twelve short tags.",
-            );
-
-        // validate the optional salary range
-        if (
-            args.salary &&
-            (!Number.isFinite(args.salary.min) ||
-                !Number.isFinite(args.salary.max) ||
-                args.salary.min < 0 ||
-                args.salary.max < args.salary.min)
-        )
-            throw new Error("Enter a valid salary range in CHF.");
 
         // keep published company identity and URLs stable
         const collision = await ctx.db
@@ -93,17 +78,21 @@ export const save = mutation({
             throw new Error("A published job's company and URL cannot change.");
 
         // retain the public revision until the team approves the edit
-        const { id, submit, ...fields } = args;
-        const values = {
-            ...fields,
-            title: fields.title.trim(),
-            billingEmail: normalizeEmail(fields.billingEmail),
-            applicationUrl: normalizeUrl(fields.applicationUrl),
-            tags: [...new Set(fields.tags.map((tag) => tag.trim()).filter(Boolean))],
+        const { id, submit, billingEmail, ...fields } = args;
+        const values = normalizeJob(fields);
+
+        // validate topic references against the shared catalogue
+        const topics = await ctx.db.query("topics").collect();
+        if (values.topics.some((slug) => !topics.some((topic) => topic.slug === slug)))
+            throw new Error("Select existing topics.");
+        const administration = {
+            billingEmail: normalizeEmail(billingEmail),
+            updatedBy: viewer.memberId,
         };
         const now = Date.now();
         if (row?.publishedAt) {
             await ctx.db.patch(row._id, {
+                ...administration,
                 draft: values,
                 draftStatus: submit ? "review" : "draft",
                 reviewNote: undefined,
@@ -115,6 +104,7 @@ export const save = mutation({
         if (row) {
             await ctx.db.patch(row._id, {
                 ...values,
+                ...administration,
                 status: submit ? "review" : "draft",
                 reviewNote: undefined,
                 updatedAt: now,
@@ -134,6 +124,8 @@ export const save = mutation({
 
         return await ctx.db.insert("jobs", {
             ...values,
+            ...administration,
+            createdBy: viewer.memberId,
             status: submit ? "review" : "draft",
             createdAt: now,
             updatedAt: now,
@@ -156,6 +148,9 @@ export const publish = mutation({
         const row = await ctx.db.get(args.id);
         if (!row) throw new Error("Job not found.");
         const now = Date.now();
+        const revision = row.draft ?? row;
+        if (revision.applicationDeadline !== undefined && revision.applicationDeadline <= now)
+            throw new Error("Update the application deadline before publishing.");
         let expiresAt = await jobExpiry(ctx, row);
         let sponsorshipId = row.sponsorshipId;
 
@@ -177,37 +172,12 @@ export const publish = mutation({
         }
         // allocate one of the company's active sponsorship slots
         else if (args.funding === "sponsor" || (args.funding === "existing" && row.sponsorshipId)) {
-            const sponsors = await ctx.db
-                .query("sponsorships")
-                .withIndex("by_status", (q) => q.eq("status", "active"))
-                .collect();
-            const terms = await Promise.all(
-                sponsors.map(async (item) => ({
-                    ...item,
-                    term: await sponsorshipTerm(ctx, item),
-                })),
-            );
-            const sponsor = terms.find(
-                (item) =>
-                    "organisationId" in item &&
-                    item.organisationId === row.organisationId &&
-                    item.term &&
-                    item.term.startsAt <= now &&
-                    item.term.endsAt > now,
-            );
-            if (!sponsor) throw new Error("This company has no active sponsorship.");
-            const allowance = tiers.find((item) => item.id === sponsor.term!.tier)!.jobs;
-            const jobs = await ctx.db
-                .query("jobs")
-                .withIndex("by_status", (q) => q.eq("status", "published"))
-                .collect();
-            const used = jobs.filter(
-                (item) => item._id !== row._id && item.sponsorshipId === sponsor._id,
-            ).length;
-            if (allowance !== null && used >= allowance)
+            const allocation = await jobAllowance(ctx, row.organisationId, row._id);
+            if (!allocation) throw new Error("This company has no active sponsorship.");
+            if (allocation.available !== null && allocation.available < 1)
                 throw new Error("All included job slots are in use.");
-            sponsorshipId = sponsor._id;
-            expiresAt = sponsor.term!.endsAt;
+            sponsorshipId = allocation.id;
+            expiresAt = allocation.endsAt;
         }
         // approve an edit without changing the original paid term
         else if (!expiresAt || expiresAt <= now)
@@ -217,6 +187,7 @@ export const publish = mutation({
         // publish the approved revision and renew its freshness timestamp
         await ctx.db.patch(row._id, {
             ...(row.draft ?? {}),
+            updatedBy: reviewer.memberId,
             status: "published",
             draft: undefined,
             draftStatus: undefined,
@@ -250,15 +221,35 @@ export const updateStatus = mutation({
                 status: row.publishedAt ? row.status : "draft",
                 draftStatus: row.draft ? "draft" : undefined,
                 reviewNote: args.note.trim(),
+                updatedBy: viewer.memberId,
                 updatedAt: Date.now(),
             });
         } else if (args.action === "close") {
-            await ctx.db.patch(row._id, { status: "closed", updatedAt: Date.now() });
+            await ctx.db.patch(row._id, {
+                status: "closed",
+                updatedAt: Date.now(),
+                updatedBy: viewer.memberId,
+            });
         } else {
             const expiresAt = await jobExpiry(ctx, row);
             if (row.status !== "published" || expiresAt === null || expiresAt <= Date.now())
                 throw new Error("Renew or publish this job before confirming it.");
-            await ctx.db.patch(row._id, { confirmedAt: Date.now(), updatedAt: Date.now() });
+            if (row.applicationDeadline !== undefined && row.applicationDeadline <= Date.now())
+                throw new Error("Update the application deadline before confirming.");
+            if (row.sponsorshipId) {
+                const allocation = await jobAllowance(ctx, row.organisationId, row._id);
+                if (
+                    !allocation ||
+                    allocation.id !== row.sponsorshipId ||
+                    (allocation.available !== null && allocation.available < 1)
+                )
+                    throw new Error("No sponsorship slot is available to reconfirm this job.");
+            }
+            await ctx.db.patch(row._id, {
+                confirmedAt: Date.now(),
+                updatedAt: Date.now(),
+                updatedBy: viewer.memberId,
+            });
         }
     },
 });
@@ -287,12 +278,21 @@ export async function publicJob(ctx: QueryCtx, row: Doc<"jobs">) {
             logoUrl: organisation.logoUrl,
             logoDarkUrl: organisation.logoDarkUrl,
         },
-        location: row.location,
+        summary: row.summary,
+        locations: row.locations,
         workplace: row.workplace,
-        employment: row.employment,
-        salary: row.salary,
-        tags: row.tags,
-        applicationUrl: row.applicationUrl,
+        remoteEligibility: row.remoteEligibility,
+        engagement: row.engagement,
+        duration: row.duration,
+        workload: row.workload,
+        compensation: row.compensation,
+        topics: row.topics,
+        skills: row.skills,
+        seniority: row.seniority,
+        languages: row.languages,
+        visaSponsorship: row.visaSponsorship,
+        application: row.application,
+        applicationDeadline: row.applicationDeadline,
         publishedAt: row.publishedAt,
         isOpen,
     };
@@ -318,12 +318,52 @@ export async function jobExpiry(
 
 /** Derive visible job status from editorial state, payment and freshness. */
 export function jobStatus(
-    job: Pick<Doc<"jobs">, "status" | "confirmedAt">,
+    job: Pick<Doc<"jobs">, "status" | "confirmedAt" | "applicationDeadline">,
     expiresAt: number | null,
     now = Date.now(),
 ) {
     if (job.status !== "published") return job.status;
+    if (job.applicationDeadline !== undefined && job.applicationDeadline <= now) return "closed";
     if (!expiresAt || expiresAt <= now) return "expired";
     if (!job.confirmedAt || job.confirmedAt + confirmationPeriod <= now) return "unconfirmed";
     return "published";
+}
+
+/** Resolve current sponsor capacity, excluding the vacancy being edited or renewed. */
+export async function jobAllowance(
+    ctx: QueryCtx,
+    organisationId: Doc<"jobs">["organisationId"],
+    excludeId?: Doc<"jobs">["_id"],
+) {
+    // select this organisation's current agreement without scanning unrelated sponsors
+    const sponsors = await ctx.db
+        .query("sponsorships")
+        .withIndex("by_organisation", (q) => q.eq("organisationId", organisationId))
+        .collect();
+    const now = Date.now();
+    for (const sponsor of sponsors) {
+        if (sponsor.status !== "active") continue;
+        const term = await sponsorshipTerm(ctx, sponsor);
+        if (!term || term.startsAt > now || term.endsAt <= now) continue;
+        const limit = tiers.find((tier) => tier.id === term.tier)!.jobs;
+        const jobs = await ctx.db
+            .query("jobs")
+            .withIndex("by_organisation", (q) => q.eq("organisationId", organisationId))
+            .collect();
+        const used = jobs.filter(
+            (job) =>
+                job._id !== excludeId &&
+                job.sponsorshipId === sponsor._id &&
+                jobStatus(job, term.endsAt, now) === "published",
+        ).length;
+
+        return {
+            id: sponsor._id,
+            tier: term.tier,
+            endsAt: term.endsAt,
+            limit,
+            available: limit === null ? null : Math.max(0, limit - used),
+        };
+    }
+    return null;
 }
