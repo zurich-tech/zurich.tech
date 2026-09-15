@@ -1,0 +1,496 @@
+{
+    "asOf": "2026-09-15",
+    "scope": "Technology and drug-development biotech with substantive Zurich-area operations; announced financing of at least 1M in original CHF/EUR/USD; significant releases, facilities and acquisitions. Public-source backfill, not a complete registry of private financing.",
+    "report": "https://www.seca.ch/media/oi5nkfff/vcreport_2025_web.pdf",
+    "included": [
+        {
+            "slug": "tiun-pre-seed",
+            "announcement": "2024-12-20",
+            "source": "https://www.startupticker.ch/en/news/usd2-5-million-to-modernize-media-monetization",
+            "company": "https://tiun.io/"
+        },
+        {
+            "slug": "anybotics-2024",
+            "announcement": "2024-12-12",
+            "source": "https://www.anybotics.com/news/anybotics-raises-additional-60-million-to-drive-u-s-expansion/",
+            "company": "https://www.anybotics.com/news/anybotics-raises-additional-60-million-to-drive-u-s-expansion/"
+        },
+        {
+            "slug": "embotech-series-b",
+            "announcement": "2024-12-12",
+            "source": "https://www.embotech.com/wp-content/uploads/Embotech_PRESS-RELEASE_Series_B_241212.pdf",
+            "company": "https://www.embotech.com/",
+            "note": "Company's original indexed PDF now returns 404; reader link uses the company homepage. Dated release also at https://www.globenewswire.com/news-release/2024/12/12/2996120/0/en/Embotech-Receives-CHF-23-5-M-in-Funding-to-Expand-Autonomous-Driving-Solutions-for-Logistics-in-Europe-and-Beyond.html"
+        },
+        {
+            "slug": "relai-series-a",
+            "announcement": "2024-12-10",
+            "source": "https://relai.app/blog/we-raised-12-million-to-orange-pill-europe/",
+            "company": "https://relai.app/blog/we-raised-12-million-to-orange-pill-europe/"
+        },
+        {
+            "slug": "liom-series-a",
+            "announcement": "2024-12-04",
+            "source": "https://liom.com/news-updates/",
+            "company": "https://liom.com/news-updates/",
+            "note": "Initial close of an ongoing Series A, not the USD 50\u201370M target."
+        },
+        {
+            "slug": "brighty-funding-2024",
+            "announcement": "2024-12-03",
+            "source": "https://www.startupticker.ch/en/news/crypto-card-payments-brighty-s-10m-round-to-fuel-expansion",
+            "company": "https://brighty.app/en"
+        },
+        {
+            "slug": "kyan-health-series-a",
+            "announcement": "2024-11-26",
+            "source": "https://www.startupticker.ch/en/news/usd16-7-million-to-expand-kyan-health-s-workplace-wellness-platform-globally",
+            "company": "https://www.kyanhealth.com/",
+            "note": "USD 12.7M Series A only; USD 16.7M includes an earlier USD 4M seed round."
+        },
+        {
+            "slug": "schuman-seed",
+            "announcement": "2024-11-26",
+            "source": "https://www.startupticker.ch/en/news/shuman-financial-raises-7-million-to-scale-euro-stablecoins",
+            "company": "https://schuman.io/"
+        },
+        {
+            "slug": "oncobit-pre-series-a",
+            "announcement": "2024-11-20",
+            "source": "https://oncobit.com/app/uploads/2024/11/PressRelease_Pre-SeriesA-1.pdf",
+            "company": "https://oncobit.com/en/news/oncobit-closes-1-5m-pre-series-a-financing-round/",
+            "note": "Use the precise CHF 1.47M amount from the release; newsroom headline rounds to CHF 1.5M."
+        },
+        {
+            "slug": "calvin-risk-seed",
+            "announcement": "2024-11-19",
+            "source": "https://www.calvin-risk.com/publications/calvin-risk-secures-4m-as-its-mission-to-make-enterprise-ai-trustworthy-takes-off",
+            "company": "https://www.calvin-risk.com/blog/innovating-the-ai-governance-and-risk-management-market-our-recent-funding-and-work"
+        },
+        {
+            "slug": "wyden-series-b",
+            "announcement": "2024-11-13",
+            "source": "https://www.wyden.io/news/wyden-secures-usd-16-9-million-in-series-b-funding-round/",
+            "company": "https://www.wyden.io/news/wyden-secures-usd-16-9-million-in-series-b-funding-round/"
+        },
+        {
+            "slug": "localstack-series-a",
+            "announcement": "2024-11-12",
+            "source": "https://blog.localstack.cloud/series-a-announcement/",
+            "company": "https://blog.localstack.cloud/series-a-announcement/"
+        },
+        {
+            "slug": "gelato-series-a-extension",
+            "announcement": "2024-10-28",
+            "source": "https://gelato.cloud/blog/gelato-raises-series-a-announces-ink-layer2-kraken",
+            "company": "https://gelato.cloud/blog/gelato-raises-series-a-announces-ink-layer2-kraken"
+        },
+        {
+            "slug": "terralayr-funding-2024",
+            "announcement": "2024-10-18",
+            "source": "https://www.startupticker.ch/en/news/energy-storage-start-up-terralayr-raises-chf67-million",
+            "company": "https://www.trlyr.com/",
+            "note": "EUR 77M combines EUR 62M equity and EUR 15M debt; the report's CHF amount is a conversion."
+        },
+        {
+            "slug": "sallea-pre-seed",
+            "announcement": "2024-10-16",
+            "source": "https://www.globenewswire.com/news-release/2024/10/16/2964012/0/en/sallea-raises-2-6m-as-it-discovers-missing-link-to-deliver-on-the-promise-of-premium-cultivated-meat-and-fish.html",
+            "company": "https://sallea.ch/"
+        },
+        {
+            "slug": "albatross-seed",
+            "announcement": "2024-10-16",
+            "source": "https://www.startupticker.ch/en/news/chf-2-8-million-to-improve-ecommerce-recommendations",
+            "company": "https://www.albatross.ai/"
+        },
+        {
+            "slug": "candi-debt-2024",
+            "announcement": "2024-10-10",
+            "source": "https://www.candi.solar/our-news/candi-solar-secures-an-additional-18-million",
+            "company": "https://www.candi.solar/our-news/candi-solar-secures-an-additional-18-million",
+            "note": "Debt financing, explicitly distinguished from equity in the headline."
+        },
+        {
+            "slug": "somagenetix-series-a",
+            "announcement": "2024-10-08",
+            "source": "https://www.somagenetix.com/post/somagenetix-ag-secures-chf-10-million-in-series-a-financing-to-advance-lentiviral-gene-therapy-for-c",
+            "company": "https://www.somagenetix.com/post/somagenetix-ag-secures-chf-10-million-in-series-a-financing-to-advance-lentiviral-gene-therapy-for-c",
+            "note": "CHF 10M initial Series A close, not an assumed final round total."
+        },
+        {
+            "slug": "voliro-series-a",
+            "announcement": "2024-10-03",
+            "source": "https://voliro.com/blog/voliro-secures-12m-in-series-a-funding-to-transform-industrial-inspections-with-aerial-robotics/",
+            "company": "https://voliro.com/blog/voliro-secures-12m-in-series-a-funding-to-transform-industrial-inspections-with-aerial-robotics/",
+            "note": "The company describes the round as including a conventional debt facility."
+        },
+        {
+            "slug": "lightium-seed",
+            "announcement": "2024-09-19",
+            "source": "https://www.optica.org/about/newsroom/corporate_member_news/2024/lightium_secures_7_million_seed_funding_to_meet_explosion_in_data_center_growth_resulting_from_ai_i/",
+            "company": "https://lightium.com/"
+        },
+        {
+            "slug": "immunos-series-c",
+            "announcement": "2024-09-17",
+            "source": "https://www.globenewswire.com/news-release/2024/09/17/2947186/0/en/immunos-therapeutics-ag-raises-11-million-and-further-strengthens-investor-base.html",
+            "company": "https://www.immunostherapeutics.com/news-media/"
+        },
+        {
+            "slug": "cerrion-funding-2024",
+            "announcement": "2024-09-10",
+            "source": "https://www.finsmes.com/2024/09/cerrion-raises-5m-in-funding.html",
+            "company": "https://cerrion.com/"
+        },
+        {
+            "slug": "corflow-series-b",
+            "announcement": "2024-09-10",
+            "source": "https://www.startupticker.ch/en/news/corflow-therapeutics-raises-44-million-in-series-b-round",
+            "company": "https://corflow.com/wp-content/uploads/2024/09/CorFlow-Series-B-Press-Release-EvE-FINAL.pdf",
+            "note": "Company PDF leaves the date blank. Business Wire syndication establishes 10 September 2024, before Startupticker's 12 September article: https://via.tt.se/pressmeddelande/3605705/corflow-therapeutics-ag-completes-euro44-million-series-b-financing-to-support-the-advancement-of-a-novel-diagnostic-and-drug-delivery-platform-for-microvascular-obstruction-mvo-in-heart-attack-patients?lang=en&publisherId=259167"
+        },
+        {
+            "slug": "swiss-mile-seed",
+            "announcement": "2024-08-28",
+            "source": "https://www.pymnts.com/news/artificial-intelligence/2024/report-amazon-and-bezos-expeditions-to-back-robot-maker-swiss-mile/",
+            "company": "https://rivr.ai/stories/from-research-to-global-impact-the-journey-from-swiss-mile-to-rivr",
+            "note": "Use Swiss-Mile, the name at announcement; the company became RIVR in 2025."
+        },
+        {
+            "slug": "flowit-seed",
+            "announcement": "2024-08-22",
+            "source": "https://www.startbase.com/news/flowit-sichert-sich-4-millionen-franken-in-seed-runde/",
+            "company": "https://flowit.ai/"
+        },
+        {
+            "slug": "optiml-pre-seed-extension",
+            "announcement": "2024-08-21",
+            "source": "https://tech.eu/2024/08/21/optiml-raises-4m-pre-seed-for-esg-compliant-assets/",
+            "company": "https://www.optiml.com/"
+        },
+        {
+            "slug": "apheros-pre-seed",
+            "announcement": "2024-08-19",
+            "source": "https://apheros.ch/en/news/press-release-preseed",
+            "company": "https://apheros.ch/en/news/press-release-preseed"
+        },
+        {
+            "slug": "sanos-funding-2024",
+            "announcement": "2024-08-16",
+            "source": "https://www.startupticker.ch/en/news/7-millionen-euro-fuer-health-tech-sanos",
+            "company": "https://goroger.com/"
+        },
+        {
+            "slug": "onchainlabs-seed",
+            "announcement": "2024-08-16",
+            "source": "https://www.startupticker.ch/en/news/onchainlabs-secures-chf-5m-in-seed-round",
+            "company": "https://onchainlabs.ch/"
+        },
+        {
+            "slug": "nunu-pre-seed",
+            "announcement": "2024-08-06",
+            "source": "https://www.linkedin.com/posts/jan-schnyder_excited-to-announce-our-2m-pre-seed-round-activity-7226260050128846848-a2pA",
+            "company": "https://nunu.ai/"
+        },
+        {
+            "slug": "knime-funding-2024",
+            "announcement": "2024-08-06",
+            "source": "https://siliconangle.com/2024/08/06/open-source-data-science-platform-knime-raises-30m/",
+            "company": "https://www.knime.com/"
+        },
+        {
+            "slug": "lakera-series-a",
+            "announcement": "2024-07-24",
+            "source": "https://www.prnewswire.com/news-releases/lakera-raises-20m-series-a-to-secure-generative-ai-applications-302204874.html",
+            "company": "https://www.lakera.ai/"
+        },
+        {
+            "slug": "netfabric-pre-seed",
+            "announcement": "2024-07-23",
+            "source": "https://netfabric.ai/news/news-article-5/",
+            "company": "https://netfabric.ai/news/news-article-5/"
+        },
+        {
+            "slug": "caplena-pre-series-a",
+            "announcement": "2024-07-10",
+            "source": "https://inveready.com/caplena/",
+            "company": "https://caplena.com/"
+        },
+        {
+            "slug": "scrona-funding-2024",
+            "announcement": "2024-07-10",
+            "source": "https://www.startupticker.ch/en/news/scrona-unveils-new-priniting-technolgy-and-4-million-funding-round",
+            "company": "https://www.scrona.com/"
+        },
+        {
+            "slug": "circleg-funding-2024",
+            "announcement": "2024-06-28",
+            "source": "https://www.startupticker.ch/en/news/circleg-receives-total-investment-of-chf-6-million",
+            "company": "https://circleg.world/",
+            "note": "CHF 1.5M convertible loan; excludes prior funding from the CHF 6M total."
+        },
+        {
+            "slug": "libattion-funding-2024",
+            "announcement": "2024-06-27",
+            "source": "https://www.tekniagroup.com/en/teknia-partners-invests-in-libattion/",
+            "company": "https://libattion.com/"
+        },
+        {
+            "slug": "enantios-seed",
+            "announcement": "2024-06-27",
+            "source": "https://www.startupticker.ch/en/news/chf1-8-million-to-eliminate-critical-bottlenecks-in-traditional-drug-development",
+            "company": "https://enantios.com/"
+        },
+        {
+            "slug": "skycell-series-d-extension",
+            "announcement": "2024-06-25",
+            "source": "https://www.walderwyss.com/en/news/2024-06-25_skycell-ag-closed-usd-116m-series-d-financing-round",
+            "company": "https://blog.skycell.ch/blog/skycell-closes-us116-million-series-d",
+            "note": "USD 59M is the 2024 addition; the USD 116M Series D total includes USD 57M announced in 2023."
+        },
+        {
+            "slug": "deepjudge-seed",
+            "announcement": "2024-06-18",
+            "source": "https://www.einpresswire.com/article/720593973/ai-driven-legal-search-startup-deepjudge-raises-10-7m-in-seed-round-led-by-coatue-announces-knowledge-assistant",
+            "company": "https://www.deepjudge.ai/news/deepjudge-raises-10-7m-seed-round-led-by-coatue-and-announces-knowledge-assistant"
+        },
+        {
+            "slug": "taskbase-series-a",
+            "announcement": "2024-06-17",
+            "source": "https://www.mediahuis.com/en/news/mediahuis-invests-in-swiss-ai-education-technology-company-taskbase",
+            "company": "https://www.taskbase.com/"
+        },
+        {
+            "slug": "drone-harmony-funding-2024",
+            "announcement": "2024-06-14",
+            "source": "https://ranq.ch/en/companies/drone-harmony-ag",
+            "company": "https://droneharmony.com/"
+        },
+        {
+            "slug": "rivia-seed",
+            "announcement": "2024-06-12",
+            "source": "https://www.startupticker.ch/en/news/3m-to-bring-ai-analytics-and-advanced-data-infrastructure-to-clinical-trials",
+            "company": "https://www.rivia.com/"
+        },
+        {
+            "slug": "candi-series-c",
+            "announcement": "2024-06-10",
+            "source": "https://www.candi.solar/our-news/candi-solar-secures-38-million-funding",
+            "company": "https://www.candi.solar/our-news/candi-solar-secures-38-million-funding"
+        },
+        {
+            "slug": "topadur-funding-2024",
+            "announcement": "2024-06-06",
+            "source": "https://www.startupticker.ch/en/news/oshen-supports-topadur-in-the-development-of-a-treatment-for-alopecia",
+            "company": "https://www.topadur.com/",
+            "note": "CHF 3M equity commitment under the signed agreement; excludes CHF 12M contingent development milestones."
+        },
+        {
+            "slug": "microcaps-series-a",
+            "announcement": "2024-06-05",
+            "source": "https://www.bio-technopark.ch/en/news-en/microcaps-ag-secures-chf-9-3-million-in-series-a-financing-round-to-expand-production-capacity/",
+            "company": "https://microcaps.ch/"
+        },
+        {
+            "slug": "synthara-funding-2024",
+            "announcement": "2024-06-05",
+            "source": "https://synthara.ai/announcement/synthara-raises-over-usd-11m-to-expand-the-embedded-computing-market-and-enable-ai-applications/",
+            "company": "https://synthara.ai/announcement/synthara-raises-over-usd-11m-to-expand-the-embedded-computing-market-and-enable-ai-applications/",
+            "note": "USD 5.5M private financing only; the additional USD 5.9M in grants is excluded."
+        },
+        {
+            "slug": "ethonai-series-a",
+            "announcement": "2024-05-30",
+            "source": "https://www.indexventures.com/perspectives/ethonai-series-a/",
+            "company": "https://ethon.ai/"
+        },
+        {
+            "slug": "numab-nm26-acquisition",
+            "announcement": "2024-05-28",
+            "source": "https://www.numab.com/news/",
+            "company": "https://www.numab.com/wp-content/uploads/240528_PRR_Numab-Therapeutics-Announces-JnJ-to-Acquire-YJT.pdf",
+            "note": "Agreement to acquire subsidiary Yellow Jersey Therapeutics and NM26 rights; not acquisition of Numab or a financing round."
+        },
+        {
+            "slug": "cutiss-series-c",
+            "announcement": "2024-05-17",
+            "source": "https://cutiss.swiss/wp-content/uploads/2024/05/PR_CUTISS_Series-C-first-closing_17-May-2024_Final-1.pdf",
+            "company": "https://cutiss.swiss/wp-content/uploads/2024/05/PR_CUTISS_Series-C-first-closing_17-May-2024_Final-1.pdf",
+            "note": "17 May company PDF date takes precedence over later reporting."
+        },
+        {
+            "slug": "swissdrones-series-b",
+            "announcement": "2024-05-13",
+            "source": "https://www.swissdrones.com/post/aerial-intelligence-company-swissdrones-successfully-closes-series-b-growth-funding",
+            "company": "https://www.swissdrones.com/post/aerial-intelligence-company-swissdrones-successfully-closes-series-b-growth-funding"
+        },
+        {
+            "slug": "8inks-pre-seed",
+            "announcement": "2024-05-13",
+            "source": "https://www.startupticker.ch/en/news/8inks-raises-eur-3-million-to-reduce-battery-production-costs",
+            "company": "https://8inks.com/"
+        },
+        {
+            "slug": "climeworks-mammoth",
+            "announcement": "2024-05-08",
+            "source": "https://climeworks.com/press-release/climeworks-switches-on-worlds-largest-direct-air-capture-plant-mammoth",
+            "company": "https://climeworks.com/press-release/climeworks-switches-on-worlds-largest-direct-air-capture-plant-mammoth",
+            "note": "Start of operations with partial capacity installed; no claim of achieving the plant's full design capacity."
+        },
+        {
+            "slug": "anapaya-funding-2024",
+            "announcement": "2024-05-07",
+            "source": "https://www.anapaya.net/news/anapaya-secures-chf-10-million-to-drive-international-expansion-and-accelerate-growth-in-switzerland",
+            "company": "https://www.anapaya.net/news/anapaya-secures-chf-10-million-to-drive-international-expansion-and-accelerate-growth-in-switzerland"
+        },
+        {
+            "slug": "mimic-pre-seed",
+            "announcement": "2024-05-07",
+            "source": "https://www.linkedin.com/posts/mimicrobotics_eth-spinout-mimic-raises-25m-for-ai-powered-activity-7193495746732556288-618p",
+            "company": "https://www.mimicrobotics.com/about"
+        },
+        {
+            "slug": "memo-series-c-extension",
+            "announcement": "2024-05-07",
+            "source": "https://memo-therapeutics.com/2024/05/07/memo-therapeutics-increase-series-c-financing-to-chf-45-million/",
+            "company": "https://memo-therapeutics.com/2024/05/07/memo-therapeutics-increase-series-c-financing-to-chf-45-million/"
+        },
+        {
+            "slug": "fotokite-series-b",
+            "announcement": "2024-04-11",
+            "source": "https://www.commercialuavnews.com/public-safety/fotokite-secures-investment-round-achieves-strong-growth-and-expands-global-reach",
+            "company": "https://fotokite.com/"
+        },
+        {
+            "slug": "testresults-seed",
+            "announcement": "2024-04-10",
+            "source": "https://www.startupticker.ch/en/news/chf-1-3-million-seed-for-autonomous-software-testing",
+            "company": "https://www.testresults.io/"
+        },
+        {
+            "slug": "ledcity-funding-2024",
+            "announcement": "2024-04-08",
+            "source": "https://www.startupticker.ch/en/news/ledcity-secures-further-funding-for-growth",
+            "company": "https://ledcity.io/"
+        },
+        {
+            "slug": "hemotune-series-b2",
+            "announcement": "2024-03-25",
+            "source": "https://www.hemotune.com/hemotune-raises-chf-14-million-series-b2-funding-for-clinical-trials-with-the-hemosystem/",
+            "company": "https://www.hemotune.com/hemotune-raises-chf-14-million-series-b2-funding-for-clinical-trials-with-the-hemosystem/"
+        },
+        {
+            "slug": "odne-series-a1-2024",
+            "announcement": "2024-03-15",
+            "source": "https://www.startupticker.ch/en/news/usd-5-5-million-for-odne-s-us-market-launch",
+            "company": "https://odne.co/"
+        },
+        {
+            "slug": "food-brewer-seed",
+            "announcement": "2024-02-29",
+            "source": "https://www.startupticker.ch/en/news/frisches-geld-fuer-kakao-und-kaffeepulver-aus-dem-brautank",
+            "company": "https://www.foodbrewer.com/"
+        },
+        {
+            "slug": "chiral-seed-2024",
+            "announcement": "2024-02-27",
+            "source": "https://www.lastwatchdog.com/news-alert-chiral-announces-3-8m-funding-round-to-advance-nanomaterial-chip-manufacturing/",
+            "company": "https://www.chiralnano.com/"
+        },
+        {
+            "slug": "validation-cloud-funding-2024",
+            "announcement": "2024-02-26",
+            "source": "https://www.validationcloud.io/post/announcing-validation-clouds-5-8m-fundraise",
+            "company": "https://www.validationcloud.io/post/announcing-validation-clouds-5-8m-fundraise"
+        },
+        {
+            "slug": "jua-seed",
+            "announcement": "2024-02-05",
+            "source": "https://www.gaebler.com/VC-Funding-83D442B6-1570-43A2-BE88-5A1ABA41F998-Jua-02-05-2024",
+            "company": "https://www.jua.ai/"
+        },
+        {
+            "slug": "limmatech-series-a-extension",
+            "announcement": "2024-02-01",
+            "source": "https://www.bio-technopark.ch/en/news-en/limmatech-biologics-adds-additional-3-million-in-series-a-second-closing-bringing-total-raise-to-40-million/",
+            "company": "https://www.lmtbio.com/"
+        },
+        {
+            "slug": "sygnum-funding-2024",
+            "announcement": "2024-01-25",
+            "source": "https://www.startupticker.ch/en/news/sygnum-raises-more-than-usd-40-million-at-a-usd-900-million-valuation",
+            "company": "https://www.sygnum.com/"
+        },
+        {
+            "slug": "rivero-series-a",
+            "announcement": "2024-01-11",
+            "source": "https://rivero.tech/blog/rivero-raises-7-million-in-series",
+            "company": "https://rivero.tech/blog/rivero-raises-7-million-in-series"
+        },
+        {
+            "slug": "spiden-financing-2024",
+            "announcement": "2024-01-09",
+            "source": "https://www.startupticker.ch/en/news/fresh-funding-and-new-executives-to-accelerate-spidens-product-launch",
+            "company": "https://liom.com/",
+            "note": "USD 15M convertible note, publicly reported 9 January 2024; Spiden subsequently became Liom."
+        }
+    ],
+    "held": [
+        {
+            "company": "Validation Cloud",
+            "reason": "October USD 10M lead may form part of the USD 15M Series A announced in March 2025; do not count both as independent rounds.",
+            "source": "https://www.validationcloud.io/category/company"
+        },
+        {
+            "company": "OxyPrem",
+            "reason": "In-progress campaign is covered by the closed CHF 2.76M round in March 2025.",
+            "source": "https://www.startupticker.ch/en/news/oxyprem-s-funding-round-approaches-eur-1-5-million-threshold-crowdinvesting-progressing"
+        },
+        {
+            "company": "Swiss-Mile",
+            "reason": "January reporting references earlier seed financing; avoid redating funding that may have been announced in 2023. August round included.",
+            "source": "https://www.startupticker.ch/en/news/swiss-mile-launches-a-new-breed-of-robots-powered-by-ai"
+        },
+        {
+            "company": "Backed Finance",
+            "reason": "Reports disagree between USD 9.5M and USD 10M; original financing release and substantive local operation still need verification.",
+            "source": "https://backed.fi/news-updates"
+        },
+        {
+            "company": "Aurealis Therapeutics",
+            "reason": "Zug financing-report classification does not establish local research; company describes Basel/Finland operations.",
+            "source": "https://aurealistherapeutics.com/about/"
+        },
+        {
+            "company": "Berlin Heals",
+            "reason": "Zug holding company and Berlin development; substantive Zurich-area technical operation not established.",
+            "source": "https://www.berlinheals.com/en/"
+        },
+        {
+            "company": "Proxima Fusion",
+            "reason": "April EUR 20M round precedes the verified PSI collaboration; 2025 financing is included after local engineering is established.",
+            "source": "https://www.proximafusion.com/"
+        },
+        {
+            "company": "Lila Sciences / H / Harmonic / Xeltis",
+            "reason": "Founder biographies, university links or historical addresses do not establish a substantive local team at the time of funding."
+        },
+        {
+            "company": "NEMATX / NEMIS / nexoya / Positrigo",
+            "reason": "Disclosed annual-report entries lack a verified matching dated announcement in this pass; retain as research leads rather than inventing publication dates."
+        },
+        {
+            "company": "UNISERS / Scewo",
+            "reason": "Investor holdings and older funding stories found, but no qualifying dated 2024\u20132025 financing announcement established."
+        },
+        {
+            "company": "Enshift",
+            "reason": "CHF 2M report entry not tied to a dated public announcement; 2025 Series A included."
+        },
+        {
+            "company": "MPower",
+            "reason": "Several crowdfunding, lending and matching-fund transactions overlap; reconcile their amounts and closing dates before adding distinct briefs."
+        }
+    ]
+}

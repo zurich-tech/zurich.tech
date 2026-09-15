@@ -1,0 +1,608 @@
+{
+    "asOf": "2026-09-15",
+    "scope": "Technology and drug-development biotech with substantive Zurich-area operations; announced financing of at least 1M in original CHF/EUR/USD; significant releases, facilities and acquisitions. Public-source backfill, not a complete registry of private financing.",
+    "report": "https://www.seca.ch/media/dfom01dp/vcreport_2026_web.pdf",
+    "included": [
+        {
+            "slug": "liom-series-a-extension",
+            "announcement": "2025-12-18",
+            "source": "https://liom.com/news-updates/",
+            "company": "https://liom.com/news-updates/"
+        },
+        {
+            "slug": "soverli-pre-seed",
+            "announcement": "2025-12-15",
+            "source": "https://www.forbes.com/sites/davidprosser/2025/12/15/meet-soverli-the-swiss-start-up-promising-to-keep-your-phone-secure/",
+            "company": "https://soverli.com/"
+        },
+        {
+            "slug": "assaia-series-b",
+            "announcement": "2025-12-09",
+            "source": "https://www.assaia.com/resources/assaia-raises-26-6-million-in-series-b-funding-to-enhance-global-ai-leadership-in-airport-operations",
+            "company": "https://www.assaia.com/resources/assaia-raises-26-6-million-in-series-b-funding-to-enhance-global-ai-leadership-in-airport-operations"
+        },
+        {
+            "slug": "climeworks-innovation-center",
+            "announcement": "2025-12-04",
+            "source": "https://climeworks.com/press-release/climeworks-launches-the-largest-dac-innovation-center",
+            "company": "https://climeworks.com/press-release/climeworks-launches-the-largest-dac-innovation-center"
+        },
+        {
+            "slug": "gravis-funding-2025",
+            "announcement": "2025-11-28",
+            "source": "https://www.gravisrobotics.com/",
+            "company": "https://www.gravisrobotics.com/press-release"
+        },
+        {
+            "slug": "oncobit-funding-2025",
+            "announcement": "2025-11-27",
+            "source": "https://www.startupticker.ch/en/news/oncobit-set-for-growth-after-chf-1-9-million-capital-increase",
+            "company": "https://oncobit.com/en/news/oncobit-completes-a-capital-increase/",
+            "note": "Company newsroom dates announcement to 27 November; Startupticker coverage followed on 3 December. Date verified at https://oncobit.com/en/news/."
+        },
+        {
+            "slug": "enshift-series-a",
+            "announcement": "2025-11-26",
+            "source": "https://www.startupticker.ch/en/news/300-prozent-wachstum-und-erfolgreiche-series-a-finanzierungsrunde-fuer-enshift",
+            "company": "https://www.enshift.com/"
+        },
+        {
+            "slug": "cerrion-series-a",
+            "announcement": "2025-11-24",
+            "source": "https://www.linkedin.com/posts/cerrion_we-are-excited-to-announce-that-we-have-raised-activity-7399058035282870272-oSD7",
+            "company": "https://cerrion.com/"
+        },
+        {
+            "slug": "albatross-funding-2025",
+            "announcement": "2025-11-18",
+            "source": "https://www.globenewswire.com/news-release/2025/11/18/3190043/0/en/albatross-raises-12-5-million-to-reinvent-real-time-product-discovery-for-the-modern-web.html",
+            "company": "https://usealbatross.ai/",
+            "note": "Company announcement quotes USD 12.5M; retain its denomination instead of converting the EUR 10.5M reported elsewhere."
+        },
+        {
+            "slug": "virometix-funding-2025",
+            "announcement": "2025-11-13",
+            "source": "https://virometix.com/newsroom/",
+            "company": "https://virometix.com/newsroom/"
+        },
+        {
+            "slug": "forgis-pre-seed",
+            "announcement": "2025-11-13",
+            "source": "https://www.finsmes.com/2025/11/forgis-raises-4-5m-in-pre-seed-funding.html",
+            "company": "https://www.forgis.com/"
+        },
+        {
+            "slug": "omnilex-seed",
+            "announcement": "2025-11-11",
+            "source": "https://www.linkedin.com/posts/omnilex-ai_omnilex-raises-45m-to-build-the-future-activity-7393920833687015424-kTVQ",
+            "company": "https://omnilex.ai/"
+        },
+        {
+            "slug": "motley-pre-seed",
+            "announcement": "2025-11-11",
+            "source": "https://www.startupticker.ch/en/news/newly-established-motley-secures-1-5-million-pre-seed-funding",
+            "company": "https://motley.ai/"
+        },
+        {
+            "slug": "btry-seed-2025",
+            "announcement": "2025-11-06",
+            "source": "https://btry.ch/fundingannouncement/",
+            "company": "https://btry.ch/fundingannouncement/"
+        },
+        {
+            "slug": "arcoris-bio-seed",
+            "announcement": "2025-11-06",
+            "source": "https://www.globenewswire.com/news-release/2025/11/06/3182236/0/en/arcoris-bio-raises-CHF-6-3-million-seed-round-to-advance-next-generation-biomarker-technology-for-digital-pathology.html",
+            "company": "https://arcorisbio.com/"
+        },
+        {
+            "slug": "deepjudge-series-a",
+            "announcement": "2025-11-04",
+            "source": "https://www.forbes.com/sites/aliciapark/2025/11/04/meet-the-ex-google-researchers-building-ai-search-for-law-firms/",
+            "company": "https://www.deepjudge.ai/news/future-of-legal-ai-is-here-it-lives-in-your-knowledge"
+        },
+        {
+            "slug": "sunflower-labs-series-b",
+            "announcement": "2025-11-04",
+            "source": "https://sunflower-labs.com/post/press-release-2025-11-04",
+            "company": "https://sunflower-labs.com/post/press-release-2025-11-04"
+        },
+        {
+            "slug": "obligate-funding-2025",
+            "announcement": "2025-11-03",
+            "source": "https://www.startupticker.ch/en/news/obligate-achieves-profitability-and-raises-3-million",
+            "company": "https://www.obligate.com/"
+        },
+        {
+            "slug": "tethys-pre-seed",
+            "announcement": "2025-10-30",
+            "source": "https://roboticsandautomationnews.com/2025/10/30/tethys-robotics-secures-e3-5-million-in-pre-seed-funding-to-automate-hazardous-underwater-operations/96030/",
+            "company": "https://www.tethys-robotics.ch/"
+        },
+        {
+            "slug": "qala-pre-seed",
+            "announcement": "2025-10-29",
+            "source": "https://www.startupticker.ch/en/news/2-million-pre-seed-funding-for-real-time-data-security-and-compliance-platform",
+            "company": "https://letsqala.com/"
+        },
+        {
+            "slug": "chipmind-pre-seed",
+            "announcement": "2025-10-21",
+            "source": "https://www.hpcwire.com/off-the-wire/chipmind-raises-2-5m-to-bring-agentic-ai-to-semiconductor-design/",
+            "company": "https://www.chipmind.ai/post/chipmind-featured-in-forbes-ai-chip-development"
+        },
+        {
+            "slug": "viboo-funding-2025",
+            "announcement": "2025-10-01",
+            "source": "https://viboo.io/en/blog/viboo-schliesst-finanzierungsrunde-uber-3-3-mio-eu-mit-fuhrendem-proptech-investor-ab",
+            "company": "https://viboo.io/en/blog/viboo-schliesst-finanzierungsrunde-uber-3-3-mio-eu-mit-fuhrendem-proptech-investor-ab"
+        },
+        {
+            "slug": "arqh-pre-seed",
+            "announcement": "2025-09-30",
+            "source": "https://techfundingnews.com/swiss-ai-startup-arqh-38m-pre-seed-logistics-ai/",
+            "company": "https://www.arqh.ai/"
+        },
+        {
+            "slug": "a-metal-seed",
+            "announcement": "2025-09-29",
+            "source": "https://www.a-metal.com/news",
+            "company": "https://www.a-metal.com/news"
+        },
+        {
+            "slug": "deskbird-series-b",
+            "announcement": "2025-09-24",
+            "source": "https://www.deskbird.com/press-releases/23-million-series-b",
+            "company": "https://www.deskbird.com/press-releases/23-million-series-b"
+        },
+        {
+            "slug": "auterion-series-b",
+            "announcement": "2025-09-23",
+            "source": "https://auterion.com/auterion-raises-130-million-series-b-as-their-ai-enabled-software-powering-low-cost-commercial-hardware-at-scale-transforms-warfare/",
+            "company": "https://auterion.com/auterion-raises-130-million-series-b-as-their-ai-enabled-software-powering-low-cost-commercial-hardware-at-scale-transforms-warfare/"
+        },
+        {
+            "slug": "veezoo-series-a",
+            "announcement": "2025-09-22",
+            "source": "https://www.veezoo.com/blog/veezoo-raises-6-million-series-a",
+            "company": "https://www.veezoo.com/blog/veezoo-raises-6-million-series-a"
+        },
+        {
+            "slug": "unbound-potential-pre-seed",
+            "announcement": "2025-09-19",
+            "source": "https://www.startupticker.ch/en/news/14-million-to-make-the-fastest-to-produce-battery-in-the-world-a-reality",
+            "company": "https://www.unbound-potential.com/",
+            "note": "About EUR 6.4M investment only; approximately EUR 8M in grants is excluded from the EUR 14.4M headline package."
+        },
+        {
+            "slug": "lakera-acquisition",
+            "announcement": "2025-09-16",
+            "source": "https://www.checkpoint.com/press-releases/check-point-acquires-lakera-to-deliver-end-to-end-ai-security-for-enterprises/",
+            "company": "https://www.checkpoint.com/press-releases/check-point-acquires-lakera-to-deliver-end-to-end-ai-security-for-enterprises/",
+            "note": "Agreement announced 16 September 2025, not a completed acquisition on that date."
+        },
+        {
+            "slug": "bloom-pre-seed",
+            "announcement": "2025-09-12",
+            "source": "https://www.startupticker.ch/en/news/bloom-is-changing-the-future-of-mobile-app-development-after-3-4m-pre-seed-round",
+            "company": "https://bloom.diy/",
+            "note": "12 September is the earliest dated financing article verified in this pass; the company careers page also confirms USD 3.4M and Zurich engineering positions."
+        },
+        {
+            "slug": "cutiss-series-c-extension",
+            "announcement": "2025-09-10",
+            "source": "https://www.venture-leaders.ch/cutiss",
+            "company": "https://cutiss.swiss/"
+        },
+        {
+            "slug": "cellvie-funding-2025",
+            "announcement": "2025-09-09",
+            "source": "https://cellvie.bio/news-and-publications/cellvie-secures-5-million-in-fresh-capital-from-existing-and-new-investors",
+            "company": "https://cellvie.bio/news-and-publications/cellvie-secures-5-million-in-fresh-capital-from-existing-and-new-investors"
+        },
+        {
+            "slug": "apertus-release",
+            "announcement": "2025-09-02",
+            "source": "https://ethz.ch/en/news-and-events/eth-news/news/2025/09/press-release-apertus-a-fully-open-transparent-multilingual-language-model.html",
+            "company": "https://ethz.ch/en/news-and-events/eth-news/news/2025/09/press-release-apertus-a-fully-open-transparent-multilingual-language-model.html"
+        },
+        {
+            "slug": "zenline-pre-seed",
+            "announcement": "2025-08-26",
+            "source": "https://tech.eu/2025/08/26/zenline-ai-raises-16m-pre-seed-to-help-european-retailers-compete-with-platforms-like-amazon-and-temu/",
+            "company": "https://www.tryzenline.ai/blog/ai-startup-zenline-bags-1-aai-startup-zenline-bags-1-6m-in-fundingi-6m-in-funding"
+        },
+        {
+            "slug": "loft-dynamics-series-b",
+            "announcement": "2025-08-21",
+            "source": "https://www.loftdynamics.com/loft-dynamics-secures-24m-series-b-to-transform-pilot-training-with-vr/",
+            "company": "https://www.loftdynamics.com/loft-dynamics-secures-24m-series-b-to-transform-pilot-training-with-vr/"
+        },
+        {
+            "slug": "evulpo-series-a",
+            "announcement": "2025-08-18",
+            "source": "https://www.startupticker.ch/en/news/evulpo-sichert-sich-8-8-millionen-franken-zur-weiterentwicklung-der-edtech-plattform",
+            "company": "https://evulpo.com/"
+        },
+        {
+            "slug": "mabylon-funding-2025",
+            "announcement": "2025-08-12",
+            "source": "https://www.globenewswire.com/de/news-release/2025/08/12/3131451/0/en/Mabylon-AG-Raises-CHF-30-Million-to-Advance-Peanut-Allergy-Lead-Program-MY006-to-Clinical-Proof-of-Concept.html",
+            "company": "https://www.mabylon.com/",
+            "note": "CHF 30M comprises CHF 15M equity and CHF 15M mandatory convertible loans."
+        },
+        {
+            "slug": "daedalean-acquisition",
+            "announcement": "2025-08-05",
+            "source": "https://www.destinus.com/post/destinus-acquires-daedalean",
+            "company": "https://www.destinus.com/post/destinus-acquires-daedalean",
+            "note": "Binding acquisition agreement announced 5 August 2025, not completion; transaction closed in January 2026."
+        },
+        {
+            "slug": "freename-series-a",
+            "announcement": "2025-07-23",
+            "source": "https://freename.com/blog/freename-secures-6.5-million-series-a",
+            "company": "https://freename.com/blog/freename-secures-6.5-million-series-a"
+        },
+        {
+            "slug": "work-id-funding-2025",
+            "announcement": "2025-07-23",
+            "source": "https://www.startupticker.ch/en/news/4-millionen-franken-fuer-den-start-von-work-id",
+            "company": "https://work-id.ch/"
+        },
+        {
+            "slug": "modulos-pre-series-a",
+            "announcement": "2025-07-22",
+            "source": "https://www.modulos.ai/press-releases/modulos-raises-8-7m-ai-governance-platform/",
+            "company": "https://www.modulos.ai/press-releases/modulos-raises-8-7m-ai-governance-platform/"
+        },
+        {
+            "slug": "candi-funding-2025",
+            "announcement": "2025-07-21",
+            "source": "https://www.candi.solar/our-news/candi-solar-raises-24-million",
+            "company": "https://www.candi.solar/our-news/candi-solar-raises-24-million",
+            "note": "USD 24M comprises a USD 20M convertible loan and USD 4M added to an existing mezzanine facility."
+        },
+        {
+            "slug": "medyria-funding-2025",
+            "announcement": "2025-07-16",
+            "source": "https://www.startupticker.ch/en/news/medyria-secures-chf-1-5-million-to-accelerate-development-of-its-medical-device",
+            "company": "https://www.medyria.com/"
+        },
+        {
+            "slug": "scanvio-funding-2025",
+            "announcement": "2025-07-15",
+            "source": "https://www.scanvio.com/news",
+            "company": "https://www.scanvio.com/news"
+        },
+        {
+            "slug": "vvardis-funding-july-2025",
+            "announcement": "2025-07-15",
+            "source": "https://www.eqs-news.com/news/media/vvardis-secures-50-million-in-new-funding-totalling-85-million-in-financing-from-global-healthcare-investor-orbimed-to-expand-rollout-of-curodont-its-drill-free-early-t/3799b099-0e27-4b62-b9d5-c7ef7829e072",
+            "company": "https://www.vvardis.com/",
+            "note": "USD 50M additional financing, not the combined USD 85M total; includes refinancing existing facilities."
+        },
+        {
+            "slug": "grensol-seed",
+            "announcement": "2025-07-14",
+            "source": "https://grensolgroup.com/grensol-successfully-closes-chf-1-8-million-equity-seed-round-to-accelerate-recycling-innovation/",
+            "company": "https://grensolgroup.com/grensol-successfully-closes-chf-1-8-million-equity-seed-round-to-accelerate-recycling-innovation/"
+        },
+        {
+            "slug": "askearth-seed",
+            "announcement": "2025-07-10",
+            "source": "https://www.startupticker.ch/en/news/usd-2-85m-to-expand-sales-of-askearth-ai-powered-geospatial-intelligence-platform",
+            "company": "https://www.ask.earth/"
+        },
+        {
+            "slug": "evlabio-seed",
+            "announcement": "2025-07-07",
+            "source": "https://www.htgf.de/en/evlabio-raises-e21-million-seed-funding/",
+            "company": "https://www.evlabio.com/"
+        },
+        {
+            "slug": "nautica-seed",
+            "announcement": "2025-07-03",
+            "source": "https://www.vestbee.com/insights/articles/nautica-technologies-raises-4-m",
+            "company": "https://nauticarobotics.ch/"
+        },
+        {
+            "slug": "climeworks-funding-2025",
+            "announcement": "2025-07-02",
+            "source": "https://climeworks.com/press-release/climeworks-raises-usd-162m-to-scale-up-technology",
+            "company": "https://climeworks.com/press-release/climeworks-raises-usd-162m-to-scale-up-technology"
+        },
+        {
+            "slug": "rtdt-pre-seed",
+            "announcement": "2025-07-01",
+            "source": "https://www.startupticker.ch/en/news/rtdt-raises-usd-4-million-to-accelerate-its-growth",
+            "company": "https://rtdt.ai/"
+        },
+        {
+            "slug": "boost-series-b",
+            "announcement": "2025-06-26",
+            "source": "https://www.startupticker.ch/en/news/boost-inc-raises-chf-15-million-to-accelerate-its-international-growth",
+            "company": "https://www.boostinc.com/"
+        },
+        {
+            "slug": "voliro-series-a-extension",
+            "announcement": "2025-06-16",
+            "source": "https://www.startupticker.ch/en/news/voliro-secures-23m-to-modernize-infrastructure-with-aerial-robotics",
+            "company": "https://voliro.com/blog/voliro-secures-23m-via-series-a-extension-to-modernize-infrastructure-with-aerial-robotics/",
+            "note": "USD 23M is the extended Series A total, not new money. The financing includes a UBS debt facility."
+        },
+        {
+            "slug": "odne-series-a1",
+            "announcement": "2025-06-12",
+            "source": "https://www.zeiss.com/corporate/en/about-zeiss/present/newsroom/press-releases/2025/ventures.html",
+            "company": "https://odne.co/"
+        },
+        {
+            "slug": "proxima-fusion-series-a",
+            "announcement": "2025-06-11",
+            "source": "https://www.proximafusion.com/press-news/proxima-fusion-raises-eu130m-series-a-to-build-worlds-first-stellarator-based-fusion-power-plant-in-the-2030s",
+            "company": "https://www.proximafusion.com/press-news/proxima-fusion-raises-eu130m-series-a-to-build-worlds-first-stellarator-based-fusion-power-plant-in-the-2030s",
+            "note": "Company release confirms engineering operations at PSI near Zurich alongside Munich and Culham."
+        },
+        {
+            "slug": "positrigo-funding-2025",
+            "announcement": "2025-06-10",
+            "source": "https://www.positrigo.com/positrigo-closes-financing-round-and-appoints-new-board-members/",
+            "company": "https://www.positrigo.com/positrigo-closes-financing-round-and-appoints-new-board-members/"
+        },
+        {
+            "slug": "jua-series-a",
+            "announcement": "2025-06-04",
+            "source": "https://fev.vc/fev-co-leads-series-a-with-ananda-impact-ventures-into-jua-a-earth-simulation-provier/",
+            "company": "https://www.jua.ai/",
+            "note": "USD 11M from the investor's announcement, not a converted EUR amount."
+        },
+        {
+            "slug": "seito-funding-2025",
+            "announcement": "2025-06-03",
+            "source": "https://www.seitobio.ch/copy-of-press-releases",
+            "company": "https://www.seitobio.ch/copy-of-press-releases"
+        },
+        {
+            "slug": "glycoera-series-b",
+            "announcement": "2025-05-27",
+            "source": "https://www.glycoera.com/2025/05/glycoera-ag-raises-130-million-to-advance-novel-pipeline-of-extracellular-protein-degraders-for-the-treatment-of-autoimmune-diseases/",
+            "company": "https://www.glycoera.com/2025/05/glycoera-ag-raises-130-million-to-advance-novel-pipeline-of-extracellular-protein-degraders-for-the-treatment-of-autoimmune-diseases/"
+        },
+        {
+            "slug": "loki-pre-seed",
+            "announcement": "2025-05-19",
+            "source": "https://www.byfounders.vc/insights/why-we-invested-in-loki-robotics",
+            "company": "https://lokirobotics.co/"
+        },
+        {
+            "slug": "scalera-seed",
+            "announcement": "2025-05-09",
+            "source": "https://www.eu-startups.com/2025/05/swiss-startup-scalera-raises-e5-7-million-to-bring-ai-to-public-construction-procurement-and-get-europe-building-again/",
+            "company": "https://www.scalera.ai/en/investors"
+        },
+        {
+            "slug": "araris-acquisition",
+            "announcement": "2025-03-17",
+            "source": "https://www.taiho.co.jp/en/release/files/pdf/20250317.pdf",
+            "company": "https://www.taiho.co.jp/en/release/files/pdf/20250317.pdf",
+            "note": "Agreement announcement; local R&D retained. Avoid presenting contingent milestones as a guaranteed purchase price."
+        },
+        {
+            "slug": "nunu-seed",
+            "announcement": "2025-03-12",
+            "source": "https://www.venturekick.ch/nunuai",
+            "company": "https://nunu.ai/"
+        },
+        {
+            "slug": "beekeeper-financing-2025",
+            "announcement": "2025-03-11",
+            "source": "https://www.startupticker.ch/en/news/beekeeper-secures-35-million-growth-funding",
+            "company": "https://www.beekeeper.io/",
+            "note": "HSBC growth and working-capital financing, not labelled as equity."
+        },
+        {
+            "slug": "validation-cloud-series-a",
+            "announcement": "2025-03-06",
+            "source": "https://www.validationcloud.io/post/validation-cloud-raises-15m-series-a-to-bring-data-x-ai-to-web3",
+            "company": "https://www.validationcloud.io/post/validation-cloud-raises-15m-series-a-to-bring-data-x-ai-to-web3",
+            "note": "Company's USD 15M Series A announcement; the October 2024 USD 10M lead investment is held out to avoid double-counting the same round."
+        },
+        {
+            "slug": "oxyprem-funding-2025",
+            "announcement": "2025-03-05",
+            "source": "https://www.startupticker.ch/en/news/frische-millionen-von-der-crowd",
+            "company": "https://www.oxyprem.com/",
+            "note": "Closed crowdfunding campaign; the 2024 in-progress campaign is not counted again."
+        },
+        {
+            "slug": "duramon-seed-extension",
+            "announcement": "2025-03-03",
+            "source": "https://ethz.ch/content/dam/ethz/special-interest/baug/department/news/bilder/2025/03/250328-Start-up-duramon-raises-1-million-Swiss-Francs/2025_Duramon.pdf",
+            "company": "https://www.duramon.ch/about"
+        },
+        {
+            "slug": "unique-series-a",
+            "announcement": "2025-02-27",
+            "source": "https://www.unique.ai/en/blog/unique-secures-usd-30-million-series-a-to-pioneer-agentic-ai-workforce-in-financial-services-2",
+            "company": "https://www.unique.ai/en/blog/unique-secures-usd-30-million-series-a-to-pioneer-agentic-ai-workforce-in-financial-services-2"
+        },
+        {
+            "slug": "amnis-series-b",
+            "announcement": "2025-02-26",
+            "source": "https://www.startupticker.ch/en/news/swisscom-ventures-leads-chf-10-series-b-round-for-amnis",
+            "company": "https://amnistreasury.com/"
+        },
+        {
+            "slug": "cellx-pre-seed",
+            "announcement": "2025-02-25",
+            "source": "https://www.startupticker.ch/en/news/cellx-secures-chf-1-7-million-in-pre-seed-funding",
+            "company": "https://www.cellx.ch/"
+        },
+        {
+            "slug": "roompricegenie-investment-2025",
+            "announcement": "2025-02-17",
+            "source": "https://roompricegenie.com/roompricegenie-announce-new-funding-and-ceo/",
+            "company": "https://roompricegenie.com/roompricegenie-announce-new-funding-and-ceo/",
+            "note": "Announced USD 75M investment; no equity-stage or primary/secondary split is claimed."
+        },
+        {
+            "slug": "raisenow-funding-2025",
+            "announcement": "2025-02-14",
+            "source": "https://www.startupticker.ch/index.php/en/news/12-millionen-fuer-fundraising-tech-raisenow",
+            "company": "https://www.raisenow.com/",
+            "note": "Closed in Q4 2024 but publicly reported on 14 February 2025; filed under the announcement year."
+        },
+        {
+            "slug": "etfbook-series-a",
+            "announcement": "2025-02-13",
+            "source": "http://startupticker.ch/index.php/en/news/etfbook-secures-euro-4-million-to-fuel-growth",
+            "company": "https://www.etfbook.com/"
+        },
+        {
+            "slug": "nextesy-pre-seed",
+            "announcement": "2025-02-11",
+            "source": "https://www.startupticker.ch/index.php/en/news/nextesy-sichert-sich-3-3-millionen-franken-pre-seed-finanzierung",
+            "company": "https://nextesy.com/"
+        },
+        {
+            "slug": "vvardis-funding-february-2025",
+            "announcement": "2025-02-11",
+            "source": "https://www.startupticker.ch/index.php/en/news/vvardis-secures-usd-35-million-to-accelerate-global-growth",
+            "company": "https://www.vvardis.com/",
+            "note": "Financing, not described as an equity round. Company release dated 11 February; trade publication appeared 12 February."
+        },
+        {
+            "slug": "saeki-funding-2025",
+            "announcement": "2025-02-05",
+            "source": "https://www.globenewswire.com/news-release/2025/02/05/3021227/0/en/manufacture-the-impossible-saeki-raises-6-7m-to-transform-large-scale-manufacturing.html",
+            "company": "https://saeki.ch/"
+        },
+        {
+            "slug": "logicstar-pre-seed",
+            "announcement": "2025-02-04",
+            "source": "https://logicstar.ai/blog/logicstar-ai-raised-a-3m-round-led-by-northzone",
+            "company": "https://logicstar.ai/blog/logicstar-ai-raised-a-3m-round-led-by-northzone",
+            "note": "Use the 4 February 2025 release dateline; the page's July 2024 header is inconsistent."
+        },
+        {
+            "slug": "akina-seed",
+            "announcement": "2025-02-03",
+            "source": "https://www.startupticker.ch/index.php/en/news/frank-thelen-invests-in-akina-s-chf-2-8-million-seed-round",
+            "company": "https://www.akina.health/en/home",
+            "note": "3 February is the verified public announcement date; database entries suggesting a January close are not treated as the announcement."
+        },
+        {
+            "slug": "oxyle-seed",
+            "announcement": "2025-01-30",
+            "source": "https://www.globenewswire.com/news-release/2025/01/30/3017961/0/en/oxyle-raises-16m-to-lead-the-fight-against-the-forever-chemicals-contaminating-our-water.html",
+            "company": "https://www.oxyle.com/"
+        },
+        {
+            "slug": "zuriq-seed-2025",
+            "announcement": "2025-01-23",
+            "source": "https://zuriq.com/all/zuriq-raises-3-8m-chf-in-first-financing-round-from-vc-consortium/",
+            "company": "https://zuriq.com/all/zuriq-raises-3-8m-chf-in-first-financing-round-from-vc-consortium/"
+        },
+        {
+            "slug": "qcella-pre-seed",
+            "announcement": "2025-01-21",
+            "source": "https://qcella.com/2025/01/21/qcella-announces-the-closing-of-its-chf-1-3-million-pre-seed-financing-round/",
+            "company": "https://qcella.com/2025/01/21/qcella-announces-the-closing-of-its-chf-1-3-million-pre-seed-financing-round/"
+        },
+        {
+            "slug": "metafuels-funding-2025",
+            "announcement": "2025-01-15",
+            "source": "https://metafuels.ch/knowledge-base/e-saf-leader-metafuels-raises-9-million-round-to-industrialise-production-of-sustainable-aviation-fuel/",
+            "company": "https://metafuels.ch/knowledge-base/e-saf-leader-metafuels-raises-9-million-round-to-industrialise-production-of-sustainable-aviation-fuel/"
+        },
+        {
+            "slug": "borobotics-funding-2025",
+            "announcement": "2025-01-15",
+            "source": "https://www.thinkgeoenergy.com/geothermal-drilling-automation-startup-borobotics-raises-chf-1-3m-funding/",
+            "company": "https://www.borobotics.ch/"
+        },
+        {
+            "slug": "sygnum-funding-2025",
+            "announcement": "2025-01-14",
+            "source": "https://www.sygnum.com/news/sygnum-completes-usd-58m-strategic-growth-round-achieves-unicorn-status-with-1bn-valuation/",
+            "company": "https://www.sygnum.com/news/sygnum-completes-usd-58m-strategic-growth-round-achieves-unicorn-status-with-1bn-valuation/"
+        },
+        {
+            "slug": "numab-series-c-extension",
+            "announcement": "2025-01-09",
+            "source": "https://www.numab.com/wp-content/uploads/250109_PR_Numab-SeriesC-Top-up-Financing.pdf",
+            "company": "https://www.numab.com/wp-content/uploads/250109_PR_Numab-SeriesC-Top-up-Financing.pdf"
+        },
+        {
+            "slug": "nevermined-funding-2025",
+            "announcement": "2025-01-09",
+            "source": "https://www.globenewswire.com/news-release/2025/01/09/3007256/0/en/Nevermined-Raises-4M-to-Build-the-PayPal-for-AI-Commerce.html",
+            "company": "https://nevermined.io/"
+        }
+    ],
+    "held": [
+        {
+            "company": "Manukai",
+            "reason": "USD 3M announcement explicitly includes Innosuisse funding; private investment amount is not separated.",
+            "source": "https://www.startupticker.ch/en/news/manukai-secures-3-million-pre-seed-funding"
+        },
+        {
+            "company": "Riverkin",
+            "reason": "CHF 1.7M announcement lists both investors and grant supporters; separate investment from grants and establish the original announcement date.",
+            "source": "https://www.startupticker.ch/index.php/en/news/eth-spinoff-finalizes-chf-1-7m-funding-round"
+        },
+        {
+            "company": "Acurast",
+            "reason": "USD 11M combines grants and token rounds; private financing amount and local technical operation need separate verification.",
+            "source": "https://www.startupticker.ch/en/news/acuratis-secures-11-million-to-turn-phones-into-a-global-compute-network"
+        },
+        {
+            "company": "CUE Labs",
+            "reason": "Announcement describes cumulative early funding over USD 10M; no single round amount established.",
+            "source": "https://www.eqs-news.com/news/corporate/sequoia-backed-cue-labs-the-company-behind-widely-adopted-cue-open-source-project-emerges-from-stealth-to-tackle-multi-billion-dollar-configuration-challenge/3ca526dd-8bda-49cb-99d1-4f077a098e80"
+        },
+        {
+            "company": "ANYbotics",
+            "reason": "Around USD 20M aggregated since December 2024, not a separately sized new round.",
+            "source": "https://www.startupticker.ch/en/news/anybotics-raises-additional-usd-20-million"
+        },
+        {
+            "company": "Flexion",
+            "reason": "Earlier seed appears in the annual report, but a separately dated public seed announcement was not verified; Series A is already included.",
+            "source": "https://flexion.ai/news/flexion-raises-50m-to-build-the-brain-of-humanoid-robots-at-scale"
+        },
+        {
+            "company": "Giza",
+            "reason": "USD 5.2M reported; original announcement date and substantive Zurich-area technical operation remain unverified.",
+            "source": "https://www.startupticker.ch/en/news/usd-5-2-million-to-become-the-infrastructure-for-decentralized-finance-agents"
+        },
+        {
+            "company": "Rekord",
+            "reason": "USD 4.5M seed mentioned retrospectively in April; original March announcement date remains unverified.",
+            "source": "https://www.startupticker.ch/en/news/following-a-chf-4-million-seed-round-rekord-ag-closes-two-strategic-deals"
+        },
+        {
+            "company": "Berlin Heals",
+            "reason": "Zug holding company and Berlin development; substantive Zurich-area technical operation not established.",
+            "source": "https://www.berlinheals.com/en/"
+        },
+        {
+            "company": "InnoMedica",
+            "reason": "CHF 7.6M September close appears in annual report; a dated 2025 announcement and substantive Zurich-area operation not established.",
+            "source": "https://innomedica.com/wp-content/uploads/2026/02/Annual_Report_2025.pdf"
+        },
+        {
+            "company": "Lila Sciences / H / Harmonic / Xeltis",
+            "reason": "Founder biographies, university links or historical addresses do not establish a substantive local team at the time of funding."
+        },
+        {
+            "company": "UNISERS / Scewo",
+            "reason": "Investor holdings and older funding stories found, but no qualifying dated 2024\u20132025 financing announcement established."
+        },
+        {
+            "company": "MPower",
+            "reason": "Several crowdfunding, lending and matching-fund transactions overlap; reconcile their amounts and closing dates before adding distinct briefs."
+        }
+    ]
+}

@@ -1,0 +1,147 @@
+{
+    "asOf": "2026-09-15",
+    "scope": "Technology companies headquartered in Zurich or with substantive local engineering, research or production teams; funding of at least 1M in announced CHF/EUR/USD; no grants, awards or secondary share sales. Public announcements, not an exhaustive registry.",
+    "included": [
+        {
+            "slug": "xorlab-series-a",
+            "announcement": "2026-09-01",
+            "source": "https://www.xorlab.com/en/blog/xorlab-raises-eur-5-million-to-build-europes-leading-sovereign-email-security-platform",
+            "company": "https://www.xorlab.com/en/blog/xorlab-raises-eur-5-million-to-build-europes-leading-sovereign-email-security-platform"
+        },
+        {
+            "slug": "gravis-robotics-series-a",
+            "announcement": "2026-08-17",
+            "source": "https://www.gravisrobotics.com/series-a",
+            "company": "https://www.gravisrobotics.com/series-a"
+        },
+        {
+            "slug": "aisot-seed-extension",
+            "announcement": "2026-08-13",
+            "source": "https://aisot.com/blog/media-release-aisot-technologies-closes-chf-2-million-seed-extension-strengthening-growth-in-ai-driven-portfolio-intelligence",
+            "company": "https://aisot.com/blog/media-release-aisot-technologies-closes-chf-2-million-seed-extension-strengthening-growth-in-ai-driven-portfolio-intelligence"
+        },
+        {
+            "slug": "exclaim-robotics-pre-seed",
+            "announcement": "2026-08-04",
+            "source": "https://exclaimrobotics.com/",
+            "company": "https://exclaimrobotics.com/"
+        },
+        {
+            "slug": "zuriq-seed",
+            "announcement": "2026-07-28",
+            "source": "https://zuriq.com/",
+            "company": "https://zuriq.com/"
+        },
+        {
+            "slug": "microagi-seed",
+            "announcement": "2026-07-16",
+            "source": "https://www.siliconlegal.com/sls-client-hummingbird-ventures-leads-microagis-55mm-seed-round/",
+            "company": "https://www.microagi.ai/"
+        },
+        {
+            "slug": "aylight-pre-seed",
+            "announcement": "2026-07-06",
+            "source": "https://aylight.io/news/preseed-funding/",
+            "company": "https://aylight.io/news/preseed-funding/"
+        },
+        {
+            "slug": "onesoil-funding",
+            "announcement": "2026-06-18",
+            "source": "https://tech.eu/2026/06/18/onesoil-secures-eur1m-to-expand-ai-powered-farming-assistant/",
+            "company": "https://onesoil.ai/"
+        },
+        {
+            "slug": "neura-robotics-series-c",
+            "announcement": "2026-06-10",
+            "source": "https://neura-robotics.com/record-series-c/",
+            "company": "https://neura-robotics.com/record-series-c/",
+            "note": "Announced size is up to USD 1.4B, not an unqualified completed raise."
+        },
+        {
+            "slug": "stellar-alpina-pre-seed",
+            "announcement": "2026-05-28",
+            "source": "https://www.globenewswire.com/news-release/2026/05/28/3302542/0/en/Stellar-Alpina-Raises-CHF-3-5M-to-Build-Detonation-Based-Propulsion-for-Mobility-After-Launch.html",
+            "company": "https://stellar-alpina.ch/articles/stellar-alpina-completed-europe-s-first-commercial-rdre-hotfire-and-raises-4-5m-within-82-days"
+        },
+        {
+            "slug": "avian-pre-seed",
+            "announcement": "2026-05-20",
+            "source": "https://www.globenewswire.com/news-release/2026/05/20/3298436/0/en/avian-raises-2-6m-to-scale-ai-thermal-monitoring-for-the-world-s-most-fire-prone-industrial-sites.html",
+            "company": "https://www.avian-iot.com/en/"
+        },
+        {
+            "slug": "mosaic-soc-pre-seed",
+            "announcement": "2026-04-30",
+            "source": "https://www.globenewswire.com/news-release/2026/04/30/3284763/0/en/mosaic-soc-raises-3-8m-to-bring-real-time-spatial-intelligence-to-every-consumer-device.html",
+            "company": "https://www.mosaic-soc.com/"
+        },
+        {
+            "slug": "bubble-robotics-pre-seed",
+            "announcement": "2026-04-21",
+            "source": "https://www.bubble-robotics.com/blog/bubble-robotics-raises-5m-to-build-the-oceans-autonomous-workforce",
+            "company": "https://www.bubble-robotics.com/blog/bubble-robotics-raises-5m-to-build-the-oceans-autonomous-workforce"
+        },
+        {
+            "slug": "covalo-seed-extension",
+            "announcement": "2026-04-02",
+            "source": "https://www.htgf.de/covalo-wachstumskapital/",
+            "company": "https://blog.covalo.com/personal-care/5-years-in-covalo-secures-3.5m-to-build-the-data-backbone-of-personal-care"
+        },
+        {
+            "slug": "rivia-series-a",
+            "announcement": "2026-03-18",
+            "source": "https://tech.eu/2026/03/18/rivia-raises-15m-to-fix-the-broken-data-infrastructure-behind-clinical-trials/",
+            "company": "https://rivia.com/"
+        },
+        {
+            "slug": "hyperscale-power-seed",
+            "announcement": "2026-03-10",
+            "source": "https://www.hyperscale-power.com/news/seed-round",
+            "company": "https://www.hyperscale-power.com/news/seed-round"
+        },
+        {
+            "slug": "metafuels-funding",
+            "announcement": "2026-02-18",
+            "source": "https://metafuels.ch/knowledge-base/24m-for-climate-neutral-flight/",
+            "company": "https://metafuels.ch/knowledge-base/24m-for-climate-neutral-flight/"
+        },
+        {
+            "slug": "optiml-seed",
+            "announcement": "2026-02-17",
+            "source": "https://www.optiml.com/fr/company-news/announcing-our-e8m-seed-round/",
+            "company": "https://www.optiml.com/fr/company-news/announcing-our-e8m-seed-round/"
+        },
+        {
+            "slug": "scyai-pre-seed",
+            "announcement": "2026-02-13",
+            "source": "https://tech.eu/2026/02/13/scyai-secures-eur2m-and-launches-ai-risk-platform-for-real-assets/",
+            "company": "https://www.scyai.com/"
+        },
+        {
+            "slug": "sparkli-pre-seed",
+            "announcement": "2026-01-22",
+            "source": "https://www.finsmes.com/2026/01/sparkli-raises-5m-in-pre-seed-funding.html",
+            "company": "https://sparkli.ai/"
+        }
+    ],
+    "pending": [
+        "Chiral: USD 12M announcement includes Innosuisse; verify private round amount before inclusion",
+        "Zerolook: Zug headquarters, verify substantive Zurich operations and original currency"
+    ],
+    "excluded": [
+        "BLP Digital: secondary share sale, not company fundraising",
+        "Rflect: nearly CHF 1M, below threshold",
+        "BTRY: EIC grant",
+        "goNEON, Qendra, nureo: awards below threshold",
+        "Jaipur Robotics: Manno, not Zurich",
+        "Adaptyv: Epalinges, not Zurich",
+        "Vaderis: Basel, not Zurich",
+        "Flexion USD 50M and mimic USD 16M: added as 2025 backfill; excluded from the 2026 funding count",
+        "DataHow: September bridge round has no disclosed amount; threshold cannot be verified",
+        "Immitra Bio: Plan-les-Ouates, not Zurich",
+        "Cerrion USD 18M: November 2025 announcement republished in June 2026",
+        "Synthara: latest verified financing June 2024",
+        "Lightium: verified USD 7M seed September 2024; aggregator update date is not a new round",
+        "Unbound Potential: cumulative funding including grants, no verified separate 2026 equity round"
+    ]
+}
