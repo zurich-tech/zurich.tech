@@ -54,7 +54,7 @@ Read independent photo albums concurrently, preserving ordering, moderation and 
 
 The full archive remains available to news filtering and the rotating gallery retains all albums.
 The gallery query now uses finished status rather than a unique current-time argument.
-The development backend has been updated; production must receive this query API change before the new frontend is deployed.
+Deploy these backend queries before the frontend.
 
 ## Verification
 
@@ -82,7 +82,7 @@ After sharing and preloading topics, instrumentation recorded only one topic req
 This diagnostic separates backend wait from rendering; its response reuse is not a production cache implementation or a production latency guarantee.
 The complete news detail response was 162,593 bytes before compression and contained no unrelated authored article.
 The browser build contained no authored archive module.
-All 69 unit/integration tests passed, including gallery ordering, publication filtering and public cache isolation/error handling.
+The release checks include gallery ordering, publication filtering and public cache isolation/error handling.
 
 ## Further optimization boundaries
 
@@ -118,7 +118,7 @@ Only public query results are cached, not HTML, cookies, authentication or draft
 Cache keys include the build, backend deployment, query function and arguments.
 Successful values expire after 30 seconds; query failures are never cached.
 The browser subscription bypasses this cache and applies database changes as Convex delivers them.
-Authored news remains in the server build, while its displayed published posts and topic labels update live.
+All published news comes from Convex; import sources are excluded from the application build.
 Plain development rendering without the Worker Cache API uses fresh reads.
 Cloudflare stores these snapshots per data centre; a cold or expired entry still pays the backend cost.
 There is no immediate global purge promise for initial HTML; the bound is the snapshot lifetime.
@@ -140,7 +140,7 @@ News detail uses an indexed single-post query; list and detail share the same pu
 The frontend deployment therefore requires the new news detail function as well as the gallery query on its backend.
 Cache storage failures return a fresh backend result and are logged; backend failures remain errors and are not cached.
 
-The review passed 71 tests, type checking, a production build, eight completed-HTML route checks, and an article-to-events browser Back check without console errors.
+The review passed 74 tests, type checking, a production build, eight completed-HTML route checks, and an article-to-events browser Back check without console errors.
 These checks used the development backend and the built preview on port 3006.
 No production deployment is implied by these results.
 
