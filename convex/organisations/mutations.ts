@@ -172,3 +172,11 @@ export const setHost = internalMutation({
         }
     },
 });
+
+/** Reclassify an existing organisation through the authenticated deployment CLI. */
+export const setKind = internalMutation({
+    args: { organisationId: v.id("organisations"), kind: organisationKind },
+    handler: async (ctx, { organisationId, kind }) => {
+        await ctx.db.patch(organisationId, { kind, updatedAt: Date.now() });
+    },
+});

@@ -7,6 +7,7 @@ export const organisationKinds = {
     university: "University",
     lab: "Lab",
     community: "Community",
+    nonprofit: "Non-profit",
     space: "Space",
 } as const;
 
@@ -17,5 +18,6 @@ export const organisationKind = v.union(
     v.literal("university"),
     v.literal("lab"),
     v.literal("community"),
+    v.literal("nonprofit"),
     v.literal("space"),
 );
