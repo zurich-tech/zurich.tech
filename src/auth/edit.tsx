@@ -87,6 +87,8 @@ export function AccessProvider(props: { children: JSX.Element }) {
 /** Expose an edit link only for its matching permission. */
 export function EditLink(
     props: {
+        memberId?: Id<"members">;
+        organisationId?: Id<"organisations">;
         eventId?: Id<"events">;
         seriesId?: Id<"series">;
         href?: string;
@@ -131,11 +133,16 @@ export function EditLink(
                 when={
                     !access.error &&
                     access.latest?.accountId === account.user()?.id &&
-                    (props.eventId
-                        ? context.canEvent(props.eventId, props.role)
-                        : props.seriesId
-                          ? context.canSeries(props.seriesId, props.role)
-                          : context.current()?.isAdmin)
+                    (props.memberId
+                        ? context.current()?.memberId === props.memberId
+                        : props.organisationId
+                          ? context.current()?.isAdmin ||
+                            context.current()?.ownedOrganisationIds.includes(props.organisationId)
+                          : props.eventId
+                            ? context.canEvent(props.eventId, props.role)
+                            : props.seriesId
+                              ? context.canSeries(props.seriesId, props.role)
+                              : context.current()?.isAdmin)
                 }
             >
                 <div class="team-edit">

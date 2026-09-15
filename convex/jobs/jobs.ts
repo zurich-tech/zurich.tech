@@ -273,6 +273,7 @@ export async function publicJob(ctx: QueryCtx, row: Doc<"jobs">) {
         title: row.title,
         description: row.description,
         company: {
+            _id: organisation._id,
             name: organisation.name,
             website: organisation.website,
             logoUrl: organisation.logoUrl,

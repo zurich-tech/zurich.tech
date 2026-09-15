@@ -22,4 +22,6 @@ export const organisations = defineTable({
     website: v.string(),
     location: v.string(),
     updatedAt: v.number(),
-}).index("by_slug", ["slug"]);
+})
+    .index("by_slug", ["slug"])
+    .index("by_owner", ["ownerId"]);
