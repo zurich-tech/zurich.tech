@@ -63,7 +63,6 @@ export function MarkdownEditor(props: {
                 <button
                     type="button"
                     class="action-link markdown-editor__toggle"
-                    aria-pressed={isPreview()}
                     onClick={() => setIsPreview(!isPreview())}
                 >
                     {isPreview() ? "Write" : "Preview"}

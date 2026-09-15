@@ -16,7 +16,7 @@
 .markdown-editor textarea {
     font: 13px/1.7 var(--font-mono);
 }
-.markdown-editor__preview {
+.markdown-editor .markdown-editor__preview {
     min-height: 280px;
     max-width: none;
     padding: 12px;
