@@ -15,7 +15,7 @@ import { ExternalTag } from "../../../components/tag";
 import "../../../news/article.css";
 import { Markdown } from "../../../components/markdown";
 import { NotFound } from "../../notfound";
-import { Page } from "../../page";
+import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 
 import { routeParam } from "../../params";
@@ -52,99 +52,89 @@ export default function Route() {
                     />
                     <Seo title={post().title} description={post().description} isArticle />
                     <Page>
-                        <div class="news-detail">
-                            <a class="eyebrow" href="/news">
-                                <Arrow direction="left" /> News
-                            </a>
-                            <div class="listing-layout">
-                                <Card
-                                    title={post().title}
-                                    heading="h1"
-                                    class="item-header news-article"
-                                    toolbar={<EditLink href={`/news/edit?id=${post().id}`} />}
-                                >
-                                    <p class="article-summary">{post().description}</p>
-                                    <div class="article-content">
-                                        <Show when={post().image}>
-                                            <img class="news-image" src={post().image} alt="" />
-                                        </Show>
-                                        <Show when={post().body}>
-                                            <Markdown source={post().body} />
-                                        </Show>
-                                        <Show when={post().url}>
-                                            {(url) => (
-                                                <a class="button" href={url()}>
-                                                    Read on{" "}
-                                                    {new URL(url()).hostname.replace(/^www\./, "")}{" "}
-                                                    <Arrow direction="external" />
-                                                </a>
-                                            )}
-                                        </Show>
+                        <a class="eyebrow" href="/news">
+                            <Arrow direction="left" /> News
+                        </a>
+                        <ItemHeader
+                            title={post().title}
+                            summary={post().description}
+                            actions={<EditLink href={`/news/edit?id=${post().id}`} />}
+                        >
+                            <div class="entry-tags detail-tags">
+                                <Show when={post().url}>
+                                    <ExternalTag />
+                                </Show>
+                                <For each={articleTags(post())}>
+                                    {(tag) => (
+                                        <a
+                                            class="tag"
+                                            href={`/news?tag=${encodeURIComponent(tag.slug)}`}
+                                        >
+                                            {tag.name}
+                                        </a>
+                                    )}
+                                </For>
+                                <For each={post().organisations}>
+                                    {(organisation) => (
+                                        <a class="tag" href={`/organisations/${organisation.slug}`}>
+                                            {organisation.name}
+                                        </a>
+                                    )}
+                                </For>
+                            </div>
+                        </ItemHeader>
+                        <div class="listing-layout">
+                            <Card title="Article" class="news-article">
+                                <div class="article-content">
+                                    <Show when={post().image}>
+                                        <img class="news-image" src={post().image} alt="" />
+                                    </Show>
+                                    <Show when={post().body}>
+                                        <Markdown source={post().body} />
+                                    </Show>
+                                    <Show when={post().url}>
+                                        {(url) => (
+                                            <a class="button" href={url()}>
+                                                Read on{" "}
+                                                {new URL(url()).hostname.replace(/^www\./, "")}{" "}
+                                                <Arrow direction="external" />
+                                            </a>
+                                        )}
+                                    </Show>
+                                </div>
+                            </Card>
+                            <aside class="listing-sidebar">
+                                <Card title="Details">
+                                    <div class="article-details">
+                                        <div class="article-byline">
+                                            <time dateTime={new Date(post().date).toISOString()}>
+                                                {new Date(post().date).toLocaleDateString("en-GB", {
+                                                    day: "numeric",
+                                                    month: "long",
+                                                    year: isCurrentYear(post().date)
+                                                        ? undefined
+                                                        : "numeric",
+                                                    timeZone,
+                                                })}
+                                            </time>
+                                            <For each={post().authors}>
+                                                {(author) => (
+                                                    <Show
+                                                        when={author.url}
+                                                        fallback={<span>{author.name}</span>}
+                                                    >
+                                                        <a href={author.url}>{author.name}</a>
+                                                    </Show>
+                                                )}
+                                            </For>
+                                        </div>
                                     </div>
                                 </Card>
-                                <aside class="listing-sidebar">
-                                    <Card title="About">
-                                        <div class="article-details">
-                                            <div class="article-byline">
-                                                <time
-                                                    dateTime={new Date(post().date).toISOString()}
-                                                >
-                                                    {new Date(post().date).toLocaleDateString(
-                                                        "en-GB",
-                                                        {
-                                                            day: "numeric",
-                                                            month: "long",
-                                                            year: isCurrentYear(post().date)
-                                                                ? undefined
-                                                                : "numeric",
-                                                            timeZone,
-                                                        },
-                                                    )}
-                                                </time>
-                                                <For each={post().authors}>
-                                                    {(author) => (
-                                                        <Show
-                                                            when={author.url}
-                                                            fallback={<span>{author.name}</span>}
-                                                        >
-                                                            <a href={author.url}>{author.name}</a>
-                                                        </Show>
-                                                    )}
-                                                </For>
-                                            </div>
-                                            <div class="entry-tags detail-tags">
-                                                <Show when={post().url}>
-                                                    <ExternalTag />
-                                                </Show>
-                                                <For each={articleTags(post())}>
-                                                    {(tag) => (
-                                                        <a
-                                                            class="tag"
-                                                            href={`/news?tag=${encodeURIComponent(tag.slug)}`}
-                                                        >
-                                                            {tag.name}
-                                                        </a>
-                                                    )}
-                                                </For>
-                                                <For each={post().organisations}>
-                                                    {(organisation) => (
-                                                        <a
-                                                            class="tag"
-                                                            href={`/organisations/${organisation.slug}`}
-                                                        >
-                                                            {organisation.name}
-                                                        </a>
-                                                    )}
-                                                </For>
-                                            </div>
-                                        </div>
-                                    </Card>
-                                    <Share
-                                        title={post().title}
-                                        url={`https://zurich.tech/news/${post().slug}`}
-                                    />
-                                </aside>
-                            </div>
+                                <Share
+                                    title={post().title}
+                                    url={`https://zurich.tech/news/${post().slug}`}
+                                />
+                            </aside>
                         </div>
                     </Page>
                 </>

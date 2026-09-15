@@ -1,3 +1,4 @@
+import { Arrow } from "../../../components/arrow";
 import { jobMetadata } from "../../../jobs/metadata";
 import { EditLink } from "../../../auth/edit";
 import { getJob } from "../../../jobs/queries";
@@ -36,13 +37,19 @@ export default function Route() {
                         />
                     </Show>
                     <Page>
-                        <div class="row-actions">
-                            <a class="eyebrow" href="/jobs">
-                                ← Jobs
-                            </a>
-                            <EditLink href={`/jobs/submit?edit=${item().id}`} />
-                        </div>
-                        <JobDetails job={item()} />
+                        <a class="eyebrow" href="/jobs">
+                            <Arrow direction="left" /> Jobs
+                        </a>
+
+                        <JobDetails
+                            job={item()}
+                            actions={
+                                <EditLink
+                                    organisationId={item().company._id}
+                                    href={`/jobs/submit?edit=${item().id}`}
+                                />
+                            }
+                        />
                     </Page>
                 </>
             )}

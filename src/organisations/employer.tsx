@@ -21,8 +21,6 @@ export function JobCard(props: {
     job: EmployerWorkspace["jobs"][number];
     /** Company identities displayed in the card. */
     companies: EmployerWorkspace["organisations"];
-    /** Allow team review controls. */
-    isAdmin: boolean;
     /** Disable actions while a workspace command is pending. */
     isPending: boolean;
     /** Run a command and refresh its visible result. */

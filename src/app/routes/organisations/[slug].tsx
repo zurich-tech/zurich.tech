@@ -43,7 +43,8 @@ export default function Route() {
                             summary={item().headline}
                             actions={
                                 <EditLink
-                                    href={`/admin?section=organisations&organisation=${item()._id}`}
+                                    organisationId={item()._id}
+                                    href={`/manage?section=organisations&organisation=${item()._id}`}
                                 />
                             }
                         >

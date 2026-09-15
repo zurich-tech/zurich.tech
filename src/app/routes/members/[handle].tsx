@@ -1,3 +1,4 @@
+import { Arrow } from "../../../components/arrow";
 import { Affiliations } from "../../../members/affiliations";
 import { personalTiers } from "../../../sponsorships/plans";
 import { getMember } from "../../../members/queries";
@@ -11,7 +12,8 @@ import { EventList } from "../../../events/list";
 import { getDirectory } from "../../../organisations/queries";
 import { SocialLinks } from "../../../components/social";
 import { NotFound } from "../../notfound";
-import { Page } from "../../page";
+import { EditLink } from "../../../auth/edit";
+import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 
 import { routeParam } from "../../params";
@@ -44,34 +46,41 @@ export default function Route() {
                 <>
                     <Seo title={title()} description={`@${handle()} on zurich.tech.`} />
                     <Page>
-                        <header class="page-header member-header">
-                            <Avatar
-                                name={title()}
-                                image={member()?.avatarUrl}
-                                imageDark={member()?.avatarDarkUrl}
-                            />
-                            <div class="page-header__copy">
-                                <h1>{title()}</h1>
-                                <Affiliations values={member()?.affiliations} />
-                                <Show when={member()?.isSpeaker}>
-                                    <span class="tag">Speaker</span>
-                                </Show>
-                                <Show when={member()?.sponsorTier}>
-                                    <span class="tag">
-                                        {
-                                            personalTiers.find(
-                                                (tier) => tier.id === member()?.sponsorTier,
-                                            )?.name
-                                        }
-                                    </span>
-                                </Show>
-                            </div>
+                        <a class="eyebrow" href="/members">
+                            <Arrow direction="left" /> Members
+                        </a>
+                        <ItemHeader
+                            title={title()}
+                            actions={<EditLink memberId={member()!.id} href="/settings" />}
+                            summary={
+                                <div class="member-identity">
+                                    <Avatar
+                                        name={title()}
+                                        image={member()?.avatarUrl}
+                                        imageDark={member()?.avatarDarkUrl}
+                                    />
+                                    <Affiliations values={member()?.affiliations} />
+                                </div>
+                            }
+                        >
+                            <Show when={member()?.isSpeaker}>
+                                <span class="tag">Speaker</span>
+                            </Show>
+                            <Show when={member()?.sponsorTier}>
+                                <span class="tag">
+                                    {
+                                        personalTiers.find(
+                                            (tier) => tier.id === member()?.sponsorTier,
+                                        )?.name
+                                    }
+                                </span>
+                            </Show>
                             <SocialLinks
                                 name={title()}
                                 labelled
                                 profiles={(member()?.links ?? []).map((link) => link.href)}
                             />
-                        </header>
+                        </ItemHeader>
                         <Show when={member()?.bio}>
                             <Card title="About">
                                 <Show when={member()?.bio}>

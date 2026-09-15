@@ -1,5 +1,5 @@
 import { locationsLabel } from "./format";
-import { Show } from "solid-js";
+import { type JSX, Show } from "solid-js";
 import type { Job } from "./queries";
 import { Card } from "../components/card";
 import { ItemHeader } from "../app/page";
@@ -10,13 +10,14 @@ import { applicationHref, rangeLabel, salaryLabel } from "./format";
 import { JobTags } from "./tags";
 
 /** Use the public vacancy layout for both reading and editorial preview. */
-export function JobDetails(props: { job: Job; isPreview?: boolean }) {
+export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX.Element }) {
     const item = () => props.job;
 
     return (
         <>
             <ItemHeader
                 title={item().title}
+                actions={props.actions}
                 summary={`${item().company.name} · ${locationsLabel(item().locations) || workplaces[item().workplace]}`}
             >
                 <JobTags job={item()} />

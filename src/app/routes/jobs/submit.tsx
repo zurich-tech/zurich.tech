@@ -246,13 +246,15 @@ export default function Route() {
                                         }
                                     >
                                         <p class="text-soft">Preview · saved revision</p>
-                                        <a
-                                            class="action-link"
-                                            href={`/jobs/submit?edit=${job()!._id}`}
-                                        >
-                                            Continue editing
-                                        </a>
                                         <JobDetails
+                                            actions={
+                                                <a
+                                                    class="action-link"
+                                                    href={`/jobs/submit?edit=${job()!._id}`}
+                                                >
+                                                    Edit
+                                                </a>
+                                            }
                                             isPreview
                                             job={
                                                 {

@@ -91,12 +91,6 @@
 }
 
 /* use the shared detail card while keeping prose at a readable line length */
-.news-detail {
-    width: 100%;
-}
-.news-detail > .eyebrow {
-    margin-bottom: 12px;
-}
 .article-details {
     display: grid;
     gap: 12px;
@@ -110,13 +104,6 @@
 }
 .article-byline time {
     text-transform: none;
-}
-.article-summary {
-    margin: 0;
-    color: inherit;
-}
-.article-details .entry-tags {
-    margin: 0;
 }
 .article-content {
     max-width: 72ch;

@@ -316,7 +316,6 @@ export default function Route() {
                                         </div>
                                     </Show>
 
-                                    <EditLink eventId={event()!.id} />
                                     <Show when={event()!.checkIn?.isEnabled}>
                                         <EditLink
                                             href={`/checkin?event=${event()!.id}`}
@@ -338,6 +337,7 @@ export default function Route() {
                                             label="Feedback"
                                         />
                                     </Show>
+                                    <EditLink eventId={event()!.id} />
                                 </div>
                             }
                         >

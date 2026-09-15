@@ -50,7 +50,6 @@ export function Management(props: {
                                         <JobCard
                                             job={job}
                                             companies={current().organisations}
-                                            isAdmin={current().isAdmin}
                                             isPending={command.isPending()}
                                             perform={command.perform}
                                         />

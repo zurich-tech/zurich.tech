@@ -63,3 +63,37 @@
     border-top: 1px solid var(--color-line);
     padding-top: 24px;
 }
+
+/* Anchor item actions to the title, including long names and narrow screens. */
+.card.item-header > .card-heading {
+    align-items: flex-start;
+}
+.card.item-header > .card-heading > .card-title {
+    flex: 1 1 12rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+.item-header > .card-heading > .card-toolbar {
+    flex: 0 1 auto;
+    justify-content: flex-end;
+}
+.member-identity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.member-identity > .avatar {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+    .card.item-header > .card-heading > .card-title {
+        flex-basis: 100%;
+        font-size: 24px;
+    }
+    .item-header > .card-heading > .card-toolbar {
+        flex-basis: 100%;
+    }
+}

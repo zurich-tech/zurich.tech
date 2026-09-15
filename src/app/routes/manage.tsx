@@ -43,7 +43,14 @@ export default function Route() {
                         </Show>
                     }
                 >
-                    <Management section={section()} />
+                    <Management
+                        section={section()}
+                        organisationId={
+                            typeof params.organisation === "string"
+                                ? params.organisation
+                                : undefined
+                        }
+                    />
                 </Show>
             </Page>
         </>

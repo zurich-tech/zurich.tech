@@ -1,3 +1,4 @@
+import { Arrow } from "../../../components/arrow";
 import { SeriesDetails } from "../../../events/series-details";
 import { useParams } from "@solidjs/router";
 import { Show } from "solid-js";
@@ -24,6 +25,9 @@ export default function Route() {
                     <>
                         <Seo title={item().name} description={item().description} />
                         <Page>
+                            <a class="eyebrow" href="/series">
+                                <Arrow direction="left" /> Series
+                            </a>
                             <ItemHeader
                                 title={item().name}
                                 class="series-header"
@@ -39,7 +43,6 @@ export default function Route() {
                                     <EditLink
                                         href={`/admin?section=series&series=${item()._id}`}
                                         seriesId={item()._id}
-                                        label="Edit series"
                                     />
                                 }
                             />

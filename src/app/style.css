@@ -5137,11 +5137,6 @@ iframe.email-preview {
     gap: 4px;
     min-width: 0;
 }
-.member-header > .avatar {
-    width: 80px;
-    height: 80px;
-    flex: 0 0 80px;
-}
 
 .admin-event-card .admin-filters > input {
     width: auto;
