@@ -4,7 +4,7 @@ category: "funding"
 title: "Sygnum raises over USD 40M"
 subtitle: "Sygnum develops digital asset custody, trading and tokenisation infrastructure."
 date: "2024-01-25"
-url: "https://www.sygnum.com/"
+url: "https://www.sygnum.com/news/sygnum-raises-more-than-usd-40-million/"
 authors: []
 topics: ["distributed-systems"]
 ---

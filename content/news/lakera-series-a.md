@@ -4,7 +4,7 @@ category: "funding"
 title: "Lakera raises USD 20M Series A"
 subtitle: "Lakera develops software to protect AI applications from prompt attacks and data leaks."
 date: "2024-07-24"
-url: "https://www.lakera.ai/"
+url: "https://www.prnewswire.com/news-releases/lakera-raises-20m-series-a-to-secure-generative-ai-applications-302204874.html"
 authors: []
 topics: ["security"]
 ---
