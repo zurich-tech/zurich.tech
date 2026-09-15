@@ -90,15 +90,13 @@ A complaint, or at least three hard bounces at 2% or more, pauses bulk delivery.
 Explicit resume resets health counters; suppression and history remain.
 RFC 8058 unsubscribe changes consent only on POST; GET opens the confirmation page.
 
-## Migration
+## Production controls
 
-The legacy schema is retained in `convex/migrations/schema.ts` solely to preserve existing records.
-No product code reads the old tables.
-`migrations/mail:copy` copies messages and provider reports by stable keys and preserves consent, provider IDs, content, attempts and pauses.
-It is repeatable and deletes nothing.
-It requires the recipient lock and paused legacy schedules.
+Warmup profiles, hourly pacing and delivery-health stops are permanent production controls.
+The `complete` profile retains fixed limits after warmup.
+The development recipient allowlist is independent of these controls and is unset in production.
+Campaign test sends remain available for reviewing an email without enrolling its audience.
 
-For each deployment, retain `MAIL_RECIPIENTS`, deploy the schema and functions, run the migration, and inspect its counts before accepting new email work.
-Verify that old scheduled delivery jobs have drained before removing their function paths.
-Do not enable bulk delivery or the newsletter as part of a code deployment.
-Production migration and delivery activation are separate operations.
+Bulk delivery (`mailPolicy.isPaused`) and weekly scheduling (`mailSchedules.isPaused`) are separate database controls.
+Both remain paused until explicitly enabled through Admin → Email → Settings and Newsletter respectively.
+Deploying code does not enable either control.

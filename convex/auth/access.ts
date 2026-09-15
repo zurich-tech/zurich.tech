@@ -14,8 +14,7 @@ export async function requireAccount(ctx: QueryCtx | MutationCtx) {
     if (record === null || record.status !== "active")
         throw new Error("An active account is required.");
 
-    // preserve legacy administrators until the explicit backfill runs
-    return { ...record, isAdmin: record.isAdmin ?? record.isTeam };
+    return record;
 }
 
 /** Grant initial administrative access through the authenticated deployment CLI. */
@@ -44,17 +43,3 @@ export async function requireAdmin(ctx: QueryCtx | MutationCtx) {
     if (!account.isAdmin) throw new Error("Admin access is required.");
     return account;
 }
-
-/** Backfill existing administrators once before switching access enforcement. */
-export const migrate = internalMutation({
-    args: {},
-    handler: async (ctx) => {
-        let count = 0;
-        for (const account of await ctx.db.query("accounts").collect()) {
-            if (account.isAdmin !== undefined) continue;
-            await ctx.db.patch(account._id, { isAdmin: account.isTeam });
-            count++;
-        }
-        return count;
-    },
-});

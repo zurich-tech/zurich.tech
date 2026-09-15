@@ -17,7 +17,7 @@ export const list = query({
                     return {
                         id: account._id,
                         name: member?.name ?? "Member",
-                        isAdmin: account.isAdmin ?? account.isTeam,
+                        isAdmin: account.isAdmin,
                         isSelf: account._id === viewer._id,
                         grants: grants.filter((g) => g.accountId === account._id),
                     };

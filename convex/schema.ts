@@ -9,7 +9,6 @@ import * as events from "./events/schema";
 import * as sponsorships from "./sponsorships/schema";
 import * as billing from "./billing/schema";
 import * as mail from "./mail/schema";
-import * as legacyMail from "./migrations/schema";
 import * as jobs from "./jobs/schema";
 import * as organisations from "./organisations/schema";
 
@@ -25,7 +24,6 @@ export default defineSchema({
     ...sponsorships,
     ...billing,
     ...mail,
-    ...legacyMail,
     ...jobs,
     ...organisations,
 });

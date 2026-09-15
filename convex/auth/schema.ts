@@ -14,7 +14,7 @@ export const accounts = defineTable({
     participation: v.optional(v.array(v.string())),
     onboardedAt: v.optional(v.number()),
     isTeam: v.boolean(),
-    isAdmin: v.optional(v.boolean()),
+    isAdmin: v.boolean(),
     memberId: v.id("members"),
     status: accountStatus,
     createdAt: v.number(),

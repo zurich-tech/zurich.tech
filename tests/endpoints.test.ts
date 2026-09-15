@@ -1,6 +1,6 @@
 import { convexTest, schema, modules, member } from "./backend";
 import { expect, test } from "bun:test";
-import { api, internal } from "../convex/_generated/api";
+import { api } from "../convex/_generated/api";
 import { revisionFields } from "../convex/events/fields";
 
 async function setup() {
@@ -132,9 +132,9 @@ test("series organisers inherit only their series and revocation applies immedia
     await expect(editor.query(api.events.management.workspace, {})).rejects.toThrow();
 });
 
-test("legacy admins retain authority, explicit non-admin team members do not", async () => {
+test("team membership does not grant administrative authority", async () => {
     const { backend, editor, ids } = await setup();
-    await backend.run((ctx) => ctx.db.patch(ids.accountId, { isTeam: true, isAdmin: undefined }));
+    await backend.run((ctx) => ctx.db.patch(ids.accountId, { isTeam: true, isAdmin: true }));
     await expect(editor.query(api.auth.management.list, {})).resolves.toBeDefined();
     await backend.run((ctx) => ctx.db.patch(ids.accountId, { isAdmin: false }));
     await expect(editor.query(api.auth.management.list, {})).rejects.toThrow();
@@ -663,41 +663,6 @@ test("recurring editions use series ordinal URLs and preserve an adopted edition
         expect(events.find((event) => event.slug === "dinners-6")?.title).toBe("Dinner #6");
         expect((await ctx.db.get(ids.eventId))?.number).toBe(5);
     });
-});
-
-// Correct canonical links in place, including clean editor copies, without enabling delivery.
-test("event URL correction previews changes and rejects collisions", async () => {
-    const previous = process.env.MAIL_RECIPIENTS;
-    process.env.MAIL_RECIPIENTS = "test@example.invalid";
-    try {
-        const { backend, ids } = await setup();
-        const args = {
-            apply: false,
-            series: [],
-            events: [{ slug: "dinner", fields: { slug: "dinners-1", number: 1 } }],
-        };
-        await backend.mutation(internal.migrations.events.apply, args);
-        expect(await backend.run(async (ctx) => (await ctx.db.get(ids.eventId))?.slug)).toBe(
-            "dinner",
-        );
-        await backend.mutation(internal.migrations.events.apply, { ...args, apply: true });
-        await backend.run(async (ctx) => {
-            expect((await ctx.db.get(ids.eventId))?.slug).toBe("dinners-1");
-            expect((await ctx.db.get(ids.eventId))?.number).toBe(1);
-            expect((await ctx.db.get(ids.draftId))?.slug).toBe("dinners-1");
-            expect((await ctx.db.get(ids.draftId))?.eventId).toBe(ids.eventId);
-        });
-        await expect(
-            backend.mutation(internal.migrations.events.apply, {
-                apply: true,
-                series: [],
-                events: [{ slug: "dinners-1", fields: { slug: "other" } }],
-            }),
-        ).rejects.toThrow("Event URL already exists");
-    } finally {
-        if (previous === undefined) delete process.env.MAIL_RECIPIENTS;
-        else process.env.MAIL_RECIPIENTS = previous;
-    }
 });
 
 // Community answers remain private and cannot change subscriptions or authority.
