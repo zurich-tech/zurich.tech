@@ -67,6 +67,7 @@ export const prepare = internalMutation({
             throw new Error("This address cannot receive email.");
 
         // retain the verification request and independent unsubscribe token
+        const expiresAt = now + 3600000;
         await ctx.db.insert("verifications", {
             email,
             name: args.name.trim(),
@@ -75,7 +76,7 @@ export const prepare = internalMutation({
             token: args.token,
             newsletterToken: args.newsletterToken,
             answers: args.answers ?? [],
-            expiresAt: now + 3600000,
+            expiresAt,
         });
 
         // queue the email verification link
@@ -90,6 +91,7 @@ export const prepare = internalMutation({
             undefined,
             0,
             message.html,
+            { expiresAt },
         );
     },
 });
@@ -103,7 +105,7 @@ export const confirm = mutation({
             .query("verifications")
             .withIndex("by_token", (range) => range.eq("token", args.token))
             .unique();
-        if (!ticket || ticket.expiresAt < Date.now())
+        if (!ticket || ticket.expiresAt <= Date.now())
             throw new Error("This link has expired. Please request a new one.");
         if (ticket.usedAt)
             throw new Error("This link has already been used. Check your confirmation email.");

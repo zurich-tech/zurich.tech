@@ -629,3 +629,23 @@ test("test mode rejects blocked newsletter verification without retaining a requ
         expect(await ctx.db.query("subscriptions").collect()).toEqual([]);
     });
 });
+
+// Transactional verification remains available while broadcasts are paused, but never after expiry.
+test("confirmation mail expires with its ticket while bulk delivery stays paused", async () => {
+    const { backend, admin } = await setup();
+    const now = Date.now();
+    setSystemTime(now);
+    await admin.mutation(api.mail.sending.configure, { isPaused: true, profile: "new" });
+    await backend.mutation(internal.mail.verification.prepare, {
+        email: "new@example.invalid",
+        name: "",
+        token: "confirmation-test",
+        newsletterToken: "unsubscribe-test",
+        purpose: "subscription",
+    });
+    const message = await backend.run(async (ctx) => ctx.db.query("messages").unique());
+    expect(await backend.query(internal.mail.messages.read, { id: message!._id })).not.toBeNull();
+    expect(await backend.run((ctx) => reserve(ctx, now))).toBe(false);
+    setSystemTime(now + 3600000);
+    expect(await backend.query(internal.mail.messages.read, { id: message!._id })).toBeNull();
+});
