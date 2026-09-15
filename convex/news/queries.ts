@@ -1,61 +1,73 @@
-import { query } from "../_generated/server";
+import { articleTopics } from "../../src/news/model";
+import { query, type QueryCtx } from "../_generated/server";
+import type { Doc } from "../_generated/dataModel";
+import { v } from "convex/values";
 import { requireAdmin } from "../auth/access";
 
-/** Published news only; drafts never enter the public response. */
+/** Read published news only; drafts never enter the public response. */
 export const list = query({
     args: {},
     handler: async (ctx) => {
-        const topics = await ctx.db.query("topics").collect();
-        const posts = await ctx.db.query("posts").collect();
-        return await Promise.all(
-            posts
-                .filter((post) => post.published)
-                .map(async (post) => {
-                    const content = post.published!;
-                    const authors = await Promise.all(content.authors.map((id) => ctx.db.get(id)));
-                    const organisations = await Promise.all(
-                        content.organisations.map((id) => ctx.db.get(id)),
-                    );
-                    return {
-                        id: post._id,
-                        slug: post.slug,
-                        ...content,
-                        date: post.publishedAt!,
-                        authors: await Promise.all(
-                            authors
-                                .filter((author) => author !== null)
-                                .filter((author) => author.visibility === "public")
-                                .map(async (author) => {
-                                    const handle = (
-                                        await ctx.db
-                                            .query("handles")
-                                            .withIndex("by_member", (q) =>
-                                                q.eq("memberId", author._id),
-                                            )
-                                            .collect()
-                                    ).find((handle) => handle.status === "active");
-                                    return {
-                                        name: author.name,
-                                        url: handle ? `/members/${handle.name}` : undefined,
-                                    };
-                                }),
-                        ),
-                        organisations: organisations
-                            .filter((organisation) => organisation !== null)
-                            .map((organisation) => ({
-                                name: organisation.name,
-                                slug: organisation.slug,
-                            })),
-                        topics: content.topics.map((slug) => {
-                            const topic = topics.find((topic) => topic.slug === slug);
-                            if (!topic) throw new Error(`Unknown article topic: ${slug}.`);
-                            return { slug, name: topic.name };
-                        }),
-                    };
-                }),
+        const [topics, posts] = await Promise.all([
+            ctx.db.query("topics").collect(),
+            ctx.db.query("posts").collect(),
+        ]);
+        const published = await Promise.all(
+            posts.filter((post) => post.published).map((post) => publishedPost(ctx, post, topics)),
         );
+        return published.sort((a, b) => b.date - a.date || a.slug.localeCompare(b.slug));
     },
 });
+
+/** Read one published article without loading the archive. */
+export const detail = query({
+    args: { slug: v.string() },
+    handler: async (ctx, { slug }) => {
+        const post = await ctx.db
+            .query("posts")
+            .withIndex("by_slug", (q) => q.eq("slug", slug))
+            .unique();
+        if (!post?.published) return null;
+        return publishedPost(ctx, post, await ctx.db.query("topics").collect());
+    },
+});
+
+/** Expand public author, organisation and topic references identically on both read paths. */
+async function publishedPost(ctx: QueryCtx, post: Doc<"posts">, topics: Doc<"topics">[]) {
+    const content = post.published!;
+    const authors = await Promise.all(content.authors.map((id) => ctx.db.get(id)));
+    const organisations = await Promise.all(content.organisations.map((id) => ctx.db.get(id)));
+    return {
+        id: post._id,
+        slug: post.slug,
+        ...content,
+        date: post.publishedAt!,
+        authors: await Promise.all(
+            authors
+                .filter((author) => author !== null)
+                .filter((author) => author.visibility === "public")
+                .map(async (author) => {
+                    const handle = (
+                        await ctx.db
+                            .query("handles")
+                            .withIndex("by_member", (q) => q.eq("memberId", author._id))
+                            .collect()
+                    ).find((handle) => handle.status === "active");
+                    return {
+                        name: author.name,
+                        url: handle ? `/members/${handle.name}` : undefined,
+                    };
+                }),
+        ),
+        organisations: organisations
+            .filter((organisation) => organisation !== null)
+            .map((organisation) => ({
+                name: organisation.name,
+                slug: organisation.slug,
+            })),
+        topics: articleTopics(content.topics, topics),
+    };
+}
 
 /** Team drafts and selections for the editor. */
 export const workspace = query({

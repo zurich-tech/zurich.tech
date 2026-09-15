@@ -13,7 +13,7 @@
         "format": "prettier --write . --ignore-path .prettierignore",
         "format-check": "prettier --check . --ignore-path .prettierignore",
         "typecheck": "tsc -p tsconfig.json --noEmit",
-        "content": "bun scripts/news/build.ts && prettier --write src/news/articles.generated.ts && bun scripts/branding/og.ts"
+        "content": "bun scripts/branding/og.ts"
     },
     "dependencies": {
         "@convex-dev/better-auth": "0.12.5",

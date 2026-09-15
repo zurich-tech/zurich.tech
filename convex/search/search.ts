@@ -1,7 +1,6 @@
 import { v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import { query, type QueryCtx } from "../_generated/server";
-import { articles } from "../../src/news/articles.generated";
 import { memberHandle, isPublicMember } from "../members/queries";
 import { affiliationText } from "../members/affiliations";
 import { publicJob } from "../jobs/jobs";
@@ -145,18 +144,6 @@ export const search = query({
                 href: `/organisations/${item.slug}`,
                 kind: "Organisations",
             });
-        for (const article of includes("News") ? articles : [])
-            entries.push({
-                label: article.title,
-                description: [
-                    article.description,
-                    article.body,
-                    ...article.topics,
-                    ...article.authors.map((author) => author.name),
-                ].join(" "),
-                href: `/news/${article.slug}`,
-                kind: "News",
-            });
         for (const post of posts)
             if (post.published)
                 entries.push({
@@ -164,6 +151,8 @@ export const search = query({
                     description: [
                         post.published.description,
                         post.published.body,
+                        new Date(post.publishedAt!).toISOString().slice(0, 10),
+                        post.published.category,
                         ...post.published.topics,
                     ]
                         .filter(Boolean)

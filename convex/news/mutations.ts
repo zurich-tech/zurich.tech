@@ -1,9 +1,8 @@
-import { validateTopics } from "../topics/queries";
 import { v, ConvexError } from "convex/values";
 import { mutation } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
 import { content } from "./content";
-import { articles } from "../../src/news/articles.generated";
+import { validateContent } from "./validation";
 
 /** Save a draft without changing the published snapshot. */
 export const save = mutation({
@@ -30,60 +29,10 @@ export const save = mutation({
             .query("posts")
             .withIndex("by_slug", (q) => q.eq("slug", args.slug))
             .unique();
-        if (
-            (duplicate && duplicate._id !== args.id) ||
-            articles.some((article) => article.slug === args.slug)
-        )
+        if (duplicate && duplicate._id !== args.id)
             throw new ConvexError("This slug is already used.");
 
-        // validate URLs and bounded text before storing content
-        const value = {
-            ...args.content,
-            title: args.content.title.trim(),
-            topics: [
-                ...new Set(
-                    args.content.topics.map((tag) => tag.trim().toLowerCase()).filter(Boolean),
-                ),
-            ],
-        };
-        await validateTopics(ctx, value.topics, existing?.draft.topics);
-
-        if (
-            !value.title ||
-            value.title.length > 200 ||
-            value.description.length > 500 ||
-            value.body.length > 50000
-        )
-            throw new ConvexError("Check the title, summary and body lengths.");
-        if (value.kind === "link" && !value.url) throw new ConvexError("Enter the original URL.");
-        for (const url of [value.url, value.image].filter(Boolean)) {
-            let parsed: URL;
-            try {
-                parsed = new URL(url!);
-            } catch {
-                throw new ConvexError("Enter a valid URL.");
-            }
-            if (
-                !["https:", "http:"].includes(parsed.protocol) ||
-                parsed.username ||
-                parsed.password
-            )
-                throw new ConvexError("Use an HTTP or HTTPS URL.");
-        }
-        if (
-            value.topics.length > 12 ||
-            value.topics.some((tag) => !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag))
-        )
-            throw new ConvexError("Use up to 12 tags, with words separated by hyphens.");
-        if (!value.authors.length) throw new ConvexError("Select an author.");
-        for (const id of value.authors) {
-            const author = await ctx.db.get(id);
-            if (!author || author.visibility !== "public")
-                throw new ConvexError("Choose authors with public profiles.");
-        }
-        for (const id of value.organisations)
-            if (!(await ctx.db.get(id))) throw new ConvexError("Organisation not found.");
-        if (value.kind === "post") value.url = undefined;
+        const value = await validateContent(ctx, args.content, existing?.draft.topics);
         const updatedAt = Math.max(Date.now(), (existing?.updatedAt ?? 0) + 1);
         const id = existing
             ? existing._id

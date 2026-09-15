@@ -6,6 +6,7 @@ export const content = v.object({
     description: v.string(),
     body: v.string(),
     kind: v.union(v.literal("post"), v.literal("link")),
+    category: v.optional(v.literal("funding")),
     url: v.optional(v.string()),
     image: v.optional(v.string()),
     topics: v.array(v.string()),
