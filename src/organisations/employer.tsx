@@ -11,8 +11,6 @@ import { memberClient } from "../auth/convex";
 import type { Perform } from "../app/workspace";
 import { Card } from "../components/card";
 import { InvoiceButton } from "../billing/payments";
-import { applicationHref } from "../jobs/format";
-import { Markdown } from "../components/markdown";
 
 /** Owned companies, vacancies and sponsorship agreements. */
 type EmployerWorkspace = FunctionReturnType<typeof api.organisations.workspace.employer>;
@@ -137,9 +135,6 @@ export function JobCard(props: {
                     </button>
                 </Show>
             </div>
-            <Show when={props.isAdmin}>
-                <JobReview job={props.job} isPending={props.isPending} perform={props.perform} />
-            </Show>
         </Card>
     );
 }
@@ -226,40 +221,34 @@ export function JobReview(props: {
     }
 
     return (
-        <details class="review-details">
-            <summary>Review & publication</summary>
-            <h3>{(props.job.draft ?? props.job).title}</h3>
-            <p>{props.job.billingEmail}</p>
+        <Card
+            title="Publication"
+            class="editor-publication job-publication"
+            toolbar={
+                <Show when={props.job.publishedAt}>
+                    <a class="action-link" href={`/jobs/${props.job.slug}`}>
+                        View listing
+                    </a>
+                </Show>
+            }
+        >
             <Show
-                when={props.job.allowance}
-                fallback={
-                    <p class="text-soft">
-                        No current sponsorship allowance. A paid listing is required.
-                    </p>
-                }
+                when={props.job.status !== "published" || props.job.draft}
+                fallback={<p class="text-soft">Published. Save a new revision to make changes.</p>}
             >
-                {(allowance) => (
-                    <p class="text-soft">
-                        {allowance().available === null
-                            ? "Unlimited"
-                            : `${allowance().available} of ${allowance().limit}`}{" "}
-                        sponsorship slots available · term ends {date(allowance().endsAt)}
-                    </p>
-                )}
-            </Show>
-            <Markdown source={(props.job.draft ?? props.job).description} />
-            <p>
-                <a
-                    class="text-link"
-                    href={applicationHref((props.job.draft ?? props.job).application)}
-                    target="_blank"
-                    rel="noreferrer"
+                <Show
+                    when={props.job.allowance}
+                    fallback={<p class="text-soft">A paid listing is required.</p>}
                 >
-                    Application destination
-                </a>
-            </p>
-            <details open>
-                <summary>Publication funding</summary>
+                    {(allowance) => (
+                        <p class="text-soft">
+                            {allowance().available === null
+                                ? "Unlimited"
+                                : `${allowance().available} of ${allowance().limit}`}{" "}
+                            sponsorship slots available
+                        </p>
+                    )}
+                </Show>
                 <Editor class="editor" onSubmit={publish}>
                     <label>
                         Funding
@@ -282,7 +271,7 @@ export function JobReview(props: {
                                     : "Included sponsorship slot"}
                             </option>
                             <Show when={props.job.expiresAt! > Date.now()}>
-                                <option value="existing">Keep existing paid term</option>
+                                <option value="existing">Keep existing term</option>
                             </Show>
                         </Select>
                     </label>
@@ -292,21 +281,28 @@ export function JobReview(props: {
                             <input name="invoiceReference" required />
                         </label>
                     </Show>
-                    <button class="button button--primary" disabled={props.isPending}>
-                        Approve & publish
-                    </button>
+                    <div class="form-actions">
+                        <button class="button button--primary" disabled={props.isPending}>
+                            {props.job.publishedAt ? "Publish changes" : "Approve & publish"}
+                        </button>
+                    </div>
                 </Editor>
-            </details>
-            <Editor class="editor" onSubmit={decline}>
-                <label>
-                    Review note
-                    <textarea name="note" required rows="2" />
-                </label>
-                <button class="button" disabled={props.isPending}>
-                    Return for changes
-                </button>
-            </Editor>
-        </details>
+                <details class="job-publication-return">
+                    <summary class="action-link">Return for changes</summary>
+                    <Editor class="editor" onSubmit={decline}>
+                        <label>
+                            Review note
+                            <textarea name="note" required rows="3" />
+                        </label>
+                        <div class="form-actions">
+                            <button class="button" disabled={props.isPending}>
+                                Return for changes
+                            </button>
+                        </div>
+                    </Editor>
+                </details>
+            </Show>
+        </Card>
     );
 }
 

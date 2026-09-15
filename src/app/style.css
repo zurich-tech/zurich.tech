@@ -3555,15 +3555,10 @@ select.field__control:not([multiple]) {
 .management-heading h2 {
     margin: 0;
 }
-.review-details {
-    margin-top: 20px;
-}
-.review-details > .editor,
 .management-sections .card-body > .editor {
     margin-top: 20px;
 }
-.company-editor > summary,
-.review-details > summary {
+.company-editor > summary {
     cursor: pointer;
     padding: 12px 0;
 }
@@ -5638,4 +5633,20 @@ a.tag:hover {
 a.tag:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
+}
+
+/* Keep review controls compact beneath the listing preview. */
+.job-publication {
+    margin-top: 24px;
+}
+.job-publication .editor {
+    max-width: 36rem;
+    gap: 16px;
+}
+.job-publication-return > summary {
+    width: fit-content;
+    cursor: pointer;
+}
+.job-publication-return > .editor {
+    margin-top: 16px;
 }
