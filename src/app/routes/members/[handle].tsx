@@ -1,3 +1,4 @@
+import { Markdown } from "../../../components/markdown";
 import { Arrow } from "../../../components/arrow";
 import { Affiliations } from "../../../members/affiliations";
 import { personalTiers } from "../../../sponsorships/plans";
@@ -83,9 +84,7 @@ export default function Route() {
                         </ItemHeader>
                         <Show when={member()?.bio}>
                             <Card title="About">
-                                <Show when={member()?.bio}>
-                                    <p class="organisation-description">{member()?.bio}</p>
-                                </Show>
+                                <Markdown source={member()!.bio!} />
                             </Card>
                         </Show>
                         <Show when={member()?.hostedEvents.length}>

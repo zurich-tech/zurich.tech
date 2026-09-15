@@ -1,3 +1,4 @@
+import { Markdown } from "../../../components/markdown";
 import { organisationKinds } from "../../../../convex/organisations/kinds";
 import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
@@ -33,7 +34,10 @@ export default function Route() {
         <Show when={organisation()} fallback={directory() ? <NotFound /> : null}>
             {(item) => (
                 <>
-                    <Seo title={item().name} description={item().description} />
+                    <Seo
+                        title={item().name}
+                        description={item().headline ?? `${item().name} on zurich.tech.`}
+                    />
                     <Page class="organisation-page">
                         <a class="eyebrow" href="/organisations">
                             <Arrow direction="left" /> Organisations
@@ -59,7 +63,7 @@ export default function Route() {
                         <div class="event-layout">
                             <div class="event-content">
                                 <Card title="About">
-                                    <p class="organisation-description">{item().description}</p>
+                                    <Markdown source={item().description} />
                                 </Card>
                                 <Card title="Jobs">
                                     <For each={jobs()}>{(job) => <JobEntry job={job} />}</For>

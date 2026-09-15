@@ -1,4 +1,5 @@
-import { Select, Textarea } from "../components/field";
+import { Select } from "../components/field";
+import { MarkdownEditor } from "../components/markdown-editor";
 import { organisationKinds, type OrganisationKind } from "../../convex/organisations/kinds";
 import { createSignal, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
@@ -179,15 +180,13 @@ export function CompanyForm(props: {
                     Location
                     <input name="location" required value={props.item?.location ?? "Zurich"} />
                 </label>
-                <label>
-                    Description
-                    <Textarea
-                        name="description"
-                        maxlength="5000"
-                        rows="3"
-                        value={props.item?.description ?? ""}
-                    />
-                </label>
+                <MarkdownEditor
+                    label="About"
+                    name="description"
+                    maxLength={5000}
+                    rows={6}
+                    value={props.item?.description ?? ""}
+                />
                 <Show when={props.isAdmin}>
                     <label>
                         Owner <span>Can manage this organisation and its jobs</span>

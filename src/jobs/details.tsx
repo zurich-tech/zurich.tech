@@ -111,17 +111,20 @@ export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX
                             </a>
                         </Show>
                     </Card>
-                    <Card
-                        title={item().company.name}
-                        titleHref={`/organisations/${item().company.slug}`}
-                    >
-                        <Show when={item().company.logoUrl}>
-                            <Image
-                                class="company-image"
-                                src={item().company.logoUrl}
-                                darkSrc={item().company.logoDarkUrl}
-                                alt={item().company.name}
-                            />
+                    <Card title="Company">
+                        <a class="company-identity" href={`/organisations/${item().company.slug}`}>
+                            <strong>{item().company.name}</strong>
+                            <Show when={item().company.logoUrl}>
+                                <Image
+                                    class="company-image"
+                                    src={item().company.logoUrl}
+                                    darkSrc={item().company.logoDarkUrl}
+                                    alt={item().company.name}
+                                />
+                            </Show>
+                        </a>
+                        <Show when={item().company.description}>
+                            <Markdown source={item().company.description} />
                         </Show>
                         <a
                             class="text-link"

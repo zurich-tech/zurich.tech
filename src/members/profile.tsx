@@ -1,3 +1,4 @@
+import { MarkdownEditor } from "../components/markdown-editor";
 import { AffiliationFields, readAffiliations } from "./affiliations";
 import { Suspense } from "solid-js";
 import { CommunityFields, readCommunity } from "./demographics";
@@ -306,16 +307,13 @@ export function ProfileSettings() {
                                 values={current().affiliations}
                             />
                         </fieldset>
-                        <label>
-                            Bio
-                            <textarea
-                                name="bio"
-                                maxlength="1000"
-                                rows="2"
-                                placeholder="A little about you…"
-                                value={current().bio ?? ""}
-                            />
-                        </label>
+                        <MarkdownEditor
+                            label="Bio"
+                            name="bio"
+                            maxLength={1000}
+                            rows={6}
+                            value={current().bio ?? ""}
+                        />
                         <label>
                             Slug
                             <input

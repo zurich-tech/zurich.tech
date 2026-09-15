@@ -1,4 +1,4 @@
-import { createSignal, createUniqueId, For, Show } from "solid-js";
+import { createEffect, createSignal, createUniqueId, For, Show } from "solid-js";
 import { Textarea } from "./field";
 import { Markdown } from "./markdown";
 import "./markdown-editor.css";
@@ -7,11 +7,18 @@ import "./markdown-editor.css";
 export function MarkdownEditor(props: {
     label: string;
     value: string;
-    onChange: (value: string) => void;
+    name?: string;
+    maxLength?: number;
+    rows?: number;
+    onChange?: (value: string) => void;
 }) {
     const id = createUniqueId();
     const [isPreview, setIsPreview] = createSignal(false);
+    const [preview, setPreview] = createSignal("");
     let textarea!: HTMLTextAreaElement;
+
+    // follow externally loaded or saved revisions while previewing
+    createEffect(() => setPreview(props.value));
 
     /** Format the selected text, then restore focus and keep the content selected. */
     function format(before: string, after: string, placeholder: string) {
@@ -19,7 +26,7 @@ export function MarkdownEditor(props: {
         const end = textarea.selectionEnd;
         const selected = textarea.value.slice(start, end) || placeholder;
         textarea.setRangeText(before + selected + after, start, end, "select");
-        props.onChange(textarea.value);
+        textarea.dispatchEvent(new Event("input", { bubbles: true }));
         textarea.focus();
         textarea.setSelectionRange(start + before.length, start + before.length + selected.length);
     }
@@ -63,7 +70,10 @@ export function MarkdownEditor(props: {
                 <button
                     type="button"
                     class="action-link markdown-editor__toggle"
-                    onClick={() => setIsPreview(!isPreview())}
+                    onClick={() => {
+                        setPreview(textarea.value);
+                        setIsPreview(!isPreview());
+                    }}
                 >
                     {isPreview() ? "Write" : "Preview"}
                 </button>
@@ -72,11 +82,12 @@ export function MarkdownEditor(props: {
                 id={id}
                 ref={textarea}
                 hidden={isPreview()}
-                rows={12}
-                maxLength={50000}
+                name={props.name}
+                rows={props.rows ?? 12}
+                maxLength={props.maxLength ?? 50000}
                 value={props.value}
                 aria-describedby={`${id}-hint`}
-                onInput={(event) => props.onChange(event.currentTarget.value)}
+                onInput={(event) => props.onChange?.(event.currentTarget.value)}
                 onKeyDown={(event) => {
                     // Keep familiar formatting shortcuts within the writing field.
                     if (
@@ -97,10 +108,10 @@ export function MarkdownEditor(props: {
                     aria-label={`${props.label} preview`}
                 >
                     <Show
-                        when={props.value.trim()}
+                        when={preview().trim()}
                         fallback={<p class="markdown-editor__hint">Nothing to preview yet.</p>}
                     >
-                        <Markdown source={props.value} />
+                        <Markdown source={preview()} />
                     </Show>
                 </div>
             </Show>

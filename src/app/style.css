@@ -4342,10 +4342,6 @@ iframe.email-preview {
     margin-block: 16px;
 }
 
-.organisation-description {
-    white-space: pre-line;
-    line-height: 1.7;
-}
 .organisation-location + .organisation-location {
     border-top: 1px solid var(--color-line);
     padding-top: 16px;
@@ -5670,4 +5666,13 @@ a.tag:focus-visible {
 .job-title:focus-visible::after {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
+}
+
+.company-identity {
+    display: grid;
+    gap: 12px;
+}
+.company-identity:hover > strong {
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }

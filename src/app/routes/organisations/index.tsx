@@ -24,7 +24,10 @@ export default function Route() {
     const { query: search, setQuery: setSearch, terms } = useSearch();
     const matches = () =>
         directory()?.organisations.filter((item) =>
-            matchesSearch(`${item.name} ${item.description} ${item.location}`, terms()),
+            matchesSearch(
+                `${item.name} ${item.headline ?? ""} ${item.description} ${item.location}`,
+                terms(),
+            ),
         ) ?? [];
 
     return (
@@ -63,12 +66,9 @@ export default function Route() {
                                         <h2>
                                             <Highlight text={item.name} terms={terms()} />
                                         </h2>
-                                        <Show when={item.description}>
+                                        <Show when={item.headline}>
                                             <p>
-                                                <Highlight
-                                                    text={item.description}
-                                                    terms={terms()}
-                                                />
+                                                <Highlight text={item.headline!} terms={terms()} />
                                             </p>
                                         </Show>
                                         <div class="tags">
