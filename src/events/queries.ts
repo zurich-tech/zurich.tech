@@ -1,10 +1,10 @@
 import { createResource, onMount, onCleanup, startTransition } from "solid-js";
 import { useAccess } from "../auth/edit";
-import { query } from "@solidjs/router";
+import { publicQuery } from "../data/query";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
 
-import { publicClient, memberClient } from "../auth/convex";
+import { memberClient } from "../auth/convex";
 
 /** One public calendar row. */
 export type CalendarEntry =
@@ -15,22 +15,15 @@ export type CalendarEntry =
 export type PublicEvent = NonNullable<FunctionReturnType<typeof api.events.queries.event>>;
 
 /** Read the public calendar. */
-export const getCalendar = query(
-    async () => await publicClient().query(api.events.queries.calendar, {}),
-    "calendar",
-);
+export const getCalendar = publicQuery(api.events.queries.calendar, "calendar", () => ({}));
 
 /** Read one published event. */
-export const getEvent = query(
-    async (slug: string) => await publicClient().query(api.events.queries.event, { slug }),
-    "event",
-);
+export const getEvent = publicQuery(api.events.queries.event, "event", (slug: string) => ({
+    slug,
+}));
 
-/** Read recent approved event photographs. */
-export const getGallery = query(
-    async () => await publicClient().query(api.events.gallery.gallery, { now: Date.now() }),
-    "gallery",
-);
+/** Read approved photo previews from finished events. */
+export const getGallery = publicQuery(api.events.gallery.gallery, "gallery", () => ({}));
 
 /** One recent event album with approved photo previews. */
 export type GalleryAlbum = FunctionReturnType<typeof api.events.gallery.gallery>[number];

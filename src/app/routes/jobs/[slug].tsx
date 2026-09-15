@@ -1,7 +1,7 @@
 import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { getJob } from "../../../jobs/queries";
-import { createAsync, useParams } from "@solidjs/router";
+import { useParams } from "@solidjs/router";
 import { Show, For } from "solid-js";
 import { routeParam } from "../../params";
 
@@ -22,7 +22,7 @@ export const route = {
 /** Read a reviewed vacancy and apply directly with the employer. */
 export default function Route() {
     const params = useParams();
-    const job = createAsync(() => getJob(routeParam("slug", params.slug)), { deferStream: true });
+    const job = getJob.use(() => [routeParam("slug", params.slug)]);
 
     return (
         <Show when={job()} fallback={job() === null ? <NotFound /> : undefined}>

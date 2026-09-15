@@ -1,5 +1,5 @@
 import { SeriesDetails } from "../../../events/series-details";
-import { createAsync, useParams } from "@solidjs/router";
+import { useParams } from "@solidjs/router";
 import { Show } from "solid-js";
 import { getDirectory } from "../../../organisations/queries";
 import { getCalendar } from "../../../events/queries";
@@ -14,8 +14,8 @@ export const route = { preload: () => Promise.all([getDirectory(), getCalendar()
 /** Browse the description and complete programme of one series. */
 export default function Route() {
     const params = useParams();
-    const directory = createAsync(() => getDirectory());
-    const events = createAsync(() => getCalendar());
+    const directory = getDirectory.use(() => []);
+    const events = getCalendar.use(() => []);
     const series = () => directory()?.series.find((item) => item.slug === params.slug);
     return (
         <Show when={directory()}>

@@ -7,7 +7,7 @@ import { getDirectory } from "../../../organisations/queries";
 import { getJobs } from "../../../jobs/queries";
 import { Arrow } from "../../../components/arrow";
 import { Card } from "../../../components/card";
-import { createAsync, useParams } from "@solidjs/router";
+import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
@@ -21,12 +21,12 @@ export const route = {
 /** Present an organisation in the same card layout as event details. */
 export default function Route() {
     const params = useParams();
-    const directory = createAsync(() => getDirectory());
+    const directory = getDirectory.use(() => []);
     const organisation = () => directory()?.organisations.find((item) => item.slug === params.slug);
     // load only the open jobs attached to this organisation
-    const jobs = createAsync(() => {
+    const jobs = getJobs.use(() => {
         const current = organisation();
-        return current ? getJobs(current._id) : Promise.resolve(undefined);
+        return current ? [current._id] : undefined;
     });
 
     return (

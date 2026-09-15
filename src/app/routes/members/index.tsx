@@ -5,7 +5,6 @@ import { Highlight } from "../../../components/highlight";
 import { Affiliations } from "../../../members/affiliations";
 import { getMembers, type PublicMember } from "../../../members/queries";
 import { Card } from "../../../components/card";
-import { createAsync } from "@solidjs/router";
 import { For, Show, createMemo } from "solid-js";
 
 import { Avatar } from "../../../components/avatar";
@@ -22,7 +21,7 @@ export const route = {
 /** Member index. */
 export default function Route() {
     // members
-    const members = createAsync(() => getMembers());
+    const members = getMembers.use(() => []);
 
     return (
         <>

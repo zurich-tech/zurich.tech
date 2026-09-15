@@ -9,5 +9,6 @@ export default defineConfig({
     },
     vite: {
         plugins: [tailwindcss()],
+        define: { "import.meta.env.VITE_PUBLIC_BUILD": JSON.stringify(Date.now().toString(36)) },
     },
 });

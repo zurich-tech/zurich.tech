@@ -1,6 +1,5 @@
 import { getCalendar } from "../../../events/queries";
 import { getDirectory } from "../../../organisations/queries";
-import { createAsync } from "@solidjs/router";
 import { Programme } from "../../../events/programme";
 import { Page } from "../../page";
 import { Seo } from "../../seo";
@@ -12,8 +11,8 @@ export const route = {
 
 /** Browse the complete event calendar. */
 export default function Route() {
-    const events = createAsync(() => getCalendar());
-    const directory = createAsync(() => getDirectory());
+    const events = getCalendar.use(() => []);
+    const directory = getDirectory.use(() => []);
 
     return (
         <>

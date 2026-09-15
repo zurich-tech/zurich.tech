@@ -1,4 +1,3 @@
-import { createAsync } from "@solidjs/router";
 import { createSignal, For, Show } from "solid-js";
 import { getStatistics } from "../../statistics/queries";
 import { HistoryChart } from "../../statistics/chart";
@@ -20,7 +19,7 @@ export const route = {
 
 /** Explore community totals and growth. */
 export default function Route() {
-    const statistics = createAsync(() => getStatistics());
+    const statistics = getStatistics.use(() => []);
     const [selected, setSelected] = createSignal<(typeof metrics)[number]>(metrics[0]);
 
     return (

@@ -3,17 +3,16 @@ import { useCatalogue } from "../search/catalogue";
 import { useSearch } from "../search/local";
 import { matchesSearch } from "../search/search";
 import { TableToolbar } from "../components/toolbar";
-import { isTentative } from "../../convex/events/conditions";
 import { EventCalendar } from "./month";
 import { pageSize } from "../app/site";
-import { usePlanning, useConfirmationRefresh, getCalendar, type CalendarEntry } from "./queries";
+import { usePlanning, type CalendarEntry } from "./queries";
 
 import { Card } from "../components/card";
 import { FilterPills } from "../components/filter-pills";
 import { type OrganiserPerson } from "./organiser";
 import { EventList } from "./list";
 import { createSignal, createMemo, createEffect, on, Show } from "solid-js";
-import { useSearchParams, revalidate } from "@solidjs/router";
+import { useSearchParams } from "@solidjs/router";
 
 /** Browse events in a single aligned calendar, filtered by period, year and series. */
 export function Programme(props: {
@@ -51,13 +50,14 @@ export function Programme(props: {
     const compare = (left: CalendarEntry, right: CalendarEntry) => right.startsAt - left.startsAt;
     const planning = usePlanning(() => !!props.isPlanningEnabled);
     const entries = () =>
-        [...props.entries, ...(planning.current()?.entries ?? [])].filter(
-            (event) => !props.seriesId || event.seriesId === props.seriesId,
-        );
-    useConfirmationRefresh(
-        () => props.entries.some((event) => event.status === "scheduled" && isTentative(event)),
-        () => revalidate(getCalendar.key),
-    );
+        [
+            ...new Map(
+                [...(planning.current()?.entries ?? []), ...props.entries].map((event) => [
+                    event.id,
+                    event,
+                ]),
+            ).values(),
+        ].filter((event) => !props.seriesId || event.seriesId === props.seriesId);
     const isCalendar = () => !!props.isCalendarEnabled && params.view === "calendar";
     const isPreview = () => props.limit !== undefined;
     const period = () =>

@@ -1,6 +1,5 @@
-import { query } from "@solidjs/router";
+import { publicQuery } from "../data/query";
 import { api } from "../../convex/_generated/api";
-import { publicClient } from "../auth/convex";
 
 /** Cache the small public catalogue across forms, filters and labels. */
-export const getTopics = query(() => publicClient().query(api.topics.queries.list, {}), "topics");
+export const getTopics = publicQuery(api.topics.queries.list, "topics", () => ({}));

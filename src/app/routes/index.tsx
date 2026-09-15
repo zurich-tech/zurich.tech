@@ -1,3 +1,6 @@
+import { getMap } from "../../map/queries";
+import { getSponsors } from "../../sponsorships/queries";
+import { getTopics } from "../../topics/queries";
 import { site } from "../site";
 import { getCalendar, getGallery } from "../../events/queries";
 import { getArticles } from "../../news/queries";
@@ -9,7 +12,6 @@ import { Card } from "../../components/card";
 import { Button } from "../../components/button";
 import { JobEntry } from "../../jobs/job";
 import { Sponsors } from "../../sponsorships/sponsors";
-import { createAsync } from "@solidjs/router";
 import { Gallery } from "../../events/gallery";
 import { Hero } from "../hero";
 import { Newsletter } from "../../mail/newsletter";
@@ -19,17 +21,26 @@ import { Seo } from "../seo";
 /** Begin public data requests before rendering the route. */
 export const route = {
     preload: () =>
-        Promise.all([getCalendar(), getArticles(), getDirectory(), getJobs(), getGallery()]),
+        Promise.all([
+            getCalendar(),
+            getArticles(),
+            getDirectory(),
+            getJobs(),
+            getGallery(),
+            getMap(),
+            getSponsors(),
+            getTopics(),
+        ]),
 };
 
 /** Present the map and published event programme. */
 export default function Route() {
     // read published events and series from the live catalogue
-    const entries = createAsync(() => getCalendar());
-    const articles = createAsync(() => getArticles(), { deferStream: true });
-    const directory = createAsync(() => getDirectory());
-    const jobs = createAsync(() => getJobs());
-    const photos = createAsync(() => getGallery());
+    const entries = getCalendar.use(() => []);
+    const articles = getArticles.use(() => []);
+    const directory = getDirectory.use(() => []);
+    const jobs = getJobs.use(() => []);
+    const photos = getGallery.use(() => []);
 
     return (
         <div class="bulletin">

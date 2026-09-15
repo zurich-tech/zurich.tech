@@ -3,7 +3,6 @@ import { memberClient } from "../auth/convex";
 import { errorMessage } from "../components/errors";
 import { personalTiers } from "./plans";
 import { getPersonalSponsors } from "./queries";
-import { createAsync } from "@solidjs/router";
 import { startTransition, createResource, createSignal, For, Show } from "solid-js";
 
 import { Dynamic } from "solid-js/web";
@@ -11,7 +10,7 @@ import { Avatar } from "../components/avatar";
 
 /** Show opted-in personal sponsors, ordered by their support level. */
 export function PersonalSponsors() {
-    const sponsors = createAsync(() => getPersonalSponsors());
+    const sponsors = getPersonalSponsors.use(() => []);
     return (
         <For each={[...personalTiers].reverse()}>
             {(tier) => (

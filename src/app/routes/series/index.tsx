@@ -2,7 +2,6 @@ import { useSearch } from "../../../search/local";
 import { matchesSearch } from "../../../search/search";
 import { TableToolbar } from "../../../components/toolbar";
 import { Highlight } from "../../../components/highlight";
-import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { getDirectory } from "../../../organisations/queries";
 import { getCalendar } from "../../../events/queries";
@@ -18,8 +17,8 @@ export const route = { preload: () => Promise.all([getDirectory(), getCalendar()
 
 /** Discover each series through its description and latest events. */
 export default function Route() {
-    const directory = createAsync(() => getDirectory());
-    const events = createAsync(() => getCalendar());
+    const directory = getDirectory.use(() => []);
+    const events = getCalendar.use(() => []);
     const now = Date.now();
     const { query, setQuery, terms } = useSearch();
 

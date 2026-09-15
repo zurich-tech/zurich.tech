@@ -11,3 +11,5 @@ convex/_generated
 public/city/*.json
 
 .convex
+
+.wrangler

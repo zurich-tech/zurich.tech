@@ -1,7 +1,6 @@
 import { Affiliations } from "../members/affiliations";
 import type { Affiliation } from "../../convex/members/affiliations";
 import { Card } from "../components/card";
-import { createAsync } from "@solidjs/router";
 import { For, Show, createSignal, createEffect } from "solid-js";
 import { getTeam, getMembers } from "../members/queries";
 import "./organiser.css";
@@ -104,8 +103,8 @@ export function OrganiserField(props: {
     coOrganisers?: string[];
     inherit?: boolean;
 }) {
-    const team = createAsync(() => getTeam());
-    const members = createAsync(() => getMembers());
+    const team = getTeam.use(() => []);
+    const members = getMembers.use(() => []);
     const choices = () =>
         [
             ...new Map(

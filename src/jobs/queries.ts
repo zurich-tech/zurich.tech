@@ -1,21 +1,17 @@
-import { query } from "@solidjs/router";
+import { publicQuery } from "../data/query";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
-import { publicClient } from "../auth/convex";
 
 /** Public job fields. */
 export type Job = FunctionReturnType<typeof api.jobs.jobs.list>[number];
 
-/** Approved public vacancies. */
-export const getJobs = query(
-    async (organisationId?: Id<"organisations">) =>
-        await publicClient().query(api.jobs.jobs.list, { organisationId }),
+/** Read approved public vacancies. */
+export const getJobs = publicQuery(
+    api.jobs.jobs.list,
     "jobs",
+    (organisationId?: Id<"organisations">) => (organisationId ? { organisationId } : {}),
 );
 
-/** An approved public vacancy. */
-export const getJob = query(
-    async (slug: string) => await publicClient().query(api.jobs.jobs.detail, { slug }),
-    "job",
-);
+/** Read an approved public vacancy. */
+export const getJob = publicQuery(api.jobs.jobs.detail, "job", (slug: string) => ({ slug }));

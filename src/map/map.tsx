@@ -1,6 +1,5 @@
 import { FilterPills } from "../components/filter-pills";
 import { organisationKinds } from "../../convex/organisations/kinds";
-import { createAsync } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, onMount, onCleanup, Show, For } from "solid-js";
 import { Dynamic, render } from "solid-js/web";
 import type { Map as GeographicMap, Marker, StyleSpecification } from "maplibre-gl";
@@ -74,7 +73,7 @@ export function CommunityMap(props: {
     /** Hide organisation markers on inner-page banners. */
     isDecorative?: boolean;
 }) {
-    const organisations = createAsync(() => (props.isDecorative ? Promise.resolve([]) : getMap()));
+    const organisations = getMap.use(() => (props.isDecorative ? undefined : []));
     const [instance, setInstance] = createSignal<{ map: GeographicMap; Marker: typeof Marker }>();
     const [zoom, setZoom] = createSignal(12);
     const [error, setError] = createSignal(false);

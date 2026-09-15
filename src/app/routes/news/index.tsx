@@ -1,7 +1,6 @@
 import { getArticles } from "../../../news/queries";
-import { createAsync, useSearchParams } from "@solidjs/router";
+import { useSearchParams } from "@solidjs/router";
 
-import { Tags } from "../../../news/tags";
 import { ArticleList } from "../../../news/article";
 import { Page } from "../../page";
 import { Seo } from "../../seo";
@@ -16,13 +15,16 @@ export default function Route() {
     const [params] = useSearchParams();
 
     // articles
-    const articles = createAsync(() => getArticles(), { deferStream: true });
+    const articles = getArticles.use(() => []);
 
     return (
         <>
-            <Seo title="News" description="zurich.tech news." />
+            <Seo
+                title="News"
+                description="Startup funding, technology and community news from Zurich."
+            />
             <Page>
-                <div class="listing-layout">
+                <div class="news-page">
                     {/* articles */}
                     <ArticleList
                         articles={articles() ?? []}
@@ -30,12 +32,6 @@ export default function Route() {
                         isSearchable
                         isPage
                     />
-                    <aside class="listing-sidebar">
-                        <Tags
-                            articles={articles() ?? []}
-                            selected={typeof params.tag === "string" ? params.tag : undefined}
-                        />
-                    </aside>
                 </div>
             </Page>
         </>

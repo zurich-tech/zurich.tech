@@ -1,6 +1,6 @@
 import { getHandle, type PublicHandle } from "../../members/queries";
 import { Card } from "../../components/card";
-import { createAsync, useParams } from "@solidjs/router";
+import { useParams } from "@solidjs/router";
 import { Match, Show, Switch } from "solid-js";
 
 import { Button } from "../../components/button";
@@ -24,7 +24,7 @@ export default function Route() {
 /** Handle target lookup and profile shortcut. */
 function HandleTarget(props: { handle: string }) {
     // handle
-    const handle = createAsync(() => getHandle(props.handle), { deferStream: true });
+    const handle = getHandle.use(() => [props.handle]);
     const member = () => memberHandle(handle());
     const title = () => member()?.title ?? `@${props.handle}`;
 

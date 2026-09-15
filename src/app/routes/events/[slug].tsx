@@ -18,12 +18,12 @@ import { Image } from "../../../components/image";
 import { CalendarButton } from "../../../events/calendar-button";
 import { Share } from "../../../components/share";
 import { site, timeZone } from "../../site";
-import { getEvent, useConfirmationRefresh, type PublicEvent } from "../../../events/queries";
+import { getEvent, type PublicEvent } from "../../../events/queries";
 
 import { Card } from "../../../components/card";
 import { isCurrentYear } from "../../../events/time";
 import { Arrow } from "../../../components/arrow";
-import { createAsync, useParams, revalidate } from "@solidjs/router";
+import { useParams, revalidate } from "@solidjs/router";
 import {
     startTransition,
     For,
@@ -62,12 +62,8 @@ export default function Route() {
     const slug = () => routeParam("slug", params.slug);
 
     // event
-    const event = createAsync(() => getEvent(slug()), { deferStream: true });
+    const event = getEvent.use(() => [slug()]);
     const title = () => event()?.title ?? slug();
-    useConfirmationRefresh(
-        () => !!event() && event()!.status === "scheduled" && isTentative(event()!),
-        () => revalidate(getEvent.key),
-    );
 
     const registrationKey = () => (account.user() ? `${account.user()!.id}:${slug()}` : undefined);
     const [registration, { refetch: refreshRegistration }] = createResource(

@@ -1,7 +1,6 @@
 import { PersonalSponsors } from "./members";
 import { Image } from "../components/image";
 import { getSponsors } from "./queries";
-import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
 
 import { tiers } from "./plans";
@@ -13,7 +12,7 @@ export function Sponsors(props: {
     /** Show existing supporters across the sponsor page without recruitment links. */
     isFullPage?: boolean;
 }) {
-    const sponsors = createAsync(() => getSponsors());
+    const sponsors = getSponsors.use(() => []);
 
     return (
         <Card

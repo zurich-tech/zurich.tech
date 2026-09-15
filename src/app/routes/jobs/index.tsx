@@ -4,7 +4,6 @@ import { EditLink } from "../../../auth/edit";
 import { pageSize } from "../../site";
 import { getJobs } from "../../../jobs/queries";
 
-import { createAsync } from "@solidjs/router";
 import { createSignal, createMemo, createEffect, on, For, Show } from "solid-js";
 
 import { Arrow } from "../../../components/arrow";
@@ -25,7 +24,7 @@ export const route = {
 /** Browse current, reviewed local vacancies. */
 export default function Route() {
     // load approved jobs and retain the selected filters
-    const jobs = createAsync(() => getJobs(), { deferStream: true });
+    const jobs = getJobs.use(() => []);
     const { query: search, setQuery: setSearch, terms } = useSearch();
     const [workplace, setWorkplace] = createSignal("all");
     const [employment, setEmployment] = createSignal("all");

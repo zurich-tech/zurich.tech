@@ -1,5 +1,5 @@
 import { createResource, Show } from "solid-js";
-import { useSearchParams } from "@solidjs/router";
+import { useSearchParams, useLocation } from "@solidjs/router";
 import { useAccount } from "../../../auth";
 import { memberClient } from "../../../auth/convex";
 import { api } from "../../../../convex/_generated/api";
@@ -13,6 +13,7 @@ import { errorMessage } from "../../../components/errors";
 /** Enforce team access before loading drafts or rendering editing controls. */
 export default function Route() {
     const account = useAccount();
+    const location = useLocation();
     const [params] = useSearchParams();
     const editorKey = () =>
         typeof params.id === "string" ? params.id : `new:${params.kind ?? "post"}`;
@@ -36,7 +37,10 @@ export default function Route() {
                 </Show>
                 <Show when={!account.isPending() && !account.user()}>
                     <Card title="News">
-                        <a class="button" href="/sign-in?next=%2Fnews%2Fedit">
+                        <a
+                            class="button"
+                            href={`/sign-in?next=${encodeURIComponent(location.pathname + location.search)}`}
+                        >
                             Sign in
                         </a>
                     </Card>

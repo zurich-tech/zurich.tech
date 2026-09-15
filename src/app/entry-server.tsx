@@ -5,7 +5,8 @@ import type { JSX } from "solid-js";
 
 import { themeInitializer } from "./theme";
 
-export default createHandler(() => <StartServer document={Document} />);
+// Send completed HTML so the initial page does not depend on streamed reveal scripts.
+export default createHandler(() => <StartServer document={Document} />, { mode: "async" });
 
 /** Render the shared HTML document for a server request. */
 function Document(props: { assets: JSX.Element; children?: JSX.Element; scripts: JSX.Element }) {

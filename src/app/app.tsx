@@ -1,3 +1,4 @@
+import { PublicProvider } from "../data/context";
 import { CatalogueProvider } from "../search/catalogue";
 import { CommandProvider } from "../search/actions";
 import { AccessProvider } from "../auth/edit";
@@ -32,55 +33,60 @@ export default function App() {
                 return (
                     <MetaProvider>
                         <AccessProvider>
-                            <CatalogueProvider>
-                                <CommandProvider>
-                                    <Shell>
-                                        <ConfirmationProvider>
-                                            <ErrorBoundary
-                                                fallback={(error, reset) => {
-                                                    console.error("Could not load page.", error);
-                                                    return (
-                                                        <Page>
-                                                            <Card
-                                                                title="Could not load this page"
-                                                                heading="h1"
-                                                            >
-                                                                <p role="alert">
-                                                                    Please try again.
-                                                                </p>
-                                                                <div class="row-actions">
-                                                                    <button
-                                                                        class="button"
-                                                                        onClick={reset}
-                                                                    >
-                                                                        Try again
-                                                                    </button>
-                                                                    <a
-                                                                        class="button"
-                                                                        href="/events"
-                                                                    >
-                                                                        View events
-                                                                    </a>
-                                                                </div>
-                                                            </Card>
-                                                        </Page>
-                                                    );
-                                                }}
-                                            >
-                                                <Suspense
-                                                    fallback={
-                                                        <Page>
-                                                            <Loading />
-                                                        </Page>
-                                                    }
+                            <PublicProvider>
+                                <CatalogueProvider>
+                                    <CommandProvider>
+                                        <Shell>
+                                            <ConfirmationProvider>
+                                                <ErrorBoundary
+                                                    fallback={(error, reset) => {
+                                                        console.error(
+                                                            "Could not load page.",
+                                                            error,
+                                                        );
+                                                        return (
+                                                            <Page>
+                                                                <Card
+                                                                    title="Could not load this page"
+                                                                    heading="h1"
+                                                                >
+                                                                    <p role="alert">
+                                                                        Please try again.
+                                                                    </p>
+                                                                    <div class="row-actions">
+                                                                        <button
+                                                                            class="button"
+                                                                            onClick={reset}
+                                                                        >
+                                                                            Try again
+                                                                        </button>
+                                                                        <a
+                                                                            class="button"
+                                                                            href="/events"
+                                                                        >
+                                                                            View events
+                                                                        </a>
+                                                                    </div>
+                                                                </Card>
+                                                            </Page>
+                                                        );
+                                                    }}
                                                 >
-                                                    {props.children}
-                                                </Suspense>
-                                            </ErrorBoundary>
-                                        </ConfirmationProvider>
-                                    </Shell>
-                                </CommandProvider>
-                            </CatalogueProvider>
+                                                    <Suspense
+                                                        fallback={
+                                                            <Page>
+                                                                <Loading />
+                                                            </Page>
+                                                        }
+                                                    >
+                                                        {props.children}
+                                                    </Suspense>
+                                                </ErrorBoundary>
+                                            </ConfirmationProvider>
+                                        </Shell>
+                                    </CommandProvider>
+                                </CatalogueProvider>
+                            </PublicProvider>
                         </AccessProvider>
                     </MetaProvider>
                 );

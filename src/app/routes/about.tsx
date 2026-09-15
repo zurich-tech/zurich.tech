@@ -2,7 +2,6 @@ import { Affiliations } from "../../members/affiliations";
 import { Sponsors } from "../../sponsorships/sponsors";
 import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 import { EditLink } from "../../auth/edit";
-import { createAsync } from "@solidjs/router";
 import { getTeam } from "../../members/queries";
 import { For } from "solid-js";
 import { Card } from "../../components/card";
@@ -18,7 +17,7 @@ export const route = {
 
 /** Introduce the people behind zurich.tech. */
 export default function Route() {
-    const team = createAsync(() => getTeam());
+    const team = getTeam.use(() => []);
     return (
         <>
             <Seo

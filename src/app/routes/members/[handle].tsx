@@ -4,7 +4,7 @@ import { getMember } from "../../../members/queries";
 import { type CalendarEntry } from "../../../events/queries";
 import { Avatar } from "../../../components/avatar";
 import { Card } from "../../../components/card";
-import { createAsync, useParams } from "@solidjs/router";
+import { useParams } from "@solidjs/router";
 import { Match, Show, Switch } from "solid-js";
 
 import { EventList } from "../../../events/list";
@@ -29,7 +29,7 @@ export default function Route() {
     const handle = () => routeParam("handle", params.handle);
 
     // member
-    const member = createAsync(() => getMember(handle()), { deferStream: true });
+    const member = getMember.use(() => [handle()]);
     const title = () => member()?.name ?? `@${handle()}`;
 
     return (
@@ -91,7 +91,7 @@ export default function Route() {
 
 /** Events hosted by the member. */
 function HostedEvents(props: { events: CalendarEntry[] }) {
-    const directory = createAsync(() => getDirectory());
+    const directory = getDirectory.use(() => []);
 
     return (
         <Card title="Events" class="programme">

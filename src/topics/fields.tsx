@@ -1,6 +1,5 @@
 import { interestGroups, excludedInterests } from "./groups";
 import { getTopics } from "./queries";
-import { createAsync } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
 import "./topics.css";
 
@@ -12,7 +11,7 @@ export function TopicFields(props: {
     label?: string;
     onChange?: (values: string[]) => void;
 }) {
-    const topics = createAsync(() => getTopics());
+    const topics = getTopics.use(() => []);
     const [selected, setSelected] = createSignal(props.values);
     createEffect(() => setSelected(props.values));
     const update = (slug: string, checked: boolean) => {

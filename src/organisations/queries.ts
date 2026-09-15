@@ -1,11 +1,10 @@
-import { query } from "@solidjs/router";
+import { publicQuery } from "../data/query";
 
 import { api } from "../../convex/_generated/api";
 
-import { publicClient } from "../auth/convex";
-
 /** Read the public organisation and series catalogue. */
-export const getDirectory = query(
-    async () => await publicClient().query(api.organisations.queries.directory, {}),
+export const getDirectory = publicQuery(
+    api.organisations.queries.directory,
     "directory",
+    () => ({}),
 );

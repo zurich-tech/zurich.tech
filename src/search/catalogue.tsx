@@ -1,4 +1,4 @@
-import { ConvexClient } from "convex/browser";
+import { usePublicClient } from "../data/context";
 import {
     createContext,
     createMemo,
@@ -29,43 +29,38 @@ const Context = createContext<Catalogue>();
 
 /** Start one public subscription per browser application and reuse its in-memory index. */
 export function CatalogueProvider(props: { children: JSX.Element }) {
-    const [records, setRecords] = createSignal<SearchRecord[]>([]);
-    const [isReady, setReady] = createSignal(false);
-    const [error, setError] = createSignal("");
+    const connect = usePublicClient();
+    const [result, setResult] = createSignal<SearchRecord[] | Error>();
+    const records = createMemo(() => {
+        const value = result();
+        return Array.isArray(value) ? value : [];
+    });
     let reconnect = () => {};
     const index = createMemo(() => indexRecords(records()));
 
-    // This client never receives an auth token, and closes with the application root.
+    // Share the anonymous application connection and release this subscription on cleanup.
     onMount(() => {
-        const client = new ConvexClient(import.meta.env.VITE_CONVEX_URL);
+        const client = connect();
         let unsubscribe = () => {};
         reconnect = () => {
             unsubscribe();
-            setError("");
+            if (result() instanceof Error) setResult(undefined);
             unsubscribe = client.onUpdate(
                 api.search.search.catalogue,
                 {},
-                (value) => {
-                    setRecords(value);
-                    setReady(true);
-                    setError("");
-                },
-                (caught) => {
-                    setRecords([]);
-                    setReady(false);
-                    setError(caught.message);
-                },
+                (value) => setResult(value),
+                (error) => setResult(error),
             );
         };
         reconnect();
-        onCleanup(() => {
-            unsubscribe();
-            void client.close();
-        });
+        onCleanup(() => unsubscribe());
     });
     const catalogue: Catalogue = {
-        isReady,
-        error,
+        isReady: () => Array.isArray(result()),
+        error: () => {
+            const value = result();
+            return value instanceof Error ? value.message : "";
+        },
         retry: () => reconnect(),
         search: (text, kind, limit) => searchRecords(index(), text, kind, limit),
         upcoming: () =>

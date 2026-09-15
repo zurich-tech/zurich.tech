@@ -6,7 +6,6 @@ import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { getDirectory } from "../../../organisations/queries";
 import { Arrow } from "../../../components/arrow";
-import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
 
 import { TableToolbar } from "../../../components/toolbar";
@@ -21,7 +20,7 @@ export const route = {
 
 /** Discover the organisations building and gathering in Zurich. */
 export default function Route() {
-    const directory = createAsync(() => getDirectory());
+    const directory = getDirectory.use(() => []);
     const { query: search, setQuery: setSearch, terms } = useSearch();
     const matches = () =>
         directory()?.organisations.filter((item) =>

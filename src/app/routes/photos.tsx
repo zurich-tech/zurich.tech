@@ -1,4 +1,3 @@
-import { createAsync } from "@solidjs/router";
 import { Show } from "solid-js";
 import { Gallery } from "../../events/gallery";
 import { Page } from "../page";
@@ -12,7 +11,7 @@ export const route = {
 
 /** Browse photographs from the community’s events. */
 export default function Route() {
-    const albums = createAsync(() => getGallery());
+    const albums = getGallery.use(() => []);
 
     return (
         <>

@@ -13,7 +13,7 @@ import { getDirectory } from "../../organisations/queries";
 import { Arrow } from "../../components/arrow";
 import { Card } from "../../components/card";
 import { startTransition, createEffect, createResource, createSignal, For, Show } from "solid-js";
-import { useNavigate, revalidate, createAsync, useSearchParams } from "@solidjs/router";
+import { useNavigate, revalidate, useSearchParams } from "@solidjs/router";
 import type { Registration } from "../../../convex/events/fields";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
 import { api } from "../../../convex/_generated/api";
@@ -32,7 +32,7 @@ export default function Route() {
     const authority = useAccess();
     const { account } = authority;
     const [params, setParams] = useSearchParams();
-    const directory = createAsync(() => getDirectory());
+    const directory = getDirectory.use(() => []);
     const access = authority.access;
     const [workspaceResult, { refetch: refreshWorkspace }] = createResource(
         authority.key,
@@ -456,7 +456,7 @@ export default function Route() {
                                         <Show
                                             when={!isPublished()}
                                             fallback={
-                                                <p>Review changes and any emails before saving.</p>
+                                                <p>Changes appear on the event page when saved.</p>
                                             }
                                         >
                                             <label class="checkbox">
@@ -491,7 +491,7 @@ export default function Route() {
                                                     disabled={isPending()}
                                                     onClick={() => void transition("cancel")}
                                                 >
-                                                    Cancel
+                                                    Cancel event
                                                 </button>
                                             </Show>
                                         </Show>

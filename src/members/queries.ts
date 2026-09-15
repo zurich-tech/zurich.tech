@@ -1,8 +1,7 @@
-import { query } from "@solidjs/router";
+import { publicQuery } from "../data/query";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
 
-import { publicClient } from "../auth/convex";
 import type { CalendarEntry } from "../events/queries";
 
 /** One public member with optional profile records. */
@@ -17,25 +16,17 @@ export type PublicMember = FunctionReturnType<typeof api.members.queries.members
 export type PublicHandle = NonNullable<FunctionReturnType<typeof api.members.queries.handle>>;
 
 /** Read public member profiles. */
-export const getMembers = query(
-    async () => await publicClient().query(api.members.queries.membersList, {}),
-    "members",
-);
+export const getMembers = publicQuery(api.members.queries.membersList, "members", () => ({}));
 
 /** Read one public member profile. */
-export const getMember = query(
-    async (handle: string) => await publicClient().query(api.members.queries.member, { handle }),
-    "member",
-);
+export const getMember = publicQuery(api.members.queries.member, "member", (handle: string) => ({
+    handle,
+}));
 
 /** Resolve one public handle. */
-export const getHandle = query(
-    async (handle: string) => await publicClient().query(api.members.queries.handle, { handle }),
-    "handle",
-);
+export const getHandle = publicQuery(api.members.queries.handle, "handle", (handle: string) => ({
+    handle,
+}));
 
-/** Curated team profiles and their community roles. */
-export const getTeam = query(
-    async () => await publicClient().query(api.members.team.list, {}),
-    "team",
-);
+/** Read curated team profiles and their community roles. */
+export const getTeam = publicQuery(api.members.team.list, "team", () => ({}));
