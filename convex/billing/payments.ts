@@ -1,3 +1,4 @@
+import { refreshRecognition } from "../sponsorships/recognition";
 import { query } from "../_generated/server";
 import { requireAccount } from "../auth/access";
 import type { MutationCtx, QueryCtx } from "../_generated/server";
@@ -87,7 +88,10 @@ export async function recordPayment(
         .unique();
     if (existing) throw new Error("This payment has already been recorded.");
 
-    return await ctx.db.insert("payments", { ...payment, reference });
+    const id = await ctx.db.insert("payments", { ...payment, reference });
+    const sponsorshipId = ctx.db.normalizeId("sponsorships", payment.subjectId);
+    if (sponsorshipId) await refreshRecognition(ctx, sponsorshipId);
+    return id;
 }
 
 /** Advance by calendar months, clamping to the last day of the target month. */

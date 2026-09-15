@@ -1,36 +1,15 @@
-import { expect, test, mock } from "bun:test";
-import { convexTest } from "convex-test";
-import type { GenericQueryCtx, GenericDataModel } from "convex/server";
-import schema from "../convex/schema";
-import { api } from "../convex/_generated/api";
-
-mock.module("../convex/auth/component", () => ({
-    authComponent: {
-        getAuthUser: async (ctx: GenericQueryCtx<GenericDataModel>) => {
-            const identity = await ctx.auth.getUserIdentity();
-            if (!identity) throw new Error("Sign in required.");
-            return { _id: identity.subject, email: "test@example.invalid", emailVerified: true };
-        },
-    },
-}));
-const modules = Object.fromEntries(
-    [...new Bun.Glob("**/*.ts").scanSync({ cwd: "convex" })].map((path) => [
-        `../convex/${path}`,
-        () => import(`../convex/${path}`),
-    ]),
-);
+import { convexTest, schema, modules, member } from "./backend";
+import { expect, test, setSystemTime } from "bun:test";
+import { api, internal } from "../convex/_generated/api";
 
 /** Create a company request and an authenticated administrator. */
 async function setup() {
     const backend = convexTest(schema, modules);
     const ids = await backend.run(async (ctx) => {
-        const memberId = await ctx.db.insert("members", {
+        const memberId = await member(ctx, {
             name: "Admin",
-            status: "active",
             searchText: "admin",
             visibility: "private",
-            createdAt: 1,
-            updatedAt: 1,
         });
         await ctx.db.insert("accounts", {
             authId: "admin",
@@ -186,4 +165,98 @@ test("test_require_admin_and_validate_money_dates_and_invoice_identity", async (
             amount: -1,
         }),
     ).rejects.toThrow("Enter a positive CHF amount with at most two decimals.");
+});
+
+/** Date transitions follow current terms, including replacements made before a queued task. */
+test("recognition activates and expires through scheduled agreement transitions", async () => {
+    const now = Date.UTC(2026, 8, 15);
+    setSystemTime(now);
+    try {
+        const { backend, admin, terms } = await setup();
+        const id = await admin.mutation(api.sponsorships.terms.agree, {
+            ...terms,
+            startsAt: now + 2000,
+            publishedAt: now + 1000,
+            endsAt: now + 3000,
+        });
+        const read = () => backend.query(api.sponsorships.organisations.list, {});
+        expect(await read()).toEqual([]);
+        const tasks = await backend.run((ctx) =>
+            ctx.db.system.query("_scheduled_functions").collect(),
+        );
+        expect(tasks.map((task) => task.scheduledTime)).toEqual([now + 1000]);
+        setSystemTime(now + 1000);
+        await backend.mutation(internal.sponsorships.recognition.advance, {
+            id: terms.sponsorshipId,
+            at: now + 1000,
+        });
+        expect((await read()).map((sponsor) => sponsor.tier)).toEqual(["bronze"]);
+        await admin.mutation(api.sponsorships.terms.agree, {
+            ...terms,
+            replacesId: id,
+            tier: "silver",
+            startsAt: now + 2000,
+            publishedAt: now + 1000,
+            endsAt: now + 5000,
+        });
+        setSystemTime(now + 3000);
+        await backend.mutation(internal.sponsorships.recognition.advance, {
+            id: terms.sponsorshipId,
+            at: now + 2000,
+        });
+        await backend.mutation(internal.sponsorships.recognition.advance, {
+            id: terms.sponsorshipId,
+            at: now + 3000,
+        });
+        expect((await read()).map((sponsor) => sponsor.tier)).toEqual(["silver"]);
+        setSystemTime(now + 5000);
+        await backend.mutation(internal.sponsorships.recognition.advance, {
+            id: terms.sponsorshipId,
+            at: now + 5000,
+        });
+        expect(await read()).toEqual([]);
+        expect(
+            (await backend.run((ctx) => ctx.db.get(terms.sponsorshipId)))?.recognitionAt,
+        ).toBeUndefined();
+    } finally {
+        setSystemTime();
+    }
+});
+
+/** Paid personal support expires without an unrelated database write. */
+test("personal recognition schedules the end of paid coverage", async () => {
+    const now = Date.UTC(2026, 8, 15);
+    setSystemTime(now);
+    try {
+        const { backend, ids } = await setup();
+        const { recordPayment } = await import("../convex/billing/payments");
+        const id = await backend.run(async (ctx) => {
+            const id = await ctx.db.insert("sponsorships", {
+                memberId: ids.memberId,
+                tier: "friend",
+                status: "active",
+                isPublic: true,
+                createdAt: now,
+                updatedAt: now,
+            });
+            await recordPayment(ctx, {
+                subjectId: id,
+                name: "Support",
+                amount: 100,
+                paidAt: now,
+                reference: "personal",
+            });
+            return id;
+        });
+        expect(
+            (await backend.query(api.sponsorships.members.list, {})).map((member) => member.tier),
+        ).toEqual(["friend"]);
+        const endsAt = (await backend.run((ctx) => ctx.db.get(id)))!.recognitionAt!;
+        expect(endsAt).toBe(Date.UTC(2027, 8, 15));
+        setSystemTime(endsAt);
+        await backend.mutation(internal.sponsorships.recognition.advance, { id, at: endsAt });
+        expect(await backend.query(api.sponsorships.members.list, {})).toEqual([]);
+    } finally {
+        setSystemTime();
+    }
 });

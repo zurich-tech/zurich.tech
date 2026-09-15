@@ -5,6 +5,7 @@ import { tier, personalTier } from "../billing/purchases";
 
 /** Recognition and contribution terms shared by every sponsor. */
 const agreement = {
+    recognitionAt: v.optional(v.number()),
     billingEmail: v.optional(v.string()),
     isRenewalRequested: v.optional(v.boolean()),
     status: v.union(
@@ -22,8 +23,18 @@ const agreement = {
 /** A member selects personal support; an organisation selects a company package. */
 export const sponsorships = defineTable(
     v.union(
-        v.object({ ...agreement, organisationId: v.id("organisations"), tier }),
-        v.object({ ...agreement, memberId: v.id("members"), tier: personalTier }),
+        v.object({
+            ...agreement,
+            organisationId: v.id("organisations"),
+            tier,
+            recognition: v.optional(tier),
+        }),
+        v.object({
+            ...agreement,
+            memberId: v.id("members"),
+            tier: personalTier,
+            recognition: v.optional(personalTier),
+        }),
     ),
 )
     .index("by_organisation", ["organisationId"])

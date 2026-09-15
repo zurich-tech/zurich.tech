@@ -15,11 +15,12 @@ export const list = query({
             rows
                 .filter(
                     (row): row is Extract<Doc<"sponsorships">, { memberId: unknown }> =>
-                        "memberId" in row && row.isPublic,
+                        "memberId" in row &&
+                        row.isPublic &&
+                        row.status === "active" &&
+                        row.recognition === "friend",
                 )
                 .map(async (row) => {
-                    const term = await paidTerm(ctx, row._id);
-                    if (!term || term.endsAt <= Date.now()) return null;
                     const member = await ctx.db.get(row.memberId);
                     if (!member) throw new Error("Sponsor member is missing.");
 

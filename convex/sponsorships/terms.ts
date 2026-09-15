@@ -1,3 +1,4 @@
+import { refreshRecognition } from "./recognition";
 import { contribution } from "./contributions";
 import { v } from "convex/values";
 import type { Doc, Id } from "../_generated/dataModel";
@@ -138,6 +139,7 @@ export async function agreeTerm(
         updatedAt: now,
     });
 
+    await refreshRecognition(ctx, sponsor._id);
     return id;
 }
 
@@ -158,5 +160,6 @@ export const end = mutation({
             endReason: args.reason.trim(),
             endedRecordedAt: Date.now(),
         });
+        await refreshRecognition(ctx, term.sponsorshipId);
     },
 });

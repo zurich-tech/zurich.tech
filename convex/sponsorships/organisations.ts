@@ -103,28 +103,14 @@ export const updateRequest = mutation({
 
 /** Resolve sponsor identities for both the website and newsletter. */
 export async function activeSponsors(ctx: Pick<QueryCtx, "db">) {
-    // select public recognition from agreed publication dates
-    const now = Date.now();
     const rows = await ctx.db
         .query("sponsorships")
         .withIndex("by_status", (q) => q.eq("status", "active"))
         .collect();
-    const terms = await Promise.all(
-        rows.map(async (row) => ({
-            row,
-            term:
-                "organisationId" in row
-                    ? selectTerm(await readTerms(ctx, row._id), now, true)
-                    : null,
-        })),
+    const active = rows.filter(
+        (row): row is Extract<Doc<"sponsorships">, { organisationId: unknown }> =>
+            "organisationId" in row && row.isPublic && row.recognition !== undefined,
     );
-    const active = terms
-        .filter(({ term }) => term && term.endsAt > now)
-        .map(({ row, term }) => ({ ...row, tier: term!.tier }))
-        .filter(
-            (row): row is Extract<Doc<"sponsorships">, { organisationId: unknown }> =>
-                "organisationId" in row && row.isPublic,
-        );
 
     return await Promise.all(
         active.map(async (row) => {
@@ -134,7 +120,7 @@ export async function activeSponsors(ctx: Pick<QueryCtx, "db">) {
             return {
                 id: row._id,
                 organisationId: row.organisationId,
-                tier: row.tier,
+                tier: row.recognition!,
                 name: organisation.name,
                 website: organisation.website,
                 ...(await readProfiles(ctx, organisation._id)),

@@ -1,3 +1,4 @@
+import { refreshRecognition } from "../sponsorships/recognition";
 import { jobExpiry, jobStatus } from "../jobs/jobs";
 import { v } from "convex/values";
 import { internalMutation, query, type MutationCtx } from "../_generated/server";
@@ -235,6 +236,8 @@ export const refund = internalMutation({
         if (!payment) throw new Error("Refunded payment is missing.");
         // void the payment and mark checkout refunded atomically
         await ctx.db.patch(payment._id, { refundedAt: Date.now() });
+        const sponsorshipId = ctx.db.normalizeId("sponsorships", payment.subjectId);
+        if (sponsorshipId) await refreshRecognition(ctx, sponsorshipId);
         await ctx.db.patch(checkout._id, { status: "refunded" });
     },
 });
