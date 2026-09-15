@@ -5,6 +5,7 @@ import { api } from "../convex/_generated/api";
 import type { Job } from "../convex/jobs/fields";
 import { normalizeJob } from "../convex/jobs/validation";
 import { applicationHref, rangeLabel, salaryLabel } from "../src/jobs/format";
+import { newsletterEdition } from "../convex/mail/templates";
 
 /** Exercise employer editing, admin publication and shared public eligibility. */
 async function setup() {
@@ -149,6 +150,19 @@ test("keep employer revisions private until admin approval and omit billing from
     expect((await backend.query(api.jobs.jobs.detail, { slug: job.slug }))?.summary).toBe(
         "New summary",
     );
+    const publicJobs = await backend.query(api.jobs.jobs.list, {});
+    const previous = process.env.SITE_URL;
+    process.env.SITE_URL = "https://example.com";
+    let email;
+    try {
+        email = newsletterEdition([], [], publicJobs);
+    } finally {
+        if (previous === undefined) delete process.env.SITE_URL;
+        else process.env.SITE_URL = previous;
+    }
+    expect(email.text).toContain("New summary");
+    expect(email.html).toContain("/jobs/engineer");
+    expect(email.text).not.toContain("billing@example.com");
 });
 
 test("reuse closed and stale sponsor slots without overbooking on reconfirmation", async () => {

@@ -1,3 +1,4 @@
+import { openJobs } from "../jobs/jobs";
 import { select } from "./audiences";
 import { recipientsLocked } from "./policy";
 import type { Doc } from "../_generated/dataModel";
@@ -32,9 +33,12 @@ export const preview = query({
         // include only the sponsor placements promised by each tier
         const sponsors = await activeSponsors(ctx);
 
+        const jobs = await openJobs(ctx);
         return {
+            jobs: jobs.length,
             isPaused: (await ctx.db.query("mailSchedules").unique())?.isPaused ?? true,
-            html: newsletterEmail(newsletterEdition(digestEvents(entries, now), sponsors)).html,
+            html: newsletterEmail(newsletterEdition(digestEvents(entries, now), sponsors, jobs))
+                .html,
             events: digestEvents(entries, now),
             subscribers: subscribers.recipients.length,
         };
@@ -94,11 +98,12 @@ export const tick = internalMutation({
             )
             .collect();
         const selected = digestEvents(entries, now.getTime());
-        if (selected.length === 0) return;
+        const jobs = await openJobs(ctx);
+        if (selected.length === 0 && jobs.length === 0) return;
 
         // include only the sponsor placements promised by each tier
         const sponsors = await activeSponsors(ctx);
-        const edition = newsletterEdition(selected, sponsors);
+        const edition = newsletterEdition(selected, sponsors, jobs);
 
         // queue bounded batches rather than one scheduled job per subscriber here
         await ctx.scheduler.runAfter(0, internal.mail.newsletter.queue, {

@@ -1,3 +1,6 @@
+import { locationsLabel } from "../../src/jobs/format";
+import type { openJobs } from "../jobs/jobs";
+import { salaryLabel } from "../../src/jobs/format";
 import { isTentative } from "../events/conditions";
 import type { Recurrence } from "../events/recurrence";
 import type { AddressAccess } from "../events/fields";
@@ -205,6 +208,7 @@ export function verificationEmail(url: string, event?: Event) {
 export function newsletterEdition(
     entries: Event[],
     sponsors: Awaited<ReturnType<typeof activeSponsors>>,
+    jobs: Awaited<ReturnType<typeof openJobs>> = [],
 ) {
     // Keep addresses and external address instructions on the event page.
     const listings = entries.map((entry) => ({
@@ -242,10 +246,34 @@ export function newsletterEdition(
             ];
         });
 
+    // include only eligible jobs, linking to their complete public listing
+    const vacancies = jobs.map((job) => {
+        const url = `${siteOrigin()}/jobs/${job.slug}`;
+        const details = [
+            job.company.name,
+            locationsLabel(job.locations),
+            job.compensation?.salary ? salaryLabel(job.compensation.salary) : undefined,
+        ]
+            .filter(Boolean)
+            .join(" · ");
+        return {
+            html: `<div style="padding:16px 0;border-bottom:1px solid #d5d9df"><h3 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a style="color:#174ed8;text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(details)}</p>${paragraph(job.summary)}</div>`,
+            text: `${job.title}\n${details}\n${job.summary}\n${url}`,
+        };
+    });
+
     return {
-        html: events + recognition.map((section) => section.html).join(""),
+        html:
+            (events
+                ? `<h2 style="font-size:18px;margin:20px 0 0">Upcoming events</h2>${events}`
+                : "") +
+            (vacancies.length
+                ? `<h2 style="font-size:18px;margin:20px 0 0">Jobs</h2>${vacancies.map((job) => job.html).join("")}`
+                : "") +
+            recognition.map((section) => section.html).join(""),
         text: [
             ...listings.map((entry) => eventText(entry, true)),
+            ...vacancies.map((job) => job.text),
             ...recognition.map((section) => section.text),
         ].join("\n\n"),
     };
@@ -258,12 +286,12 @@ export function newsletterEmail(edition: { text: string; html: string }, unsubsc
     return {
         subject: "This week at zurich.tech",
         text: [
-            "Upcoming events",
+            "This week at zurich.tech",
             edition.text,
             ...links.map((link) => `${link.label}: ${link.url}`),
             `Legal: ${siteOrigin()}/legal`,
         ].join("\n\n"),
-        html: layout({ title: "Upcoming events", body: edition.html, links }),
+        html: layout({ title: "This week at zurich.tech", body: edition.html, links }),
     };
 }
 

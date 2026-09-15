@@ -88,7 +88,9 @@ export function NewsletterSchedule() {
                             </div>
                             <div>
                                 <dt>Next edition</dt>
-                                <dd>{value().events.length} events</dd>
+                                <dd>
+                                    {value().events.length} events · {value().jobs} jobs
+                                </dd>
                                 <span>Empty weeks are skipped</span>
                             </div>
                         </dl>
