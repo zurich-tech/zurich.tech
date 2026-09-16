@@ -56,18 +56,6 @@
     font-weight: 600;
 }
 
-.checkin-result {
-    padding: 12px 16px;
-    margin-block: 16px;
-    border: 1px solid #42a878;
-    color: #42a878;
-    font-weight: 600;
-}
-.checkin-result--error {
-    border-color: #d76464;
-    color: #d76464;
-}
-
 @media (max-width: 700px) {
     .registration-layout {
         display: flex;

@@ -74,6 +74,17 @@ export function SeriesAdmin() {
             class={!selected() ? "admin-table-card" : undefined}
             toolbar={
                 <>
+                    <Show when={selected() || access.current()?.isAdmin}>
+                        <button
+                            class="action-link"
+                            onClick={async () => {
+                                if (!(await leaveEditor(formId))) return;
+                                setSelected(selected() ? undefined : "new");
+                            }}
+                        >
+                            {selected() ? "Back" : "New series"}
+                        </button>
+                    </Show>
                     <Show
                         when={
                             editing() && access.canSeries(selected(), "organiser")
@@ -134,17 +145,6 @@ export function SeriesAdmin() {
                             disabled={isPending()}
                         >
                             {isPending() ? "Saving…" : "Save"}
-                        </button>
-                    </Show>
-                    <Show when={selected() || access.current()?.isAdmin}>
-                        <button
-                            class="action-link"
-                            onClick={async () => {
-                                if (!(await leaveEditor(formId))) return;
-                                setSelected(selected() ? undefined : "new");
-                            }}
-                        >
-                            {selected() ? "Back" : "New series"}
                         </button>
                     </Show>
                 </>

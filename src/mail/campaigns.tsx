@@ -185,6 +185,9 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                             </button>
                         }
                     >
+                        <button class="action-link" onClick={() => void select()}>
+                            Back
+                        </button>
                         <Show
                             when={
                                 selected() === "new" ||
@@ -200,9 +203,6 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                 Save
                             </button>
                         </Show>
-                        <button class="button" onClick={() => void select()}>
-                            Back
-                        </button>
                     </Show>
                 </>
             }

@@ -116,6 +116,17 @@ export function Schedules(props: { workspace: EventWorkspace }) {
             title={selected() === "new" ? "New schedule" : item() ? "Edit schedule" : "Schedules"}
             toolbar={
                 <>
+                    <button
+                        class="action-link"
+                        onClick={() =>
+                            setParams({
+                                schedule: selected() ? undefined : "new",
+                                source: undefined,
+                            })
+                        }
+                    >
+                        {selected() ? "Back" : "New schedule"}
+                    </button>
                     <Show when={item()}>
                         {(schedule) => (
                             <DeleteRecord
@@ -138,17 +149,6 @@ export function Schedules(props: { workspace: EventWorkspace }) {
                             {command.isPending() ? "Saving…" : "Save"}
                         </button>
                     </Show>
-                    <button
-                        class="action-link"
-                        onClick={() =>
-                            setParams({
-                                schedule: selected() ? undefined : "new",
-                                source: undefined,
-                            })
-                        }
-                    >
-                        {selected() ? "Back" : "New schedule"}
-                    </button>
                 </>
             }
         >

@@ -1,6 +1,5 @@
 import { useConfirmation } from "../components/dialog";
 import { FilterPills } from "../components/filter-pills";
-import { confirmEvent } from "./actions";
 import { Empty } from "../components/empty";
 import { Card } from "../components/card";
 import { For, Show, createSignal } from "solid-js";
@@ -79,7 +78,7 @@ export function Attendees(props: {
     );
 }
 
-/** Show the selected event’s attendees and cancellation controls. */
+/** Show the selected event’s attendees and registration controls. */
 function AttendeeTable(props: {
     /** Event and attendee records. */
     list: AttendeeList;
@@ -90,7 +89,6 @@ function AttendeeTable(props: {
     /** Run a command and refresh its visible result. */
     perform: Perform;
 }) {
-    const confirm = useConfirmation();
     const [search, setSearch] = createSignal("");
     const [status, setStatus] = createSignal("all");
     const hasAnswers = () => props.list.rows.some((row) => row.answers?.some(Boolean));
@@ -110,6 +108,14 @@ function AttendeeTable(props: {
                     <a class="action-link" href="/admin">
                         Back
                     </a>
+                    <Show when={props.list.event.checkIn?.isEnabled}>
+                        <a class="action-link" href={`/checkin?event=${props.list.event._id}`}>
+                            Check in
+                        </a>
+                    </Show>
+                    <a class="action-link" href={`/feedback?event=${props.list.event._id}`}>
+                        Feedback
+                    </a>
                     <button
                         class="button"
                         disabled={!props.list.rows.length}
@@ -120,16 +126,6 @@ function AttendeeTable(props: {
                 </div>
             }
         >
-            <div class="form-actions">
-                <Show when={props.list.event.checkIn?.isEnabled}>
-                    <a class="button" href={`/checkin?event=${props.list.event._id}`}>
-                        Check in
-                    </a>
-                </Show>
-                <a class="action-link" href={`/feedback?event=${props.list.event._id}`}>
-                    Feedback
-                </a>
-            </div>
             <div class="admin-context">
                 <a href={`/events/${props.list.event.slug}`}>{props.list.event.title}</a>
             </div>
@@ -201,28 +197,6 @@ function AttendeeTable(props: {
                     </table>
                 </div>
             </Show>
-            <div class="admin-card-footer">
-                <button
-                    class="button"
-                    disabled={props.isPending || props.list.event.status === "cancelled"}
-                    onClick={() =>
-                        void props.perform(async () => {
-                            const eventId = props.list.event._id;
-                            const receipt = await confirmEvent(
-                                { eventId, action: "cancel" },
-                                "Cancel event",
-                                confirm,
-                            );
-                            if (receipt !== undefined)
-                                await (
-                                    await memberClient()
-                                ).mutation(api.events.mutations.cancel, { eventId, receipt });
-                        }, "")
-                    }
-                >
-                    Cancel
-                </button>
-            </div>
         </Card>
     );
 }

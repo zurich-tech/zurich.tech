@@ -3,6 +3,7 @@ import { revalidate } from "@solidjs/router";
 import { api } from "../../convex/_generated/api";
 import { memberClient, publicClient } from "../auth/convex";
 import { Card } from "../components/card";
+import { Loading } from "../components/loading";
 import { Editor, savedEditor, leaveEditor, FormMessage } from "../components/form";
 import { useWorkspaceCommand } from "../app/workspace";
 import { getTopics } from "./queries";
@@ -41,6 +42,7 @@ export function TopicsAdmin() {
     return (
         <Card
             title={selected() === "new" ? "New topic" : (current()?.name ?? "Topics")}
+            class={!selected() ? "admin-table-card" : undefined}
             toolbar={
                 <Show
                     when={selected()}
@@ -51,7 +53,7 @@ export function TopicsAdmin() {
                     }
                 >
                     <button
-                        class="button"
+                        class="action-link"
                         disabled={command.isPending()}
                         onClick={() => void select()}
                     >
@@ -68,19 +70,27 @@ export function TopicsAdmin() {
                 </Show>
             }
         >
-            <FormMessage error={command.error()} success={command.success()} />
+            <FormMessage
+                error={command.error() || (topics.error ? "Could not load topics." : undefined)}
+                success={command.success()}
+            />
+            <Show when={topics.loading}>
+                <Loading />
+            </Show>
             <Show
                 when={selected()}
                 fallback={
                     <>
-                        <p>Shared by events, series, news and member interests.</p>
+                        <p class="admin-context">
+                            Shared by events, series, news and member interests.
+                        </p>
                         <div class="table-scroll">
                             <table class="admin-table">
                                 <thead>
                                     <tr>
                                         <th>Topic</th>
                                         <th>Status</th>
-                                        <th />
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>

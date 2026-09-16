@@ -4,6 +4,8 @@ import { useAccount } from "../auth";
 import "./participation.css";
 import { createResource, createSignal, For, Show } from "solid-js";
 import { Card } from "../components/card";
+import { FormMessage } from "../components/form";
+import { Loading } from "../components/loading";
 import { api } from "../../convex/_generated/api";
 import { memberClient, publicClient } from "../auth/convex";
 import type { Id } from "../../convex/_generated/dataModel";
@@ -55,6 +57,7 @@ function Response(props: {
     const [comment, setComment] = createSignal(props.initial?.comment ?? "");
     const [message, setMessage] = createSignal("");
     const [pending, setPending] = createSignal(false);
+    const [isError, setIsError] = createSignal(false);
     const snapshot = () => JSON.stringify([rating(), comment()]);
     const [saved, setSaved] = createSignal(snapshot());
     useUnsavedChanges(() => snapshot() !== saved());
@@ -63,6 +66,7 @@ function Response(props: {
         const submitted = snapshot();
         setPending(true);
         setMessage("");
+        setIsError(false);
         try {
             await publicClient().mutation(api.events.feedback.save, {
                 token: props.token,
@@ -73,6 +77,7 @@ function Response(props: {
             setSaved(submitted);
             setMessage("Saved");
         } catch (error) {
+            setIsError(true);
             setMessage(errorMessage(error, "Could not save feedback."));
         } finally {
             setPending(false);
@@ -103,8 +108,11 @@ function Response(props: {
                 >
                     Save feedback
                 </button>
-                <span role="status">{message()}</span>
             </div>
+            <FormMessage
+                error={isError() ? message() || undefined : undefined}
+                success={!isError() ? message() || undefined : undefined}
+            />
         </form>
     );
 }
@@ -118,23 +126,32 @@ export function ReceivedFeedback(props: { eventId?: Id<"events"> }) {
             (await memberClient()).query(api.events.feedback.received, { eventId: props.eventId }),
     );
     return (
-        <Card title="Feedback">
+        <Card
+            title="Feedback"
+            toolbar={
+                <Show when={props.eventId && rows() && !rows.error}>
+                    <a class="action-link" href={`/admin?event=${props.eventId}`}>
+                        Attendees
+                    </a>
+                </Show>
+            }
+        >
             <Show when={!account.isPending() && !account.user()}>
                 <a class="button" href="/sign-in">
                     Sign in
                 </a>
             </Show>
             <Show when={rows.error}>
-                <p role="alert">{errorMessage(rows.error, "Could not load feedback.")}</p>
+                <FormMessage error={errorMessage(rows.error, "Could not load feedback.")} />
             </Show>
             <Show when={rows.loading}>
-                <p role="status">Loading…</p>
+                <Loading />
             </Show>
             <Show
                 when={rows()?.length}
                 fallback={
-                    <Show when={!rows.loading && !rows.error}>
-                        <p class="text-soft">No feedback yet</p>
+                    <Show when={rows() && !rows.loading && !rows.error}>
+                        <p class="text-soft">No feedback yet.</p>
                     </Show>
                 }
             >

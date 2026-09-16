@@ -1,6 +1,10 @@
 import { useAccount } from "../auth";
 import { createResource, createSignal, For, Show, onCleanup } from "solid-js";
 import { Card } from "../components/card";
+import { FormMessage } from "../components/form";
+import { FilterPills } from "../components/filter-pills";
+import { TableToolbar } from "../components/toolbar";
+import { Loading } from "../components/loading";
 import { api } from "../../convex/_generated/api";
 import { memberClient, publicClient } from "../auth/convex";
 import type { Id } from "../../convex/_generated/dataModel";
@@ -120,6 +124,7 @@ export function CheckIn(props: { eventId: Id<"events"> }) {
         )
             return;
         setPending(true);
+        setIsError(false);
         try {
             await (await memberClient()).mutation(api.events.checkin.undo, { registrationId: id });
             await refetch();
@@ -153,12 +158,17 @@ export function CheckIn(props: { eventId: Id<"events"> }) {
                 </a>
             </Show>
             <Show when={roster.error}>
-                <p role="alert">{errorMessage(roster.error, "Could not load attendees.")}</p>
+                <FormMessage error={errorMessage(roster.error, "Could not load attendees.")} />
+            </Show>
+            <Show when={roster.loading}>
+                <Loading />
             </Show>
             <Show when={roster()}>
                 {(data) => (
                     <>
-                        <a href={`/events/${data().slug}`}>{data().title}</a>
+                        <p>
+                            <a href={`/events/${data().slug}`}>{data().title}</a>
+                        </p>
                         <p>
                             <strong>{data().rows.filter((row) => row.checkedInAt).length}</strong>{" "}
                             checked in
@@ -190,37 +200,24 @@ export function CheckIn(props: { eventId: Id<"events"> }) {
                                     {isScanning() ? "Stop camera" : "Start camera"}
                                 </button>
                             </div>
-                            <Show when={message()}>
-                                <p
-                                    role="status"
-                                    class="checkin-result"
-                                    classList={{ "checkin-result--error": isError() }}
-                                >
-                                    {message()}
-                                </p>
-                            </Show>
-                            <div class="admin-filters">
-                                <input
-                                    type="search"
-                                    placeholder="Name or email"
-                                    aria-label="Search attendees"
-                                    value={search()}
-                                    onInput={(event) => setSearch(event.currentTarget.value)}
+                            <FormMessage
+                                error={isError() ? message() || undefined : undefined}
+                                success={!isError() ? message() || undefined : undefined}
+                            />
+                            <TableToolbar
+                                value={search()}
+                                onSearch={setSearch}
+                                placeholder="Search attendees…"
+                            >
+                                <FilterPills
+                                    label="Check-in status"
+                                    value={filter()}
+                                    onChange={setFilter}
+                                    options={["All", "Checked in", "Not checked in"].map(
+                                        (value) => ({ value, label: value }),
+                                    )}
                                 />
-                                <div class="filter-bar">
-                                    <For each={["All", "Checked in", "Not checked in"]}>
-                                        {(value) => (
-                                            <button
-                                                type="button"
-                                                classList={{ active: filter() === value }}
-                                                onClick={() => setFilter(value)}
-                                            >
-                                                {value}
-                                            </button>
-                                        )}
-                                    </For>
-                                </div>
-                            </div>
+                            </TableToolbar>
                             <div class="table-scroll">
                                 <table class="admin-table">
                                     <thead>
@@ -231,7 +228,16 @@ export function CheckIn(props: { eventId: Id<"events"> }) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <For each={rows()}>
+                                        <For
+                                            each={rows()}
+                                            fallback={
+                                                <tr>
+                                                    <td colSpan={3}>
+                                                        No attendees match these filters.
+                                                    </td>
+                                                </tr>
+                                            }
+                                        >
                                             {(row) => (
                                                 <tr>
                                                     <td>
