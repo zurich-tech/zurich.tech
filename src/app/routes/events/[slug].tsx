@@ -1,3 +1,4 @@
+import { PhotoUpload } from "../../../events/photo-upload";
 import { useAccess } from "../../../auth/edit";
 import { PageCommands } from "../../../search/actions";
 import { Affiliations } from "../../../members/affiliations";
@@ -561,7 +562,13 @@ export default function Route() {
                         </div>
 
                         {/* photos */}
-                        <Show when={(event()?.media.length ?? 0) > 0}>
+                        <Show
+                            when={
+                                (event()?.media.length ?? 0) > 0 ||
+                                access.current()?.isTeam ||
+                                access.canEvent(event()?.id, "organiser")
+                            }
+                        >
                             <Photos event={event()} />
                         </Show>
                     </Page>
@@ -573,6 +580,27 @@ export default function Route() {
 
 /** Event photos. */
 function Photos(props: { event: PublicEvent | null | undefined }) {
+    const access = useAccess();
+    const canManage = () =>
+        !!access.current()?.isTeam || access.canEvent(props.event?.id, "organiser");
+    const [photoError, setPhotoError] = createSignal<string>();
+    const [isRemoving, setIsRemoving] = createSignal(false);
+    async function removePhoto() {
+        const current = image();
+        if (!current || !window.confirm("Remove this photo from the event?")) return;
+        setIsRemoving(true);
+        setPhotoError(undefined);
+        try {
+            await (await memberClient()).mutation(api.events.photos.remove, { id: current.id });
+            close();
+            setPosition(0);
+            await revalidate(getEvent.keyFor(props.event!.slug));
+        } catch (caught) {
+            setPhotoError(errorMessage(caught, "Could not remove this photo."));
+        } finally {
+            setIsRemoving(false);
+        }
+    }
     const [position, setPosition] = createSignal(0);
     let dialog: HTMLDialogElement | undefined;
     const images = () => props.event?.media ?? [];
@@ -635,6 +663,15 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
 
     return (
         <Card title="Photos" id="photos">
+            <Show when={canManage() && props.event}>
+                <PhotoUpload
+                    eventId={props.event!.id}
+                    saved={async () => {
+                        await revalidate(getEvent.keyFor(props.event!.slug));
+                    }}
+                />
+            </Show>
+            <FormMessage error={photoError()} />
             {/* thumbnails */}
             <div class="event-photos">
                 <For each={images()}>
@@ -668,6 +705,16 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
                 {/* identify the album and keep dismissal easy to find */}
                 <div class="event-gallery__header">
                     <h2>{props.event?.title}</h2>
+                    <Show when={canManage()}>
+                        <button
+                            type="button"
+                            class="action-link"
+                            disabled={isRemoving()}
+                            onClick={removePhoto}
+                        >
+                            Remove photo
+                        </button>
+                    </Show>
                     <button
                         aria-label="Close gallery"
                         class="action-link"

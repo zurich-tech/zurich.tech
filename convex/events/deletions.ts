@@ -58,6 +58,10 @@ export const remove = mutation({
                             .collect();
                         for (const link of links) await ctx.db.delete(link._id);
                     }
+                    if (table === "photos" && "storageId" in row) {
+                        await ctx.storage.delete(row.storageId);
+                        await ctx.storage.delete(row.thumbnailId);
+                    }
                     await ctx.db.delete(row._id);
                 }
             }

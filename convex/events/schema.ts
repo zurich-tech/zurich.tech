@@ -197,11 +197,9 @@ export const registrations = defineTable({
     .index("by_token", ["token"]);
 
 /** Stored photos. */
-export const photos = defineTable({
+const photoFields = {
     eventId: v.id("events"),
     uploaderId: v.id("members"),
-    key: v.string(),
-    thumbnailKey: v.string(),
     status: mediaStatus,
     position: v.number(),
     width: v.number(),
@@ -210,7 +208,14 @@ export const photos = defineTable({
     caption: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),
-})
+};
+
+export const photos = defineTable(
+    v.union(
+        v.object({ ...photoFields, key: v.string(), thumbnailKey: v.string() }),
+        v.object({ ...photoFields, storageId: v.id("_storage"), thumbnailId: v.id("_storage") }),
+    ),
+)
     .index("by_event_and_position", ["eventId", "position"])
     .index("by_uploader", ["uploaderId"])
     .index("by_status", ["status"]);

@@ -1,7 +1,7 @@
 import { eventPlace, disclosePlace } from "./place";
 import { publicOrganiser, publicOrganisers, organiserIds } from "./organisers";
 import { readLinks } from "../members/links";
-import { mediaOrigin } from "./gallery";
+import { photoUrls } from "./photos";
 import { v } from "convex/values";
 import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
@@ -84,16 +84,18 @@ export const event = query({
                 .collect(),
         ]);
         // resolve public image URLs in display order
-        const images = media
-            .sort((left, right) => left.position - right.position)
-            .map((image) => ({
-                alt: image.alt ?? `Photo ${image.position + 1} from ${event.title}`,
-                caption: image.caption,
-                height: image.height,
-                thumbnailUrl: `${mediaOrigin}/${image.thumbnailKey}`,
-                url: `${mediaOrigin}/${image.key}`,
-                width: image.width,
-            }));
+        const images = await Promise.all(
+            media
+                .sort((left, right) => left.position - right.position)
+                .map(async (image) => ({
+                    id: image._id,
+                    alt: image.alt ?? `Photo ${image.position + 1} from ${event.title}`,
+                    caption: image.caption,
+                    height: image.height,
+                    ...(await photoUrls(ctx, image)),
+                    width: image.width,
+                })),
+        );
 
         const series = event.seriesId ? await ctx.db.get(event.seriesId) : null;
         const credits = await publicOrganisers(ctx, event, series);

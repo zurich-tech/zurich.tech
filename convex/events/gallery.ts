@@ -1,7 +1,5 @@
+import { photoUrls } from "./photos";
 import { query } from "../_generated/server";
-
-/** Public origin for approved event images. */
-export const mediaOrigin = "https://media.zurich.tech";
 
 /** Read approved photo previews from every photographed event. */
 export const gallery = query({
@@ -32,13 +30,15 @@ export const gallery = query({
                             timeZone: "Europe/Zurich",
                         }).format(event.startsAt),
                     ),
-                    images: images.map((image) => ({
-                        id: image._id,
-                        alt: image.alt ?? `Photo from ${event.title}`,
-                        width: image.width,
-                        height: image.height,
-                        thumbnailUrl: `${mediaOrigin}/${image.thumbnailKey}`,
-                    })),
+                    images: await Promise.all(
+                        images.map(async (image) => ({
+                            id: image._id,
+                            alt: image.alt ?? `Photo from ${event.title}`,
+                            width: image.width,
+                            height: image.height,
+                            thumbnailUrl: (await photoUrls(ctx, image)).thumbnailUrl,
+                        })),
+                    ),
                 };
             }),
         );
