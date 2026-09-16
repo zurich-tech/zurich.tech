@@ -5720,7 +5720,7 @@ a.tag:focus-visible {
 }
 .photo-upload-preview {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 16px;
     margin: 16px 0;
 }

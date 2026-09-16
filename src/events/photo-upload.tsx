@@ -128,7 +128,8 @@ export function PhotoUpload(props: { eventId: Id<"events">; saved: () => Promise
                         disabled={!!progress()}
                         onClick={publish}
                     >
-                        {progress() ?? `Publish ${selection().length} photos`}
+                        {progress() ??
+                            `Publish ${selection().length} ${selection().length === 1 ? "photo" : "photos"}`}
                     </button>
                     <button class="button" type="button" disabled={!!progress()} onClick={clear}>
                         Cancel
