@@ -4739,21 +4739,6 @@ iframe.email-preview {
     }
 }
 
-.admin-section-picker {
-    display: none;
-}
-.admin-navigation .admin-tabs {
-    gap: 8px;
-}
-.admin-navigation .admin-tabs > button {
-    font-size: 13px;
-    padding: 8px 12px;
-    min-height: 34px;
-    color: var(--color-ink);
-}
-.admin-navigation .admin-tabs > button.active {
-    color: var(--color-paper);
-}
 /* align every admin table with its card heading */
 .admin-table-card > .card-body {
     padding: 0;
@@ -5402,15 +5387,6 @@ iframe.email-preview {
         min-width: 0;
         max-width: 100%;
     }
-    .admin-navigation .admin-tabs {
-        display: none;
-    }
-    .admin-navigation .admin-section-picker {
-        display: grid;
-    }
-    .admin-tabs > button {
-        flex-shrink: 0;
-    }
 }
 @media (max-width: 420px) {
     .utility-footer nav {
@@ -5683,4 +5659,54 @@ a.tag:focus-visible {
 .company-identity:hover > strong {
     text-decoration: underline;
     text-underline-offset: 3px;
+}
+
+/* Keep all filter choices in a single native scrolling row. */
+.pill-strip {
+    --pill-edge: 28px;
+    position: relative;
+    min-width: 0;
+    max-width: 100%;
+}
+.pill-strip > .filter-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+}
+.pill-strip > .filter-pills::-webkit-scrollbar {
+    display: none;
+}
+.pill-strip > .filter-pills > :is(button, a) {
+    flex: 0 0 auto;
+    max-width: none;
+    white-space: nowrap;
+}
+.pill-strip > .filter-pills > :focus-visible {
+    outline-offset: -2px;
+}
+.pill-scroll {
+    position: absolute;
+    inset-block: 0;
+    width: var(--pill-edge);
+    min-height: 30px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: var(--color-soft);
+    font: 22px/1 var(--font-sans);
+}
+.pill-scroll--back {
+    left: 0;
+    background: linear-gradient(to right, var(--color-paper) 70%, transparent);
+}
+.pill-scroll--forward {
+    right: 0;
+    background: linear-gradient(to left, var(--color-paper) 70%, transparent);
+}
+.pill-scroll:hover {
+    color: var(--color-accent);
+}
+.pill-scroll[hidden] {
+    display: none;
 }

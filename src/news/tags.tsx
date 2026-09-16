@@ -1,4 +1,5 @@
-import { For, createMemo } from "solid-js";
+import { FilterPills } from "../components/filter-pills";
+import { createMemo } from "solid-js";
 import type { Article } from "./model";
 
 /** Link to the news archive filtered by each published tag. */
@@ -14,26 +15,19 @@ export function TagPills(props: { articles: Article[]; selected?: string }) {
     });
 
     return (
-        <nav class="news-tags filter-pills" aria-label="News tags">
-            <a
-                href="/news"
-                classList={{ selected: !props.selected }}
-                aria-current={!props.selected ? "page" : undefined}
-            >
-                All
-            </a>
-            <For each={tags()}>
-                {(tag) => (
-                    <a
-                        href={`/news?tag=${encodeURIComponent(tag.slug)}`}
-                        classList={{ selected: props.selected === tag.slug }}
-                        aria-current={props.selected === tag.slug ? "page" : undefined}
-                    >
-                        {tag.name}
-                    </a>
-                )}
-            </For>
-        </nav>
+        <FilterPills
+            class="news-tags"
+            label="News tags"
+            value={props.selected ?? ""}
+            options={[
+                { value: "", label: "All", href: "/news" },
+                ...tags().map((tag) => ({
+                    value: tag.slug,
+                    label: tag.name,
+                    href: `/news?tag=${encodeURIComponent(tag.slug)}`,
+                })),
+            ]}
+        />
     );
 }
 

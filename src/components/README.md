@@ -9,7 +9,7 @@ The meaning of a control determines its appearance, not the page that contains i
 | Card contents                                             | `--card-gutter`: 24px horizontally, 20px on small screens; preserve compact vertical spacing             |
 | Navigation, suggestions, opening a new or existing editor | `action-link`: plain text; colour and underline on hover; visible keyboard focus                         |
 | Submit, save, retry, register, destructive operation      | `Button` / `button`: bordered control; blue for the primary action                                       |
-| Filter or view selection                                  | `FilterPills` or linked `filter-pills`: quiet unselected options; blue selected option                   |
+| Filter or view selection                                  | `FilterPills`: links or buttons; one scrolling row with edge arrows; selected choice stays visible       |
 | Descriptive metadata                                      | `tag`: subtle background, no border; links retain hover/focus feedback                                   |
 | State                                                     | `tag tag-status` or `tag status-control`: compact neutral badge; `tag-upcoming` supplies accent emphasis |
 | Input                                                     | Visible border, label and focus state                                                                    |

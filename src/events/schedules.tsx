@@ -1,3 +1,4 @@
+import { PillRow } from "../components/filter-pills";
 import { useAccess } from "../auth/edit";
 import { FormSection } from "../components/form";
 import { DeleteRecord } from "./delete";
@@ -462,13 +463,13 @@ function ScheduleForm(props: {
                 </label>
             </div>
             <Show when={frequency() === "weekly"}>
-                <div class="filter-bar" role="group" aria-label="Weekdays">
+                <PillRow label="Weekdays">
                     <For each={weekdays}>
                         {(day, index) => (
                             <>
                                 <button
                                     type="button"
-                                    classList={{ active: days().includes(index()) }}
+                                    classList={{ selected: days().includes(index()) }}
                                     aria-pressed={days().includes(index())}
                                     aria-label={day}
                                     onClick={() =>
@@ -487,7 +488,7 @@ function ScheduleForm(props: {
                             </>
                         )}
                     </For>
-                </div>
+                </PillRow>
             </Show>
             <div class="form-columns">
                 <label>
@@ -557,7 +558,7 @@ function ScheduleForm(props: {
                         </button>
                     </div>
                 </div>
-                <div class="filter-bar">
+                <PillRow label="Skipped dates">
                     <For each={excluded()}>
                         {(date) => (
                             <button
@@ -571,7 +572,7 @@ function ScheduleForm(props: {
                             </button>
                         )}
                     </For>
-                </div>
+                </PillRow>
             </FormSection>
             <p class="field-hint">
                 Generates six weeks ahead. Existing occurrences keep their details; edit or cancel

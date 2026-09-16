@@ -1,4 +1,5 @@
-import { For, Show, Suspense, createResource } from "solid-js";
+import { FilterPills } from "../components/filter-pills";
+import { Show, Suspense, createResource } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
 import { Campaigns } from "./campaigns";
 import { NewsletterSchedule } from "./schedule";
@@ -22,24 +23,21 @@ export function EmailAdmin() {
 
     return (
         <div class="mail-workspace">
-            <nav class="mail-tabs filter-pills" aria-label="Email sections">
-                <For each={sections}>
-                    {(name) => (
-                        <a
-                            classList={{ selected: view() === name.toLowerCase() }}
-                            aria-current={view() === name.toLowerCase() ? "page" : undefined}
-                            href={`/admin?section=email&mail=${name.toLowerCase()}`}
-                        >
-                            {name}
-                        </a>
-                    )}
-                </For>
-                <Show when={sending()?.isLocked}>
-                    <span class="tag tag-status status-control mail-mode mail-warning">
-                        Test mode · audience sending is off
-                    </span>
-                </Show>
-            </nav>
+            <FilterPills
+                class="mail-tabs"
+                label="Email sections"
+                value={String(view())}
+                options={sections.map((name) => ({
+                    value: name.toLowerCase(),
+                    label: name,
+                    href: `/admin?section=email&mail=${name.toLowerCase()}`,
+                }))}
+            />
+            <Show when={sending()?.isLocked}>
+                <span class="tag tag-status status-control mail-mode mail-warning">
+                    Test mode · audience sending is off
+                </span>
+            </Show>
             <Suspense fallback={<p>Loading email…</p>}>
                 <Show when={view() === "campaigns"}>
                     <Campaigns />
