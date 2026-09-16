@@ -3112,7 +3112,7 @@ select.field__control:not([multiple]) {
 }
 .card > .card-heading {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     flex-wrap: wrap;
     gap: 8px 16px;
     min-height: 50px;
@@ -3137,6 +3137,12 @@ select.field__control:not([multiple]) {
 }
 .card-heading .card-toolbar {
     margin-left: auto;
+}
+/* Carry the title baseline through nested header controls. */
+.card
+    > .card-heading
+    :is(.card-toolbar, .row-actions, .registration-actions, .registration-actions__buttons) {
+    align-items: baseline;
 }
 /* mark today in the descending event timeline */
 .programme-today {

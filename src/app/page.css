@@ -65,9 +65,6 @@
 }
 
 /* Anchor item actions to the title, including long names and narrow screens. */
-.card.item-header > .card-heading {
-    align-items: flex-start;
-}
 .card.item-header > .card-heading > .card-title {
     flex: 1 1 12rem;
     min-width: 0;
