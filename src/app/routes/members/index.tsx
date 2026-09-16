@@ -60,7 +60,7 @@ function MemberDirectory(props: { members: PublicMember[] }) {
             <Show
                 when={visible().length > 0}
                 fallback={
-                    <p class="text-soft">
+                    <p class="empty-copy">
                         {props.members.length ? "No matching members." : "No public profiles yet."}
                     </p>
                 }

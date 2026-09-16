@@ -22,6 +22,21 @@ export default function Route() {
     const now = Date.now();
     const { query, setQuery, terms } = useSearch();
 
+    // keep search results and their empty state in sync
+    const matches = () =>
+        directory()?.series.filter((series) =>
+            matchesSearch(
+                [
+                    series.name,
+                    series.description,
+                    ...series.topics,
+                    series.organiser?.name,
+                    ...series.coOrganisers.map((person) => person.name),
+                ].join(" "),
+                terms(),
+            ),
+        ) ?? [];
+
     return (
         <>
             <Seo title="Series" description="Tech event series in Zurich." />
@@ -33,20 +48,7 @@ export default function Route() {
                     }
                 />
                 <TableToolbar value={query()} onSearch={setQuery} placeholder="Search series…" />
-                <For
-                    each={directory()?.series.filter((series) =>
-                        matchesSearch(
-                            [
-                                series.name,
-                                series.description,
-                                ...series.topics,
-                                series.organiser?.name,
-                                ...series.coOrganisers.map((person) => person.name),
-                            ].join(" "),
-                            terms(),
-                        ),
-                    )}
-                >
+                <For each={matches()}>
                     {(series) => {
                         const occurrences = () =>
                             events()?.filter((event) => event.seriesId === series._id);
@@ -63,15 +65,15 @@ export default function Route() {
                                 toolbar={
                                     <div class="row-actions">
                                         <EditLink
-                                            href={`/admin?section=series&series=${series._id}`}
-                                            seriesId={series._id}
-                                            label="Edit"
-                                        />
-                                        <EditLink
                                             href={`/admin?section=series&schedule=new&series=${series._id}`}
                                             seriesId={series._id}
                                             role="organiser"
                                             label="New schedule"
+                                        />
+                                        <EditLink
+                                            href={`/admin?section=series&series=${series._id}`}
+                                            seriesId={series._id}
+                                            label="Edit"
                                         />
                                     </div>
                                 }
@@ -97,6 +99,13 @@ export default function Route() {
                         );
                     }}
                 </For>
+                <Show when={directory() && matches().length === 0}>
+                    <p class="empty-copy">
+                        {directory()!.series.length
+                            ? "No series match your search."
+                            : "No series listed yet."}
+                    </p>
+                </Show>
             </Page>
         </>
     );

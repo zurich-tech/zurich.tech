@@ -2,7 +2,6 @@ import { PageCommands } from "../../../search/actions";
 import { useAccess } from "../../../auth/edit";
 import { EditLink } from "../../../auth/edit";
 import { Share } from "../../../components/share";
-import { Card } from "../../../components/card";
 import { timeZone } from "../../site";
 import { getArticle } from "../../../news/queries";
 
@@ -60,32 +59,59 @@ export default function Route() {
                             summary={post().description}
                             actions={<EditLink href={`/news/edit?id=${post().id}`} />}
                         >
-                            <div class="entry-tags detail-tags">
-                                <Show when={post().url}>
-                                    <ExternalTag />
-                                </Show>
-                                <For each={articleTags(post())}>
-                                    {(tag) => (
-                                        <a
-                                            class="tag"
-                                            href={`/news?tag=${encodeURIComponent(tag.slug)}`}
-                                        >
-                                            {tag.name}
-                                        </a>
-                                    )}
-                                </For>
-                                <For each={post().organisations}>
-                                    {(organisation) => (
-                                        <a class="tag" href={`/organisations/${organisation.slug}`}>
-                                            {organisation.name}
-                                        </a>
-                                    )}
-                                </For>
+                            <div class="article-metadata">
+                                <div class="article-byline">
+                                    <time dateTime={new Date(post().date).toISOString()}>
+                                        {new Date(post().date).toLocaleDateString("en-GB", {
+                                            day: "numeric",
+                                            month: "long",
+                                            year: isCurrentYear(post().date)
+                                                ? undefined
+                                                : "numeric",
+                                            timeZone,
+                                        })}
+                                    </time>
+                                    <For each={post().authors}>
+                                        {(author) => (
+                                            <Show
+                                                when={author.url}
+                                                fallback={<span>{author.name}</span>}
+                                            >
+                                                <a href={author.url}>{author.name}</a>
+                                            </Show>
+                                        )}
+                                    </For>
+                                </div>
+                                <div class="entry-tags detail-tags">
+                                    <Show when={post().url}>
+                                        <ExternalTag />
+                                    </Show>
+                                    <For each={articleTags(post())}>
+                                        {(tag) => (
+                                            <a
+                                                class="tag"
+                                                href={`/news?tag=${encodeURIComponent(tag.slug)}`}
+                                            >
+                                                {tag.name}
+                                            </a>
+                                        )}
+                                    </For>
+                                    <For each={post().organisations}>
+                                        {(organisation) => (
+                                            <a
+                                                class="tag"
+                                                href={`/organisations/${organisation.slug}`}
+                                            >
+                                                {organisation.name}
+                                            </a>
+                                        )}
+                                    </For>
+                                </div>
                             </div>
                         </ItemHeader>
                         <div class="listing-layout">
-                            <Card title="Article" class="news-article">
-                                <div class="article-content">
+                            <article class="card news-article" aria-label={post().title}>
+                                <div class="card-body article-content">
                                     <Show when={post().image}>
                                         <img class="news-image" src={post().image} alt="" />
                                     </Show>
@@ -102,34 +128,8 @@ export default function Route() {
                                         )}
                                     </Show>
                                 </div>
-                            </Card>
+                            </article>
                             <aside class="listing-sidebar">
-                                <Card title="Details">
-                                    <div class="article-details">
-                                        <div class="article-byline">
-                                            <time dateTime={new Date(post().date).toISOString()}>
-                                                {new Date(post().date).toLocaleDateString("en-GB", {
-                                                    day: "numeric",
-                                                    month: "long",
-                                                    year: isCurrentYear(post().date)
-                                                        ? undefined
-                                                        : "numeric",
-                                                    timeZone,
-                                                })}
-                                            </time>
-                                            <For each={post().authors}>
-                                                {(author) => (
-                                                    <Show
-                                                        when={author.url}
-                                                        fallback={<span>{author.name}</span>}
-                                                    >
-                                                        <a href={author.url}>{author.name}</a>
-                                                    </Show>
-                                                )}
-                                            </For>
-                                        </div>
-                                    </div>
-                                </Card>
                                 <Share
                                     title={post().title}
                                     url={`https://zurich.tech/news/${post().slug}`}

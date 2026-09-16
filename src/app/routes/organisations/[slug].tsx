@@ -57,18 +57,22 @@ export default function Route() {
                                     {item().sponsorTier}
                                 </a>
                             </Show>
-                            <span>{organisationKinds[item().kind]}</span>
-                            <span>{item().location}</span>
+                            <span class="tag">{organisationKinds[item().kind]}</span>
+                            <Show when={item().location}>
+                                <span class="tag">{item().location}</span>
+                            </Show>
                         </ItemHeader>
                         <div class="event-layout">
                             <div class="event-content">
-                                <Card title="About">
-                                    <Markdown source={item().description} />
-                                </Card>
+                                <Show when={item().description.trim()}>
+                                    <Card title="About">
+                                        <Markdown source={item().description} />
+                                    </Card>
+                                </Show>
                                 <Card title="Jobs">
                                     <For each={jobs()}>{(job) => <JobEntry job={job} />}</For>
                                     <Show when={jobs()?.length === 0}>
-                                        <p class="text-soft">No open roles listed yet.</p>
+                                        <p class="empty-copy">No open roles listed yet.</p>
                                     </Show>
                                 </Card>
                                 <Show when={item().locations.length > 0}>

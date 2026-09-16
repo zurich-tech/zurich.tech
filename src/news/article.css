@@ -91,9 +91,11 @@
 }
 
 /* use the shared detail card while keeping prose at a readable line length */
-.article-details {
-    display: grid;
-    gap: 12px;
+.article-metadata {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 20px;
 }
 .article-byline {
     display: flex;
