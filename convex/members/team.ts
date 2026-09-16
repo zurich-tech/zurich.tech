@@ -18,7 +18,6 @@ export const list = query({
         const profiles = await Promise.all(
             roles
                 .filter((role) => role.isPublic)
-                .sort((a, b) => a.position - b.position)
                 .map(async (role) => {
                     const member = await ctx.db.get(role.memberId);
                     if (!isPublicMember(member)) return null;
@@ -28,7 +27,9 @@ export const list = query({
                         id: member._id,
                         name: member.name,
                         href: `/members/${handle.name}`,
-                        role: role.status === "former" ? "Emeritus" : role.name,
+                        role: role.name,
+                        status: role.status,
+                        position: role.position,
                         affiliations: member.affiliations,
                         image: member.avatarUrl,
                         imageDark: member.avatarDarkUrl,
@@ -36,7 +37,16 @@ export const list = query({
                     };
                 }),
         );
-        return profiles.filter((profile) => profile !== null);
+        return profiles
+            .filter((profile) => profile !== null)
+            .sort((a, b) => {
+                if (a.status !== b.status) return a.status === "active" ? -1 : 1;
+                if (a.status === "former" || (a.role === "Team" && b.role === "Team"))
+                    return a.name.localeCompare(b.name, "en");
+                if (a.role === "Team") return 1;
+                if (b.role === "Team") return -1;
+                return a.position - b.position;
+            });
     },
 });
 
