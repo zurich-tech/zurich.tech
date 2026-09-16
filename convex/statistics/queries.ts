@@ -19,13 +19,24 @@ async function records(ctx: QueryCtx) {
         registrations,
         totals: {
             events: past.length,
-            subscribers: subscriptions.filter(
-                (row) => row.status === "subscribed" && row.weekly !== false,
-            ).length,
+            subscribers: subscriptions.filter((row) => row.status === "subscribed").length,
             registrations: registrations.length,
         },
     };
 }
+
+/** Count current community subscriptions without loading event or registration histories. */
+export const subscribers = query({
+    args: {},
+    handler: async (ctx) => {
+        const rows = await ctx.db
+            .query("subscriptions")
+            .withIndex("by_status", (q) => q.eq("status", "subscribed"))
+            .collect();
+
+        return rows.length;
+    },
+});
 
 /** Read event, subscription and registration growth from their dated histories. */
 export const community = query({

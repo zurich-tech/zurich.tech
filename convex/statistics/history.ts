@@ -30,7 +30,7 @@ export function cumulative(changes: { at: number; value: number }[]): Point[] {
         .map(([date, change]) => ({ date, value: (value += change) }));
 }
 
-/** Reconstruct active weekly subscribers, including opt-outs and resubscriptions. */
+/** Reconstruct active community subscriptions, including opt-outs and resubscriptions. */
 export function subscriberHistory(subscriptions: Doc<"subscriptions">[], now: number): Point[] {
     const changes: { at: number; value: number }[] = [];
     let estimatedUntil = 0;
@@ -46,7 +46,7 @@ export function subscriberHistory(subscriptions: Doc<"subscriptions">[], now: nu
         let active = false;
         for (const change of history) {
             if (change.at > now) continue;
-            const next = change.status === "subscribed" && change.weekly;
+            const next = change.status === "subscribed";
             changes.push({ at: change.at, value: Number(next) - Number(active) });
             active = next;
             if (change.isEstimated) estimatedUntil = Math.max(estimatedUntil, change.at);

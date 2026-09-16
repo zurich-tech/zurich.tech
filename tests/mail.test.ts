@@ -781,3 +781,20 @@ test("verified event registration enrolls once and explicit resubscription enabl
     await backend.run((ctx) => ctx.db.patch(row!._id, { status: "suppressed" }));
     await expect(confirm("blocked", "subscription")).rejects.toThrow("cannot receive email");
 });
+
+// Weekly preferences affect delivery, not the public size of the community.
+test("member totals and history include announcement-only subscriptions", async () => {
+    const { backend, subscriptionId } = await setup();
+    await backend.run((ctx) =>
+        ctx.db.patch(subscriptionId, { weekly: false, announcements: true }),
+    );
+    expect(await backend.query(api.statistics.queries.subscribers, {})).toBe(1);
+    const stats = await backend.query(api.statistics.queries.community, {});
+    expect(stats.totals.subscribers).toBe(1);
+    expect(stats.history.subscribers[0]?.value).toBe(1);
+    expect(stats.history.subscribers.at(-1)?.value).toBe(1);
+    await backend.mutation(api.mail.subscriptions.unsubscribe, {
+        token: "private-unsubscribe-token",
+    });
+    expect(await backend.query(api.statistics.queries.subscribers, {})).toBe(0);
+});

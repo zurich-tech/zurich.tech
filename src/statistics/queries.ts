@@ -7,3 +7,10 @@ export const getStatistics = publicQuery(
     "statistics",
     () => ({}),
 );
+
+/** Load the public subscriber count independently of detailed statistics. */
+export const getSubscriberCount = publicQuery(
+    api.statistics.queries.subscribers,
+    "subscriberCount",
+    () => ({}),
+);

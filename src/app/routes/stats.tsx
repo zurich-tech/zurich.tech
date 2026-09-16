@@ -8,7 +8,7 @@ import "../../statistics/style.css";
 
 const metrics = [
     { field: "events", label: "Events" },
-    { field: "subscribers", label: "Subscribers" },
+    { field: "subscribers", label: "Members" },
     { field: "registrations", label: "Registrations" },
 ] as const;
 

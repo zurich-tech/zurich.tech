@@ -6,12 +6,19 @@ import { Dynamic } from "solid-js/web";
 
 import { CommunityMap } from "../map/map";
 
+/** Format a conservative community milestone. */
+function milestone(count: number, step: number) {
+    return `${(Math.floor(count / step) * step).toLocaleString("en-GB")}+`;
+}
+
 /** Keep the city and wordmark consistent across the site. */
 export function Hero(props: {
     /** Use a shorter banner on inner pages. */
     isCompact?: boolean;
     /** Published events shown on the homepage. */
     eventCount?: number;
+    /** Current community members with an active subscription. */
+    memberCount?: number;
 }) {
     return (
         <header class="bulletin-masthead" classList={{ "hero-compact": props.isCompact }}>
@@ -24,13 +31,15 @@ export function Hero(props: {
                         <Show when={props.eventCount !== undefined}>
                             <div>
                                 <dt>Events</dt>
-                                <dd>{props.eventCount}</dd>
+                                <dd>{milestone(props.eventCount!, 10)}</dd>
                             </div>
                         </Show>
-                        <div>
-                            <dt>Members</dt>
-                            <dd>{`${site.members.toLocaleString("en-GB")}+`}</dd>
-                        </div>
+                        <Show when={props.memberCount !== undefined}>
+                            <div>
+                                <dt>Members</dt>
+                                <dd>{milestone(props.memberCount!, 1000)}</dd>
+                            </div>
+                        </Show>
                     </dl>
                     <nav aria-label="Community social channels">
                         <SocialLinks name={site.name} profiles={site.socials} labelled />
