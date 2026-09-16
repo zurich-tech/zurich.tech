@@ -23,6 +23,15 @@ The email domain owns these records:
 `templates.ts` and `layout.ts` render both product and written emails.
 Individual confirmations use messages directly; sign-in codes are sent without being retained.
 
+## Membership
+
+New verified account signups, event registrations and explicit subscriptions enable all four email preferences.
+Account signup and registration preserve existing preferences, opt-outs and suppression.
+Explicit subscription confirmation enables all preferences again, but cannot bypass suppression.
+Public member totals and history count active community subscriptions, independently of weekly delivery preferences.
+Event confirmations alone do not count as community subscriptions.
+Accounts, profiles and attendance remain when someone unsubscribes.
+
 ## Lifecycle
 
 Written campaigns start as drafts.

@@ -30,9 +30,9 @@ export function Newsletter() {
                 await memberClient()
             ).action(api.mail.preferences.save, {
                 weekly: true,
-                announcements: current.announcements,
-                reminders: current.reminders,
-                followUps: current.followUps,
+                announcements: true,
+                reminders: true,
+                followUps: true,
             });
             await startTransition(refetch);
         } catch (caught) {

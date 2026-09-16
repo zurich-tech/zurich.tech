@@ -1,3 +1,4 @@
+import { emailPreferences } from "./enrollment";
 import { requireRecipient, recipientsLocked } from "./policy";
 import { subscriptionHistory } from "./history";
 import { verificationEmail } from "./templates";
@@ -111,7 +112,7 @@ export const confirm = mutation({
             throw new Error("This link has already been used. Check your confirmation email.");
         const now = Date.now();
 
-        // registration does not opt someone into optional newsletters
+        // explicit subscription confirmation may renew a previous opt-out
         const subscription = await ctx.db
             .query("subscriptions")
             .withIndex("by_email", (q) => q.eq("email", ticket.email))
@@ -122,7 +123,7 @@ export const confirm = mutation({
             const values = {
                 email: ticket.email,
                 status: "subscribed" as const,
-                weekly: true,
+                ...emailPreferences,
                 token: subscription?.token ?? ticket.newsletterToken,
                 verifiedAt: now,
                 updatedAt: now,

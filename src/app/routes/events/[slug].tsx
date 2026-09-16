@@ -810,6 +810,10 @@ function RsvpForm(props: {
                           ? registrationTitle(props.event)
                           : "Continue by email"}
                 </Button>
+                <p class="text-sm text-soft">
+                    Registration includes community emails and event updates. You can unsubscribe
+                    anytime; existing email preferences are respected.
+                </p>
                 <FormMessage error={props.error} success={props.success} />
             </form>
         </Card>

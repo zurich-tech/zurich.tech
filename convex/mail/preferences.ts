@@ -1,3 +1,4 @@
+import { enrollSubscription } from "./enrollment";
 import { recipientsLocked } from "./policy";
 import { subscriptionHistory } from "./history";
 import { v } from "convex/values";
@@ -108,29 +109,6 @@ export const enroll = internalAction({
 export const subscribe = internalMutation({
     args: { email: v.string(), memberId: v.id("members"), token: v.string() },
     handler: async (ctx, args) => {
-        const existing = await ctx.db
-            .query("subscriptions")
-            .withIndex("by_email", (q) => q.eq("email", args.email))
-            .unique();
-        if (existing) return;
-        const now = Date.now();
-        await ctx.db.insert("subscriptions", {
-            ...args,
-            status: "subscribed",
-            history: subscriptionHistory(
-                null,
-                { status: "subscribed", weekly: true },
-                now,
-                "account",
-            ),
-            weekly: true,
-            announcements: true,
-            reminders: true,
-            followUps: true,
-            source: "account",
-            verifiedAt: now,
-            createdAt: now,
-            updatedAt: now,
-        });
+        await enrollSubscription(ctx, { ...args, source: "account" }, Date.now());
     },
 });

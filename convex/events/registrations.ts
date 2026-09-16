@@ -1,3 +1,4 @@
+import { enrollSubscription } from "../mail/enrollment";
 import { requireRecipient } from "../mail/policy";
 import { eventPlace, disclosePlace } from "./place";
 import { ensureToken } from "./checkin";
@@ -55,13 +56,19 @@ export const join = action({
         return await ctx.runMutation(internal.events.registrations.joinMember, {
             ...args,
             token: crypto.randomUUID() + crypto.randomUUID(),
+            newsletterToken: crypto.randomUUID() + crypto.randomUUID(),
         });
     },
 });
 
 /** Derive attendee identity from the verified session and apply admission rules. */
 export const joinMember = internalMutation({
-    args: { eventSlug: v.string(), answers: v.array(v.string()), token: v.string() },
+    args: {
+        eventSlug: v.string(),
+        answers: v.array(v.string()),
+        token: v.string(),
+        newsletterToken: v.string(),
+    },
     handler: async (ctx, args) => {
         const account = await requireAccount(ctx);
         const user = await authComponent.getAuthUser(ctx);
@@ -94,6 +101,7 @@ export const joinMember = internalMutation({
                 name: member.name,
                 answers: args.answers,
                 token: args.token,
+                newsletterToken: args.newsletterToken,
             },
             Date.now(),
         );
@@ -491,7 +499,10 @@ async function notify(
 /** Allocate a verified attendee through the event admission policy. */
 export async function register(
     ctx: MutationCtx,
-    ticket: Pick<Doc<"verifications">, "eventId" | "email" | "name" | "answers" | "token"> & {
+    ticket: Pick<
+        Doc<"verifications">,
+        "eventId" | "email" | "name" | "answers" | "token" | "newsletterToken"
+    > & {
         memberId?: Doc<"members">["_id"];
     },
     now: number,
@@ -501,6 +512,18 @@ export async function register(
     const event = await ctx.db.get(ticket.eventId);
     if (!event) throw new Error("Event not found.");
     const policy = requireOpenEvent(event);
+
+    // enrol new addresses atomically with attendance, preserving existing opt-outs
+    await enrollSubscription(
+        ctx,
+        {
+            email: ticket.email,
+            token: ticket.newsletterToken,
+            memberId: ticket.memberId,
+            source: "registration",
+        },
+        now,
+    );
     const rows = await registrations(ctx, event);
     const existing = rows.find(
         (row) =>

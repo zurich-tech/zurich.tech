@@ -649,3 +649,135 @@ test("confirmation mail expires with its ticket while bulk delivery stays paused
     setSystemTime(now + 3600000);
     expect(await backend.query(internal.mail.messages.read, { id: message!._id })).toBeNull();
 });
+
+// Signup defaults must never overwrite deliberate opt-outs or narrower preferences.
+test("new accounts enable every email category and preserve existing subscription choices", async () => {
+    const { backend, memberId } = await setup();
+    await backend.mutation(internal.mail.preferences.subscribe, {
+        email: "NEW@example.invalid",
+        memberId,
+        token: "new-token",
+    });
+    const row = await backend.run((ctx) =>
+        ctx.db
+            .query("subscriptions")
+            .withIndex("by_email", (q) => q.eq("email", "new@example.invalid"))
+            .unique(),
+    );
+    expect(row).toMatchObject({
+        status: "subscribed",
+        weekly: true,
+        announcements: true,
+        reminders: true,
+        followUps: true,
+        source: "account",
+        memberId,
+    });
+    for (const status of ["subscribed", "unsubscribed", "suppressed"] as const) {
+        await backend.run((ctx) =>
+            ctx.db.patch(row!._id, { status, weekly: false, followUps: false }),
+        );
+        const before = await backend.run((ctx) => ctx.db.get(row!._id));
+        await backend.mutation(internal.mail.preferences.subscribe, {
+            email: row!.email,
+            memberId,
+            token: "replacement",
+        });
+        expect(await backend.run((ctx) => ctx.db.get(row!._id))).toEqual(before);
+    }
+});
+
+// Registration and enrollment commit together; a repeat RSVP must not undo an unsubscribe.
+test("verified event registration enrolls once and explicit resubscription enables all preferences", async () => {
+    const { backend, memberId } = await setup();
+    const eventId = await backend.run((ctx) =>
+        ctx.db.insert("events", {
+            ownerId: memberId,
+            slug: "enrollment",
+            title: "Enrollment",
+            format: "talk",
+            description: "",
+            topics: [],
+            startsAt: Date.now() + 86400000,
+            registration: {
+                kind: "native",
+                admission: "automatic",
+                capacity: 10,
+                overflow: "waitlist",
+                questions: [],
+            },
+            status: "scheduled",
+            createdAt: 1,
+            updatedAt: 1,
+        }),
+    );
+    async function confirm(token: string, purpose: "registration" | "subscription") {
+        await backend.run((ctx) =>
+            ctx.db.insert("verifications", {
+                email: "guest@example.invalid",
+                name: "Guest",
+                eventId,
+                purpose,
+                token,
+                newsletterToken: `unsubscribe-${token}`,
+                answers: [],
+                expiresAt: Date.now() + 3600000,
+            }),
+        );
+        return backend.mutation(api.mail.verification.confirm, { token });
+    }
+    // signed-in registration also enrols if account enrollment has not run yet
+    await backend.run(async (ctx) => {
+        const subscription = await ctx.db.query("subscriptions").unique();
+        await ctx.db.delete(subscription!._id);
+    });
+    await backend
+        .withIdentity({ subject: "admin" })
+        .mutation(internal.events.registrations.joinMember, {
+            eventSlug: "enrollment",
+            answers: [],
+            token: "account-registration",
+            newsletterToken: "account-unsubscribe",
+        });
+    expect(await backend.run((ctx) => ctx.db.query("subscriptions").unique())).toMatchObject({
+        email: "test@example.invalid",
+        memberId,
+        weekly: true,
+        announcements: true,
+        reminders: true,
+        followUps: true,
+        token: "account-unsubscribe",
+    });
+    await confirm("first", "registration");
+    const row = await backend.run((ctx) =>
+        ctx.db
+            .query("subscriptions")
+            .withIndex("by_email", (q) => q.eq("email", "guest@example.invalid"))
+            .unique(),
+    );
+    expect(row).toMatchObject({
+        status: "subscribed",
+        weekly: true,
+        announcements: true,
+        reminders: true,
+        followUps: true,
+        source: "registration",
+        token: "unsubscribe-first",
+    });
+    expect(await backend.run((ctx) => ctx.db.query("registrations").collect())).toHaveLength(2);
+    await backend.mutation(api.mail.subscriptions.unsubscribe, { token: row!.token! });
+    const optedOut = await backend.run((ctx) => ctx.db.get(row!._id));
+    await confirm("again", "registration");
+    expect(await backend.run((ctx) => ctx.db.get(row!._id))).toEqual(optedOut);
+    await confirm("renew", "subscription");
+    expect(await backend.run((ctx) => ctx.db.get(row!._id))).toMatchObject({
+        status: "subscribed",
+        weekly: true,
+        announcements: true,
+        reminders: true,
+        followUps: true,
+        token: "unsubscribe-first",
+    });
+    await backend.run((ctx) => ctx.db.patch(row!._id, { status: "suppressed" }));
+    await expect(confirm("blocked", "subscription")).rejects.toThrow("cannot receive email");
+});

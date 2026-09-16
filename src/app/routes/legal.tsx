@@ -19,10 +19,11 @@ export default function Route() {
                             </li>
                             <li>
                                 We use your email for registrations and event updates. Organisers
-                                and the team can see registration details and answers. Registration
-                                also subscribes you to event emails unless you’ve opted out. Every
-                                newsletter includes an unsubscribe link; registration emails include
-                                a private management link.
+                                and the team can see registration details and answers. Creating an
+                                account or registering subscribes new addresses to our newsletter,
+                                announcements, reminders and follow-ups. Existing email preferences
+                                are preserved. Every newsletter includes an unsubscribe link;
+                                registration emails include a private management link.
                             </li>
                             <li>
                                 Convex stores account and event records. Resend delivers email.
