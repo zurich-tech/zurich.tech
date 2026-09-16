@@ -12,32 +12,54 @@ export function PhotoUpload(props: { eventId: Id<"events">; saved: () => Promise
     const [selection, setSelection] = createSignal<Selection[]>([]);
     const [progress, setProgress] = createSignal<string>();
     const [error, setError] = createSignal<string>();
+    const [isDragging, setIsDragging] = createSignal(false);
+    let dragDepth = 0;
     let input!: HTMLInputElement;
 
     function clear() {
         selection().forEach((photo) => URL.revokeObjectURL(photo.url));
         setSelection([]);
+        setError(undefined);
         input.value = "";
     }
     onCleanup(() => selection().forEach((photo) => URL.revokeObjectURL(photo.url)));
 
+    /** Append valid files without losing an existing selection on a bad drop. */
     function choose(files: FileList | null) {
+        if (progress()) return;
         const chosen = Array.from(files ?? []);
-        clear();
-        setError(undefined);
+        input.value = "";
         if (!chosen.length) return;
+        setError(undefined);
         if (
-            chosen.length > 10 ||
             chosen.some(
                 (file) =>
                     !["image/jpeg", "image/png", "image/webp"].includes(file.type) ||
                     file.size > 20000000,
             )
         ) {
-            setError("Choose up to 10 JPG, PNG or WebP photos, each under 20 MB.");
+            setError("Choose JPG, PNG or WebP photos, each under 20 MB.");
             return;
         }
-        setSelection(chosen.map((file) => ({ file, url: URL.createObjectURL(file) })));
+
+        // retain each local file once when adding another batch
+        const additions = chosen.filter(
+            (file, index) =>
+                ![...selection().map((photo) => photo.file), ...chosen.slice(0, index)].some(
+                    (existing) =>
+                        existing.name === file.name &&
+                        existing.size === file.size &&
+                        existing.lastModified === file.lastModified,
+                ),
+        );
+        if (selection().length + additions.length > 10) {
+            setError("Choose up to 10 photos at a time.");
+            return;
+        }
+        setSelection((current) => [
+            ...current,
+            ...additions.map((file) => ({ file, url: URL.createObjectURL(file) })),
+        ]);
     }
 
     async function publish() {
@@ -81,7 +103,31 @@ export function PhotoUpload(props: { eventId: Id<"events">; saved: () => Promise
     }
 
     return (
-        <div class="photo-upload">
+        <div
+            class="photo-upload"
+            classList={{ "is-dragging": isDragging() }}
+            onDragEnter={(event) => {
+                if (!event.dataTransfer?.types.includes("Files")) return;
+                event.preventDefault();
+                dragDepth++;
+                if (!progress()) setIsDragging(true);
+            }}
+            onDragOver={(event) => {
+                if (!event.dataTransfer?.types.includes("Files")) return;
+                event.preventDefault();
+                event.dataTransfer.dropEffect = progress() ? "none" : "copy";
+            }}
+            onDragLeave={() => {
+                dragDepth = Math.max(0, dragDepth - 1);
+                if (!dragDepth) setIsDragging(false);
+            }}
+            onDrop={(event) => {
+                event.preventDefault();
+                dragDepth = 0;
+                setIsDragging(false);
+                choose(event.dataTransfer?.files ?? null);
+            }}
+        >
             <input
                 ref={input}
                 type="file"
@@ -91,12 +137,19 @@ export function PhotoUpload(props: { eventId: Id<"events">; saved: () => Promise
                 onChange={(event) => choose(event.currentTarget.files)}
             />
             <button
-                class="action-link"
+                class="photo-upload-zone"
+                aria-label="Upload photos"
                 disabled={!!progress()}
                 type="button"
                 onClick={() => input.click()}
             >
-                Upload photos
+                <span>
+                    {isDragging() ? "Drop photos here" : "Drag photos here or choose files"}
+                </span>
+                <small>
+                    <span>JPG, PNG or WebP</span>
+                    <span>Up to 10 photos · 20 MB each</span>
+                </small>
             </button>
             <Show when={selection().length}>
                 <div class="photo-upload-preview">
@@ -106,7 +159,9 @@ export function PhotoUpload(props: { eventId: Id<"events">; saved: () => Promise
                                 <img src={photo.url} alt={photo.file.name} />
                                 <button
                                     type="button"
-                                    class="action-link"
+                                    class="photo-upload-remove"
+                                    aria-label={`Remove ${photo.file.name} from selection`}
+                                    title="Remove from selection"
                                     disabled={!!progress()}
                                     onClick={() => {
                                         URL.revokeObjectURL(photo.url);
@@ -115,13 +170,14 @@ export function PhotoUpload(props: { eventId: Id<"events">; saved: () => Promise
                                         );
                                     }}
                                 >
-                                    Remove from selection
+                                    <span aria-hidden="true">×</span>
                                 </button>
+                                <figcaption title={photo.file.name}>{photo.file.name}</figcaption>
                             </figure>
                         )}
                     </For>
                 </div>
-                <div class="form-actions">
+                <div class="photo-upload-actions" aria-live="polite">
                     <button
                         class="button button--primary"
                         type="button"
