@@ -16,7 +16,7 @@
     padding: 0;
     border: 0;
 }
-.admin-table-card > .card-body > :is(.form-error, .form-success) {
+.admin-table-card > .card-body > .alert {
     margin: 16px var(--card-gutter);
 }
 

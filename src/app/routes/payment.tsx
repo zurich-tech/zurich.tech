@@ -1,3 +1,4 @@
+import { FormMessage } from "../../components/form";
 import { useSearchParams } from "@solidjs/router";
 import { createResource, createEffect, onCleanup, Show, Switch, Match } from "solid-js";
 import { api } from "../../../convex/_generated/api";
@@ -54,9 +55,9 @@ export default function Route() {
                             <p role="status">Loading…</p>
                         </Match>
                         <Match when={account.user() && payment.error}>
-                            <p class="form-error">
-                                {errorMessage(payment.error, "Could not load payment.")}
-                            </p>
+                            <FormMessage
+                                error={errorMessage(payment.error, "Could not load payment.")}
+                            />
                             <button class="button" onClick={() => void refetch()}>
                                 Refresh
                             </button>

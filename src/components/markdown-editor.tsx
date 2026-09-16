@@ -32,7 +32,7 @@ export function MarkdownEditor(props: {
     }
 
     return (
-        <div class="markdown-editor">
+        <div class="markdown-editor" style={{ "--markdown-rows": props.rows ?? 12 }}>
             <label class="field__label" for={id}>
                 {props.label}
             </label>

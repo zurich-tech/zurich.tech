@@ -134,11 +134,11 @@ export function CompanyForm(props: {
                 </label>
                 <div class="form-columns">
                     <label>
-                        Title
+                        Headline
                         <input
                             name="headline"
                             maxlength="160"
-                            placeholder="Company, non-profit, research lab…"
+                            placeholder="A short introduction"
                             value={props.item?.headline ?? ""}
                         />
                     </label>

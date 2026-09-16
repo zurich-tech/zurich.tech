@@ -1,4 +1,4 @@
-import { leaveEditor, resetEditor } from "../../../components/form";
+import { FormMessage, leaveEditor, resetEditor } from "../../../components/form";
 import { Speaking } from "../../../events/speaking";
 import { useNavigate } from "@solidjs/router";
 import { Loading } from "../../../components/loading";
@@ -66,7 +66,7 @@ export default function Route() {
                     }
                 />
                 <Show when={error()}>
-                    <p class="form-error">{error()}</p>
+                    <FormMessage error={error()} />
                 </Show>
                 <Switch
                     fallback={
@@ -81,7 +81,7 @@ export default function Route() {
                         </Card>
                     </Match>
                     <Match when={account.error()}>
-                        <p class="form-error">Could not load your account.</p>
+                        <FormMessage error="Could not load your account." />
                     </Match>
                     <Match when={account.user()}>
                         <div class="event-layout account-layout">

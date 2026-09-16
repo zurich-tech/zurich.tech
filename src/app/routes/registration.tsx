@@ -139,7 +139,7 @@ export default function Route() {
                                             disabled={isPending()}
                                             onClick={cancel}
                                         >
-                                            {isPending() ? "Cancelling…" : "Cancel"}
+                                            {isPending() ? "Cancelling…" : "Cancel registration"}
                                         </button>
                                     </Show>
                                     <FormMessage error={error()} />

@@ -218,10 +218,7 @@ export default function Route() {
                                 </p>
                             </Show>
                             <Show when={params.error}>
-                                <p class="form-error">
-                                    Sign-in wasn’t completed. Please try again with an account that
-                                    has a verified email address.
-                                </p>
+                                <FormMessage error="Sign-in wasn’t completed. Please try again with an account that has a verified email address." />
                             </Show>
                             <FormMessage error={error()} />
                         </Show>

@@ -2,6 +2,7 @@ import { createSignal, onMount, Show } from "solid-js";
 import linkedin from "./assets/social/linkedin.svg?raw";
 import x from "./assets/social/x.svg?raw";
 import { Card } from "./card";
+import { Input } from "./field";
 
 /** Share a public page through a chosen destination or the device share sheet. */
 export function Share(props: { title: string; url: string }) {
@@ -104,7 +105,7 @@ export function Share(props: { title: string; url: string }) {
                 </p>
             </Show>
             <Show when={isManual()}>
-                <input
+                <Input
                     aria-label="Link to share"
                     readonly
                     value={props.url}

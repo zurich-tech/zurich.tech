@@ -102,8 +102,8 @@ export default function Route() {
                             }
                             success={success()}
                         />
-                        <a href="/events">
-                            Back to events <Arrow direction="external" />
+                        <a class="text-link" href="/events">
+                            Back to events <Arrow />
                         </a>
                     </div>
                 </Card>

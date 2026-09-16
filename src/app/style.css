@@ -1434,6 +1434,7 @@ textarea::placeholder {
 }
 .form-actions {
     display: flex;
+    flex-wrap: wrap;
 }
 .workspace-list > article {
     display: flex;
@@ -1750,19 +1751,19 @@ td button {
     padding: 0 0 20px;
     border-bottom: 1px solid var(--color-line);
 }
-/* keep filter choices on one scrollable row at every container width */
+/* wrap filter choices within their container at every width */
 .filter-pills {
     display: flex;
     align-items: center;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     min-width: 0;
     max-width: 100%;
-    overflow-x: auto;
-    scrollbar-width: thin;
 }
 .filter-pills > * {
     flex-shrink: 0;
-    white-space: nowrap;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 .filter-pills > :is(button, a) {
     font: 12px/1.2 var(--font-sans);
@@ -3337,19 +3338,18 @@ select.field__control:not([multiple]) {
     display: none;
 }
 
-/* keep every event filter on one compact row */
+/* keep event filter groups together while allowing them to wrap */
 .programme .programme-tagbar {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 6px;
     padding: 10px 0;
-    overflow-x: auto;
 }
-/* let the event toolbar own scrolling across adjacent filter groups */
+/* allow adjacent filter groups to shrink within the toolbar */
 .programme .filter-pills {
-    flex: 0 0 auto;
-    overflow: visible;
-    max-width: none;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
 }
 
 @media (max-width: 700px) {
@@ -3483,17 +3483,16 @@ select.field__control:not([multiple]) {
 }
 .listing-pills {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     min-width: 0;
     max-width: 100%;
-    overflow-x: auto;
     flex-basis: 100%;
     gap: 8px;
 }
 .listing-pills > .filter-pills {
-    flex: 0 0 auto;
-    overflow: visible;
-    max-width: none;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
 }
 .job-entry {
     display: grid;
@@ -4504,7 +4503,7 @@ iframe.email-preview {
 .share-actions {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    gap: 4px;
 }
 .share-actions .action-link {
     min-width: 0;
@@ -4676,6 +4675,12 @@ iframe.email-preview {
     width: 1%;
     text-align: right;
     white-space: nowrap;
+}
+/* empty rows describe the whole table, not its action column */
+.admin-table td[colspan] {
+    text-align: left;
+    white-space: normal;
+    color: var(--color-soft);
 }
 .admin-actions {
     display: flex;
@@ -5364,8 +5369,7 @@ iframe.email-preview {
     .admin-event-card .admin-filters > .filter-bar,
     .programme .programme-tagbar,
     .filter-pills {
-        flex-wrap: nowrap;
-        overflow-x: auto;
+        flex-wrap: wrap;
         min-width: 0;
         max-width: 100%;
     }
@@ -5388,9 +5392,9 @@ iframe.email-preview {
         gap: 10px;
     }
     .programme .programme-tagbar > .filter-pills {
-        flex: 0 0 auto;
-        overflow: visible;
-        max-width: none;
+        flex: 0 1 auto;
+        min-width: 0;
+        max-width: 100%;
     }
     .admin-navigation .admin-tabs {
         display: none;

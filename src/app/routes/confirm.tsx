@@ -123,7 +123,7 @@ export default function Route() {
                             success={success()}
                         />
                         <a class="text-link" href="/events">
-                            View events <Arrow direction="external" />
+                            View events <Arrow />
                         </a>
                     </div>
                 </Card>

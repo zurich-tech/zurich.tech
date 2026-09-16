@@ -50,11 +50,16 @@ export function JobForm(props: {
             class="editor"
             onSubmit={props.onSubmit}
             actions={() => (
-                <div class="row-actions">
+                <div class="form-actions">
                     <button class="button" value="preview" disabled={props.isPending}>
                         Save & preview
                     </button>
-                    <button class="button" value="draft" disabled={props.isPending}>
+                    <button
+                        class="button"
+                        classList={{ "button--primary": !!props.isAdmin }}
+                        value="draft"
+                        disabled={props.isPending}
+                    >
                         {props.isPending ? "Saving…" : "Save"}
                     </button>
                     <Show when={!props.isAdmin}>

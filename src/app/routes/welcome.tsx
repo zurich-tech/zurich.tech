@@ -1,3 +1,4 @@
+import { FormMessage } from "../../components/form";
 import { Loading } from "../../components/loading";
 import { createEffect, createResource, Show } from "solid-js";
 import { useNavigate, useSearchParams } from "@solidjs/router";
@@ -55,7 +56,7 @@ export default function Route() {
                         <Demographics onComplete={finish} />
                     </Show>
                     <Show when={current.error}>
-                        <p class="form-error">Could not load your profile.</p>
+                        <FormMessage error="Could not load your profile." />
                         <a href="/settings">Continue to Account</a>
                     </Show>
                 </Show>
