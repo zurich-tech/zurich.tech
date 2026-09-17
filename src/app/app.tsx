@@ -1,3 +1,4 @@
+import { isModuleLoadError } from "./modules";
 import { PublicProvider } from "../data/context";
 import { CatalogueProvider } from "../search/catalogue";
 import { CommandProvider } from "../search/actions";
@@ -44,25 +45,40 @@ export default function App() {
                                                             "Could not load page.",
                                                             error,
                                                         );
+                                                        const isMissingModule =
+                                                            isModuleLoadError(error);
                                                         return (
                                                             <Page>
                                                                 <Card
-                                                                    title="Could not load this page"
+                                                                    title={
+                                                                        isMissingModule
+                                                                            ? "Please reload this page"
+                                                                            : "Could not load this page"
+                                                                    }
                                                                     heading="h1"
                                                                 >
                                                                     <p role="alert">
-                                                                        Please try again.
+                                                                        {isMissingModule
+                                                                            ? "A required page file could not be loaded. Reload to fetch the current version of the site."
+                                                                            : "Please try again."}
                                                                     </p>
                                                                     <div class="row-actions">
                                                                         <button
                                                                             class="button"
-                                                                            onClick={reset}
+                                                                            onClick={() =>
+                                                                                isMissingModule
+                                                                                    ? window.location.reload()
+                                                                                    : reset()
+                                                                            }
                                                                         >
-                                                                            Try again
+                                                                            {isMissingModule
+                                                                                ? "Reload page"
+                                                                                : "Try again"}
                                                                         </button>
                                                                         <a
                                                                             class="button"
                                                                             href="/events"
+                                                                            target="_self"
                                                                         >
                                                                             View events
                                                                         </a>

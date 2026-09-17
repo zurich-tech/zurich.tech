@@ -64,7 +64,9 @@ export function VenueMap(props: {
                     });
                     resize.observe(container);
                 })
-                .catch(() => setError(true));
+                .catch(() => {
+                    if (!isDisposed) setError(true);
+                });
         });
         observer.observe(container);
         onCleanup(() => {
