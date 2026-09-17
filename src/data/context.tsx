@@ -6,7 +6,12 @@ const Context = createContext<() => ConvexClient>();
 /** Own the anonymous browser connection shared by public views and search. */
 export function PublicProvider(props: { children: JSX.Element }) {
     let client: ConvexClient | undefined;
-    const connect = () => (client ??= new ConvexClient(import.meta.env.VITE_CONVEX_URL));
+    const connect = () => {
+        const url = import.meta.env.VITE_CONVEX_URL;
+        if (!url) throw new Error("VITE_CONVEX_URL is not configured.");
+
+        return (client ??= new ConvexClient(url));
+    };
     onCleanup(() => void client?.close());
 
     return <Context.Provider value={connect}>{props.children}</Context.Provider>;

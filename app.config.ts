@@ -6,6 +6,7 @@ export default defineConfig({
     appRoot: "./src/app",
     server: {
         preset: "cloudflare-module",
+        plugins: ["./src/server/cache.ts"],
     },
     vite: {
         plugins: [tailwindcss()],

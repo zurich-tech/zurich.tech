@@ -8,10 +8,11 @@ on:
 
 permissions:
     contents: read
+    actions: read
 
 concurrency:
     group: ci-${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
     check:
@@ -38,7 +39,9 @@ jobs:
               run: bun install --frozen-lockfile
 
             - name: Check
-              run: just check
+              run: |
+                  bun test tests
+                  just check
 
     deploy:
         name: Deploy
@@ -73,5 +76,44 @@ jobs:
                   --cmd "bun run build"
                   --cmd-url-env-var-name VITE_CONVEX_URL
 
+            - name: Restore previous client assets
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  artifact=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=client-assets&per_page=100" --jq '[.artifacts[] | select(.expired == false and .workflow_run.head_branch == "main")][0].workflow_run.id // empty')
+                  if [ -n "$artifact" ]; then
+                    gh run download "$artifact" --name client-assets --dir "$RUNNER_TEMP/client-assets-download"
+                    mkdir -p "$RUNNER_TEMP/client-assets"
+                    tar -xf "$RUNNER_TEMP/client-assets-download/client-assets.tar" -C "$RUNNER_TEMP/client-assets"
+                  fi
+
+            - name: Retain immutable client assets
+              run: bun scripts/deployment/assets.ts .output/public/_build/assets "$RUNNER_TEMP/client-assets" https://zurich.tech
+
+            - name: Verify the built Worker before deployment
+              run: |
+                  bunx wrangler dev --port 8787 > "$RUNNER_TEMP/worker-preview.log" 2>&1 &
+                  preview=$!
+                  trap 'kill "$preview" 2>/dev/null || true' EXIT
+                  for attempt in $(seq 1 30); do
+                    if curl --silent --fail http://localhost:8787/about > /dev/null; then break; fi
+                    sleep 1
+                  done
+                  bun scripts/rendering/check.ts http://localhost:8787
+
             - name: Deploy Worker
               run: bunx wrangler deploy
+
+            - name: Archive retained client assets
+              run: tar -cf "$RUNNER_TEMP/client-assets.tar" -C "$RUNNER_TEMP/client-assets" .
+
+            - name: Save client assets for the next deployment
+              uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+              with:
+                  name: client-assets
+                  path: ${{ runner.temp }}/client-assets.tar
+                  retention-days: 90
+                  if-no-files-found: error
+
+            - name: Verify production pages and their assets
+              run: bun scripts/rendering/check.ts https://zurich.tech
