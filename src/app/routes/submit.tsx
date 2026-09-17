@@ -113,6 +113,8 @@ export default function Route() {
         params.edit && draft()?.eventId
             ? workspace()?.statuses.find((event) => event.id === draft()?.eventId)?.status
             : undefined;
+    const [visibility, setVisibility] = createSignal<"public" | "unlisted">("public");
+    createEffect(() => setVisibility(draft()?.visibility ?? "public"));
     const currentEvent = () => workspace()?.statuses.find((event) => event.id === draft()?.eventId);
     const isPublished = () => eventStatus() === "scheduled" || eventStatus() === "finished";
     const isCancelled = () => eventStatus() === "cancelled";
@@ -235,6 +237,7 @@ export default function Route() {
             );
             const client = await memberClient();
             const values = {
+                visibility: (text("visibility") || "public") as "public" | "unlisted",
                 title: text("title"),
                 slug: text("slug"),
                 description: text("description"),
@@ -242,9 +245,12 @@ export default function Route() {
                 format: text("format") as Doc<"events">["format"],
                 seriesId: text("series") ? (text("series") as Id<"series">) : undefined,
                 topics: fields.getAll("topic").map(String),
-                startsAt: timestamp(text("startsAt")),
-                confirmation: readConfirmation(fields, timestamp(text("startsAt"))),
-                endsAt: text("endsAt") ? timestamp(text("endsAt")) : undefined,
+                startsAt: timestamp(text("startsAt"), draft()?.startsAt),
+                confirmation: readConfirmation(
+                    fields,
+                    timestamp(text("startsAt"), draft()?.startsAt),
+                ),
+                endsAt: text("endsAt") ? timestamp(text("endsAt"), draft()?.endsAt) : undefined,
                 location: text("location"),
                 addressAccess:
                     text("addressKind") === "external"
@@ -459,14 +465,16 @@ export default function Route() {
                                                 <p>Changes appear on the event page when saved.</p>
                                             }
                                         >
-                                            <label class="checkbox">
-                                                <input
-                                                    type="checkbox"
-                                                    name="announce"
-                                                    disabled={isPending()}
-                                                />
-                                                Announce to subscribers
-                                            </label>
+                                            <Show when={visibility() === "public"}>
+                                                <label class="checkbox">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="announce"
+                                                        disabled={isPending()}
+                                                    />
+                                                    Announce to subscribers
+                                                </label>
+                                            </Show>
                                             <p>
                                                 Save keeps a draft. Publish opens a review with the
                                                 email count.
@@ -527,6 +535,10 @@ export default function Route() {
                                 <div class="editor-column">
                                     {/* describe the event and its relationship to a series */}
                                     <EventFields
+                                        onVisibilityChange={setVisibility}
+                                        isPublished={
+                                            !!currentEvent() && currentEvent()?.status !== "draft"
+                                        }
                                         draft={draft()}
                                         isDuplicate={!!params.duplicate}
                                         directory={

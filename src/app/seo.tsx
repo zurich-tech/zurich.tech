@@ -16,6 +16,7 @@ export function Seo(props: {
     isHome?: boolean;
     /** Article previews use the standard article graph type. */
     isArticle?: boolean;
+    noIndex?: boolean;
 }) {
     // derive canonical metadata and exclude private account pages
     const location = useLocation();
@@ -37,7 +38,7 @@ export function Seo(props: {
     return (
         <>
             <Title>{metadata().title}</Title>
-            <Show when={isPrivate()}>
+            <Show when={isPrivate() || props.noIndex}>
                 <Meta name="robots" content="noindex, nofollow" />
             </Show>
             <Meta name="description" content={metadata().description} />

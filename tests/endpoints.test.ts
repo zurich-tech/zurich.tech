@@ -790,3 +790,274 @@ test("topic curation requires an admin and archived interests can only be retain
         }),
     ).rejects.toThrow();
 });
+
+test("address defaults do not trigger registration updates; real visibility changes do", async () => {
+    const { sameAddressAccess } = await import("../convex/events/place");
+    const { eventAction, confirmAction } = await import("../convex/events/actions");
+    const { backend, ids } = await setup();
+    expect(sameAddressAccess(undefined, { kind: "public" })).toBe(true);
+    expect(sameAddressAccess({ kind: "public" }, undefined)).toBe(true);
+    expect(
+        sameAddressAccess(
+            { kind: "external", url: "https://example.com", label: "Venue" },
+            { label: "Venue", url: "https://example.com", kind: "external" },
+        ),
+    ).toBe(true);
+    expect(
+        sameAddressAccess(
+            { kind: "external", url: "https://example.com", label: "Venue" },
+            { kind: "external", url: "https://example.com/new", label: "Venue" },
+        ),
+    ).toBe(false);
+
+    // Reproduce an ordinary editor save with an existing registered attendee.
+    await backend.run(async (ctx) => {
+        await ctx.db.insert("registrations", {
+            eventId: ids.eventId,
+            email: "attendee@example.invalid",
+            name: "Attendee",
+            status: "going",
+            token: "test-token",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const event = (await ctx.db.get(ids.eventId))!;
+        const draft = (await ctx.db.get(ids.draftId))!;
+        const proposed = {
+            ...revisionFields(draft),
+            addressAccess: { kind: "public" as const },
+            coOrganiserIds: [ids.memberId],
+        };
+        expect((await eventAction(ctx, event, "publish", proposed)).updates).toBe(0);
+        const before = await eventAction(ctx, event, "publish", {
+            ...proposed,
+            location: "New venue",
+        });
+        const after = await eventAction(ctx, event, "publish", {
+            ...proposed,
+            location: "Different venue",
+        });
+        expect(before.emails).toBe(after.emails);
+        expect(() => confirmAction(after, before.receipt)).toThrow("review and confirm again");
+
+        expect(
+            (
+                await eventAction(ctx, event, "publish", {
+                    ...proposed,
+                    addressAccess: { kind: "confirmed" },
+                })
+            ).updates,
+        ).toBe(1);
+        expect(
+            (
+                await eventAction(ctx, event, "publish", {
+                    ...proposed,
+                    startsAt: event.startsAt + 3600000,
+                })
+            ).updates,
+        ).toBe(1);
+    });
+});
+
+test("notification comparisons ignore presentation changes and explain private address updates", async () => {
+    const { notificationChanges } = await import("../convex/events/changes");
+    const { eventChanges } = await import("../convex/mail/templates");
+    const { civilTime, timestamp } = await import("../src/events/time");
+    const event = {
+        title: "Talk",
+        slug: "talk",
+        startsAt: 1791820800123,
+        location: " Venue ",
+        address: " Address ",
+    };
+    expect(notificationChanges(event, { ...event, location: "Venue", address: "Address" })).toEqual(
+        [],
+    );
+    expect(timestamp(civilTime(event.startsAt), event.startsAt)).toBe(event.startsAt);
+    const ambiguous = Date.parse("2026-10-25T00:30:00Z");
+    expect(timestamp(civilTime(ambiguous), ambiguous)).toBe(ambiguous);
+    expect(() => timestamp("2026-10-25T02:30")).toThrow("daylight saving");
+    const privateEvent = {
+        ...event,
+        addressAccess: { kind: "confirmed" as const },
+        address: "SECRET OLD",
+    };
+    const privateChange = { ...privateEvent, address: "SECRET NEW" };
+    expect(notificationChanges(privateEvent, privateChange)).toEqual(["Address"]);
+    expect(eventChanges(privateEvent, privateChange)).toContain("Address details changed");
+    expect(eventChanges(privateEvent, privateChange)).not.toContain("SECRET");
+    expect(
+        notificationChanges(
+            { ...event, addressAccess: { kind: "unannounced" } },
+            { ...event, addressAccess: { kind: "unannounced" }, address: undefined },
+        ),
+    ).toEqual([]);
+});
+
+test("publishing an organiser-only edit neither queues mail nor rejects reordered question properties", async () => {
+    const { publishEvent } = await import("../convex/events/mutations");
+    const { backend, ids } = await setup();
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.memberId, { visibility: "public" });
+        await ctx.db.insert("handles", {
+            name: "organiser",
+            memberId: ids.memberId,
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const registration = {
+            kind: "native" as const,
+            admission: "automatic" as const,
+            capacity: null,
+            overflow: "waitlist" as const,
+            questions: [{ label: "Question", isRequired: false }],
+        };
+        await ctx.db.patch(ids.eventId, { registration });
+        await ctx.db.patch(ids.draftId, {
+            primaryOrganiserId: ids.memberId,
+            coOrganiserIds: [ids.memberId],
+            addressAccess: { kind: "public" },
+            registration: {
+                ...registration,
+                questions: [{ isRequired: false, label: "Question" }],
+            },
+        });
+        await ctx.db.insert("registrations", {
+            eventId: ids.eventId,
+            email: "attendee@example.invalid",
+            name: "Attendee",
+            status: "going",
+            token: "test-token",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await publishEvent(ctx, ids.draftId);
+        expect(await ctx.db.query("campaigns").collect()).toEqual([]);
+        expect(await ctx.db.query("messages").collect()).toEqual([]);
+        expect((await ctx.db.get(ids.eventId))?.coOrganiserIds).toEqual([ids.memberId]);
+    });
+});
+
+test("unlisted events remain usable by link but leave public discovery and promotional mail", async () => {
+    const { internal } = await import("../convex/_generated/api");
+    const { eventAction } = await import("../convex/events/actions");
+    const { requireOpenEvent } = await import("../convex/events/registrations");
+    const { digestEvents } = await import("../convex/mail/newsletter");
+    const { backend, editor, ids } = await setup();
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.memberId, { visibility: "public" });
+        await ctx.db.insert("handles", {
+            name: "host",
+            memberId: ids.memberId,
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.patch(ids.eventId, {
+            primaryOrganiserId: ids.memberId,
+            registration: {
+                kind: "native",
+                admission: "automatic",
+                capacity: null,
+                overflow: "waitlist",
+                questions: [],
+            },
+        });
+    });
+    expect(
+        (await backend.query(api.events.queries.calendar, {})).some(
+            (event) => event.id === ids.eventId,
+        ),
+    ).toBe(true);
+    await backend.run((ctx) => ctx.db.patch(ids.eventId, { visibility: "unlisted" }));
+    expect(
+        (await backend.query(api.events.queries.calendar, {})).some(
+            (event) => event.id === ids.eventId,
+        ),
+    ).toBe(false);
+    expect(JSON.stringify(await backend.query(api.search.search.catalogue, {}))).not.toContain(
+        '"/events/dinner"',
+    );
+    expect(
+        (await backend.query(api.members.queries.member, { handle: "host" }))?.hostedEvents,
+    ).toEqual([]);
+    expect((await backend.query(api.events.queries.event, { slug: "dinner" }))?.visibility).toBe(
+        "unlisted",
+    );
+    expect(
+        (await editor.query(api.events.management.workspace, {})).submissions.some(
+            (draft) => draft.eventId === ids.eventId,
+        ),
+    ).toBe(true);
+
+    const deliveryIds = await backend.run(async (ctx) => {
+        const event = (await ctx.db.get(ids.eventId))!;
+        const draft = (await ctx.db.get(ids.draftId))!;
+        expect(requireOpenEvent(event).kind).toBe("native");
+        expect(digestEvents([event], Date.now())).toEqual([]);
+        const unchanged = await eventAction(ctx, event, "publish", revisionFields(draft));
+        expect(unchanged.visibility).toBe("unlisted");
+        expect(unchanged.visibilityChanged).toBe(false);
+        const listed = await eventAction(ctx, event, "publish", {
+            ...revisionFields(draft),
+            visibility: "public",
+        });
+        expect(listed.visibility).toBe("public");
+        expect(listed.visibilityChanged).toBe(true);
+
+        await expect(
+            eventAction(
+                ctx,
+                event,
+                "publish",
+                { ...revisionFields(draft), visibility: "unlisted" },
+                true,
+            ),
+        ).rejects.toThrow("cannot be announced");
+        const campaignId = await ctx.db.insert("campaigns", {
+            subject: "Weekly",
+            message: "Frozen edition",
+            eventIds: [event._id],
+            status: "queued",
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+        });
+        const base = {
+            isBulk: true,
+            to: "attendee@example.invalid",
+            subject: "Test",
+            text: "Test",
+            status: "queued" as const,
+            nextAttemptAt: Date.now(),
+            attempts: 0,
+            createdAt: Date.now(),
+        };
+        const weekly = await ctx.db.insert("messages", {
+            ...base,
+            key: "weekly-test",
+            category: "weekly",
+            campaignId,
+        });
+        const announcement = await ctx.db.insert("messages", {
+            ...base,
+            key: "announcement-test",
+            category: "announcement",
+            eventId: event._id,
+        });
+        const update = await ctx.db.insert("messages", {
+            ...base,
+            key: "update-test",
+            category: "update",
+            eventId: event._id,
+        });
+        return { weekly, announcement, update };
+    });
+    expect(await backend.query(internal.mail.messages.read, { id: deliveryIds.weekly })).toBeNull();
+    expect(
+        await backend.query(internal.mail.messages.read, { id: deliveryIds.announcement }),
+    ).toBeNull();
+    expect(
+        await backend.query(internal.mail.messages.read, { id: deliveryIds.update }),
+    ).not.toBeNull();
+});

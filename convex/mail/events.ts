@@ -18,7 +18,13 @@ export const announce = internalMutation({
     },
     handler: async (ctx, args) => {
         const event = await ctx.db.get(args.eventId);
-        if (!event || event.status !== "scheduled" || event.startsAt <= Date.now()) return;
+        if (
+            !event ||
+            event.visibility === "unlisted" ||
+            event.status !== "scheduled" ||
+            event.startsAt <= Date.now()
+        )
+            return;
         const subscriptions = await ctx.db
             .query("subscriptions")
             .withIndex("by_status", (q) => q.eq("status", "subscribed"))

@@ -1,3 +1,4 @@
+import { isListed } from "../events/visibility";
 import { organiserIds } from "../events/organisers";
 import { v } from "convex/values";
 import { query, type QueryCtx } from "../_generated/server";
@@ -61,7 +62,7 @@ export const member = query({
                         event.seriesId ? seriesOrganisers.get(event.seriesId) : undefined,
                     );
                     return (
-                        event.status !== "draft" &&
+                        isListed(event) &&
                         (ids.primary === member._id || ids.others.includes(member._id))
                     );
                 })
@@ -87,7 +88,7 @@ export const member = query({
             ).some(
                 (row) =>
                     !row.isRemoved &&
-                    events.some((event) => event._id === row.eventId && event.status !== "draft"),
+                    events.some((event) => event._id === row.eventId && isListed(event)),
             ),
             hostedEvents: entries,
         };

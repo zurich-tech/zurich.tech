@@ -1,3 +1,4 @@
+import { isListed } from "../events/visibility";
 import { v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import { query, type QueryCtx } from "../_generated/server";
@@ -39,23 +40,21 @@ async function catalogueRecords(ctx: QueryCtx): Promise<SearchRecord[]> {
         appearances.set(speaker.eventId, names);
     }
     return [
-        ...events
-            .filter((event) => event.status !== "draft")
-            .map((event) => ({
-                ...eventRecord(event),
-                status: event.status,
-                description: [
-                    event.summary,
-                    event.description,
-                    ...event.topics.flatMap((slug) => [
-                        slug,
-                        topics.find((topic) => topic.slug === slug)?.name,
-                    ]),
-                    ...(appearances.get(event._id) ?? []),
-                ]
-                    .filter(Boolean)
-                    .join(" "),
-            })),
+        ...events.filter(isListed).map((event) => ({
+            ...eventRecord(event),
+            status: event.status,
+            description: [
+                event.summary,
+                event.description,
+                ...event.topics.flatMap((slug) => [
+                    slug,
+                    topics.find((topic) => topic.slug === slug)?.name,
+                ]),
+                ...(appearances.get(event._id) ?? []),
+            ]
+                .filter(Boolean)
+                .join(" "),
+        })),
         ...series
             .filter((item) => item.status !== "proposed")
             .map((item) => ({
@@ -151,7 +150,9 @@ export const search = query({
                     description: [
                         post.published.description,
                         post.published.body,
-                        new Date(post.publishedAt!).toISOString().slice(0, 10),
+                        new Date(post.published.date ?? post.publishedAt!)
+                            .toISOString()
+                            .slice(0, 10),
                         post.published.category,
                         ...post.published.topics,
                     ]

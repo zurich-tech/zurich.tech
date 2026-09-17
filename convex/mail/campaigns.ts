@@ -232,6 +232,7 @@ export async function create(
     ctx: MutationCtx,
     values: {
         key: string;
+        eventIds?: Id<"events">[];
         audience: Audience;
         category: Category;
         content: Content;

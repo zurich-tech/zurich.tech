@@ -1,5 +1,6 @@
 import { locationsLabel, jobFacts } from "../../src/jobs/format";
 import type { openJobs } from "../jobs/jobs";
+import { notificationChanges } from "../events/changes";
 import { isTentative } from "../events/conditions";
 import type { Recurrence } from "../events/recurrence";
 import type { AddressAccess } from "../events/fields";
@@ -101,22 +102,25 @@ export function eventText(event: Event, includeSummary = false) {
 
 /** Describe each changed time or venue with its previous and current value. */
 export function eventChanges(previous: Event, current: Event) {
-    previous = { ...previous, address: emailAddress(previous) };
-    current = { ...current, address: emailAddress(current) };
+    const changed = notificationChanges(previous, current);
+    const previousAddress = emailAddress(previous);
+    const currentAddress = emailAddress(current);
     const changes: string[] = [];
-    if (previous.startsAt !== current.startsAt)
+    if (changed.includes("Start"))
         changes.push(`Start: ${eventTime(previous.startsAt)} → ${eventTime(current.startsAt)}`);
-    if (previous.endsAt !== current.endsAt)
+    if (changed.includes("End"))
         changes.push(
             `End: ${previous.endsAt ? eventTime(previous.endsAt) : "Not specified"} → ${current.endsAt ? eventTime(current.endsAt) : "Not specified"}`,
         );
-    if (previous.location !== current.location)
+    if (changed.includes("Venue"))
         changes.push(
             `Venue: ${previous.location || "Not specified"} → ${current.location || "Not specified"}`,
         );
-    if ((previous.address ?? "") !== (current.address ?? ""))
+    if (changed.includes("Address") || changed.includes("Address visibility"))
         changes.push(
-            `Address: ${previous.address || "Not specified"} → ${current.address || "Not specified"}`,
+            previousAddress !== currentAddress
+                ? `Address: ${previousAddress || "Not specified"} → ${currentAddress || "Not specified"}`
+                : "Address details changed. View your registration for the current address.",
         );
     return changes.join("\n");
 }

@@ -191,6 +191,7 @@ export default function Route() {
             <Match when={event() !== undefined}>
                 <>
                     <Seo
+                        noIndex={event()?.visibility === "unlisted"}
                         title={title()}
                         description={event()?.summary ?? event()?.title ?? "Event"}
                         image={event()?.media[0]?.url}
@@ -243,6 +244,19 @@ export default function Route() {
                             class="item-header event-overview"
                             toolbar={
                                 <div class="row-actions">
+                                    <Show
+                                        when={
+                                            event()?.visibility === "unlisted" &&
+                                            access.canEvent(event()!.id)
+                                        }
+                                    >
+                                        <span
+                                            class="tag"
+                                            title="Anyone with the link can view this event"
+                                        >
+                                            Unlisted
+                                        </span>
+                                    </Show>
                                     <Show when={!isRegistrationLoading() && hasRegistration()}>
                                         <div
                                             class="event-overview__account"

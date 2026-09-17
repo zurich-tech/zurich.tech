@@ -6,6 +6,7 @@ import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { requireEvent, requireRevision } from "../auth/grants";
 import { submissionFields } from "./fields";
+import { notificationChanges } from "./changes";
 import { eventPlace } from "./place";
 import { registrations, waitingForSeats } from "./registrations";
 
@@ -28,6 +29,10 @@ export async function eventAction(
     proposed?: Infer<typeof fields>,
     announce = false,
 ) {
+    // Revisions written before visibility existed must not expose an unlisted event.
+    if (proposed && event && proposed.visibility === undefined)
+        proposed = { ...proposed, visibility: event.visibility };
+
     const now = Date.now();
     if (intent !== "publish" && !event) throw new Error("Event not found.");
     if (event?.status === "cancelled")
@@ -52,6 +57,7 @@ export async function eventAction(
     const recipients = new Set<string>();
     let announcements = 0;
     let updates = 0;
+    let changes: ReturnType<typeof notificationChanges> = [];
     let promotions = 0;
     const confirms =
         event &&
@@ -65,6 +71,8 @@ export async function eventAction(
     }
     if (intent === "publish" && proposed) {
         if (announce) {
+            if (proposed.visibility === "unlisted")
+                throw new Error("Unlisted events cannot be announced to subscribers.");
             if (proposed.startsAt <= now) throw new Error("Only upcoming events can be announced.");
             if (event && (await isAnnounced(ctx, event)))
                 throw new Error("This event has already been announced.");
@@ -74,38 +82,25 @@ export async function eventAction(
         }
         if (event) {
             const place = await eventPlace(ctx, event);
-            const changed =
-                event.startsAt !== proposed.startsAt ||
-                event.endsAt !== proposed.endsAt ||
-                place.location !== proposed.location ||
-                place.address !== (proposed.address ?? "") ||
-                JSON.stringify(event.addressAccess) !== JSON.stringify(proposed.addressAccess);
-            if (changed && (event.startsAt > now || proposed.startsAt > now)) {
+            changes = notificationChanges({ ...event, ...place }, proposed);
+            if (changes.length && (event.startsAt > now || proposed.startsAt > now)) {
                 updates = active.length;
                 for (const row of active) recipients.add(row.email);
             }
-            const promoted = waitingForSeats(
+            const waiting = waitingForSeats(
                 {
                     ...proposed,
                     confirmedAt: event.confirmedAt,
                     status: proposed.startsAt > now ? "scheduled" : "finished",
                 },
                 rows,
-            ).filter((row) => !suppressed.has(row.email));
+            );
+            const promoted = waiting.filter((row) => !suppressed.has(row.email));
             promotions = promoted.length;
             for (const row of promoted) recipients.add(row.email);
 
             // include confirmation notices triggered by a newly available seat
-            const allocated = new Set(
-                waitingForSeats(
-                    {
-                        ...proposed,
-                        confirmedAt: event.confirmedAt,
-                        status: proposed.startsAt > now ? "scheduled" : "finished",
-                    },
-                    rows,
-                ).map((row) => row._id),
-            );
+            const allocated = new Set(waiting.map((row) => row._id));
             const after = rows.map((row) =>
                 allocated.has(row._id) ? { ...row, status: "going" } : row,
             );
@@ -122,6 +117,11 @@ export async function eventAction(
     const emails = announcements + updates + promotions;
     return {
         title: proposed?.title ?? event!.title,
+        visibility: proposed?.visibility ?? event?.visibility ?? "public",
+        visibilityChanged:
+            !!event &&
+            !!proposed &&
+            (event.visibility ?? "public") !== (proposed.visibility ?? "public"),
         emails,
         followUp: proposed?.followUp?.isEnabled
             ? {
@@ -133,14 +133,13 @@ export async function eventAction(
         recipients: recipients.size,
         announcements,
         updates,
+        changes,
         promotions,
         receipt: JSON.stringify([
             intent,
-            proposed?.followUp,
-            proposed?.checkIn,
-            proposed?.endsAt,
+            proposed,
             announce,
-            recipients.size,
+            [...recipients].sort(),
             event?._id,
             event?.updatedAt,
             event?.status,

@@ -5817,3 +5817,19 @@ a.tag:focus-visible {
     gap: 12px;
     align-items: center;
 }
+
+/* Align URL actions with ordinary form labels without expanding the input row. */
+.event-slug {
+    gap: 8px;
+    align-content: start;
+}
+.event-slug__heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+.event-slug__heading .action-link {
+    min-height: 0;
+    padding: 0;
+}

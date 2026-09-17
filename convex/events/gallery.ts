@@ -1,3 +1,4 @@
+import { isListed } from "./visibility";
 import { photoUrls } from "./photos";
 import { query } from "../_generated/server";
 
@@ -14,7 +15,7 @@ export const gallery = query({
 
         // Read independent albums concurrently while preserving the event order.
         const albums = await Promise.all(
-            events.map(async (event) => {
+            events.filter(isListed).map(async (event) => {
                 const images = await ctx.db
                     .query("photos")
                     .withIndex("by_event_and_position", (range) => range.eq("eventId", event._id))

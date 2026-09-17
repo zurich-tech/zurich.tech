@@ -1,3 +1,4 @@
+import { isListed } from "../events/visibility";
 import { v } from "convex/values";
 import { internalMutation } from "../_generated/server";
 import { receivesAnnouncement } from "./events";
@@ -17,6 +18,17 @@ export const announce = internalMutation({
         if (!schedule || schedule.status !== "active") return;
         const series = await ctx.db.get(schedule.seriesId);
         if (!series || !series.announcedAt) return;
+        const events = await ctx.db
+            .query("events")
+            .withIndex("by_schedule_and_occurrence", (q) => q.eq("scheduleId", schedule._id))
+            .collect();
+        if (
+            !events.some(
+                (event) =>
+                    isListed(event) && event.status === "scheduled" && event.startsAt > Date.now(),
+            )
+        )
+            return;
         const subscriptions = await ctx.db
             .query("subscriptions")
             .withIndex("by_status", (q) => q.eq("status", "subscribed"))
@@ -25,6 +37,7 @@ export const announce = internalMutation({
             ctx,
             {
                 key: `series:${series._id}`,
+                eventIds: events.filter(isListed).map((event) => event._id),
                 audience: { kind: "subscribers" },
                 category: "announcement",
                 seriesId: series._id,

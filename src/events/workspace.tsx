@@ -27,6 +27,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
             draftId: undefined as string | undefined,
             title: event.title,
             slug: event.slug,
+            visibility: event.visibility,
             startsAt: event.startsAt,
             capacity: event.registration.kind === "none" ? undefined : event.registration.capacity,
             venueCapacity: event.venueCapacity,
@@ -48,6 +49,7 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
             draftId: draft._id,
             title: draft.title,
             slug: draft.slug,
+            visibility: draft.visibility,
             startsAt: draft.startsAt,
             capacity: draft.registration.kind === "none" ? undefined : draft.registration.capacity,
             venueCapacity: draft.venueCapacity,
@@ -148,6 +150,9 @@ export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => un
                                         >
                                             {row.status}
                                         </span>
+                                        <Show when={row.visibility === "unlisted"}>
+                                            <span class="tag">Unlisted</span>
+                                        </Show>
                                     </td>
                                     <td>
                                         <EventCounts

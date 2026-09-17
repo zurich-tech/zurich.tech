@@ -13,8 +13,9 @@ test("gallery preserves album order and excludes unapproved photos and unfinishe
             searchText: "",
         });
         const albums = [];
-        for (const [index, status] of ["finished", "finished", "scheduled"].entries()) {
+        for (const [index, status] of ["finished", "finished", "scheduled", "finished"].entries()) {
             const eventId = await ctx.db.insert("events", {
+                visibility: index === 3 ? "unlisted" : undefined,
                 title: `Event ${index}`,
                 slug: `event-${index}`,
                 format: "talk",
@@ -51,7 +52,7 @@ test("gallery preserves album order and excludes unapproved photos and unfinishe
                         thumbnailUrl: `https://media.zurich.tech/${index}/${position}.webp`,
                     });
             }
-            if (status === "finished")
+            if (status === "finished" && index !== 3)
                 albums.unshift({
                     title: `Event ${index}`,
                     href: `/events/event-${index}#photos`,

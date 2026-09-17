@@ -135,6 +135,7 @@ export const mailQuota = defineTable({
 
 /** Written or product-generated group send, frozen when sending starts. */
 export const campaigns = defineTable({
+    eventIds: v.optional(v.array(v.id("events"))),
     key: v.optional(v.string()),
     subject: v.string(),
     message: v.string(),

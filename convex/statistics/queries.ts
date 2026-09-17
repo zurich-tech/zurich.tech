@@ -1,3 +1,4 @@
+import { isListed } from "../events/visibility";
 import { query, internalMutation, type QueryCtx } from "../_generated/server";
 import { cumulative, currentPoint, date, growth, subscriberHistory } from "./history";
 
@@ -9,18 +10,20 @@ async function records(ctx: QueryCtx) {
         ctx.db.query("registrations").collect(),
     ]);
     const past = events.filter(
-        (event) =>
-            event.status !== "draft" && event.status !== "cancelled" && event.startsAt < Date.now(),
+        (event) => isListed(event) && event.status !== "cancelled" && event.startsAt < Date.now(),
     );
+
+    const listed = new Set(events.filter(isListed).map((event) => event._id));
+    const publicRegistrations = registrations.filter((row) => listed.has(row.eventId));
 
     return {
         past,
         subscriptions,
-        registrations,
+        registrations: publicRegistrations,
         totals: {
             events: past.length,
             subscribers: subscriptions.filter((row) => row.status === "subscribed").length,
-            registrations: registrations.length,
+            registrations: publicRegistrations.length,
         },
     };
 }

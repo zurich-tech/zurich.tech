@@ -19,7 +19,11 @@ export async function confirmEvent(
                 ? "This confirms the event even if its requirements are unmet."
                 : args.action === "approve"
                   ? "This records team approval. Other requirements still apply."
-                  : "This publishes your changes.";
+                  : preview.visibility === "unlisted"
+                    ? "This publishes an unlisted event. Anyone with the link can view and register; it stays out of listings and promotional emails."
+                    : preview.visibilityChanged
+                      ? "This makes the event publicly listed. Anyone can find it on the website."
+                      : "This publishes your changes.";
     const accepted = await confirm({
         title,
         subject: preview.title,
@@ -33,7 +37,9 @@ export async function confirmEvent(
                 ? `Follow-up scheduled ${preview.followUp.delayHours} hours after the event, for ${preview.followUp.isAttendanceRequired ? "checked-in attendees" : "confirmed registrants"}. ${preview.followUp.currentRegistrations} currently confirmed; the final email count depends on eligibility at delivery.`
                 : "",
             preview.announcements ? `${preview.announcements} subscriber announcements.` : "",
-            preview.updates ? `${preview.updates} registration updates.` : "",
+            preview.updates
+                ? `${preview.updates} registration updates.${preview.changes.length ? ` Changed: ${preview.changes.join(", ").toLowerCase()}.` : ""}`
+                : "",
             preview.promotions ? `${preview.promotions} waitlist confirmations.` : "",
         ]
             .filter(Boolean)

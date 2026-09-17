@@ -1,3 +1,4 @@
+import { Select, Textarea } from "../components/field";
 import { TopicFields } from "../topics/fields";
 import { formats } from "../../convex/events/formats";
 import { AffiliationFields } from "../members/affiliations";
@@ -17,9 +18,13 @@ export function EventFields(props: {
     draft: Doc<"submissions"> | undefined;
     /** Clear fields that must be unique when duplicating. */
     isDuplicate: boolean;
+    /** Published URLs stay stable for existing invitation links. */
+    isPublished?: boolean;
+    onVisibilityChange?: (visibility: "public" | "unlisted") => void;
     /** Series available for this event. */
     directory: Awaited<ReturnType<typeof getDirectory>> | undefined;
 }) {
+    let slugInput!: HTMLInputElement;
     const [seriesId, setSeriesId] = createSignal(
         props.draft?.seriesId ?? props.initialSeriesId ?? "",
     );
@@ -40,28 +45,77 @@ export function EventFields(props: {
                 <input name="title" required maxlength="180" value={props.draft?.title ?? ""} />
             </label>
             <div class="form-columns">
-                <label>
-                    Slug
+                <div class="field event-slug">
+                    <div class="event-slug__heading">
+                        <label for="event-slug">Slug</label>
+                        <Show when={!props.isPublished || props.isDuplicate}>
+                            <button
+                                type="button"
+                                class="action-link"
+                                onClick={() => {
+                                    const suffix = Array.from(
+                                        crypto.getRandomValues(new Uint8Array(8)),
+                                        (byte) => byte.toString(16).padStart(2, "0"),
+                                    ).join("");
+                                    const base =
+                                        slugInput.value.trim().replace(/-[a-f0-9]{16}$/, "") ||
+                                        "event";
+                                    slugInput.value = `${base}-${suffix}`;
+                                    slugInput.dispatchEvent(new Event("input", { bubbles: true }));
+                                }}
+                            >
+                                Add random suffix
+                            </button>
+                        </Show>
+                    </div>
                     <input
+                        id="event-slug"
+                        class="field__control"
+                        ref={slugInput}
+                        readOnly={props.isPublished && !props.isDuplicate}
+                        title={
+                            props.isPublished && !props.isDuplicate
+                                ? "Published URLs cannot change; existing invitation links keep working."
+                                : undefined
+                        }
                         name="slug"
                         required
                         pattern="[a-z0-9]+(-[a-z0-9]+)*"
                         value={props.isDuplicate ? "" : (props.draft?.slug ?? "")}
                         placeholder="builders-dinner-september"
                     />
-                </label>
+                </div>
                 <label>
                     Format
-                    <select name="format" value={props.draft?.format ?? "talk"}>
+                    <Select name="format" value={props.draft?.format ?? "talk"}>
                         <For each={formats}>
                             {(option) => <option value={option.value}>{option.label}</option>}
                         </For>
-                    </select>
+                    </Select>
                 </label>
             </div>
             <label>
+                Visibility
+                <Select
+                    name="visibility"
+                    value={props.draft?.visibility ?? "public"}
+                    onChange={(event) =>
+                        props.onVisibilityChange?.(
+                            event.currentTarget.value as "public" | "unlisted",
+                        )
+                    }
+                >
+                    <option value="public">Public</option>
+                    <option value="unlisted">Unlisted</option>
+                </Select>
+                <span>
+                    Unlisted events are accessible to anyone with the link, but excluded from
+                    listings and promotional emails.
+                </span>
+            </label>
+            <label>
                 Summary
-                <textarea
+                <Textarea
                     name="summary"
                     maxlength="500"
                     rows="2"
@@ -70,12 +124,12 @@ export function EventFields(props: {
             </label>
             <label>
                 Description <span>Markdown supported</span>
-                <textarea name="description" rows="8" value={props.draft?.description ?? ""} />
+                <Textarea name="description" rows="8" value={props.draft?.description ?? ""} />
             </label>
             <div class="form-columns">
                 <label>
                     Series
-                    <select
+                    <Select
                         name="series"
                         value={seriesId()}
                         onChange={(event) => {
@@ -95,7 +149,7 @@ export function EventFields(props: {
                         >
                             {(item) => <option value={item._id}>{item.name}</option>}
                         </For>
-                    </select>
+                    </Select>
                 </label>
                 <div class="grid gap-3">
                     <TopicFields values={topics()} onChange={setTopics} />
@@ -154,7 +208,7 @@ export function VenueFields(props: {
             </span>
             <label>
                 Address availability
-                <select
+                <Select
                     name="addressKind"
                     value={addressKind()}
                     onChange={(event) => setAddressKind(event.currentTarget.value)}
@@ -163,7 +217,7 @@ export function VenueFields(props: {
                     <option value="confirmed">Confirmed attendees</option>
                     <option value="external">On another site</option>
                     <option value="unannounced">Not announced</option>
-                </select>
+                </Select>
             </label>
             <Show when={addressKind() !== "unannounced"}>
                 <AddressField value={props.draft} />
@@ -278,7 +332,7 @@ export function ProgrammeFields(props: {
                             />
                             <label>
                                 Links<span>One URL per line</span>
-                                <textarea
+                                <Textarea
                                     name="speakerLinks"
                                     rows="2"
                                     value={(speaker().links ?? []).join("\n")}
@@ -401,7 +455,7 @@ export function ProgrammeFields(props: {
                             {(item) => (
                                 <label>
                                     {item.name}
-                                    <select
+                                    <Select
                                         name={`organisation:${item._id}`}
                                         value={
                                             props.draft?.partnerIds?.includes(item._id)
@@ -414,7 +468,7 @@ export function ProgrammeFields(props: {
                                         <option value="none">None</option>
                                         <option value="supporter">Host / supporter</option>
                                         <option value="partner">Partner</option>
-                                    </select>
+                                    </Select>
                                 </label>
                             )}
                         </For>
@@ -458,14 +512,14 @@ export function RegistrationFields(props: {
         <>
             <label>
                 Registration
-                <select
+                <Select
                     value={props.kind}
                     onChange={(event) => props.setKind(event.currentTarget.value)}
                 >
                     <option value="native">Here, on zurich.tech</option>
                     <option value="external">On another website</option>
                     <option value="none">No registration / drop-in</option>
-                </select>
+                </Select>
             </label>
             <Show when={props.kind === "external"}>
                 <label>
@@ -487,10 +541,10 @@ export function RegistrationFields(props: {
                 <div class="form-columns">
                     <label>
                         Admission
-                        <select name="admission" value={native()?.admission ?? "automatic"}>
+                        <Select name="admission" value={native()?.admission ?? "automatic"}>
                             <option value="automatic">Automatic</option>
                             <option value="approval">Approval required</option>
-                        </select>
+                        </Select>
                     </label>
                     <label>
                         Registration limit <span>Leave blank for unlimited</span>
@@ -506,10 +560,10 @@ export function RegistrationFields(props: {
                 <div class="form-columns">
                     <label>
                         When full
-                        <select name="overflow" value={native()?.overflow ?? "waitlist"}>
+                        <Select name="overflow" value={native()?.overflow ?? "waitlist"}>
                             <option value="waitlist">Keep a waitlist</option>
                             <option value="closed">Close registration</option>
-                        </select>
+                        </Select>
                     </label>
                     <label>
                         Registration closes <span>Defaults to event start</span>

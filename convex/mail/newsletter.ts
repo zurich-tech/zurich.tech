@@ -1,3 +1,4 @@
+import { isListed } from "../events/visibility";
 import { openJobs } from "../jobs/jobs";
 import { select } from "./audiences";
 import { recipientsLocked } from "./policy";
@@ -108,6 +109,7 @@ export const tick = internalMutation({
         // queue bounded batches rather than one scheduled job per subscriber here
         await ctx.scheduler.runAfter(0, internal.mail.newsletter.queue, {
             week,
+            eventIds: selected.map((event) => event._id),
             ...edition,
             cursor: null,
         });
@@ -120,6 +122,7 @@ export const tick = internalMutation({
 export const queue = internalMutation({
     args: {
         week: v.string(),
+        eventIds: v.array(v.id("events")),
         text: v.string(),
         html: v.string(),
         cursor: v.union(v.string(), v.null()),
@@ -127,6 +130,7 @@ export const queue = internalMutation({
     handler: async (ctx, args): Promise<string | null> => {
         await create(ctx, {
             key: `digest:${args.week}`,
+            eventIds: args.eventIds,
             audience: { kind: "subscribers" },
             category: "weekly",
             expiresAt: Date.now() + 7 * 86400000,
@@ -138,5 +142,7 @@ export const queue = internalMutation({
 
 /** Include the coming week's recurring occurrences alongside standalone announcements. */
 export function digestEvents(events: Doc<"events">[], now: number) {
-    return events.filter((event) => !event.scheduleId || event.startsAt < now + 7 * 86400000);
+    return events.filter(
+        (event) => isListed(event) && (!event.scheduleId || event.startsAt < now + 7 * 86400000),
+    );
 }

@@ -1,3 +1,4 @@
+import { visibility } from "./visibility";
 import { affiliations } from "../members/affiliations";
 import { recurrence } from "./recurrence";
 import { defineTable } from "convex/server";
@@ -61,6 +62,7 @@ export const seriesRevisions = defineTable({
 
 /** Stored events. */
 export const events = defineTable({
+    visibility: v.optional(visibility),
     /** Override the series public organiser for this event. */
     primaryOrganiserId: v.optional(v.id("members")),
     coOrganiserIds: v.optional(v.array(v.id("members"))),

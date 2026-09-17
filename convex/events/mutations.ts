@@ -6,6 +6,7 @@ import { validateConfirmation, sameConfirmation } from "./conditions";
 import { scheduleDecision, settle } from "./confirmation";
 import { queueAnnouncement } from "./mail";
 import { eventAction, confirmAction } from "./actions";
+import { notificationChanges } from "./changes";
 import { eventPlace, validateAddress } from "./place";
 import { eventEmail, eventChanges } from "../mail/templates";
 import { readLinks, writeLinks } from "../members/links";
@@ -284,7 +285,12 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
                 previous.kind !== "native" ||
                 next.kind !== "native" ||
                 previous.admission !== next.admission ||
-                JSON.stringify(previous.questions) !== JSON.stringify(next.questions)
+                previous.questions.length !== next.questions.length ||
+                previous.questions.some(
+                    (question, index) =>
+                        question.label.trim() !== next.questions[index]?.label.trim() ||
+                        question.isRequired !== next.questions[index]?.isRequired,
+                )
             )
                 throw new Error(
                     "Keep the registration method, admission policy, and questions unchanged while registrations exist.",
@@ -320,6 +326,7 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
     const values = {
         ownerId: draft.ownerId,
         ...eventFields(draft),
+        visibility: draft.visibility ?? existing?.visibility,
         summary: draft.summary ?? existing?.summary,
         venueId: keepsVenue ? existing?.venueId : undefined,
         approvedAt: draft.confirmation?.isApprovalRequired ? existing?.approvedAt : undefined,
@@ -338,11 +345,7 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
         // email active attendees when the time or venue changes
         if (
             (existing.startsAt > now || draft.startsAt > now) &&
-            (existing.startsAt !== draft.startsAt ||
-                existing.endsAt !== draft.endsAt ||
-                previousPlace?.location !== draft.location ||
-                previousPlace?.address !== (draft.address ?? "") ||
-                JSON.stringify(existing.addressAccess) !== JSON.stringify(draft.addressAccess))
+            notificationChanges({ ...existing, ...previousPlace }, draft).length > 0
         ) {
             const message = eventEmail(draft, "Event updated", {
                 description: eventChanges({ ...existing, ...previousPlace }, draft),
@@ -456,6 +459,7 @@ export const edit = mutation({
 
         return await ctx.db.insert("submissions", {
             ownerId: event.ownerId,
+            visibility: event.visibility,
             primaryOrganiserId: event.primaryOrganiserId,
             coOrganiserIds: event.coOrganiserIds,
             addressAccess: event.addressAccess,

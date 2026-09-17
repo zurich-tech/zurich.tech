@@ -26,6 +26,8 @@ export async function isAnnounced(ctx: QueryCtx, event: Doc<"events">) {
 
 /** Queue the event's single subscriber announcement after explicit consent. */
 export async function queueAnnouncement(ctx: MutationCtx, event: Doc<"events">) {
+    if (event.visibility === "unlisted")
+        throw new Error("Unlisted events cannot be announced to subscribers.");
     if (event.status !== "scheduled" || event.startsAt <= Date.now())
         throw new Error("Only upcoming published events can be announced.");
     if (await isAnnounced(ctx, event)) throw new Error("This event has already been announced.");
@@ -48,6 +50,8 @@ async function audience(ctx: QueryCtx, event: Doc<"events">, intent: "announceme
     let reason: string | undefined;
     if (event.status !== "scheduled" || event.startsAt <= now)
         reason = "Only upcoming published events can be emailed.";
+    else if (intent === "announcement" && event.visibility === "unlisted")
+        reason = "Unlisted events cannot be announced to subscribers.";
     else if (intent === "announcement" && (await isAnnounced(ctx, event)))
         reason = "Announcement already queued.";
     else if (intent === "reminder" && isTentative(event))

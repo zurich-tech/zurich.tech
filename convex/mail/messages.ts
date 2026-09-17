@@ -1,3 +1,4 @@
+import { isListed } from "../events/visibility";
 import { send } from "./provider";
 import { canSend } from "./access";
 import { updateMessage } from "./progress";
@@ -75,6 +76,11 @@ export const read = internalQuery({
         if (delivery.campaignId && !delivery.isTest) {
             const campaign = await ctx.db.get(delivery.campaignId);
             if (!campaign || campaign.status === "cancelled") return null;
+            // Do not deliver a promotional snapshot after an included event becomes unlisted.
+            for (const id of campaign.eventIds ?? []) {
+                const event = await ctx.db.get(id);
+                if (!event || !isListed(event)) return null;
+            }
             if (campaign.audience?.kind === "registrations") {
                 const row = delivery.registrationId
                     ? await ctx.db.get(delivery.registrationId)
@@ -143,6 +149,8 @@ export const read = internalQuery({
                     delivery.category !== "update" &&
                     event.startsAt <= Date.now())
             )
+                return null;
+            if (delivery.category === "announcement" && event.visibility === "unlisted")
                 return null;
             if (delivery.category === "confirmed" && isTentative(event)) return null;
             if (

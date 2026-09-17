@@ -1,3 +1,4 @@
+import { isListed } from "./visibility";
 import { eventPlace, disclosePlace } from "./place";
 import { publicOrganiser, publicOrganisers, organiserIds } from "./organisers";
 import { readLinks } from "../members/links";
@@ -29,7 +30,7 @@ export const calendar = query({
 
         return await Promise.all(
             events
-                .filter((event) => event.status !== "draft")
+                .filter(isListed)
                 .sort((left, right) => left.startsAt - right.startsAt)
                 .map((event) =>
                     calendarRow(
@@ -104,6 +105,7 @@ export const event = query({
 
         return {
             id: event._id,
+            visibility: event.visibility ?? "public",
             checkIn: event.checkIn,
             feedback: event.feedback,
             registration: publicRegistration(event.registration),

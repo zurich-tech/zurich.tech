@@ -30,6 +30,17 @@ export async function eventPlace(ctx: QueryCtx, event: Doc<"events">) {
     };
 }
 
+/** Compare effective visibility, including the implicit public default. */
+export function sameAddressAccess(left?: AddressAccess, right?: AddressAccess) {
+    return (
+        (left?.kind ?? "public") === (right?.kind ?? "public") &&
+        (left?.kind !== "external" ||
+            (right?.kind === "external" &&
+                left.url.trim() === right.url.trim() &&
+                left.label.trim() === right.label.trim()))
+    );
+}
+
 /** Redact private address fields before returning or rendering a venue. */
 export function disclosePlace(
     place: Awaited<ReturnType<typeof eventPlace>>,

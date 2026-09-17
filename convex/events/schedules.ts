@@ -1,3 +1,4 @@
+import { isListed } from "./visibility";
 import { requireAudienceDelivery } from "../mail/policy";
 import { validateAddress } from "./place";
 import { v } from "convex/values";
@@ -339,7 +340,12 @@ async function announcementPreview(ctx: Pick<QueryCtx, "db">, id: Id<"schedules"
         .query("events")
         .withIndex("by_schedule_and_occurrence", (q) => q.eq("scheduleId", id))
         .collect();
-    if (!events.some((event) => event.status === "scheduled" && event.startsAt > Date.now()))
+    if (
+        !events.some(
+            (event) =>
+                isListed(event) && event.status === "scheduled" && event.startsAt > Date.now(),
+        )
+    )
         throw new Error("Publish an upcoming occurrence before announcing the series.");
     const subscriptions = await ctx.db.query("subscriptions").collect();
     const now = Date.now();

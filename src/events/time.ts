@@ -27,7 +27,10 @@ export function civilTime(value: number): string {
 }
 
 /** Resolve an unambiguous Zurich civil time, rejecting daylight saving gaps and overlaps. */
-export function timestamp(value: string): number {
+export function timestamp(value: string, previous?: number): number {
+    // An unchanged minute-level input must not rewrite an existing instant.
+    if (previous !== undefined && civilTime(previous) === value) return previous;
+
     const nominal = Date.parse(`${value}Z`);
     if (!Number.isFinite(nominal)) throw new Error("Enter a valid date and time.");
     const candidates = [nominal - 3600000, nominal - 7200000].filter(
