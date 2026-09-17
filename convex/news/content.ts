@@ -3,6 +3,7 @@ import { v } from "convex/values";
 /** Editable content, snapshotted when published. */
 export const content = v.object({
     title: v.string(),
+    date: v.optional(v.number()),
     description: v.string(),
     body: v.string(),
     kind: v.union(v.literal("post"), v.literal("link")),

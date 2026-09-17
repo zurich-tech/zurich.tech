@@ -16,6 +16,8 @@ export async function validateContent(
         topics: [...new Set(input.topics.map((tag) => tag.trim().toLowerCase()).filter(Boolean))],
     };
     await validateTopics(ctx, value.topics, previous);
+    if (value.date !== undefined && !Number.isFinite(new Date(value.date).getTime()))
+        throw new ConvexError("Enter a valid publication date.");
 
     if (
         !value.title ||

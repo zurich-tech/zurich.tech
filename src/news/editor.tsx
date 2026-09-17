@@ -1,3 +1,4 @@
+import { civilTime } from "../events/time";
 import { TopicFields } from "../topics/fields";
 import { FormSection } from "../components/form";
 import { useUnsavedChanges } from "../components/unsaved";
@@ -30,7 +31,11 @@ export function NewsEditor(props: {
     const initial = props.workspace.posts.find((post) => post._id === props.id);
     const [id, setId] = createSignal(initial?._id);
     const [version, setVersion] = createSignal(initial?.updatedAt);
-    const [published, setPublished] = createSignal(initial?.published);
+    const [published, setPublished] = createSignal(
+        initial?.published
+            ? { ...initial.published, date: initial.published.date ?? initial.publishedAt }
+            : undefined,
+    );
     const [hasPublished, setHasPublished] = createSignal(!!initial?.publishedAt);
     const [slug, setSlug] = createSignal(initial?.slug ?? "");
     const [content, setContent] = createSignal<Content>(
@@ -44,8 +49,15 @@ export function NewsEditor(props: {
             organisations: [],
         },
     );
-    const draftContent = () => content();
-    const snapshot = () => JSON.stringify({ slug: slug(), content: draftContent() });
+    const [date, setDate] = createSignal(
+        civilTime(initial?.draft.date ?? initial?.publishedAt ?? Date.now()).slice(0, 10),
+    );
+    const isDateValid = () => !!date() && Number.isFinite(Date.parse(`${date()}T00:00:00Z`));
+    const draftContent = () => ({
+        ...content(),
+        date: content().date ?? initial?.publishedAt ?? Date.parse(`${date()}T00:00:00Z`),
+    });
+    const snapshot = () => JSON.stringify({ slug: slug(), date: date(), content: draftContent() });
     const [isPreview, setIsPreview] = createSignal(false);
     const [isPending, setIsPending] = createSignal(false);
     const [error, setError] = createSignal<string>();
@@ -59,10 +71,12 @@ export function NewsEditor(props: {
     const update = <K extends keyof Content>(key: K, value: Content[K]) => {
         setContent((current) => ({ ...current, [key]: value }));
         setSuccess(undefined);
+        setError(undefined);
     };
 
     /** Persist only the draft; preserve the currently published content. */
     async function save() {
+        if (!isDateValid()) throw new Error("Enter a valid news date.");
         const submitted = snapshot();
         const result = await (
             await memberClient()
@@ -93,6 +107,11 @@ export function NewsEditor(props: {
         }
     }
     async function publish(isPublished: boolean) {
+        if (isPublished && !isDateValid()) {
+            setError("Enter a valid news date.");
+            return;
+        }
+
         if (
             !(await confirm({
                 title: isPublished
@@ -215,22 +234,40 @@ export function NewsEditor(props: {
                                 />
                             </Field>
                         </Show>
-                        <Field label="Category">
-                            <Select
-                                value={content().category ?? ""}
-                                onChange={(event) =>
-                                    update(
-                                        "category",
-                                        event.currentTarget.value === "funding"
-                                            ? "funding"
-                                            : undefined,
-                                    )
-                                }
-                            >
-                                <option value="">General news</option>
-                                <option value="funding">Funding</option>
-                            </Select>
-                        </Field>
+                        <div class="news-editor-grid">
+                            <Field label="Date">
+                                <Input
+                                    type="date"
+                                    value={date()}
+                                    required
+                                    onInput={(event) => {
+                                        setDate(event.currentTarget.value);
+                                        const selected = event.currentTarget.valueAsNumber;
+                                        if (Number.isFinite(selected)) update("date", selected);
+                                    }}
+                                />
+                                <small class="text-soft">
+                                    Shown on the article and used to order the news feed. Publish
+                                    changes to apply it.
+                                </small>
+                            </Field>
+                            <Field label="Category">
+                                <Select
+                                    value={content().category ?? ""}
+                                    onChange={(event) =>
+                                        update(
+                                            "category",
+                                            event.currentTarget.value === "funding"
+                                                ? "funding"
+                                                : undefined,
+                                        )
+                                    }
+                                >
+                                    <option value="">General news</option>
+                                    <option value="funding">Funding</option>
+                                </Select>
+                            </Field>
+                        </div>
                         <Field label="Summary">
                             <Textarea
                                 rows={2}

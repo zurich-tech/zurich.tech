@@ -128,5 +128,32 @@ test("news imports preserve dates, credit organisations and protect subsequent e
         backend.mutation(internal.news.imports.apply, { ...args, apply: true }),
     ).rejects.toThrow("News conflict: introduction");
     expect(await backend.run((ctx) => ctx.db.query("posts").collect())).toHaveLength(1);
+    // Dates are authored with the draft and become public only on publication.
+    const current = (await backend.run((ctx) => ctx.db.get(post._id)))!;
+    const date = Date.UTC(2025, 8, 12);
+    const saved = await editor.mutation(api.news.mutations.save, {
+        id: post._id,
+        slug: post.slug,
+        expectedUpdatedAt: current.updatedAt,
+        content: { ...current.draft, date },
+    });
+    expect((await backend.query(api.news.queries.detail, { slug: post.slug }))?.date).toBe(1234);
+    await editor.mutation(api.news.mutations.publish, {
+        id: post._id,
+        isPublished: true,
+        expectedUpdatedAt: saved.updatedAt,
+    });
+    expect((await backend.query(api.news.queries.list, {}))[0].date).toBe(date);
+    expect((await backend.query(api.news.queries.detail, { slug: post.slug }))?.date).toBe(date);
+    const published = (await backend.run((ctx) => ctx.db.get(post._id)))!;
+    expect(published.publishedAt).toBe(1234);
+    await expect(
+        editor.mutation(api.news.mutations.save, {
+            id: post._id,
+            slug: post.slug,
+            expectedUpdatedAt: published.updatedAt,
+            content: { ...published.draft, date: Infinity },
+        }),
+    ).rejects.toThrow("valid publication date");
     expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toEqual([]);
 });

@@ -41,7 +41,7 @@ async function publishedPost(ctx: QueryCtx, post: Doc<"posts">, topics: Doc<"top
         id: post._id,
         slug: post.slug,
         ...content,
-        date: post.publishedAt!,
+        date: content.date ?? post.publishedAt!,
         authors: await Promise.all(
             authors
                 .filter((author) => author !== null)
