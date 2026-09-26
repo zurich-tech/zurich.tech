@@ -11,14 +11,23 @@ import { useSearch } from "../search/local";
 import { filterLocations } from "./filter";
 import { Highlight } from "../components/highlight";
 import { arrangeLogos } from "./placement";
+import {
+    addBadges,
+    addOrganisationLayers,
+    highlightOrganisations,
+    showOrganisations,
+} from "./layers";
 import "./map.css";
 
-/** Listing order of highlighted organisations. */
-const prominence = { large: 0, medium: 1, small: 2 };
+/** Check whether an organisation earns a full logo on the map rather than a badge. */
+function isHighlighted(organisation: MapLocation["organisations"][number]) {
+    return Boolean(organisation.recognition);
+}
 
 /** Keep the circuit-map palette while fetching geographic detail at each zoom. */
 const style: StyleSpecification = {
     version: 8,
+    glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
     sources: { geography: { type: "vector", url: "https://tiles.openfreemap.org/planet" } },
     layers: [
         { id: "background", type: "background", paint: { "background-color": "#174ed8" } },
@@ -95,15 +104,35 @@ export function CommunityMap(props: {
     const organisationCount = () =>
         filtered().reduce((sum, place) => sum + place.organisations.length, 0);
 
-    // list hosts and sponsors first, then every other place by name
+    // list each organisation once, hosts and sponsors first, then everyone else, each by name
     const listed = createMemo(() =>
-        [...filtered()].sort(
-            (left, right) =>
-                prominence[left.organisations[0].prominence] -
-                    prominence[right.organisations[0].prominence] ||
-                left.organisations[0].name.localeCompare(right.organisations[0].name),
-        ),
+        filtered()
+            .flatMap((place) =>
+                place.organisations.map((person) => ({ ...place, organisations: [person] })),
+            )
+            .sort(
+                (left, right) =>
+                    Number(!isHighlighted(left.organisations[0])) -
+                        Number(!isHighlighted(right.organisations[0])) ||
+                    left.organisations[0].name.localeCompare(right.organisations[0].name),
+            ),
     );
+
+    // keep the list to what the map currently shows
+    const visible = createMemo(() => {
+        view();
+        const bounds = instance()?.map.getBounds();
+        return bounds
+            ? listed().filter((place) => bounds.contains([place.longitude, place.latitude]))
+            : listed();
+    });
+
+    // count the hosts and sponsors in view to place the divider after them
+    const highlightedCount = createMemo(
+        () => visible().filter((place) => isHighlighted(place.organisations[0])).length,
+    );
+
+    // narrow the selected places to the chosen organisation
     const selectedPlaces = createMemo(() =>
         filtered()
             .filter((place) => selected().includes(place.id))
@@ -204,15 +233,38 @@ export function CommunityMap(props: {
                 map.on("idle", () => {
                     if (map!.areTilesLoaded()) setError(false);
                 });
-                setInstance({ map, Marker: library.Marker });
-                frame();
+                map.on("load", () => {
+                    addOrganisationLayers(map!, !props.isHero);
+                    setInstance({ map: map!, Marker: library.Marker });
+                    frame();
+                });
+                if (!props.isHero) {
+                    map.on("click", "organisations", (event) => {
+                        const feature = event.features?.[0];
+                        const place = filtered().find(
+                            (entry) => entry.id === feature?.properties.place,
+                        );
+                        const person = place?.organisations.find(
+                            (entry) => entry.id === feature?.properties.id,
+                        );
+                        if (place && person) select([{ ...place, organisations: [person] }]);
+                    });
+                    map.on("mousemove", "organisations", (event) => {
+                        map!.getCanvas().style.cursor = "pointer";
+                        setHovered([event.features?.[0]?.properties.id]);
+                    });
+                    map.on("mouseleave", "organisations", () => {
+                        map!.getCanvas().style.cursor = "";
+                        setHovered([]);
+                    });
+                }
             })
             .catch(() => {
                 if (!isDisposed) setError(true);
             });
     });
 
-    // Place individual logos without hiding organisations at shared or nearby addresses.
+    // Place host and sponsor logos, moving them apart where they would overlap.
     createEffect(() => {
         const current = instance();
         const entries = filtered();
@@ -221,7 +273,7 @@ export function CommunityMap(props: {
         const logos = arrangeLogos(
             entries.flatMap((place) => {
                 const point = current.map.project([place.longitude, place.latitude]);
-                return place.organisations.map((person) => ({
+                return place.organisations.filter(isHighlighted).map((person) => ({
                     id: `${place.id}:${person.id}`,
                     ...point,
                     size: { large: 36, medium: 30, small: 26 }[person.prominence],
@@ -304,6 +356,30 @@ export function CommunityMap(props: {
                 dispose();
             }),
         );
+    });
+
+    // Draw every organisation as a badge, with space under each logo for labels.
+    createEffect(() => {
+        const current = instance();
+        const places = filtered();
+        if (!current) return;
+
+        // skip results that a newer filter has already replaced
+        let isStale = false;
+        onCleanup(() => (isStale = true));
+        void addBadges(current.map, places).then(() => {
+            if (!isStale) showOrganisations(current.map, places, isHighlighted);
+        });
+    });
+
+    // Mark hovered and selected organisations above the rest.
+    createEffect(() => {
+        const current = instance();
+        const ids = [
+            ...hovered(),
+            ...selectedPlaces().flatMap((place) => place.organisations.map((person) => person.id)),
+        ];
+        if (current) highlightOrganisations(current.map, ids);
     });
 
     return (
@@ -450,7 +526,9 @@ export function CommunityMap(props: {
                                     <p class="map-results" role="status">
                                         {organisations() === undefined
                                             ? "Loading locations…"
-                                            : `${organisationCount()} organisation${organisationCount() === 1 ? "" : "s"}`}
+                                            : visible().length === organisationCount()
+                                              ? `${organisationCount()} organisation${organisationCount() === 1 ? "" : "s"}`
+                                              : `${visible().length} of ${organisationCount()} organisations in view`}
                                     </p>
                                     <Show
                                         when={organisations() !== undefined && !filtered().length}
@@ -463,88 +541,101 @@ export function CommunityMap(props: {
                                             organisations are listed below.
                                         </p>
                                     </Show>
-                                    <For each={listed()}>
-                                        {(place) => (
-                                            <button
-                                                class="map-location-row"
-                                                classList={{
-                                                    "is-hovered": place.organisations.some(
-                                                        (person) => hovered().includes(person.id),
-                                                    ),
-                                                }}
-                                                onPointerEnter={() =>
-                                                    setHovered(
-                                                        place.organisations.map(
-                                                            (person) => person.id,
+                                    <For each={visible()}>
+                                        {(place, index) => (
+                                            <>
+                                                {/* line between hosts and sponsors and everyone else */}
+                                                <Show
+                                                    when={
+                                                        index() > 0 &&
+                                                        index() === highlightedCount()
+                                                    }
+                                                >
+                                                    <hr class="group-divider" />
+                                                </Show>
+                                                <button
+                                                    class="map-location-row"
+                                                    classList={{
+                                                        "is-hovered": place.organisations.some(
+                                                            (person) =>
+                                                                hovered().includes(person.id),
                                                         ),
-                                                    )
-                                                }
-                                                onPointerLeave={() => setHovered([])}
-                                                onFocus={() =>
-                                                    setHovered(
-                                                        place.organisations.map(
-                                                            (person) => person.id,
-                                                        ),
-                                                    )
-                                                }
-                                                onBlur={() => setHovered([])}
-                                                type="button"
-                                                onClick={() => select([place])}
-                                            >
-                                                <span class="map-row-logo">
-                                                    <Show
-                                                        when={
-                                                            place.organisations[0].mapLogoUrl ??
-                                                            place.organisations[0].logoUrl
-                                                        }
-                                                        fallback={place.organisations[0].name.slice(
-                                                            0,
-                                                            1,
-                                                        )}
-                                                    >
-                                                        {(source) => (
-                                                            <Image
-                                                                src={source()}
-                                                                darkSrc={
-                                                                    place.organisations[0]
-                                                                        .mapLogoDarkUrl
-                                                                }
-                                                                alt=""
-                                                            />
-                                                        )}
-                                                    </Show>
-                                                </span>
-                                                <span class="map-row-copy">
-                                                    <strong>
-                                                        <Highlight
-                                                            text={place.organisations
-                                                                .map((person) => person.name)
-                                                                .join(" · ")}
-                                                            terms={terms()}
-                                                        />
-                                                    </strong>
-                                                    <small>
+                                                    }}
+                                                    onPointerEnter={() =>
+                                                        setHovered(
+                                                            place.organisations.map(
+                                                                (person) => person.id,
+                                                            ),
+                                                        )
+                                                    }
+                                                    onPointerLeave={() => setHovered([])}
+                                                    onFocus={() =>
+                                                        setHovered(
+                                                            place.organisations.map(
+                                                                (person) => person.id,
+                                                            ),
+                                                        )
+                                                    }
+                                                    onBlur={() => setHovered([])}
+                                                    type="button"
+                                                    onClick={() => select([place])}
+                                                >
+                                                    <span class="map-row-logo">
                                                         <Show
                                                             when={
-                                                                place.organisations[0].recognition
+                                                                place.organisations[0].mapLogoUrl ??
+                                                                place.organisations[0].logoUrl
                                                             }
+                                                            fallback={place.organisations[0].name.slice(
+                                                                0,
+                                                                1,
+                                                            )}
                                                         >
-                                                            {(recognition) => (
-                                                                <span class="tag tag-status tag-emphasis">
-                                                                    {recognition()}
-                                                                </span>
+                                                            {(source) => (
+                                                                <Image
+                                                                    src={source()}
+                                                                    darkSrc={
+                                                                        place.organisations[0]
+                                                                            .mapLogoDarkUrl
+                                                                    }
+                                                                    alt=""
+                                                                />
                                                             )}
                                                         </Show>
-                                                        {
-                                                            organisationKinds[
-                                                                place.organisations[0].kind
-                                                            ]
-                                                        }
-                                                        {" · "}
-                                                        {place.address.split(", ").at(-1)}
-                                                    </small>
-                                                </span>
-                                            </button>
+                                                    </span>
+                                                    <span class="map-row-copy">
+                                                        <strong>
+                                                            <Highlight
+                                                                text={place.organisations
+                                                                    .map((person) => person.name)
+                                                                    .join(" · ")}
+                                                                terms={terms()}
+                                                            />
+                                                        </strong>
+                                                        <small>
+                                                            <Show
+                                                                when={
+                                                                    place.organisations[0]
+                                                                        .recognition
+                                                                }
+                                                            >
+                                                                {(recognition) => (
+                                                                    <span class="tag tag-status tag-emphasis">
+                                                                        {recognition()}
+                                                                    </span>
+                                                                )}
+                                                            </Show>
+                                                            {
+                                                                organisationKinds[
+                                                                    place.organisations[0].kind
+                                                                ]
+                                                            }
+                                                            {" · "}
+                                                            {place.address.split(", ").at(-1)}
+                                                        </small>
+                                                    </span>
+                                                </button>
+                                            </>
                                         )}
                                     </For>
                                 </>

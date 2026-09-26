@@ -346,3 +346,10 @@ summary:hover {
 summary::marker {
     color: var(--color-accent);
 }
+
+/* strong line between a featured group and the rest of a list */
+.group-divider {
+    margin: 0;
+    border: 0;
+    border-top: var(--rule-strong) solid var(--color-strong);
+}

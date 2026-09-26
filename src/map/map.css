@@ -168,6 +168,11 @@
     object-fit: contain;
 }
 
+/* host and sponsor logos stay above every other address */
+.maplibregl-marker:has(> .map-pin) {
+    z-index: 1;
+}
+
 /* displaced logos stay connected to their true position */
 .map-connector {
     position: absolute;
@@ -228,6 +233,10 @@
     padding: 0 var(--space-5) var(--space-2);
     color: var(--color-soft);
     font: 500 var(--text-xs) / 1.5 var(--font-mono);
+}
+
+.group-divider + .map-location-row {
+    border-top: 0;
 }
 
 .map-location-row {

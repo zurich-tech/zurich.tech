@@ -1,3 +1,13 @@
+/** Unit steps towards the six corners of a hexagonal ring, clockwise from the right. */
+const corners = [
+    [1, 0],
+    [0.5, Math.sqrt(3) / 2],
+    [-0.5, Math.sqrt(3) / 2],
+    [-1, 0],
+    [-0.5, -Math.sqrt(3) / 2],
+    [0.5, -Math.sqrt(3) / 2],
+] as const;
+
 /** A logo anchored to a geographic location, with its rendered diameter. */
 export interface MapLogo {
     id: string;
@@ -86,4 +96,29 @@ function fits(
         }
     }
     return true;
+}
+
+/** Return the pixel offset of one cell in a honeycomb spiralling out from its centre. */
+export function honeycomb(index: number, spacing: number): [number, number] {
+    if (index === 0) return [0, 0];
+
+    // find the ring holding this index and the position along it
+    let ring = 1;
+    let first = 1;
+    while (index >= first + 6 * ring) {
+        first += 6 * ring;
+        ring++;
+    }
+    const step = index - first;
+    const side = Math.floor(step / ring);
+    const along = step % ring;
+
+    // walk from this side's corner towards the next one
+    const [cornerX, cornerY] = corners[side];
+    const [directionX, directionY] = corners[(side + 2) % 6];
+
+    return [
+        (cornerX * ring + directionX * along) * spacing,
+        (cornerY * ring + directionY * along) * spacing,
+    ];
 }

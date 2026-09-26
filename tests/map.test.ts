@@ -1,7 +1,7 @@
 import { filterLocations } from "../src/map/filter";
 import { expect, test } from "bun:test";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
-import { arrangeLogos } from "../src/map/placement";
+import { arrangeLogos, honeycomb } from "../src/map/placement";
 
 /** Create a public office record for grouping scenarios. */
 function office(id: string, line1 = "Baslerstrasse 77"): LocatedOrganisation {
@@ -103,4 +103,21 @@ test("dense edge placement stays within bounds and accounts for every visible or
     expect(
         arrangeLogos([{ id: "offscreen", x: -100, y: 100, size: 36 }], { width: 390, height: 474 }),
     ).toEqual({ placed: [], crowded: [] });
+});
+
+test("honeycomb cells fill rings outwards without any two dots closer than the spacing", () => {
+    const cells = Array.from({ length: 61 }, (_, index) => honeycomb(index, 16));
+
+    // assert the centre and the ring each index lands in
+    expect(cells[0]).toEqual([0, 0]);
+    for (const [index, [x, y]] of cells.entries()) {
+        const ring = index === 0 ? 0 : index < 7 ? 1 : index < 19 ? 2 : index < 37 ? 3 : 4;
+        expect(Math.hypot(x, y)).toBeLessThanOrEqual(ring * 16 + 1e-9);
+        expect(Math.hypot(x, y)).toBeGreaterThanOrEqual(ring * 16 * (Math.sqrt(3) / 2) - 1e-9);
+    }
+
+    // assert every pair keeps at least one spacing apart
+    for (const [index, [x, y]] of cells.entries())
+        for (const [otherX, otherY] of cells.slice(index + 1))
+            expect(Math.hypot(x - otherX, y - otherY)).toBeGreaterThanOrEqual(16 - 1e-9);
 });
