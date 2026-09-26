@@ -5,6 +5,7 @@ import { httpAction, internalMutation, type MutationCtx } from "../_generated/se
 import { api, internal } from "../_generated/api";
 import { subscriptionHistory } from "./history";
 import { siteOrigin } from "../auth/environment";
+import { halve, sendingDate } from "./policy";
 
 const outcomes = ["delivered", "bounced", "complained", "failed", "suppressed"] as const;
 const rank = {
@@ -78,6 +79,13 @@ export async function reconcile(ctx: MutationCtx, providerId: string) {
                 (bounced >= 3 && bounced / Math.max(settings.accepted, 1) >= 0.02);
             await ctx.db.patch(settings._id, { bounced, complained });
             const policy = await ctx.db.query("mailPolicy").unique();
+
+            // halve the earned ceiling once per stop, and withhold growth for that day
+            if (shouldPause && policy && !policy.isPaused)
+                await ctx.db.patch(settings._id, {
+                    ceiling: halve(settings.ceiling),
+                    stoppedOn: sendingDate(Date.now()),
+                });
             if (shouldPause && policy)
                 await ctx.db.patch(policy._id, {
                     isPaused: true,

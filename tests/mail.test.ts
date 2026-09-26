@@ -8,6 +8,8 @@ import { updateMessage } from "../convex/mail/progress";
 import { enqueue } from "../convex/mail/messages";
 import { unsubscribeHeaders } from "../convex/mail/provider";
 import { receive, unsubscribe } from "../convex/mail/webhooks";
+import { sendingDate } from "../convex/mail/policy";
+import { byRecency } from "../convex/mail/audiences";
 
 const http = httpRouter();
 http.route({ path: "/mail/webhook", method: "POST", handler: receive });
@@ -65,7 +67,7 @@ async function setup() {
             updatedAt: 1,
         });
         const settingsId = await ctx.db.insert("mailQuota", quotaDefaults);
-        await ctx.db.insert("mailPolicy", { isPaused: false, profile: "new" });
+        await ctx.db.insert("mailPolicy", { isPaused: false });
         const subscriptionId = await ctx.db.insert("subscriptions", {
             email: "test@example.invalid",
             status: "subscribed",
@@ -106,28 +108,57 @@ function signed(
 test("bulk reservations share pacing, daily limits and a lock that settings cannot remove", async () => {
     const { backend, admin, settingsId } = await setup();
     const now = Date.UTC(2026, 8, 14, 6);
+
+    // pace attempts across the sending hours of the initial ceiling
     expect(await backend.run((ctx) => reserve(ctx, now))).toBe(true);
     expect(await backend.run((ctx) => reserve(ctx, now + 1))).toBe(false);
-    expect(await backend.run((ctx) => reserve(ctx, now + 144000))).toBe(true);
-    await backend.run((ctx) => ctx.db.patch(settingsId, { count: 150 }));
+    expect(await backend.run((ctx) => reserve(ctx, now + 96000))).toBe(true);
+
+    // stop at the daily ceiling until the next sending day
+    await backend.run((ctx) => ctx.db.patch(settingsId, { count: 300 }));
     expect(await backend.run((ctx) => reserve(ctx, now + 3600000))).toBe(false);
     expect(await backend.run((ctx) => reserve(ctx, now + 10 * 86400000))).toBe(true);
-    const settings = await backend.run((ctx) => ctx.db.get(settingsId));
-    expect(settings?.day).toBe(1); // idle days do not pretend to warm the domain
+
+    // enforce the recipient lock independently of settings
     process.env.MAIL_RECIPIENTS = "test@example.invalid";
     expect(await backend.run((ctx) => reserve(ctx, now + 11 * 86400000))).toBe(false);
+    await expect(admin.mutation(api.mail.sending.configure, { isPaused: false })).rejects.toThrow(
+        "lock",
+    );
     await expect(
-        admin.mutation(api.mail.sending.configure, {
-            isPaused: false,
-            profile: "complete",
-        }),
-    ).rejects.toThrow("lock");
-    await expect(
-        backend.mutation(api.mail.sending.configure, {
-            isPaused: false,
-            profile: "new",
-        }),
+        backend.mutation(api.mail.sending.configure, { isPaused: false }),
     ).rejects.toThrow();
+});
+
+// The ceiling grows only through used, healthy sending days, never through elapsed time.
+test("earned ceilings double after used healthy days and halve after health stops", async () => {
+    const { backend, settingsId } = await setup();
+    const day = (offset: number) => Date.UTC(2026, 8, 14 + offset, 6);
+    const quota = () => backend.run((ctx) => ctx.db.get(settingsId));
+
+    // double after using at least half of the ceiling
+    await backend.run((ctx) => ctx.db.patch(settingsId, { date: "2026-09-14", count: 150 }));
+    expect(await backend.run((ctx) => reserve(ctx, day(1)))).toBe(true);
+    expect((await quota())?.ceiling).toBe(600);
+
+    // keep the ceiling after a light day and across idle days
+    await backend.run((ctx) => ctx.db.patch(settingsId, { count: 299, nextAt: 0 }));
+    expect(await backend.run((ctx) => reserve(ctx, day(5)))).toBe(true);
+    expect((await quota())?.ceiling).toBe(600);
+
+    // withhold growth for a stopped day
+    await backend.run((ctx) =>
+        ctx.db.patch(settingsId, { count: 600, ceiling: 300, stoppedOn: "2026-09-19", nextAt: 0 }),
+    );
+    expect(await backend.run((ctx) => reserve(ctx, day(6)))).toBe(true);
+    expect((await quota())?.ceiling).toBe(300);
+
+    // cap growth at the maximum ceiling
+    await backend.run((ctx) =>
+        ctx.db.patch(settingsId, { count: 10000, ceiling: 10000, nextAt: 0 }),
+    );
+    expect(await backend.run((ctx) => reserve(ctx, day(7)))).toBe(true);
+    expect((await quota())?.ceiling).toBe(10000);
 });
 
 test("campaign queue confirms saved content and audience, while the lock permits only drafts", async () => {
@@ -254,12 +285,17 @@ test("signed callbacks reconcile before acceptance, deduplicate and never undo s
     ).toBe(204);
     expect((await backend.run((ctx) => ctx.db.get(id)))?.outcome).toBe("bounced");
     expect((await backend.run((ctx) => ctx.db.get(settingsId)))?.bounced).toBe(1);
+
+    // pause on a complaint and halve the earned ceiling once
+    await backend.run((ctx) => ctx.db.patch(settingsId, { ceiling: 1200 }));
     expect(
         (await backend.fetch("/mail/webhook", signed("complained", "provider-test"))).status,
     ).toBe(204);
     const settings = await backend.run((ctx) => ctx.db.get(settingsId));
     expect((await backend.run((ctx) => ctx.db.query("mailPolicy").unique()))?.isPaused).toBe(true);
     expect(settings?.complained).toBe(1);
+    expect(settings?.ceiling).toBe(600);
+    expect(settings?.stoppedOn).toBe(sendingDate(Date.now()));
     await backend.mutation(api.mail.subscriptions.unsubscribe, {
         token: "private-unsubscribe-token",
     });
@@ -576,20 +612,81 @@ test("test messages keep their history without advancing a draft campaign", asyn
     expect(result.message?.outcome).toBe("delivered");
 });
 
-test("delivery settings show today's quota without advancing idle days", async () => {
+test("delivery settings show today's quota and earned ceiling without storing them", async () => {
     const { backend, admin, settingsId } = await setup();
     setSystemTime(new Date("2026-09-15T06:00:00Z"));
     await backend.run(async (ctx) => {
-        await ctx.db.patch(settingsId, { date: "2026-09-14", count: 100, day: 0 });
+        await ctx.db.patch(settingsId, { date: "2026-09-14", count: 300 });
     });
+
+    // project the next day's usage in the view only
     const settings = await admin.query(api.mail.sending.current, {});
     expect(settings.count).toBe(0);
-    expect(settings.day).toBe(1);
-    expect(settings.limits.daily).toBe(250);
-    setSystemTime(new Date("2026-09-20T06:00:00Z"));
-    expect((await admin.query(api.mail.sending.current, {})).day).toBe(1);
+    expect(settings.limits).toEqual({ daily: 600, hourly: 75 });
+    expect((await backend.run((ctx) => ctx.db.get(settingsId)))?.ceiling).toBe(300);
+
+    // store the projection once an email is reserved
     expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(true);
     expect((await admin.query(api.mail.sending.current, {})).count).toBe(1);
+    expect((await backend.run((ctx) => ctx.db.get(settingsId)))?.ceiling).toBe(600);
+});
+
+// Warmup depends on reaching recently interested people before dormant imports.
+test("frozen audiences order recipients by their latest real interest", async () => {
+    const { backend, memberId } = await setup();
+    const order = await backend.run(async (ctx) => {
+        const eventId = await ctx.db.insert("events", {
+            title: "Test",
+            ownerId: memberId,
+            slug: "test",
+            format: "talk",
+            description: "",
+            topics: [],
+            startsAt: 1,
+            location: "Test",
+            registration: { kind: "none" },
+            status: "scheduled",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const subscribe = (email: string, fields: object) =>
+            ctx.db.insert("subscriptions", {
+                email,
+                status: "subscribed",
+                token: email,
+                createdAt: 1,
+                updatedAt: 1,
+                ...fields,
+            });
+
+        // interest from a registration, a confirmation, a recorded signup and an observation
+        const registered = await subscribe("registered@example.invalid", { memberId });
+        await ctx.db.insert("registrations", {
+            eventId,
+            memberId,
+            name: "Registered",
+            email: "registered@example.invalid",
+            status: "going",
+            token: "registered",
+            createdAt: 400,
+            updatedAt: 400,
+        });
+        const confirmed = await subscribe("confirmed@example.invalid", { verifiedAt: 300 });
+        const recorded = await subscribe("recorded@example.invalid", {
+            history: [{ at: 200, status: "subscribed", weekly: true, source: "wix" }],
+        });
+        const observed = await subscribe("observed@example.invalid", {
+            history: [
+                { at: 900, status: "subscribed", weekly: true, source: "x", isEstimated: true },
+            ],
+        });
+
+        return {
+            expected: [registered, confirmed, recorded, observed],
+            actual: await byRecency(ctx, [observed, recorded, confirmed, registered]),
+        };
+    });
+    expect(order.actual).toEqual(order.expected);
 });
 
 test("newsletter preview counts the same eligible audience as delivery", async () => {
@@ -635,7 +732,7 @@ test("confirmation mail expires with its ticket while bulk delivery stays paused
     const { backend, admin } = await setup();
     const now = Date.now();
     setSystemTime(now);
-    await admin.mutation(api.mail.sending.configure, { isPaused: true, profile: "new" });
+    await admin.mutation(api.mail.sending.configure, { isPaused: true });
     await backend.mutation(internal.mail.verification.prepare, {
         email: "new@example.invalid",
         name: "",

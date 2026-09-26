@@ -11,8 +11,8 @@ The email domain owns these records:
 - `messages`: one rendered email, source recipient, attempt state and provider result.
 - `subscriptions`: consent, preferences, suppression and consent history.
 - `deliveryEvents`: signed provider reports, deduplicated by provider event ID.
-- `mailPolicy`: pause and sending profile.
-- `mailQuota`: pacing, daily usage and delivery health counters.
+- `mailPolicy`: global pause and its reason.
+- `mailQuota`: pacing, daily usage, the earned daily ceiling and delivery health counters.
 - `mailSchedules`: weekly newsletter pause and last edition.
 
 `audiences.ts` selects subscribers or event registrations independently of message purpose.
@@ -83,10 +83,12 @@ These controls are independent:
   Missing schedule means paused; empty editions are skipped.
 - Campaign pause: holds that campaign's remaining messages.
 
-Sending profiles raise daily and hourly ceilings on active sending days, never idle days.
+The daily ceiling starts at 300 and is earned, never granted by elapsed time.
+It doubles after a sending day that used at least half of it without a health stop, up to 10,000.
+A health stop halves it, never below 300, and withholds growth for that day.
+The hourly ceiling spreads the daily ceiling over eight hours.
 Attempts and retries share the same atomic quota.
-Changing policy does not replenish quota.
-Switch profiles while paused, then resume explicitly.
+Pausing and resuming does not replenish quota.
 
 ## Delivery reports
 
@@ -101,8 +103,8 @@ RFC 8058 unsubscribe changes consent only on POST; GET opens the confirmation pa
 
 ## Production controls
 
-Warmup profiles, hourly pacing and delivery-health stops are permanent production controls.
-The `complete` profile retains fixed limits after warmup.
+The earned ceiling, hourly pacing and delivery-health stops are permanent production controls.
+Campaigns freeze their recipients most recently interested first, so early sending days reach engaged people.
 The development recipient allowlist is independent of these controls and is unset in production.
 Campaign test sends remain available for reviewing an email without enrolling its audience.
 

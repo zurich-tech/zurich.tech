@@ -73,6 +73,41 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
     return { recipients, excluded: candidates.length - recipients.length };
 }
 
+/**
+ * Order recipients by their latest sign of interest, most recent first.
+ *
+ * Two table scans keep index lookups constant as audiences grow.
+ */
+export async function byRecency(ctx: QueryCtx, recipients: Recipient[]) {
+    // NOTE #Performance: reads every registration once per frozen campaign
+    const registrations = await ctx.db.query("registrations").collect();
+    const subscriptions = await ctx.db.query("subscriptions").collect();
+
+    // collect the latest registration of each member, and each registration's own time
+    const latest = new Map<string, number>();
+    const interest = new Map<string, number>();
+    for (const registration of registrations) {
+        interest.set(registration._id, registration.createdAt);
+        if (!registration.memberId) continue;
+        const previous = latest.get(registration.memberId) ?? 0;
+        latest.set(registration.memberId, Math.max(previous, registration.createdAt));
+    }
+
+    // combine confirmations, recorded signups and registrations; estimates only restate observations
+    for (const subscription of subscriptions) {
+        const subscribed = (subscription.history ?? [])
+            .filter((entry) => entry.status === "subscribed" && !entry.isEstimated)
+            .map((entry) => entry.at);
+        const registered = subscription.memberId ? (latest.get(subscription.memberId) ?? 0) : 0;
+        interest.set(
+            subscription._id,
+            Math.max(subscription.verifiedAt ?? 0, registered, ...subscribed),
+        );
+    }
+
+    return recipients.toSorted((left, right) => interest.get(right)! - interest.get(left)!);
+}
+
 /** Recheck the recipient, admission and attendance policy before delivery. */
 export async function receivesFollowUp(
     ctx: QueryCtx,

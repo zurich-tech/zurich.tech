@@ -10,43 +10,30 @@ import {
     type QueryCtx,
 } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
-import { ceilings, recipientsLocked, sendingDate } from "./policy";
+import { advance, hourly, initialCeiling, recipientsLocked } from "./policy";
 
 /** Empty counters do not imply permission to send. */
 export const quotaDefaults = {
-    day: 0,
     date: "",
     count: 0,
     nextAt: 0,
+    ceiling: initialCeiling,
     accepted: 0,
     bounced: 0,
     complained: 0,
 };
 
-/** Project today's usage without advancing stored counters until an email is sent. */
-function dailyUsage(quota: { day: number; date: string; count: number }, now: number) {
-    const date = sendingDate(now);
-    const isNewDay = quota.date !== date;
-    return {
-        date,
-        day: quota.day + (isNewDay && quota.count > 0 ? 1 : 0),
-        count: isNewDay ? 0 : quota.count,
-    };
-}
-
 /** Read policy and counters as one administration view while retaining separate ownership. */
 export async function state(ctx: QueryCtx) {
     const policy = await ctx.db.query("mailPolicy").unique();
     const quota = (await ctx.db.query("mailQuota").unique()) ?? quotaDefaults;
-    const profile = policy?.profile ?? "new";
-    const usage = dailyUsage(quota, Date.now());
+    const usage = advance(quota, Date.now());
     return {
         ...quota,
         ...usage,
-        profile,
         isPaused: policy?.isPaused ?? true,
         pauseReason: policy?.pauseReason,
-        limits: ceilings(profile, usage.day),
+        limits: { daily: usage.ceiling, hourly: hourly(usage.ceiling) },
         isLocked: recipientsLocked(),
         sender: process.env.MAIL_FROM ?? "Not configured",
         hasWebhook: !!process.env.RESEND_WEBHOOK_SECRET,
@@ -64,10 +51,7 @@ export const current = query({
 
 /** Change policy explicitly; the test allowlist is never editable through this operation. */
 export const configure = mutation({
-    args: {
-        isPaused: v.boolean(),
-        profile: v.union(v.literal("new"), v.literal("established"), v.literal("complete")),
-    },
+    args: { isPaused: v.boolean() },
     handler: async (ctx, args) => {
         await requireAdmin(ctx);
         if (!args.isPaused && recipientsLocked())
@@ -80,8 +64,6 @@ export const configure = mutation({
         )
             throw new Error("Configure the sender and signed delivery webhooks first.");
         const policy = await ctx.db.query("mailPolicy").unique();
-        if (policy && !policy.isPaused && args.profile !== policy.profile)
-            throw new Error("Pause bulk delivery before changing limits.");
 
         // preserve pacing across changes; an explicit resume starts a new health review period
         const quota = await ctx.db.query("mailQuota").unique();
@@ -105,15 +87,14 @@ export async function reserve(ctx: MutationCtx, now: number) {
     const quota = await ctx.db.query("mailQuota").unique();
     if (!quota) throw new Error("Sending quota is not configured.");
 
-    // advance only after an active sending day, preserving hourly pacing across midnight
-    const { date, day, count } = dailyUsage(quota, now);
-    const limit = ceilings(policy.profile, day);
-    if (count >= limit.daily || now < quota.nextAt) return false;
+    // advance the sending day, preserving hourly pacing across midnight
+    const { date, count, ceiling } = advance(quota, now);
+    if (count >= ceiling || now < quota.nextAt) return false;
     await ctx.db.patch(quota._id, {
-        day,
         date,
         count: count + 1,
-        nextAt: now + 3600000 / limit.hourly,
+        ceiling,
+        nextAt: now + 3600000 / hourly(ceiling),
     });
     return true;
 }

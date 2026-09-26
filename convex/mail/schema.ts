@@ -118,16 +118,20 @@ export const mailSchedules = defineTable({
 /** Sending policy, independent of quota and campaign progress. */
 export const mailPolicy = defineTable({
     isPaused: v.boolean(),
-    profile: v.union(v.literal("new"), v.literal("established"), v.literal("complete")),
     pauseReason: v.optional(v.string()),
 });
 
-/** Shared quota and health counters; pausing does not replenish quota. */
+/**
+ * Shared quota and health counters; pausing does not replenish quota.
+ *
+ * The daily ceiling is earned by healthy sending days and halved by health stops.
+ */
 export const mailQuota = defineTable({
-    day: v.number(),
     date: v.string(),
     count: v.number(),
     nextAt: v.number(),
+    ceiling: v.number(),
+    stoppedOn: v.optional(v.string()),
     accepted: v.number(),
     bounced: v.number(),
     complained: v.number(),

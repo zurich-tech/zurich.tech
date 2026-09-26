@@ -1,22 +1,39 @@
 import { ConvexError } from "convex/values";
-/** Daily and hourly ceilings for each active sending day. */
-export const profiles = {
-    new: {
-        daily: [150, 250, 400, 700, 1000, 1500, 2000],
-        hourly: [25, 25, 40, 50, 75, 100, 150],
-    },
-    established: {
-        daily: [1000, 2500, 5000, 5000, 7500, 7500, 10000],
-        hourly: [100, 300, 600, 800, 1000, 1500, 2000],
-    },
-    complete: { daily: [10000], hourly: [2000] },
-};
 
-/** Resolve a profile without increasing limits merely because time passed. */
-export function ceilings(profile: keyof typeof profiles, day: number) {
-    const values = profiles[profile];
-    const index = Math.min(Math.max(0, day), values.daily.length - 1);
-    return { daily: values.daily[index], hourly: values.hourly[index] };
+/** The daily bulk ceiling of a sender without reputation. */
+export const initialCeiling = 300;
+
+/** The highest daily bulk ceiling. */
+export const maximumCeiling = 10000;
+
+/** The hours over which each day's ceiling is spread. */
+const sendingHours = 8;
+
+/** Shared bulk usage for the current sending day. */
+type Usage = { date: string; count: number; ceiling: number; stoppedOn?: string };
+
+/** Advance usage to the current sending day, doubling the ceiling after an earned day. */
+export function advance(usage: Usage, now: number) {
+    const date = sendingDate(now);
+    if (usage.date === date) return { date, count: usage.count, ceiling: usage.ceiling };
+
+    // earn growth only by using at least half the ceiling without a health stop
+    const isUsed = usage.count * 2 >= usage.ceiling;
+    const isHealthy = !usage.stoppedOn || usage.stoppedOn < usage.date;
+    const ceiling =
+        isUsed && isHealthy ? Math.min(usage.ceiling * 2, maximumCeiling) : usage.ceiling;
+
+    return { date, count: 0, ceiling };
+}
+
+/** Halve the ceiling after a health stop, never below the initial ceiling. */
+export function halve(ceiling: number) {
+    return Math.max(initialCeiling, Math.floor(ceiling / 2));
+}
+
+/** Spread a daily ceiling evenly across the sending hours. */
+export function hourly(ceiling: number) {
+    return Math.ceil(ceiling / sendingHours);
 }
 
 /** Only newsletters and announcements use the bulk queue. */

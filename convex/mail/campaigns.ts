@@ -16,7 +16,7 @@ import { campaignEmail } from "./templates";
 import { enqueue } from "./messages";
 import { recipientAllowed, recipientsLocked, requireAudienceDelivery } from "./policy";
 import { audience, type Audience, type Category, type Content, type Recipient } from "./model";
-import { select } from "./audiences";
+import { byRecency, select } from "./audiences";
 import { links, personalize } from "./personalization";
 import { state } from "./sending";
 import { consumeLimit } from "./limits";
@@ -169,10 +169,12 @@ export const save = mutation({
     },
 });
 
-/** Freeze audience membership exactly once when a campaign starts. */
+/** Freeze audience membership and its recency order exactly once when a campaign starts. */
 async function start(ctx: MutationCtx, campaign: Doc<"campaigns">, recipients?: Recipient[]) {
-    const selected =
-        recipients ?? (await select(ctx, campaign.audience!, campaign.category!)).recipients;
+    const selected = await byRecency(
+        ctx,
+        recipients ?? (await select(ctx, campaign.audience!, campaign.category!)).recipients,
+    );
     if (selected.length > 10000) throw new Error("Campaign audience exceeds 10,000 recipients.");
     await ctx.db.patch(campaign._id, {
         recipients: selected,

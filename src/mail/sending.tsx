@@ -1,6 +1,4 @@
-import { useUnsavedChanges } from "../components/unsaved";
-import { createResource, createSignal, Show, For } from "solid-js";
-import { ceilings } from "../../convex/mail/policy";
+import { createResource, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
@@ -8,27 +6,20 @@ import { FormMessage } from "../components/form";
 import { useConfirmation } from "../components/dialog";
 import { useWorkspaceCommand } from "../app/workspace";
 
-const names = { new: "Gradual", established: "Established", complete: "Standard" };
-
 /** Keep sender readiness, pace and delivery controls in distinct labelled sections. */
 export function Sending() {
     const confirm = useConfirmation();
     const [settings, { refetch }] = createResource(async () =>
         (await memberClient()).query(api.mail.sending.current, {}),
     );
-    const [profile, setProfile] = createSignal<keyof typeof names>();
     const command = useWorkspaceCommand(refetch);
-    const limits = () => ceilings(profile() ?? settings()!.profile, settings()!.day);
-    const isChanged = () => !!profile() && profile() !== settings()?.profile;
-    useUnsavedChanges(isChanged);
 
     /** Confirm delivery changes; ordinary saves never enable sending. */
     async function change(isPaused: boolean) {
         await command.perform(async () => {
             const client = await memberClient();
             const latest = await client.query(api.mail.sending.current, {});
-            const selected = profile() ?? latest.profile;
-            const limit = ceilings(selected, latest.day);
+            const limit = latest.limits;
             if (
                 isPaused !== latest.isPaused &&
                 !(await confirm({
@@ -42,8 +33,7 @@ export function Sending() {
                 }))
             )
                 return false;
-            await client.mutation(api.mail.sending.configure, { isPaused, profile: selected });
-            setProfile(undefined);
+            await client.mutation(api.mail.sending.configure, { isPaused });
         }, "Settings saved.");
     }
 
@@ -52,24 +42,13 @@ export function Sending() {
             title="Delivery settings"
             class="mail-panel"
             toolbar={
-                <>
-                    <Show when={settings()}>
-                        {(value) => (
-                            <>
-                                <span class="tag status-control">
-                                    {value().isPaused ? "Paused" : "Sending"}
-                                </span>
-                                <button
-                                    class="button button--primary"
-                                    disabled={command.isPending() || !isChanged()}
-                                    onClick={() => void change(value().isPaused)}
-                                >
-                                    Save
-                                </button>
-                            </>
-                        )}
-                    </Show>
-                </>
+                <Show when={settings()}>
+                    {(value) => (
+                        <span class="tag status-control">
+                            {value().isPaused ? "Paused" : "Sending"}
+                        </span>
+                    )}
+                </Show>
             }
         >
             <FormMessage
@@ -108,47 +87,24 @@ export function Sending() {
                             </div>
                         </dl>
                         <section class="mail-section">
-                            <div class="mail-section-heading">
-                                <h3>Sending pace</h3>
-                                <span>Day {value().day + 1}</span>
-                            </div>
-                            <div class="mail-pace">
-                                <label class="field">
-                                    Profile
-                                    <select
-                                        class="field__control"
-                                        value={profile() ?? value().profile}
-                                        disabled={!value().isPaused || command.isPending()}
-                                        onChange={(event) =>
-                                            setProfile(
-                                                event.currentTarget.value as keyof typeof names,
-                                            )
-                                        }
-                                    >
-                                        <For each={Object.entries(names)}>
-                                            {([key, name]) => <option value={key}>{name}</option>}
-                                        </For>
-                                    </select>
-                                </label>
-                                <dl class="statistics">
-                                    <div>
-                                        <dt>Per day</dt>
-                                        <dd>{limits().daily.toLocaleString("en-CH")}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>Per hour</dt>
-                                        <dd>{limits().hourly.toLocaleString("en-CH")}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>Used today</dt>
-                                        <dd>{value().count.toLocaleString("en-CH")}</dd>
-                                    </div>
-                                </dl>
-                            </div>
+                            <h3>Sending pace</h3>
+                            <dl class="statistics">
+                                <div>
+                                    <dt>Per day</dt>
+                                    <dd>{value().limits.daily.toLocaleString("en-CH")}</dd>
+                                </div>
+                                <div>
+                                    <dt>Per hour</dt>
+                                    <dd>{value().limits.hourly.toLocaleString("en-CH")}</dd>
+                                </div>
+                                <div>
+                                    <dt>Used today</dt>
+                                    <dd>{value().count.toLocaleString("en-CH")}</dd>
+                                </div>
+                            </dl>
                             <p class="mail-note">
-                                {(profile() ?? value().profile) === "complete"
-                                    ? "Fixed limits for regular sending."
-                                    : "Limits increase on days we send email."}
+                                Doubles after each day that uses at least half without a health
+                                stop. Halves when a complaint or bounces stop delivery.
                             </p>
                         </section>
                         <Show when={value().accepted || value().bounced || value().complained}>
@@ -185,15 +141,6 @@ export function Sending() {
                                 </p>
                             </div>
                             <div class="mail-buttons">
-                                <Show when={isChanged()}>
-                                    <button
-                                        class="button button--primary"
-                                        disabled={command.isPending()}
-                                        onClick={() => void change(value().isPaused)}
-                                    >
-                                        Save
-                                    </button>
-                                </Show>
                                 <button
                                     class="button"
                                     disabled={
