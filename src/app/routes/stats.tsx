@@ -46,19 +46,14 @@ export default function Route() {
                                                     ].toLocaleString()}
                                                 </strong>
                                             </div>
-                                            <Show when={current().growth[metric.field]}>
+                                            <Show when={increase(current().growth[metric.field])}>
                                                 {(growth) => (
                                                     <div class="stats-change">
                                                         <span
                                                             class="stats-growth"
-                                                            classList={{
-                                                                "is-positive": growth().value > 0,
-                                                                "is-negative": growth().value < 0,
-                                                            }}
                                                             title={`${growth().isEstimated ? "Estimated change" : "Change"} since ${growth().since}`}
                                                         >
-                                                            {growth().value > 0 ? "+" : ""}
-                                                            {growth().value.toLocaleString()}
+                                                            +{growth().value.toLocaleString()}
                                                         </span>
                                                         <span class="stats-period">
                                                             Last 30 days
@@ -86,4 +81,9 @@ export default function Route() {
             </Page>
         </>
     );
+}
+
+/** Keep a growth figure only when it is an increase; public stats never show declines. */
+function increase<T extends { value: number }>(growth: T | null | undefined) {
+    return growth && growth.value > 0 ? growth : undefined;
 }

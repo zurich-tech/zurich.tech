@@ -1,0 +1,55 @@
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.social-links:empty {
+    display: none;
+}
+
+.social-links a {
+    display: inline-grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--color-soft);
+    transition:
+        color var(--fast) var(--ease),
+        background-color var(--fast) var(--ease);
+}
+
+.social-links a:hover {
+    background: var(--color-wash);
+    color: var(--color-accent);
+}
+
+.social-links svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.social-links--labelled {
+    gap: var(--space-2) var(--space-4);
+}
+
+.social-links--labelled a {
+    display: inline-flex;
+    width: auto;
+    height: auto;
+    gap: var(--space-2);
+    border-radius: 0;
+    background: none;
+}
+
+.social-links--labelled a:hover {
+    background: none;
+}
+
+/* on brand surfaces the icons turn white */
+:is(.site-footer, .hero) .social-links a {
+    color: var(--color-on-brand);
+}

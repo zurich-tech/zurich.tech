@@ -15,6 +15,7 @@ import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
 import { savedEditor, Editor, FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
+import "../topics/topics.css";
 
 /** Read optional survey fields, using empty values to clear answers. */
 export function readDemographics(fields: FormData): Answers {

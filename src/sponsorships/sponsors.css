@@ -1,0 +1,314 @@
+/* tiers stack under hairlines, largest first */
+.sponsor-tier {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+}
+
+.sponsor-tier + .sponsor-tier {
+    border-top: var(--rule) solid var(--color-line);
+}
+
+.sponsor-tier h3 {
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1 var(--font-mono);
+}
+
+.sponsor-logos {
+    display: grid;
+    grid-template-columns: repeat(var(--sponsor-columns), minmax(0, 1fr));
+    gap: var(--space-3);
+}
+
+.sponsors--full .sponsor-logos {
+    grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+    gap: var(--space-6);
+}
+
+.sponsor-recognition {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.sponsor-recognition .social-links {
+    justify-content: center;
+}
+
+.sponsor-logo {
+    display: grid;
+    min-height: 64px;
+    place-items: center;
+    padding: var(--space-2);
+    color: var(--color-soft);
+    transition:
+        transform var(--slow) var(--ease),
+        opacity var(--fast) var(--ease);
+}
+
+.sponsor-logo:hover {
+    transform: scale(1.04);
+}
+
+.sponsor-logo img {
+    max-height: 56px;
+    object-fit: contain;
+}
+
+.sponsor-tier:first-of-type .sponsor-logo {
+    min-height: 104px;
+}
+
+.sponsor-tier:first-of-type .sponsor-logo img {
+    max-height: 88px;
+}
+
+/* an empty tier invites the next sponsor */
+.sponsor-vacancy {
+    border: var(--rule) dashed var(--color-line);
+    color: var(--color-faint);
+    font: 500 var(--text-xs) / 1 var(--font-mono);
+    transition:
+        border-color var(--fast) var(--ease),
+        color var(--fast) var(--ease),
+        background-color var(--fast) var(--ease);
+}
+
+.sponsor-vacancy:hover {
+    border-style: solid;
+    border-color: var(--color-accent);
+    background: var(--color-accent-wash);
+    color: var(--color-accent);
+    transform: none;
+}
+
+.sponsor-action {
+    border-top: var(--rule) solid var(--color-line);
+    padding-top: var(--space-4);
+}
+
+.sponsor-action .button {
+    width: 100%;
+}
+
+/* personal supporters */
+.patron-wall {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.patron-badge {
+    position: relative;
+    display: inline-flex;
+    border-radius: 50%;
+    transition: transform var(--fast) var(--ease);
+}
+
+.patron-badge:hover {
+    transform: translateY(-2px);
+}
+
+.patron-badge .avatar {
+    width: var(--support-avatar-size, 36px);
+    height: var(--support-avatar-size, 36px);
+}
+
+.patron-name {
+    position: absolute;
+    z-index: 2;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    display: none;
+    background: var(--color-strong);
+    padding: var(--space-1) var(--space-2);
+    color: var(--color-paper);
+    font-size: var(--text-xs);
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
+
+.patron-badge:is(:hover, :focus-visible) .patron-name {
+    display: block;
+}
+
+.billing-membership {
+    display: grid;
+    gap: var(--space-3);
+    border-bottom: var(--rule) solid var(--color-line);
+    padding-bottom: var(--space-4);
+}
+
+.billing-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+/* ================================================================================
+   Sponsor page
+   ================================================================================ */
+
+/* reach figures in large mono numerals */
+.sponsor-reach {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+}
+
+.sponsor-reach li {
+    display: grid;
+    gap: var(--space-1);
+    border-top: var(--rule-strong) solid var(--color-accent);
+    padding-top: var(--space-3);
+}
+
+.sponsor-reach strong {
+    color: var(--color-accent);
+    font: 500 var(--text-4xl) / 1 var(--font-mono);
+    letter-spacing: -0.06em;
+}
+
+.sponsor-reach-label {
+    color: var(--color-soft);
+}
+
+/* plans compared column by column */
+.plan-table {
+    display: grid;
+    grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(0, 1.1fr));
+}
+
+.plan-row {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    border-bottom: var(--rule) solid var(--color-line);
+}
+
+.plan-row:last-child {
+    border-bottom: 0;
+}
+
+.plan-row--head {
+    border-bottom: var(--rule-strong) solid var(--color-strong);
+}
+
+.plan-corner {
+    align-self: end;
+    padding: var(--space-4) var(--space-4) var(--space-4) 0;
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1.5 var(--font-mono);
+}
+
+.plan-head {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-4);
+}
+
+.plan-head h3 {
+    font: 500 var(--text-lg) / 1.2 var(--font-mono);
+    letter-spacing: -0.02em;
+}
+
+.plan-head .button {
+    margin-top: var(--space-2);
+}
+
+.plan-benefit {
+    padding: var(--space-3) var(--space-4) var(--space-3) 0;
+    font-weight: 600;
+}
+
+.plan-cell {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+}
+
+.plan-cell.is-empty {
+    color: var(--color-faint);
+}
+
+/* silver is the recommended plan: a blue column with a filled header */
+.plan-cell.is-featured {
+    background: var(--color-accent-wash);
+}
+
+.plan-head.is-featured {
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+}
+
+.plan-head.is-featured :is(.plan-intro, .tier-price > span) {
+    color: color-mix(in srgb, var(--color-on-brand) 80%, transparent);
+}
+
+.plan-head.is-featured .button--primary {
+    border-color: var(--color-on-brand);
+    background: var(--color-on-brand);
+    color: var(--color-brand);
+}
+
+.plan-head.is-featured .button--primary:hover {
+    background: transparent;
+    color: var(--color-on-brand);
+}
+
+/* the personal plan as one strip */
+.plan-personal__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-8);
+}
+
+.plan-personal__body > p:not(.tier-price) {
+    flex: 1 1 280px;
+    color: var(--color-soft);
+}
+
+@media (max-width: 760px) {
+    .sponsor-reach {
+        gap: var(--space-3);
+    }
+
+    .sponsor-reach strong {
+        font-size: var(--text-2xl);
+    }
+
+    .sponsor-reach-label {
+        font-size: var(--text-xs);
+    }
+
+    /* each benefit's label spans the row above its three values */
+    .plan-table {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .plan-corner {
+        display: none;
+    }
+
+    .plan-benefit {
+        grid-column: 1 / -1;
+        padding: var(--space-3) 0 0;
+        font-size: var(--text-sm);
+    }
+
+    .plan-head,
+    .plan-cell {
+        padding-inline: var(--space-2);
+    }
+
+    .plan-head .tier-price {
+        font-size: var(--text-2xl);
+    }
+
+    .plan-head .button {
+        padding-inline: var(--space-2);
+        font-size: var(--text-xs);
+        white-space: normal;
+    }
+}

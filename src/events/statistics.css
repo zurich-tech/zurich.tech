@@ -1,37 +1,18 @@
-@import "../components/statistics.css";
-
-.event-statistics {
-    padding-top: 24px;
-    border-top: 1px solid var(--color-line);
-}
-.item-description {
-    display: grid;
-    gap: 12px;
-}
-
+/* summary beside the public totals */
 .description-statistics {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: start;
-    gap: 24px;
+    gap: var(--space-6);
 }
-.event-overview__copy {
-    display: grid;
-    gap: 12px;
-    min-width: 0;
+
+.event-statistics dd {
+    font-size: var(--text-3xl);
 }
-.description-statistics .event-statistics {
-    border: 0;
-    padding: 0;
-    gap: 24px;
-}
-.event-overview__account .registration-actions,
-.event-overview__account .registration-actions__buttons {
-    gap: 8px;
-}
+
 @media (max-width: 700px) {
-    .description-statistics:has(.statistics) {
-        grid-template-columns: 1fr;
-        gap: 16px;
+    .description-statistics {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-4);
     }
 }

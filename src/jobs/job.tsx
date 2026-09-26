@@ -6,6 +6,7 @@ import { Show } from "solid-js";
 
 import { JobTags } from "./tags";
 import { Arrow } from "../components/arrow";
+import "./jobs.css";
 
 /** Render a vacancy using the same title, tags and rule rhythm as event entries. */
 export function JobEntry(props: {

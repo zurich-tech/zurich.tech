@@ -5,6 +5,8 @@ import { personalTiers } from "../../../sponsorships/plans";
 import { getMember } from "../../../members/queries";
 import { type CalendarEntry } from "../../../events/queries";
 import { Avatar } from "../../../components/avatar";
+import { Share } from "../../../components/share";
+import { site } from "../../site";
 import { Card } from "../../../components/card";
 import { useParams } from "@solidjs/router";
 import { Match, Show, Switch } from "solid-js";
@@ -18,6 +20,7 @@ import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 
 import { routeParam } from "../../params";
+import "../../../members/members.css";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
@@ -82,14 +85,21 @@ export default function Route() {
                                 profiles={(member()?.links ?? []).map((link) => link.href)}
                             />
                         </ItemHeader>
-                        <Show when={member()?.bio}>
-                            <Card title="About">
-                                <Markdown source={member()!.bio!} />
-                            </Card>
-                        </Show>
-                        <Show when={member()?.hostedEvents.length}>
-                            <HostedEvents events={member()?.hostedEvents ?? []} />
-                        </Show>
+                        <div class="detail-layout">
+                            <div class="detail-content">
+                                <Show when={member()?.bio}>
+                                    <Card title="About">
+                                        <Markdown source={member()!.bio!} />
+                                    </Card>
+                                </Show>
+                                <Show when={member()?.hostedEvents.length}>
+                                    <HostedEvents events={member()?.hostedEvents ?? []} />
+                                </Show>
+                            </div>
+                            <aside class="detail-aside">
+                                <Share title={title()} url={`${site.url}/members/${handle()}`} />
+                            </aside>
+                        </div>
                     </Page>
                 </>
             </Match>

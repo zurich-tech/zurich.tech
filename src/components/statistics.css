@@ -1,24 +1,28 @@
-/* Keep related totals together; long values and narrow screens wrap naturally. */
+/* related totals wrap as one group */
 .statistics {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px 40px;
-    margin: 0;
+    gap: var(--space-5) var(--space-10);
 }
+
 .statistics > div {
-    min-width: 100px;
+    display: grid;
+    min-width: 96px;
+    gap: var(--space-1);
 }
+
 .statistics dt {
     color: var(--color-soft);
-    font: 12px var(--font-mono);
-    margin-bottom: 6px;
+    font: 500 var(--text-xs) / 1.4 var(--font-mono);
 }
+
 .statistics dd {
-    margin: 0;
-    color: var(--color-ink);
-    font: 600 20px/1.4 var(--font-mono);
+    font: 500 var(--text-2xl) / 1.1 var(--font-mono);
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
 }
+
 .statistics > div > span {
     color: var(--color-soft);
-    font-size: 13px;
+    font-size: var(--text-sm);
 }

@@ -5,7 +5,8 @@ import { EditLink } from "../../auth/edit";
 import { getTeam } from "../../members/queries";
 import { For, Show } from "solid-js";
 import { Card } from "../../components/card";
-import { Page } from "../page";
+import { Page, PageHeader } from "../page";
+import "../about.css";
 import { Seo } from "../seo";
 import { Image } from "../../components/image";
 import { SocialLinks } from "../../components/social";
@@ -25,9 +26,12 @@ export default function Route() {
                 description="A registered nonprofit bringing people together around tech in and around Zurich."
             />
             <Page>
+                <PageHeader
+                    title="About"
+                    summary="zurich.tech is a volunteer-run non-profit association for the people building technology in Zurich. It started as ZurichNLP in 2023, grew into ZurichAI, and now runs talks, paper clubs, dinners and hackathons across the city."
+                />
                 <Card
                     title="Team"
-                    heading="h1"
                     toolbar={<EditLink href="/admin?section=people" label="Manage" />}
                     class="team card--sections"
                 >

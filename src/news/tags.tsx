@@ -1,5 +1,6 @@
 import { FilterPills } from "../components/filter-pills";
 import { createMemo } from "solid-js";
+import { FacetList } from "../components/facets";
 import type { Article } from "./model";
 
 /** Link to the news archive filtered by each published tag. */
@@ -25,6 +26,42 @@ export function TagPills(props: { articles: Article[]; selected?: string }) {
                     value: tag.slug,
                     label: tag.name,
                     href: `/news?tag=${encodeURIComponent(tag.slug)}`,
+                })),
+            ]}
+        />
+    );
+}
+
+/** List every tag with its article count for the news sidebar, most used first. */
+export function TopicList(props: { articles: Article[]; selected?: string }) {
+    // count each tag once per article
+    const tags = createMemo(() => {
+        const counts = new Map<string, { slug: string; name: string; count: number }>();
+        for (const article of props.articles)
+            for (const tag of articleTags(article)) {
+                const current = counts.get(tag.slug) ?? { ...tag, count: 0 };
+                counts.set(tag.slug, { ...current, count: current.count + 1 });
+            }
+        return [...counts.values()].sort(
+            (left, right) => right.count - left.count || left.name.localeCompare(right.name),
+        );
+    });
+
+    return (
+        <FacetList
+            title="Topics"
+            facets={[
+                {
+                    label: "All news",
+                    href: "/news",
+                    meta: String(props.articles.length),
+                    isSelected: !props.selected,
+                },
+                ...tags().map((tag) => ({
+                    label: tag.name,
+                    href: `/news?tag=${encodeURIComponent(tag.slug)}`,
+                    meta: String(tag.count),
+                    isSelected: props.selected === tag.slug,
                 })),
             ]}
         />

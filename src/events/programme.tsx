@@ -11,6 +11,7 @@ import { Card } from "../components/card";
 import { FilterPills } from "../components/filter-pills";
 import { type OrganiserPerson } from "./organiser";
 import { EventList } from "./list";
+import "./programme.css";
 import { createSignal, createMemo, createEffect, on, Show } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
 
@@ -193,7 +194,7 @@ export function Programme(props: {
                         Series
                     </a>
                     <a class="action-link" href="/contribute#events">
-                        Suggest event
+                        Suggest an event
                     </a>
                     <Show when={planning.canCreate(props.seriesId)}>
                         <a

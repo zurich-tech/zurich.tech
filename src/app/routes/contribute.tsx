@@ -20,7 +20,7 @@ export default function Route() {
                     summary="Give a talk, help with an event, or tell a friend."
                 />
                 <div class="listing-layout">
-                    <div class="contribute-options">
+                    <div class="listing-main">
                         <Card title="Events">
                             <div class="contribute-options">
                                 <section id="speakers">
@@ -34,10 +34,10 @@ export default function Route() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        Suggest a speaker <Arrow direction="external" />
+                                        Tell us on Discord <Arrow direction="external" />
                                     </a>
                                 </section>
-                                <section>
+                                <section id="talks">
                                     <h3>Give a talk</h3>
                                     <p>Share what you’re building, researching or learning.</p>
                                     <a
@@ -46,7 +46,7 @@ export default function Route() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        Become a speaker <Arrow direction="external" />
+                                        Tell us on Discord <Arrow direction="external" />
                                     </a>
                                 </section>
                                 <section id="events">
@@ -58,7 +58,7 @@ export default function Route() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        Suggest event <Arrow direction="external" />
+                                        Tell us on Discord <Arrow direction="external" />
                                     </a>
                                 </section>
                                 <section id="venues">
@@ -70,7 +70,7 @@ export default function Route() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        Provide a venue <Arrow direction="external" />
+                                        Tell us on Discord <Arrow direction="external" />
                                     </a>
                                 </section>
                             </div>
@@ -86,13 +86,13 @@ export default function Route() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                Join Discord <Arrow direction="external" />
+                                Join the Discord <Arrow direction="external" />
                             </a>
                         </Card>
                         <Card title="Support">
                             <p>Support our events as an individual or an organisation.</p>
-                            <a class="action-link" href="/sponsor">
-                                Sponsors <Arrow />
+                            <a class="text-link" href="/sponsor">
+                                Become a sponsor <Arrow />
                             </a>
                         </Card>
                     </aside>

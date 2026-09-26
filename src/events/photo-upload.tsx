@@ -4,6 +4,7 @@ import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
+import "./editor.css";
 
 type Selection = { file: File; url: string };
 

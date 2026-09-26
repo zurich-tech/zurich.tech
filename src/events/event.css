@@ -1,0 +1,344 @@
+/* ================================================================================
+   Overview: title, practical facts and admission
+   ================================================================================ */
+
+/* when, where, speakers and organisers read across one ruled band */
+.event-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-6);
+}
+
+.event-facts > div + div {
+    border-left: var(--rule) solid var(--color-line);
+    padding-left: var(--space-6);
+}
+
+.event-facts dt {
+    margin-bottom: var(--space-2);
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1.4 var(--font-mono);
+}
+
+.event-facts dd {
+    display: grid;
+    align-content: start;
+    gap: 2px;
+    font-weight: 600;
+}
+
+.event-facts dd > :is(span, .address-notice),
+.event-facts dd > div:not(.organisers) > span {
+    color: var(--color-soft);
+    font-weight: 400;
+}
+
+.event-facts dd > a:hover {
+    color: var(--color-accent);
+}
+
+.event-facts dd > div + div {
+    margin-top: var(--space-2);
+}
+
+.speaker-credit {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+}
+
+.speaker-credit img {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.speaker-credit a:hover {
+    color: var(--color-accent);
+}
+
+.event-overview__copy {
+    display: grid;
+    min-width: 0;
+    gap: var(--space-3);
+}
+
+.event-overview__summary {
+    max-width: 62ch;
+    font-size: var(--text-lg);
+}
+
+.event-overview__registration {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.event-overview__registration .button {
+    min-height: 48px;
+    padding: 0 var(--space-6);
+    font-size: var(--text-md);
+}
+
+/* an existing registration shows its state next to its actions */
+.registration-actions,
+.registration-actions__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.registration-status-link {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.registration-status-link:hover .status-control {
+    border-color: var(--color-accent);
+}
+
+@media (max-width: 700px) {
+    .event-facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .event-facts > div:nth-child(odd) {
+        border-left: 0;
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 460px) {
+    .event-facts {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .event-facts > div + div {
+        border-left: 0;
+        padding-left: 0;
+    }
+}
+
+/* ================================================================================
+   Body
+   ================================================================================ */
+
+/* programme with times */
+.agenda li {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: var(--space-4);
+    border-bottom: var(--rule) solid var(--color-line);
+    padding: var(--space-3) 0;
+}
+
+.agenda li:last-child {
+    border-bottom: 0;
+}
+
+.agenda time {
+    color: var(--color-accent);
+    font: 500 var(--text-sm) / 1.6 var(--font-mono);
+    white-space: nowrap;
+}
+
+/* speakers with portraits */
+.speaker-list {
+    display: grid;
+    gap: var(--space-6);
+}
+
+.speaker {
+    display: grid;
+    gap: var(--space-1);
+}
+
+.speaker-portrait {
+    width: 88px;
+    height: 88px;
+    margin-bottom: var(--space-2);
+    object-fit: cover;
+    filter: grayscale(0.15);
+    transition: filter var(--slow) var(--ease);
+}
+
+.speaker:hover .speaker-portrait {
+    filter: none;
+}
+
+.speaker-name {
+    font-weight: 600;
+}
+
+.speaker .social-links {
+    margin-left: calc(var(--space-2) * -1);
+}
+
+/* calendar destinations as equal choices */
+.calendar-options {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.calendar-options .button {
+    justify-content: space-between;
+}
+
+.calendar-options p {
+    color: var(--color-soft);
+    font-size: var(--text-xs);
+}
+
+.address-notice {
+    display: block;
+    font-weight: 400;
+}
+
+/* ================================================================================
+   Photos
+   ================================================================================ */
+
+.event-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+    gap: var(--space-2);
+}
+
+.event-photo {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--color-wash);
+    cursor: zoom-in;
+}
+
+.event-photo img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 900ms var(--ease);
+}
+
+.event-photo:hover img {
+    transform: scale(1.04);
+}
+
+/* full-screen photo viewer */
+.event-gallery {
+    position: fixed;
+    inset: 50% auto auto 50%;
+    width: min(calc(100vw - 32px), 1180px);
+    max-width: none;
+    max-height: calc(100dvh - 32px);
+    margin: 0;
+    border: 0;
+    background: var(--color-paper);
+    padding: 0;
+    color: var(--color-ink);
+    overscroll-behavior: contain;
+    transform: translate(-50%, -50%);
+}
+
+.event-gallery[open] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.event-gallery::backdrop {
+    background: rgb(8 12 20 / 82%);
+    backdrop-filter: blur(6px);
+}
+
+body:has(.event-gallery[open]) {
+    overflow: hidden;
+}
+
+.event-gallery__header,
+.event-gallery__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-2) var(--space-5);
+}
+
+.event-gallery__header h2 {
+    font: 500 var(--text-lg) / 1.3 var(--font-mono);
+    letter-spacing: -0.02em;
+}
+
+.event-gallery__stage {
+    min-height: 0;
+    overflow: auto;
+}
+
+.event-gallery__stage img {
+    width: 100%;
+    max-height: 72dvh;
+    object-fit: contain;
+}
+
+.event-gallery__stage figcaption {
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+    text-align: center;
+}
+
+.event-gallery__footer > span {
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1 var(--font-mono);
+}
+
+/* ================================================================================
+   Mobile register bar
+   ================================================================================ */
+
+.event-register-bar {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    .event-register-bar {
+        position: sticky;
+        z-index: 15;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-3);
+        margin: 0 calc(var(--gutter) * -1);
+        border-top: var(--rule) solid var(--color-line);
+        background: color-mix(in srgb, var(--color-paper) 92%, transparent);
+        padding: var(--space-3) var(--gutter) calc(var(--space-3) + env(safe-area-inset-bottom));
+        backdrop-filter: blur(8px);
+    }
+
+    .event-register-bar > span {
+        display: grid;
+        min-width: 0;
+        font-size: var(--text-sm);
+        line-height: 1.3;
+    }
+
+    .event-register-bar strong {
+        overflow: hidden;
+        font: 500 var(--text-sm) / 1.3 var(--font-mono);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .event-register-bar > span > span {
+        color: var(--color-soft);
+    }
+}
+
+/* long-form copy and the form keep a readable measure */
+.detail-content :is(.markdown, #register .editor) {
+    max-width: 68ch;
+}

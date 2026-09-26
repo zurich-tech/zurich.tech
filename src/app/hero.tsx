@@ -1,60 +1,70 @@
 import wordmark from "../components/assets/wordmark.svg?raw";
-import { site } from "./site";
-import { SocialLinks } from "../components/social";
 import { Show } from "solid-js";
-import { Dynamic } from "solid-js/web";
-
 import { CommunityMap } from "../map/map";
+import { Arrow } from "../components/arrow";
+import { timeZone } from "./site";
+import type { CalendarEntry } from "../events/queries";
+
+/** Weekday, date and time of the next event in Zurich time. */
+const nextWhen = new Intl.DateTimeFormat("en-GB", {
+    timeZone,
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+});
 
 /** Format a conservative community milestone. */
 function milestone(count: number, step: number) {
     return `${(Math.floor(count / step) * step).toLocaleString("en-GB")}+`;
 }
 
-/** Keep the city and wordmark consistent across the site. */
+/** Open the homepage with the city map, the next event, community figures and the wordmark. */
 export function Hero(props: {
-    /** Use a shorter banner on inner pages. */
-    isCompact?: boolean;
     /** Published events shown on the homepage. */
     eventCount?: number;
     /** Current community members with an active subscription. */
     memberCount?: number;
+    /** The next upcoming event, if any. */
+    next?: CalendarEntry;
 }) {
     return (
-        <header class="bulletin-masthead" classList={{ "hero-compact": props.isCompact }}>
+        <header class="hero">
             {/* render the geographic map behind the wordmark */}
-            <CommunityMap isHero isDecorative={props.isCompact} />
-            {/* show community counts on the landing page */}
-            <Show when={!props.isCompact}>
-                <div class="hero-toolbar">
-                    <dl class="hero-stats">
-                        <Show when={props.eventCount !== undefined}>
-                            <div>
-                                <dt>Events</dt>
-                                <dd>{milestone(props.eventCount!, 10)}</dd>
-                            </div>
-                        </Show>
-                        <Show when={props.memberCount !== undefined}>
-                            <div>
-                                <dt>Members</dt>
-                                <dd>{milestone(props.memberCount!, 1000)}</dd>
-                            </div>
-                        </Show>
-                    </dl>
-                    <nav aria-label="Community social channels">
-                        <SocialLinks name={site.name} profiles={site.socials} labelled />
-                    </nav>
-                </div>
-            </Show>
+            <CommunityMap isHero />
+
+            {/* the next event and the community figures as one row of equal chips */}
+            <dl class="hero-chips">
+                <Show when={props.next}>
+                    {(next) => (
+                        <div class="hero-chip hero-chip--next">
+                            <dt>next up · {nextWhen.format(next().startsAt)}</dt>
+                            <dd>
+                                <a href={next().href} title={next().location}>
+                                    {next().title}
+                                    <Arrow />
+                                </a>
+                            </dd>
+                        </div>
+                    )}
+                </Show>
+                <Show when={props.eventCount !== undefined}>
+                    <div class="hero-chip">
+                        <dt>events</dt>
+                        <dd>{milestone(props.eventCount!, 10)}</dd>
+                    </div>
+                </Show>
+                <Show when={props.memberCount !== undefined}>
+                    <div class="hero-chip">
+                        <dt>members</dt>
+                        <dd>{milestone(props.memberCount!, 1000)}</dd>
+                    </div>
+                </Show>
+            </dl>
+
             {/* anchor the wordmark to the banner edges */}
-            <div class="bulletin-name">
-                <Dynamic
-                    component={props.isCompact ? "div" : "h1"}
-                    class="hero-title"
-                    aria-label="zurich.tech"
-                    innerHTML={wordmark}
-                />
-            </div>
+            <h1 class="hero-wordmark" aria-label="zurich.tech" innerHTML={wordmark} />
         </header>
     );
 }

@@ -1,0 +1,104 @@
+/* quiet transport controls for the slideshow */
+.gallery-controls {
+    display: inline-flex;
+    gap: var(--space-1);
+}
+
+.gallery-controls button {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--color-soft);
+    transition:
+        background-color var(--fast) var(--ease),
+        color var(--fast) var(--ease);
+}
+
+.gallery-controls button:hover {
+    background: var(--color-wash);
+    color: var(--color-accent);
+}
+
+.gallery-controls svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+}
+
+/* one wide feature followed by pairs */
+.gallery-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-4);
+}
+
+.gallery-album {
+    display: grid;
+    min-width: 0;
+    gap: var(--space-2);
+}
+
+.gallery-album:first-child {
+    grid-column: 1 / -1;
+}
+
+.gallery-album-images {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--color-wash);
+}
+
+.gallery-album:first-child .gallery-album-images {
+    aspect-ratio: 16 / 9;
+}
+
+.gallery-album-images img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition:
+        opacity 700ms ease,
+        transform 1200ms var(--ease);
+}
+
+.gallery-album-images img.is-active {
+    opacity: 1;
+}
+
+.gallery-album:hover .gallery-album-images img {
+    transform: scale(1.03);
+}
+
+/* captions read as mono labels */
+.gallery-album > .text-link {
+    color: var(--color-ink);
+    font: 500 var(--text-xs) / 1.4 var(--font-mono);
+}
+
+.gallery-album:hover > .text-link {
+    color: var(--color-accent);
+    text-decoration-color: currentColor;
+}
+
+/* the full collection */
+.gallery-overview--page .gallery-overview-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+}
+
+.gallery-overview--page .gallery-album:first-child {
+    grid-column: auto;
+}
+
+.gallery-overview--page .gallery-album:first-child .gallery-album-images {
+    aspect-ratio: 4 / 3;
+}

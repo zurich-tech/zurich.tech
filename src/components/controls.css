@@ -1,0 +1,553 @@
+/* ================================================================================
+   Buttons
+   ================================================================================ */
+
+.button {
+    display: inline-flex;
+    min-height: var(--control-height);
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    border: var(--rule) solid var(--color-strong);
+    border-radius: var(--radius);
+    background: transparent;
+    padding: 0 var(--space-4);
+    color: var(--color-ink);
+    font: 500 var(--text-sm) / 1 var(--font-text);
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        background-color var(--fast) var(--ease),
+        border-color var(--fast) var(--ease),
+        color var(--fast) var(--ease),
+        transform var(--fast) var(--ease);
+}
+
+.button:hover:not(:disabled, [aria-disabled="true"]) {
+    background: var(--color-strong);
+    color: var(--color-paper);
+}
+
+.button:active:not(:disabled, [aria-disabled="true"]) {
+    transform: translateY(1px);
+}
+
+.button--primary {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+}
+
+.button--primary:hover:not(:disabled, [aria-disabled="true"]) {
+    border-color: var(--color-brand-deep);
+    background: var(--color-brand-deep);
+    color: var(--color-on-brand);
+}
+
+.button--ghost {
+    border-color: var(--color-line);
+}
+
+.button--ghost:hover:not(:disabled, [aria-disabled="true"]) {
+    border-color: var(--color-accent);
+    background: var(--color-accent-wash);
+    color: var(--color-accent);
+}
+
+.button .arrow-icon {
+    transition: translate var(--fast) var(--ease);
+}
+
+.button:hover .arrow-icon {
+    translate: 2px 0;
+}
+
+:is(button, .button):is(:disabled, [aria-disabled="true"]) {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* grouped actions below rows, forms and dialogs */
+.row-actions,
+.admin-actions,
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+}
+
+.admin-actions {
+    justify-content: flex-end;
+}
+
+.admin-table .admin-actions {
+    flex-wrap: nowrap;
+}
+
+.row-actions > :is(a, button):not(.button, .text-link, .action-link),
+.admin-actions > :is(a, button):not(.button, .action-link) {
+    display: inline-flex;
+    min-height: 32px;
+    align-items: center;
+    gap: var(--space-2);
+    border: var(--rule) solid var(--color-line);
+    border-radius: var(--radius);
+    background: transparent;
+    padding: 0 var(--space-3);
+    color: var(--color-ink);
+    font: 500 var(--text-xs) / 1 var(--font-text);
+    white-space: nowrap;
+    transition:
+        border-color var(--fast) var(--ease),
+        color var(--fast) var(--ease);
+}
+
+.row-actions > :is(a, button):not(.button, .text-link, .action-link):hover:not(:disabled),
+.admin-actions > :is(a, button):not(.button, .action-link):hover:not(:disabled) {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.form-actions {
+    border-top: var(--rule) solid var(--color-line);
+    padding-top: var(--space-5);
+}
+
+.editor > .form-actions:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+/* ================================================================================
+   Tags
+   ================================================================================ */
+
+/* metadata reads as quiet text; status is the only boxed label */
+.tag {
+    display: inline-flex;
+    align-items: baseline;
+    color: var(--color-soft);
+    font: 400 var(--text-sm) / 1.5 var(--font-text);
+    white-space: nowrap;
+}
+
+a.tag {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition:
+        color var(--fast) var(--ease),
+        text-decoration-color var(--fast) var(--ease);
+}
+
+a.tag:hover {
+    color: var(--color-accent);
+    text-decoration-color: currentColor;
+}
+
+.tag-status,
+.tag.status-control {
+    border: var(--rule) solid var(--color-line);
+    border-radius: var(--radius);
+    padding: 0 6px;
+    color: var(--color-ink);
+    font: 500 var(--text-xs) / 18px var(--font-text);
+}
+
+.tag.tag-upcoming,
+.tag.tag-emphasis {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+}
+
+/* sponsorship tiers read as capitalised accent labels wherever they appear */
+.tag.sponsorship-badge {
+    border: var(--rule) solid var(--color-accent);
+    border-radius: var(--radius);
+    padding: 0 6px;
+    color: var(--color-accent);
+    font: 500 var(--text-xs) / 18px var(--font-text);
+    text-transform: capitalize;
+}
+
+/* status labels that stand next to buttons share their height but never look pressable */
+.tag.status-control {
+    min-height: var(--control-height);
+    padding: 0 var(--space-3);
+}
+
+.tag.status-control.tag-upcoming {
+    border-color: var(--color-accent);
+    background: transparent;
+    color: var(--color-accent);
+}
+
+/* buttons inside tables and action rows are compact and quiet */
+:is(.admin-table, .admin-actions, .row-actions, .entry-actions) .button:not(.button--primary) {
+    min-height: 30px;
+    border-color: var(--color-line);
+    padding: 0 var(--space-3);
+    font-size: var(--text-xs);
+}
+
+:is(.admin-table, .admin-actions, .row-actions, .entry-actions)
+    .button:not(.button--primary):hover:not(:disabled) {
+    border-color: var(--color-accent);
+    background: var(--color-accent-wash);
+    color: var(--color-accent);
+}
+
+/* tag rows align on the text baseline, so boxed status labels sit level with plain tags */
+.tags,
+.entry-tags,
+.detail-tags,
+.event-taxonomy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-3);
+}
+
+/* ================================================================================
+   Filter pills
+   ================================================================================ */
+
+.pill-strip {
+    --pill-edge: 32px;
+    position: relative;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.filter-pills {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: var(--space-1);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+}
+
+.filter-pills::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-pills > :is(button, a) {
+    display: inline-flex;
+    min-height: 30px;
+    flex: 0 0 auto;
+    align-items: center;
+    border: var(--rule) solid transparent;
+    border-radius: var(--radius);
+    padding: 0 var(--space-3);
+    color: var(--color-soft);
+    font: 500 var(--text-sm) / 1 var(--font-text);
+    white-space: nowrap;
+    transition:
+        background-color var(--fast) var(--ease),
+        border-color var(--fast) var(--ease),
+        color var(--fast) var(--ease);
+}
+
+.filter-pills > :is(button, a):hover:not(.selected) {
+    background: var(--color-wash);
+    color: var(--color-ink);
+}
+
+.filter-pills > :is(button, a).selected {
+    border-color: var(--color-brand);
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+}
+
+.filter-pills > :focus-visible {
+    outline-offset: -2px;
+}
+
+.pill-scroll {
+    position: absolute;
+    z-index: 1;
+    inset-block: 0;
+    width: var(--pill-edge);
+    color: var(--color-soft);
+    font: 400 22px / 1 var(--font-text);
+}
+
+.pill-scroll:hover {
+    color: var(--color-accent);
+}
+
+.pill-scroll--back {
+    left: 0;
+    background: linear-gradient(to right, var(--color-paper) 65%, transparent);
+    text-align: left;
+}
+
+.pill-scroll--forward {
+    right: 0;
+    background: linear-gradient(to left, var(--color-paper) 65%, transparent);
+    text-align: right;
+}
+
+/* ================================================================================
+   Forms
+   ================================================================================ */
+
+.editor {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-width: 0;
+    gap: var(--space-6);
+}
+
+.field,
+.editor label {
+    display: grid;
+    min-width: 0;
+    align-content: start;
+    gap: var(--space-2);
+    color: var(--color-ink);
+    font: 500 var(--text-sm) / 1.4 var(--font-text);
+}
+
+.field__label {
+    color: var(--color-ink);
+    font: 500 var(--text-sm) / 1.4 var(--font-text);
+}
+
+/* hints follow their control */
+.editor label > span:not(.field__label) {
+    order: 1;
+    color: var(--color-soft);
+    font-weight: 400;
+    font-size: var(--text-xs);
+}
+
+.editor p {
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}
+
+.editor label[hidden] {
+    display: none;
+}
+
+/* secondary form buttons keep their natural width */
+.editor
+    :is(fieldset, .form-section, .optional-fields__body, .organiser-fields, .affiliation-fields)
+    > .button,
+.editor > .button:not([type="submit"]) {
+    justify-self: start;
+}
+
+.field__control,
+.field > :is(input:not([type="checkbox"], [type="radio"]), select, textarea),
+.editor :is(input:not([type="checkbox"], [type="radio"], [type="file"]), select, textarea) {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    border: var(--rule) solid var(--color-line);
+    border-radius: var(--radius);
+    outline: 0;
+    background: var(--color-raised);
+    padding: var(--space-2) var(--space-3);
+    color: var(--color-ink);
+    font: 400 var(--text-md) / 1.5 var(--font-text);
+    transition:
+        border-color var(--fast) var(--ease),
+        box-shadow var(--fast) var(--ease);
+}
+
+.field__control:hover,
+.editor :is(input:not([type="checkbox"], [type="radio"], [type="file"]), select, textarea):hover {
+    border-color: var(--color-faint);
+}
+
+.field__control:focus,
+.field > :is(input, select, textarea):focus,
+.editor :is(input, select, textarea):focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-wash);
+}
+
+.editor input[readonly] {
+    background: var(--color-wash);
+    color: var(--color-soft);
+}
+
+.field__textarea,
+.editor textarea {
+    min-height: 7rem;
+    resize: vertical;
+}
+
+select.field__control:not([multiple]),
+.editor select:not([multiple]) {
+    appearance: none;
+    padding-right: var(--space-10);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b93a0' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right var(--space-3) center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.editor fieldset {
+    display: grid;
+    min-width: 0;
+    gap: var(--space-5);
+    margin: 0;
+    border: 0;
+    border-top: var(--rule) solid var(--color-line);
+    padding: var(--space-5) 0 0;
+}
+
+.editor legend {
+    padding: 0;
+    font: 500 var(--text-lg) / 1.4 var(--font-mono);
+    letter-spacing: -0.02em;
+}
+
+/* side-by-side fields collapse on phones */
+.form-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+}
+
+.editor-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--column-gap);
+}
+
+.editor-column {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-width: 0;
+    gap: var(--space-10);
+}
+
+@media (max-width: 800px) {
+    .form-columns,
+    .editor-columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* grouped settings within a form */
+.form-section,
+.optional-fields {
+    display: grid;
+    min-width: 0;
+    gap: var(--space-4);
+}
+
+.form-section + .form-section {
+    border-top: var(--rule) solid var(--color-line);
+    padding-top: var(--space-6);
+}
+
+.form-section > h3 {
+    font: 500 var(--text-lg) / 1.4 var(--font-mono);
+    letter-spacing: -0.02em;
+}
+
+.editor .optional-fields__body {
+    gap: var(--space-4);
+    border: 0;
+    border-left: var(--rule-strong) solid var(--color-accent-wash);
+    padding: 0 0 0 var(--space-5);
+}
+
+/* checkboxes and radios with their label */
+.checkbox,
+.editor .checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-ink);
+    font: 400 var(--text-md) / 1.4 var(--font-text);
+    cursor: pointer;
+}
+
+:is(.checkbox, .editor) input:is([type="checkbox"], [type="radio"]) {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin: 0;
+    accent-color: var(--color-brand);
+    cursor: pointer;
+}
+
+/* inline form results */
+.form-error,
+.form-success {
+    max-width: 40rem;
+    font-size: var(--text-sm);
+}
+
+.form-error {
+    color: var(--color-danger);
+}
+
+.form-success {
+    color: var(--color-success);
+}
+
+/* ================================================================================
+   Tables
+   ================================================================================ */
+
+.table-scroll {
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.admin-table {
+    font-size: var(--text-sm);
+}
+
+.admin-table th,
+.admin-table td {
+    border-bottom: var(--rule) solid var(--color-line);
+    padding: var(--space-3) var(--space-3);
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* the action column hugs the right edge, header included */
+.admin-table :is(th, td):last-child:not(:first-child) {
+    text-align: right;
+}
+
+.admin-table :is(th, td):first-child {
+    padding-left: 0;
+}
+
+.admin-table :is(th, td):last-child {
+    padding-right: 0;
+}
+
+.admin-table th {
+    border-bottom-color: var(--color-strong);
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1.5 var(--font-mono);
+    white-space: nowrap;
+}
+
+.admin-table tbody tr {
+    transition: background-color var(--fast) var(--ease);
+}
+
+.admin-table tbody tr:hover {
+    background: color-mix(in srgb, var(--color-wash) 60%, transparent);
+}
+
+.admin-table td:last-child > .checkbox {
+    justify-content: flex-end;
+}

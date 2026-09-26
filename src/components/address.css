@@ -1,43 +1,38 @@
-/* align the search field, suggestions and preview with the surrounding form */
 .address-field {
     display: grid;
-    gap: 8px;
     min-width: 0;
+    gap: var(--space-2);
 }
+
 .address-field__search {
     position: relative;
 }
+
+/* suggestions drop below the search field */
 .address-field__results {
     position: absolute;
-    inset: 100% 0 auto;
     z-index: 10;
+    inset: 100% 0 auto;
     max-height: 260px;
     overflow-y: auto;
-    margin: 4px 0 0;
-    padding: 0;
-    list-style: none;
-    border: 1px solid var(--color-line);
+    margin: var(--space-1) 0 0;
+    border: var(--rule) solid var(--color-line);
     background: var(--color-paper);
-    box-shadow: 0 8px 20px #0002;
+    box-shadow: 0 12px 32px rgb(8 20 48 / 16%);
 }
+
 .address-field__results li {
-    padding: 10px 12px;
-    color: var(--color-ink);
-    font-size: 13px;
-    line-height: 1.5;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
     cursor: pointer;
 }
+
 .address-field__results li + li {
-    border-top: 1px solid var(--color-line);
+    border-top: var(--rule) solid var(--color-line);
 }
+
 .address-field__results li:hover,
 .address-field__results li[aria-selected="true"] {
-    background: var(--brand-blue);
-    color: white;
-}
-.address-field .venue-map {
-    margin-top: 4px;
-}
-.address-field p {
-    margin: 0;
+    background: var(--color-brand);
+    color: var(--color-on-brand);
 }

@@ -3,6 +3,7 @@ import type { GalleryAlbum } from "./queries";
 import { Card } from "../components/card";
 import { FilterPills } from "../components/filter-pills";
 import { Image } from "../components/image";
+import "./gallery.css";
 
 /** Browse recent event albums with gently rotating photo previews. */
 export function Gallery(props: {

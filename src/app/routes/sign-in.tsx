@@ -220,7 +220,7 @@ export default function Route() {
                             <Show when={params.error}>
                                 <FormMessage error="Sign-in wasn’t completed. Please try again with an account that has a verified email address." />
                             </Show>
-                            <p class="text-sm text-soft">
+                            <p class="text-soft">
                                 Creating an account includes community emails and event updates. You
                                 can unsubscribe anytime; existing email preferences are respected.
                             </p>

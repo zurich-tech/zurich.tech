@@ -219,7 +219,7 @@ export default function Route() {
                                                 class="text-link"
                                                 href="/manage?section=organisations"
                                             >
-                                                Add your company
+                                                Add your organisation
                                             </a>{" "}
                                             before posting a job.
                                         </p>

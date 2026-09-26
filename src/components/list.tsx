@@ -2,6 +2,7 @@ import type { JSX } from "solid-js";
 import { For, Show } from "solid-js";
 
 import { Highlight } from "./highlight";
+import "./list.css";
 
 /** Directory list. */
 export function DirectoryList(props: { children: JSX.Element }) {

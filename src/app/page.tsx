@@ -1,5 +1,4 @@
 import { Card } from "../components/card";
-import "./page.css";
 import type { JSX } from "solid-js";
 import { Show } from "solid-js";
 

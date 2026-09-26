@@ -9,6 +9,7 @@ import { getDirectory } from "../organisations/queries";
 import { civilTime } from "./time";
 import { AddressField } from "../components/address";
 import { Card } from "../components/card";
+import "./editor.css";
 
 /** Edit the event title, description and series. */
 export function EventFields(props: {
@@ -151,7 +152,7 @@ export function EventFields(props: {
                         </For>
                     </Select>
                 </label>
-                <div class="grid gap-3">
+                <div class="topic-choice">
                     <TopicFields values={topics()} onChange={setTopics} />
                     <Show when={seriesId()}>
                         <button type="button" class="button" onClick={() => setTopics(defaults())}>

@@ -1,130 +1,153 @@
-.editor fieldset:is(.topic-fields, .survey-choice) {
+/* question groups inside member and event forms */
+.editor fieldset:is(.topic-fields, .survey-choice, .citizenship-fields) {
     border: 0;
     padding: 0;
-    margin: 0;
-    min-width: 0;
 }
+
+.editor :is(.topic-fields, .survey-choice) > legend {
+    margin-bottom: var(--space-3);
+    font: 500 var(--text-lg) / 1.4 var(--font-mono);
+}
+
+.editor fieldset.survey-choice {
+    gap: var(--space-3);
+}
+
+.topic-choice {
+    display: grid;
+    gap: var(--space-3);
+}
+
+/* choices flow into as many columns as fit */
 .choice-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
-    gap: 12px 20px;
-}
-.community-section {
-    container-type: inline-size;
-    display: grid;
-    gap: 16px;
-    border-top: 1px solid var(--color-line);
-    padding-top: 20px;
-    margin-top: 0;
-}
-.community-section h3,
-.community-section p {
-    margin: 0;
-}
-.community-section .survey-intro {
-    color: var(--color-soft);
-}
-.editor fieldset.survey-choice {
-    display: grid;
-    gap: 12px;
+    gap: var(--space-3) var(--space-5);
 }
 
-/* Legends align with their choices rather than browser-default inline padding. */
-.editor :is(.topic-fields, .survey-choice) > legend {
-    padding: 0;
-    margin-bottom: 12px;
-    font: 600 18px/1.4 var(--font-mono);
+/* ================================================================================
+   Community survey
+   ================================================================================ */
+
+.community-section {
+    display: grid;
+    gap: var(--space-4);
+    border-top: var(--rule) solid var(--color-line);
+    padding-top: var(--space-5);
+    container-type: inline-size;
 }
-.community-section h3 {
-    font: 600 18px/1.4 var(--font-mono);
-}
+
 .community-section:first-child {
     border-top: 0;
-    margin-top: 0;
     padding-top: 0;
 }
-.community-section .choice-grid {
-    gap: 14px 24px;
+
+.community-section h3 {
+    font: 500 var(--text-lg) / 1.4 var(--font-mono);
+}
+
+.survey-intro {
+    color: var(--color-soft);
 }
 
 .choice-grid.role-choices {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-@container (min-width: 640px) {
-    .choice-grid.role-choices {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
+
+.demographic-fields {
+    display: grid;
+    gap: var(--space-4);
 }
-@container (max-width: 359px) {
-    .choice-grid.role-choices {
-        grid-template-columns: 1fr;
-    }
+
+.community-section > .demographic-fields {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 0.8fr);
+    align-items: start;
+}
+
+.demographic-fields small {
+    color: var(--color-soft);
+    font-size: var(--text-xs);
 }
 
 .country-fields,
 .editor fieldset.citizenship-fields {
     display: grid;
-    gap: 12px;
     min-width: 0;
+    gap: var(--space-3);
 }
-.editor fieldset.citizenship-fields {
-    border: 0;
-    padding: 0;
-    margin: 0;
+
+.community-section > .country-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--space-5);
 }
+
 .editor .citizenship-fields > legend {
-    padding: 0;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-2);
     font: inherit;
 }
+
 .citizenship-fields > .action-link {
     justify-self: start;
 }
+
 .citizenship-row {
     display: flex;
     align-items: center;
-    gap: 12px;
-}
-.citizenship-row select {
-    flex: 1;
-    min-width: 0;
+    gap: var(--space-3);
 }
 
-/* Each question owns its spacing; adjacent sections do not stack extra margins. */
-.community-section > .demographic-fields {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 0.8fr);
-    gap: 16px;
-    align-items: start;
+.citizenship-row select {
+    min-width: 0;
+    flex: 1;
 }
-.community-section > .country-fields {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-    align-items: start;
-}
+
 .interest-groups {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
+    gap: var(--space-6);
 }
 
 .interest-groups .choice-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
 }
-@container (max-width: 540px) {
-    .community-section > .demographic-fields,
-    .community-section > .country-fields {
-        grid-template-columns: 1fr;
-    }
-    .interest-groups {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    .interest-groups .choice-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+/* aggregate answers as bars */
+.audience-charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-8);
+}
+
+.audience-bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-1) var(--space-2);
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+}
+
+.audience-bar meter {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 8px;
+    accent-color: var(--color-brand);
+}
+
+@container (min-width: 640px) {
+    .choice-grid.role-choices {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }
 
-.demographic-fields small {
-    color: var(--color-soft);
-    font: 12px/1.4 var(--font-sans);
+@container (max-width: 540px) {
+    .community-section > .demographic-fields,
+    .community-section > .country-fields,
+    .interest-groups {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .interest-groups .choice-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }

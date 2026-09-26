@@ -1,0 +1,855 @@
+/* ================================================================================
+   Shell
+   ================================================================================ */
+
+.site-shell {
+    display: grid;
+    width: 100%;
+    max-width: var(--site-width);
+    min-height: 100svh;
+    margin: 0 auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    background: var(--color-paper);
+}
+
+.site-main {
+    width: 100%;
+    min-width: 0;
+}
+
+/* centre authentication between the topbar and footer */
+.site-main--centered {
+    display: grid;
+    align-content: center;
+    padding: var(--space-16) var(--gutter);
+}
+
+/* thin progress line while a route loads */
+.navigation-progress {
+    position: fixed;
+    z-index: 1000;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--color-on-brand);
+    box-shadow: 0 0 0 1px var(--color-brand);
+    transform-origin: left;
+    animation: navigation-progress 1.4s var(--ease) forwards;
+    pointer-events: none;
+}
+
+@keyframes navigation-progress {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(0.85);
+    }
+}
+
+/* ================================================================================
+   Topbar
+   ================================================================================ */
+
+/* a paper bar with ink links: the most readable way into the site */
+.site-topbar {
+    position: relative;
+    z-index: 20;
+    border-bottom: var(--rule) solid var(--color-line);
+    background: var(--color-paper);
+    color: var(--color-ink);
+}
+
+.site-topbar__body {
+    display: flex;
+    min-height: 56px;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: 0 var(--gutter);
+}
+
+/* logo and primary destinations */
+.site-topbar__primary {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.site-topbar__logo {
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-right: var(--space-3);
+    transition: transform var(--fast) var(--ease);
+}
+
+.site-topbar__logo:hover {
+    transform: rotate(-6deg);
+}
+
+.site-symbol {
+    display: block;
+    width: 26px;
+    height: 26px;
+}
+
+.site-symbol svg {
+    width: 100%;
+    height: 100%;
+}
+
+.site-topbar__primary > a:not(.site-topbar__logo),
+.header-account:not(.header-avatar) {
+    position: relative;
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    color: var(--color-soft);
+    font: 500 var(--text-sm) / 1 var(--font-text);
+    white-space: nowrap;
+    transition: color var(--fast) var(--ease);
+}
+
+/* the current page is underlined in blue; hover darkens */
+.site-topbar__primary > a:not(.site-topbar__logo)::after,
+.header-account:not(.header-avatar)::after {
+    position: absolute;
+    right: 0;
+    bottom: 4px;
+    left: 0;
+    height: 2px;
+    background: var(--color-accent);
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--slow) var(--ease);
+}
+
+.site-topbar__primary > a:not(.site-topbar__logo):hover,
+.header-account:not(.header-avatar):hover {
+    color: var(--color-ink);
+}
+
+.site-topbar__primary > a.active:not(.site-topbar__logo),
+.header-account.active:not(.header-avatar) {
+    color: var(--color-accent);
+}
+
+.site-topbar__primary > a.active:not(.site-topbar__logo)::after,
+.header-account.active:not(.header-avatar)::after {
+    transform: scaleX(1);
+}
+
+/* account, socials, theme, search and menu share one control size */
+.site-topbar__actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 2px;
+}
+
+.header-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    margin-right: var(--space-4);
+}
+
+.site-topbar .social-links {
+    display: contents;
+}
+
+.site-topbar__actions :is(.site-theme-toggle, .search-trigger, .header-menu, .social-links a),
+.header-avatar {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--color-soft);
+    transition:
+        background-color var(--fast) var(--ease),
+        color var(--fast) var(--ease);
+}
+
+.site-topbar__actions :is(.site-theme-toggle, .search-trigger, .header-menu, .social-links a) svg {
+    width: 18px;
+    height: 18px;
+}
+
+.site-topbar__actions .social-links a svg {
+    width: 16px;
+    height: 16px;
+}
+
+.site-topbar__actions :is(.site-theme-toggle, .search-trigger, .header-menu, .social-links a):hover,
+.header-avatar:hover {
+    background: var(--color-wash);
+    color: var(--color-accent);
+}
+
+.header-avatar .avatar {
+    width: 30px;
+    height: 30px;
+}
+
+.site-theme-toggle__preference {
+    display: none;
+}
+
+.header-pending {
+    width: 30px;
+    height: 30px;
+    border: var(--rule) solid var(--color-line);
+    border-radius: 50%;
+}
+
+.site-topbar .site-topbar__actions .header-menu {
+    display: none;
+}
+
+/* mobile navigation dialog */
+.mobile-navigation {
+    display: grid;
+    border-top: var(--rule) solid var(--color-line);
+}
+
+.mobile-navigation a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: var(--rule) solid var(--color-line);
+    padding: var(--space-3) 0;
+    font: 500 var(--text-xl) / 1.3 var(--font-mono);
+    letter-spacing: -0.02em;
+    transition: color var(--fast) var(--ease);
+}
+
+.mobile-navigation a:hover,
+.mobile-navigation a.active {
+    color: var(--color-accent);
+}
+
+.mobile-navigation .mobile-account {
+    margin-top: var(--space-4);
+    color: var(--color-soft);
+    font: 500 var(--text-md) / 1.4 var(--font-text);
+    letter-spacing: 0;
+}
+
+/* collapse destinations into the menu once they no longer fit */
+@media (max-width: 900px) {
+    .site-topbar__primary > a:not(.site-topbar__logo),
+    .header-links > .header-admin {
+        display: none;
+    }
+
+    .site-topbar .site-topbar__actions .header-menu {
+        display: inline-flex;
+    }
+}
+
+@media (max-width: 700px) {
+    .site-topbar .social-links {
+        display: none;
+    }
+}
+
+@media (max-width: 520px) {
+    .header-links > .header-account:not(.header-avatar) {
+        display: none;
+    }
+
+    .header-links {
+        margin-right: 0;
+    }
+
+    .site-topbar__body {
+        min-height: 52px;
+    }
+}
+
+/* ================================================================================
+   Homepage hero
+   ================================================================================ */
+
+.hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    min-height: clamp(300px, 29vw, 420px);
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+}
+
+/* the next event and the figures share one chip anatomy: mono label over mono value */
+.hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--gutter) 0;
+    pointer-events: none;
+}
+
+.hero-chip {
+    display: grid;
+    align-content: center;
+    gap: 2px;
+    border: var(--rule) solid var(--color-on-brand);
+    background: var(--color-brand);
+    padding: var(--space-2) var(--space-4);
+    pointer-events: auto;
+}
+
+.hero-chip dt {
+    font: 500 var(--text-xs) / 1.4 var(--font-mono);
+    opacity: 0.85;
+}
+
+.hero-chip dd,
+.hero-chip a {
+    font: 500 var(--text-xl) / 1.2 var(--font-mono);
+    letter-spacing: -0.035em;
+    white-space: nowrap;
+}
+
+/* the next event leads on the left, the community figures sit on the right */
+.hero-chip--next + .hero-chip,
+.hero-chips > .hero-chip:first-child:not(.hero-chip--next) {
+    margin-left: auto;
+}
+
+/* on narrow screens the next event takes the first row and the figures share the second */
+@media (max-width: 700px) {
+    .hero-chip--next {
+        flex-basis: 100%;
+    }
+
+    .hero-chip dd,
+    .hero-chip a {
+        white-space: normal;
+    }
+}
+
+/* the next event is the one interactive chip */
+.hero-chip--next {
+    transition: background-color var(--fast) var(--ease);
+}
+
+.hero-chip--next:hover {
+    background: var(--color-brand-deep);
+}
+
+.hero-chip--next a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* the whole chip is the link target */
+.hero-chip--next {
+    position: relative;
+}
+
+.hero-chip--next a::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+}
+
+.hero-chip--next .arrow-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.hero-chip--next:hover .arrow-icon {
+    translate: 3px 0;
+}
+
+/* the wordmark bleeds past the bottom and sides to cover fractional rounding */
+.hero-wordmark {
+    position: relative;
+    width: calc(100% + 4px);
+    margin: auto -2px -2px;
+    line-height: 0;
+    pointer-events: none;
+}
+
+.hero-wordmark > svg {
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 700px) {
+    .hero {
+        min-height: 340px;
+    }
+}
+
+/* ================================================================================
+   Footer
+   ================================================================================ */
+
+/* one compact blue band: brand, links and the weekly email */
+.site-footer {
+    margin-top: var(--space-12);
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+}
+
+.site-footer__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 1.6fr);
+    gap: var(--space-8) var(--space-6);
+    padding: var(--space-10) var(--gutter);
+}
+
+.site-footer__brand {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: var(--space-3);
+}
+
+.site-footer__brand p {
+    max-width: 30ch;
+    font-size: var(--text-sm);
+    opacity: 0.85;
+}
+
+.site-footer__wordmark {
+    display: block;
+    width: 180px;
+    line-height: 0;
+}
+
+.site-footer__wordmark svg {
+    width: 100%;
+    height: auto;
+}
+
+.site-footer .social-links {
+    margin-left: calc(var(--space-2) * -1);
+}
+
+.site-footer .social-links a:hover {
+    background: color-mix(in srgb, var(--color-on-brand) 14%, transparent);
+    color: var(--color-on-brand);
+}
+
+.site-footer__group {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: var(--space-2);
+}
+
+.site-footer h2 {
+    margin-bottom: var(--space-1);
+    font: 500 var(--text-xs) / 1.5 var(--font-mono);
+    opacity: 0.75;
+}
+
+.site-footer__group a {
+    color: var(--color-on-brand);
+    font-size: var(--text-sm);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 4px;
+    transition: text-decoration-color var(--fast) var(--ease);
+}
+
+.site-footer__group a:hover {
+    text-decoration-color: currentColor;
+}
+
+.site-footer :focus-visible {
+    outline-color: var(--color-on-brand);
+}
+
+/* weekly email signup inside the footer */
+.newsletter {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+}
+
+.newsletter-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+.site-footer .newsletter-heading h2 {
+    margin: 0;
+    font: 500 var(--text-xl) / 1.2 var(--font-mono);
+    letter-spacing: -0.035em;
+    opacity: 1;
+}
+
+.newsletter-heading .action-link,
+.newsletter-description {
+    color: color-mix(in srgb, var(--color-on-brand) 80%, transparent);
+}
+
+.newsletter-heading .action-link:hover {
+    color: var(--color-on-brand);
+}
+
+.newsletter-input {
+    display: flex;
+    border-bottom: var(--rule-strong) solid var(--color-on-brand);
+}
+
+.newsletter-input input {
+    min-width: 0;
+    flex: 1;
+    min-height: 44px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--color-on-brand);
+    font-size: var(--text-lg);
+}
+
+.newsletter-input input::placeholder {
+    color: color-mix(in srgb, var(--color-on-brand) 60%, transparent);
+}
+
+.newsletter-input button {
+    display: inline-flex;
+    width: 44px;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-on-brand);
+}
+
+.newsletter-input button .arrow-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.newsletter-input button:hover .arrow-icon {
+    translate: 4px 0;
+}
+
+.newsletter-input:focus-within {
+    outline: 2px solid var(--color-on-brand);
+    outline-offset: 4px;
+}
+
+.newsletter-member,
+.newsletter-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.site-footer :is(.form-error, .form-success) {
+    color: var(--color-on-brand);
+}
+
+@media (max-width: 900px) {
+    .site-footer__body {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .site-footer__brand,
+    .site-footer .newsletter {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ================================================================================
+   Pages
+   ================================================================================ */
+
+.page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    min-width: 0;
+    align-content: start;
+    gap: var(--space-8);
+    padding: var(--space-8) var(--gutter) 0;
+}
+
+.page > * {
+    min-width: 0;
+}
+
+/* standalone buttons keep their natural width */
+.page > .button {
+    justify-self: start;
+}
+
+.page--narrow {
+    max-width: 880px;
+}
+
+/* back links sit tight above the title they return from */
+.page > .eyebrow {
+    margin-bottom: calc(var(--space-8) * -1 + var(--space-3));
+}
+
+/* utility pages open with the same boxed title block as every other page */
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-4);
+    border: var(--rule) solid var(--color-line);
+    padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.page-header__copy {
+    display: grid;
+    flex: 1 1 280px;
+    min-width: 0;
+    gap: var(--space-2);
+}
+
+.page-header h1 {
+    font: 500 var(--text-3xl) / 1.05 var(--font-mono);
+    letter-spacing: -0.05em;
+}
+
+.page-header p {
+    max-width: 62ch;
+    color: var(--color-soft);
+    font-size: var(--text-lg);
+    line-height: 1.5;
+}
+
+.page-header__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+}
+
+.page-header__actions:empty {
+    display: none;
+}
+
+/* main column with a sidebar of supporting sections */
+.listing-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
+    align-items: start;
+    gap: var(--space-10) var(--column-gap);
+}
+
+.listing-sidebar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-width: 0;
+    gap: var(--space-10);
+}
+
+@media (max-width: 900px) {
+    .listing-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* detail pages: content with an aside of practical sections */
+.detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
+    align-items: start;
+    gap: var(--space-10) var(--column-gap);
+}
+
+.detail-content,
+.detail-aside {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-width: 0;
+    align-content: start;
+    gap: var(--space-10);
+}
+
+.detail-aside .button:not(.dialog .button) {
+    justify-self: start;
+}
+
+/* without main content the aside's sections spread across the full width */
+.detail-layout:has(> .detail-content:empty) {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.detail-layout:has(> .detail-content:empty) > .detail-content {
+    display: none;
+}
+
+.detail-layout:has(> .detail-content:empty) > .detail-aside {
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    align-items: start;
+    gap: var(--space-6);
+}
+
+@media (max-width: 900px) {
+    .detail-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* labelled details */
+.detail-list {
+    display: grid;
+}
+
+.detail-row {
+    display: grid;
+    grid-template-columns: minmax(8rem, 1fr) 3fr;
+    gap: var(--space-4);
+    border-bottom: var(--rule) solid var(--color-line);
+    padding: var(--space-3) 0;
+}
+
+.detail-row:last-child {
+    border-bottom: 0;
+}
+
+.detail-row dt {
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1.6 var(--font-mono);
+}
+
+.detail-row dd {
+    min-width: 0;
+}
+
+@media (max-width: 700px) {
+    .page {
+        gap: var(--space-8);
+        padding-top: var(--space-6);
+    }
+
+    .page-header {
+        padding: var(--space-3) var(--space-4) var(--space-4);
+    }
+
+    .page-header h1 {
+        font-size: var(--text-2xl);
+    }
+
+    .detail-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-1);
+    }
+}
+
+/* ================================================================================
+   Utility pages: confirmations, empty states, sign-in
+   ================================================================================ */
+
+.confirmation-panel {
+    display: grid;
+    max-width: 640px;
+    gap: var(--space-5);
+}
+
+.confirmation-panel h1 {
+    border-bottom: var(--rule-strong) solid var(--color-strong);
+    padding-bottom: var(--space-4);
+    font: 500 var(--text-3xl) / 1.05 var(--font-mono);
+    letter-spacing: -0.05em;
+}
+
+.confirmation-panel :is(.button, .eyebrow) {
+    justify-self: start;
+}
+
+.empty-panel {
+    display: grid;
+    max-width: 640px;
+    gap: var(--space-4);
+    border: var(--rule) dashed var(--color-line);
+    padding: var(--space-6);
+}
+
+.empty-panel h2 {
+    font: 500 var(--text-xl) / 1.25 var(--font-mono);
+    letter-spacing: -0.03em;
+}
+
+.empty-panel p {
+    color: var(--color-soft);
+}
+
+.empty-panel :is(.button, .text-link) {
+    justify-self: start;
+}
+
+/* sign-in centres one narrow column */
+.page.sign-in-page {
+    grid-template-columns: minmax(0, 420px);
+    justify-content: center;
+    padding-block: var(--space-12);
+}
+
+.social-sign-in {
+    display: grid;
+    gap: var(--space-3);
+}
+
+.social-sign-in .button {
+    min-height: 48px;
+    justify-content: flex-start;
+    gap: var(--space-3);
+}
+
+.email-sign-in {
+    display: grid;
+    gap: var(--space-3);
+    border-top: var(--rule) solid var(--color-line);
+    padding-top: var(--space-5);
+}
+
+.email-sign-in label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.email-sign-in input {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    border: var(--rule) solid var(--color-line);
+    border-radius: var(--radius);
+    outline: 0;
+    background: var(--color-raised);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-lg);
+    transition:
+        border-color var(--fast) var(--ease),
+        box-shadow var(--fast) var(--ease);
+}
+
+.email-sign-in input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-wash);
+}
+
+.email-sign-in .button {
+    min-height: 48px;
+}
+
+/* a main column made of several sections stacks them with the page rhythm */
+.listing-main {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+}

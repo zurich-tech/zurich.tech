@@ -1,69 +1,132 @@
 .organiser {
     display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: inherit;
-    vertical-align: middle;
     min-width: 0;
     max-width: 100%;
+    align-items: center;
+    gap: var(--space-2);
+    vertical-align: middle;
+    transition: color var(--fast) var(--ease);
 }
-.organiser img {
-    width: 24px;
-    height: 24px;
+
+.organiser:hover {
+    color: var(--color-accent);
+}
+
+.organiser img,
+.organiser > .organiser-initials {
+    width: 28px;
+    height: 28px;
     flex-shrink: 0;
-    object-fit: cover;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .organiser > .organiser-initials {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    color: white;
-    font-size: 10px;
-    font-weight: 600;
-    flex-shrink: 0;
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+    font: 600 10px / 1 var(--font-mono);
 }
 
-.organiser--detailed {
-    align-items: flex-start;
-}
 .organiser-copy {
+    display: grid;
     min-width: 0;
     overflow-wrap: anywhere;
 }
 
+.organiser-copy strong {
+    font-weight: 600;
+}
+
 .organisers {
     display: flex;
-    align-items: center;
-    gap: 8px;
     flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
 }
+
 .organisers:empty {
     display: none;
 }
-.organisers--detailed {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 20px;
+
+/* compact credits overlap into a stack that fans out on hover */
+.entry .organisers,
+.organisers:not(.organisers--detailed):has(> .organiser:not(:has(.organiser-copy))) {
+    flex-wrap: nowrap;
+    gap: 0;
 }
+
+.organisers > .organiser:not(:has(.organiser-copy)) {
+    transition:
+        margin var(--slow) var(--ease),
+        transform var(--fast) var(--ease);
+}
+
+.organisers > .organiser:not(:has(.organiser-copy)) + .organiser {
+    margin-left: -8px;
+}
+
+.organisers > .organiser:not(:has(.organiser-copy)) :is(img, .organiser-initials) {
+    box-shadow: 0 0 0 2px var(--color-paper);
+}
+
+.organisers:hover > .organiser:not(:has(.organiser-copy)) + .organiser {
+    margin-left: 2px;
+}
+
+.organisers > .organiser:not(:has(.organiser-copy)):hover {
+    transform: translateY(-2px);
+}
+
 .organisers-more {
-    color: inherit;
-    font-size: 12px;
+    margin-left: var(--space-2);
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1 var(--font-mono);
 }
+
+/* detailed credits list portrait, name and affiliation */
+.organisers--detailed {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+    align-items: start;
+    gap: var(--space-5) var(--space-6);
+}
+
+.organiser--detailed {
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+.organiser--detailed img,
+.organiser--detailed > .organiser-initials {
+    width: 40px;
+    height: 40px;
+}
+
+.organiser--detailed .organiser-copy {
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}
+
+.organiser--detailed .organiser-copy strong {
+    color: var(--color-ink);
+    font-size: var(--text-md);
+}
+
+/* organiser selection in editors */
 .organiser-fields {
     display: grid;
-    gap: 12px;
+    gap: var(--space-3);
 }
+
 .co-organiser-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
 }
+
 .co-organiser-row > span {
     flex: 1;
 }

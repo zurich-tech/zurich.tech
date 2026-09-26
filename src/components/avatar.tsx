@@ -1,4 +1,5 @@
 import { Image } from "./image";
+import "./avatar.css";
 import { Show, createEffect, createSignal } from "solid-js";
 
 /** Display a provider portrait with initials when no image is available. */

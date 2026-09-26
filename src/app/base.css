@@ -1,0 +1,348 @@
+/* reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background: var(--color-paper);
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: clip;
+    overscroll-behavior-y: none;
+}
+
+body {
+    min-width: 320px;
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: 400 var(--text-md) / 1.6 var(--font-text);
+    font-feature-settings: "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ol, ul) {
+    margin: 0;
+}
+
+:where(ol, ul)[class] {
+    padding: 0;
+    list-style: none;
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+    font-weight: 500;
+    line-height: 1.2;
+    text-wrap: balance;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+:where(img, svg, video, canvas) {
+    display: block;
+    max-width: 100%;
+}
+
+:where(img) {
+    height: auto;
+}
+
+:where(button, input, select, textarea) {
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+}
+
+:where(button) {
+    border: 0;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+:where(a) {
+    color: inherit;
+    text-decoration: none;
+    touch-action: manipulation;
+}
+
+:where(table) {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+:where(hr) {
+    height: var(--rule);
+    margin: var(--space-6) 0;
+    border: 0;
+    background: var(--color-line);
+}
+
+[hidden] {
+    display: none !important;
+}
+
+::selection {
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+::placeholder {
+    color: var(--color-faint);
+    opacity: 1;
+}
+
+/* numbers align in every table, count and date */
+:where(time, data, .numeric) {
+    font-variant-numeric: tabular-nums;
+}
+
+/* reduce motion everywhere when requested */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0ms !important;
+        animation-duration: 0ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* visually hidden labels */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* secondary copy */
+.text-soft {
+    color: var(--color-soft);
+}
+
+/* small mono label above headings and back links */
+.eyebrow {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1.5 var(--font-mono);
+}
+
+a.eyebrow {
+    transition: color var(--fast) var(--ease);
+}
+
+a.eyebrow:hover {
+    color: var(--color-accent);
+}
+
+a.eyebrow .arrow-icon {
+    width: 14px;
+    height: 14px;
+    transition: transform var(--fast) var(--ease);
+}
+
+a.eyebrow:hover .arrow-icon {
+    transform: translateX(-3px);
+}
+
+/* shared direction icon */
+.arrow-icon {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    transition: translate var(--fast) var(--ease);
+}
+
+/* prominent inline navigation, underlined on hover */
+.text-link {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-decoration-color var(--fast) var(--ease);
+}
+
+.text-link:hover {
+    text-decoration-color: currentColor;
+}
+
+.text-link:hover .arrow-icon {
+    translate: 2px 0;
+}
+
+/* quiet utility actions such as share, edit, suggest */
+.action-link {
+    display: inline-flex;
+    min-height: 32px;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-1) 0;
+    color: var(--color-soft);
+    font: 500 var(--text-sm) / 1.4 var(--font-text);
+    white-space: nowrap;
+    transition: color var(--fast) var(--ease);
+}
+
+.action-link:hover:not(:disabled) {
+    color: var(--color-accent);
+}
+
+.action-link:hover:not(:disabled) .arrow-icon {
+    translate: 2px 0;
+}
+
+.action-link:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* authored markdown */
+.markdown {
+    display: grid;
+    gap: var(--space-4);
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.markdown :where(h1, h2, h3, h4, h5, h6) {
+    margin-top: var(--space-2);
+    font: 600 var(--text-lg) / 1.3 var(--font-text);
+}
+
+.markdown :where(ul, ol) {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding-left: var(--space-6);
+}
+
+.markdown ul {
+    list-style: square;
+}
+
+.markdown li::marker {
+    color: var(--color-accent);
+}
+
+.markdown a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.markdown a:hover {
+    text-decoration-thickness: 2px;
+}
+
+.markdown strong {
+    font-weight: 600;
+}
+
+.markdown blockquote {
+    border-left: var(--rule-strong) solid var(--color-accent);
+    padding-left: var(--space-4);
+    color: var(--color-soft);
+}
+
+.markdown :not(pre) > code {
+    background: var(--color-wash);
+    padding: 0.1em 0.3em;
+    font: 0.9em var(--font-mono);
+}
+
+.markdown pre {
+    overflow-x: auto;
+    border: var(--rule) solid var(--color-line);
+    background: var(--color-wash);
+    padding: var(--space-3) var(--space-4);
+    font: var(--text-sm) / 1.6 var(--font-mono);
+}
+
+.markdown hr {
+    margin: var(--space-2) 0;
+}
+
+/* long-form reading width */
+.article-content {
+    max-width: 68ch;
+    font-size: var(--text-lg);
+    line-height: 1.7;
+}
+
+/* theme-specific image variants swap before hydration */
+.image--dark {
+    display: none;
+}
+
+:root[data-theme="dark"] .image--light {
+    display: none;
+}
+
+:root[data-theme="dark"] .image--dark {
+    display: block;
+}
+
+/* matched search terms */
+mark.search-match {
+    background: transparent;
+    padding: 0;
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+/* empty collections explain themselves quietly */
+.empty-copy {
+    padding: var(--space-4) 0;
+    color: var(--color-soft);
+}
+
+/* disclosures share one quiet marker and pointer */
+summary {
+    width: fit-content;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color var(--fast) var(--ease);
+}
+
+summary:hover {
+    color: var(--color-accent);
+}
+
+summary::marker {
+    color: var(--color-accent);
+}

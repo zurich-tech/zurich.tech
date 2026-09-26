@@ -1,4 +1,7 @@
 import { Arrow } from "../../../components/arrow";
+import { Share } from "../../../components/share";
+import { Contribute } from "../../contribute";
+import { site } from "../../site";
 import { SeriesDetails } from "../../../events/series-details";
 import { useParams } from "@solidjs/router";
 import { Show } from "solid-js";
@@ -46,13 +49,24 @@ export default function Route() {
                                     />
                                 }
                             />
-                            <Programme
-                                entries={events() ?? []}
-                                series={directory()!.series}
-                                seriesId={item()._id}
-                                isCalendarEnabled
-                                isPlanningEnabled
-                            />
+                            <div class="detail-layout">
+                                <div class="detail-content">
+                                    <Programme
+                                        entries={events() ?? []}
+                                        series={directory()!.series}
+                                        seriesId={item()._id}
+                                        isCalendarEnabled
+                                        isPlanningEnabled
+                                    />
+                                </div>
+                                <aside class="detail-aside">
+                                    <Contribute />
+                                    <Share
+                                        title={item().name}
+                                        url={`${site.url}/series/${item().slug}`}
+                                    />
+                                </aside>
+                            </div>
                         </Page>
                     </>
                 )}

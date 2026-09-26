@@ -1,0 +1,22 @@
+.share-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+}
+
+.share-actions svg,
+.share-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.share-icon svg {
+    fill: currentColor;
+}
+
+.share-status {
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}

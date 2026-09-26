@@ -1,0 +1,92 @@
+/* portrait with its upload control */
+.profile-photo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.profile-photo .avatar {
+    width: 88px;
+    height: 88px;
+    font-size: var(--text-xl);
+}
+
+.editor .avatar-upload {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.avatar-upload input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.avatar-upload:focus-within {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.profile-divider {
+    width: 100%;
+    margin: var(--space-1) 0;
+}
+
+.profile-editor > .form-actions {
+    border: 0;
+    padding-top: 0;
+}
+
+/* email preferences with explanations */
+.editor .email-options {
+    display: grid;
+    min-width: 0;
+    gap: var(--space-4);
+    border: 0;
+    padding: 0;
+}
+
+.email-options .checkbox {
+    align-items: flex-start;
+}
+
+.email-options small {
+    display: block;
+    margin-top: var(--space-1);
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}
+
+/* account and registration pages */
+.account-page .editor > .button {
+    justify-self: start;
+}
+
+/* on phones the registration pass follows the details */
+@media (max-width: 800px) {
+    .registration-layout {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-12);
+    }
+
+    .registration-layout > .editor-column {
+        display: contents;
+    }
+
+    .registration-layout > .editor-column:last-child > .card {
+        order: 1;
+    }
+
+    .registration-layout > .editor-column:last-child > .registration-pass {
+        order: 2;
+    }
+
+    .registration-layout #feedback {
+        order: 3;
+    }
+}

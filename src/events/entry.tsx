@@ -4,7 +4,7 @@ import { EventCounts } from "./counts";
 import { EventBadges, EventTags } from "./tags";
 import type { CalendarEntry } from "./queries";
 import "./entry.css";
-import { timeZone } from "../app/site";
+import { site, timeZone } from "../app/site";
 
 import { Show, type JSX } from "solid-js";
 import { Arrow } from "../components/arrow";
@@ -128,11 +128,13 @@ export function EventEntry(props: {
                         </Show>
                     </div>
                     <div class="entry-people">
-                        <EventCounts
-                            compact
-                            confirmed={props.event.rsvpCount}
-                            waitlist={props.event.waitlistCount}
-                        />
+                        <Show when={(props.event.rsvpCount ?? 0) >= site.publicRegistrations}>
+                            <EventCounts
+                                compact
+                                confirmed={props.event.rsvpCount}
+                                waitlist={props.event.waitlistCount}
+                            />
+                        </Show>
                         <Organisers
                             compact
                             primary={props.event.organiser}

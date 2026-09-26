@@ -5,7 +5,7 @@ import { isTentative } from "../events/conditions";
 import type { Recurrence } from "../events/recurrence";
 import type { AddressAccess } from "../events/fields";
 import type { Confirmation } from "../events/fields";
-import { layout, paragraph, escapeHtml } from "./layout";
+import { layout, paragraph, escapeHtml, sectionHeading, palette, mono } from "./layout";
 import { tiers } from "../../src/sponsorships/plans";
 import type { activeSponsors } from "../sponsorships/organisations";
 import { siteOrigin } from "../auth/environment";
@@ -48,7 +48,7 @@ function emailAddress(event: Event) {
 export function eventDetails(event: Event, includeSummary = false) {
     const url = `${siteOrigin()}/events/${event.slug}`;
     const time = eventTime(event.startsAt);
-    return `<h2 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a href="${escapeHtml(url)}" style="color:#174ed8;text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(time)}${event.location ? `<br>${escapeHtml(event.location)}` : ""}</p>${emailAddress(event) ? paragraph(emailAddress(event)!) : ""}${includeSummary && event.summary ? paragraph(event.summary) : ""}${isTentative(event) && event.status !== "cancelled" ? paragraph("Tentative · Awaiting event confirmation") : ""}`;
+    return `<h2 style="margin:0 0 6px;font:500 22px/1.25 ${mono};letter-spacing:-0.5px"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(time)}${event.location ? `<br>${escapeHtml(event.location)}` : ""}</p>${emailAddress(event) ? paragraph(emailAddress(event)!) : ""}${includeSummary && event.summary ? paragraph(event.summary) : ""}${isTentative(event) && event.status !== "cancelled" ? paragraph("Tentative · Awaiting event confirmation") : ""}`;
 }
 
 /** Registration subjects, headings and explanations. */
@@ -162,7 +162,7 @@ export function eventEmail(
         html: layout({
             title,
             preview: `${title}: ${event.title}`,
-            body: `${options.description ? paragraph(options.description) : ""}${eventDetails(event, options.summary)}${options.passUrl ? `<p style="margin:24px 0"><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code" width="240" height="240" style="display:block;width:240px;height:240px;background:white" /></p>` : ""}`,
+            body: `${options.description ? paragraph(options.description) : ""}${eventDetails(event, options.summary)}${options.passUrl ? `<p style="margin:24px 0"><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code" width="240" height="240" style="display:block;width:240px;height:240px;background:#ffffff;padding:12px" /></p>` : ""}`,
             action,
             links,
         }),
@@ -178,7 +178,7 @@ export function signInEmail(code: string) {
         html: layout({
             title: "Sign in",
             preview: "Your zurich.tech sign-in code",
-            body: `${paragraph("Your sign-in code:")}<p style="margin:20px 0;padding:16px 20px;background:#f1f3f5;border:1px solid #d5d9df;font:700 32px/1.4 Consolas,monospace;letter-spacing:6px">${escapeHtml(code)}</p>${paragraph(expiry)}`,
+            body: `${paragraph("Your sign-in code:")}<p style="margin:20px 0;padding:16px 20px;background:${palette.wash};border-left:4px solid ${palette.brand};font:700 32px/1.4 ${mono};letter-spacing:6px">${escapeHtml(code)}</p>${paragraph(expiry)}`,
         }),
     };
 }
@@ -224,7 +224,7 @@ export function newsletterEdition(
     const events = listings
         .map(
             (entry) =>
-                `<div style="padding:20px 0;border-bottom:1px solid #d5d9df">${eventDetails(entry, true)}</div>`,
+                `<div style="padding:20px 0;border-bottom:1px solid ${palette.line}">${eventDetails(entry, true)}</div>`,
         )
         .join("");
 
@@ -237,13 +237,13 @@ export function newsletterEdition(
             const logos = selected
                 .map(
                     (sponsor) =>
-                        `<a href="${escapeHtml(sponsor.profileUrl ?? sponsor.website)}" style="display:inline-block;padding:12px;color:#174ed8">${sponsor.logoUrl ? `<img src="${escapeHtml(new URL(emailLogos[sponsor.logoUrl] ?? sponsor.logoUrl, siteOrigin()).href)}" alt="${escapeHtml(sponsor.name)}" width="${tier.logoWidth}" style="max-height:80px;object-fit:contain">` : escapeHtml(sponsor.name)}</a>`,
+                        `<a href="${escapeHtml(sponsor.profileUrl ?? sponsor.website)}" style="display:inline-block;padding:12px;color:${palette.brand}">${sponsor.logoUrl ? `<img src="${escapeHtml(new URL(emailLogos[sponsor.logoUrl] ?? sponsor.logoUrl, siteOrigin()).href)}" alt="${escapeHtml(sponsor.name)}" width="${tier.logoWidth}" style="max-height:80px;object-fit:contain">` : escapeHtml(sponsor.name)}</a>`,
                 )
                 .join("");
 
             return [
                 {
-                    html: `<section style="padding:20px 0"><h2 style="font-size:14px">${tier.name} sponsors</h2>${logos}</section>`,
+                    html: `${sectionHeading(`${tier.name} sponsors`)}<div style="padding:12px 0">${logos}</div>`,
                     text: `${tier.name} sponsors\n${selected.map((sponsor) => `${sponsor.name} · ${sponsor.profileUrl ?? sponsor.website}`).join("\n")}`,
                 },
             ];
@@ -259,22 +259,20 @@ export function newsletterEdition(
         const badges = facts
             .map(
                 (label) =>
-                    `<span style="display:inline-block;margin:0 6px 6px 0;padding:2px 6px;border-radius:3px;background:#174ed8;color:#fff;font-size:12px;font-weight:600">${escapeHtml(label)}</span>`,
+                    `<span style="display:inline-block;margin:0 6px 6px 0;padding:2px 8px;background:${palette.brand};color:#ffffff;font-size:12px;font-weight:600">${escapeHtml(label)}</span>`,
             )
             .join("");
         return {
-            html: `<div style="padding:16px 0;border-bottom:1px solid #d5d9df"><h3 style="font-size:20px;line-height:1.4;margin:0 0 8px"><a style="color:#174ed8;text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:#526074;font-size:14px">${escapeHtml(details)}</p><p style="margin:8px 0 0">${badges}</p>${paragraph(job.summary)}</div>`,
+            html: `<div style="padding:20px 0;border-bottom:1px solid ${palette.line}"><h3 style="margin:0 0 6px;font:500 20px/1.25 ${mono};letter-spacing:-0.5px"><a style="color:${palette.ink};text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(details)}</p><p style="margin:8px 0 0">${badges}</p>${paragraph(job.summary)}</div>`,
             text: `${job.title}\n${details}\n${facts.join(" · ")}\n${job.summary}\n${url}`,
         };
     });
 
     return {
         html:
-            (events
-                ? `<h2 style="font-size:18px;margin:20px 0 0">Upcoming events</h2>${events}`
-                : "") +
+            (events ? `${sectionHeading("Upcoming events")}${events}` : "") +
             (vacancies.length
-                ? `<h2 style="font-size:18px;margin:20px 0 0">Jobs</h2>${vacancies.map((job) => job.html).join("")}`
+                ? `${sectionHeading("Jobs")}${vacancies.map((job) => job.html).join("")}`
                 : "") +
             recognition.map((section) => section.html).join(""),
         text: [

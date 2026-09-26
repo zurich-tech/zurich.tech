@@ -11,7 +11,7 @@ export function NewsActions(props: { isCompact?: boolean }) {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                Suggest news
+                Suggest a story
             </a>
             {!props.isCompact && <EditLink href="/admin?section=news" label="Manage" />}
         </>

@@ -8,7 +8,7 @@
     display: block;
 }
 .affiliation + .affiliation {
-    margin-top: 8px;
+    margin-top: var(--space-2);
 }
 .affiliations--compact .affiliation > span {
     display: inline;
@@ -18,12 +18,12 @@
 }
 .affiliation-fields {
     display: grid;
-    gap: 12px;
+    gap: var(--space-3);
 }
 .affiliation-fields__row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
-    gap: 12px;
+    gap: var(--space-3);
     align-items: end;
 }
 @media (max-width: 600px) {

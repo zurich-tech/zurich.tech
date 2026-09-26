@@ -14,6 +14,7 @@ import { Button } from "../../../components/button";
 import { Page, PageHeader } from "../../page";
 import { Seo } from "../../seo";
 import { errorMessage } from "../../../components/errors";
+import "../../../members/profile.css";
 
 /** Settings page. */
 export default function Route() {
@@ -84,12 +85,12 @@ export default function Route() {
                         <FormMessage error="Could not load your account." />
                     </Match>
                     <Match when={account.user()}>
-                        <div class="event-layout account-layout">
-                            <div class="event-content">
+                        <div class="detail-layout account-layout">
+                            <div class="detail-content">
                                 <ProfileSettings />
                                 <Speaking />
                             </div>
-                            <aside class="event-aside">
+                            <aside class="detail-aside">
                                 <Notifications />
                                 <Card title="Billing">
                                     <SupportSettings />

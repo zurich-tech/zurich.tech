@@ -10,8 +10,10 @@ import { For, Show, createMemo } from "solid-js";
 import { Avatar } from "../../../components/avatar";
 import { DirectoryList } from "../../../components/list";
 import { Page } from "../../page";
+import { Contribute } from "../../contribute";
 import { Seo } from "../../seo";
 import { TableToolbar } from "../../../components/toolbar";
+import "../../../members/members.css";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
@@ -27,8 +29,24 @@ export default function Route() {
         <>
             <Seo title="Members" description="zurich.tech members." />
             <Page>
-                {/* members */}
-                <MemberDirectory members={members() ?? []} />
+                <div class="listing-layout">
+                    {/* members */}
+                    <MemberDirectory members={members() ?? []} />
+
+                    {/* invite people to add their own profile */}
+                    <aside class="listing-sidebar">
+                        <Card title="Join" class="offer-card">
+                            <p>
+                                Create a profile to appear here, register for events in one click
+                                and get the weekly email.
+                            </p>
+                            <a class="button button--primary" href="/sign-in?next=%2Fsettings">
+                                Create your profile
+                            </a>
+                        </Card>
+                        <Contribute />
+                    </aside>
+                </div>
             </Page>
         </>
     );
@@ -54,7 +72,7 @@ function MemberDirectory(props: { members: PublicMember[] }) {
     });
 
     return (
-        <Card title="Members" heading="h1">
+        <Card title="Members" heading="h1" class="listing-card">
             <TableToolbar value={query()} onSearch={setQuery} placeholder="Search members…" />
             {/* empty */}
             <Show

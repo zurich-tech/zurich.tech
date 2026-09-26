@@ -1,0 +1,90 @@
+:root {
+    color-scheme: light;
+
+    /* brand blue stays identical in both themes for mastheads and filled controls */
+    --color-brand: #174ed8;
+    --color-brand-deep: #0f3aa8;
+    --color-on-brand: #ffffff;
+
+    /* page colours */
+    --color-paper: #f7f6f2;
+    --color-raised: #fdfcfa;
+    --color-wash: #eeece5;
+    --color-ink: #14223a;
+    --color-soft: #5d6878;
+    --color-faint: #8b93a0;
+    --color-line: #d8d5cb;
+    --color-strong: #14223a;
+
+    /* interactive colours */
+    --color-accent: #174ed8;
+    --color-accent-wash: #e4eafa;
+    --color-danger: #b42a2a;
+    --color-warning: #9a6200;
+    --color-success: #1d7a45;
+
+    /* map lines inside the brand masthead */
+    --color-map-land: #5b8bdf;
+
+    /* type families */
+    --font-text: "Archivo Variable", "Archivo", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
+
+    /* type scale */
+    --text-xs: 0.75rem;
+    --text-sm: 0.8125rem;
+    --text-md: 0.9375rem;
+    --text-lg: 1.0625rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.625rem;
+    --text-3xl: 2.25rem;
+    --text-4xl: 3.25rem;
+
+    /* spacing on a 4px grid */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+
+    /* frame */
+    --site-width: 1120px;
+    --gutter: clamp(16px, 3vw, 24px);
+    --sidebar-width: 320px;
+    --column-gap: 24px;
+    --control-height: 40px;
+    --rule: 1px;
+    --rule-strong: 2px;
+    --radius: 2px;
+
+    /* motion */
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --fast: 120ms;
+    --slow: 240ms;
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --color-brand-deep: #2a5de6;
+
+    --color-paper: #11151c;
+    --color-raised: #161b23;
+    --color-wash: #1c222c;
+    --color-ink: #ece9e1;
+    --color-soft: #a0a8b4;
+    --color-faint: #6f7886;
+    --color-line: #2b313b;
+    --color-strong: #ece9e1;
+
+    --color-accent: #8fb0ff;
+    --color-accent-wash: #1c2946;
+    --color-danger: #ff8f8f;
+    --color-warning: #f0b93f;
+    --color-success: #6fd49a;
+}

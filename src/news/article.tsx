@@ -5,7 +5,9 @@ import { NewsActions } from "./actions";
 import { EditLink } from "../auth/edit";
 import { articleTags, TagPills } from "./tags";
 import { type Article } from "./model";
-import { For, Show, createMemo } from "solid-js";
+import { For, Show, createEffect, createMemo, createSignal, on } from "solid-js";
+import { pageSize } from "../app/site";
+import "../events/programme.css";
 
 import { matchesSearch, searchTerms, searchExcerpt } from "../search/search";
 import { Entry } from "../events/entry";
@@ -45,8 +47,14 @@ export function ArticleList(props: ArticleListProps) {
         );
     });
 
-    // apply the homepage limit after filtering
-    const articles = createMemo(() => matches().slice(0, props.limit));
+    // reveal the full archive in pages, restarting whenever the filters change
+    const [visibleCount, setVisibleCount] = createSignal(pageSize * 2);
+    createEffect(
+        on([terms, () => props.tag], () => setVisibleCount(pageSize * 2), { defer: true }),
+    );
+
+    // apply the homepage limit or the current page after filtering
+    const articles = createMemo(() => matches().slice(0, props.limit ?? visibleCount()));
 
     return (
         <Card
@@ -62,9 +70,7 @@ export function ArticleList(props: ArticleListProps) {
                 </div>
             </Show>
             <Show when={props.isSearchable}>
-                <TableToolbar onSearch={setQuery} value={query()} placeholder="Search news…">
-                    <TagPills articles={props.articles} selected={props.tag} />
-                </TableToolbar>
+                <TableToolbar onSearch={setQuery} value={query()} placeholder="Search news…" />
             </Show>
             {/* articles */}
             <Show
@@ -116,6 +122,22 @@ export function ArticleList(props: ArticleListProps) {
                             />
                         )}
                     </For>
+                </div>
+            </Show>
+
+            {/* reveal the next page without replacing existing articles */}
+            <Show when={props.limit === undefined && articles().length < matches().length}>
+                <div class="programme-more">
+                    <button
+                        class="button"
+                        type="button"
+                        onClick={() => setVisibleCount((count) => count + pageSize * 2)}
+                    >
+                        Load more
+                    </button>
+                    <span>
+                        {articles().length} of {matches().length}
+                    </span>
                 </div>
             </Show>
         </Card>

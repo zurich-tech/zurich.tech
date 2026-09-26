@@ -1,0 +1,40 @@
+/* facet entries run edge to edge inside their box, separated by hairlines */
+.facet-card > .card-body {
+    padding: 0;
+}
+
+.facet-list li + li {
+    border-top: var(--rule) solid var(--color-line);
+}
+
+.facet-list a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--card-inset);
+    font-weight: 500;
+    transition:
+        background-color var(--fast) var(--ease),
+        color var(--fast) var(--ease);
+}
+
+.facet-list a:hover {
+    background: var(--color-wash);
+    color: var(--color-accent);
+}
+
+.facet-list a.selected {
+    box-shadow: inset var(--rule-strong) 0 var(--color-accent);
+    color: var(--color-accent);
+}
+
+.facet-list small {
+    flex-shrink: 0;
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1 var(--font-mono);
+}
+
+.facet-list small.is-highlighted {
+    color: var(--color-accent);
+}

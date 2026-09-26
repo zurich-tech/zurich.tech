@@ -1,3 +1,4 @@
+import "./social.css";
 import { For, Show } from "solid-js";
 import linkedin from "./assets/social/linkedin.svg?raw";
 import github from "./assets/social/github.svg?raw";

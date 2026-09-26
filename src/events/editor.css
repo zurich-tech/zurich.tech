@@ -1,0 +1,146 @@
+/* URL field with its suffix action */
+.event-slug {
+    align-content: start;
+    gap: var(--space-2);
+}
+
+.event-slug__heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+}
+
+.event-slug__heading .action-link {
+    min-height: 0;
+    padding: 0;
+    color: var(--color-accent);
+}
+
+.organiser-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3);
+}
+
+/* registration questions */
+.question-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.question-row > input {
+    flex: 1;
+}
+
+.speaker-photos[open] > .form-columns {
+    margin-top: var(--space-3);
+}
+
+/* ================================================================================
+   Photo upload
+   ================================================================================ */
+
+.photo-upload {
+    display: grid;
+    gap: var(--space-4);
+}
+
+/* the drop zone brightens while a file is dragged over it */
+.photo-upload-zone {
+    display: flex;
+    width: 100%;
+    min-height: 120px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    border: var(--rule) dashed var(--color-faint);
+    padding: var(--space-5) var(--space-4);
+    transition:
+        border-color var(--fast) var(--ease),
+        background-color var(--fast) var(--ease);
+}
+
+.photo-upload-zone small {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-1) var(--space-3);
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}
+
+.photo-upload-zone small span {
+    white-space: nowrap;
+}
+
+.photo-upload-zone:hover:not(:disabled),
+.photo-upload.is-dragging .photo-upload-zone {
+    border-style: solid;
+    border-color: var(--color-accent);
+    background: var(--color-accent-wash);
+}
+
+.photo-upload-zone:disabled,
+.photo-upload-remove:disabled {
+    cursor: wait;
+    opacity: 0.5;
+}
+
+.photo-upload-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+    gap: var(--space-4);
+}
+
+.photo-upload-preview figure {
+    position: relative;
+    min-width: 0;
+}
+
+.photo-upload-preview img {
+    width: 100%;
+    height: 112px;
+    background: var(--color-wash);
+    object-fit: contain;
+}
+
+.photo-upload-preview figcaption {
+    overflow: hidden;
+    margin-top: var(--space-1);
+    color: var(--color-soft);
+    font-size: var(--text-xs);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.photo-upload-remove {
+    position: absolute;
+    top: var(--space-1);
+    right: var(--space-1);
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border: var(--rule) solid var(--color-line);
+    border-radius: 50%;
+    background: var(--color-paper);
+    transition:
+        border-color var(--fast) var(--ease),
+        color var(--fast) var(--ease);
+}
+
+.photo-upload-remove:hover:not(:disabled) {
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+}
+
+.photo-upload-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+}

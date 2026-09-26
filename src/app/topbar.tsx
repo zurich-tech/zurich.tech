@@ -6,6 +6,8 @@ import { Avatar } from "../components/avatar";
 import { Brand } from "./brand";
 import { Dialog } from "../components/dialog";
 import { ThemeToggle } from "./theme";
+import { SocialLinks } from "../components/social";
+import { site } from "./site";
 
 const destinations = ["About", "Events", "Jobs", "News", "Map", "Sponsor", "Stats"];
 
@@ -80,6 +82,7 @@ export function Topbar() {
                             </A>
                         </Show>
                     </div>
+                    <SocialLinks name={site.name} profiles={site.socials} />
                     <ThemeToggle />
                     <CommandPalette />
                     <button

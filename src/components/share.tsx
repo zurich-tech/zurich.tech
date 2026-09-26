@@ -1,3 +1,4 @@
+import "./share.css";
 import { createSignal, onMount, Show } from "solid-js";
 import linkedin from "./assets/social/linkedin.svg?raw";
 import x from "./assets/social/x.svg?raw";
@@ -100,7 +101,7 @@ export function Share(props: { title: string; url: string }) {
                 </Show>
             </div>
             <Show when={message()}>
-                <p class="text-sm text-soft" role="status">
+                <p class="share-status" role="status">
                     {message()}
                 </p>
             </Show>

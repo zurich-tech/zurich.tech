@@ -20,6 +20,8 @@ export const site = {
     eventsPerYear: 10,
     /** Lower bound for community membership. */
     members: 3000,
+    /** Registration totals below this stay visible to organisers only. */
+    publicRegistrations: 50,
 } as const;
 
 /** Calendar timezone used for Zurich events. */

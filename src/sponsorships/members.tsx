@@ -7,6 +7,7 @@ import { startTransition, createResource, createSignal, For, Show } from "solid-
 
 import { Dynamic } from "solid-js/web";
 import { Avatar } from "../components/avatar";
+import "./sponsors.css";
 
 /** Show opted-in personal sponsors, ordered by their support level. */
 export function PersonalSponsors() {

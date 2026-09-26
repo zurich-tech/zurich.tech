@@ -1,6 +1,7 @@
 import { createEffect, createSignal, For, Index, Show } from "solid-js";
 import { countries } from "../../convex/members/countries";
 import type { Demographics } from "../../convex/members/demographics";
+import "../topics/topics.css";
 
 /** Collect private residence and citizenship independently, including multiple citizenships. */
 export function CountryFields(props: { values: Demographics }) {

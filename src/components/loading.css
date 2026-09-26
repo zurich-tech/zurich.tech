@@ -1,19 +1,38 @@
+/* a shimmer across three lines while content loads */
 .loading-placeholder {
     display: grid;
-    gap: 12px;
     min-height: 96px;
     align-content: center;
+    gap: var(--space-3);
 }
+
 .loading-placeholder > span {
     display: block;
     width: 85%;
-    height: 12px;
-    background: var(--color-line);
-    opacity: 0.4;
+    height: 10px;
+    background: linear-gradient(
+        90deg,
+        var(--color-wash) 0%,
+        var(--color-line) 50%,
+        var(--color-wash) 100%
+    );
+    background-size: 200% 100%;
+    animation: loading-shimmer 1.4s linear infinite;
 }
+
 .loading-placeholder > span:first-child {
     width: 45%;
 }
+
 .loading-placeholder > span:last-child {
     width: 65%;
+}
+
+@keyframes loading-shimmer {
+    from {
+        background-position: 100% 0;
+    }
+    to {
+        background-position: -100% 0;
+    }
 }

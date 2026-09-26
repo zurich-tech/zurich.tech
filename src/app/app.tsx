@@ -15,7 +15,13 @@ import { Page } from "./page";
 import { Shell } from "./shell";
 import "@fontsource-variable/archivo/standard.css";
 import "@fontsource-variable/jetbrains-mono/wght.css";
-import "./style.css";
+import "./tokens.css";
+import "./base.css";
+import "./frame.css";
+import "../components/controls.css";
+import "../components/card.css";
+import "../components/statistics.css";
+import "./workspace.css";
 
 /** Keep the shared site layout mounted while routes load and change. */
 export default function App() {

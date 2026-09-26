@@ -8,6 +8,10 @@ import { Image } from "../components/image";
 import { workplaces, seniorities } from "./filters";
 import { applicationHref } from "./format";
 import { JobTags } from "./tags";
+import { Arrow } from "../components/arrow";
+import { Share } from "../components/share";
+import { site } from "../app/site";
+import "./jobs.css";
 
 /** Use the public vacancy layout for both reading and editorial preview. */
 export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX.Element }) {
@@ -95,9 +99,13 @@ export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX
                                 target={item().application.kind === "url" ? "_blank" : undefined}
                                 rel="noreferrer"
                             >
-                                {item().application.kind === "email"
-                                    ? "Apply by email"
-                                    : "Apply on company site ↗"}
+                                {item().application.kind === "email" ? (
+                                    "Apply by email"
+                                ) : (
+                                    <>
+                                        Apply on company site <Arrow direction="external" />
+                                    </>
+                                )}
                             </a>
                         </Show>
                     </Card>
@@ -122,9 +130,12 @@ export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX
                             target="_blank"
                             rel="noreferrer"
                         >
-                            Company website ↗
+                            Company website <Arrow direction="external" />
                         </a>
                     </Card>
+                    <Show when={!props.isPreview}>
+                        <Share title={item().title} url={`${site.url}/jobs/${item().slug}`} />
+                    </Show>
                 </aside>
             </div>
         </>

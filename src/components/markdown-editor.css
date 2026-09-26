@@ -1,29 +1,49 @@
-/* Keep writing and preview aligned with the surrounding form controls. */
 .markdown-editor {
     display: grid;
     min-width: 0;
-    gap: 8px;
+    gap: var(--space-2);
 }
+
+/* formatting tools form a strip attached to the top of the text box */
 .markdown-editor__tools {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
+    margin-bottom: calc(var(--space-2) * -1);
+    border: var(--rule) solid var(--color-line);
+    border-bottom: 0;
+    background: var(--color-wash);
+    padding: 2px var(--space-1);
 }
+
+.markdown-editor__tools .action-link {
+    min-height: 28px;
+    border-radius: var(--radius);
+    padding: 0 var(--space-2);
+    font: 500 var(--text-xs) / 1 var(--font-mono);
+}
+
+.markdown-editor__tools .action-link:hover {
+    background: var(--color-paper);
+}
+
 .markdown-editor__toggle {
     margin-left: auto;
 }
+
 .markdown-editor textarea {
-    font: 13px/1.7 var(--font-mono);
+    font: var(--text-sm) / 1.7 var(--font-mono);
 }
+
 .markdown-editor .markdown-editor__preview {
     min-height: calc(var(--markdown-rows) * 1.7 * 13px + 24px);
-    max-width: none;
-    padding: 12px;
-    border: 1px solid var(--color-line);
-    overflow-wrap: anywhere;
+    border: var(--rule) solid var(--color-line);
+    background: var(--color-raised);
+    padding: var(--space-3);
 }
 
 .markdown-editor__hint {
     color: var(--color-soft);
+    font-size: var(--text-xs);
 }

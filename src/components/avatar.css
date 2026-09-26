@@ -1,0 +1,19 @@
+.avatar {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--color-wash);
+    color: var(--color-soft);
+    font: 600 var(--text-xs) / 1 var(--font-mono);
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

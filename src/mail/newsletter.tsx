@@ -1,5 +1,4 @@
 import { Alert } from "../components/alert";
-import { Card } from "../components/card";
 import { useAccount } from "../auth";
 import { memberClient } from "../auth/convex";
 import { api } from "../../convex/_generated/api";
@@ -7,8 +6,9 @@ import { startTransition, createSignal, createResource, Show } from "solid-js";
 import { subscribe } from "../events/registration";
 import { errorMessage } from "../components/errors";
 import { FormMessage } from "../components/form";
+import { Arrow } from "../components/arrow";
 
-/** Subscribe to the weekly event list from a compact inline form. */
+/** Subscribe to the weekly email from a compact inline form. */
 export function Newsletter() {
     const account = useAccount();
     const [preferences, { refetch }] = createResource(
@@ -63,21 +63,17 @@ export function Newsletter() {
     }
 
     return (
-        <Card
-            title="Newsletter"
-            class="newsletter newsletter-compact"
-            id="newsletter"
-            toolbar={
+        <section class="newsletter" id="newsletter" aria-labelledby="newsletter-title">
+            {/* heading */}
+            <div class="newsletter-heading">
+                <h2 id="newsletter-title">Every Monday</h2>
                 <Show when={account.user()}>
                     <a class="action-link" href="/settings#notifications">
                         Settings
                     </a>
                 </Show>
-            }
-        >
-            <p class="newsletter-description">
-                Upcoming events, news, jobs, and more. Every Monday
-            </p>
+            </div>
+            <p class="newsletter-description">This week's events, news and jobs in Zurich tech.</p>
             <Show
                 when={!account.isPending() && preferences.state !== "pending"}
                 fallback={<p role="status">Loading…</p>}
@@ -155,14 +151,14 @@ export function Newsletter() {
                                 required
                                 maxlength="254"
                             />
-                            <button disabled={isPending()}>
-                                {isPending() ? "Sending…" : "Subscribe"}
+                            <button disabled={isPending()} aria-label="Subscribe">
+                                {isPending() ? "Sending…" : <Arrow />}
                             </button>
                         </div>
                         <FormMessage error={error()} success={success()} />
                     </form>
                 </Show>
             </Show>
-        </Card>
+        </section>
     );
 }

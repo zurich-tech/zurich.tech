@@ -16,6 +16,7 @@ import { Page, DetailList, DetailRow } from "../page";
 import { Seo } from "../seo";
 import { FormMessage } from "../../components/form";
 import { errorMessage } from "../../components/errors";
+import "../../members/profile.css";
 
 /** Manage one registration using its private email link. */
 export default function Route() {

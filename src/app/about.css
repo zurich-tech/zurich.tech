@@ -1,0 +1,71 @@
+/* portraits in an even grid, names in mono beneath */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(150px, 45%), 1fr));
+    gap: var(--space-10) var(--space-6);
+}
+
+.team-section-title {
+    margin-bottom: var(--space-6);
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1 var(--font-mono);
+}
+
+.team-person {
+    display: grid;
+    min-width: 0;
+    align-content: start;
+    gap: var(--space-1);
+}
+
+.team-profile {
+    display: grid;
+    gap: var(--space-3);
+}
+
+.team-portrait {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    filter: grayscale(0.2);
+    transition: filter var(--slow) var(--ease);
+}
+
+.team-profile:hover .team-portrait {
+    filter: none;
+}
+
+.team-person h2 {
+    font: 500 var(--text-lg) / 1.25 var(--font-mono);
+    letter-spacing: -0.03em;
+    transition: color var(--fast) var(--ease);
+}
+
+.team-profile:hover h2 {
+    color: var(--color-accent);
+}
+
+.team-role {
+    color: var(--color-accent);
+    font: 500 var(--text-xs) / 1.5 var(--font-mono);
+}
+
+.team-person .affiliations {
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}
+
+.team-person .social-links {
+    margin-left: calc(var(--space-2) * -1);
+}
+
+/* emeritus portraits sit smaller */
+[aria-label="Emeritus"] .team-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(140px, 100%), 1fr));
+}
+
+.team-edit {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}

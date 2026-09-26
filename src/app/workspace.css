@@ -1,0 +1,110 @@
+/* ================================================================================
+   Admin and organiser workspaces
+   ================================================================================ */
+
+.admin-navigation .card-body:empty {
+    display: none;
+}
+
+.admin-page .card-body > .checkbox {
+    margin-bottom: var(--space-3);
+}
+
+.admin-page .editor > button {
+    justify-self: start;
+}
+
+/* the event, series or organisation a panel belongs to */
+.admin-context {
+    border-bottom: var(--rule) solid var(--color-line);
+    padding-bottom: var(--space-3);
+    font-weight: 500;
+}
+
+/* search and filters above admin tables */
+.admin-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.admin-filters > input {
+    min-width: 0;
+    min-height: 40px;
+    flex: 1 1 240px;
+    border: var(--rule) solid var(--color-line);
+    border-radius: var(--radius);
+    outline: 0;
+    background: var(--color-raised);
+    padding: var(--space-2) var(--space-3);
+    color: var(--color-ink);
+    transition:
+        border-color var(--fast) var(--ease),
+        box-shadow var(--fast) var(--ease);
+}
+
+.admin-filters > input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-wash);
+}
+
+.admin-filters > .filter-bar {
+    flex-wrap: wrap;
+}
+
+.admin-attendees .admin-actions {
+    flex-wrap: nowrap;
+}
+
+.admin-attendee-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.admin-event-card .admin-table td:nth-child(4) {
+    min-width: 130px;
+}
+
+/* payments and billing history */
+.payment-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    border-bottom: var(--rule) solid var(--color-line);
+    padding: var(--space-4) 0;
+}
+
+.payment-row:last-child {
+    border-bottom: 0;
+}
+
+.payment-row p {
+    margin-top: var(--space-1);
+    color: var(--color-soft);
+    font-size: var(--text-xs);
+}
+
+.location-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* publication choices with the actions they affect */
+.editor-publication .form-actions {
+    border: 0;
+    padding: 0;
+}
+
+/* rendered email previews */
+iframe.email-preview {
+    display: block;
+    width: 100%;
+    border: var(--rule) solid var(--color-line);
+    background: #ffffff;
+}

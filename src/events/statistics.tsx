@@ -1,6 +1,7 @@
 import { For, Show } from "solid-js";
 import type { PublicEvent, CalendarEntry } from "./queries";
 import "./statistics.css";
+import { site } from "../app/site";
 
 /** A consistent, labelled row of public event or series totals. */
 export function Statistics(props: { items: { label: string; value: number | string }[] }) {
@@ -22,16 +23,26 @@ export function Statistics(props: { items: { label: string; value: number | stri
     );
 }
 
-/** Show known registration totals without implying external counts are complete. */
-export function RegistrationStatistics(props: { event: PublicEvent }) {
+/** Show known registration totals, keeping small totals visible to organisers only. */
+export function RegistrationStatistics(props: { event: PublicEvent; isOrganiser: boolean }) {
     const items = () => {
         const event = props.event;
         const values: { label: string; value: number | string }[] = [];
-        if (event.registration.kind === "native" || event.rsvpCount > 0)
+
+        // organisers see every known total, the public only established ones
+        const isPublic = event.rsvpCount >= site.publicRegistrations;
+        if (
+            props.isOrganiser
+                ? event.registration.kind === "native" || event.rsvpCount > 0
+                : isPublic
+        )
             values.push({ label: "Registered", value: event.rsvpCount });
         if (
-            (event.registration.kind === "native" && event.registration.overflow === "waitlist") ||
-            event.waitlistCount > 0
+            props.isOrganiser
+                ? (event.registration.kind === "native" &&
+                      event.registration.overflow === "waitlist") ||
+                  event.waitlistCount > 0
+                : isPublic && event.waitlistCount > 0
         )
             values.push({ label: "Waitlist", value: event.waitlistCount });
 

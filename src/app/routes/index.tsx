@@ -15,9 +15,9 @@ import { JobEntry } from "../../jobs/job";
 import { Sponsors } from "../../sponsorships/sponsors";
 import { Gallery } from "../../events/gallery";
 import { Hero } from "../hero";
-import { Newsletter } from "../../mail/newsletter";
 import { Programme } from "../../events/programme";
 import { Seo } from "../seo";
+import "../home.css";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
@@ -50,7 +50,14 @@ export default function Route() {
             <Seo isHome title="zurich.tech" description={site.description} />
 
             {/* use the city as a compact identifying graphic */}
-            <Hero eventCount={entries()?.length} memberCount={subscribers()} />
+            <Hero
+                eventCount={entries()?.length}
+                memberCount={subscribers()}
+                next={(entries() ?? [])
+                    .filter((entry) => entry.status === "scheduled" && entry.startsAt > Date.now())
+                    .sort((left, right) => left.startsAt - right.startsAt)
+                    .at(0)}
+            />
 
             {/* keep the programme and community tools in separate readable columns */}
             <div class="bulletin-body">
@@ -67,9 +74,6 @@ export default function Route() {
                 </section>
                 <aside class="bulletin-sidebar">
                     <ArticleList articles={articles() ?? []} isCompact limit={3} />
-                    <div class="bulletin-intro">
-                        <Newsletter />
-                    </div>
                     <Sponsors />
                     <Card title="Jobs" titleHref="/jobs" class="jobs-overview">
                         <Show when={jobs()}>

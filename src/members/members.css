@@ -1,0 +1,32 @@
+/* people directory rows */
+.member-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.member-row > .avatar {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+}
+
+.member-row__copy {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+}
+
+/* profile header */
+.member-identity {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+}
+
+.member-identity > .avatar {
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+    font-size: var(--text-xl);
+}

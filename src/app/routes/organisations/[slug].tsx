@@ -7,12 +7,15 @@ import { JobEntry } from "../../../jobs/job";
 import { getDirectory } from "../../../organisations/queries";
 import { getJobs } from "../../../jobs/queries";
 import { Arrow } from "../../../components/arrow";
+import { Share } from "../../../components/share";
+import { site } from "../../site";
 import { Card } from "../../../components/card";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 import { NotFound } from "../../notfound";
+import "../../../organisations/organisations.css";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
@@ -62,8 +65,8 @@ export default function Route() {
                                 <span class="tag">{item().location}</span>
                             </Show>
                         </ItemHeader>
-                        <div class="event-layout">
-                            <div class="event-content">
+                        <div class="detail-layout">
+                            <div class="detail-content">
                                 <Show when={item().description.trim()}>
                                     <Card title="About">
                                         <Markdown source={item().description} />
@@ -119,7 +122,7 @@ export default function Route() {
                                     </Card>
                                 </Show>
                             </div>
-                            <aside class="event-aside">
+                            <aside class="detail-aside">
                                 <Card title="Links">
                                     <Show when={item().logoUrl}>
                                         <a
@@ -149,6 +152,10 @@ export default function Route() {
                                         profiles={item().socials ?? {}}
                                     />
                                 </Card>
+                                <Share
+                                    title={item().name}
+                                    url={`${site.url}/organisations/${item().slug}`}
+                                />
                             </aside>
                         </div>
                     </Page>

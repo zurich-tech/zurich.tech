@@ -48,6 +48,7 @@ import { rsvp, registrationSite } from "../../../events/registration";
 
 import { errorMessage } from "../../../components/errors";
 import { routeParam } from "../../params";
+import "../../../events/event.css";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
@@ -379,7 +380,10 @@ export default function Route() {
                                         />
                                     </EventTags>
                                 </div>
-                                <RegistrationStatistics event={event()!} />
+                                <RegistrationStatistics
+                                    event={event()!}
+                                    isOrganiser={access.canEvent(event()!.id, "organiser")}
+                                />
                             </div>
                             <Show
                                 when={
@@ -471,9 +475,9 @@ export default function Route() {
                         </Card>
 
                         {/* content */}
-                        <div class="event-layout">
+                        <div class="detail-layout">
                             {/* main column */}
-                            <div class="event-content">
+                            <div class="detail-content">
                                 <ConfirmationNotice event={event()!} />
 
                                 <Show
@@ -507,15 +511,11 @@ export default function Route() {
                             </div>
 
                             {/* side column */}
-                            <aside class="event-aside">
+                            <aside class="detail-aside">
                                 <Show when={(event()?.speakers.length ?? 0) > 0}>
                                     <Speakers event={event()} />
                                 </Show>
                                 <VenueCard venue={visibleEvent()!.venue} />
-                                <Share
-                                    title={title()}
-                                    url={`${site.url}/events/${encodeURIComponent(slug())}`}
-                                />
                                 <Show
                                     when={
                                         event()!.startsAt > Date.now() &&
@@ -572,6 +572,10 @@ export default function Route() {
                                         </For>
                                     </Card>
                                 </Show>
+                                <Share
+                                    title={title()}
+                                    url={`${site.url}/events/${encodeURIComponent(slug())}`}
+                                />
                             </aside>
                         </div>
 
@@ -584,6 +588,26 @@ export default function Route() {
                             }
                         >
                             <Photos event={event()} />
+                        </Show>
+
+                        {/* keep registration one tap away while reading on a phone */}
+                        <Show
+                            when={
+                                isRsvpOpen(event()) &&
+                                !isRegistrationLoading() &&
+                                !hasRegistration() &&
+                                !registration.error
+                            }
+                        >
+                            <div class="event-register-bar">
+                                <span>
+                                    <strong>{title()}</strong>
+                                    <span>{eventDate(event()!.startsAt)}</span>
+                                </span>
+                                <a class="button button--primary" href="#register">
+                                    {registrationTitle(event())}
+                                </a>
+                            </div>
                         </Show>
                     </Page>
                 </>
@@ -801,12 +825,12 @@ function Description(props: { event: PublicEvent | null | undefined }) {
 function Agenda(props: { event: PublicEvent | null | undefined }) {
     return (
         <Card title="Programme">
-            <ol class="grid">
+            <ol class="agenda">
                 <For each={props.event?.agenda ?? []}>
                     {(item) => (
-                        <li class="grid grid-cols-[4rem_1fr] gap-4 border-b border-line py-3 last:border-b-0">
-                            <span class="text-xs whitespace-nowrap text-soft">{item.time}</span>
-                            <span class="text-sm">{item.title}</span>
+                        <li>
+                            <time>{item.time}</time>
+                            <span>{item.title}</span>
                         </li>
                     )}
                 </For>
@@ -827,7 +851,7 @@ function RsvpForm(props: {
 }) {
     return (
         <Card id="register" title={registrationTitle(props.event)}>
-            <form class="grid gap-4" onSubmit={props.onSubmit}>
+            <form class="editor" onSubmit={props.onSubmit}>
                 <Show when={!props.isSignedIn && !props.isLoadingAccount}>
                     <Field label="Name">
                         <Input maxlength="120" name="name" placeholder="Your name" required />
@@ -859,7 +883,7 @@ function RsvpForm(props: {
                     </For>
                 </Show>
                 <Show when={!props.isSignedIn && !props.isLoadingAccount}>
-                    <p class="text-sm text-soft">We’ll email you a confirmation link.</p>
+                    <p>We’ll email you a confirmation link.</p>
                 </Show>
                 <Button
                     disabled={props.isPending || props.isLoadingAccount || !!props.success}
@@ -871,7 +895,7 @@ function RsvpForm(props: {
                           ? registrationTitle(props.event)
                           : "Continue by email"}
                 </Button>
-                <p class="text-sm text-soft">
+                <p>
                     Registration includes community emails and event updates. You can unsubscribe
                     anytime; existing email preferences are respected.
                 </p>

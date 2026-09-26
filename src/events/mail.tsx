@@ -8,6 +8,7 @@ import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
 import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
+import "../mail/mail.css";
 
 /** Preview and explicitly send event mail from the team editor. */
 export function EventMail(props: { eventId: Id<"events"> }) {

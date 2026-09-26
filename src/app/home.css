@@ -1,0 +1,41 @@
+/* programme and photos on the left, community on the right */
+.bulletin-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
+    align-items: start;
+    gap: var(--space-10) var(--column-gap);
+    padding: var(--space-8) var(--gutter) 0;
+}
+
+.bulletin-events,
+.bulletin-sidebar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-width: 0;
+    gap: var(--space-10);
+}
+
+/* jobs preview */
+.jobs-overview-list {
+    display: grid;
+}
+
+.jobs-overview-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    border-top: var(--rule) solid var(--color-line);
+    padding-top: var(--space-4);
+}
+
+@media (max-width: 960px) {
+    .bulletin-body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .bulletin-sidebar {
+        grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+        gap: var(--space-12) var(--column-gap);
+    }
+}

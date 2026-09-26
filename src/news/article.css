@@ -1,126 +1,104 @@
-/* align sidebar filter rows with the event filters */
-.news-overview > .card-body {
-    padding-top: 10px;
-}
+/* ================================================================================
+   News list
+   ================================================================================ */
 
-/* separate navigation from articles without a trailing row divider */
-.news-filters {
-    border-bottom: 1px solid var(--color-line);
-    padding-bottom: 10px;
-}
 .news-list > .entry-container:last-child .entry {
     border-bottom: 0;
-    padding-bottom: 0;
-}
-.news-list:first-child > .entry-container:first-child .entry {
-    padding-top: 0;
 }
 
-/* share compact editor spacing and wrap actions without changing card alignment */
+.news-row .event-description {
+    -webkit-line-clamp: 2;
+}
+
+/* the homepage preview keeps titles tight */
+.news-overview .news-row .event-title {
+    font-size: var(--text-md);
+}
+
+.news-overview .news-row .event-description {
+    -webkit-line-clamp: 2;
+}
+
+/* ================================================================================
+   Article
+   ================================================================================ */
+
+.article-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-6);
+}
+
+.article-byline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    color: var(--color-soft);
+    font: 500 var(--text-xs) / 1.5 var(--font-mono);
+}
+
+.news-article > .article-content {
+    gap: var(--space-6);
+    padding-block: var(--space-6);
+}
+
+.article-content .markdown {
+    gap: var(--space-5);
+}
+
+.news-image {
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+}
+
+/* ================================================================================
+   Editor
+   ================================================================================ */
+
 .news-actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
-    margin-block: 16px;
+    gap: var(--space-2);
 }
+
 .news-editor-fields {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    min-width: 0;
     display: grid;
-    gap: 20px;
-}
-.news-editor-fields .news-actions {
+    min-width: 0;
+    gap: var(--space-5);
     margin: 0;
+    border: 0;
+    padding: 0;
 }
+
 .news-editor-grid {
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: var(--space-5);
 }
+
 .news-options {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px 24px;
+    gap: var(--space-3) var(--space-6);
 }
+
 .news-options label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
 }
+
 .news-editor-fields fieldset {
     border: 0;
     padding: 0;
-    margin: 0;
-    min-width: 0;
 }
-.news-editor-fields legend {
-    margin-bottom: 12px;
-    font-weight: 600;
-}
-.news-image {
-    width: 100%;
-    max-height: 440px;
-    object-fit: cover;
-    margin-bottom: 16px;
-}
+
 @media (max-width: 700px) {
     .news-editor-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
-}
-
-/* keep the archive readable and publication metadata together at every width */
-.news-page {
-    width: 100%;
-    max-width: 960px;
-    margin-inline: auto;
-}
-.news-row.entry-publication .event-venue {
-    grid-column: 1 / -1;
-    grid-row: 3;
-    min-width: 0;
-}
-.news-row .entry-published {
-    grid-row: 4;
-}
-.news-row .event-description {
-    -webkit-line-clamp: unset;
-}
-
-/* use the shared detail card while keeping prose at a readable line length */
-.article-metadata {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px 20px;
-}
-.article-byline {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 20px;
-    font-size: 13px;
-    color: var(--color-soft);
-}
-.article-byline time {
-    text-transform: none;
-}
-.article-content {
-    max-width: 72ch;
-    font-size: 16px;
-    line-height: 1.7;
-    overflow-wrap: anywhere;
-}
-.article-content .markdown {
-    font-size: inherit;
-    line-height: inherit;
-}
-.article-content .markdown > :first-child {
-    margin-top: 0;
-}
-.article-content .markdown > :last-child {
-    margin-bottom: 0;
 }

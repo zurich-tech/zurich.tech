@@ -1,5 +1,4 @@
 import { useSearchParams } from "@solidjs/router";
-import { Field, Select } from "../../../components/field";
 import { locationsLabel } from "../../../jobs/format";
 import { getTopics } from "../../../topics/queries";
 import { useSearch } from "../../../search/local";
@@ -17,6 +16,7 @@ import { Card } from "../../../components/card";
 import { Page } from "../../page";
 import { Seo } from "../../seo";
 import { JobEntry } from "../../../jobs/job";
+import { FacetList } from "../../../components/facets";
 import { workplaces, engagements } from "../../../jobs/filters";
 import { jobPrice, jobDurationMonths } from "../../../sponsorships/plans";
 
@@ -133,31 +133,6 @@ export default function Route() {
                                         .map((topic) => ({ value: topic.slug, label: topic.name }))}
                                 />
                             </div>
-                            <Field label="Company">
-                                <Select
-                                    value={company()}
-                                    onChange={(event) =>
-                                        setParams({
-                                            company: event.currentTarget.value || undefined,
-                                        })
-                                    }
-                                >
-                                    <option value="">All companies</option>
-                                    <Show
-                                        when={
-                                            company() &&
-                                            !companies().some((item) => item.slug === company())
-                                        }
-                                    >
-                                        <option value={company()}>
-                                            {company()} (no open roles)
-                                        </option>
-                                    </Show>
-                                    <For each={companies()}>
-                                        {(item) => <option value={item.slug}>{item.name}</option>}
-                                    </For>
-                                </Select>
-                            </Field>
                         </TableToolbar>
                         {/* render the visible page of matching jobs */}
                         <For each={matches().slice(0, count())}>
@@ -184,8 +159,30 @@ export default function Route() {
                             </div>
                         </Show>
                     </Card>
-                    {/* show the listing price and employer actions */}
+                    {/* browse by employer, then the listing price and employer actions */}
                     <aside class="listing-sidebar">
+                        <Show when={companies().length}>
+                            <FacetList
+                                title="Companies"
+                                facets={[
+                                    {
+                                        label: "All companies",
+                                        href: "/jobs",
+                                        meta: String(jobs()?.length ?? 0),
+                                        isSelected: !company(),
+                                    },
+                                    ...companies().map((item) => ({
+                                        label: item.name,
+                                        href: `/jobs?company=${encodeURIComponent(item.slug)}`,
+                                        meta: String(
+                                            jobs()?.filter((job) => job.company.slug === item.slug)
+                                                .length ?? 0,
+                                        ),
+                                        isSelected: company() === item.slug,
+                                    })),
+                                ]}
+                            />
+                        </Show>
                         <Card title="Hiring?" class="offer-card">
                             <p class="tier-price">
                                 <span>CHF</span> {jobPrice}

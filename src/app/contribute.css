@@ -1,19 +1,30 @@
-/* keep contribution options on the shared card rhythm */
 .contribute-options {
     display: grid;
-    gap: var(--space-6);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
 }
+
 .contribute-options section {
-    scroll-margin-top: 100px;
+    display: grid;
+    gap: var(--space-1);
+    scroll-margin-top: 80px;
 }
+
 .contribute-options section + section {
-    border-top: 1px solid var(--color-line);
-    padding-top: var(--space-6);
+    border-top: var(--rule) solid var(--color-line);
+    padding-top: var(--space-5);
 }
+
 .contribute-options h3 {
-    margin: 0;
-    font: 600 18px/1.4 var(--font-sans);
+    font: 500 var(--text-lg) / 1.3 var(--font-mono);
+    letter-spacing: -0.02em;
 }
+
 .contribute-options section p {
-    margin: var(--space-2) 0 var(--space-4);
+    color: var(--color-soft);
+}
+
+.contribute-options .action-link {
+    justify-self: start;
+    color: var(--color-accent);
 }

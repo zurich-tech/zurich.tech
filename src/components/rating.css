@@ -1,52 +1,58 @@
 .rating {
     display: inline-flex;
-    align-items: center;
     width: fit-content;
+    align-items: center;
     gap: 2px;
-    color: var(--color-soft);
+    color: var(--color-faint);
 }
+
 .rating .rating-star {
     display: grid;
-    place-items: center;
     width: 44px;
     height: 44px;
-    padding: 8px;
-    border: 0;
-    border-radius: 4px;
-    background: transparent;
+    place-items: center;
+    border-radius: 50%;
     color: inherit;
-    cursor: pointer;
+    transition: background-color var(--fast) var(--ease);
 }
+
 .rating svg {
     width: 26px;
     height: 26px;
     fill: none;
     stroke: currentColor;
-    stroke-width: 1.5;
     stroke-linejoin: round;
+    stroke-width: 1.5;
     pointer-events: none;
+    transition: transform var(--fast) var(--ease);
 }
+
 .rating .rating-filled {
-    color: var(--brand-blue);
+    color: var(--color-brand);
     fill: currentColor;
 }
+
 .rating .rating-star:hover:not(:disabled) {
     background: var(--color-wash);
 }
-.rating .rating-star:focus-visible {
-    outline: 2px solid var(--brand-blue);
-    outline-offset: 2px;
+
+.rating .rating-star:hover:not(:disabled) svg {
+    transform: scale(1.1);
 }
+
 .rating .rating-star:active:not(:disabled) svg {
     transform: scale(0.9);
 }
+
 .rating .rating-star:disabled {
-    opacity: 0.5;
     cursor: default;
+    opacity: 0.5;
 }
+
 .rating[role="img"] {
-    gap: 4px;
+    gap: var(--space-1);
 }
+
 .rating[role="img"] svg {
     width: 18px;
     height: 18px;

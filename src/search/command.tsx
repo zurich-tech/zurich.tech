@@ -116,10 +116,15 @@ export function CommandPalette() {
                 window.dispatchEvent(new CustomEvent("theme-cycle"));
             },
         },
-        { id: "suggest", label: "Suggest event", href: "/contribute#events", group: "Contribute" },
+        {
+            id: "suggest",
+            label: "Suggest an event",
+            href: "/contribute#events",
+            group: "Contribute",
+        },
         {
             id: "suggest-news",
-            label: "Suggest news",
+            label: "Suggest a story",
             href: site.socials.discord,
             group: "Contribute",
         },

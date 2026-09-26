@@ -2,16 +2,14 @@ import { EditLink } from "../../auth/edit";
 import { useAccount } from "../../auth";
 import { sponsorshipInquiry } from "../../sponsorships/inquiries";
 import { site } from "../site";
-import { For, Show } from "solid-js";
+import { For } from "solid-js";
 import { Sponsors } from "../../sponsorships/sponsors";
 import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
-
 import { Arrow } from "../../components/arrow";
 import { tiers, personalTiers } from "../../sponsorships/plans";
-import { Page } from "../page";
+import { Page, PageHeader } from "../page";
 import { Card } from "../../components/card";
 import { Seo } from "../seo";
-import "../../statistics/style.css";
 
 /** Start sponsor requests when navigation is preloaded, before rendering the page. */
 export const route = {
@@ -25,6 +23,24 @@ const reach = [
     { value: `${site.eventsPerYear}+`, label: "events a year" },
 ];
 
+/** Plans from smallest to largest, as read left to right. */
+const plans = [...tiers].reverse();
+
+/** One compared benefit and its value in each plan; absent benefits read as a dash. */
+const benefits: { label: string; value: (tier: (typeof tiers)[number]) => string | undefined }[] = [
+    {
+        label: "Active job listings",
+        value: (tier) => (tier.jobs === null ? "Unlimited" : String(tier.jobs)),
+    },
+    { label: "Logo on our website", value: (tier) => tier.description },
+    { label: "Event banner", value: (tier) => tier.banner },
+    { label: "Community map", value: (tier) => tier.map },
+    { label: "Every newsletter", value: (tier) => tier.newsletter },
+    { label: "Every event", value: (tier) => tier.slides },
+    { label: "News sharing", value: (tier) => tier.news?.description },
+    { label: "Partner events", value: (tier) => tier.events },
+];
+
 /** Present annual support and open sponsorship inquiries. */
 export default function Route() {
     const account = useAccount();
@@ -35,188 +51,123 @@ export default function Route() {
                 title="Sponsor"
                 description={reach.map(({ value, label }) => `${value} ${label}`).join(". ")}
             />
-            <Page>
-                <Card
-                    toolbar={<EditLink href="/admin?section=sponsors" label="Manage" />}
-                    title="Support zurich.tech"
-                    heading="h1"
-                    class="sponsor-intro card--sections"
-                >
-                    <div class="sponsor-overview card-section">
-                        <section>
-                            <h2>What you get</h2>
-                            <ul class="plan-benefits">
-                                <li>
-                                    <Arrow />
-                                    <strong>Share your work</strong>
-                                    <span>
-                                        Your company on our website, in our newsletter and at our
-                                        events.
-                                    </span>
-                                </li>
-                                <li>
-                                    <Arrow />
-                                    <strong>Find colleagues</strong>
-                                    <span>Share your open roles with our members.</span>
-                                </li>
-                                <li>
-                                    <Arrow />
-                                    <strong>Meet people</strong>
-                                    <span>Talk to people at our events.</span>
-                                </li>
-                            </ul>
-                        </section>
-                        <section class="sponsor-funding">
-                            <h2>What you fund</h2>
-                            <ul class="plan-benefits">
-                                <li>
-                                    <Arrow />
-                                    <strong>No salaries</strong>
-                                    <span>All sponsorship money goes to operating costs.</span>
-                                </li>
-                                <li>
-                                    <Arrow />
-                                    <strong>Event costs</strong>
-                                    <span>Venues, food and equipment.</span>
-                                </li>
-                                <li>
-                                    <Arrow />
-                                    <strong>Community services</strong>
-                                    <span>
-                                        The website, email and tools we use to organise events.
-                                    </span>
-                                </li>
-                            </ul>
-                        </section>
-                    </div>
-                    <ul class="sponsor-reach card-section">
-                        <For each={reach}>
-                            {(item) => (
-                                <li>
-                                    <div class="stats-value">
-                                        <strong>{item.value}</strong>
+            <Page class="sponsor-page">
+                {/* pitch with the primary action */}
+                <PageHeader
+                    title="Sponsor zurich.tech"
+                    summary="Sponsorships pay for venues, food and the tools we use to run events. Nobody gets a salary; every franc goes into the community."
+                    actions={
+                        <>
+                            <EditLink href="/admin?section=sponsors" label="Manage" />
+                            <a
+                                class="button button--primary"
+                                href={sponsorshipInquiry(undefined, account.user()?.name)}
+                            >
+                                Get in touch <Arrow />
+                            </a>
+                        </>
+                    }
+                />
+
+                {/* reach in large numerals */}
+                <ul class="sponsor-reach">
+                    <For each={reach}>
+                        {(item) => (
+                            <li>
+                                <strong>{item.value}</strong>
+                                <span class="sponsor-reach-label">{item.label}</span>
+                            </li>
+                        )}
+                    </For>
+                </ul>
+
+                {/* plans compared side by side */}
+                <Card title="Plans" class="sponsor-plans-card">
+                    <div class="plan-table" role="table" aria-label="Sponsorship plans">
+                        <div class="plan-row plan-row--head" role="row">
+                            <span role="columnheader" class="plan-corner">
+                                Per year, invoiced annually
+                            </span>
+                            <For each={plans}>
+                                {(tier) => (
+                                    <div
+                                        role="columnheader"
+                                        class="plan-head"
+                                        classList={{ "is-featured": tier.id === "silver" }}
+                                    >
+                                        <h3>{tier.name}</h3>
+                                        <p class="tier-price">
+                                            <span>CHF</span>
+                                            {tier.price.toLocaleString("de-CH")}
+                                        </p>
+                                        <p class="plan-intro">{tier.purpose}</p>
+                                        <a
+                                            class="button"
+                                            classList={{ "button--primary": tier.id === "silver" }}
+                                            href={sponsorshipInquiry(
+                                                tier.name,
+                                                account.user()?.name,
+                                            )}
+                                        >
+                                            Choose {tier.name}
+                                        </a>
                                     </div>
-                                    <span class="sponsor-reach-label">{item.label}</span>
-                                </li>
+                                )}
+                            </For>
+                        </div>
+                        <For each={benefits}>
+                            {(benefit) => (
+                                <div class="plan-row" role="row">
+                                    <span role="rowheader" class="plan-benefit">
+                                        {benefit.label}
+                                    </span>
+                                    <For each={plans}>
+                                        {(tier) => (
+                                            <span
+                                                role="cell"
+                                                class="plan-cell"
+                                                classList={{
+                                                    "is-featured": tier.id === "silver",
+                                                    "is-empty": !benefit.value(tier),
+                                                }}
+                                            >
+                                                {benefit.value(tier) ?? "—"}
+                                            </span>
+                                        )}
+                                    </For>
+                                </div>
                             )}
                         </For>
-                    </ul>
+                    </div>
                 </Card>
-                <div class="sponsor-plans">
-                    <For each={[...tiers].reverse()}>
-                        {(tier) => (
-                            <Card
-                                title={tier.name}
-                                class={`offer-card sponsor-plan${tier.id === "silver" ? " sponsor-plan--featured" : ""}`}
-                            >
-                                <p class="tier-price">
-                                    <span>CHF</span> {tier.price.toLocaleString("de-CH")}
-                                    <span>/ year</span>
-                                </p>
-                                <p class="plan-intro">{tier.purpose}</p>
-                                <a
-                                    class="button button--primary"
-                                    href={sponsorshipInquiry(tier.name, account.user()?.name)}
-                                >
-                                    Choose {tier.name}
-                                </a>
-                                <ul class="plan-benefits">
-                                    <li>
-                                        <Arrow />
-                                        <strong>
-                                            {tier.jobs === null
-                                                ? "Unlimited active jobs"
-                                                : `${tier.jobs} active jobs`}
-                                        </strong>
-                                        <span>Replace roles as you hire.</span>
-                                    </li>
-                                    <li>
-                                        <Arrow />
-                                        <strong>{tier.description}</strong>
-                                        <span>Linked to your website.</span>
-                                    </li>
-                                    <li>
-                                        <Arrow />
-                                        <strong>On our event banner</strong>
-                                        <span>{tier.banner}</span>
-                                    </li>
-                                    <li>
-                                        <Arrow />
-                                        <strong>{tier.map}</strong>
-                                        <span>Your office, linked to your organisation page.</span>
-                                    </li>
-                                    <Show when={tier.newsletter}>
-                                        <li>
-                                            <Arrow />
-                                            <strong>Every newsletter</strong>
-                                            <span>{tier.newsletter}</span>
-                                        </li>
-                                    </Show>
-                                    <Show when={tier.slides}>
-                                        <li>
-                                            <Arrow />
-                                            <strong>At every event</strong>
-                                            <span>{tier.slides}</span>
-                                        </li>
-                                    </Show>
-                                    <Show when={tier.news}>
-                                        <li>
-                                            <Arrow />
-                                            <strong>{tier.news?.title}</strong>
-                                            <span>{tier.news?.description}</span>
-                                        </li>
-                                    </Show>
-                                    <Show when={tier.events}>
-                                        <li>
-                                            <Arrow />
-                                            <strong>Partner events</strong>
-                                            <span>{tier.events}</span>
-                                        </li>
-                                    </Show>
-                                </ul>
-                            </Card>
-                        )}
-                    </For>
-                </div>
-                <div class="sponsor-plans sponsor-plans--personal">
-                    <For each={personalTiers}>
-                        {(tier) => (
-                            <Card title={tier.name} class="offer-card sponsor-plan">
-                                <p class="tier-price">
-                                    <span>CHF</span> {tier.price}
-                                    <span>/ year</span>
-                                </p>
-                                <p class="plan-intro">{tier.purpose}</p>
-                                <button class="button button--primary" disabled>
-                                    Become a {tier.name.toLowerCase()}
-                                </button>
-                                <ul class="plan-benefits">
-                                    <li>
-                                        <Arrow />
-                                        <strong>{tier.recognition}</strong>
-                                        <span>Linked to your chosen website.</span>
-                                    </li>
-                                    <li>
-                                        <Arrow />
-                                        <strong>{tier.name} badge on your profile</strong>
-                                        <span>Your title appears on hover.</span>
-                                    </li>
-                                </ul>
-                            </Card>
-                        )}
-                    </For>
-                </div>
-                <Sponsors isFullPage />
-                <div class="sponsor-details">
-                    <Card title="Become a sponsor" id="request">
-                        <a
-                            class="button button--primary"
-                            href={sponsorshipInquiry(undefined, account.user()?.name)}
+
+                {/* personal support as one strip */}
+                <For each={personalTiers}>
+                    {(tier) => (
+                        <Card
+                            title={`Or become a ${tier.name.toLowerCase()}`}
+                            class="plan-personal"
                         >
-                            Sponsorship inquiry
-                        </a>
-                    </Card>
-                </div>
+                            <div class="plan-personal__body">
+                                <p class="tier-price">
+                                    <span>CHF</span>
+                                    {tier.price}
+                                    <span>/ year</span>
+                                </p>
+                                <p>
+                                    {tier.recognition}, and a {tier.name.toLowerCase()} badge on
+                                    your profile.
+                                </p>
+                                <button class="button" disabled>
+                                    Coming soon
+                                </button>
+                            </div>
+                        </Card>
+                    )}
+                </For>
+
+                {/* current supporters */}
+                <Sponsors isFullPage />
             </Page>
         </>
     );

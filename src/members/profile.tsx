@@ -11,6 +11,7 @@ import { errorMessage } from "../components/errors";
 import { Card } from "../components/card";
 import { savedEditor, Editor, FormMessage } from "../components/form";
 import { ProfileLinkFields } from "../components/social";
+import "./profile.css";
 
 /** Edit the member profile independently of purchasing a tier. */
 export function ProfileSettings() {

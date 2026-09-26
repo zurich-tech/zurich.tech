@@ -1,28 +1,29 @@
 .sponsorship-history {
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--color-line);
+    display: grid;
+    gap: var(--space-4);
+    border-top: var(--rule) solid var(--color-line);
+    padding-top: var(--space-5);
 }
+
 .sponsorship-history > header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--space-3);
 }
+
 .sponsorship-fields {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-    gap: 1rem;
+    gap: var(--space-4);
 }
-.sponsorship-history details,
-.sponsorship-invoice {
-    margin-top: 1rem;
-}
+
 .sponsorship-history summary {
+    padding-block: var(--space-2);
     cursor: pointer;
-    padding-block: 0.5rem;
 }
+
 .sponsorship-invoice {
-    padding-block: 1rem;
-    border-top: 1px solid var(--color-line);
+    border-top: var(--rule) solid var(--color-line);
+    padding-block: var(--space-4);
     overflow-wrap: anywhere;
 }

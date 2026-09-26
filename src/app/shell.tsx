@@ -1,7 +1,5 @@
 import { Show, createEffect, onMount, type JSX } from "solid-js";
 import { useLocation, useIsRouting } from "@solidjs/router";
-import { Hero } from "./hero";
-
 import { Footer } from "./footer";
 import { Topbar } from "./topbar";
 
@@ -30,16 +28,6 @@ export function Shell(props: { children?: JSX.Element }) {
                 class="site-main"
                 classList={{ "site-main--centered": location.pathname === "/sign-in" }}
             >
-                <Show
-                    when={
-                        location.pathname !== "/" &&
-                        location.pathname !== "/map" &&
-                        location.pathname !== "/photos" &&
-                        location.pathname !== "/sign-in"
-                    }
-                >
-                    <Hero isCompact />
-                </Show>
                 {props.children}
             </main>
             <Footer />

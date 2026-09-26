@@ -427,7 +427,7 @@ export default function Route() {
                             <h2>Editing access required</h2>
                             <p>Ask an admin for event or series access.</p>
                             <a class="button button--primary" href="/contribute#events">
-                                Suggest event <Arrow />
+                                Suggest an event <Arrow />
                             </a>
                             <Show when={!account.user() && !account.isPending()}>
                                 <a class="button" href="/sign-in?next=%2Fsubmit">
