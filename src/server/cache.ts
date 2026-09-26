@@ -1,4 +1,4 @@
-import { defineNitroPlugin } from "nitropack/runtime";
+import { defineNitroPlugin } from "nitropack/runtime/plugin";
 
 /** Documents must revalidate; failed requests must never become immutable assets. */
 export default defineNitroPlugin((app) => {
