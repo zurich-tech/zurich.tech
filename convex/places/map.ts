@@ -2,7 +2,7 @@ import { query } from "../_generated/server";
 
 import { activeSponsors } from "../sponsorships/organisations";
 
-/** Public geographic locations with recognition derived from host status and current sponsorships. */
+/** Every public organisation location, with hosts and current sponsors highlighted. */
 export const map = query({
     args: {},
     handler: async (ctx) => {
@@ -20,7 +20,6 @@ export const map = query({
                 const address = await ctx.db.get(location.addressId);
                 if (
                     !organisation ||
-                    (!organisation.isHost && !sponsor && !location.isCurated) ||
                     address?.latitude === undefined ||
                     address.longitude === undefined
                 )

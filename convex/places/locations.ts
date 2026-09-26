@@ -31,12 +31,9 @@ export const save = mutation({
         countryCode: v.string(),
         latitude: v.number(),
         longitude: v.number(),
-        isCurated: v.optional(v.boolean()),
     },
     handler: async (ctx, args) => {
-        const { viewer, isOrganisation } = await requireOwner(ctx, args.ownerId);
-        if (args.isCurated && (!viewer.isAdmin || !isOrganisation))
-            throw new Error("Only the team can curate map locations.");
+        const { isOrganisation } = await requireOwner(ctx, args.ownerId);
         if (
             !args.name.trim() ||
             !args.line1.trim() ||
@@ -81,10 +78,7 @@ export const save = mutation({
             } else {
                 await ctx.db.patch(existing.addressId, address);
             }
-            await ctx.db.patch(existing._id, {
-                name: args.name.trim(),
-                ...(args.isCurated !== undefined ? { isCurated: args.isCurated } : {}),
-            });
+            await ctx.db.patch(existing._id, { name: args.name.trim() });
             return existing._id;
         }
         const addressId = await ctx.db.insert("addresses", { ...address, createdAt: Date.now() });
@@ -93,7 +87,6 @@ export const save = mutation({
             visibility: isOrganisation ? "public" : "private",
             addressId,
             name: args.name.trim(),
-            isCurated: args.isCurated ?? false,
         });
     },
 });

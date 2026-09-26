@@ -12,10 +12,9 @@ import { Card } from "../components/card";
 /** Editable public location and its resolved address. */
 type Location = FunctionReturnType<typeof api.places.locations.list>[number];
 
-/** Manage an organisation's public office locations and team curation. */
+/** Manage an organisation's public office locations. */
 export function OrganisationLocations(props: {
     /** Organisation managed by the signed-in account. */ organisationId: Id<"organisations">;
-    /** Allow team curation independently of sponsorship. */ isAdmin: boolean;
 }) {
     const confirm = useConfirmation();
     const [locations, { refetch }] = createResource(
@@ -51,7 +50,6 @@ export function OrganisationLocations(props: {
                 countryCode: text("countryCode").toUpperCase(),
                 latitude: Number(text("latitude")),
                 longitude: Number(text("longitude")),
-                ...(props.isAdmin ? { isCurated: data.has("isCurated") } : {}),
             });
             savedEditor(form);
             setEditing(undefined);
@@ -199,16 +197,6 @@ export function OrganisationLocations(props: {
                         />
                     </label>
                 </div>
-                <Show when={props.isAdmin}>
-                    <label class="checkbox">
-                        <input
-                            type="checkbox"
-                            name="isCurated"
-                            checked={editing()?.isCurated ?? false}
-                        />{" "}
-                        Show on map
-                    </label>
-                </Show>
                 <Show when={error()}>
                     <p role="alert">{error()}</p>
                 </Show>

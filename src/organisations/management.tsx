@@ -197,12 +197,7 @@ export function Management(props: {
                                 </Show>
                             </Card>
                             <Show when={organisation()}>
-                                {(item) => (
-                                    <OrganisationLocations
-                                        organisationId={item()._id}
-                                        isAdmin={current().isAdmin}
-                                    />
-                                )}
+                                {(item) => <OrganisationLocations organisationId={item()._id} />}
                             </Show>
                         </Match>
                     </Switch>

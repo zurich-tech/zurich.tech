@@ -13,6 +13,9 @@ import { Highlight } from "../components/highlight";
 import { arrangeLogos } from "./placement";
 import "./map.css";
 
+/** Listing order of highlighted organisations. */
+const prominence = { large: 0, medium: 1, small: 2 };
+
 /** Keep the circuit-map palette while fetching geographic detail at each zoom. */
 const style: StyleSpecification = {
     version: 8,
@@ -91,6 +94,16 @@ export function CommunityMap(props: {
     );
     const organisationCount = () =>
         filtered().reduce((sum, place) => sum + place.organisations.length, 0);
+
+    // list hosts and sponsors first, then every other place by name
+    const listed = createMemo(() =>
+        [...filtered()].sort(
+            (left, right) =>
+                prominence[left.organisations[0].prominence] -
+                    prominence[right.organisations[0].prominence] ||
+                left.organisations[0].name.localeCompare(right.organisations[0].name),
+        ),
+    );
     const selectedPlaces = createMemo(() =>
         filtered()
             .filter((place) => selected().includes(place.id))
@@ -390,10 +403,13 @@ export function CommunityMap(props: {
                     <aside class="map-directory-panel" aria-label="Map directory">
                         <header class="map-directory-heading">
                             <h1>Map</h1>
-                            <a href="/organisations">Organisations ↗</a>
+                            <a class="action-link" href="/manage">
+                                Add your organisation
+                            </a>
                         </header>
                         <label class="map-search">
                             <input
+                                class="field__control"
                                 type="search"
                                 aria-label="Search organisations or addresses"
                                 value={search()}
@@ -447,7 +463,7 @@ export function CommunityMap(props: {
                                             organisations are listed below.
                                         </p>
                                     </Show>
-                                    <For each={filtered()}>
+                                    <For each={listed()}>
                                         {(place) => (
                                             <button
                                                 class="map-location-row"
@@ -498,14 +514,36 @@ export function CommunityMap(props: {
                                                         )}
                                                     </Show>
                                                 </span>
-                                                <strong>
-                                                    <Highlight
-                                                        text={place.organisations
-                                                            .map((person) => person.name)
-                                                            .join(" · ")}
-                                                        terms={terms()}
-                                                    />
-                                                </strong>
+                                                <span class="map-row-copy">
+                                                    <strong>
+                                                        <Highlight
+                                                            text={place.organisations
+                                                                .map((person) => person.name)
+                                                                .join(" · ")}
+                                                            terms={terms()}
+                                                        />
+                                                    </strong>
+                                                    <small>
+                                                        <Show
+                                                            when={
+                                                                place.organisations[0].recognition
+                                                            }
+                                                        >
+                                                            {(recognition) => (
+                                                                <span class="tag tag-status tag-emphasis">
+                                                                    {recognition()}
+                                                                </span>
+                                                            )}
+                                                        </Show>
+                                                        {
+                                                            organisationKinds[
+                                                                place.organisations[0].kind
+                                                            ]
+                                                        }
+                                                        {" · "}
+                                                        {place.address.split(", ").at(-1)}
+                                                    </small>
+                                                </span>
                                             </button>
                                         )}
                                     </For>
