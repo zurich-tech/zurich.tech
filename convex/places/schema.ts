@@ -36,8 +36,6 @@ export const locations = defineTable({
     visibility: v.union(v.literal("private"), v.literal("public")),
     addressId: v.id("addresses"),
     name: v.string(),
-    /** FUGU #Cleanup: legacy curation flag, removed by migrations/locations.ts; delete once it has run on production. */
-    isCurated: v.optional(v.boolean()),
 })
     .index("by_owner", ["ownerId"])
     .index("by_address", ["addressId"]);
