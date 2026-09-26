@@ -8,6 +8,7 @@
     padding: var(--space-5) 0;
 }
 
+.organisation-entry:has(+ .group-divider),
 .organisation-entry:last-child {
     border-bottom: 0;
 }

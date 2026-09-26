@@ -39,6 +39,7 @@ export const directory = query({
                     mapLogoUrl: organisation.mapLogoUrl,
                     mapLogoDarkUrl: organisation.mapLogoDarkUrl,
                     ...(await readProfiles(ctx, organisation._id)),
+                    isHost: Boolean(organisation.isHost),
                     isSponsor: sponsored.has(organisation._id),
                     sponsorTier: sponsors.find(
                         (sponsor) => sponsor.organisationId === organisation._id,
