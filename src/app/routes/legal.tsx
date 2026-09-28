@@ -35,6 +35,13 @@ export default function Route() {
                                 page performance without analytics cookies or cross-site tracking.
                             </li>
                             <li>
+                                Campaign links use UTM parameters to count arrivals by day, source,
+                                campaign and destination page. These counts are stored in Convex,
+                                without visitor records, IP addresses, recipient identifiers or
+                                analytics cookies. Reloads can count again; these are not unique
+                                visitor counts.
+                            </li>
+                            <li>
                                 Sponsorships are arranged by email. Billing details are visible to
                                 the organisation owner and our team. Job applications go directly to
                                 employers.

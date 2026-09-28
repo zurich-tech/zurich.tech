@@ -1,4 +1,7 @@
 import { isModuleLoadError } from "./modules";
+import { arrival } from "../statistics/arrival";
+import { publicClient } from "../auth/convex";
+import { api } from "../../convex/_generated/api";
 import { PublicProvider } from "../data/context";
 import { CatalogueProvider } from "../search/catalogue";
 import { CommandProvider } from "../search/actions";
@@ -29,6 +32,18 @@ export default function App() {
         <Router
             root={(props) => {
                 const navigate = useNavigate();
+
+                // count only the initial campaign landing, not subsequent client navigation
+                onMount(() => {
+                    const tags = arrival(new URL(window.location.href));
+                    if (tags)
+                        void publicClient()
+                            .mutation(api.statistics.referrals.record, tags)
+                            .catch((error: unknown) => {
+                                console.error("Could not record campaign arrival.", error);
+                            });
+                });
+
                 // complete OAuth inside the router so failures use client navigation
                 onMount(() => {
                     void completeSignIn().catch((error: unknown) => {

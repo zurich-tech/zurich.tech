@@ -63,6 +63,7 @@ import type * as mail_followup from "../mail/followup.js";
 import type * as mail_history from "../mail/history.js";
 import type * as mail_layout from "../mail/layout.js";
 import type * as mail_limits from "../mail/limits.js";
+import type * as mail_markdown from "../mail/markdown.js";
 import type * as mail_messages from "../mail/messages.js";
 import type * as mail_model from "../mail/model.js";
 import type * as mail_newsletter from "../mail/newsletter.js";
@@ -71,6 +72,7 @@ import type * as mail_policy from "../mail/policy.js";
 import type * as mail_preferences from "../mail/preferences.js";
 import type * as mail_progress from "../mail/progress.js";
 import type * as mail_provider from "../mail/provider.js";
+import type * as mail_referrals from "../mail/referrals.js";
 import type * as mail_sending from "../mail/sending.js";
 import type * as mail_series from "../mail/series.js";
 import type * as mail_subscriptions from "../mail/subscriptions.js";
@@ -110,6 +112,7 @@ import type * as sponsorships_recognition from "../sponsorships/recognition.js";
 import type * as sponsorships_terms from "../sponsorships/terms.js";
 import type * as statistics_history from "../statistics/history.js";
 import type * as statistics_queries from "../statistics/queries.js";
+import type * as statistics_referrals from "../statistics/referrals.js";
 import type * as topics_queries from "../topics/queries.js";
 
 import type {
@@ -174,6 +177,7 @@ declare const fullApi: ApiFromModules<{
   "mail/history": typeof mail_history;
   "mail/layout": typeof mail_layout;
   "mail/limits": typeof mail_limits;
+  "mail/markdown": typeof mail_markdown;
   "mail/messages": typeof mail_messages;
   "mail/model": typeof mail_model;
   "mail/newsletter": typeof mail_newsletter;
@@ -182,6 +186,7 @@ declare const fullApi: ApiFromModules<{
   "mail/preferences": typeof mail_preferences;
   "mail/progress": typeof mail_progress;
   "mail/provider": typeof mail_provider;
+  "mail/referrals": typeof mail_referrals;
   "mail/sending": typeof mail_sending;
   "mail/series": typeof mail_series;
   "mail/subscriptions": typeof mail_subscriptions;
@@ -221,6 +226,7 @@ declare const fullApi: ApiFromModules<{
   "sponsorships/terms": typeof sponsorships_terms;
   "statistics/history": typeof statistics_history;
   "statistics/queries": typeof statistics_queries;
+  "statistics/referrals": typeof statistics_referrals;
   "topics/queries": typeof topics_queries;
 }>;
 

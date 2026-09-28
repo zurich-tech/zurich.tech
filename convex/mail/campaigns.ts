@@ -13,6 +13,7 @@ import { requireAdmin } from "../auth/access";
 import { requireEvent, requireSeries } from "../auth/grants";
 import { authComponent } from "../auth/component";
 import { campaignEmail } from "./templates";
+import { attribute } from "./referrals";
 import { enqueue } from "./messages";
 import { recipientAllowed, recipientsLocked, requireAudienceDelivery } from "./policy";
 import { audience, type Audience, type Category, type Content, type Recipient } from "./model";
@@ -191,9 +192,12 @@ async function start(ctx: MutationCtx, campaign: Doc<"campaigns">, recipients?: 
     );
     const selected = ranked.map((row) => row.id);
     if (selected.length > 10000) throw new Error("Campaign audience exceeds 10,000 recipients.");
+
+    // register shared attribution links before freezing content and personalising messages
+    const content = await attribute(render(campaign), campaign, ctx);
     await ctx.db.patch(campaign._id, {
         recipients: selected,
-        content: render(campaign),
+        content,
         cursor: 0,
         status: selected.length ? "queued" : "completed",
         updatedAt: Date.now(),

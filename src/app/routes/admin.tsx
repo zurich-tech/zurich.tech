@@ -18,6 +18,7 @@ import { Schedules } from "../../events/schedules";
 import { SeriesAdmin } from "../../events/series";
 import { Management } from "../../organisations/management";
 import { EmailAdmin } from "../../mail/workspace";
+import { Referrals } from "../../statistics/referrals";
 
 const adminTabs = [
     { id: "community", label: "Community" },
@@ -27,6 +28,7 @@ const adminTabs = [
     { id: "sponsors", label: "Sponsors" },
     { id: "people", label: "Access" },
     { id: "email", label: "Email" },
+    { id: "traffic", label: "Traffic" },
 ];
 
 /** Load only the selected panel, with server-enforced scoped access. */
@@ -137,6 +139,10 @@ export default function Route() {
                             </Match>
                             <Match when={access.current()?.isAdmin && section() === "news"}>
                                 <NewsAdmin />
+                            </Match>
+                            {/* campaign links and aggregate arrivals */}
+                            <Match when={access.current()?.isAdmin && section() === "traffic"}>
+                                <Referrals />
                             </Match>
                             <Match
                                 when={
