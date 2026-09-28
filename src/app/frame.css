@@ -151,8 +151,7 @@
 .header-links {
     display: flex;
     align-items: center;
-    gap: var(--space-5);
-    margin-right: var(--space-4);
+    gap: 2px;
 }
 
 .site-topbar .social-links {
@@ -191,8 +190,8 @@
 }
 
 .header-avatar .avatar {
-    width: 30px;
-    height: 30px;
+    width: 18px;
+    height: 18px;
 }
 
 .site-theme-toggle__preference {
@@ -200,8 +199,8 @@
 }
 
 .header-pending {
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
     border: var(--rule) solid var(--color-line);
     border-radius: 50%;
 }
@@ -242,7 +241,7 @@
 /* collapse destinations into the menu once they no longer fit */
 @media (max-width: 900px) {
     .site-topbar__primary > a:not(.site-topbar__logo),
-    .header-links > .header-admin {
+    .site-topbar__actions > .header-admin {
         display: none;
     }
 
@@ -260,10 +259,6 @@
 @media (max-width: 520px) {
     .header-links > .header-account:not(.header-avatar) {
         display: none;
-    }
-
-    .header-links {
-        margin-right: 0;
     }
 
     .site-topbar__body {

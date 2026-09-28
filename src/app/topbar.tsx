@@ -34,6 +34,40 @@ export function Topbar() {
                     </For>
                 </nav>
                 <div class="site-topbar__actions">
+                    {/* administration */}
+                    <Show when={account.user() && currentProfile()?.canManage}>
+                        <A class="header-account header-admin" href="/admin">
+                            Admin
+                        </A>
+                    </Show>
+
+                    {/* tools */}
+                    <SocialLinks name={site.name} profiles={site.socials} />
+                    <ThemeToggle />
+                    <CommandPalette />
+                    <button
+                        class="header-menu"
+                        onClick={() => setMenuOpen(true)}
+                        aria-label="Menu"
+                        title="Menu"
+                        aria-haspopup="dialog"
+                        aria-expanded={isMenuOpen()}
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            width="20"
+                            height="20"
+                            aria-hidden="true"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                        >
+                            <path d="M5 7h14M5 12h14M5 17h14" />
+                        </svg>
+                    </button>
+
+                    {/* account */}
                     <div class="header-links">
                         <Show
                             when={account.user()}
@@ -63,11 +97,6 @@ export function Topbar() {
                                     Retry account
                                 </button>
                             </Show>
-                            <Show when={currentProfile()?.canManage}>
-                                <A class="header-account header-admin" href="/admin">
-                                    Admin
-                                </A>
-                            </Show>
                             <A
                                 class="header-account header-avatar"
                                 href="/settings"
@@ -82,30 +111,6 @@ export function Topbar() {
                             </A>
                         </Show>
                     </div>
-                    <SocialLinks name={site.name} profiles={site.socials} />
-                    <ThemeToggle />
-                    <CommandPalette />
-                    <button
-                        class="header-menu"
-                        onClick={() => setMenuOpen(true)}
-                        aria-label="Menu"
-                        title="Menu"
-                        aria-haspopup="dialog"
-                        aria-expanded={isMenuOpen()}
-                    >
-                        <svg
-                            viewBox="0 0 24 24"
-                            width="20"
-                            height="20"
-                            aria-hidden="true"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                        >
-                            <path d="M5 7h14M5 12h14M5 17h14" />
-                        </svg>
-                    </button>
                 </div>
             </div>
             <Dialog
