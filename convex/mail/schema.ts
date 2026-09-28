@@ -119,12 +119,16 @@ export const mailSchedules = defineTable({
 export const mailPolicy = defineTable({
     isPaused: v.boolean(),
     pauseReason: v.optional(v.string()),
+    /** Zurich calendar day explicitly approved for bulk delivery. */
+    approvedDate: v.optional(v.string()),
+    /** Maximum total attempts released on that day, including retries. */
+    approvedLimit: v.optional(v.number()),
 });
 
 /**
  * Shared quota and health counters; pausing does not replenish quota.
  *
- * The daily ceiling is earned by healthy sending days and halved by health stops.
+ * The daily ceiling is reviewed explicitly and halved by health stops.
  */
 export const mailQuota = defineTable({
     date: v.string(),

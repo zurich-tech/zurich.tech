@@ -1,7 +1,7 @@
 import { ConvexError } from "convex/values";
 
 /** The daily bulk ceiling of a sender without reputation. */
-export const initialCeiling = 300;
+export const initialCeiling = 500;
 
 /** The highest daily bulk ceiling. */
 export const maximumCeiling = 10000;
@@ -10,25 +10,26 @@ export const maximumCeiling = 10000;
 const sendingHours = 8;
 
 /** Shared bulk usage for the current sending day. */
-type Usage = { date: string; count: number; ceiling: number; stoppedOn?: string };
+type Usage = {
+    /** Zurich calendar day of the recorded attempts. */
+    date: string;
+    /** Attempts consumed on that day. */
+    count: number;
+    /** Reviewed daily pace. */
+    ceiling: number;
+};
 
-/** Advance usage to the current sending day, doubling the ceiling after an earned day. */
+/** Reset daily usage without increasing the reviewed sending pace. */
 export function advance(usage: Usage, now: number) {
     const date = sendingDate(now);
     if (usage.date === date) return { date, count: usage.count, ceiling: usage.ceiling };
 
-    // earn growth only by using at least half the ceiling without a health stop
-    const isUsed = usage.count * 2 >= usage.ceiling;
-    const isHealthy = !usage.stoppedOn || usage.stoppedOn < usage.date;
-    const ceiling =
-        isUsed && isHealthy ? Math.min(usage.ceiling * 2, maximumCeiling) : usage.ceiling;
-
-    return { date, count: 0, ceiling };
+    return { date, count: 0, ceiling: usage.ceiling };
 }
 
-/** Halve the ceiling after a health stop, never below the initial ceiling. */
+/** Reduce the reviewed pace after a health stop, never increasing a lower custom pace. */
 export function halve(ceiling: number) {
-    return Math.max(initialCeiling, Math.floor(ceiling / 2));
+    return Math.max(1, Math.floor(ceiling / 2));
 }
 
 /** Spread a daily ceiling evenly across the sending hours. */

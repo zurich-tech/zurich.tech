@@ -14,6 +14,30 @@ export function Sending() {
     );
     const command = useWorkspaceCommand(refetch);
 
+    /** Review today's absolute release limit without resuming paused delivery. */
+    async function approve(event: SubmitEvent) {
+        // read the requested absolute allowance and sending pace
+        event.preventDefault();
+        const fields = new FormData(event.currentTarget as HTMLFormElement);
+        const limit = Number(fields.get("limit"));
+        const ceiling = Number(fields.get("ceiling"));
+
+        // require explicit confirmation because an active sender can consume the released quota
+        await command.perform(async () => {
+            if (
+                !(await confirm({
+                    title: "Approve today's delivery",
+                    action: "Approve",
+                    description: `Release up to ${limit} total attempts today, paced at ${ceiling} per day.`,
+                    details:
+                        "Includes attempts already used and retries. Expires at Zurich midnight. Paused delivery stays paused; active delivery can continue immediately.",
+                }))
+            )
+                return false;
+            await (await memberClient()).mutation(api.mail.sending.approve, { limit, ceiling });
+        }, "Today's limit approved.");
+    }
+
     /** Confirm delivery changes; ordinary saves never enable sending. */
     async function change(isPaused: boolean) {
         await command.perform(async () => {
@@ -27,7 +51,7 @@ export function Sending() {
                     action: isPaused ? "Pause" : "Resume",
                     description: isPaused
                         ? "Stop sending queued subscriber emails."
-                        : `Send queued subscriber emails at up to ${limit.daily} per day and ${limit.hourly} per hour.`,
+                        : `Enable queued subscriber emails with ${latest.remaining} attempts remaining today, paced at ${limit.hourly} per hour.`,
                     details:
                         "Registration confirmations and event notices are handled separately. Emails already being sent cannot be recalled.",
                 }))
@@ -45,7 +69,11 @@ export function Sending() {
                 <Show when={settings()}>
                     {(value) => (
                         <span class="tag status-control">
-                            {value().isPaused ? "Paused" : "Sending"}
+                            {value().isPaused
+                                ? "Paused"
+                                : value().remaining === 0
+                                  ? "Awaiting approval"
+                                  : "Sending"}
                         </span>
                     )}
                 </Show>
@@ -102,9 +130,43 @@ export function Sending() {
                                     <dd>{value().count.toLocaleString("en-CH")}</dd>
                                 </div>
                             </dl>
+                            {/* daily approval */}
+                            <form class="editor" onSubmit={approve}>
+                                <div class="form-columns">
+                                    <label>
+                                        Daily pace
+                                        <input
+                                            name="ceiling"
+                                            type="number"
+                                            min="1"
+                                            max="10000"
+                                            step="1"
+                                            required
+                                            value={value().limits.daily}
+                                        />
+                                    </label>
+                                    <label>
+                                        Approved total today
+                                        <input
+                                            name="limit"
+                                            type="number"
+                                            min={value().count}
+                                            max="10000"
+                                            step="1"
+                                            required
+                                            value={Math.max(value().approvedLimit, value().count)}
+                                        />
+                                    </label>
+                                </div>
+                                <button class="button" type="submit" disabled={command.isPending()}>
+                                    Approve today's limit
+                                </button>
+                            </form>
                             <p class="mail-note">
-                                Doubles after each day that uses at least half without a health
-                                stop. Halves when a complaint or bounces stop delivery.
+                                {value().remaining > 0
+                                    ? `${value().remaining} attempts remaining today.`
+                                    : "Awaiting approval."}{" "}
+                                Approvals expire at Zurich midnight. Retries count toward the limit.
                             </p>
                         </section>
                         <Show when={value().accepted || value().bounced || value().complained}>
@@ -137,7 +199,9 @@ export function Sending() {
                                           : (value().pauseReason ??
                                             (value().isPaused
                                                 ? "Queued campaigns are held."
-                                                : "Queued campaigns are being sent."))}
+                                                : value().remaining === 0
+                                                  ? "Queued campaigns await today's approval."
+                                                  : "Queued campaigns are being sent."))}
                                 </p>
                             </div>
                             <div class="mail-buttons">

@@ -10,7 +10,7 @@ import {
     type QueryCtx,
 } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
-import { advance, hourly, initialCeiling, recipientsLocked } from "./policy";
+import { advance, hourly, initialCeiling, maximumCeiling, recipientsLocked } from "./policy";
 
 /** Empty counters do not imply permission to send. */
 export const quotaDefaults = {
@@ -25,15 +25,21 @@ export const quotaDefaults = {
 
 /** Read policy and counters as one administration view while retaining separate ownership. */
 export async function state(ctx: QueryCtx) {
+    // project today's usage without modifying persisted counters
     const policy = await ctx.db.query("mailPolicy").unique();
     const quota = (await ctx.db.query("mailQuota").unique()) ?? quotaDefaults;
     const usage = advance(quota, Date.now());
+    const approvedLimit = policy?.approvedDate === usage.date ? (policy.approvedLimit ?? 0) : 0;
+    const remaining = Math.max(0, Math.min(approvedLimit, usage.ceiling) - usage.count);
+
     return {
         ...quota,
         ...usage,
         isPaused: policy?.isPaused ?? true,
         pauseReason: policy?.pauseReason,
         limits: { daily: usage.ceiling, hourly: hourly(usage.ceiling) },
+        approvedLimit,
+        remaining,
         isLocked: recipientsLocked(),
         sender: process.env.MAIL_FROM ?? "Not configured",
         hasWebhook: !!process.env.RESEND_WEBHOOK_SECRET,
@@ -46,6 +52,43 @@ export const current = query({
     handler: async (ctx) => {
         await requireAdmin(ctx);
         return await state(ctx);
+    },
+});
+
+/** Approve today's total attempts and pace without enabling delivery or resetting counters. */
+export const approve = mutation({
+    args: { limit: v.number(), ceiling: v.number() },
+    handler: async (ctx, args) => {
+        // restrict approvals to valid, bounded administrator requests
+        await requireAdmin(ctx);
+        if (
+            !Number.isInteger(args.limit) ||
+            !Number.isInteger(args.ceiling) ||
+            args.limit < 0 ||
+            args.ceiling < 1 ||
+            args.limit > args.ceiling ||
+            args.ceiling > maximumCeiling
+        )
+            throw new Error(
+                "Choose whole-number limits between 0 and the daily pace, up to 10,000.",
+            );
+
+        // preserve consumed attempts, health counters and the next reserved send time
+        const quota = await ctx.db.query("mailQuota").unique();
+        const usage = advance(quota ?? quotaDefaults, Date.now());
+        if (args.limit < usage.count)
+            throw new Error("The approved total cannot be lower than today's used attempts.");
+
+        // save the reviewed pace without replenishing usage
+        const values = { ...usage, ceiling: args.ceiling };
+        if (quota) await ctx.db.patch(quota._id, values);
+        else await ctx.db.insert("mailQuota", { ...quotaDefaults, ...values });
+
+        // a missing policy remains paused; approval alone never releases queued messages
+        const policy = await ctx.db.query("mailPolicy").unique();
+        const approval = { approvedDate: usage.date, approvedLimit: args.limit };
+        if (policy) await ctx.db.patch(policy._id, approval);
+        else await ctx.db.insert("mailPolicy", { isPaused: true, ...approval });
     },
 });
 
@@ -89,7 +132,13 @@ export async function reserve(ctx: MutationCtx, now: number) {
 
     // advance the sending day, preserving hourly pacing across midnight
     const { date, count, ceiling } = advance(quota, now);
-    if (count >= ceiling || now < quota.nextAt) return false;
+    if (
+        policy.approvedDate !== date ||
+        count >= (policy.approvedLimit ?? 0) ||
+        count >= ceiling ||
+        now < quota.nextAt
+    )
+        return false;
     await ctx.db.patch(quota._id, {
         date,
         count: count + 1,
@@ -106,7 +155,14 @@ export const dispatch = internalMutation({
         const now = Date.now();
         const settings = await state(ctx);
         for (const bulk of [false, true]) {
-            if (bulk && (settings.isPaused || settings.isLocked || !settings.hasWebhook)) continue;
+            if (
+                bulk &&
+                (settings.isPaused ||
+                    settings.isLocked ||
+                    !settings.hasWebhook ||
+                    settings.remaining === 0)
+            )
+                continue;
             const rows = await ctx.db
                 .query("messages")
                 .withIndex("by_due", (q) =>

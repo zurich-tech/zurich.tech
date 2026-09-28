@@ -67,7 +67,11 @@ async function setup() {
             updatedAt: 1,
         });
         const settingsId = await ctx.db.insert("mailQuota", quotaDefaults);
-        await ctx.db.insert("mailPolicy", { isPaused: false });
+        await ctx.db.insert("mailPolicy", {
+            isPaused: false,
+            approvedDate: sendingDate(Date.now()),
+            approvedLimit: 500,
+        });
         const subscriptionId = await ctx.db.insert("subscriptions", {
             email: "test@example.invalid",
             status: "subscribed",
@@ -106,6 +110,7 @@ function signed(
 }
 
 test("bulk reservations share pacing, daily limits and a lock that settings cannot remove", async () => {
+    setSystemTime(new Date("2026-09-14T06:00:00Z"));
     const { backend, admin, settingsId } = await setup();
     const now = Date.UTC(2026, 8, 14, 6);
 
@@ -115,9 +120,9 @@ test("bulk reservations share pacing, daily limits and a lock that settings cann
     expect(await backend.run((ctx) => reserve(ctx, now + 96000))).toBe(true);
 
     // stop at the daily ceiling until the next sending day
-    await backend.run((ctx) => ctx.db.patch(settingsId, { count: 300 }));
+    await backend.run((ctx) => ctx.db.patch(settingsId, { count: 500 }));
     expect(await backend.run((ctx) => reserve(ctx, now + 3600000))).toBe(false);
-    expect(await backend.run((ctx) => reserve(ctx, now + 10 * 86400000))).toBe(true);
+    expect(await backend.run((ctx) => reserve(ctx, now + 10 * 86400000))).toBe(false);
 
     // enforce the recipient lock independently of settings
     process.env.MAIL_RECIPIENTS = "test@example.invalid";
@@ -130,35 +135,93 @@ test("bulk reservations share pacing, daily limits and a lock that settings cann
     ).rejects.toThrow();
 });
 
-// The ceiling grows only through used, healthy sending days, never through elapsed time.
-test("earned ceilings double after used healthy days and halve after health stops", async () => {
-    const { backend, settingsId } = await setup();
-    const day = (offset: number) => Date.UTC(2026, 8, 14 + offset, 6);
-    const quota = () => backend.run((ctx) => ctx.db.get(settingsId));
+// Each release is absolute, date scoped and independent of pause state.
+test("test_approve_batches_without_resuming_or_replenishing_usage", async () => {
+    setSystemTime(new Date("2026-09-28T06:00:00Z"));
+    const { backend, admin, settingsId } = await setup();
+    await admin.mutation(api.mail.sending.configure, { isPaused: true });
+    await admin.mutation(api.mail.sending.approve, { limit: 100, ceiling: 500 });
+    expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(false);
+    await admin.mutation(api.mail.sending.configure, { isPaused: false });
+    expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(true);
 
-    // double after using at least half of the ceiling
-    await backend.run((ctx) => ctx.db.patch(settingsId, { date: "2026-09-14", count: 150 }));
-    expect(await backend.run((ctx) => reserve(ctx, day(1)))).toBe(true);
-    expect((await quota())?.ceiling).toBe(600);
+    // stop at the checkpoint and release only the remaining daily allowance
+    await backend.run((ctx) => ctx.db.patch(settingsId, { count: 100, nextAt: 0 }));
+    expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(false);
+    await admin.mutation(api.mail.sending.approve, { limit: 500, ceiling: 500 });
+    expect((await admin.query(api.mail.sending.current, {})).count).toBe(100);
+    expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(true);
 
-    // keep the ceiling after a light day and across idle days
-    await backend.run((ctx) => ctx.db.patch(settingsId, { count: 299, nextAt: 0 }));
-    expect(await backend.run((ctx) => reserve(ctx, day(5)))).toBe(true);
-    expect((await quota())?.ceiling).toBe(600);
+    // Zurich midnight revokes yesterday's approval, without automatic growth
+    setSystemTime(new Date("2026-09-28T22:00:00Z"));
+    expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(false);
+    expect((await admin.query(api.mail.sending.current, {})).limits.daily).toBe(500);
+    await admin.mutation(api.mail.sending.approve, { limit: 1000, ceiling: 1000 });
+    expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(true);
+    await expect(
+        backend.mutation(api.mail.sending.approve, { limit: 1000, ceiling: 1000 }),
+    ).rejects.toThrow();
+    await expect(
+        admin.mutation(api.mail.sending.approve, { limit: 0, ceiling: 1000 }),
+    ).rejects.toThrow("The approved total cannot be lower than today's used attempts.");
+    await expect(
+        admin.mutation(api.mail.sending.approve, { limit: 1001, ceiling: 1000 }),
+    ).rejects.toThrow("Choose whole-number limits");
+});
 
-    // withhold growth for a stopped day
-    await backend.run((ctx) =>
-        ctx.db.patch(settingsId, { count: 600, ceiling: 300, stoppedOn: "2026-09-19", nextAt: 0 }),
-    );
-    expect(await backend.run((ctx) => reserve(ctx, day(6)))).toBe(true);
-    expect((await quota())?.ceiling).toBe(300);
+test("test_require_approval_and_preserve_pacing_and_health", async () => {
+    // an enabled legacy policy without an approval must not release bulk mail
+    setSystemTime(new Date("2026-09-28T06:00:00Z"));
+    const { backend, admin, settingsId } = await setup();
+    await backend.run(async (ctx) => {
+        const policy = (await ctx.db.query("mailPolicy").unique())!;
+        await ctx.db.patch(policy._id, { approvedDate: undefined, approvedLimit: undefined });
+        await ctx.db.patch(settingsId, {
+            date: sendingDate(Date.now()),
+            count: 20,
+            nextAt: Date.now() + 60000,
+            accepted: 18,
+            bounced: 1,
+            complained: 1,
+        });
+    });
+    expect(await backend.run((ctx) => reserve(ctx, Date.now() + 60000))).toBe(false);
+    expect((await admin.query(api.mail.sending.current, {})).remaining).toBe(0);
 
-    // cap growth at the maximum ceiling
-    await backend.run((ctx) =>
-        ctx.db.patch(settingsId, { count: 10000, ceiling: 10000, nextAt: 0 }),
-    );
-    expect(await backend.run((ctx) => reserve(ctx, day(7)))).toBe(true);
-    expect((await quota())?.ceiling).toBe(10000);
+    // approval changes only the pace, retaining health, usage and the next send time
+    const before = (await backend.run((ctx) => ctx.db.get(settingsId)))!;
+    await admin.mutation(api.mail.sending.approve, { limit: 100, ceiling: 1000 });
+    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toEqual({
+        ...before,
+        ceiling: 1000,
+    });
+    expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(false);
+    expect((await admin.query(api.mail.sending.current, {})).remaining).toBe(80);
+
+    // a lower health ceiling is also reflected in the displayed allowance
+    await backend.run((ctx) => ctx.db.patch(settingsId, { ceiling: 30 }));
+    expect((await admin.query(api.mail.sending.current, {})).remaining).toBe(10);
+    await backend.run((ctx) => ctx.db.patch(settingsId, { ceiling: 10 }));
+    expect((await admin.query(api.mail.sending.current, {})).remaining).toBe(0);
+    expect(await backend.run((ctx) => reserve(ctx, Date.now() + 60000))).toBe(false);
+});
+
+test("test_reject_invalid_batch_limits", async () => {
+    // malformed approvals leave the existing policy and quota unchanged
+    const { backend, admin, settingsId } = await setup();
+    const before = await backend.run((ctx) => ctx.db.get(settingsId));
+    for (const args of [
+        { limit: -1, ceiling: 500 },
+        { limit: 0, ceiling: 0 },
+        { limit: 0.5, ceiling: 500 },
+        { limit: 100, ceiling: 500.5 },
+        { limit: 10001, ceiling: 10001 },
+    ]) {
+        await expect(admin.mutation(api.mail.sending.approve, args)).rejects.toThrow(
+            "Choose whole-number limits between 0 and the daily pace, up to 10,000.",
+        );
+    }
+    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toEqual(before);
 });
 
 test("campaign queue confirms saved content and audience, while the lock permits only drafts", async () => {
@@ -286,7 +349,7 @@ test("signed callbacks reconcile before acceptance, deduplicate and never undo s
     expect((await backend.run((ctx) => ctx.db.get(id)))?.outcome).toBe("bounced");
     expect((await backend.run((ctx) => ctx.db.get(settingsId)))?.bounced).toBe(1);
 
-    // pause on a complaint and halve the earned ceiling once
+    // pause on a complaint and halve the reviewed ceiling once
     await backend.run((ctx) => ctx.db.patch(settingsId, { ceiling: 1200 }));
     expect(
         (await backend.fetch("/mail/webhook", signed("complained", "provider-test"))).status,
@@ -612,9 +675,9 @@ test("test messages keep their history without advancing a draft campaign", asyn
     expect(result.message?.outcome).toBe("delivered");
 });
 
-test("delivery settings show today's quota and earned ceiling without storing them", async () => {
-    const { backend, admin, settingsId } = await setup();
+test("delivery settings show today's quota without granting a new approval", async () => {
     setSystemTime(new Date("2026-09-15T06:00:00Z"));
+    const { backend, admin, settingsId } = await setup();
     await backend.run(async (ctx) => {
         await ctx.db.patch(settingsId, { date: "2026-09-14", count: 300 });
     });
@@ -622,13 +685,13 @@ test("delivery settings show today's quota and earned ceiling without storing th
     // project the next day's usage in the view only
     const settings = await admin.query(api.mail.sending.current, {});
     expect(settings.count).toBe(0);
-    expect(settings.limits).toEqual({ daily: 600, hourly: 75 });
-    expect((await backend.run((ctx) => ctx.db.get(settingsId)))?.ceiling).toBe(300);
+    expect(settings.limits).toEqual({ daily: 500, hourly: 63 });
+    expect((await backend.run((ctx) => ctx.db.get(settingsId)))?.ceiling).toBe(500);
 
     // store the projection once an email is reserved
     expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(true);
     expect((await admin.query(api.mail.sending.current, {})).count).toBe(1);
-    expect((await backend.run((ctx) => ctx.db.get(settingsId)))?.ceiling).toBe(600);
+    expect((await backend.run((ctx) => ctx.db.get(settingsId)))?.ceiling).toBe(500);
 });
 
 // Warmup depends on reaching recently interested people before dormant imports.

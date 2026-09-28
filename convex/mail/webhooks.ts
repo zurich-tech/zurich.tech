@@ -80,7 +80,7 @@ export async function reconcile(ctx: MutationCtx, providerId: string) {
             await ctx.db.patch(settings._id, { bounced, complained });
             const policy = await ctx.db.query("mailPolicy").unique();
 
-            // halve the earned ceiling once per stop, and withhold growth for that day
+            // lower the reviewed pace once per stop and record its date
             if (shouldPause && policy && !policy.isPaused)
                 await ctx.db.patch(settings._id, {
                     ceiling: halve(settings.ceiling),
