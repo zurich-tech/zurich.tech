@@ -16,7 +16,7 @@ import { campaignEmail } from "./templates";
 import { enqueue } from "./messages";
 import { recipientAllowed, recipientsLocked, requireAudienceDelivery } from "./policy";
 import { audience, type Audience, type Category, type Content, type Recipient } from "./model";
-import { byRecency, select } from "./audiences";
+import { rank, select } from "./audiences";
 import { links, personalize } from "./personalization";
 import { state } from "./sending";
 import { consumeLimit } from "./limits";
@@ -87,6 +87,12 @@ export const preview = query({
         const campaign = await get(ctx, args.id);
         const viewer = await authorize(ctx, campaign);
         const selected = await select(ctx, campaign.audience!, campaign.category!);
+
+        // show administrators the exact draft order without exposing global addresses to organisers
+        const ranked =
+            viewer.isAdmin && campaign.status === "draft"
+                ? await rank(ctx, selected.recipients)
+                : undefined;
         const messages = await ctx.db
             .query("messages")
             .withIndex("by_campaign", (q) => q.eq("campaignId", args.id))
@@ -97,6 +103,14 @@ export const preview = query({
             updatedAt: campaign.updatedAt,
             recipients: selected.recipients.length,
             excluded: selected.excluded,
+            audience: ranked
+                ? {
+                      cohorts: [0, 1, 2, 3].map(
+                          (cohort) => ranked.filter((row) => row.cohort === cohort).length,
+                      ),
+                      first: ranked.slice(0, 100),
+                  }
+                : undefined,
             html: render(campaign).html,
             messages: messages.map((row) => ({
                 id: row._id,
@@ -169,12 +183,13 @@ export const save = mutation({
     },
 });
 
-/** Freeze audience membership and its recency order exactly once when a campaign starts. */
+/** Freeze audience membership and engagement order exactly once when a campaign starts. */
 async function start(ctx: MutationCtx, campaign: Doc<"campaigns">, recipients?: Recipient[]) {
-    const selected = await byRecency(
+    const ranked = await rank(
         ctx,
         recipients ?? (await select(ctx, campaign.audience!, campaign.category!)).recipients,
     );
+    const selected = ranked.map((row) => row.id);
     if (selected.length > 10000) throw new Error("Campaign audience exceeds 10,000 recipients.");
     await ctx.db.patch(campaign._id, {
         recipients: selected,

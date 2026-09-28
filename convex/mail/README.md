@@ -11,8 +11,8 @@ The email domain owns these records:
 - `messages`: one rendered email, source recipient, attempt state and provider result.
 - `subscriptions`: consent, preferences, suppression and consent history.
 - `deliveryEvents`: signed provider reports, deduplicated by provider event ID.
-- `mailPolicy`: global pause and its reason.
-- `mailQuota`: pacing, daily usage, the earned daily ceiling and delivery health counters.
+- `mailPolicy`: global pause, its reason and the approved daily attempt total.
+- `mailQuota`: pacing, daily usage, the reviewed daily ceiling and delivery health counters.
 - `mailSchedules`: weekly newsletter pause and last edition.
 
 `audiences.ts` selects subscribers or event registrations independently of message purpose.
@@ -83,9 +83,13 @@ These controls are independent:
   Missing schedule means paused; empty editions are skipped.
 - Campaign pause: holds that campaign's remaining messages.
 
-The daily ceiling starts at 300 and is earned, never granted by elapsed time.
-It doubles after a sending day that used at least half of it without a health stop, up to 10,000.
-A health stop halves it, never below 300, and withholds growth for that day.
+The initial daily pace is 500, with no automatic increases.
+An administrator must approve an absolute attempt total for the current Zurich calendar day.
+Missing or expired approvals block bulk attempts even when delivery is enabled.
+Approval preserves consumed quota and pacing, and never resumes paused delivery.
+For a launch, approve 100 attempts at a daily pace of 500, review delivery results, then raise the approved total to 500.
+Review again before approving 1,000 on day two and the remaining audience on day three.
+A health stop pauses delivery and halves the pace, with a floor of one attempt per day.
 The hourly ceiling spreads the daily ceiling over eight hours.
 Attempts and retries share the same atomic quota.
 Pausing and resuming does not replenish quota.
@@ -103,8 +107,12 @@ RFC 8058 unsubscribe changes consent only on POST; GET opens the confirmation pa
 
 ## Production controls
 
-The earned ceiling, hourly pacing and delivery-health stops are permanent production controls.
-Campaigns freeze their recipients most recently interested first, so early sending days reach engaged people.
+Explicit daily approvals, hourly pacing and delivery-health stops are permanent production controls.
+Campaigns group recipients by registrations in the last 90 days, last year, earlier, or none.
+Within each group, distinct event count sorts first, then real activity recency and stable identity ties.
+Cancelled and declined registrations do not contribute; email and member identity both match historical records.
+Registration activity is capped at the event date to avoid treating imported old events as new interest.
+Administrators can preview cohort counts and the first 100 recipients before queueing.
 The development recipient allowlist is independent of these controls and is unset in production.
 Campaign test sends remain available for reviewing an email without enrolling its audience.
 

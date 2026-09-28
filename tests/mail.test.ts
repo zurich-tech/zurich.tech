@@ -9,7 +9,7 @@ import { enqueue } from "../convex/mail/messages";
 import { unsubscribeHeaders } from "../convex/mail/provider";
 import { receive, unsubscribe } from "../convex/mail/webhooks";
 import { sendingDate } from "../convex/mail/policy";
-import { byRecency } from "../convex/mail/audiences";
+import { rank } from "../convex/mail/audiences";
 
 const http = httpRouter();
 http.route({ path: "/mail/webhook", method: "POST", handler: receive });
@@ -746,10 +746,78 @@ test("frozen audiences order recipients by their latest real interest", async ()
 
         return {
             expected: [registered, confirmed, recorded, observed],
-            actual: await byRecency(ctx, [observed, recorded, confirmed, registered]),
+            actual: (await rank(ctx, [observed, recorded, confirmed, registered])).map(
+                (row) => row.id,
+            ),
         };
     });
     expect(order.actual).toEqual(order.expected);
+});
+
+test("test_rank_recent_repeat_registrants_before_older_imports", async () => {
+    const now = Date.UTC(2026, 8, 28);
+    const { backend, memberId } = await setup();
+    const result = await backend.run(async (ctx) => {
+        // give an old import a recent creation timestamp to exercise the event-date cap
+        const events = [];
+        for (const days of [10, 20, 400]) {
+            events.push(
+                await ctx.db.insert("events", {
+                    ownerId: memberId,
+                    title: "Example",
+                    slug: `event-${days}`,
+                    format: "talk",
+                    description: "",
+                    topics: [],
+                    startsAt: now - days * 86400000,
+                    location: "Zurich",
+                    registration: { kind: "none" },
+                    status: "scheduled",
+                    createdAt: 1,
+                    updatedAt: 1,
+                }),
+            );
+        }
+
+        // match historical email-only rows and deduplicate repeated registrations for one event
+        const ids = [];
+        for (const [index, name] of ["repeat", "recent", "old", "cancelled"].entries()) {
+            const email = `${name}@example.invalid`;
+            ids.push(
+                await ctx.db.insert("subscriptions", {
+                    email,
+                    status: "subscribed",
+                    token: name,
+                    createdAt: now,
+                    updatedAt: now,
+                }),
+            );
+            const eventIds =
+                index === 0 ? [events[0], events[1], events[1]] : [events[index === 2 ? 2 : 0]];
+            for (const eventId of eventIds) {
+                await ctx.db.insert("registrations", {
+                    email: email.toUpperCase(),
+                    name,
+                    eventId,
+                    status: index === 3 ? "cancelled" : "going",
+                    createdAt: now,
+                    updatedAt: now,
+                });
+            }
+        }
+
+        return (await rank(ctx, ids.toReversed(), now)).map(({ email, cohort, events }) => ({
+            email,
+            cohort,
+            events,
+        }));
+    });
+    expect(result).toEqual([
+        { email: "repeat@example.invalid", cohort: 0, events: 2 },
+        { email: "recent@example.invalid", cohort: 0, events: 1 },
+        { email: "old@example.invalid", cohort: 2, events: 1 },
+        { email: "cancelled@example.invalid", cohort: 3, events: 0 },
+    ]);
 });
 
 test("newsletter preview counts the same eligible audience as delivery", async () => {

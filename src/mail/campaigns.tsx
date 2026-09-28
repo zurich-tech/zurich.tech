@@ -387,6 +387,33 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                             </section>
                             <section class="mail-section">
                                 <h3>Delivery</h3>
+                                {/* audience order */}
+                                <Show when={detail()?.audience}>
+                                    {(audience) => (
+                                        <details>
+                                            <summary>Recipient order: first 100</summary>
+                                            <p>
+                                                Registrations: last 90 days ({audience().cohorts[0]}
+                                                ), last year ({audience().cohorts[1]}), older (
+                                                {audience().cohorts[2]}), none (
+                                                {audience().cohorts[3]}). Most distinct events first
+                                                within each group, then recent activity.
+                                            </p>
+                                            <ol>
+                                                <For each={audience().first}>
+                                                    {(row) => (
+                                                        <li>
+                                                            {row.email} · {row.events} events
+                                                            {row.latest
+                                                                ? ` · ${new Date(row.latest).toLocaleDateString("en-GB", { timeZone: "Europe/Zurich" })}`
+                                                                : ""}
+                                                        </li>
+                                                    )}
+                                                </For>
+                                            </ol>
+                                        </details>
+                                    )}
+                                </Show>
                                 <Show when={settings()?.isLocked}>
                                     <p class="mail-note mail-warning">
                                         Test mode: only your test email can be sent.

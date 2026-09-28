@@ -73,39 +73,86 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
     return { recipients, excluded: candidates.length - recipients.length };
 }
 
-/**
- * Order recipients by their latest sign of interest, most recent first.
- *
- * Two table scans keep index lookups constant as audiences grow.
- */
-export async function byRecency(ctx: QueryCtx, recipients: Recipient[]) {
-    // NOTE #Performance: reads every registration once per frozen campaign
+/** Rank eligible recipients by registration recency, distinct events and genuine signup activity. */
+export async function rank(ctx: QueryCtx, recipients: Recipient[], now = Date.now()) {
+    // scan each bounded community table once, independent of audience size
     const registrations = await ctx.db.query("registrations").collect();
     const subscriptions = await ctx.db.query("subscriptions").collect();
+    const events = new Map(
+        (await ctx.db.query("events").collect()).map((event) => [event._id, event]),
+    );
+    const sources = new Map<string, Doc<"registrations"> | Doc<"subscriptions">>(
+        [...registrations, ...subscriptions].map((row) => [row._id, row]),
+    );
 
-    // collect the latest registration of each member, and each registration's own time
-    const latest = new Map<string, number>();
-    const interest = new Map<string, number>();
+    // match historical registrations by email even when no account existed at import time
+    const identities = new Map<string, Doc<"registrations">[]>();
     for (const registration of registrations) {
-        interest.set(registration._id, registration.createdAt);
-        if (!registration.memberId) continue;
-        const previous = latest.get(registration.memberId) ?? 0;
-        latest.set(registration.memberId, Math.max(previous, registration.createdAt));
+        if (registration.status === "cancelled" || registration.status === "declined") continue;
+        const keys: string[] = [registration.email.trim().toLowerCase()];
+        if (registration.memberId) keys.push(registration.memberId);
+
+        // index both identities so account creation does not discard historical activity
+        for (const key of keys) {
+            const rows = identities.get(key) ?? [];
+            rows.push(registration);
+            identities.set(key, rows);
+        }
     }
 
-    // combine confirmations, recorded signups and registrations; estimates only restate observations
-    for (const subscription of subscriptions) {
-        const subscribed = (subscription.history ?? [])
-            .filter((entry) => entry.status === "subscribed" && !entry.isEstimated)
-            .map((entry) => entry.at);
-        const registered = subscription.memberId ? (latest.get(subscription.memberId) ?? 0) : 0;
-        interest.set(
-            subscription._id,
-            Math.max(subscription.verifiedAt ?? 0, registered, ...subscribed),
-        );
-    }
+    // use explicit recency bands, not an opaque weighted score
+    const ranked = recipients.map((id) => {
+        const source = sources.get(id);
+        if (!source) throw new Error("Campaign recipient no longer exists.");
 
-    return recipients.toSorted((left, right) => interest.get(right)! - interest.get(left)!);
+        // combine registrations across the current address and linked member
+        const email = source.email.trim().toLowerCase();
+        const rows = [
+            ...(identities.get(email) ?? []),
+            ...(source.memberId ? (identities.get(source.memberId) ?? []) : []),
+        ];
+
+        // count each eligible event once and cap imported activity at its event date
+        const distinct = new Set<string>();
+        let latest = 0;
+        for (const row of rows) {
+            const event = events.get(row.eventId);
+            if (!event) throw new Error("Registration event no longer exists.");
+            if (event.status === "cancelled" || event.status === "draft") continue;
+            distinct.add(row.eventId);
+            latest = Math.max(latest, Math.min(row.createdAt, event.startsAt, now));
+        }
+
+        // imported observations must not masquerade as fresh subscriber interest
+        const subscribed =
+            "eventId" in source
+                ? []
+                : (source.history ?? [])
+                      .filter((entry) => entry.status === "subscribed" && !entry.isEstimated)
+                      .map((entry) => entry.at);
+        const verified = "eventId" in source ? 0 : (source.verifiedAt ?? 0);
+        const activity = Math.min(now, Math.max(latest, verified, ...subscribed));
+
+        // group recent registrants before dormant contacts
+        const cohort = !distinct.size
+            ? 3
+            : latest >= now - 90 * 86400000
+              ? 0
+              : latest >= now - 365 * 86400000
+                ? 1
+                : 2;
+
+        return { id, email, cohort, events: distinct.size, latest, activity };
+    });
+
+    return ranked.sort(
+        (left, right) =>
+            left.cohort - right.cohort ||
+            right.events - left.events ||
+            right.activity - left.activity ||
+            left.email.localeCompare(right.email) ||
+            left.id.localeCompare(right.id),
+    );
 }
 
 /** Recheck the recipient, admission and attendance policy before delivery. */
