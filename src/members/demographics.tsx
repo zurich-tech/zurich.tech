@@ -2,7 +2,7 @@ import { CountryFields } from "./countries";
 import { TopicFields } from "../topics/fields";
 import { Suspense } from "solid-js";
 import { Empty } from "../components/empty";
-import { startTransition, createResource, createSignal, createEffect, For, Show } from "solid-js";
+import { startTransition, createResource, createSignal, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import {
     demographicOptions,
@@ -19,23 +19,23 @@ import "../topics/topics.css";
 
 /** Read optional survey fields, using empty values to clear answers. */
 export function readDemographics(fields: FormData): Answers {
+    // collect only answered questions
     const result: Record<string, unknown> = {};
     for (const key of Object.keys(demographicOptions)) {
         if (key === "roles" || key === "languages") {
             const values = fields.getAll(key === "roles" ? "role" : "language").map(String);
-            if (fields.get(`${key}Withheld`) === "on") result[key] = null;
-            else if (values.length) result[key] = values;
+            if (values.length) result[key] = values;
         } else {
             const value = String(fields.get(key) ?? "");
-            if (value) result[key] = value === "withheld" ? null : value;
+            if (value) result[key] = value;
         }
     }
-    // keep residence and citizenship separate, with explicit refusal distinct from omission
+
+    // collect residence and citizenship independently
     const residence = String(fields.get("residence") ?? "");
-    if (residence) result.residence = residence === "withheld" ? null : residence;
+    if (residence) result.residence = residence;
     const citizenships = fields.getAll("citizenship").map(String).filter(Boolean);
-    if (fields.get("citizenshipsWithheld") === "on") result.citizenships = null;
-    else if (citizenships.length) result.citizenships = citizenships;
+    if (citizenships.length) result.citizenships = citizenships;
 
     return result as Answers;
 }
@@ -160,7 +160,7 @@ export function Demographics(props: { onComplete?: () => void }) {
     );
 }
 
-/** Optional private background, followed by separate interests and participation preferences. */
+/** Collect interests and participation preferences before optional private background answers. */
 export function CommunityFields(props: {
     values: {
         demographics: Answers;
@@ -171,21 +171,12 @@ export function CommunityFields(props: {
 }) {
     return (
         <>
+            {/* interests */}
             <section class="community-section">
                 <p class="survey-intro">
                     All questions are optional. Answers are private and shown only as grouped
                     statistics.
                 </p>
-                <DemographicFields values={props.values.demographics} />
-            </section>
-            <section class="community-section">
-                <h3>Where are you from?</h3>
-                <CountryFields values={props.values.demographics} />
-            </section>
-            <section class="community-section">
-                <LanguageFields values={props.values.demographics} />
-            </section>
-            <section class="community-section">
                 <TopicFields
                     label="What do you like?"
                     isInterests
@@ -193,6 +184,8 @@ export function CommunityFields(props: {
                     values={props.values.interests}
                 />
             </section>
+
+            {/* motivations */}
             <section class="community-section">
                 <fieldset class="survey-choice">
                     <legend>What brings you here?</legend>
@@ -213,6 +206,8 @@ export function CommunityFields(props: {
                     </div>
                 </fieldset>
             </section>
+
+            {/* participation */}
             <section class="community-section">
                 <h3>How would you like to get involved?</h3>
                 <div class="choice-grid">
@@ -231,14 +226,28 @@ export function CommunityFields(props: {
                     </For>
                 </div>
             </section>
+
+            {/* background */}
+            <section class="community-section">
+                <DemographicFields values={props.values.demographics} />
+            </section>
+
+            {/* residence and citizenship */}
+            <section class="community-section">
+                <h3>Where are you from?</h3>
+                <CountryFields values={props.values.demographics} />
+            </section>
+
+            {/* languages */}
+            <section class="community-section">
+                <LanguageFields values={props.values.demographics} />
+            </section>
         </>
     );
 }
 
-/** Null is an explicit refusal; an empty control clears the answer. */
+/** Collect optional background answers; empty controls clear previous answers. */
 export function DemographicFields(props: { values: Answers }) {
-    const [withheld, setWithheld] = createSignal(props.values.roles === null);
-    createEffect(() => setWithheld(props.values.roles === null));
     return (
         <>
             <fieldset class="survey-choice">
@@ -252,7 +261,6 @@ export function DemographicFields(props: { values: Answers }) {
                                     type="checkbox"
                                     name="role"
                                     value={option.value}
-                                    disabled={withheld()}
                                     checked={props.values.roles?.includes(option.value) ?? false}
                                 />
                                 {option.label}
@@ -260,36 +268,19 @@ export function DemographicFields(props: { values: Answers }) {
                         )}
                     </For>
                 </div>
-                <label class="checkbox">
-                    <input
-                        type="checkbox"
-                        name="rolesWithheld"
-                        checked={withheld()}
-                        onChange={(event) => setWithheld(event.currentTarget.checked)}
-                    />
-                    Prefer not to say
-                </label>
             </fieldset>
             <div class="demographic-fields">
                 <For each={["experience", "education", "age"] as const}>
                     {(field) => (
                         <label>
                             {demographicLabels[field]}
-                            <select
-                                name={field}
-                                value={
-                                    props.values[field] === null
-                                        ? "withheld"
-                                        : (props.values[field] ?? "")
-                                }
-                            >
+                            <select name={field} value={props.values[field] ?? ""}>
                                 <option value="">Not answered</option>
                                 <For each={demographicOptions[field]}>
                                     {(option) => (
                                         <option value={option.value}>{option.label}</option>
                                     )}
                                 </For>
-                                <option value="withheld">Prefer not to say</option>
                             </select>
                             <Show when={field === "education"}>
                                 <small>Highest completed qualification.</small>

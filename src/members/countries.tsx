@@ -5,30 +5,21 @@ import "../topics/topics.css";
 
 /** Collect private residence and citizenship independently, including multiple citizenships. */
 export function CountryFields(props: { values: Demographics }) {
+    // show unanswered citizenships as one empty selection
     const [citizenships, setCitizenships] = createSignal<string[]>([]);
-    const [isWithheld, setIsWithheld] = createSignal(false);
     createEffect(() => {
         setCitizenships(props.values.citizenships?.length ? [...props.values.citizenships] : [""]);
-        setIsWithheld(props.values.citizenships === null);
     });
 
     return (
         <div class="country-fields">
             <label>
                 Where do you live?
-                <select
-                    name="residence"
-                    value={
-                        props.values.residence === null
-                            ? "withheld"
-                            : (props.values.residence ?? "")
-                    }
-                >
+                <select name="residence" value={props.values.residence ?? ""}>
                     <option value="">Not answered</option>
                     <For each={countries}>
                         {(country) => <option value={country.value}>{country.label}</option>}
                     </For>
-                    <option value="withheld">Prefer not to say</option>
                 </select>
             </label>
             <fieldset class="citizenship-fields">
@@ -40,7 +31,6 @@ export function CountryFields(props: { values: Demographics }) {
                                 name="citizenship"
                                 aria-label={`Country of citizenship ${index + 1}`}
                                 value={value()}
-                                disabled={isWithheld()}
                                 onChange={(event) => {
                                     const next = event.currentTarget.value;
                                     setCitizenships((values) =>
@@ -69,7 +59,6 @@ export function CountryFields(props: { values: Demographics }) {
                                 <button
                                     type="button"
                                     class="action-link"
-                                    disabled={isWithheld()}
                                     aria-label={`Remove citizenship ${index + 1}`}
                                     onClick={() =>
                                         setCitizenships((values) =>
@@ -86,20 +75,11 @@ export function CountryFields(props: { values: Demographics }) {
                 <button
                     type="button"
                     class="action-link"
-                    disabled={isWithheld() || citizenships().includes("")}
+                    disabled={citizenships().includes("")}
                     onClick={() => setCitizenships((values) => [...values, ""])}
                 >
                     Add another citizenship
                 </button>
-                <label class="checkbox">
-                    <input
-                        type="checkbox"
-                        name="citizenshipsWithheld"
-                        checked={isWithheld()}
-                        onChange={(event) => setIsWithheld(event.currentTarget.checked)}
-                    />
-                    Prefer not to say
-                </label>
             </fieldset>
         </div>
     );
