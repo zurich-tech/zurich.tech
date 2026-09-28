@@ -23,11 +23,11 @@ export function Statistics(props: { items: { label: string; value: number | stri
     );
 }
 
-/** Show known registration totals, keeping small totals visible to organisers only. */
-export function RegistrationStatistics(props: { event: PublicEvent; isOrganiser: boolean }) {
-    const items = () => {
+/** State known registration totals in one line, keeping small totals visible to organisers only. */
+export function RegistrationCounts(props: { event: PublicEvent; isOrganiser: boolean }) {
+    const counts = () => {
         const event = props.event;
-        const values: { label: string; value: number | string }[] = [];
+        const values: string[] = [];
 
         // organisers see every known total, the public only established ones
         const isPublic = event.rsvpCount >= site.publicRegistrations;
@@ -36,7 +36,7 @@ export function RegistrationStatistics(props: { event: PublicEvent; isOrganiser:
                 ? event.registration.kind === "native" || event.rsvpCount > 0
                 : isPublic
         )
-            values.push({ label: "Registered", value: event.rsvpCount });
+            values.push(`${event.rsvpCount.toLocaleString("en-CH")} registered`);
         if (
             props.isOrganiser
                 ? (event.registration.kind === "native" &&
@@ -44,13 +44,14 @@ export function RegistrationStatistics(props: { event: PublicEvent; isOrganiser:
                   event.waitlistCount > 0
                 : isPublic && event.waitlistCount > 0
         )
-            values.push({ label: "Waitlist", value: event.waitlistCount });
+            values.push(`${event.waitlistCount.toLocaleString("en-CH")} on the waitlist`);
 
         return values;
     };
+
     return (
-        <Show when={items().length}>
-            <Statistics items={items()} />
+        <Show when={counts().length}>
+            <p class="registration-counts">{counts().join(" · ")}</p>
         </Show>
     );
 }

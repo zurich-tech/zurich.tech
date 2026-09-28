@@ -2,60 +2,58 @@
    Overview: title, practical facts and admission
    ================================================================================ */
 
-/* when, where, speakers and organisers read across one ruled band */
-.event-facts {
+/* copy on the left, attendance on the right, aligned with the columns below */
+.event-overview__body {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-6);
+    grid-template-columns: minmax(0, 1fr) calc(var(--sidebar-width) - var(--card-inset));
+    align-items: start;
+    gap: var(--column-gap);
 }
 
-.event-facts > div + div {
-    border-left: var(--rule) solid var(--color-line);
-    padding-left: var(--space-6);
-}
-
-.event-facts dt {
-    margin-bottom: var(--space-2);
-    color: var(--color-soft);
-    font: 500 var(--text-xs) / 1.4 var(--font-mono);
-}
-
-.event-facts dd {
+.event-overview__main {
     display: grid;
-    align-content: start;
+    gap: var(--space-5);
+}
+
+/* a large date beside the practical details */
+.event-when {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-5);
+}
+
+.event-when__date {
+    display: grid;
+    justify-items: center;
+    border: var(--rule-strong) solid var(--color-strong);
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-mono);
+}
+
+.event-when__day {
+    font-size: var(--text-3xl);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.event-when__month {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.event-when__details {
+    display: grid;
     gap: 2px;
-    font-weight: 600;
 }
 
-.event-facts dd > :is(span, .address-notice),
-.event-facts dd > div:not(.organisers) > span {
+.event-when__details > :is(span, .address-notice) {
     color: var(--color-soft);
-    font-weight: 400;
 }
 
-.event-facts dd > a:hover {
-    color: var(--color-accent);
-}
-
-.event-facts dd > div + div {
-    margin-top: var(--space-2);
-}
-
-.speaker-credit {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-2);
-}
-
-.speaker-credit img {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.speaker-credit a:hover {
+.event-when__details a:hover {
     color: var(--color-accent);
 }
 
@@ -70,26 +68,42 @@
     font-size: var(--text-lg);
 }
 
-.event-overview__registration {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+/* the attendance panel stacks its actions at full width */
+.event-ticket {
+    display: grid;
     gap: var(--space-3);
+    border: var(--rule) solid var(--color-line);
+    background: var(--color-raised);
+    padding: var(--space-4);
 }
 
-.event-overview__registration .button {
-    min-height: 48px;
-    padding: 0 var(--space-6);
-    font-size: var(--text-md);
-}
-
-/* an existing registration shows its state next to its actions */
-.registration-actions,
-.registration-actions__buttons {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+.event-actions {
+    display: grid;
     gap: var(--space-2);
+}
+
+.event-actions :is(.button, .registration-status-link, .status-control) {
+    width: 100%;
+}
+
+.event-actions__form {
+    display: contents;
+}
+
+.registration-counts {
+    color: var(--color-soft);
+    font: 500 var(--text-sm) / 1.5 var(--font-mono);
+}
+
+.event-actions__note {
+    color: var(--color-soft);
+    font-size: var(--text-xs);
+}
+
+@media (max-width: 860px) {
+    .event-overview__body {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 .registration-status-link {
@@ -100,28 +114,6 @@
 
 .registration-status-link:hover .status-control {
     border-color: var(--color-accent);
-}
-
-@media (max-width: 700px) {
-    .event-facts {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .event-facts > div:nth-child(odd) {
-        border-left: 0;
-        padding-left: 0;
-    }
-}
-
-@media (max-width: 460px) {
-    .event-facts {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .event-facts > div + div {
-        border-left: 0;
-        padding-left: 0;
-    }
 }
 
 /* ================================================================================
@@ -147,21 +139,28 @@
     white-space: nowrap;
 }
 
-/* speakers with portraits */
+/* speakers with portraits, two per row where there is room */
 .speaker-list {
     display: grid;
-    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-5);
 }
 
 .speaker {
     display: grid;
-    gap: var(--space-1);
+    grid-template-columns: 64px minmax(0, 1fr);
+    align-content: start;
+    gap: 2px var(--space-4);
+}
+
+.speaker > :not(.speaker-portrait) {
+    grid-column: 2;
 }
 
 .speaker-portrait {
-    width: 88px;
-    height: 88px;
-    margin-bottom: var(--space-2);
+    width: 64px;
+    height: 64px;
+    grid-row: span 3;
     object-fit: cover;
     filter: grayscale(0.15);
     transition: filter var(--slow) var(--ease);

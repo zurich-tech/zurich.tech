@@ -7,7 +7,7 @@ import { Organisers } from "../../../events/organiser";
 import { useCancellation } from "../../../events/cancellation";
 import { RegistrationStatus } from "../../../events/status";
 import { EventBadges, EventTags } from "../../../events/tags";
-import { RegistrationStatistics } from "../../../events/statistics";
+import { RegistrationCounts } from "../../../events/statistics";
 import { ConfirmationNotice } from "../../../events/confirmation";
 import { isTentative } from "../../../../convex/events/conditions";
 import { useAccount } from "../../../auth";
@@ -115,6 +115,12 @@ export default function Route() {
     };
     const hasRegistration = () =>
         !!currentRegistration() && currentRegistration()?.status !== "cancelled";
+
+    // register signed-in members in one click when the event asks no questions
+    const isQuickRsvp = () => {
+        const policy = event()?.registration;
+        return !!account.user() && !(policy?.kind === "native" && policy.questions.length > 0);
+    };
 
     const cancellation = useCancellation(
         () => currentRegistration()?.token ?? "",
@@ -258,80 +264,6 @@ export default function Route() {
                                             Unlisted
                                         </span>
                                     </Show>
-                                    <Show when={!isRegistrationLoading() && hasRegistration()}>
-                                        <div
-                                            class="event-overview__account"
-                                            aria-label="Your registration"
-                                        >
-                                            <div class="registration-actions">
-                                                <a
-                                                    class="registration-status-link"
-                                                    href={registrationHref()}
-                                                    title="View your registration"
-                                                >
-                                                    {" "}
-                                                    <RegistrationStatus
-                                                        status={currentRegistration()!.status}
-                                                        isCancelled={
-                                                            event()?.status === "cancelled"
-                                                        }
-                                                        isTentative={isTentative(event()!)}
-                                                    />
-                                                </a>
-                                                <div class="registration-actions__buttons">
-                                                    <Show
-                                                        when={
-                                                            event()!.checkIn?.isEnabled &&
-                                                            currentRegistration()?.status ===
-                                                                "going" &&
-                                                            event()?.status !== "cancelled"
-                                                        }
-                                                    >
-                                                        <a class="button" href={registrationHref()}>
-                                                            View pass
-                                                        </a>
-                                                    </Show>
-                                                    <Show
-                                                        when={
-                                                            event()!.startsAt < Date.now() &&
-                                                            (event()!.feedback?.isEventEnabled ||
-                                                                event()!.feedback
-                                                                    ?.isSpeakerEnabled) &&
-                                                            currentRegistration()?.status ===
-                                                                "going" &&
-                                                            event()?.status !== "cancelled"
-                                                        }
-                                                    >
-                                                        <a class="button" href={registrationHref()}>
-                                                            Give feedback
-                                                        </a>
-                                                    </Show>
-                                                    <Show
-                                                        when={
-                                                            currentRegistration()?.token &&
-                                                            event()?.status !== "cancelled" &&
-                                                            event()!.startsAt > Date.now() &&
-                                                            currentRegistration()?.status !==
-                                                                "declined"
-                                                        }
-                                                    >
-                                                        <button
-                                                            class="button"
-                                                            disabled={cancellation.isPending()}
-                                                            onClick={() =>
-                                                                void cancellation.cancel()
-                                                            }
-                                                        >
-                                                            {cancellation.isPending()
-                                                                ? "Cancelling…"
-                                                                : "Cancel"}
-                                                        </button>
-                                                    </Show>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Show>
-
                                     <Show when={event()!.checkIn?.isEnabled}>
                                         <EditLink
                                             href={`/checkin?event=${event()!.id}`}
@@ -357,121 +289,227 @@ export default function Route() {
                                 </div>
                             }
                         >
-                            <EventFacts event={visibleEvent()!} />
-                            <Show when={privateVenue.error}>
-                                <FormMessage error="Could not load your private venue details. Please reload the page." />
-                            </Show>
-                            <FormMessage error={cancellation.error()} />
-                            <div class="item-description description-statistics">
-                                <div class="event-overview__copy">
-                                    <Show when={event()?.summary}>
-                                        <p class="event-overview__summary">{event()!.summary}</p>
-                                    </Show>
-                                    <EventTags
-                                        detailed
-                                        series={event()!.series ?? undefined}
-                                        topics={event()!.topics}
-                                    >
-                                        <EventBadges
-                                            event={event()!}
-                                            showPast
-                                            isPartner={event()?.isPartner}
-                                            registrationKind={event()?.registration.kind}
-                                        />
-                                    </EventTags>
-                                </div>
-                                <RegistrationStatistics
-                                    event={event()!}
-                                    isOrganiser={access.canEvent(event()!.id, "organiser")}
-                                />
-                            </div>
-                            <Show
-                                when={
-                                    event()?.registration?.kind === "native" &&
-                                    isRegistrationLoading()
-                                }
-                            >
-                                <div class="event-overview__registration">
-                                    <p role="status">Loading…</p>
-                                </div>
-                            </Show>
-                            <Show when={registration.error}>
-                                <div class="event-overview__registration">
-                                    <p class="form-error">
-                                        {errorMessage(
-                                            registration.error,
-                                            "Could not load your registration.",
-                                        )}
-                                    </p>
-                                    <button class="button" onClick={() => refreshRegistration()}>
-                                        Retry
-                                    </button>
-                                </div>
-                            </Show>
-                            <Show
-                                when={
-                                    event()?.registration?.kind === "native" &&
-                                    event()?.status === "scheduled" &&
-                                    event()!.startsAt > Date.now() &&
-                                    !hasRegistration() &&
-                                    !isRegistrationLoading() &&
-                                    !registration.error &&
-                                    !isRsvpOpen(event())
-                                }
-                            >
-                                <div class="event-overview__registration">
-                                    <p>{registrationNotice(event())}</p>
-                                </div>
-                            </Show>
-                            <Show
-                                when={
-                                    event()?.registration?.kind === "external" &&
-                                    event()?.status !== "cancelled" &&
-                                    (event()?.startsAt ?? 0) > Date.now()
-                                }
-                            >
-                                <div class="event-overview__registration">
-                                    {" "}
-                                    <a
-                                        class="button button--primary"
-                                        href={(event()?.registration as { url: string }).url}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        Register on{" "}
-                                        {registrationSite(
-                                            (event()!.registration as { url: string }).url,
-                                        )}{" "}
-                                        <Arrow direction="external" />
-                                    </a>
-                                </div>
-                            </Show>
-                            <Show
-                                when={
-                                    event()?.registration?.kind === "none" &&
-                                    event()?.status === "scheduled" &&
-                                    (event()?.startsAt ?? 0) > Date.now()
-                                }
-                            >
-                                <div class="event-overview__registration">
-                                    <p>No registration required.</p>
-                                </div>
-                            </Show>
+                            <div class="event-overview__body">
+                                <div class="event-overview__main">
+                                    {/* date, time and place */}
+                                    <EventMeta event={visibleEvent()!} />
 
-                            <Show
-                                when={
-                                    isRsvpOpen(event()) &&
-                                    !isRegistrationLoading() &&
-                                    !hasRegistration() &&
-                                    !registration.error
-                                }
-                            >
-                                <div class="event-overview__registration">
-                                    <a class="button button--primary" href="#register">
-                                        {registrationTitle(event())}
-                                    </a>
+                                    {/* what the event is about */}
+                                    <div class="event-overview__copy">
+                                        <Show when={event()?.summary}>
+                                            <p class="event-overview__summary">
+                                                {event()!.summary}
+                                            </p>
+                                        </Show>
+                                        <EventTags
+                                            detailed
+                                            series={event()!.series ?? undefined}
+                                            topics={event()!.topics}
+                                        >
+                                            <EventBadges
+                                                event={event()!}
+                                                showPast
+                                                isPartner={event()?.isPartner}
+                                                registrationKind={event()?.registration.kind}
+                                            />
+                                        </EventTags>
+                                    </div>
+
+                                    <Show when={privateVenue.error}>
+                                        <FormMessage error="Could not load your private venue details. Please reload the page." />
+                                    </Show>
+                                    <FormMessage error={cancellation.error()} />
                                 </div>
-                            </Show>
+
+                                {/* everything about attending in one panel beside the copy */}
+                                <div class="event-ticket">
+                                    <div class="event-actions">
+                                        <Switch>
+                                            <Match
+                                                when={
+                                                    event()?.registration?.kind === "native" &&
+                                                    isRegistrationLoading()
+                                                }
+                                            >
+                                                <p role="status">Loading…</p>
+                                            </Match>
+                                            <Match when={registration.error}>
+                                                <p class="form-error">
+                                                    {errorMessage(
+                                                        registration.error,
+                                                        "Could not load your registration.",
+                                                    )}
+                                                </p>
+                                                <button
+                                                    class="button"
+                                                    onClick={() => refreshRegistration()}
+                                                >
+                                                    Retry
+                                                </button>
+                                            </Match>
+                                            <Match when={hasRegistration()}>
+                                                <a
+                                                    class="registration-status-link"
+                                                    href={registrationHref()}
+                                                    title="View your registration"
+                                                >
+                                                    <RegistrationStatus
+                                                        status={currentRegistration()!.status}
+                                                        isCancelled={
+                                                            event()?.status === "cancelled"
+                                                        }
+                                                        isTentative={isTentative(event()!)}
+                                                    />
+                                                </a>
+                                                <Show
+                                                    when={
+                                                        event()!.checkIn?.isEnabled &&
+                                                        currentRegistration()?.status === "going" &&
+                                                        event()?.status !== "cancelled"
+                                                    }
+                                                >
+                                                    <a class="button" href={registrationHref()}>
+                                                        View pass
+                                                    </a>
+                                                </Show>
+                                                <Show
+                                                    when={
+                                                        event()!.startsAt < Date.now() &&
+                                                        (event()!.feedback?.isEventEnabled ||
+                                                            event()!.feedback?.isSpeakerEnabled) &&
+                                                        currentRegistration()?.status === "going" &&
+                                                        event()?.status !== "cancelled"
+                                                    }
+                                                >
+                                                    <a class="button" href={registrationHref()}>
+                                                        Give feedback
+                                                    </a>
+                                                </Show>
+                                                <Show
+                                                    when={
+                                                        currentRegistration()?.token &&
+                                                        event()?.status !== "cancelled" &&
+                                                        event()!.startsAt > Date.now() &&
+                                                        currentRegistration()?.status !== "declined"
+                                                    }
+                                                >
+                                                    <button
+                                                        class="button"
+                                                        disabled={cancellation.isPending()}
+                                                        onClick={() => void cancellation.cancel()}
+                                                    >
+                                                        {cancellation.isPending()
+                                                            ? "Cancelling…"
+                                                            : "Cancel"}
+                                                    </button>
+                                                </Show>
+                                            </Match>
+                                            <Match when={isRsvpOpen(event()) && isQuickRsvp()}>
+                                                <form
+                                                    class="event-actions__form"
+                                                    onSubmit={submitRsvp}
+                                                >
+                                                    <Button
+                                                        type="submit"
+                                                        disabled={
+                                                            isRsvpPending() || !!rsvpSuccess()
+                                                        }
+                                                    >
+                                                        {isRsvpPending()
+                                                            ? "Registering…"
+                                                            : registrationTitle(event())}
+                                                    </Button>
+                                                </form>
+                                            </Match>
+                                            <Match when={isRsvpOpen(event())}>
+                                                <a class="button button--primary" href="#register">
+                                                    {registrationTitle(event())}
+                                                </a>
+                                            </Match>
+                                            <Match
+                                                when={
+                                                    event()?.registration?.kind === "external" &&
+                                                    event()?.status !== "cancelled" &&
+                                                    (event()?.startsAt ?? 0) > Date.now()
+                                                }
+                                            >
+                                                <a
+                                                    class="button button--primary"
+                                                    href={
+                                                        (event()?.registration as { url: string })
+                                                            .url
+                                                    }
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
+                                                    Register on{" "}
+                                                    {registrationSite(
+                                                        (event()!.registration as { url: string })
+                                                            .url,
+                                                    )}{" "}
+                                                    <Arrow direction="external" />
+                                                </a>
+                                            </Match>
+                                            <Match
+                                                when={
+                                                    event()?.registration?.kind === "native" &&
+                                                    event()?.status === "scheduled" &&
+                                                    event()!.startsAt > Date.now()
+                                                }
+                                            >
+                                                <p>{registrationNotice(event())}</p>
+                                            </Match>
+                                            <Match
+                                                when={
+                                                    event()?.registration?.kind === "none" &&
+                                                    event()?.status === "scheduled" &&
+                                                    (event()?.startsAt ?? 0) > Date.now()
+                                                }
+                                            >
+                                                <p>No registration required.</p>
+                                            </Match>
+                                        </Switch>
+                                        <Show
+                                            when={
+                                                event()!.startsAt > Date.now() &&
+                                                event()?.status !== "cancelled"
+                                            }
+                                        >
+                                            <CalendarButton
+                                                event={{
+                                                    ...event()!,
+                                                    description: event()!.summary,
+                                                    location: [
+                                                        visibleEvent()!.venue.name,
+                                                        visibleEvent()!.venue.address,
+                                                    ]
+                                                        .filter(Boolean)
+                                                        .join(", "),
+                                                }}
+                                            />
+                                        </Show>
+                                    </div>
+                                    <RegistrationCounts
+                                        event={event()!}
+                                        isOrganiser={access.canEvent(event()!.id, "organiser")}
+                                    />
+                                    <Show
+                                        when={
+                                            isRsvpOpen(event()) &&
+                                            isQuickRsvp() &&
+                                            !hasRegistration()
+                                        }
+                                    >
+                                        <p class="event-actions__note">
+                                            Registration includes community emails and event
+                                            updates. You can unsubscribe anytime.
+                                        </p>
+                                    </Show>
+                                    <Show when={isQuickRsvp()}>
+                                        <FormMessage error={rsvpError()} success={rsvpSuccess()} />
+                                    </Show>
+                                </div>
+                            </div>
                         </Card>
 
                         {/* content */}
@@ -488,9 +526,13 @@ export default function Route() {
                                 <Show when={(event()?.agenda.length ?? 0) > 0}>
                                     <Agenda event={event()} />
                                 </Show>
+                                <Show when={(event()?.speakers.length ?? 0) > 0}>
+                                    <Speakers event={event()} />
+                                </Show>
                                 <Show
                                     when={
                                         isRsvpOpen(event()) &&
+                                        !isQuickRsvp() &&
                                         !isRegistrationLoading() &&
                                         !hasRegistration() &&
                                         !registration.error
@@ -512,28 +554,21 @@ export default function Route() {
 
                             {/* side column */}
                             <aside class="detail-aside">
-                                <Show when={(event()?.speakers.length ?? 0) > 0}>
-                                    <Speakers event={event()} />
-                                </Show>
                                 <VenueCard venue={visibleEvent()!.venue} />
-                                <Show
-                                    when={
-                                        event()!.startsAt > Date.now() &&
-                                        event()?.status !== "cancelled"
-                                    }
-                                >
-                                    <CalendarButton
-                                        event={{
-                                            ...event()!,
-                                            description: event()!.summary,
-                                            location: [
-                                                visibleEvent()!.venue.name,
-                                                visibleEvent()!.venue.address,
-                                            ]
-                                                .filter(Boolean)
-                                                .join(", "),
-                                        }}
-                                    />
+                                <Show when={event()!.organiser || event()!.coOrganisers?.length}>
+                                    <Card
+                                        title={
+                                            event()!.coOrganisers?.length
+                                                ? "Organisers"
+                                                : "Organiser"
+                                        }
+                                    >
+                                        <Organisers
+                                            detailed
+                                            primary={event()!.organiser}
+                                            others={event()!.coOrganisers}
+                                        />
+                                    </Card>
                                 </Show>
                                 <Show when={(event()?.organisations.length ?? 0) > 0}>
                                     <Card title="Hosts & supporters">
@@ -583,8 +618,9 @@ export default function Route() {
                         <Show
                             when={
                                 (event()?.media.length ?? 0) > 0 ||
-                                access.current()?.isTeam ||
-                                access.canEvent(event()?.id, "organiser")
+                                ((access.current()?.isTeam ||
+                                    access.canEvent(event()?.id, "organiser")) &&
+                                    event()!.startsAt < Date.now())
                             }
                         >
                             <Photos event={event()} />
@@ -604,9 +640,22 @@ export default function Route() {
                                     <strong>{title()}</strong>
                                     <span>{eventDate(event()!.startsAt)}</span>
                                 </span>
-                                <a class="button button--primary" href="#register">
-                                    {registrationTitle(event())}
-                                </a>
+                                <Show
+                                    when={isQuickRsvp()}
+                                    fallback={
+                                        <a class="button button--primary" href="#register">
+                                            {registrationTitle(event())}
+                                        </a>
+                                    }
+                                >
+                                    <form class="event-actions__form" onSubmit={submitRsvp}>
+                                        <Button type="submit" disabled={isRsvpPending()}>
+                                            {isRsvpPending()
+                                                ? "Registering…"
+                                                : registrationTitle(event())}
+                                        </Button>
+                                    </form>
+                                </Show>
                             </div>
                         </Show>
                     </Page>
@@ -1004,80 +1053,26 @@ function registrationNotice(event: PublicEvent | null | undefined): string {
         : "This event is full.";
 }
 
-/** Show practical event details before the full programme. */
-function EventFacts(props: { event: PublicEvent }) {
+/** Show when and where the event happens, led by a large date. */
+function EventMeta(props: { event: PublicEvent }) {
+    const part = (options: Intl.DateTimeFormatOptions) =>
+        new Date(props.event.startsAt).toLocaleDateString("en-GB", { ...options, timeZone });
+
     return (
-        <>
-            <dl class="event-facts">
-                <div>
-                    <dt>When</dt>
-                    <dd>
-                        <time dateTime={new Date(props.event.startsAt).toISOString()}>
-                            {eventDate(props.event.startsAt)}
-                        </time>
-                        <span>{eventTime(props.event)}</span>
-                        <span>Zurich time</span>
-                    </dd>
-                </div>
-                <div>
-                    <dt>Where</dt>
-                    <dd>
-                        <a href="#venue">
-                            {props.event.venue.name ||
-                                props.event.venue.address ||
-                                "To be announced"}
-                        </a>
-                        <AddressNotice venue={props.event.venue} />
-                        <Show when={props.event.venue.name && props.event.venue.address}>
-                            <For each={addressLines(props.event.venue.address!)}>
-                                {(line) => <span>{line}</span>}
-                            </For>
-                        </Show>
-                    </dd>
-                </div>
-                <Show when={props.event.speakers.length}>
-                    <div>
-                        <dt>Speakers</dt>
-                        <dd>
-                            <For each={props.event.speakers}>
-                                {(speaker) => (
-                                    <div class="speaker-credit">
-                                        <Show when={speaker.imageUrl}>
-                                            <Image
-                                                src={speaker.imageUrl!}
-                                                darkSrc={speaker.imageDarkUrl}
-                                                alt=""
-                                                width={24}
-                                                height={24}
-                                                loading="lazy"
-                                            />
-                                        </Show>
-                                        <div>
-                                            <a href={speaker.profileUrl || "#speakers"}>
-                                                {speaker.name}
-                                            </a>
-                                            <Affiliations values={speaker.affiliations} />
-                                        </div>
-                                    </div>
-                                )}
-                            </For>
-                        </dd>
-                    </div>
-                </Show>
-                <Show when={props.event.organiser || props.event.coOrganisers?.length}>
-                    <div>
-                        <dt>{props.event.coOrganisers?.length ? "Organisers" : "Organiser"}</dt>
-                        <dd>
-                            <Organisers
-                                detailed
-                                primary={props.event.organiser}
-                                others={props.event.coOrganisers}
-                            />
-                        </dd>
-                    </div>
-                </Show>
-            </dl>
-        </>
+        <div class="event-when">
+            <time class="event-when__date" dateTime={new Date(props.event.startsAt).toISOString()}>
+                <span class="event-when__day">{part({ day: "numeric" })}</span>
+                <span class="event-when__month">{part({ month: "short" })}</span>
+            </time>
+            <div class="event-when__details">
+                <strong>{eventDate(props.event.startsAt)}</strong>
+                <span>{eventTime(props.event)} Zurich time</span>
+                <a href="#venue">
+                    {props.event.venue.name || props.event.venue.address || "Venue to be announced"}
+                </a>
+                <AddressNotice venue={props.event.venue} />
+            </div>
+        </div>
     );
 }
 
@@ -1088,11 +1083,4 @@ function registrationTitle(event: PublicEvent | null | undefined) {
         : event?.isFull
           ? "Join the waitlist"
           : "Register";
-}
-
-/** Separate the street address from its postal locality when present. */
-function addressLines(address: string): string[] {
-    const parts = address.trim().match(/^(.*?),?\s+(\d{4,5})\s*,?\s+(.+)$/);
-
-    return parts ? [parts[1].replace(/,$/, ""), `${parts[2]} ${parts[3]}`] : [address];
 }
