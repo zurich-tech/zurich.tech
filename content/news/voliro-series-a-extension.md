@@ -6,5 +6,6 @@ subtitle: "Voliro develops drones for contact inspections of industrial infrastr
 date: "2025-06-16"
 url: "https://voliro.com/blog/voliro-secures-23m-via-series-a-extension-to-modernize-infrastructure-with-aerial-robotics/"
 authors: []
+organisations: ["voliro"]
 topics: ["robotics"]
 ---

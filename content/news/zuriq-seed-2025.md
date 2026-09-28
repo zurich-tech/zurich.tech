@@ -6,5 +6,6 @@ subtitle: "ZuriQ develops trapped-ion quantum processors with two-dimensional io
 date: "2025-01-23"
 url: "https://zuriq.com/all/zuriq-raises-3-8m-chf-in-first-financing-round-from-vc-consortium/"
 authors: []
+organisations: ["zuriq"]
 topics: ["hardware"]
 ---

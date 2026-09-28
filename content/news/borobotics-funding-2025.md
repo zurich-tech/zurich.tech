@@ -6,5 +6,6 @@ subtitle: "Borobotics develops autonomous drilling systems for geothermal heatin
 date: "2025-01-15"
 url: "https://www.thinkgeoenergy.com/geothermal-drilling-automation-startup-borobotics-raises-chf-1-3m-funding/"
 authors: []
+organisations: ["borobotics"]
 topics: ["robotics"]
 ---

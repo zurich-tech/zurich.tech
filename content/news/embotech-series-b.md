@@ -6,5 +6,6 @@ subtitle: "Embotech develops autonomous driving software for industrial logistic
 date: "2024-12-12"
 url: "https://embotech.com/news/story-financinground"
 authors: []
+organisations: ["embotech"]
 topics: ["robotics"]
 ---

@@ -6,5 +6,6 @@ subtitle: "SAEKI builds robotic manufacturing systems for large industrial compo
 date: "2025-02-05"
 url: "https://www.globenewswire.com/news-release/2025/02/05/3021227/0/en/manufacture-the-impossible-saeki-raises-6-7m-to-transform-large-scale-manufacturing.html"
 authors: []
+organisations: ["saeki"]
 topics: ["robotics"]
 ---

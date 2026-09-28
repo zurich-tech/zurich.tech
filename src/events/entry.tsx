@@ -37,6 +37,8 @@ export function Entry(props: {
     meta?: JSX.Element;
     /** Distinguish event and news rows where needed. */
     class?: string;
+    /** An icon beside dated news copy, in the column events use for their date. */
+    image?: { url?: string; initial: string };
 }) {
     // format each date with shared Zurich calendar formatters
     const part = (field: "day" | "month" | "year") => dateFormats[field].format(props.date);
@@ -45,8 +47,21 @@ export function Entry(props: {
         <div class="entry-container">
             <div
                 class={`entry ${props.class ?? ""}`}
-                classList={{ "entry-publication": props.datePlacement === "below" }}
+                classList={{
+                    "entry-publication": props.datePlacement === "below",
+                    "entry-leading": props.image !== undefined,
+                }}
             >
+                {/* icon in the leading column, duplicating the title link for pointers only */}
+                <Show when={props.image}>
+                    {(image) => (
+                        <a class="entry-image" href={props.href} tabindex="-1" aria-hidden="true">
+                            <Show when={image().url} fallback={image().initial}>
+                                {(url) => <img src={url()} alt="" loading="lazy" />}
+                            </Show>
+                        </a>
+                    )}
+                </Show>
                 {/* place news dates below copy and event dates in the left column */}
                 <Show
                     when={props.datePlacement !== "below"}

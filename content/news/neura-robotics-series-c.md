@@ -6,5 +6,6 @@ subtitle: "NEURA develops humanoid robots and software for industrial automation
 date: "2026-06-10"
 url: "https://neura-robotics.com/record-series-c/"
 authors: []
+organisations: ["neura-robotics"]
 topics: ["robotics"]
 ---

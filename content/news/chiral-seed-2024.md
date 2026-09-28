@@ -6,5 +6,6 @@ subtitle: "Chiral develops automated manufacturing equipment for nanomaterial ch
 date: "2024-02-27"
 url: "https://www.lastwatchdog.com/news-alert-chiral-announces-3-8m-funding-round-to-advance-nanomaterial-chip-manufacturing/"
 authors: []
+organisations: ["chiral"]
 topics: ["hardware"]
 ---

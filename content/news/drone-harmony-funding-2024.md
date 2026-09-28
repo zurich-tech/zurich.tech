@@ -6,5 +6,6 @@ subtitle: "Drone Harmony develops flight planning software for autonomous drone 
 date: "2024-06-14"
 url: "https://www.linkedin.com/posts/droneharmony_investment-growth-expansion-activity-7207305778355970049-nt9u"
 authors: []
+organisations: ["drone-harmony"]
 topics: ["robotics"]
 ---

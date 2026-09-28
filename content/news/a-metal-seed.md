@@ -6,5 +6,6 @@ subtitle: "a-metal develops compact metal 3D printers."
 date: "2025-09-29"
 url: "https://www.a-metal.com/news/seed-finanzierungsrunde"
 authors: []
+organisations: ["a-metal"]
 topics: ["hardware"]
 ---

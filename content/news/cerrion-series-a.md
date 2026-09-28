@@ -6,5 +6,6 @@ subtitle: "Cerrion develops computer vision software to monitor factory producti
 date: "2025-11-24"
 url: "https://www.linkedin.com/posts/cerrion_we-are-excited-to-announce-that-we-have-raised-activity-7399058035282870272-oSD7"
 authors: []
+organisations: ["cerrion"]
 topics: ["computer-vision"]
 ---

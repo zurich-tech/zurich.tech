@@ -5,5 +5,6 @@ subtitle: "Climeworks brings more than 50 engineers together to develop direct a
 date: "2025-12-04"
 url: "https://climeworks.com/press-release/climeworks-launches-the-largest-dac-innovation-center"
 authors: []
+organisations: ["climeworks"]
 topics: ["climate-tech"]
 ---

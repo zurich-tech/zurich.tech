@@ -6,5 +6,6 @@ subtitle: "Wyden develops digital asset trading infrastructure for financial ins
 date: "2024-11-13"
 url: "https://www.wyden.io/news/wyden-secures-usd-16-9-million-in-series-b-funding-round/"
 authors: []
+organisations: ["wyden"]
 topics: ["software-engineering"]
 ---

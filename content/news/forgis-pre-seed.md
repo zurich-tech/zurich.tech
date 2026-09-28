@@ -6,5 +6,6 @@ subtitle: "Forgis develops AI software to connect and control industrial machine
 date: "2025-11-13"
 url: "https://www.linkedin.com/posts/forgisai_what-if-you-could-play-a-chess-match-against-activity-7394719300949004289-WNFW"
 authors: []
+organisations: ["forgis"]
 topics: ["agents"]
 ---

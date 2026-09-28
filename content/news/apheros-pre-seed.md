@@ -6,5 +6,6 @@ subtitle: "Apheros develops metal foams for cooling data centers."
 date: "2024-08-19"
 url: "https://apheros.ch/en/news/press-release-preseed"
 authors: []
+organisations: ["apheros"]
 topics: ["hardware"]
 ---

@@ -81,6 +81,9 @@ Use EPFL selectively for work with a Zurich connection or exceptional technical 
 Social feeds and search indexes are incomplete; never describe this archive as a complete registry of private financing.
 
 For non-funding news, prefer usable software, model or hardware releases; significant real deployments; substantial technical infrastructure; and acquisitions with a concrete local consequence.
+Require both a substantive Zurich connection and a technology angle.
+Zurich-based companies, local research groups and developments with a specific local consequence qualify.
+Incidental Zurich team involvement in a global product update does not qualify on its own.
 Skip routine partnerships, awards, hiring posts, event promotion and generic research publicity.
 State what changed in the headline and give one concrete sentence of context.
 Distinguish plans, pilots, released artifacts and operational systems explicitly.

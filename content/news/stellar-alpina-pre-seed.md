@@ -6,5 +6,6 @@ subtitle: "Stellar Alpina develops rotating detonation engines for spacecraft."
 date: "2026-05-28"
 url: "https://stellar-alpina.ch/articles/stellar-alpina-completed-europe-s-first-commercial-rdre-hotfire-and-raises-4-5m-within-82-days"
 authors: []
+organisations: ["stellar-alpina"]
 topics: ["hardware"]
 ---

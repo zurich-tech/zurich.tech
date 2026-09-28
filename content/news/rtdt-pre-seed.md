@@ -6,5 +6,6 @@ subtitle: "RTDT develops sensors and software for monitoring wind turbine perfor
 date: "2025-07-01"
 url: "https://www.linkedin.com/posts/rtdt-laboratories-ag_weve-just-raised-4m-to-accelerate-our-activity-7345707897701511168-TWuh"
 authors: []
+organisations: ["rtdt"]
 topics: ["climate-tech"]
 ---

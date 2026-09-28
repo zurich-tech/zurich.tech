@@ -6,5 +6,6 @@ subtitle: "Gravis retrofits excavators and other heavy machinery for autonomous 
 date: "2025-11-28"
 url: "https://www.gravisrobotics.com/press-release"
 authors: []
+organisations: ["gravis-robotics"]
 topics: ["robotics"]
 ---

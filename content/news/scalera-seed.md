@@ -6,5 +6,6 @@ subtitle: "Scalera develops AI software for construction procurement."
 date: "2025-05-09"
 url: "https://www.scalera.ai/en/investors"
 authors: []
+organisations: ["scalera"]
 topics: ["software-engineering"]
 ---

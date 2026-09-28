@@ -116,7 +116,18 @@ test("news imports preserve dates, credit organisations and protect subsequent e
     expect(post.publishedAt).toBe(1234);
     expect(
         (await backend.query(api.news.queries.detail, { slug: "introduction" }))?.organisations,
-    ).toEqual([{ name: "zurich.tech", slug: "zurich-tech" }]);
+    ).toEqual([
+        {
+            name: "zurich.tech",
+            slug: "zurich-tech",
+            kind: "nonprofit",
+            headline: undefined,
+            description: "",
+            location: "Zurich",
+            website: "https://zurich.tech",
+            iconUrl: undefined,
+        },
+    ]);
     const editor = backend.withIdentity({ subject: "editor" });
     await editor.mutation(api.news.mutations.save, {
         id: post._id,

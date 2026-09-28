@@ -170,6 +170,38 @@
     grid-column: 1;
 }
 
+/* a leading image takes the date column of event rows */
+.entry-leading {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+}
+
+.entry-leading :is(.entry-title-row, .event-description, .event-venue, .entry-published) {
+    grid-column: 2;
+}
+
+.entry-leading .event-arrow {
+    grid-column: 3;
+}
+
+.entry-image {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    grid-row: 1 / 5;
+    place-items: center;
+    overflow: hidden;
+    border: var(--rule) solid var(--color-line);
+    background: #ffffff;
+    color: var(--color-ink);
+    font: 500 var(--text-lg) / 1 var(--font-mono);
+}
+
+.entry-image img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
 .entry-published {
     grid-column: 1;
     grid-row: 4;

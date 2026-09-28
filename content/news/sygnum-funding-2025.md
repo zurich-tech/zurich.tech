@@ -6,5 +6,6 @@ subtitle: "Sygnum develops digital asset custody, trading and tokenisation infra
 date: "2025-01-14"
 url: "https://www.sygnum.com/news/sygnum-completes-usd-58m-strategic-growth-round-achieves-unicorn-status-with-1bn-valuation/"
 authors: []
+organisations: ["sygnum"]
 topics: ["distributed-systems"]
 ---

@@ -6,5 +6,6 @@ subtitle: "Soverli develops isolated operating systems for secure smartphone app
 date: "2025-12-15"
 url: "https://www.linkedin.com/posts/ivan-puddu_great-news-im-excited-to-officially-share-activity-7406276507364380672-7Ey1"
 authors: []
+organisations: ["soverli"]
 topics: ["security"]
 ---

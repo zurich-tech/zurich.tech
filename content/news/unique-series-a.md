@@ -6,5 +6,6 @@ subtitle: "Unique develops AI agents for research and compliance in financial se
 date: "2025-02-27"
 url: "https://www.unique.ai/en/blog/unique-secures-usd-30-million-series-a-to-pioneer-agentic-ai-workforce-in-financial-services-2"
 authors: []
+organisations: ["unique"]
 topics: ["agents"]
 ---

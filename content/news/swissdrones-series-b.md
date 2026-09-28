@@ -6,5 +6,6 @@ subtitle: "SwissDrones builds long-range helicopters for unmanned inspection and
 date: "2024-05-13"
 url: "https://www.swissdrones.com/post/aerial-intelligence-company-swissdrones-successfully-closes-series-b-growth-funding"
 authors: []
+organisations: ["swissdrones"]
 topics: ["robotics"]
 ---

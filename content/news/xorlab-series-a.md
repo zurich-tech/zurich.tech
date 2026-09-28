@@ -6,5 +6,6 @@ subtitle: "xorlab develops email security software to detect phishing and other 
 date: "2026-09-01"
 url: "https://www.xorlab.com/en/blog/xorlab-raises-eur-5-million-to-build-europes-leading-sovereign-email-security-platform"
 authors: []
+organisations: ["xorlab"]
 topics: ["security"]
 ---

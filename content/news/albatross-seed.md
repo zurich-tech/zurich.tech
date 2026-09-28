@@ -6,5 +6,6 @@ subtitle: "Albatross develops AI software for product and content recommendation
 date: "2024-10-16"
 url: "https://www.startupticker.ch/en/news/chf-2-8-million-to-improve-ecommerce-recommendations"
 authors: []
+organisations: ["albatross"]
 topics: ["machine-learning"]
 ---

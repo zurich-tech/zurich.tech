@@ -1,4 +1,3 @@
-import { ExternalTag } from "../components/tag";
 import { useSearch } from "../search/local";
 import "./article.css";
 import { NewsActions } from "./actions";
@@ -82,10 +81,10 @@ export function ArticleList(props: ArticleListProps) {
                         {(article) => (
                             <Entry
                                 class="news-row"
-                                isExternal={!!article.url}
                                 date={article.date}
                                 datePlacement="below"
-                                href={article.url ?? `/news/${article.slug}`}
+                                href={`/news/${article.slug}`}
+                                image={props.isCompact ? undefined : articleImage(article)}
                                 actions={
                                     !props.isCompact ? (
                                         <EditLink href={`/news/edit?id=${article.id}`} />
@@ -106,9 +105,6 @@ export function ArticleList(props: ArticleListProps) {
                                 }
                                 meta={
                                     <div class="entry-tags">
-                                        <Show when={article.url}>
-                                            <ExternalTag />
-                                        </Show>
                                         <For each={articleTags(article)}>
                                             {(tag) => (
                                                 <a class="tag" href={`/news?tag=${tag.slug}`}>
@@ -142,6 +138,11 @@ export function ArticleList(props: ArticleListProps) {
             </Show>
         </Card>
     );
+}
+
+/** Use the story's organisation icon, or its initial when no organisation is linked. */
+export function articleImage(article: Article) {
+    return { url: article.organisations[0]?.iconUrl, initial: article.title.slice(0, 1) };
 }
 
 /** Build searchable article text. */

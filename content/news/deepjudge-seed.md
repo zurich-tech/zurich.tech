@@ -6,5 +6,6 @@ subtitle: "DeepJudge develops search software for law firms' internal documents.
 date: "2024-06-18"
 url: "https://www.deepjudge.ai/news/deepjudge-raises-10-7m-seed-round-led-by-coatue-and-announces-knowledge-assistant"
 authors: []
+organisations: ["deepjudge"]
 topics: ["nlp"]
 ---

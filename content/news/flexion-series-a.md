@@ -6,5 +6,6 @@ subtitle: "Flexion develops control software for humanoid robots."
 date: "2025-11-20"
 url: "https://flexion.ai/news/flexion-raises-50m-to-build-the-brain-of-humanoid-robots-at-scale"
 authors: []
+organisations: ["flexion"]
 topics: ["robotics"]
 ---

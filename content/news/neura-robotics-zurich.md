@@ -5,5 +5,6 @@ subtitle: "NEURA moves development of its 4NE1 humanoid robot to Zurich while re
 date: "2025-12-09"
 url: "https://neura-robotics.com/expansion-to-switzerland/"
 authors: []
+organisations: ["neura-robotics"]
 topics: ["robotics"]
 ---

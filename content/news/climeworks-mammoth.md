@@ -5,5 +5,6 @@ subtitle: "Climeworks begins capturing CO₂ at its second direct air capture pl
 date: "2024-05-08"
 url: "https://climeworks.com/press-release/climeworks-switches-on-worlds-largest-direct-air-capture-plant-mammoth"
 authors: []
+organisations: ["climeworks"]
 topics: ["climate-tech"]
 ---

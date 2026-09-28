@@ -64,6 +64,12 @@ async function publishedPost(ctx: QueryCtx, post: Doc<"posts">, topics: Doc<"top
             .map((organisation) => ({
                 name: organisation.name,
                 slug: organisation.slug,
+                kind: organisation.kind,
+                headline: organisation.headline,
+                description: organisation.description,
+                location: organisation.location,
+                website: organisation.website,
+                iconUrl: organisation.mapLogoUrl ?? organisation.logoUrl,
             })),
         topics: articleTopics(content.topics, topics),
     };

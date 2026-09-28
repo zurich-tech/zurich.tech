@@ -6,5 +6,6 @@ subtitle: "Modulos develops software to manage AI governance and compliance."
 date: "2025-07-22"
 url: "https://www.modulos.ai/press-releases/modulos-raises-8-7m-ai-governance-platform/"
 authors: []
+organisations: ["modulos"]
 topics: ["ai-policy"]
 ---

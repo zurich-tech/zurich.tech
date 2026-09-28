@@ -6,5 +6,6 @@ subtitle: "Swiss-Mile develops wheeled quadruped robots for logistics and inspec
 date: "2024-08-28"
 url: "https://rivr.ai/stories/from-research-to-global-impact-the-journey-from-swiss-mile-to-rivr"
 authors: []
+organisations: ["rivr"]
 topics: ["robotics"]
 ---

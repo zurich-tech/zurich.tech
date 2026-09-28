@@ -6,5 +6,6 @@ subtitle: "NetFabric develops software to monitor computer networks and diagnose
 date: "2024-07-23"
 url: "https://netfabric.ai/news/news-article-5/"
 authors: []
+organisations: ["netfabric"]
 topics: ["distributed-systems"]
 ---

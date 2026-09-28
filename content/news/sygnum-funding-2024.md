@@ -6,5 +6,6 @@ subtitle: "Sygnum develops digital asset custody, trading and tokenisation infra
 date: "2024-01-25"
 url: "https://www.sygnum.com/news/sygnum-raises-more-than-usd-40-million/"
 authors: []
+organisations: ["sygnum"]
 topics: ["distributed-systems"]
 ---

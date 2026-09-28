@@ -6,5 +6,6 @@ subtitle: "EthonAI develops software to analyze manufacturing data and identify 
 date: "2024-05-30"
 url: "https://www.indexventures.com/perspectives/ethonai-series-a/"
 authors: []
+organisations: ["ethon"]
 topics: ["data-engineering"]
 ---

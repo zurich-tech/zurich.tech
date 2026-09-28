@@ -6,5 +6,6 @@ subtitle: "LocalStack develops software to emulate cloud services on developers'
 date: "2024-11-12"
 url: "https://blog.localstack.cloud/series-a-announcement/"
 authors: []
+organisations: ["localstack"]
 topics: ["software-engineering"]
 ---

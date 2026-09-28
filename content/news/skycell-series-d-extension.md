@@ -6,5 +6,6 @@ subtitle: "SkyCell develops temperature-controlled containers and tracking softw
 date: "2024-06-25"
 url: "https://blog.skycell.ch/blog/skycell-closes-us116-million-series-d"
 authors: []
+organisations: ["skycell"]
 topics: ["hardware"]
 ---

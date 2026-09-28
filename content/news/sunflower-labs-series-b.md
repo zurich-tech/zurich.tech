@@ -6,5 +6,6 @@ subtitle: "Sunflower Labs builds autonomous drones for property security."
 date: "2025-11-04"
 url: "https://sunflower-labs.com/post/press-release-2025-11-04"
 authors: []
+organisations: ["sunflower-labs"]
 topics: ["robotics"]
 ---

@@ -6,5 +6,6 @@ subtitle: "Optiml develops software to plan building retrofits and real estate i
 date: "2026-02-17"
 url: "https://www.optiml.com/fr/company-news/announcing-our-e8m-seed-round/"
 authors: []
+organisations: ["optiml"]
 topics: ["software-engineering", "climate-tech"]
 ---

@@ -6,5 +6,6 @@ subtitle: "Anapaya develops secure networking software based on the SCION archit
 date: "2024-05-07"
 url: "https://www.anapaya.net/news/anapaya-secures-chf-10-million-to-drive-international-expansion-and-accelerate-growth-in-switzerland"
 authors: []
+organisations: ["anapaya"]
 topics: ["distributed-systems"]
 ---

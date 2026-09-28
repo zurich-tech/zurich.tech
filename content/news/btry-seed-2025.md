@@ -6,5 +6,6 @@ subtitle: "BTRY develops thin solid-state batteries for sensors and wearable dev
 date: "2025-11-06"
 url: "https://btry.ch/fundingannouncement/"
 authors: []
+organisations: ["btry"]
 topics: ["hardware"]
 ---
