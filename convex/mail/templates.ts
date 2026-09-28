@@ -1,4 +1,5 @@
 import { locationsLabel, jobFacts } from "../../src/jobs/format";
+import { markdown } from "./markdown";
 import type { openJobs } from "../jobs/jobs";
 import { notificationChanges } from "../events/changes";
 import { isTentative } from "../events/conditions";
@@ -359,10 +360,7 @@ export function campaignEmail(
         ].join("\n\n"),
         html: layout({
             title: campaign.subject,
-            body: campaign.message
-                .split(/\n\s*\n/)
-                .map(paragraph)
-                .join(""),
+            body: markdown(campaign.message),
             action: { label: "Visit zurich.tech", url: origin },
             links,
         }),
