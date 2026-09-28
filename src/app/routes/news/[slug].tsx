@@ -49,7 +49,12 @@ export default function Route() {
                                 : []
                         }
                     />
-                    <Seo title={post().title} description={post().description} isArticle />
+                    <Seo
+                        title={post().title}
+                        description={post().description}
+                        image={post().image}
+                        isArticle
+                    />
                     <Page>
                         <a class="eyebrow" href="/news">
                             <Arrow direction="left" /> News

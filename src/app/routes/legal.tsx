@@ -31,6 +31,10 @@ export default function Route() {
                                 with no advertising trackers.
                             </li>
                             <li>
+                                Cloudflare Web Analytics measures page views, referring websites and
+                                page performance without analytics cookies or cross-site tracking.
+                            </li>
+                            <li>
                                 Sponsorships are arranged by email. Billing details are visible to
                                 the organisation owner and our team. Job applications go directly to
                                 employers.

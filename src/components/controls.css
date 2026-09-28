@@ -176,6 +176,8 @@ a.tag:hover {
 /* status labels that stand next to buttons share their height but never look pressable */
 .tag.status-control {
     min-height: var(--control-height);
+    align-items: center;
+    justify-content: center;
     padding: 0 var(--space-3);
 }
 
