@@ -66,7 +66,7 @@ export async function reconcile(ctx: MutationCtx, providerId: string) {
             });
     }
 
-    // stop the rollout on complaints or a concerning hard-bounce rate
+    // track bounces and stop the rollout on complaints
     if (delivery.isBulk) {
         const settings = await ctx.db.query("mailQuota").unique();
         if (settings) {
@@ -74,9 +74,7 @@ export async function reconcile(ctx: MutationCtx, providerId: string) {
                 settings.bounced +
                 (outcome === "bounced" && delivery.outcome !== "bounced" ? 1 : 0);
             const complained = settings.complained + (outcome === "complained" ? 1 : 0);
-            const shouldPause =
-                complained > 0 ||
-                (bounced >= 3 && bounced / Math.max(settings.accepted, 1) >= 0.02);
+            const shouldPause = complained > 0;
             await ctx.db.patch(settings._id, { bounced, complained });
             const policy = await ctx.db.query("mailPolicy").unique();
 
@@ -89,9 +87,7 @@ export async function reconcile(ctx: MutationCtx, providerId: string) {
             if (shouldPause && policy)
                 await ctx.db.patch(policy._id, {
                     isPaused: true,
-                    pauseReason: complained
-                        ? "Spam complaint received. Review delivery before resuming."
-                        : "Bounce rate reached 2%. Review recipients before resuming.",
+                    pauseReason: "Spam complaint received. Review delivery before resuming.",
                 });
         }
     }

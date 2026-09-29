@@ -89,7 +89,7 @@ Missing or expired approvals block bulk attempts even when delivery is enabled.
 Approval preserves consumed quota and pacing, and never resumes paused delivery.
 For a launch, approve 100 attempts at a daily pace of 500, review delivery results, then raise the approved total to 500.
 Review again before approving 1,000 on day two and the remaining audience on day three.
-A health stop pauses delivery and halves the pace, with a floor of one attempt per day.
+A complaint pauses delivery and halves the pace, with a floor of one attempt per day.
 The hourly ceiling spreads the daily ceiling over eight hours.
 Attempts and retries share the same atomic quota.
 Pausing and resuming does not replenish quota.
@@ -101,13 +101,13 @@ Resend posts signed delivery, bounce, complaint, failure and suppression reports
 The endpoint verifies original bytes and timestamps and handles reports arriving before acceptance is stored.
 Permanent bounces, complaints and provider suppression prevent later sends to that address.
 Temporary bounces record failure without permanently suppressing the recipient.
-A complaint, or at least three hard bounces at 2% or more, pauses bulk delivery.
+A complaint pauses bulk delivery; bounce rates do not pause delivery or change its pace.
 Explicit resume resets health counters; suppression and history remain.
 RFC 8058 unsubscribe changes consent only on POST; GET opens the confirmation page.
 
 ## Production controls
 
-Explicit daily approvals, hourly pacing and delivery-health stops are permanent production controls.
+Explicit daily approvals, hourly pacing and complaint stops are permanent production controls.
 Campaigns group recipients by registrations in the last 90 days, last year, earlier, or none.
 Within each group, distinct event count sorts first, then real activity recency and stable identity ties.
 Cancelled and declined registrations do not contribute; email and member identity both match historical records.

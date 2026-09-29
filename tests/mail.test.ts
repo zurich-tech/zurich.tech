@@ -365,6 +365,38 @@ test("signed callbacks reconcile before acceptance, deduplicate and never undo s
     expect((await backend.run((ctx) => ctx.db.get(subscriptionId)))?.status).toBe("suppressed");
 });
 
+test("test_suppress_hard_bounces_without_pausing_or_reducing_pace", async () => {
+    // exceed the former bounce threshold while retaining the approved sending policy
+    const { backend, subscriptionId, settingsId } = await setup();
+    await backend.run((ctx) => ctx.db.patch(settingsId, { accepted: 100, bounced: 2 }));
+    const policy = await backend.run((ctx) => ctx.db.query("mailPolicy").unique());
+    const id = await backend.run((ctx) =>
+        enqueue(
+            ctx,
+            "bounce-threshold",
+            "test@example.invalid",
+            "Hello",
+            "Hello",
+            subscriptionId,
+            0,
+            undefined,
+            { category: "weekly" },
+        ),
+    );
+
+    // process a signed permanent bounce and preserve suppression and accounting
+    await backend.mutation(internal.mail.messages.finish, { id, providerId: "threshold-test" });
+    const quota = await backend.run((ctx) => ctx.db.get(settingsId));
+    if (!quota) throw new Error("Expected the seeded mail quota.");
+    expect((await backend.fetch("/mail/webhook", signed("bounced", "threshold-test"))).status).toBe(
+        204,
+    );
+    expect((await backend.run((ctx) => ctx.db.get(subscriptionId)))?.status).toBe("suppressed");
+    expect((await backend.run((ctx) => ctx.db.get(id)))?.outcome).toBe("bounced");
+    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toEqual({ ...quota, bounced: 3 });
+    expect(await backend.run((ctx) => ctx.db.query("mailPolicy").unique())).toEqual(policy);
+});
+
 test("forged and stale callbacks are rejected without changing subscribers", async () => {
     const { backend, subscriptionId } = await setup();
     const forged = signed("bounced", "provider-test");
