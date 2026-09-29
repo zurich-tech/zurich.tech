@@ -30,11 +30,14 @@ export function cumulative(changes: { at: number; value: number }[]): Point[] {
         .map(([date, change]) => ({ date, value: (value += change) }));
 }
 
-/** Reconstruct active community subscriptions, including opt-outs and resubscriptions. */
+/** Reconstruct non-suppressed subscriptions, including opt-outs and resubscriptions. */
 export function subscriberHistory(subscriptions: Doc<"subscriptions">[], now: number): Point[] {
     const changes: { at: number; value: number }[] = [];
     let estimatedUntil = 0;
     for (const subscription of subscriptions) {
+        // exclude suppressed contacts from the whole timeline, not as departures on cleanup day
+        if (subscription.status === "suppressed") continue;
+
         const history = subscription.history ?? [
             {
                 at: subscription.createdAt,

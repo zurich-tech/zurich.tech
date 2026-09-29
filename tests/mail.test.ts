@@ -1279,3 +1279,72 @@ test("member totals and history include announcement-only subscriptions", async 
     });
     expect(await backend.query(api.statistics.queries.subscribers, {})).toBe(0);
 });
+
+test("test_exclude_suppressed_contacts_from_public_history_without_erasing_opt_outs", async () => {
+    setSystemTime(new Date("2026-09-29T12:00:00Z"));
+    const { backend, subscriptionId } = await setup();
+    const joined = Date.parse("2026-08-01T12:00:00Z");
+    const left = Date.parse("2026-09-10T12:00:00Z");
+    const suppressed = Date.parse("2026-09-28T12:00:00Z");
+
+    // retain one current member and one genuine opt-out alongside historical suppressions
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(subscriptionId, {
+            createdAt: joined,
+            history: [{ at: joined, status: "subscribed", weekly: true, source: "test" }],
+        });
+        for (const status of ["unsubscribed", "suppressed"] as const) {
+            await ctx.db.insert("subscriptions", {
+                email: `${status}@example.invalid`,
+                token: status,
+                status,
+                createdAt: joined,
+                updatedAt: status === "suppressed" ? suppressed : left,
+                history: [
+                    { at: joined, status: "subscribed", weekly: true, source: "test" },
+                    {
+                        at: status === "suppressed" ? suppressed : left,
+                        status,
+                        weekly: true,
+                        source: "test",
+                    },
+                ],
+            });
+        }
+        await ctx.db.insert("subscriptions", {
+            email: "legacy-suppressed@example.invalid",
+            token: "legacy-suppressed",
+            status: "suppressed",
+            createdAt: joined,
+            updatedAt: suppressed,
+        });
+    });
+
+    // reconstruct the same eligible population across the entire chart and monthly growth
+    const stats = await backend.query(api.statistics.queries.community, {});
+    expect(await backend.query(api.statistics.queries.subscribers, {})).toBe(1);
+    expect(stats.totals.subscribers).toBe(1);
+    expect(stats.history.subscribers).toEqual([
+        { date: "2026-08-01", value: 2, isEstimated: false },
+        { date: "2026-09-10", value: 1, isEstimated: false },
+        { date: "2026-09-29", value: 1 },
+    ]);
+    expect(stats.growth.subscribers).toEqual({
+        value: -1,
+        since: "2026-08-30",
+        isEstimated: false,
+    });
+
+    // leave delivery suppressions and their audit history untouched
+    const excluded = await backend.run((ctx) =>
+        ctx.db
+            .query("subscriptions")
+            .withIndex("by_status", (q) => q.eq("status", "suppressed"))
+            .collect(),
+    );
+    expect(excluded.length).toBe(2);
+    expect(excluded.find((row) => row.token === "suppressed")?.history).toEqual([
+        { at: joined, status: "subscribed", weekly: true, source: "test" },
+        { at: suppressed, status: "suppressed", weekly: true, source: "test" },
+    ]);
+});
