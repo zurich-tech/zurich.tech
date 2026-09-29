@@ -23,6 +23,46 @@
     gap: var(--space-3);
 }
 
+/* keep participation controls compact regardless of directory size */
+.event-organisations {
+    display: grid;
+    gap: var(--space-3);
+    min-width: 0;
+}
+
+.event-organisations__row {
+    display: flex;
+    align-items: end;
+    gap: var(--space-3);
+}
+
+.event-organisations__row label {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.event-organisations__results {
+    max-height: 240px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: var(--rule) solid var(--color-line);
+}
+
+.event-organisations__results button {
+    width: 100%;
+    padding: var(--space-3);
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+.event-organisations__results button:hover,
+.event-organisations__results button:focus-visible {
+    background: var(--color-accent-wash);
+}
+
 /* registration questions */
 .question-row {
     display: flex;

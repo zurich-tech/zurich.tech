@@ -9,6 +9,7 @@ import { getDirectory } from "../organisations/queries";
 import { civilTime } from "./time";
 import { AddressField } from "../components/address";
 import { Card } from "../components/card";
+import { OrganisationFields } from "./organisations";
 import "./editor.css";
 
 /** Edit the event title, description and series. */
@@ -449,32 +450,7 @@ export function ProgrammeFields(props: {
                 >
                     Add activity
                 </button>
-                <fieldset>
-                    <legend>Organisations</legend>
-                    <div class="organiser-options">
-                        <For each={props.directory?.organisations}>
-                            {(item) => (
-                                <label>
-                                    {item.name}
-                                    <Select
-                                        name={`organisation:${item._id}`}
-                                        value={
-                                            props.draft?.partnerIds?.includes(item._id)
-                                                ? "partner"
-                                                : props.draft?.organisations.includes(item._id)
-                                                  ? "supporter"
-                                                  : "none"
-                                        }
-                                    >
-                                        <option value="none">None</option>
-                                        <option value="supporter">Host / supporter</option>
-                                        <option value="partner">Partner</option>
-                                    </Select>
-                                </label>
-                            )}
-                        </For>
-                    </div>
-                </fieldset>
+                <OrganisationFields draft={props.draft} directory={props.directory} />
             </Card>
         </>
     );
