@@ -10,6 +10,7 @@ import { unsubscribeHeaders } from "../convex/mail/provider";
 import { receive, unsubscribe } from "../convex/mail/webhooks";
 import { sendingDate } from "../convex/mail/policy";
 import { rank } from "../convex/mail/audiences";
+import { prioritize } from "../scripts/mail/order";
 
 const http = httpRouter();
 http.route({ path: "/mail/webhook", method: "POST", handler: receive });
@@ -850,6 +851,148 @@ test("test_rank_recent_repeat_registrants_before_older_imports", async () => {
         { email: "old@example.invalid", cohort: 2, events: 1 },
         { email: "cancelled@example.invalid", cohort: 3, events: 0 },
     ]);
+});
+
+test("test_prioritize_unsent_mail_without_changing_delivery_authorization", async () => {
+    const { backend, memberId } = await setup();
+    const ids = await backend.run(async (ctx) => {
+        const policy = (await ctx.db.query("mailPolicy").unique())!;
+        await ctx.db.patch(policy._id, { approvedLimit: 0 });
+        const events = [];
+        for (const startsAt of [100, 200]) {
+            events.push(
+                await ctx.db.insert("events", {
+                    ownerId: memberId,
+                    title: "NLP",
+                    slug: `nlp-${startsAt}`,
+                    format: "talk",
+                    description: "",
+                    topics: [],
+                    startsAt,
+                    location: "Zurich",
+                    registration: { kind: "none" },
+                    status: "finished",
+                    createdAt: 1,
+                    updatedAt: 1,
+                }),
+            );
+        }
+        const campaignId = await ctx.db.insert("campaigns", {
+            subject: "Launch",
+            message: "Unchanged",
+            status: "queued",
+            recipients: [],
+            cursor: 0,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const messages = [];
+        for (const [index, name] of [
+            "other",
+            "older",
+            "recent",
+            "repeat",
+            "cancelled",
+            "retry",
+            "accepted",
+        ].entries()) {
+            const email = `${name}@example.invalid`;
+            messages.push(
+                await ctx.db.insert("messages", {
+                    campaignId,
+                    key: name,
+                    to: email,
+                    subject: "Launch",
+                    text: "Unchanged",
+                    status: name === "accepted" ? "accepted" : "queued",
+                    isBulk: true,
+                    attempts: ["retry", "accepted"].includes(name) ? 1 : 0,
+                    nextAttemptAt: 1000 + index,
+                    createdAt: 1,
+                }),
+            );
+            const eventIds =
+                name === "repeat"
+                    ? [events[0], events[1], events[1]]
+                    : ["recent", "cancelled"].includes(name)
+                      ? [events[1]]
+                      : name === "older"
+                        ? [events[0]]
+                        : [];
+            for (const eventId of eventIds)
+                await ctx.db.insert("registrations", {
+                    eventId,
+                    email: email.toUpperCase(),
+                    name,
+                    status: name === "cancelled" ? "cancelled" : "going",
+                    createdAt: 1,
+                    updatedAt: 1,
+                });
+        }
+        return { campaignId, events, messages, policyId: policy._id };
+    });
+    const before = await backend.run(async (ctx) => ({
+        messages: await ctx.db.query("messages").collect(),
+        policy: await ctx.db.query("mailPolicy").unique(),
+        quota: await ctx.db.query("mailQuota").unique(),
+        campaign: await ctx.db.get(ids.campaignId),
+    }));
+
+    // preview a deterministic queue without modifying any records
+    const ranked = await backend.run(async (ctx) =>
+        prioritize(
+            before.messages,
+            new Map((await ctx.db.query("events").collect()).map((event) => [event._id, event])),
+            await ctx.db.query("registrations").collect(),
+            new Map(),
+        ),
+    );
+    const preview = ranked.map((row) => ({
+        id: row.message._id,
+        events: row.events,
+        latest: row.latest,
+    }));
+    expect(preview).toEqual([
+        { id: ids.messages[3], events: 2, latest: 200 },
+        { id: ids.messages[2], events: 1, latest: 200 },
+        { id: ids.messages[1], events: 1, latest: 100 },
+        { id: ids.messages[0], events: 0, latest: 0 },
+        { id: ids.messages[4], events: 0, latest: 0 },
+    ]);
+    expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toEqual(before.messages);
+
+    // change only due order, never content, retries, accepted messages or authorization
+    const args = {
+        campaignId: ids.campaignId,
+        messageIds: preview.map((row) => row.id),
+        first: 995,
+    };
+    expect(await backend.mutation(internal.mail.ordering.apply, args)).toBe(5);
+    const after = await backend.run(async (ctx) => ({
+        messages: await ctx.db.query("messages").collect(),
+        policy: await ctx.db.query("mailPolicy").unique(),
+        quota: await ctx.db.query("mailQuota").unique(),
+        campaign: await ctx.db.get(ids.campaignId),
+    }));
+    expect(after).toEqual({
+        ...before,
+        messages: before.messages.map((message) => {
+            const index = preview.findIndex((row) => row.id === message._id);
+            return index < 0 ? message : { ...message, nextAttemptAt: 995 + index };
+        }),
+    });
+
+    // reject stale previews and attempts to reorder a running campaign
+    await expect(
+        backend.mutation(internal.mail.ordering.apply, {
+            ...args,
+            messageIds: [ids.messages[0], ids.messages[5]],
+        }),
+    ).rejects.toThrow("Only unattempted queued campaign messages can be reordered.");
+    await backend.run((ctx) => ctx.db.patch(ids.policyId, { approvedLimit: 100 }));
+    await expect(backend.mutation(internal.mail.ordering.apply, args)).rejects.toThrow(
+        "Stop bulk sending before reordering a campaign.",
+    );
 });
 
 test("newsletter preview counts the same eligible audience as delivery", async () => {

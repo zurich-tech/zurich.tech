@@ -67,6 +67,7 @@ import type * as mail_markdown from "../mail/markdown.js";
 import type * as mail_messages from "../mail/messages.js";
 import type * as mail_model from "../mail/model.js";
 import type * as mail_newsletter from "../mail/newsletter.js";
+import type * as mail_ordering from "../mail/ordering.js";
 import type * as mail_personalization from "../mail/personalization.js";
 import type * as mail_policy from "../mail/policy.js";
 import type * as mail_preferences from "../mail/preferences.js";
@@ -181,6 +182,7 @@ declare const fullApi: ApiFromModules<{
   "mail/messages": typeof mail_messages;
   "mail/model": typeof mail_model;
   "mail/newsletter": typeof mail_newsletter;
+  "mail/ordering": typeof mail_ordering;
   "mail/personalization": typeof mail_personalization;
   "mail/policy": typeof mail_policy;
   "mail/preferences": typeof mail_preferences;
