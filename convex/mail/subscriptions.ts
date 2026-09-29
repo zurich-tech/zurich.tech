@@ -1,9 +1,61 @@
 import { subscriptionHistory } from "./history";
 import { v } from "convex/values";
-import { action, mutation, query } from "../_generated/server";
+import { action, internalMutation, mutation, query } from "../_generated/server";
 import { internal } from "../_generated/api";
 
 import { requireMail } from "./provider";
+
+/** Import reviewed delivery exclusions without changing consent or sending policy. */
+export const suppress = internalMutation({
+    args: { emails: v.array(v.string()), source: v.string(), isDryRun: v.boolean() },
+    handler: async (ctx, args) => {
+        // require a paused sender and a bounded, attributed import
+        const policy = await ctx.db.query("mailPolicy").unique();
+        if (!policy?.isPaused) throw new Error("Pause bulk sending before importing exclusions.");
+        if (!args.source.trim()) throw new Error("Suppression source is required.");
+        if (args.emails.length > 500) throw new Error("Import at most 500 exclusions at once.");
+
+        // normalize addresses and reject malformed input before any changes
+        const emails = [...new Set(args.emails.map((email) => email.trim().toLowerCase()))];
+        if (emails.some((email) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)))
+            throw new Error("Invalid exclusion address.");
+        const now = Date.now();
+        let changed = 0;
+
+        // preserve existing suppression history and every unrelated preference
+        for (const email of emails) {
+            const row = await ctx.db
+                .query("subscriptions")
+                .withIndex("by_email", (q) => q.eq("email", email))
+                .unique();
+            if (row?.status === "suppressed") continue;
+            changed++;
+            if (args.isDryRun) continue;
+
+            // record the exclusion without fabricating provider delivery events
+            const values = {
+                status: "suppressed" as const,
+                updatedAt: now,
+                history: subscriptionHistory(
+                    row,
+                    { status: "suppressed", weekly: row?.weekly },
+                    now,
+                    args.source,
+                ),
+            };
+            if (row) await ctx.db.patch(row._id, values);
+            else
+                await ctx.db.insert("subscriptions", {
+                    ...values,
+                    email,
+                    source: args.source,
+                    createdAt: now,
+                });
+        }
+
+        return { total: emails.length, changed, unchanged: emails.length - changed };
+    },
+});
 
 /** Send a subscription confirmation without subscribing an unverified address. */
 export const subscribe = action({

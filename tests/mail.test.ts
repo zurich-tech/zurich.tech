@@ -1042,6 +1042,84 @@ test("verified event registration enrolls once and explicit resubscription enabl
     await expect(confirm("blocked", "subscription")).rejects.toThrow("cannot receive email");
 });
 
+// Import exclusions idempotently without altering quota, policy, or unrelated subscribers.
+test("test_import_suppression_without_sending", async () => {
+    const { backend, subscriptionId } = await setup();
+    const messageId = await backend.run((ctx) =>
+        enqueue(
+            ctx,
+            "excluded",
+            "test@example.invalid",
+            "Hello",
+            "",
+            subscriptionId,
+            0,
+            undefined,
+            { category: "campaign" },
+        ),
+    );
+    const args = {
+        emails: [" TEST@example.invalid ", "test@example.invalid", "missing@example.invalid"],
+        source: "wix:bounced",
+        isDryRun: true,
+    };
+    await expect(backend.mutation(internal.mail.subscriptions.suppress, args)).rejects.toThrow(
+        "Pause bulk sending before importing exclusions.",
+    );
+    await backend.run(async (ctx) => {
+        const policy = await ctx.db.query("mailPolicy").unique();
+        await ctx.db.patch(policy!._id, { isPaused: true });
+    });
+
+    // capture all state affected by the sender before the dry run
+    const snapshot = () =>
+        backend.run(async (ctx) => ({
+            subscriptions: await ctx.db.query("subscriptions").collect(),
+            policy: await ctx.db.query("mailPolicy").collect(),
+            quota: await ctx.db.query("mailQuota").collect(),
+            messages: await ctx.db.query("messages").collect(),
+        }));
+    const before = await snapshot();
+    expect(await backend.mutation(internal.mail.subscriptions.suppress, args)).toEqual({
+        total: 2,
+        changed: 2,
+        unchanged: 0,
+    });
+    expect(await snapshot()).toEqual(before);
+
+    // retain the original subscription fields and append attributed suppression history
+    expect(
+        await backend.mutation(internal.mail.subscriptions.suppress, {
+            ...args,
+            isDryRun: false,
+        }),
+    ).toEqual({ total: 2, changed: 2, unchanged: 0 });
+    const after = await snapshot();
+    const row = after.subscriptions.find((row) => row._id === subscriptionId)!;
+    expect(row).toEqual({
+        ...before.subscriptions[0],
+        status: "suppressed",
+        updatedAt: row.updatedAt,
+        history: [
+            { at: 1, status: "subscribed", weekly: true, source: "account", isEstimated: true },
+            { at: row.updatedAt, status: "suppressed", weekly: true, source: "wix:bounced" },
+        ],
+    });
+    expect(after.policy).toEqual(before.policy);
+    expect(after.quota).toEqual(before.quota);
+    expect(after.messages).toEqual(before.messages);
+    expect(await backend.query(internal.mail.messages.read, { id: messageId })).toBeNull();
+
+    // repeat the import without changing history or timestamps
+    expect(
+        await backend.mutation(internal.mail.subscriptions.suppress, {
+            ...args,
+            isDryRun: false,
+        }),
+    ).toEqual({ total: 2, changed: 0, unchanged: 2 });
+    expect(await snapshot()).toEqual(after);
+});
+
 // Weekly preferences affect delivery, not the public size of the community.
 test("member totals and history include announcement-only subscriptions", async () => {
     const { backend, subscriptionId } = await setup();
