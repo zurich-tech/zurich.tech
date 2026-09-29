@@ -149,7 +149,7 @@ export function eventEmail(
           }
         : { label: "View event", url: `${siteOrigin()}/events/${event.slug}` };
     return {
-        subject: `${options.subject ?? title}: ${event.title}`,
+        subject: `${event.title}: ${options.subject ?? title}`,
         text: [
             title,
             options.description,
@@ -162,7 +162,7 @@ export function eventEmail(
             .join("\n\n"),
         html: layout({
             title,
-            preview: `${title}: ${event.title}`,
+            preview: `${event.title}: ${title}`,
             body: `${options.description ? paragraph(options.description) : ""}${eventDetails(event, options.summary)}${options.passUrl ? `<p style="margin:24px 0"><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code" width="240" height="240" style="display:block;width:240px;height:240px;background:#ffffff;padding:12px" /></p>` : ""}`,
             action,
             links,
@@ -186,10 +186,10 @@ export function signInEmail(code: string) {
 
 /** Render a subscription or guest registration verification link. */
 export function verificationEmail(url: string, event?: Event) {
-    const title = event ? "Confirm email" : "Confirm subscription";
+    const title = event ? "Confirm registration" : "Confirm subscription";
     const expiry = "Expires in one hour. If you didn’t request this, ignore this email.";
     return {
-        subject: event ? `Confirm your email: ${event.title}` : "Confirm your subscription",
+        subject: event ? `${event.title}: Confirm your registration` : "Confirm your subscription",
         text: [
             title,
             event ? eventText(event) : undefined,
