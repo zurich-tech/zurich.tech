@@ -216,6 +216,17 @@ async function dueBulk(ctx: QueryCtx, now: number) {
     );
     const rows = [];
     for (const id of [undefined, ...active.map((campaign) => campaign._id)]) {
+        // read only the reviewed identities so an older backlog cannot consume queue slots
+        const reviewed = active.find((campaign) => campaign._id === id)?.reviewedBatch;
+        if (reviewed) {
+            for (const messageId of reviewed.messages) {
+                const message = await ctx.db.get(messageId);
+                if (!message || message.campaignId !== id)
+                    throw new Error("Reviewed campaign message no longer exists.");
+                if (message.status === "queued" && message.nextAttemptAt <= now) rows.push(message);
+            }
+            continue;
+        }
         const messages = await ctx.db
             .query("messages")
             .withIndex("by_campaign_due", (q) =>

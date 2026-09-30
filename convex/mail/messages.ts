@@ -226,6 +226,9 @@ export const claim = internalMutation({
         if (!recipientAllowed(delivery.to)) return false;
         const controlled =
             delivery.campaignId && !delivery.isTest ? await ctx.db.get(delivery.campaignId) : null;
+        // enforce reviewed membership even for actions scheduled before the review
+        if (controlled?.reviewedBatch && !controlled.reviewedBatch.messages.includes(delivery._id))
+            return false;
         if (
             controlled?.attemptLimit !== undefined &&
             (controlled.attempts ?? 0) >= controlled.attemptLimit

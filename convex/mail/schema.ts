@@ -43,6 +43,7 @@ export const messages = defineTable({
     expiresAt: v.optional(v.number()),
 })
     .index("by_provider", ["providerId"])
+    .index("by_recipient", ["to"])
     .index("by_due", ["isBulk", "status", "nextAttemptAt"])
     .index("by_campaign", ["campaignId"])
     .index("by_campaign_due", ["campaignId", "isBulk", "status", "nextAttemptAt"])
@@ -150,6 +151,10 @@ export const mailQuota = defineTable({
 
 /** Written or product-generated group send, frozen when sending starts. */
 export const campaigns = defineTable({
+    /** Exact message identities admitted from an existing queue by the latest review. */
+    reviewedBatch: v.optional(
+        v.object({ messages: v.array(v.id("messages")), source: v.string() }),
+    ),
     /** Cumulative attempt allowance for explicitly reviewed batches, including retries. */
     attemptLimit: v.optional(v.number()),
     /** Attempts consumed against the campaign allowance. */

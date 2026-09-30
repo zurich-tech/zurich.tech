@@ -21,6 +21,113 @@ const mailModules = {
     "../convex/http.ts": async () => ({ default: http }),
 };
 const secret = `whsec_${btoa("only-a-local-test-secret-for-signatures")}`;
+
+test("test_release_only_reviewed_untouched_campaign_messages", async () => {
+    const { backend, subscriptionId } = await setup();
+    const ids = await backend.run(async (ctx) => {
+        const other = await ctx.db.insert("subscriptions", {
+            email: "other@example.invalid",
+            status: "subscribed",
+            token: "other",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const campaignId = await ctx.db.insert("campaigns", {
+            subject: "Introduction",
+            message: "Hello",
+            category: "campaign",
+            audience: { kind: "subscribers" },
+            status: "paused",
+            recipients: [subscriptionId, other],
+            cursor: 2,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const selected = await enqueue(
+            ctx,
+            "reviewed",
+            "test@example.invalid",
+            "Introduction",
+            "Hello",
+            subscriptionId,
+            0,
+            undefined,
+            { campaignId, category: "campaign" },
+        );
+        const excluded = await enqueue(
+            ctx,
+            "excluded",
+            "other@example.invalid",
+            "Introduction",
+            "Hello",
+            other,
+            0,
+            undefined,
+            { campaignId, category: "campaign" },
+        );
+
+        return { campaignId, selected, excluded };
+    });
+    const args = {
+        campaignId: ids.campaignId,
+        messageIds: [ids.selected],
+        source: "Reviewed deliverable audit",
+        isDryRun: true,
+    };
+    // reject consent changes, past deliveries and stale verification candidates
+    for (const changes of [
+        { status: "suppressed" as const },
+        { status: "unsubscribed" as const },
+        { hasDeliveryFailure: true },
+        { deliveredAt: 1 },
+        { weekly: false, announcements: false },
+    ]) {
+        await backend.run((ctx) => ctx.db.patch(subscriptionId, changes));
+        await expect(backend.mutation(internal.mail.ordering.release, args)).rejects.toThrow(
+            "Reviewed recipients must be untouched, subscribed and without adverse history.",
+        );
+        await backend.run((ctx) =>
+            ctx.db.patch(subscriptionId, {
+                status: "subscribed",
+                hasDeliveryFailure: undefined,
+                deliveredAt: undefined,
+                weekly: undefined,
+                announcements: undefined,
+            }),
+        );
+    }
+    await expect(
+        backend.mutation(internal.mail.ordering.release, {
+            ...args,
+            messageIds: [ids.selected, ids.selected],
+        }),
+    ).rejects.toThrow("Provide distinct reviewed messages and their verification source.");
+
+    expect(await backend.mutation(internal.mail.ordering.release, args)).toEqual({
+        count: 1,
+        released: false,
+    });
+    expect(await backend.run(async (ctx) => (await ctx.db.get(ids.campaignId))!.status)).toBe(
+        "paused",
+    );
+    expect(
+        await backend.mutation(internal.mail.ordering.release, { ...args, isDryRun: false }),
+    ).toEqual({ count: 1, released: true });
+    expect(await backend.mutation(internal.mail.messages.claim, { id: ids.excluded })).toBe(false);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: ids.selected })).toBe(true);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: ids.excluded })).toBe(false);
+    await expect(
+        backend.mutation(internal.mail.ordering.release, { ...args, messageIds: [ids.excluded] }),
+    ).rejects.toThrow("The previous reviewed batch has not settled.");
+
+    // keep the unreviewed message untouched and preserve consumed quota
+    expect(
+        await backend.run(async (ctx) => ({
+            attempts: (await ctx.db.get(ids.excluded))!.attempts,
+            count: (await ctx.db.query("mailQuota").unique())!.count,
+        })),
+    ).toEqual({ attempts: 0, count: 1 });
+});
 const names = [
     "MAIL_RECIPIENTS",
     "RESEND_WEBHOOK_SECRET",
