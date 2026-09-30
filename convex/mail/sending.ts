@@ -163,12 +163,14 @@ export const dispatch = internalMutation({
                     settings.remaining === 0)
             )
                 continue;
-            const rows = await ctx.db
-                .query("messages")
-                .withIndex("by_due", (q) =>
-                    q.eq("isBulk", bulk).eq("status", "queued").lte("nextAttemptAt", now),
-                )
-                .take(100);
+            const rows = bulk
+                ? await dueBulk(ctx, now)
+                : await ctx.db
+                      .query("messages")
+                      .withIndex("by_due", (q) =>
+                          q.eq("isBulk", bulk).eq("status", "queued").lte("nextAttemptAt", now),
+                      )
+                      .take(100);
             let position = 0;
             for (const row of rows) {
                 // rotate held work so it cannot starve another campaign
@@ -200,3 +202,39 @@ export const dispatch = internalMutation({
         }
     },
 });
+
+/** Read due bulk mail only from campaigns allowed to run, plus standalone messages. */
+async function dueBulk(ctx: QueryCtx, now: number) {
+    // select campaign state before reading message bodies, so paused backlogs cost no queue slots
+    const campaigns = await ctx.db
+        .query("campaigns")
+        .withIndex("by_schedule", (q) => q.eq("status", "queued"))
+        .collect();
+    const active = campaigns.filter(
+        (campaign) =>
+            campaign.attemptLimit === undefined || (campaign.attempts ?? 0) < campaign.attemptLimit,
+    );
+    const rows = [];
+    for (const id of [undefined, ...active.map((campaign) => campaign._id)]) {
+        const messages = await ctx.db
+            .query("messages")
+            .withIndex("by_campaign_due", (q) =>
+                q
+                    .eq("campaignId", id)
+                    .eq("isBulk", true)
+                    .eq("status", "queued")
+                    .lte("nextAttemptAt", now),
+            )
+            .take(100);
+        rows.push(...messages);
+    }
+
+    // retain global due-time order and the existing per-dispatch bound
+    return rows
+        .sort(
+            (left, right) =>
+                left.nextAttemptAt - right.nextAttemptAt ||
+                left._creationTime - right._creationTime,
+        )
+        .slice(0, 100);
+}

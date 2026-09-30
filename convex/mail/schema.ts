@@ -45,6 +45,7 @@ export const messages = defineTable({
     .index("by_provider", ["providerId"])
     .index("by_due", ["isBulk", "status", "nextAttemptAt"])
     .index("by_campaign", ["campaignId"])
+    .index("by_campaign_due", ["campaignId", "isBulk", "status", "nextAttemptAt"])
     .index("by_key", ["key"])
     .index("by_event_and_category", ["eventId", "category"])
     .index("by_status", ["status"]);

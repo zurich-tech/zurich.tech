@@ -252,6 +252,75 @@ test("test_filter_series_interest_and_current_registrations_by_identity", async 
     });
 });
 
+test("test_dispatch_active_bulk_without_scanning_paused_or_exhausted_backlogs", async () => {
+    const { backend, admin, subscriptionId } = await setup();
+    const paused = await admin.mutation(api.mail.campaigns.save, {
+        subject: "Paused",
+        message: "Paused",
+    });
+    const active = await admin.mutation(api.mail.campaigns.save, {
+        subject: "Active",
+        message: "Active",
+    });
+    const exhausted = await admin.mutation(api.mail.campaigns.save, {
+        subject: "Exhausted",
+        message: "Exhausted",
+    });
+    const ids = await backend.run(async (ctx) => {
+        await ctx.db.patch(paused, { status: "paused" });
+        await ctx.db.patch(active, { status: "queued", attemptLimit: 100, attempts: 0 });
+        await ctx.db.patch(exhausted, { status: "queued", attemptLimit: 1, attempts: 1 });
+        const held = [];
+        for (let index = 0; index < 150; index++) {
+            held.push(
+                await enqueue(
+                    ctx,
+                    `held:${index}`,
+                    "test@example.invalid",
+                    "Held",
+                    "Held",
+                    subscriptionId,
+                    -1000,
+                    undefined,
+                    { campaignId: paused, category: "campaign" },
+                ),
+            );
+        }
+        await enqueue(
+            ctx,
+            "exhausted",
+            "test@example.invalid",
+            "Exhausted",
+            "Exhausted",
+            subscriptionId,
+            -1000,
+            undefined,
+            { campaignId: exhausted, category: "campaign" },
+        );
+        const ready = await enqueue(
+            ctx,
+            "ready",
+            "test@example.invalid",
+            "Ready",
+            "Ready",
+            subscriptionId,
+            0,
+            undefined,
+            { campaignId: active, category: "announcement" },
+        );
+        return { held, ready };
+    });
+    const before = await backend.run((ctx) => ctx.db.get(ids.held[0]));
+    await backend.mutation(internal.mail.sending.dispatch, {});
+    const scheduled = await backend.run((ctx) =>
+        ctx.db.system.query("_scheduled_functions").collect(),
+    );
+    expect(scheduled.map((row) => row.args)).toEqual([[{ id: ids.ready }]]);
+    expect(await backend.run((ctx) => ctx.db.get(ids.held[0]))).toEqual(before);
+    expect((await backend.run((ctx) => ctx.db.get(active)))!.attempts).toBe(0);
+    expect((await admin.query(api.mail.sending.current, {})).count).toBe(0);
+});
+
 test("test_index_delivery_history_without_changing_consent", async () => {
     const { backend, subscriptionId } = await setup();
     const messageId = await backend.run(async (ctx) => {
