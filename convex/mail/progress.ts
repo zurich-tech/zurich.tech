@@ -1,5 +1,6 @@
 import type { Doc } from "../_generated/dataModel";
 import type { MutationCtx } from "../_generated/server";
+import { record } from "./history";
 
 /** Count terminal messages separately from provider outcomes. */
 function counts(row: Doc<"messages">) {
@@ -22,6 +23,8 @@ export async function updateMessage(
     patch: Partial<Omit<Doc<"messages">, "_id" | "_creationTime">>,
 ) {
     await ctx.db.patch(row._id, patch);
+    if (patch.outcome !== undefined || patch.status === "failed")
+        await record(ctx, { ...row, ...patch });
     if (!row.campaignId || row.isTest) return;
     const campaign = await ctx.db.get(row.campaignId);
     if (!campaign) return;

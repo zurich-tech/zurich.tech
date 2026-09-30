@@ -2,7 +2,15 @@ import { v, type Infer } from "convex/values";
 
 /** Select recipients independently of message intent. */
 export const audience = v.union(
-    v.object({ kind: v.literal("subscribers") }),
+    v.object({
+        kind: v.literal("subscribers"),
+        /** Require a previous registration in this series. */
+        seriesId: v.optional(v.id("series")),
+        /** Exclude active registrations for this event. */
+        excludeEventId: v.optional(v.id("events")),
+        /** Require successful delivery since this timestamp, without adverse history. */
+        deliveredSince: v.optional(v.number()),
+    }),
     v.object({
         kind: v.literal("registrations"),
         eventId: v.id("events"),

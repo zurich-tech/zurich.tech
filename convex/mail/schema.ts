@@ -94,6 +94,10 @@ export const subscriptions = defineTable({
     status: v.union(v.literal("subscribed"), v.literal("unsubscribed"), v.literal("suppressed")),
     token: v.optional(v.string()),
     verifiedAt: v.optional(v.number()),
+    /** Latest successful non-test attempt, independent of newsletter consent. */
+    deliveredAt: v.optional(v.number()),
+    /** Whether any non-test delivery has failed or received an adverse report. */
+    hasDeliveryFailure: v.optional(v.boolean()),
     weekly: v.optional(v.boolean()),
     announcements: v.optional(v.boolean()),
     reminders: v.optional(v.boolean()),
@@ -117,6 +121,8 @@ export const mailSchedules = defineTable({
 
 /** Sending policy, independent of quota and campaign progress. */
 export const mailPolicy = defineTable({
+    /** Whether historical message outcomes have been indexed for audience review. */
+    isHistoryReady: v.optional(v.boolean()),
     isPaused: v.boolean(),
     pauseReason: v.optional(v.string()),
     /** Zurich calendar day explicitly approved for bulk delivery. */
@@ -143,6 +149,10 @@ export const mailQuota = defineTable({
 
 /** Written or product-generated group send, frozen when sending starts. */
 export const campaigns = defineTable({
+    /** Cumulative attempt allowance for explicitly reviewed batches, including retries. */
+    attemptLimit: v.optional(v.number()),
+    /** Attempts consumed against the campaign allowance. */
+    attempts: v.optional(v.number()),
     eventIds: v.optional(v.array(v.id("events"))),
     key: v.optional(v.string()),
     subject: v.string(),

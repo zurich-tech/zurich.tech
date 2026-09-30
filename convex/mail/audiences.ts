@@ -5,6 +5,43 @@ import type { Audience, Category, Recipient } from "./model";
 
 /** Resolve a supported audience, respecting purpose-specific preferences and suppression. */
 export async function select(ctx: QueryCtx, audience: Audience, category: Category) {
+    // resolve reusable interest and delivery filters once per audience
+    const filtered = audience.kind === "subscribers" ? audience : undefined;
+    const registrations =
+        filtered?.seriesId || filtered?.excludeEventId
+            ? await ctx.db.query("registrations").collect()
+            : [];
+    const events = filtered?.seriesId
+        ? new Map((await ctx.db.query("events").collect()).map((event) => [event._id, event]))
+        : new Map<string, Doc<"events">>();
+    const interested = new Set<string>();
+    const registered = new Set<string>();
+    for (const row of registrations) {
+        if (row.status === "cancelled" || row.status === "declined") continue;
+        const identities = [
+            row.email.trim().toLowerCase(),
+            ...(row.memberId ? [row.memberId] : []),
+        ];
+        if (row.eventId === filtered?.excludeEventId)
+            identities.forEach((identity) => registered.add(identity));
+        const event = events.get(row.eventId);
+        if (
+            event?.seriesId === filtered?.seriesId &&
+            event &&
+            event.startsAt < Date.now() &&
+            event.status !== "draft" &&
+            event.status !== "cancelled"
+        )
+            identities.forEach((identity) => interested.add(identity));
+    }
+
+    // refuse incomplete historical evidence rather than silently broadening the audience
+    if (filtered?.deliveredSince !== undefined) {
+        const policy = await ctx.db.query("mailPolicy").unique();
+        if (!policy?.isHistoryReady)
+            throw new Error("Delivery history must finish indexing before audience review.");
+    }
+
     const candidates =
         audience.kind === "subscribers"
             ? await ctx.db
@@ -66,6 +103,18 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
 
         // preserve one source identity per email address
         const email = row.email.trim().toLowerCase();
+        const identities = [email, ...(row.memberId ? [row.memberId] : [])];
+        if (filtered?.seriesId && !identities.some((identity) => interested.has(identity)))
+            continue;
+        if (filtered?.excludeEventId && identities.some((identity) => registered.has(identity)))
+            continue;
+        if (
+            filtered?.deliveredSince !== undefined &&
+            (subscription?.deliveredAt === undefined ||
+                subscription.deliveredAt < filtered.deliveredSince ||
+                subscription.hasDeliveryFailure)
+        )
+            continue;
         if (emails.has(email)) continue;
         emails.add(email);
         recipients.push(row._id);
