@@ -173,6 +173,99 @@ test("test_bound_campaign_attempts_and_preserve_global_pacing", async () => {
     expect((await backend.run((ctx) => ctx.db.get(id)))!.attempts).toBe(1);
 });
 
+test("test_exclude_announcement_recipients_across_campaigns_and_member_addresses", async () => {
+    const { backend, admin, id, eventId, subscriptionId, memberId } = await announcement();
+    await backend.run((ctx) => ctx.db.patch(subscriptionId, { memberId }));
+    const audience = {
+        kind: "subscribers" as const,
+        excludeEventId: eventId,
+        deliveredSince: Date.now() - 86400000,
+    };
+    const broader = await admin.mutation(api.mail.campaigns.announcement, { eventId, audience });
+    const original = await admin.query(api.mail.campaigns.preview, { id });
+    const stale = await admin.query(api.mail.campaigns.preview, { id: broader });
+    expect(stale.audience!.first.map((row) => row.id)).toEqual([subscriptionId]);
+
+    // reserve identities atomically before queued messages have been delivered
+    await admin.mutation(api.mail.campaigns.release, {
+        id,
+        expectedUpdatedAt: original.updatedAt,
+        recipients: [subscriptionId],
+    });
+    await expect(
+        admin.mutation(api.mail.campaigns.release, {
+            id: broader,
+            expectedUpdatedAt: stale.updatedAt,
+            recipients: [subscriptionId],
+        }),
+    ).rejects.toThrow("Recipient order changed. Preview the batch again.");
+
+    // exclude aliases and case variations without excluding genuinely new recipients
+    const fresh = await backend.run(async (ctx) => {
+        const subscription = (await ctx.db.get(subscriptionId))!;
+        for (const email of [" TEST@EXAMPLE.INVALID ", "alias@example.invalid"]) {
+            await ctx.db.insert("subscriptions", {
+                email,
+                memberId: email.startsWith("alias") ? memberId : undefined,
+                status: "subscribed",
+                token: "local-test",
+                deliveredAt: subscription.deliveredAt,
+                createdAt: 1,
+                updatedAt: 1,
+            });
+        }
+        return await ctx.db.insert("subscriptions", {
+            email: "fresh@example.invalid",
+            status: "subscribed",
+            token: "local-test-fresh",
+            deliveredAt: Date.now(),
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    const preview = await admin.query(api.mail.campaigns.preview, { id: broader });
+    expect(preview.audience!.first.map((row) => row.id)).toEqual([fresh]);
+
+    // keep reservations after cancellation instead of silently retrying old recipients
+    await backend.run((ctx) => ctx.db.patch(id, { status: "cancelled" }));
+    expect((await admin.query(api.mail.campaigns.preview, { id: broader })).recipients).toBe(1);
+    await admin.mutation(api.mail.campaigns.release, {
+        id: broader,
+        expectedUpdatedAt: preview.updatedAt,
+        recipients: [fresh],
+    });
+    await backend.mutation(internal.mail.campaigns.batch, { id: broader });
+    const messages = await backend.run((ctx) =>
+        ctx.db
+            .query("messages")
+            .withIndex("by_campaign", (q) => q.eq("campaignId", broader))
+            .collect(),
+    );
+    expect(messages.map((row) => row.to)).toEqual(["fresh@example.invalid"]);
+});
+
+test("test_deduplicate_announcement_members_without_affecting_other_categories", async () => {
+    const { backend, eventId, memberId, subscriptionId } = await announcement();
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(subscriptionId, { memberId });
+        await ctx.db.insert("subscriptions", {
+            email: "second@example.invalid",
+            memberId,
+            status: "subscribed",
+            token: "local-test",
+            deliveredAt: Date.now(),
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    const selected = await backend.run((ctx) =>
+        select(ctx, { kind: "subscribers", excludeEventId: eventId }, "announcement"),
+    );
+    expect(selected.recipients).toEqual([subscriptionId]);
+    const unrelated = await backend.run((ctx) => select(ctx, { kind: "subscribers" }, "campaign"));
+    expect(unrelated.recipients).toHaveLength(2);
+});
+
 test("test_refuse_release_with_unrelated_queued_campaign_or_missing_daily_approval", async () => {
     const { backend, admin, id, subscriptionId } = await announcement();
     const preview = await admin.query(api.mail.campaigns.preview, { id });

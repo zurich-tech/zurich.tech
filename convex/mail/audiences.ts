@@ -16,6 +16,7 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
         : new Map<string, Doc<"events">>();
     const interested = new Set<string>();
     const registered = new Set<string>();
+    const announced = new Set<string>();
     for (const row of registrations) {
         if (row.status === "cancelled" || row.status === "declined") continue;
         const identities = [
@@ -33,6 +34,25 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
             event.status !== "cancelled"
         )
             identities.forEach((identity) => interested.add(identity));
+    }
+
+    // reserve announcement identities across every campaign for the same event
+    if (category === "announcement" && filtered?.excludeEventId) {
+        const campaigns = await ctx.db
+            .query("campaigns")
+            .withIndex("by_event", (q) => q.eq("eventId", filtered.excludeEventId!))
+            .collect();
+        const recipients = new Set(
+            campaigns
+                .filter((campaign) => campaign.category === "announcement")
+                .flatMap((campaign) => campaign.recipients ?? []),
+        );
+        for (const id of recipients) {
+            const recipient = await ctx.db.get(id);
+            if (!recipient) throw new Error("Announcement recipient no longer exists.");
+            announced.add(recipient.email.trim().toLowerCase());
+            if (recipient.memberId) announced.add(recipient.memberId);
+        }
     }
 
     // refuse incomplete historical evidence rather than silently broadening the audience
@@ -104,6 +124,7 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
         // preserve one source identity per email address
         const email = row.email.trim().toLowerCase();
         const identities = [email, ...(row.memberId ? [row.memberId] : [])];
+        if (identities.some((identity) => announced.has(identity))) continue;
         if (filtered?.seriesId && !identities.some((identity) => interested.has(identity)))
             continue;
         if (filtered?.excludeEventId && identities.some((identity) => registered.has(identity)))
@@ -115,8 +136,9 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
                 subscription.hasDeliveryFailure)
         )
             continue;
-        if (emails.has(email)) continue;
-        emails.add(email);
+        const unique = category === "announcement" ? identities : [email];
+        if (unique.some((identity) => emails.has(identity))) continue;
+        unique.forEach((identity) => emails.add(identity));
         recipients.push(row._id);
     }
     return { recipients, excluded: candidates.length - recipients.length };
