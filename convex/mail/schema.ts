@@ -153,7 +153,12 @@ export const mailQuota = defineTable({
 export const campaigns = defineTable({
     /** Exact message identities admitted from an existing queue by the latest review. */
     reviewedBatch: v.optional(
-        v.object({ messages: v.array(v.id("messages")), source: v.string() }),
+        v.object({
+            messages: v.array(v.id("messages")),
+            source: v.string(),
+            /** Accepted messages awaiting provider outcomes from earlier reviews. */
+            pending: v.optional(v.array(v.id("messages"))),
+        }),
     ),
     /** Cumulative attempt allowance for explicitly reviewed batches, including retries. */
     attemptLimit: v.optional(v.number()),

@@ -34,16 +34,21 @@ export const release = internalMutation({
         if (campaign.expiresAt !== undefined && campaign.expiresAt <= Date.now())
             throw new Error("This campaign has expired.");
 
-        // require the previous reviewed batch to settle before admitting another
-        for (const id of campaign.reviewedBatch?.messages ?? []) {
+        // retain at most one unresolved provider outcome across all reviewed batches
+        const pending = [];
+        for (const id of [
+            ...(campaign.reviewedBatch?.pending ?? []),
+            ...(campaign.reviewedBatch?.messages ?? []),
+        ]) {
             const message = await ctx.db.get(id);
-            if (
-                !message ||
-                message.status === "queued" ||
-                (message.status === "accepted" && !message.outcome)
-            )
+            if (!message || message.campaignId !== campaign._id || message.status === "queued")
                 throw new Error("The previous reviewed batch has not settled.");
+            if (message.status === "accepted" && !message.outcome) pending.push(id);
         }
+        if (pending.length > 1)
+            throw new Error("More than one reviewed delivery is awaiting a provider outcome.");
+
+        // keep only one bulk campaign active
         const campaigns = await ctx.db.query("campaigns").collect();
         if (
             campaigns.some(
@@ -116,7 +121,7 @@ export const release = internalMutation({
         for (const [index, id] of args.messageIds.entries())
             await ctx.db.patch(id, { nextAttemptAt: now - count + index });
         await ctx.db.patch(campaign._id, {
-            reviewedBatch: { messages: args.messageIds, source: args.source },
+            reviewedBatch: { messages: args.messageIds, source: args.source, pending },
             attemptLimit: (campaign.attempts ?? 0) + count,
             status: "queued",
             updatedAt: now,

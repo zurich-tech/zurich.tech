@@ -127,6 +127,42 @@ test("test_release_only_reviewed_untouched_campaign_messages", async () => {
             count: (await ctx.db.query("mailQuota").unique())!.count,
         })),
     ).toEqual({ attempts: 0, count: 1 });
+
+    // carry one accepted delivery forward without retrying or losing its identity
+    await backend.run((ctx) => ctx.db.patch(ids.selected, { status: "accepted" }));
+    expect(
+        await backend.mutation(internal.mail.ordering.release, {
+            ...args,
+            messageIds: [ids.excluded],
+            isDryRun: false,
+        }),
+    ).toEqual({ count: 1, released: true });
+    expect(
+        await backend.run(async (ctx) => (await ctx.db.get(ids.campaignId))!.reviewedBatch),
+    ).toEqual({ messages: [ids.excluded], source: args.source, pending: [ids.selected] });
+    expect(await backend.mutation(internal.mail.messages.claim, { id: ids.selected })).toBe(false);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: ids.excluded })).toBe(false);
+    setSystemTime(
+        Math.ceil(
+            await backend.run(async (ctx) => (await ctx.db.query("mailQuota").unique())!.nextAt),
+        ),
+    );
+    expect(await backend.mutation(internal.mail.messages.claim, { id: ids.excluded })).toBe(true);
+
+    // prevent unresolved reports from accumulating over successive batches
+    await backend.run((ctx) => ctx.db.patch(ids.excluded, { status: "accepted" }));
+    await expect(backend.mutation(internal.mail.ordering.release, args)).rejects.toThrow(
+        "More than one reviewed delivery is awaiting a provider outcome.",
+    );
+
+    // a late outcome clears the carryover check without resetting consumed attempts
+    await backend.run((ctx) => ctx.db.patch(ids.selected, { outcome: "delivered" }));
+    await expect(backend.mutation(internal.mail.ordering.release, args)).rejects.toThrow(
+        "Reviewed recipients must be untouched, subscribed and without adverse history.",
+    );
+    expect(
+        await backend.run(async (ctx) => (await ctx.db.query("mailQuota").unique())!.count),
+    ).toBe(2);
 });
 const names = [
     "MAIL_RECIPIENTS",
