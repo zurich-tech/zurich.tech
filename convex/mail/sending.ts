@@ -173,7 +173,13 @@ export const dispatch = internalMutation({
             for (const row of rows) {
                 // rotate held work so it cannot starve another campaign
                 const campaign = row.campaignId ? await ctx.db.get(row.campaignId) : null;
-                if ((campaign?.status === "paused" && !row.isTest) || !recipientAllowed(row.to)) {
+                if (
+                    (!row.isTest &&
+                        (campaign?.status === "paused" ||
+                            (campaign?.attemptLimit !== undefined &&
+                                (campaign.attempts ?? 0) >= campaign.attemptLimit))) ||
+                    !recipientAllowed(row.to)
+                ) {
                     await ctx.db.patch(row._id, { nextAttemptAt: now + 60000 });
                     continue;
                 }

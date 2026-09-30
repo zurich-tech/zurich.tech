@@ -76,6 +76,32 @@ export const read = internalQuery({
         if (delivery.campaignId && !delivery.isTest) {
             const campaign = await ctx.db.get(delivery.campaignId);
             if (!campaign || campaign.status === "cancelled") return null;
+            // recheck new registrations and adverse reports after batch approval
+            if (campaign.audience?.kind === "subscribers") {
+                const audience = campaign.audience;
+                const subscription = delivery.subscriptionId
+                    ? await ctx.db.get(delivery.subscriptionId)
+                    : null;
+                if (audience.deliveredSince !== undefined && subscription?.hasDeliveryFailure)
+                    return null;
+                if (audience.excludeEventId) {
+                    const registrations = await ctx.db
+                        .query("registrations")
+                        .withIndex("by_event", (q) => q.eq("eventId", audience.excludeEventId!))
+                        .collect();
+                    if (
+                        registrations.some(
+                            (row) =>
+                                row.status !== "cancelled" &&
+                                row.status !== "declined" &&
+                                (row.email === delivery.to ||
+                                    (subscription?.memberId &&
+                                        row.memberId === subscription.memberId)),
+                        )
+                    )
+                        return null;
+                }
+            }
             // Do not deliver a promotional snapshot after an included event becomes unlisted.
             for (const id of campaign.eventIds ?? []) {
                 const event = await ctx.db.get(id);
@@ -198,6 +224,13 @@ export const claim = internalMutation({
         )
             return false;
         if (!recipientAllowed(delivery.to)) return false;
+        const controlled =
+            delivery.campaignId && !delivery.isTest ? await ctx.db.get(delivery.campaignId) : null;
+        if (
+            controlled?.attemptLimit !== undefined &&
+            (controlled.attempts ?? 0) >= controlled.attemptLimit
+        )
+            return false;
         if (delivery.campaignId && !delivery.isTest) {
             const campaign = await ctx.db.get(delivery.campaignId);
             if (!campaign || campaign.status !== "queued") return false;
@@ -219,6 +252,9 @@ export const claim = internalMutation({
             return false;
         }
         if (isBulk(delivery.category) && !(await reserve(ctx, now))) return false;
+        // consume campaign and shared allowances atomically, including retries
+        if (controlled?.attemptLimit !== undefined)
+            await ctx.db.patch(controlled._id, { attempts: (controlled.attempts ?? 0) + 1 });
         await updateMessage(ctx, delivery, {
             status: "queued",
             claimedAt: now,

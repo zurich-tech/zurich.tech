@@ -30,6 +30,13 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
         return details.latest?.id === selected() ? details.latest : undefined;
     };
     const [scheduledAt, setScheduledAt] = createSignal<string>();
+    const [announcementEvent, setAnnouncementEvent] = createSignal("");
+    const [isSeriesOnly, setIsSeriesOnly] = createSignal(true);
+    const [isDeliveredOnly, setIsDeliveredOnly] = createSignal(true);
+    const [events] = createResource(
+        () => !props.eventId,
+        async () => (await memberClient()).query(api.mail.campaigns.announcements, {}),
+    );
     const settings = () => result()?.sending;
     const command = useWorkspaceCommand(async () => {
         await refetch();
@@ -112,6 +119,53 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
         }, "Campaign queued.");
     }
 
+    /** Prepare a template draft without consuming quota or creating messages. */
+    async function prepareAnnouncement() {
+        await command.perform(async () => {
+            const event = events()?.find((row) => row.id === announcementEvent());
+            if (!event) throw new Error("Choose an event.");
+            const id = await (
+                await memberClient()
+            ).mutation(api.mail.campaigns.announcement, {
+                eventId: event.id,
+                audience: {
+                    kind: "subscribers",
+                    excludeEventId: event.id,
+                    seriesId: isSeriesOnly() ? event.seriesId : undefined,
+                    deliveredSince: isDeliveredOnly() ? Date.now() - 30 * 86400000 : undefined,
+                },
+            });
+            setSelected(id);
+        }, "Announcement draft prepared. Nothing sent.");
+    }
+
+    /** Confirm precisely the recipients currently displayed in the reviewed preview. */
+    async function release() {
+        const preview = detail();
+        const item = current();
+        if (!preview?.audience || !item) return;
+        await command.perform(async () => {
+            if (
+                !(await confirm({
+                    title: "Release reviewed batch",
+                    action: "Release",
+                    description: preview.subject,
+                    emails: preview.audience!.first.length,
+                    details:
+                        "Only the displayed recipients are released. Existing daily allowance and pacing still apply; retries consume the batch allowance.",
+                }))
+            )
+                return false;
+            await (
+                await memberClient()
+            ).mutation(api.mail.campaigns.release, {
+                id: item._id,
+                expectedUpdatedAt: preview.updatedAt,
+                recipients: preview.audience!.first.map((row) => row.id as Id<"subscriptions">),
+            });
+        }, "Reviewed batch released.");
+    }
+
     /** Cancellation stops unsent messages without pretending sent mail can be recalled. */
     function cancel() {
         const item = current();
@@ -142,6 +196,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                       run: () => select("new"),
                   },
                   ...(current()?.status === "draft" &&
+                  current()?.attemptLimit === undefined &&
                   !command.isPending() &&
                   scheduledAt() !== "" &&
                   settings() &&
@@ -191,7 +246,9 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                         <Show
                             when={
                                 selected() === "new" ||
-                                (current()?.status === "draft" && !current()?.key)
+                                (current()?.status === "draft" &&
+                                    !current()?.key &&
+                                    current()?.attemptLimit === undefined)
                             }
                         >
                             <button
@@ -208,6 +265,57 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
             }
         >
             <FormMessage error={command.error()} success={command.success()} />
+            <Show when={!selected() && !props.eventId}>
+                <section class="mail-section">
+                    <h3>Event announcement</h3>
+                    <Show when={events.error}>
+                        <p class="form-error">Could not load events.</p>
+                    </Show>
+                    <label class="field">
+                        Event
+                        <select
+                            value={announcementEvent()}
+                            onChange={(event) => setAnnouncementEvent(event.currentTarget.value)}
+                        >
+                            <option value="">Choose an event</option>
+                            <For each={events()}>
+                                {(event) => <option value={event.id}>{event.title}</option>}
+                            </For>
+                        </select>
+                    </label>
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={isSeriesOnly()}
+                            onChange={(event) => setIsSeriesOnly(event.currentTarget.checked)}
+                        />{" "}
+                        Past series registrants only
+                    </label>
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={isDeliveredOnly()}
+                            onChange={(event) => setIsDeliveredOnly(event.currentTarget.checked)}
+                        />{" "}
+                        Delivered in the last 30 days, no adverse history
+                    </label>
+                    <div class="form-actions">
+                        <button
+                            class="button"
+                            disabled={
+                                !announcementEvent() ||
+                                command.isPending() ||
+                                (isSeriesOnly() &&
+                                    !events()?.find((event) => event.id === announcementEvent())
+                                        ?.seriesId)
+                            }
+                            onClick={() => void prepareAnnouncement()}
+                        >
+                            Prepare preview
+                        </button>
+                    </div>
+                </section>
+            </Show>
             <Show when={result.error}>
                 <p class="form-error">Could not load campaigns.</p>
                 <button class="button" onClick={() => void refetch()}>
@@ -296,7 +404,10 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
             >
                 <Show
                     when={
-                        selected() === "new" || (current()?.status === "draft" && !current()?.key)
+                        selected() === "new" ||
+                        (current()?.status === "draft" &&
+                            !current()?.key &&
+                            current()?.attemptLimit === undefined)
                     }
                     fallback={
                         <p>
@@ -419,7 +530,12 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                         Test mode: only your test email can be sent.
                                     </p>
                                 </Show>
-                                <Show when={item().status === "draft"}>
+                                <Show
+                                    when={
+                                        item().status === "draft" &&
+                                        item().attemptLimit === undefined
+                                    }
+                                >
                                     <div class="mail-timing">
                                         <div
                                             class="mail-buttons"
@@ -495,7 +611,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                     >
                                         Send test to me
                                     </button>
-                                    <Show when={!item().key}>
+                                    <Show when={!item().key && item().attemptLimit === undefined}>
                                         <button
                                             class="button"
                                             disabled={command.isPending()}
@@ -556,7 +672,29 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                             {item().status === "paused" ? "Resume" : "Pause"}
                                         </button>
                                     </Show>
-                                    <Show when={item().status === "draft"}>
+                                    <Show when={item().attemptLimit !== undefined}>
+                                        <span>
+                                            {item().attempts ?? 0} / {item().attemptLimit} batch
+                                            attempts
+                                        </span>
+                                        <button
+                                            class="button button--primary"
+                                            disabled={
+                                                command.isPending() ||
+                                                !["draft", "completed"].includes(item().status) ||
+                                                !detail()?.audience?.first.length
+                                            }
+                                            onClick={() => void release()}
+                                        >
+                                            Release next {detail()?.audience?.first.length ?? 0}
+                                        </button>
+                                    </Show>
+                                    <Show
+                                        when={
+                                            item().status === "draft" &&
+                                            item().attemptLimit === undefined
+                                        }
+                                    >
                                         <button
                                             class="button button--primary"
                                             disabled={

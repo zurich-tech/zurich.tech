@@ -12,7 +12,8 @@ import type { Doc, Id } from "../_generated/dataModel";
 import { requireAdmin } from "../auth/access";
 import { requireEvent, requireSeries } from "../auth/grants";
 import { authComponent } from "../auth/component";
-import { campaignEmail } from "./templates";
+import { campaignEmail, eventEmail } from "./templates";
+import { eventPlace } from "../events/place";
 import { attribute } from "./referrals";
 import { enqueue } from "./messages";
 import { recipientAllowed, recipientsLocked, requireAudienceDelivery } from "./policy";
@@ -25,8 +26,9 @@ import { consumeLimit } from "./limits";
 /** Authorise against the stored scope, never a client-supplied replacement. */
 async function authorize(
     ctx: QueryCtx,
-    campaign: { eventId?: Id<"events">; seriesId?: Id<"series"> },
+    campaign: { eventId?: Id<"events">; seriesId?: Id<"series">; audience?: Audience },
 ) {
+    if (campaign.audience?.kind === "subscribers") return await requireAdmin(ctx);
     if (campaign.eventId) return await requireEvent(ctx, campaign.eventId);
     if (campaign.seriesId) return await requireSeries(ctx, campaign.seriesId);
     return await requireAdmin(ctx);
@@ -91,8 +93,11 @@ export const preview = query({
 
         // show administrators the exact draft order without exposing global addresses to organisers
         const ranked =
-            viewer.isAdmin && campaign.status === "draft"
-                ? await rank(ctx, selected.recipients)
+            viewer.isAdmin && (campaign.status === "draft" || campaign.attemptLimit !== undefined)
+                ? await rank(
+                      ctx,
+                      selected.recipients.filter((id) => !campaign.recipients?.includes(id)),
+                  )
                 : undefined;
         const messages = await ctx.db
             .query("messages")
@@ -113,6 +118,7 @@ export const preview = query({
                   }
                 : undefined,
             html: render(campaign).html,
+            subject: render(campaign).subject,
             messages: messages.map((row) => ({
                 id: row._id,
                 to:
@@ -127,6 +133,133 @@ export const preview = query({
                 nextAttemptAt: row.status === "queued" ? row.nextAttemptAt : undefined,
             })),
         };
+    },
+});
+
+/** List published future events available for a reviewed announcement. */
+export const announcements = query({
+    args: {},
+    handler: async (ctx) => {
+        await requireAdmin(ctx);
+        const events = await ctx.db
+            .query("events")
+            .withIndex("by_status_and_start", (q) =>
+                q.eq("status", "scheduled").gt("startsAt", Date.now()),
+            )
+            .collect();
+        return events
+            .filter((event) => event.visibility !== "unlisted")
+            .map((event) => ({ id: event._id, title: event.title, seriesId: event.seriesId }));
+    },
+});
+
+/** Prepare the regular event template without scheduling or sending any messages. */
+export const announcement = mutation({
+    args: { eventId: v.id("events"), audience },
+    handler: async (ctx, args) => {
+        const account = await requireAdmin(ctx);
+        const event = await ctx.db.get(args.eventId);
+        if (
+            !event ||
+            event.status !== "scheduled" ||
+            event.visibility === "unlisted" ||
+            event.startsAt <= Date.now()
+        )
+            throw new Error("Choose a published upcoming event.");
+        if (args.audience.kind !== "subscribers" || args.audience.excludeEventId !== event._id)
+            throw new Error("Announcements must exclude existing event registrations.");
+        if (
+            args.audience.deliveredSince !== undefined &&
+            (!Number.isFinite(args.audience.deliveredSince) ||
+                args.audience.deliveredSince > Date.now())
+        )
+            throw new Error("Choose a valid delivery history date.");
+
+        // retain the regular template and its consent category, not attendee reminder semantics
+        const content = eventEmail({ ...event, ...(await eventPlace(ctx, event)) }, "New event", {
+            summary: true,
+            unsubscribeUrl: links.unsubscribe,
+        });
+        return await ctx.db.insert("campaigns", {
+            audience: args.audience,
+            eventId: event._id,
+            seriesId: event.seriesId,
+            category: "announcement",
+            subject: content.subject,
+            message: content.text,
+            content,
+            expiresAt: event.startsAt,
+            authorId: account._id,
+            status: "draft",
+            attemptLimit: 0,
+            attempts: 0,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+        });
+    },
+});
+
+/** Release the reviewed next recipients without changing global approval or pacing. */
+export const release = mutation({
+    args: {
+        id: v.id("campaigns"),
+        expectedUpdatedAt: v.number(),
+        recipients: v.array(v.id("subscriptions")),
+    },
+    handler: async (ctx, args) => {
+        await requireAdmin(ctx);
+        const campaign = await get(ctx, args.id);
+        requireAudienceDelivery();
+        const sending = await state(ctx);
+        if (sending.isPaused || !sending.hasWebhook || sending.remaining <= 0)
+            throw new Error("Approve today's bulk allowance before releasing a batch.");
+        if (
+            campaign.attemptLimit === undefined ||
+            !["draft", "completed"].includes(campaign.status) ||
+            campaign.updatedAt !== args.expectedUpdatedAt
+        )
+            throw new Error(
+                "Campaign changed or its previous batch has not finished. Preview it again.",
+            );
+        if (campaign.expiresAt !== undefined && campaign.expiresAt <= Date.now())
+            throw new Error("This campaign has expired.");
+
+        // require the same ordered identities, even when the eligible count has not changed
+        const selected = await select(ctx, campaign.audience!, campaign.category!);
+        const ranked = await rank(
+            ctx,
+            selected.recipients.filter((id) => !campaign.recipients?.includes(id)),
+        );
+        const next = ranked.slice(0, 100).map((row) => row.id);
+        if (
+            !next.length ||
+            next.length !== args.recipients.length ||
+            next.some((id, index) => id !== args.recipients[index])
+        )
+            throw new Error("Recipient order changed. Preview the batch again.");
+        if (sending.remaining < next.length)
+            throw new Error("Today's remaining allowance does not cover this batch.");
+
+        // prevent a new shared allowance from accidentally reviving unrelated campaign work
+        const others = await ctx.db.query("campaigns").collect();
+        if (
+            others.some(
+                (row) =>
+                    row._id !== campaign._id &&
+                    ["queued", "scheduled"].includes(row.status) &&
+                    ["campaign", "announcement", "weekly"].includes(row.category ?? ""),
+            )
+        )
+            throw new Error("Pause other bulk campaigns before releasing this batch.");
+        const content = await attribute(render(campaign), campaign, ctx);
+        await ctx.db.patch(campaign._id, {
+            recipients: [...(campaign.recipients ?? []), ...next],
+            content,
+            attemptLimit: (campaign.attempts ?? 0) + next.length,
+            status: "queued",
+            updatedAt: Date.now(),
+        });
+        await ctx.scheduler.runAfter(0, internal.mail.campaigns.batch, { id: campaign._id });
     },
 });
 
@@ -219,6 +352,8 @@ export const queue = mutation({
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
         requireAudienceDelivery();
+        if (campaign.attemptLimit !== undefined)
+            throw new Error("Release a reviewed batch instead.");
         const sending = await state(ctx);
         if (sending.isPaused || !sending.hasWebhook)
             throw new Error("Configure and enable bulk delivery first.");
@@ -408,7 +543,7 @@ export const duplicate = mutation({
     args: { id: v.id("campaigns") },
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
-        if (campaign.key)
+        if (campaign.key || campaign.attemptLimit !== undefined)
             throw new Error("Automatic campaigns are created by their product action.");
         const account = await authorize(ctx, campaign);
         return await ctx.db.insert("campaigns", {
@@ -447,7 +582,7 @@ export const test = mutation({
             .query("subscriptions")
             .withIndex("by_email", (q) => q.eq("email", user.email))
             .unique();
-        const source = campaign.eventId ? registration : subscription;
+        const source = campaign.audience?.kind === "registrations" ? registration : subscription;
         const needsLinks = Object.values(links).some(
             (link) => content.text.includes(link) || content.html?.includes(link),
         );

@@ -8,6 +8,7 @@ export async function canSend(ctx: QueryCtx, campaign: Doc<"campaigns">) {
     if (!campaign.authorId) return true;
     const account = await ctx.db.get(campaign.authorId);
     if (!account || account.status !== "active") return false;
+    if (campaign.audience?.kind === "subscribers") return !!account.isAdmin;
     const grants = await ctx.db
         .query("accessGrants")
         .withIndex("by_account", (q) => q.eq("accountId", account._id))

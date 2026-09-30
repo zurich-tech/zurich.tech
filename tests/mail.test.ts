@@ -9,7 +9,7 @@ import { enqueue } from "../convex/mail/messages";
 import { unsubscribeHeaders } from "../convex/mail/provider";
 import { receive, unsubscribe } from "../convex/mail/webhooks";
 import { sendingDate } from "../convex/mail/policy";
-import { rank } from "../convex/mail/audiences";
+import { rank, select } from "../convex/mail/audiences";
 import { prioritize } from "../scripts/mail/order";
 
 const http = httpRouter();
@@ -84,6 +84,206 @@ async function setup() {
     });
     return { backend, admin: backend.withIdentity({ subject: "admin" }), ...ids };
 }
+
+/** Prepare a local event announcement without contacting a provider. */
+async function announcement() {
+    const fixture = await setup();
+    const eventId = await fixture.backend.run(async (ctx) => {
+        const policy = (await ctx.db.query("mailPolicy").unique())!;
+        await ctx.db.patch(policy._id, { isHistoryReady: true });
+        await ctx.db.patch(fixture.subscriptionId, { deliveredAt: Date.now() });
+        return await ctx.db.insert("events", {
+            ownerId: fixture.memberId,
+            title: "ZurichNLP #22",
+            slug: "nlp-22",
+            format: "talk",
+            description: "Talks",
+            topics: [],
+            startsAt: Date.now() + 86400000,
+            registration: { kind: "none" },
+            status: "scheduled",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    const id = await fixture.admin.mutation(api.mail.campaigns.announcement, {
+        eventId,
+        audience: {
+            kind: "subscribers",
+            excludeEventId: eventId,
+            deliveredSince: Date.now() - 86400000,
+        },
+    });
+    return { ...fixture, eventId, id };
+}
+
+test("test_prepare_announcement_without_sending_and_reject_changed_identities", async () => {
+    const { backend, admin, id, subscriptionId } = await announcement();
+    const preview = await admin.query(api.mail.campaigns.preview, { id });
+    expect(preview.subject).toBe("ZurichNLP #22: New event");
+    expect(preview.audience!.first.map((row) => row.id)).toEqual([subscriptionId]);
+    expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toEqual([]);
+    await expect(
+        admin.mutation(api.mail.campaigns.queue, {
+            id,
+            expectedUpdatedAt: preview.updatedAt,
+            expectedRecipients: 1,
+        }),
+    ).rejects.toThrow("Release a reviewed batch instead.");
+
+    // equal counts must not permit an unreviewed replacement address
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(subscriptionId, { announcements: false });
+        await ctx.db.insert("subscriptions", {
+            email: "replacement@example.invalid",
+            token: "replacement",
+            status: "subscribed",
+            deliveredAt: Date.now(),
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    await expect(
+        admin.mutation(api.mail.campaigns.release, {
+            id,
+            expectedUpdatedAt: preview.updatedAt,
+            recipients: [subscriptionId],
+        }),
+    ).rejects.toThrow("Recipient order changed. Preview the batch again.");
+});
+
+test("test_bound_campaign_attempts_and_preserve_global_pacing", async () => {
+    const { backend, admin, id, subscriptionId, settingsId } = await announcement();
+    const preview = await admin.query(api.mail.campaigns.preview, { id });
+    await admin.mutation(api.mail.campaigns.release, {
+        id,
+        expectedUpdatedAt: preview.updatedAt,
+        recipients: [subscriptionId],
+    });
+    await backend.mutation(internal.mail.campaigns.batch, { id });
+    const message = (await backend.run((ctx) => ctx.db.query("messages").collect()))[0];
+    expect(await backend.mutation(internal.mail.messages.claim, { id: message._id })).toBe(true);
+    const quota = await backend.run((ctx) => ctx.db.get(settingsId));
+    expect(quota!.count).toBe(1);
+
+    // even a due retry cannot spend a second attempt from a one-attempt batch
+    await backend.run((ctx) => ctx.db.patch(message._id, { nextAttemptAt: 0 }));
+    expect(await backend.mutation(internal.mail.messages.claim, { id: message._id })).toBe(false);
+    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toEqual(quota);
+    expect((await backend.run((ctx) => ctx.db.get(id)))!.attempts).toBe(1);
+});
+
+test("test_refuse_release_with_unrelated_queued_campaign_or_missing_daily_approval", async () => {
+    const { backend, admin, id, subscriptionId } = await announcement();
+    const preview = await admin.query(api.mail.campaigns.preview, { id });
+    const other = await admin.mutation(api.mail.campaigns.save, {
+        subject: "Old launch",
+        message: "Old launch",
+    });
+    await backend.run((ctx) => ctx.db.patch(other, { status: "queued" }));
+    const args = { id, expectedUpdatedAt: preview.updatedAt, recipients: [subscriptionId] };
+    await expect(admin.mutation(api.mail.campaigns.release, args)).rejects.toThrow(
+        "Pause other bulk campaigns",
+    );
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(other, { status: "paused" });
+        const policy = (await ctx.db.query("mailPolicy").unique())!;
+        await ctx.db.patch(policy._id, { approvedDate: "2000-01-01" });
+    });
+    await expect(admin.mutation(api.mail.campaigns.release, args)).rejects.toThrow(
+        "Approve today's bulk allowance",
+    );
+});
+
+test("test_filter_series_interest_and_current_registrations_by_identity", async () => {
+    const { backend, eventId, memberId, subscriptionId } = await announcement();
+    const seriesId = await backend.run(async (ctx) => {
+        const seriesId = await ctx.db.insert("series", {
+            name: "NLP",
+            slug: "nlp",
+            description: "",
+            topics: [],
+            status: "active",
+        });
+        const event = (await ctx.db.get(eventId))!;
+        const { _id, _creationTime, ...fields } = event;
+        const past = await ctx.db.insert("events", {
+            ...fields,
+            seriesId,
+            slug: "past",
+            startsAt: Date.now() - 86400000,
+        });
+        await ctx.db.patch(subscriptionId, { memberId });
+        await ctx.db.insert("registrations", {
+            eventId: past,
+            memberId,
+            email: "old@example.invalid",
+            name: "Test",
+            status: "going",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        return seriesId;
+    });
+    const audience = {
+        kind: "subscribers" as const,
+        seriesId,
+        excludeEventId: eventId,
+        deliveredSince: 0,
+    };
+    expect(await backend.run((ctx) => select(ctx, audience, "announcement"))).toEqual({
+        recipients: [subscriptionId],
+        excluded: 0,
+    });
+    await backend.run((ctx) =>
+        ctx.db.insert("registrations", {
+            eventId,
+            memberId,
+            email: "new@example.invalid",
+            name: "Test",
+            status: "waitlist",
+            createdAt: 1,
+            updatedAt: 1,
+        }),
+    );
+    expect(await backend.run((ctx) => select(ctx, audience, "announcement"))).toEqual({
+        recipients: [],
+        excluded: 1,
+    });
+});
+
+test("test_index_delivery_history_without_changing_consent", async () => {
+    const { backend, subscriptionId } = await setup();
+    const messageId = await backend.run(async (ctx) => {
+        return await enqueue(
+            ctx,
+            "history",
+            "test@example.invalid",
+            "Subject",
+            "Text",
+            subscriptionId,
+        );
+    });
+    await backend.run(async (ctx) => {
+        const message = (await ctx.db.get(messageId))!;
+        await updateMessage(ctx, message, {
+            status: "accepted",
+            firstAttemptAt: Date.now(),
+            outcome: "delivered",
+        });
+        await updateMessage(ctx, (await ctx.db.get(messageId))!, { outcome: "failed" });
+    });
+    await backend.mutation(internal.mail.history.backfill, { cursor: null });
+    const row = (await backend.run((ctx) => ctx.db.get(subscriptionId)))!;
+    expect(row.status).toBe("subscribed");
+    expect(row.hasDeliveryFailure).toBe(true);
+    expect(row.deliveredAt).toBeGreaterThan(0);
+    expect(
+        await backend.run((ctx) =>
+            select(ctx, { kind: "subscribers", deliveredSince: 0 }, "announcement"),
+        ),
+    ).toEqual({ recipients: [], excluded: 1 });
+});
 
 /** Sign exactly the bytes the endpoint will receive. */
 function signed(
