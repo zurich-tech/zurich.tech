@@ -21,7 +21,8 @@ import { EmailAdmin } from "../../mail/workspace";
 import { Referrals } from "../../statistics/referrals";
 
 const adminTabs = [
-    { id: "community", label: "Community" },
+    { id: "audience", label: "Audience" },
+    { id: "topics", label: "Topics" },
     { id: "news", label: "News" },
     { id: "organisations", label: "Organisations" },
     { id: "jobs", label: "Jobs" },
@@ -127,9 +128,11 @@ export default function Route() {
                                     <EventPanel schedules />
                                 </Show>
                             </Match>
-                            <Match when={access.current()?.isAdmin && section() === "community"}>
-                                <TopicsAdmin />
+                            <Match when={access.current()?.isAdmin && section() === "audience"}>
                                 <Audience />
+                            </Match>
+                            <Match when={access.current()?.isAdmin && section() === "topics"}>
+                                <TopicsAdmin />
                             </Match>
                             <Match when={access.current()?.isAdmin && section() === "people"}>
                                 <AccessManager />

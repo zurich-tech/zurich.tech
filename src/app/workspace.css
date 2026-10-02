@@ -6,6 +6,30 @@
     display: none;
 }
 
+/* keep workspace sections unframed and align their tools with their content */
+.admin-page > .card {
+    border: 0;
+}
+
+.admin-page .card-title {
+    letter-spacing: 0;
+}
+
+.admin-page > .card > .card-heading,
+.admin-page > .card > .card-body {
+    padding-inline: 0;
+}
+
+.admin-navigation .card-heading {
+    border-bottom: 0;
+    padding-block: 0 var(--space-3);
+}
+
+.admin-navigation .card-body {
+    padding-block: 0 var(--space-3);
+    border-bottom: var(--rule) solid var(--color-line);
+}
+
 .admin-page .card-body > .checkbox {
     margin-bottom: var(--space-3);
 }
