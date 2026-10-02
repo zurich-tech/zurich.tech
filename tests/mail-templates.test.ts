@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, expect, test } from "bun:test";
 import {
     eventEmail,
+    newsletterEmail,
     registrationCopy,
     signInEmail,
     verificationEmail,
@@ -68,4 +69,20 @@ test("test_preserve_non_event_email_subjects", () => {
         "Confirm your subscription",
     );
     expect(signInEmail("123456").subject).toBe("Your zurich.tech sign-in code");
+});
+
+test("test_name_weekly_newsletter_consistently", () => {
+    const email = newsletterEmail({ text: "Weekly news", html: "<p>Weekly news</p>" });
+
+    expect(email.subject).toBe("This week in zurich.tech");
+    expect(email.text).toBe(
+        [
+            "This week in zurich.tech",
+            "Weekly news",
+            "Notifications: https://zurich.tech/settings",
+            "Legal: https://zurich.tech/legal",
+        ].join("\n\n"),
+    );
+    expect(email.html).toContain("This week in zurich.tech");
+    expect(email.html).not.toContain("This week at zurich.tech");
 });

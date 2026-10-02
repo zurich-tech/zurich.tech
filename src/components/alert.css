@@ -6,6 +6,7 @@
     gap: var(--space-3);
     border-left: var(--rule-strong) solid var(--alert-color);
     background: color-mix(in srgb, var(--alert-color) 7%, var(--color-paper));
+    color: var(--color-ink);
     padding: var(--space-3) var(--space-4);
     font-size: var(--text-sm);
     line-height: 1.6;

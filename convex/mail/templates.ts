@@ -289,14 +289,14 @@ export function newsletterEmail(edition: { text: string; html: string }, unsubsc
     const links = [{ label: "Notifications", url: `${siteOrigin()}/settings` }];
     if (unsubscribeUrl) links.push({ label: "Unsubscribe", url: unsubscribeUrl });
     return {
-        subject: "This week at zurich.tech",
+        subject: "This week in zurich.tech",
         text: [
-            "This week at zurich.tech",
+            "This week in zurich.tech",
             edition.text,
             ...links.map((link) => `${link.label}: ${link.url}`),
             `Legal: ${siteOrigin()}/legal`,
         ].join("\n\n"),
-        html: layout({ title: "This week at zurich.tech", body: edition.html, links }),
+        html: layout({ title: "This week in zurich.tech", body: edition.html, links }),
     };
 }
 
