@@ -77,7 +77,7 @@ export function Demographics(props: { onComplete?: () => void }) {
             });
             savedEditor(editor);
             await startTransition(refetch);
-            setSuccess("Community profile saved.");
+            setSuccess("Answers saved.");
             props.onComplete?.();
         } catch (caught) {
             setError(errorMessage(caught, "Could not save your answers."));
@@ -101,7 +101,7 @@ export function Demographics(props: { onComplete?: () => void }) {
 
     return (
         <Card
-            title="Community"
+            title="About you"
             toolbar={
                 <Suspense>
                     <Show when={current.latest}>
@@ -254,7 +254,12 @@ export function DemographicFields(props: { values: Answers }) {
                 <legend>{demographicLabels.roles}</legend>
                 <p class="survey-intro">Select all that apply.</p>
                 <div class="choice-grid role-choices">
-                    <For each={demographicOptions.roles}>
+                    <For
+                        each={demographicOptions.roles.filter(
+                            (option) =>
+                                option.value !== "other" || props.values.roles?.includes("other"),
+                        )}
+                    >
                         {(option) => (
                             <label class="checkbox">
                                 <input
@@ -353,9 +358,7 @@ export function Audience() {
                                 fallback={<Empty title="No responses" />}
                             >
                                 <Show when={chart.groups.length === 0}>
-                                    <p class="text-soft">
-                                        No country group has five responses yet.
-                                    </p>
+                                    <p class="text-soft">No group has five responses yet.</p>
                                 </Show>
                                 <For each={chart.groups}>
                                     {(group) => (
@@ -366,12 +369,14 @@ export function Audience() {
                                                     ? "<5"
                                                     : `${group.count} · ${group.percentage}%`}
                                             </span>
-                                            <meter
-                                                min="0"
-                                                max={Math.max(chart.responses, 1)}
-                                                value={group.count ?? 0}
-                                                aria-label={`${group.label}: ${group.count === null ? "fewer than five responses" : group.count}`}
-                                            />
+                                            <Show when={group.count !== null}>
+                                                <meter
+                                                    min="0"
+                                                    max={Math.max(chart.responses, 1)}
+                                                    value={group.count ?? 0}
+                                                    aria-label={`${group.label}: ${group.count === null ? "fewer than five responses" : group.count}`}
+                                                />
+                                            </Show>
                                         </div>
                                     )}
                                 </For>

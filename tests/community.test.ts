@@ -1,6 +1,40 @@
 import { expect, test } from "bun:test";
-import { validateDemographics, validateMotivations } from "../convex/members/demographics";
+import {
+    validateDemographics,
+    validateMotivations,
+    validateParticipation,
+    participationOptions,
+    demographicOptions,
+} from "../convex/members/demographics";
 import { summarise } from "../convex/members/audience";
+
+test("test_accept_sales_without_reinterpreting_legacy_roles", () => {
+    expect(() => validateDemographics({ roles: ["sales", "other", "engineering"] })).not.toThrow();
+    expect(
+        demographicOptions.roles.filter((option) =>
+            ["sales", "other", "engineering"].includes(option.value),
+        ),
+    ).toEqual([
+        { value: "engineering", label: "Engineer" },
+        { value: "sales", label: "Sales" },
+        { value: "other", label: "Other" },
+    ]);
+});
+
+test("test_accept_six_distinct_participation_choices", () => {
+    expect(participationOptions.map((option) => option.value)).toEqual([
+        "attend",
+        "speak",
+        "organise",
+        "mentor",
+        "sponsor",
+        "volunteer",
+    ]);
+    expect(() => validateParticipation(["volunteer"])).not.toThrow();
+    expect(() => validateParticipation(["volunteer", "volunteer"])).toThrow(
+        "Choose each way to participate once from the available options.",
+    );
+});
 
 // Multiple roles count respondents once; suppressed cells must not leak through percentages.
 test("community statistics separate refusals and suppress small counts and percentages", () => {

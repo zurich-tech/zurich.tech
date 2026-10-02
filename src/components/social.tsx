@@ -77,7 +77,7 @@ export function SocialLinks(props: {
 /** Edit the chosen destination and social accounts using shared field names. */
 export function ProfileLinkFields(props: { profileUrl?: string; socials?: SocialProfiles }) {
     return (
-        <>
+        <div class="form-columns">
             <label>
                 Profile link
                 <input
@@ -86,26 +86,23 @@ export function ProfileLinkFields(props: { profileUrl?: string; socials?: Social
                     placeholder="https://…"
                     value={props.profileUrl ?? ""}
                 />
-                <span>The page your public badge or logo links to.</span>
             </label>
-            <div class="form-columns">
-                <For
-                    each={platforms.filter(
-                        (platform) => platform.id !== "website" && platform.id !== "discord",
-                    )}
-                >
-                    {(platform) => (
-                        <label>
-                            {platform.label}
-                            <input
-                                name={platform.id}
-                                type="url"
-                                value={props.socials?.[platform.id] ?? ""}
-                            />
-                        </label>
-                    )}
-                </For>
-            </div>
-        </>
+            <For
+                each={platforms.filter(
+                    (platform) => platform.id !== "website" && platform.id !== "discord",
+                )}
+            >
+                {(platform) => (
+                    <label>
+                        {platform.label}
+                        <input
+                            name={platform.id}
+                            type="url"
+                            value={props.socials?.[platform.id] ?? ""}
+                        />
+                    </label>
+                )}
+            </For>
+        </div>
     );
 }

@@ -68,7 +68,7 @@ export function Newsletter() {
             <div class="newsletter-heading">
                 <h2 id="newsletter-title">Every Monday</h2>
                 <Show when={account.user()}>
-                    <a class="action-link" href="/settings#notifications">
+                    <a class="action-link" href="/settings?section=notifications">
                         Settings
                     </a>
                 </Show>

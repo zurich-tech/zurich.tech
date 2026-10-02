@@ -18,7 +18,25 @@
 }
 .affiliation-fields {
     display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: var(--space-3);
+}
+.affiliation-fields__title {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    font: inherit;
+}
+.affiliation-fields:has(.affiliation-fields__title) > .affiliation-fields__add {
+    grid-column: 2;
+    grid-row: 1;
+}
+.affiliation-fields > .checkbox,
+.affiliation-fields__row {
+    grid-column: 1 / -1;
+}
+.affiliation-fields > .button {
+    justify-self: start;
 }
 .affiliation-fields__row {
     display: grid;

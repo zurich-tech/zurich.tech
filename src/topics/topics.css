@@ -18,10 +18,10 @@
     gap: var(--space-3);
 }
 
-/* choices flow into as many columns as fit */
+/* arrange choices in three columns, with two on narrow forms */
 .choice-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-3) var(--space-5);
 }
 
@@ -115,8 +115,21 @@
 /* aggregate answers as bars */
 .audience-charts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: var(--space-8);
+}
+
+.audience-charts > section {
+    border-top: var(--rule) solid var(--color-line);
+    padding-top: var(--space-4);
+}
+
+.audience-charts h3 {
+    font-size: var(--text-md);
+}
+
+.audience-charts .text-soft {
+    font-size: var(--text-sm);
 }
 
 .audience-bar {
@@ -141,6 +154,9 @@
 }
 
 @container (max-width: 540px) {
+    .choice-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     .community-section > .demographic-fields,
     .community-section > .country-fields,
     .interest-groups {

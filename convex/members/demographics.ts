@@ -4,17 +4,18 @@ import { v, type Infer } from "convex/values";
 /** Stable survey choices shared by forms, validation and aggregate reports. */
 export const demographicOptions = {
     roles: [
-        { value: "engineering", label: "Engineering" },
-        { value: "research", label: "Research" },
-        { value: "product", label: "Product" },
-        { value: "design", label: "Design" },
+        { value: "engineering", label: "Engineer" },
+        { value: "research", label: "Researcher" },
+        { value: "product", label: "Product manager" },
+        { value: "design", label: "Designer" },
         { value: "founding", label: "Founder" },
         { value: "ownership", label: "Business owner" },
-        { value: "leadership", label: "Management" },
-        { value: "consulting", label: "Consulting" },
-        { value: "investing", label: "Investing" },
-        { value: "business", label: "Business / operations" },
+        { value: "leadership", label: "Manager" },
+        { value: "consulting", label: "Consultant" },
+        { value: "investing", label: "Investor" },
+        { value: "business", label: "Operations" },
         { value: "student", label: "Student" },
+        { value: "sales", label: "Sales" },
         { value: "other", label: "Other" },
     ],
     languages: [
@@ -61,7 +62,7 @@ export const motivationOptions = [
     { value: "friends", label: "Meeting friends" },
     { value: "colleagues", label: "Meeting colleagues" },
     { value: "collaborators", label: "Finding collaborators" },
-    { value: "learning", label: "Learning something new" },
+    { value: "learning", label: "Learning something" },
     { value: "sharing", label: "Sharing my work" },
     { value: "opportunities", label: "Finding opportunities" },
 ] as const;
@@ -71,6 +72,7 @@ export const participationOptions = [
     { value: "organise", label: "Organise" },
     { value: "mentor", label: "Mentor" },
     { value: "sponsor", label: "Sponsor" },
+    { value: "volunteer", label: "Volunteer" },
 ] as const;
 
 /** Unanswered fields are absent; null records an explicit decision not to answer. */

@@ -1,7 +1,7 @@
 import { MarkdownEditor } from "../components/markdown-editor";
 import { AffiliationFields, readAffiliations } from "./affiliations";
-import { Suspense } from "solid-js";
 import { CommunityFields, readCommunity } from "./demographics";
+import { Suspense } from "solid-js";
 import { startTransition, createResource, createSignal, Show, For, onCleanup } from "solid-js";
 import { auth } from "../auth";
 import { Avatar } from "../components/avatar";
@@ -134,7 +134,6 @@ export function ProfileSettings() {
             await (
                 await memberClient()
             ).mutation(api.members.profiles.save, {
-                ...readCommunity(fields),
                 name: text("name") ?? "",
                 handle: text("handle"),
                 isPublic: fields.has("isPublic"),
@@ -143,6 +142,7 @@ export function ProfileSettings() {
                 bio: text("bio"),
                 profileUrl: text("profileUrl"),
                 socials: { linkedin: text("linkedin"), github: text("github"), x: text("x") },
+                ...readCommunity(fields),
             });
             savedEditor(editor);
             await startTransition(refetch);
@@ -301,68 +301,77 @@ export function ProfileSettings() {
                                 value={current().headline ?? ""}
                             />
                         </label>
-                        <fieldset>
-                            <legend>Affiliations</legend>
-                            <AffiliationFields
-                                name="affiliations"
-                                values={current().affiliations}
-                            />
-                        </fieldset>
+                        <AffiliationFields
+                            title="Affiliations"
+                            name="affiliations"
+                            values={current().affiliations}
+                        />
                         <MarkdownEditor
                             label="Bio"
                             name="bio"
                             maxLength={1000}
-                            rows={6}
+                            rows={3}
                             value={current().bio ?? ""}
                         />
-                        <label>
-                            Slug
-                            <input
-                                name="handle"
-                                aria-label="Slug"
-                                autocomplete="off"
-                                autocapitalize="none"
-                                spellcheck={false}
-                                maxlength="40"
-                                placeholder="your-name"
-                                value={slug() ?? current().handle ?? ""}
-                                onInput={(event) => checkSlug(event.currentTarget.value)}
-                            />
-                            <span>
-                                zurich.tech/members/{slug() ?? current().handle ?? "your-name"}
-                            </span>
-                            <span
-                                aria-live="polite"
-                                classList={{
-                                    "form-error":
-                                        !!availability.latest.error ||
-                                        availability.latest?.isAvailable === false,
-                                }}
-                            >
-                                {availability.loading
-                                    ? "Checking…"
-                                    : availability.latest.error
-                                      ? availability.latest.error
-                                      : candidate() && availability.latest
-                                        ? availability.latest!.isAvailable
-                                            ? "Available"
-                                            : "Already taken"
-                                        : ""}
-                            </span>
-                        </label>
-                        <label class="checkbox">
-                            <input
-                                type="checkbox"
-                                name="isPublic"
-                                checked={current().visibility === "public"}
-                            />
-                            Public profile
-                        </label>
+                        <div class="profile-address">
+                            <label>
+                                Profile address
+                                <input
+                                    name="handle"
+                                    aria-label="Profile address"
+                                    autocomplete="off"
+                                    autocapitalize="none"
+                                    spellcheck={false}
+                                    maxlength="40"
+                                    placeholder="your-name"
+                                    value={slug() ?? current().handle ?? ""}
+                                    onInput={(event) => checkSlug(event.currentTarget.value)}
+                                />
+                                <span>
+                                    zurich.tech/members/{slug() ?? current().handle ?? "your-name"}
+                                </span>
+                                <span
+                                    aria-live="polite"
+                                    classList={{
+                                        "form-error":
+                                            !!availability.latest.error ||
+                                            availability.latest?.isAvailable === false,
+                                    }}
+                                >
+                                    {availability.loading
+                                        ? "Checking…"
+                                        : availability.latest.error
+                                          ? availability.latest.error
+                                          : candidate() && availability.latest
+                                            ? availability.latest!.isAvailable
+                                                ? "Available"
+                                                : "Already taken"
+                                            : ""}
+                                </span>
+                            </label>
+                            <label class="checkbox">
+                                <input
+                                    type="checkbox"
+                                    name="isPublic"
+                                    checked={current().visibility === "public"}
+                                />
+                                Public profile
+                            </label>
+                        </div>
                         <ProfileLinkFields
                             profileUrl={current().profileUrl}
                             socials={current().socials}
                         />
-                        <CommunityFields values={current()} />
+
+                        {/* keep optional private answers separate from public profile fields */}
+                        <section class="profile-about" aria-labelledby="profile-about-title">
+                            <h3 id="profile-about-title">
+                                About you <span>Optional · Private</span>
+                            </h3>
+                            <div class="profile-about__fields">
+                                <CommunityFields values={current()} />
+                            </div>
+                        </section>
 
                         <FormMessage error={error()} success={success()} />
                     </Editor>

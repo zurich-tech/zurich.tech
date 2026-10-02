@@ -1,6 +1,7 @@
 import { FormMessage, leaveEditor, resetEditor } from "../../../components/form";
 import { Speaking } from "../../../events/speaking";
-import { useNavigate } from "@solidjs/router";
+import { SectionTabs } from "../../../components/section-tabs";
+import { useLocation, useNavigate, useSearchParams } from "@solidjs/router";
 import { Loading } from "../../../components/loading";
 import { Card } from "../../../components/card";
 import { Match, Show, Switch, createSignal } from "solid-js";
@@ -20,6 +21,25 @@ import "../../../members/profile.css";
 export default function Route() {
     const navigate = useNavigate();
     const account = useAccount();
+    const [params, setParams] = useSearchParams();
+    const location = useLocation();
+    const sections = [
+        { id: "profile", label: "Profile" },
+        { id: "notifications", label: "Notifications" },
+        { id: "speaking", label: "Speaking" },
+        { id: "billing", label: "Billing" },
+    ];
+    const section = () =>
+        sections.some((item) => item.id === params.section)
+            ? String(params.section)
+            : location.hash === "#notifications"
+              ? "notifications"
+              : "profile";
+
+    /** Let the editor's navigation guard protect section changes. */
+    function selectSection(id: string) {
+        setParams({ section: id });
+    }
     const [error, setError] = createSignal<string>();
     const [isPending, setIsPending] = createSignal(false);
 
@@ -85,18 +105,30 @@ export default function Route() {
                         <FormMessage error="Could not load your account." />
                     </Match>
                     <Match when={account.user()}>
-                        <div class="detail-layout account-layout">
-                            <div class="detail-content">
-                                <ProfileSettings />
-                                <Speaking />
-                            </div>
-                            <aside class="detail-aside">
-                                <Notifications />
-                                <Card title="Billing">
-                                    <SupportSettings />
-                                    <PaymentHistory />
-                                </Card>
-                            </aside>
+                        <SectionTabs
+                            label="Account sections"
+                            options={sections}
+                            value={section()}
+                            onChange={selectSection}
+                        />
+                        <div class="account-workspace">
+                            <Switch>
+                                <Match when={section() === "profile"}>
+                                    <ProfileSettings />
+                                </Match>
+                                <Match when={section() === "speaking"}>
+                                    <Speaking />
+                                </Match>
+                                <Match when={section() === "notifications"}>
+                                    <Notifications />
+                                </Match>
+                                <Match when={section() === "billing"}>
+                                    <Card title="Billing">
+                                        <SupportSettings />
+                                        <PaymentHistory />
+                                    </Card>
+                                </Match>
+                            </Switch>
                         </div>
                     </Match>
                 </Switch>

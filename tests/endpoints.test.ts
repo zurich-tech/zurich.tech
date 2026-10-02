@@ -666,6 +666,26 @@ test("recurring editions use series ordinal URLs and preserve an adopted edition
 });
 
 // Community answers remain private and cannot change subscriptions or authority.
+test("test_preserve_private_answers_when_saving_public_profile", async () => {
+    const { editor } = await setup();
+    const answers = {
+        demographics: { roles: ["sales", "other"] },
+        interests: [],
+        participation: ["volunteer"],
+        motivations: ["learning"],
+    };
+    await editor.mutation(api.members.audience.save, answers);
+    const before = await editor.query(api.members.audience.current, {});
+
+    // edit public fields without submitting or clearing private answers
+    await editor.mutation(api.members.profiles.save, {
+        name: "Updated profile",
+        isPublic: false,
+        headline: "Engineer",
+    });
+    expect(await editor.query(api.members.audience.current, {})).toEqual(before);
+});
+
 test("community answers support refusal, multiple roles and clearing without changing access", async () => {
     const { backend, editor, ids } = await setup();
     await backend.run((ctx) =>

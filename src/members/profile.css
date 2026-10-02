@@ -1,3 +1,80 @@
+/* account sections share one unframed editing area */
+.account-page > .page-header {
+    border: 0;
+    padding: 0;
+}
+
+.account-page .page-header__copy {
+    flex-basis: 0;
+}
+
+.account-page :is(h1, .card-title) {
+    letter-spacing: 0;
+}
+
+.profile-editor {
+    gap: var(--space-4);
+}
+
+.account-workspace {
+    min-width: 0;
+}
+
+.account-workspace > .card {
+    border: 0;
+}
+
+.account-workspace > .card > .card-body,
+.account-workspace > .card > .card-heading {
+    padding-inline: 0;
+}
+
+.profile-address {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-5);
+}
+
+.profile-editor > .form-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background: var(--color-paper);
+    padding-block: var(--space-3);
+    border: 0;
+}
+
+@media (max-width: 600px) {
+    .profile-address {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* separate private answers from public profile details */
+.profile-about {
+    border-block: var(--rule) solid var(--color-line);
+    padding-block: var(--space-4);
+}
+
+.profile-about > h3 {
+    font-size: var(--text-md);
+    font-weight: 500;
+}
+
+.profile-about > h3 > span {
+    margin-left: var(--space-3);
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+    font-weight: 400;
+}
+
+.profile-about__fields {
+    display: grid;
+    gap: var(--space-5);
+    padding-top: var(--space-5);
+}
+
 /* portrait with its upload control */
 .profile-photo {
     display: flex;
@@ -34,11 +111,6 @@
 .profile-divider {
     width: 100%;
     margin: var(--space-1) 0;
-}
-
-.profile-editor > .form-actions {
-    border: 0;
-    padding-top: 0;
 }
 
 /* email preferences with explanations */

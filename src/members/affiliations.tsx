@@ -38,12 +38,17 @@ export function AffiliationFields(props: {
     name: string;
     values?: Affiliation[];
     inherit?: boolean;
+    /** Optional heading aligned with the add action. */
+    title?: string;
 }) {
     const [values, setValues] = createSignal<Affiliation[] | undefined>();
     createEffect(() => setValues(props.values));
 
     return (
         <div class="affiliation-fields">
+            <Show when={props.title}>
+                <h3 class="affiliation-fields__title">{props.title}</h3>
+            </Show>
             <input
                 type="hidden"
                 name={props.name}
@@ -116,7 +121,7 @@ export function AffiliationFields(props: {
                     )}
                 </Index>
                 <button
-                    class="button"
+                    class="button affiliation-fields__add"
                     type="button"
                     disabled={(values()?.length ?? 0) >= 6}
                     onClick={() =>
