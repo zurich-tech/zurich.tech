@@ -332,8 +332,8 @@ export function Audience() {
     return (
         <Card title="Audience">
             <p class="survey-intro">
-                Optional, self-reported answers from active accounts. Small groups are hidden; these
-                results describe respondents, not every member.
+                Optional, self-reported answers from active accounts. These results describe
+                respondents, not every member.
             </p>
             <Show when={summary.error}>
                 <p class="form-error">
@@ -357,26 +357,19 @@ export function Audience() {
                                 when={chart.responses > 0}
                                 fallback={<Empty title="No responses" />}
                             >
-                                <Show when={chart.groups.length === 0}>
-                                    <p class="text-soft">No group has five responses yet.</p>
-                                </Show>
                                 <For each={chart.groups}>
                                     {(group) => (
                                         <div class="audience-bar">
                                             <span>{group.label}</span>
                                             <span>
-                                                {group.count === null
-                                                    ? "<5"
-                                                    : `${group.count} · ${group.percentage}%`}
+                                                {group.count} · {group.percentage}%
                                             </span>
-                                            <Show when={group.count !== null}>
-                                                <meter
-                                                    min="0"
-                                                    max={Math.max(chart.responses, 1)}
-                                                    value={group.count ?? 0}
-                                                    aria-label={`${group.label}: ${group.count === null ? "fewer than five responses" : group.count}`}
-                                                />
-                                            </Show>
+                                            <meter
+                                                min="0"
+                                                max={Math.max(chart.responses, 1)}
+                                                value={group.count}
+                                                aria-label={`${group.label}: ${group.count}`}
+                                            />
                                         </div>
                                     )}
                                 </For>

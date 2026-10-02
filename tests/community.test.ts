@@ -36,8 +36,8 @@ test("test_accept_six_distinct_participation_choices", () => {
     );
 });
 
-// Multiple roles count respondents once; suppressed cells must not leak through percentages.
-test("community statistics separate refusals and suppress small counts and percentages", () => {
+// count each respondent once while retaining exact totals for every group
+test("test_report_exact_audience_counts_and_percentages", () => {
     const values = [
         ...Array.from({ length: 5 }, () => ["engineering", "research"]),
         ...Array(4).fill(["student"]),
@@ -49,12 +49,32 @@ test("community statistics separate refusals and suppress small counts and perce
         { value: "research", label: "Research" },
         { value: "student", label: "Student" },
     ]);
-    expect(result.responses).toBe(9);
-    expect(result.total).toBe(11);
-    expect(result.groups[0]).toEqual({ label: "Engineering", count: 5, percentage: 56 });
-    expect(result.groups[1].percentage).toBe(56);
-    expect(result.groups[2]).toEqual({ label: "Student", count: null, percentage: null });
-    expect(result.withheld).toBeNull();
+    expect(result).toEqual({
+        responses: 9,
+        total: 11,
+        withheld: 1,
+        groups: [
+            { label: "Engineering", count: 5, percentage: 56 },
+            { label: "Research", count: 5, percentage: 56 },
+            { label: "Student", count: 4, percentage: 44 },
+        ],
+    });
+});
+
+test("test_report_single_and_empty_audience_groups", () => {
+    const options = [{ value: "CH", label: "Switzerland" }];
+    expect(summarise(["CH", null, undefined], options)).toEqual({
+        responses: 1,
+        total: 3,
+        withheld: 1,
+        groups: [{ label: "Switzerland", count: 1, percentage: 100 }],
+    });
+    expect(summarise([null, undefined, []], options)).toEqual({
+        responses: 0,
+        total: 3,
+        withheld: 1,
+        groups: [{ label: "Switzerland", count: 0, percentage: 0 }],
+    });
 });
 
 // Only explicit, distinct motivations may be stored; an empty list clears the answer.

@@ -63,7 +63,7 @@ export const skip = mutation({
     },
 });
 
-/** Aggregate answers without exposing small cohorts or their percentages. */
+/** Aggregate exact response counts and percentages for administrators. */
 export function summarise(
     values: (string | string[] | null | undefined)[],
     options: readonly { value: string; label: string }[],
@@ -76,15 +76,15 @@ export function summarise(
     return {
         responses,
         total: values.length,
-        withheld: withheld >= 5 ? withheld : null,
+        withheld,
         groups: options.map((option) => {
             const count = answered.filter((value) =>
                 Array.isArray(value) ? value.includes(option.value) : value === option.value,
             ).length;
             return {
                 label: option.label,
-                count: count >= 5 ? count : null,
-                percentage: count >= 5 ? Math.round((count / responses) * 100) : null,
+                count,
+                percentage: responses > 0 ? Math.round((count / responses) * 100) : 0,
             };
         }),
     };
@@ -112,7 +112,7 @@ export const summary = query({
         return [
             ...background,
             ...(["residence", "citizenships"] as const).map((field) => {
-                // show only publishable country groups, not hundreds of empty or suppressed rows
+                // include every reported country without hundreds of empty rows
                 const totals = summarise(
                     accounts.map((account) => account.demographics?.[field]),
                     countries,
@@ -125,7 +125,7 @@ export const summary = query({
                             : "Which countries are you a citizen of?",
                     multiple: field === "citizenships",
                     ...totals,
-                    groups: totals.groups.filter((group) => group.count !== null),
+                    groups: totals.groups.filter((group) => group.count > 0),
                 };
             }),
             {
