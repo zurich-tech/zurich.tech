@@ -3,6 +3,31 @@
    ================================================================================ */
 
 /* copy on the left, attendance on the right, aligned with the columns below */
+.event-page > .event-overview,
+.event-page .detail-content > .card,
+.event-page .detail-aside > .card {
+    border: 0;
+}
+
+.event-page .card-heading,
+.event-page .card-body {
+    padding-inline: 0;
+}
+
+.event-page .card-title {
+    letter-spacing: 0;
+}
+
+.event-overview > .card-heading {
+    border-bottom: 0;
+    padding-top: 0;
+}
+
+.event-overview > .card-body {
+    border-bottom: var(--rule) solid var(--color-line);
+    padding-bottom: var(--space-6);
+}
+
 .event-overview__body {
     display: grid;
     grid-template-columns: minmax(0, 1fr) calc(var(--sidebar-width) - var(--card-inset));
@@ -35,7 +60,7 @@
     font-size: var(--text-3xl);
     font-weight: 500;
     line-height: 1;
-    letter-spacing: -0.05em;
+    letter-spacing: 0;
 }
 
 .event-when__month {
@@ -72,9 +97,8 @@
 .event-ticket {
     display: grid;
     gap: var(--space-3);
-    border: var(--rule) solid var(--color-line);
-    background: var(--color-raised);
-    padding: var(--space-4);
+    border-left: var(--rule) solid var(--color-line);
+    padding-left: var(--space-5);
 }
 
 .event-actions {
@@ -103,6 +127,15 @@
 @media (max-width: 860px) {
     .event-overview__body {
         grid-template-columns: minmax(0, 1fr);
+    }
+
+    .event-ticket {
+        border-left: 0;
+        padding-left: 0;
+    }
+
+    .event-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -142,7 +175,7 @@
 /* speakers with portraits, two per row where there is room */
 .speaker-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
     gap: var(--space-5);
 }
 
@@ -268,7 +301,7 @@ body:has(.event-gallery[open]) {
 
 .event-gallery__header h2 {
     font: 500 var(--text-lg) / 1.3 var(--font-mono);
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
 }
 
 .event-gallery__stage {

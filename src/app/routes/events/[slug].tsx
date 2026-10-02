@@ -518,6 +518,9 @@ export default function Route() {
                             <div class="detail-content">
                                 <ConfirmationNotice event={event()!} />
 
+                                <Show when={(event()?.speakers.length ?? 0) > 0}>
+                                    <Speakers event={event()} />
+                                </Show>
                                 <Show
                                     when={event()?.description?.trim() !== event()?.summary?.trim()}
                                 >
@@ -525,9 +528,6 @@ export default function Route() {
                                 </Show>
                                 <Show when={(event()?.agenda.length ?? 0) > 0}>
                                     <Agenda event={event()} />
-                                </Show>
-                                <Show when={(event()?.speakers.length ?? 0) > 0}>
-                                    <Speakers event={event()} />
                                 </Show>
                                 <Show
                                     when={
@@ -957,15 +957,7 @@ function RsvpForm(props: {
 /** Event speakers. */
 function Speakers(props: { event: PublicEvent | null | undefined }) {
     return (
-        <Card
-            title="Speakers"
-            id="speakers"
-            toolbar={
-                <a class="action-link" href="/contribute#speakers">
-                    Suggest a speaker
-                </a>
-            }
-        >
+        <Card title="Speakers" id="speakers">
             <div class="speaker-list">
                 <For each={props.event?.speakers ?? []}>
                     {(speaker) => (
