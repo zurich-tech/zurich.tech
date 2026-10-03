@@ -133,9 +133,9 @@ test("test_accept_curated_languages_without_duplicates_or_reclassifying_answers"
     expect(() =>
         validateDemographics({ languages: options.map((option) => option.value) }),
     ).not.toThrow();
-    expect(options.filter((option) => ["de", "gsw", "zh"].includes(option.value))).toEqual([
+    expect(options.filter((option) => ["de", "ta", "zh"].includes(option.value))).toEqual([
         { value: "zh", label: "Chinese" },
         { value: "de", label: "German" },
-        { value: "gsw", label: "Swiss German" },
+        { value: "ta", label: "Tamil" },
     ]);
 });

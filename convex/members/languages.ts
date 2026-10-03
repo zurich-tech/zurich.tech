@@ -13,7 +13,7 @@ export const languages = [
     { value: "pt", label: "Portuguese" },
     { value: "ru", label: "Russian" },
     { value: "es", label: "Spanish" },
-    { value: "gsw", label: "Swiss German" },
+    { value: "ta", label: "Tamil" },
     { value: "tr", label: "Turkish" },
     { value: "uk", label: "Ukrainian" },
 ] as const;
