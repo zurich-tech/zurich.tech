@@ -42,6 +42,13 @@ export const content = v.object({
     subject: v.string(),
     text: v.string(),
     html: v.optional(v.string()),
+    /** Personalise only explicitly requested attendance references. */
+    attendance: v.optional(
+        v.union(
+            v.object({ kind: v.literal("invitation"), eventId: v.id("events") }),
+            v.object({ kind: v.literal("resources"), since: v.number(), until: v.number() }),
+        ),
+    ),
 });
 export type Content = Infer<typeof content>;
 

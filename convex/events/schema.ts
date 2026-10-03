@@ -235,4 +235,5 @@ export const attendances = defineTable({
 })
     .index("by_event", ["eventId"])
     .index("by_registrationId", ["registrationId"])
+    .index("by_email", ["email"])
     .index("by_member", ["memberId"]);

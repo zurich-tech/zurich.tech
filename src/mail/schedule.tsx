@@ -1,4 +1,4 @@
-import { Show, createResource } from "solid-js";
+import { Show, createResource, createSignal } from "solid-js";
 import { Card } from "../components/card";
 import { useConfirmation } from "../components/dialog";
 import { FormMessage } from "../components/form";
@@ -9,8 +9,9 @@ import { api } from "../../convex/_generated/api";
 /** Show the next edition and its automatic schedule. */
 export function NewsletterSchedule() {
     const confirm = useConfirmation();
-    const [edition, { refetch }] = createResource(async () =>
-        (await memberClient()).query(api.mail.newsletter.preview, {}),
+    const [profile, setProfile] = createSignal<"create" | "complete" | "none">("create");
+    const [edition, { refetch }] = createResource(profile, async (profile) =>
+        (await memberClient()).query(api.mail.newsletter.preview, { profile }),
     );
     const [sending] = createResource(async () =>
         (await memberClient()).query(api.mail.sending.current, {}),
@@ -29,7 +30,7 @@ export function NewsletterSchedule() {
                     action: isPaused ? "Pause" : "Resume",
                     description: isPaused
                         ? "Stop automatic weekly editions."
-                        : "Send every Monday at 08:00 Zurich time when events are ahead.",
+                        : "Send every Monday at 08:00 Zurich time when events, news or jobs are available.",
                     emails: 0,
                     details: isPaused
                         ? "Already queued campaigns are unaffected."
@@ -89,13 +90,30 @@ export function NewsletterSchedule() {
                             <div>
                                 <dt>Next edition</dt>
                                 <dd>
-                                    {value().events.length} events · {value().jobs} jobs
+                                    {value().events.length} events · {value().news} stories ·{" "}
+                                    {value().jobs} jobs
                                 </dd>
                                 <span>Empty weeks are skipped</span>
                             </div>
                         </dl>
                         <section class="mail-section">
                             <h3>Next edition</h3>
+                            <label>
+                                Profile invitation
+                                <select
+                                    value={profile()}
+                                    onChange={(event) =>
+                                        setProfile(
+                                            event.currentTarget.value as
+                                                "create" | "complete" | "none",
+                                        )
+                                    }
+                                >
+                                    <option value="create">No account</option>
+                                    <option value="complete">Profile not filled out</option>
+                                    <option value="none">No profile prompt</option>
+                                </select>
+                            </label>
                             <iframe
                                 class="email-preview"
                                 title="Newsletter preview"

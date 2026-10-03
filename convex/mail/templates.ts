@@ -1,15 +1,19 @@
 import { locationsLabel, jobFacts } from "../../src/jobs/format";
-import { markdown } from "./markdown";
+import { markdown, excerpt } from "./markdown";
 import type { openJobs } from "../jobs/jobs";
 import { notificationChanges } from "../events/changes";
 import { isTentative } from "../events/conditions";
 import type { Recurrence } from "../events/recurrence";
 import type { AddressAccess } from "../events/fields";
 import type { Confirmation } from "../events/fields";
-import { layout, paragraph, escapeHtml, sectionHeading, palette, mono } from "./layout";
+import { layout, paragraph, escapeHtml, sectionHeading, palette, mono, socials } from "./layout";
+import { involvement } from "./involvement";
 import { tiers } from "../../src/sponsorships/plans";
 import type { activeSponsors } from "../sponsorships/organisations";
 import { siteOrigin } from "../auth/environment";
+import type { Id } from "../_generated/dataModel";
+import { welcome, resourcesPlaceholder } from "./attendance";
+import { programmeContent, type Programme } from "./programme";
 
 /** Raster equivalents of vector sponsor assets for email clients. */
 const emailLogos: Record<string, string> = {
@@ -49,22 +53,90 @@ function emailAddress(event: Event) {
 export function eventDetails(event: Event, includeSummary = false) {
     const url = `${siteOrigin()}/events/${event.slug}`;
     const time = eventTime(event.startsAt);
-    return `<h2 style="margin:0 0 6px;font:500 22px/1.25 ${mono};letter-spacing:-0.5px"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(time)}${event.location ? `<br>${escapeHtml(event.location)}` : ""}</p>${emailAddress(event) ? paragraph(emailAddress(event)!) : ""}${includeSummary && event.summary ? paragraph(event.summary) : ""}${isTentative(event) && event.status !== "cancelled" ? paragraph("Tentative · Awaiting event confirmation") : ""}`;
+    return `<h2 style="margin:0 0 6px;font:500 22px/1.25 ${mono};letter-spacing:0"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(time)}</p>${eventLocation(event)}${includeSummary && event.summary ? paragraph(event.summary) : ""}${isTentative(event) && event.status !== "cancelled" ? paragraph("Tentative · Awaiting event confirmation") : ""}`;
+}
+
+/** Group the venue and its permitted address as one location. */
+function eventLocation(event: Event) {
+    const address = emailAddress(event);
+    if (!event.location && !address) return "";
+
+    return `<p style="margin:12px 0 0;line-height:1.5">${event.location ? `<strong>${escapeHtml(event.location)}</strong>` : ""}${event.location && address ? "<br>" : ""}${address ? `<span style="font-size:14px;color:${palette.soft}">${escapeHtml(address)}</span>` : ""}</p>`;
 }
 
 /** Registration subjects, headings and explanations. */
 export const registrationCopy = {
-    going: { title: "Registration confirmed" },
+    going: {
+        title: "Registration confirmed",
+        description: "Your place is confirmed.",
+    },
     pending: {
         title: "Registration pending",
-        description: "Your registration needs organiser approval.",
+        description: "The organisers will review your registration and email you with an update.",
     },
     waitlist: {
         title: "Registration waitlisted",
-        description: "We’ll email you if your registration is confirmed.",
+        description:
+            "You’re on the waiting list, but don’t have a confirmed place yet. We’ll email you if a place becomes available.",
     },
-    declined: { title: "Registration declined" },
-    cancelled: { title: "Registration cancelled" },
+    declined: {
+        title: "Registration declined",
+        description:
+            "Unfortunately, the organisers couldn’t confirm your registration for this event.",
+    },
+    cancelled: {
+        title: "Registration cancelled",
+        description: "You no longer have a place reserved for this event.",
+    },
+};
+
+/** Friendly headings and context retain the exact meaning of each event state. */
+const eventCopy: Record<string, { heading: string; description?: string }> = {
+    "New event": {
+        heading: "You’re invited",
+        description: welcome,
+    },
+    "Registration confirmed": {
+        heading: "You’re on the list",
+        description: registrationCopy.going.description,
+    },
+    "Registration pending": {
+        heading: "We’ve received your registration",
+        description: registrationCopy.pending.description,
+    },
+    "Registration waitlisted": {
+        heading: "You’re on the waiting list",
+        description: registrationCopy.waitlist.description,
+    },
+    "Registration declined": {
+        heading: "Registration declined",
+        description: registrationCopy.declined.description,
+    },
+    "Registration cancelled": {
+        heading: "Your registration is cancelled",
+        description: registrationCopy.cancelled.description,
+    },
+    "Registration received": {
+        heading: "You’re registered",
+        description:
+            "The event is still awaiting confirmation. We’ll let you know when it’s confirmed or cancelled.",
+    },
+    "Event reminder": {
+        heading: "See you soon",
+    },
+    "Event updated": {
+        heading: "Event details updated",
+    },
+    "Event confirmed": {
+        heading: "Event confirmed",
+        description: "The event is going ahead. Your registration status is unchanged.",
+    },
+    "Event cancelled": {
+        heading: "This event has been cancelled",
+    },
+    "Thank you": {
+        heading: "Thank you",
+    },
 };
 
 /** Format an event date and time consistently in Zurich. */
@@ -81,7 +153,12 @@ export function eventTime(timestamp: number) {
         hour: "2-digit",
         minute: "2-digit",
     });
-    return `${day} · ${time} · Zurich time`;
+    const weekday = date.toLocaleDateString("en-GB", {
+        timeZone: "Europe/Zurich",
+        weekday: "long",
+    });
+
+    return `${weekday}, ${day} · ${time} · Zurich time`;
 }
 
 /** Render public event details as plain text. */
@@ -131,6 +208,8 @@ export function eventEmail(
     event: Event,
     title: string,
     options: {
+        eventId?: Id<"events">;
+        programme?: Programme;
         subject?: string;
         actionLabel?: string;
         passUrl?: string;
@@ -140,20 +219,34 @@ export function eventEmail(
         unsubscribeUrl?: string;
     } = {},
 ) {
-    const links = [{ label: "Notifications", url: `${siteOrigin()}/settings` }];
+    const copy = eventCopy[title];
+    const description = options.description ?? copy?.description;
+    const isInvitation = title === "New event";
+    const programme = programmeContent(options.programme);
+    const links = [
+        { label: "Email preferences", url: `${siteOrigin()}/settings?section=notifications` },
+    ];
     if (options.unsubscribeUrl) links.push({ label: "Unsubscribe", url: options.unsubscribeUrl });
     const action = options.manageUrl
         ? {
               label: options.actionLabel ?? (options.passUrl ? "View pass" : "Manage registration"),
               url: options.manageUrl,
           }
-        : { label: "View event", url: `${siteOrigin()}/events/${event.slug}` };
+        : {
+              label: "View event",
+              url: `${siteOrigin()}/events/${event.slug}`,
+          };
     return {
         subject: `${event.title}: ${options.subject ?? title}`,
+        attendance:
+            title === "New event" && options.eventId && options.description === undefined
+                ? { kind: "invitation" as const, eventId: options.eventId }
+                : undefined,
         text: [
             title,
-            options.description,
+            description,
             eventText(event, options.summary),
+            programme.text,
             `${action.label}: ${action.url}`,
             ...links.map((link) => `${link.label}: ${link.url}`),
             `Legal: ${siteOrigin()}/legal`,
@@ -161,9 +254,19 @@ export function eventEmail(
             .filter(Boolean)
             .join("\n\n"),
         html: layout({
-            title,
-            preview: `${event.title}: ${title}`,
-            body: `${options.description ? paragraph(options.description) : ""}${eventDetails(event, options.summary)}${options.passUrl ? `<p style="margin:24px 0"><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code" width="240" height="240" style="display:block;width:240px;height:240px;background:#ffffff;padding:12px" /></p>` : ""}`,
+            title: isInvitation ? event.title : (copy?.heading ?? title),
+            eyebrow: isInvitation
+                ? "You’re invited"
+                : copy?.heading && copy.heading !== title
+                  ? title
+                  : undefined,
+            preview: `${eventTime(event.startsAt)}${event.location ? ` · ${event.location}` : ""}. ${description ?? ""}`,
+            body: isInvitation
+                ? `${description ? paragraph(description) : ""}${options.summary && event.summary ? paragraph(event.summary) : ""}${programme.html}${sectionHeading("When & where")}<p style="margin:16px 0 0;font-weight:600">${escapeHtml(eventTime(event.startsAt))}</p>${eventLocation(event)}${isTentative(event) ? paragraph("Tentative · Awaiting event confirmation") : ""}`
+                : `${description ? paragraph(description) : ""}<div style="margin-top:24px;padding:20px;border-left:3px solid ${palette.brand};background:#f4f7ff">${eventDetails(event, options.summary)}</div>${programme.html}`,
+            afterAction: options.passUrl
+                ? `${sectionHeading("Your check-in pass")}<p style="margin:16px 0;font-size:14px;color:${palette.soft}">Show this code at the door, or open your pass using the button above.</p><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code. Use View pass if images are unavailable." width="216" height="216" style="display:block;width:216px;max-width:100%;height:auto;background:#ffffff;border:12px solid #ffffff" />`
+                : undefined,
             action,
             links,
         }),
@@ -175,11 +278,11 @@ export function signInEmail(code: string) {
     const expiry = "Expires in 10 minutes. If you didn’t request this, ignore this email.";
     return {
         subject: "Your zurich.tech sign-in code",
-        text: `Sign in\n\n${code}\n\n${expiry}\n\nzurich.tech: ${siteOrigin()}\nLegal: ${siteOrigin()}/legal`,
+        text: `Your sign-in code\n\nEnter this code on the sign-in page to continue.\n\n${code}\n\n${expiry}\n\nzurich.tech: ${siteOrigin()}\nLegal: ${siteOrigin()}/legal`,
         html: layout({
-            title: "Sign in",
-            preview: "Your zurich.tech sign-in code",
-            body: `${paragraph("Your sign-in code:")}<p style="margin:20px 0;padding:16px 20px;background:${palette.wash};border-left:4px solid ${palette.brand};font:700 32px/1.4 ${mono};letter-spacing:6px">${escapeHtml(code)}</p>${paragraph(expiry)}`,
+            title: "Your sign-in code",
+            preview: "Use this code to sign in. It expires in 10 minutes.",
+            body: `${paragraph("Enter this code on the sign-in page to continue.")}<p style="margin:24px 0;padding:20px;background:#f4f7ff;border-left:3px solid ${palette.brand};font:700 32px/1.4 ${mono};letter-spacing:0">${escapeHtml(code)}</p>${paragraph(expiry)}`,
         }),
     };
 }
@@ -188,10 +291,14 @@ export function signInEmail(code: string) {
 export function verificationEmail(url: string, event?: Event) {
     const title = event ? "Confirm registration" : "Confirm subscription";
     const expiry = "Expires in one hour. If you didn’t request this, ignore this email.";
+    const description = event
+        ? "Confirm your email address to finish submitting your registration. We’ll then email you your registration status."
+        : "Confirm your email address to receive zurich.tech emails. You can change your preferences or unsubscribe at any time.";
     return {
         subject: event ? `${event.title}: Confirm your registration` : "Confirm your subscription",
         text: [
             title,
+            description,
             event ? eventText(event) : undefined,
             expiry,
             `${title}: ${url}`,
@@ -202,7 +309,8 @@ export function verificationEmail(url: string, event?: Event) {
             .join("\n\n"),
         html: layout({
             title,
-            body: `${event ? eventDetails(event) : ""}${paragraph(expiry)}`,
+            preview: description,
+            body: `${paragraph(description)}${event ? eventDetails(event) : ""}${paragraph(expiry)}`,
             action: { label: title, url },
         }),
     };
@@ -211,10 +319,24 @@ export function verificationEmail(url: string, event?: Event) {
 /** Render the same edition for the workspace preview and delivered email. */
 export function newsletterEdition(
     entries: Event[],
-    sponsors: Awaited<ReturnType<typeof activeSponsors>>,
-    jobs: Awaited<ReturnType<typeof openJobs>> = [],
+    sponsors: Pick<
+        Awaited<ReturnType<typeof activeSponsors>>[number],
+        "tier" | "name" | "website" | "profileUrl" | "logoUrl"
+    >[],
+    jobs: (Pick<
+        Awaited<ReturnType<typeof openJobs>>[number],
+        | "slug"
+        | "title"
+        | "locations"
+        | "workplace"
+        | "engagement"
+        | "workload"
+        | "compensation"
+        | "summary"
+    > & { company: { name: string; logoUrl?: string } })[] = [],
+    options: { news?: NewsletterStory[]; date?: number } = {},
 ) {
-    // Keep addresses and external address instructions on the event page.
+    // keep addresses and external address instructions on the event page
     const listings = entries.map((entry) => ({
         ...entry,
         address: undefined,
@@ -225,7 +347,7 @@ export function newsletterEdition(
     const events = listings
         .map(
             (entry) =>
-                `<div style="padding:20px 0;border-bottom:1px solid ${palette.line}">${eventDetails(entry, true)}</div>`,
+                `<div style="padding:20px 0">${eventDetails(entry, true)}<p style="margin:12px 0 0"><a href="${escapeHtml(`${siteOrigin()}/events/${entry.slug}`)}" style="color:${palette.brand};text-decoration:underline">View event &rarr;</a></p></div>`,
         )
         .join("");
 
@@ -257,47 +379,104 @@ export function newsletterEdition(
             .filter(Boolean)
             .join(" · ");
         const facts = jobFacts(job);
-        const badges = facts
-            .map(
-                (label) =>
-                    `<span style="display:inline-block;margin:0 6px 6px 0;padding:2px 8px;background:${palette.brand};color:#ffffff;font-size:12px;font-weight:600">${escapeHtml(label)}</span>`,
-            )
-            .join("");
+        const heading = `<h3 style="margin:0 0 6px;font:500 20px/1.25 ${mono};letter-spacing:0"><a style="color:${palette.ink};text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(details)}</p>`;
+
+        // keep company logos beside the heading without narrowing the description
+        const logo = job.company.logoUrl;
+        const header = logo
+            ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed"><tr><td width="76" valign="top"><a href="${escapeHtml(url)}"><img src="${escapeHtml(new URL(emailLogos[logo] ?? logo, siteOrigin()).href)}" alt="${escapeHtml(job.company.name)}" width="60" height="60" style="display:block;width:60px;height:60px;object-fit:contain;border:0" /></a></td><td valign="top">${heading}</td></tr></table>`
+            : heading;
+
         return {
-            html: `<div style="padding:20px 0;border-bottom:1px solid ${palette.line}"><h3 style="margin:0 0 6px;font:500 20px/1.25 ${mono};letter-spacing:-0.5px"><a style="color:${palette.ink};text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(details)}</p><p style="margin:8px 0 0">${badges}</p>${paragraph(job.summary)}</div>`,
+            html: `<div style="padding:20px 0">${header}<p style="margin:8px 0 0;color:${palette.soft};font-size:14px">${escapeHtml(facts.join(" · "))}</p>${paragraph(job.summary)}<a href="${escapeHtml(url)}" style="color:${palette.brand}">View role &rarr;</a></div>`,
             text: `${job.title}\n${details}\n${facts.join(" · ")}\n${job.summary}\n${url}`,
         };
     });
 
+    // render published stories without a generic introduction
+    const news = options.news ?? [];
+    const stories = news.map((story) => ({
+        html: `<div style="padding:20px 0"><h3 style="margin:0;font:500 20px/1.3 ${mono}"><a href="${escapeHtml(`${siteOrigin()}/news/${story.slug}`)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(story.title)}</a></h3>${paragraph(story.description)}<a href="${escapeHtml(`${siteOrigin()}/news/${story.slug}`)}" style="color:${palette.brand}">Read story &rarr;</a></div>`,
+        text: `${story.title}\n${story.description}\n${siteOrigin()}/news/${story.slug}`,
+    }));
+    const participation = involvement();
+
     return {
+        date: options.date,
+        preview: listings[0]?.title ?? news[0]?.title ?? jobs[0]?.title,
         html:
             (events ? `${sectionHeading("Upcoming events")}${events}` : "") +
+            (stories.length
+                ? `${sectionHeading("News")}${stories.map((story) => story.html).join("")}`
+                : "") +
             (vacancies.length
                 ? `${sectionHeading("Jobs")}${vacancies.map((job) => job.html).join("")}`
                 : "") +
+            (options.date === undefined ? "" : resourcesPlaceholder.html) +
+            participation.html +
             recognition.map((section) => section.html).join(""),
         text: [
             ...listings.map((entry) => eventText(entry, true)),
+            ...stories.map((story) => story.text),
             ...vacancies.map((job) => job.text),
+            options.date === undefined ? "" : resourcesPlaceholder.text,
+            participation.text,
             ...recognition.map((section) => section.text),
         ].join("\n\n"),
     };
 }
 
+/** Published article copy frozen into one newsletter edition. */
+export type NewsletterStory = { title: string; slug: string; description: string };
+
 /** Render a weekly edition with the recipient's notification links. */
-export function newsletterEmail(edition: { text: string; html: string }, unsubscribeUrl?: string) {
-    const links = [{ label: "Notifications", url: `${siteOrigin()}/settings` }];
+export function newsletterEmail(
+    edition: { text: string; html: string; preview?: string; date?: number },
+    unsubscribeUrl?: string,
+) {
+    const links = [
+        { label: "Email preferences", url: `${siteOrigin()}/settings?section=notifications` },
+    ];
     if (unsubscribeUrl) links.push({ label: "Unsubscribe", url: unsubscribeUrl });
     return {
         subject: "This week in zurich.tech",
         text: [
             "This week in zurich.tech",
+            edition.date === undefined ? "" : editionDate(edition.date),
             edition.text,
+            ...socials.map((link) => `${link.label}: ${link.url}`),
             ...links.map((link) => `${link.label}: ${link.url}`),
             `Legal: ${siteOrigin()}/legal`,
-        ].join("\n\n"),
-        html: layout({ title: "This week in zurich.tech", body: edition.html, links }),
+        ]
+            .filter(Boolean)
+            .join("\n\n"),
+        html: layout({
+            title: "This week in zurich.tech",
+            eyebrow: edition.date === undefined ? undefined : editionDate(edition.date),
+            preview: edition.preview,
+            body: edition.html,
+            links,
+            isCommunity: true,
+        }),
+        attendance:
+            edition.date === undefined
+                ? undefined
+                : {
+                      kind: "resources" as const,
+                      since: edition.date - 7 * 86400000,
+                      until: edition.date,
+                  },
     };
+}
+
+/** Label an edition by its local publication date, not the recipient's delivery time. */
+function editionDate(timestamp: number) {
+    return new Date(timestamp).toLocaleDateString("en-GB", {
+        timeZone: "Europe/Zurich",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    });
 }
 
 /** Render the once-only launch announcement for a recurring series. */
@@ -319,7 +498,7 @@ export function seriesEmail(
     const dates = `From ${rule.start}${rule.end ? ` until ${rule.end}` : ""}`;
     const url = `${siteOrigin()}/series/${series.slug}`;
     const links = [
-        { label: "Notifications", url: `${siteOrigin()}/settings` },
+        { label: "Email preferences", url: `${siteOrigin()}/settings?section=notifications` },
         { label: "Unsubscribe", url: unsubscribeUrl },
     ];
     const subject = `New series: ${series.name}`;
@@ -331,13 +510,17 @@ export function seriesEmail(
             dates,
             series.description,
             `View events: ${url}`,
+            ...socials.map((link) => `${link.label}: ${link.url}`),
             ...links.map((link) => `${link.label}: ${link.url}`),
         ].join("\n\n"),
         html: layout({
-            title: "New series",
-            body: `<h2>${escapeHtml(series.name)}</h2>${paragraph(timing)}${paragraph(dates)}${paragraph(series.description)}`,
+            title: series.name,
+            eyebrow: "New series",
+            preview: `${timing}. ${series.description}`,
+            body: `${paragraph(series.description)}<p style="color:${palette.soft}">${escapeHtml(timing)}<br>${escapeHtml(dates)}</p>`,
             action: { label: "View events", url },
             links,
+            isCommunity: true,
         }),
     };
 }
@@ -348,21 +531,23 @@ export function campaignEmail(
     unsubscribeUrl?: string,
 ) {
     const origin = siteOrigin();
-    const links = [{ label: "Notifications", url: `${origin}/settings` }];
+    const links = [{ label: "Email preferences", url: `${origin}/settings?section=notifications` }];
     if (unsubscribeUrl) links.push({ label: "Unsubscribe", url: unsubscribeUrl });
     return {
         subject: campaign.subject,
         text: [
             campaign.message,
+            ...socials.map((link) => `${link.label}: ${link.url}`),
             `zurich.tech: ${origin}`,
             ...links.map((link) => `${link.label}: ${link.url}`),
             `Legal: ${origin}/legal`,
         ].join("\n\n"),
         html: layout({
             title: campaign.subject,
+            preview: excerpt(campaign.message),
             body: markdown(campaign.message),
-            action: { label: "Visit zurich.tech", url: origin },
             links,
+            isCommunity: true,
         }),
     };
 }

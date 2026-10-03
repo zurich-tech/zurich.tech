@@ -8,6 +8,7 @@ import { internal } from "../_generated/api";
 import { create } from "./campaigns";
 import { select } from "./audiences";
 import { links } from "./personalization";
+import { readProgramme } from "./programme";
 
 /** Announce one published event to the audience present at publication. */
 export const announce = internalMutation({
@@ -39,6 +40,8 @@ export const announce = internalMutation({
                 seriesId: event.seriesId,
                 expiresAt: event.startsAt,
                 content: eventEmail({ ...event, ...(await eventPlace(ctx, event)) }, "New event", {
+                    eventId: event._id,
+                    programme: await readProgramme(ctx, event._id),
                     summary: true,
                     unsubscribeUrl: links.unsubscribe,
                 }),
@@ -131,6 +134,7 @@ export const remind = internalMutation({
                     "Event reminder",
                     {
                         subject: "Reminder",
+                        programme: await readProgramme(ctx, event._id),
                         passUrl: event.checkIn?.isEnabled ? links.pass : undefined,
                         manageUrl: links.registration,
                     },

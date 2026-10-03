@@ -11,13 +11,17 @@ import { query, mutation, internalMutation } from "../_generated/server";
 import { internal } from "../_generated/api";
 import { activeSponsors } from "../sponsorships/organisations";
 import { requireAdmin } from "../auth/access";
+import { profileInvitation, profilePlaceholder } from "./involvement";
+import { attendanceCopy, resourcesPlaceholder } from "./attendance";
 
 /** Read all upcoming published events for the digest preview. */
 export const preview = query({
-    args: {},
-    handler: async (ctx) => {
+    args: {
+        profile: v.optional(v.union(v.literal("create"), v.literal("complete"), v.literal("none"))),
+    },
+    handler: async (ctx, args) => {
         // restrict newsletter controls to the team
-        await requireAdmin(ctx);
+        const { memberId } = await requireAdmin(ctx);
         const now = Date.now();
 
         // read upcoming published events in chronological order
@@ -35,11 +39,24 @@ export const preview = query({
         const sponsors = await activeSponsors(ctx);
 
         const jobs = await openJobs(ctx);
+        const news = digestNews(await ctx.db.query("posts").collect(), now);
+        const edition = newsletterEmail(
+            newsletterEdition(digestEvents(entries, now), sponsors, jobs, { news, date: now }),
+        );
+        const invitation = profileInvitation(args.profile ?? "create");
+        const resources = await attendanceCopy(
+            ctx,
+            { kind: "resources", since: now - 7 * 86400000, until: now },
+            "",
+            memberId,
+        );
         return {
             jobs: jobs.length,
+            news: news.length,
             isPaused: (await ctx.db.query("mailSchedules").unique())?.isPaused ?? true,
-            html: newsletterEmail(newsletterEdition(digestEvents(entries, now), sponsors, jobs))
-                .html,
+            html: edition.html
+                .replaceAll(profilePlaceholder.html, invitation.html)
+                .replaceAll(resourcesPlaceholder.html, () => resources.html),
             events: digestEvents(entries, now),
             subscribers: subscribers.recipients.length,
         };
@@ -100,11 +117,12 @@ export const tick = internalMutation({
             .collect();
         const selected = digestEvents(entries, now.getTime());
         const jobs = await openJobs(ctx);
-        if (selected.length === 0 && jobs.length === 0) return;
+        const news = digestNews(await ctx.db.query("posts").collect(), now.getTime());
+        if (selected.length === 0 && jobs.length === 0 && news.length === 0) return;
 
         // include only the sponsor placements promised by each tier
         const sponsors = await activeSponsors(ctx);
-        const edition = newsletterEdition(selected, sponsors, jobs);
+        const edition = newsletterEdition(selected, sponsors, jobs, { news, date: now.getTime() });
 
         // queue bounded batches rather than one scheduled job per subscriber here
         await ctx.scheduler.runAfter(0, internal.mail.newsletter.queue, {
@@ -125,6 +143,8 @@ export const queue = internalMutation({
         eventIds: v.array(v.id("events")),
         text: v.string(),
         html: v.string(),
+        preview: v.optional(v.string()),
+        date: v.optional(v.number()),
         cursor: v.union(v.string(), v.null()),
     },
     handler: async (ctx, args): Promise<string | null> => {
@@ -145,4 +165,27 @@ export function digestEvents(events: Doc<"events">[], now: number) {
     return events.filter(
         (event) => isListed(event) && (!event.scheduleId || event.startsAt < now + 7 * 86400000),
     );
+}
+
+/** Select up to three newly published stories, excluding drafts and future-dated content. */
+export function digestNews(posts: Doc<"posts">[], now: number) {
+    return posts
+        .filter(
+            (post) =>
+                post.published &&
+                post.publishedAt !== undefined &&
+                post.publishedAt > now - 7 * 86400000 &&
+                post.publishedAt <= now &&
+                (post.published.date ?? post.publishedAt) <= now,
+        )
+        .sort(
+            (left, right) =>
+                right.publishedAt! - left.publishedAt! || left.slug.localeCompare(right.slug),
+        )
+        .slice(0, 3)
+        .map((post) => ({
+            slug: post.slug,
+            title: post.published!.title,
+            description: post.published!.description,
+        }));
 }

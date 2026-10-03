@@ -1,8 +1,10 @@
 import type { MutationCtx } from "../_generated/server";
 import type { Content, Recipient } from "./model";
 import { siteOrigin } from "../auth/environment";
-import { escapeHtml } from "./layout";
+import { escapeHtml, paragraph } from "./layout";
+import { attendanceCopy, welcome, resourcesPlaceholder } from "./attendance";
 import { ensureToken } from "../events/checkin";
+import { profileInvitation, profilePlaceholder, type ProfilePrompt } from "./involvement";
 
 /** Code-owned URL placeholders; campaign authors never edit template markup. */
 export const links = {
@@ -65,6 +67,55 @@ export async function personalize(ctx: MutationCtx, content: Content, id: Recipi
     // escape only substituted URLs; the shared templates already escape user text
     let text = content.text;
     let html = content.html;
+
+    // resolve identity once for profile prompts and attendance references
+    const needsIdentity =
+        !!content.attendance ||
+        text.includes(profilePlaceholder.text) ||
+        !!html?.includes(profilePlaceholder.html);
+    const email =
+        row.memberId || !needsIdentity
+            ? null
+            : await ctx.db
+                  .query("emails")
+                  .withIndex("by_email", (q) => q.eq("email", row.email))
+                  .unique();
+    const memberId = row.memberId ?? (email?.verifiedAt !== undefined ? email.memberId : undefined);
+
+    if (content.attendance) {
+        const copy = await attendanceCopy(ctx, content.attendance, row.email, memberId);
+        if (content.attendance.kind === "invitation") {
+            text = text.replace(welcome, () => copy.text);
+            html = html?.replace(paragraph(welcome), () => copy.html);
+        } else {
+            text = text.replaceAll(resourcesPlaceholder.text, () => copy.text);
+            html = html?.replaceAll(resourcesPlaceholder.html, () => copy.html);
+        }
+    }
+
+    // resolve profile invitations only for templates that request them
+    if (text.includes(profilePlaceholder.text) || html?.includes(profilePlaceholder.html)) {
+        const member = memberId ? await ctx.db.get(memberId) : null;
+        const account = memberId
+            ? await ctx.db
+                  .query("accounts")
+                  .withIndex("by_member", (q) => q.eq("memberId", memberId))
+                  .unique()
+            : null;
+        const prompt: ProfilePrompt =
+            (member && ["blocked", "deleted", "paused"].includes(member.status)) ||
+            account?.status === "disabled"
+                ? "none"
+                : !account
+                  ? "create"
+                  : member?.headline?.trim() || member?.bio?.trim() || member?.affiliations?.length
+                    ? "none"
+                    : "complete";
+        const invitation = profileInvitation(prompt);
+        text = text.replaceAll(profilePlaceholder.text, invitation.text);
+        html = html?.replaceAll(profilePlaceholder.html, invitation.html);
+    }
+
     for (const [placeholder, value] of replacements) {
         text = text.replaceAll(placeholder, value);
         html = html?.replaceAll(placeholder, escapeHtml(value));

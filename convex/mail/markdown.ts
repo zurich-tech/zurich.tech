@@ -1,4 +1,4 @@
-import { Marked } from "marked";
+import { Marked, type Token } from "marked";
 import { escapeHtml, palette } from "./layout";
 
 /** Render campaign formatting without embedded HTML or remote images. */
@@ -32,4 +32,21 @@ const parser = new Marked({
 /** Format campaign text with safe automatic links and paragraph styles. */
 export function markdown(source: string) {
     return parser.parse(source, { async: false });
+}
+
+/** Use the first prose paragraph as inbox preview text without Markdown syntax or URLs. */
+export function excerpt(source: string) {
+    const paragraph = parser.lexer(source).find((token) => token.type === "paragraph");
+
+    return paragraph ? tokenText(paragraph).slice(0, 160) : "A note from the zurich.tech team.";
+}
+
+/** Read visible inline text without HTML or link destinations. */
+function tokenText(token: Token): string {
+    if ("tokens" in token && token.tokens) return token.tokens.map(tokenText).join("");
+    if (token.type === "text" || token.type === "codespan" || token.type === "image")
+        return token.text;
+    if (token.type === "br") return " ";
+
+    return "";
 }

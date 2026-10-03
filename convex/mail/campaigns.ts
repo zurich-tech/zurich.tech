@@ -14,6 +14,7 @@ import { allows } from "../auth/permissions";
 import { permissions, requireEvent, requireSeries } from "../auth/grants";
 import { authComponent } from "../auth/component";
 import { campaignEmail, eventEmail } from "./templates";
+import { readProgramme } from "./programme";
 import { eventPlace } from "../events/place";
 import { attribute } from "./referrals";
 import { enqueue } from "./messages";
@@ -190,7 +191,9 @@ export const announcement = mutation({
 
         // retain the regular template and its consent category, not attendee reminder semantics
         const content = eventEmail({ ...event, ...(await eventPlace(ctx, event)) }, "New event", {
+            eventId: event._id,
             summary: true,
+            programme: await readProgramme(ctx, event._id),
             unsubscribeUrl: links.unsubscribe,
         });
         return await ctx.db.insert("campaigns", {

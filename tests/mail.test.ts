@@ -11,6 +11,241 @@ import { receive, unsubscribe } from "../convex/mail/webhooks";
 import { sendingDate } from "../convex/mail/policy";
 import { rank, select } from "../convex/mail/audiences";
 import { prioritize } from "../scripts/mail/order";
+import { personalize } from "../convex/mail/personalization";
+import { eventEmail, newsletterEdition, newsletterEmail } from "../convex/mail/templates";
+import { attendanceCopy, resourcesPlaceholder, welcome } from "../convex/mail/attendance";
+import { profilePlaceholder } from "../convex/mail/involvement";
+import { digestNews } from "../convex/mail/newsletter";
+
+test("test_freeze_published_speakers_and_programme_in_announcement_order", async () => {
+    const { backend, admin, eventId } = await announcement();
+    await backend.run(async (ctx) => {
+        for (const [name, position, isRemoved] of [
+            ["Second speaker", 2, false],
+            ["Removed speaker", 0, true],
+            ["First speaker", 1, false],
+        ] as const) {
+            await ctx.db.insert("speakers", {
+                eventId,
+                name,
+                position,
+                isRemoved,
+                createdAt: 1,
+                updatedAt: 1,
+            });
+        }
+        await ctx.db.insert("sessions", {
+            eventId,
+            time: "18:30",
+            title: "Published talk",
+            position: 0,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    const id = await admin.mutation(api.mail.campaigns.announcement, {
+        eventId,
+        audience: { kind: "subscribers", excludeEventId: eventId },
+    });
+    const campaign = await backend.run((ctx) => ctx.db.get(id));
+    expect(campaign!.message).toContain(
+        "Speakers\nFirst speaker\nSecond speaker\n\nProgramme\n18:30 · Published talk",
+    );
+    expect(campaign!.message).not.toContain("Removed speaker");
+});
+
+test("test_reference_only_checked_in_attendees_and_recent_public_resources", async () => {
+    const { backend, eventId, memberId, subscriptionId } = await announcement();
+    const now = Date.now();
+    const pastId = await backend.run(async (ctx) => {
+        const seriesId = await ctx.db.insert("series", {
+            name: "NLP",
+            slug: "nlp",
+            description: "",
+            topics: [],
+            status: "active",
+        });
+        await ctx.db.patch(eventId, { seriesId });
+        const { _id, _creationTime, ...event } = (await ctx.db.get(eventId))!;
+        const pastId = await ctx.db.insert("events", {
+            ...event,
+            title: "NLP <21>",
+            slug: "nlp-21",
+            status: "finished",
+            startsAt: now - 10 * 86400000,
+        });
+        await ctx.db.insert("registrations", {
+            eventId: pastId,
+            memberId,
+            email: "test@example.invalid",
+            name: "Test",
+            status: "going",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        return pastId;
+    });
+    const invitation = await backend.run(async (ctx) =>
+        eventEmail((await ctx.db.get(eventId))!, "New event", { eventId }),
+    );
+    const render = () => backend.run((ctx) => personalize(ctx, invitation, subscriptionId));
+    expect((await render())!.text).toContain(welcome);
+
+    // an RSVP alone is not attendance; an actual guest check-in is
+    await backend.run((ctx) =>
+        ctx.db.insert("attendances", {
+            eventId: pastId,
+            email: "test@example.invalid",
+            memberId,
+            checkedInAt: now - 10 * 86400000,
+            method: "qr",
+            createdAt: 1,
+        }),
+    );
+    const attended = (await render())!;
+    expect(attended.text).toContain("You joined us for NLP <21>.");
+    expect(attended.html).toContain("You joined us for NLP &lt;21&gt;.");
+    expect(attended.text).not.toContain(welcome);
+
+    const request = { kind: "resources" as const, since: now - 7 * 86400000, until: now };
+    const read = () =>
+        backend.run((ctx) => attendanceCopy(ctx, request, "test@example.invalid", memberId));
+    expect(await read()).toEqual({ html: "", text: "" });
+    const linkId = await backend.run((ctx) =>
+        ctx.db.insert("links", {
+            ownerId: pastId,
+            kind: "other",
+            label: "Slides",
+            url: "https://example.com/slides",
+            position: 0,
+            visibility: "private",
+            createdAt: now - 1,
+            updatedAt: now - 1,
+        }),
+    );
+    expect(await read()).toEqual({ html: "", text: "" });
+    await backend.run((ctx) => ctx.db.patch(linkId, { visibility: "public" }));
+    const resources = await read();
+    expect(resources.text).toBe(
+        "From events you attended\n\nNLP <21>\nEvent links: https://example.invalid/events/nlp-21",
+    );
+    expect(resources.html).toContain("Event links");
+    expect(resources.html).not.toContain("example.com/slides");
+
+    // resolve the section in a real newsletter and remove it outside its edition window
+    const newsletter = newsletterEmail(newsletterEdition([], [], [], { date: now }));
+    const rendered = (await backend.run((ctx) => personalize(ctx, newsletter, subscriptionId)))!;
+    expect(rendered.text).toContain(resources.text);
+    expect(rendered.text).not.toContain(resourcesPlaceholder.text);
+    expect(rendered.html).not.toContain(resourcesPlaceholder.html);
+    await backend.run((ctx) => ctx.db.patch(linkId, { createdAt: request.since, updatedAt: now }));
+    expect(await read()).toEqual({ html: "", text: "" });
+
+    // approved recent photos qualify; pending photos and unlisted events do not
+    const photoId = await backend.run((ctx) =>
+        ctx.db.insert("photos", {
+            eventId: pastId,
+            uploaderId: memberId,
+            status: "pending",
+            key: "photo",
+            thumbnailKey: "thumbnail",
+            position: 0,
+            width: 100,
+            height: 100,
+            createdAt: now - 1,
+            updatedAt: now - 1,
+        }),
+    );
+    expect(await read()).toEqual({ html: "", text: "" });
+    await backend.run((ctx) => ctx.db.patch(photoId, { status: "approved" }));
+    expect((await read()).html).toContain("nlp-21#photos");
+    await backend.run((ctx) => ctx.db.patch(pastId, { visibility: "unlisted" }));
+    expect(await read()).toEqual({ html: "", text: "" });
+    expect((await render())!.text).toContain(welcome);
+});
+
+test("test_personalize_newsletter_profiles_without_using_private_survey_or_visibility", async () => {
+    const { backend, subscriptionId, memberId } = await setup();
+    const content = newsletterEmail(newsletterEdition([], []));
+    const render = () => backend.run((ctx) => personalize(ctx, content, subscriptionId));
+    expect((await render())!.text).toContain("Create your profile");
+
+    // resolve an existing account through its verified email even without a subscription member id
+    await backend.run((ctx) =>
+        ctx.db.insert("emails", {
+            email: "test@example.invalid",
+            memberId,
+            isPrimary: true,
+            verifiedAt: 1,
+            createdAt: 1,
+            updatedAt: 1,
+        }),
+    );
+    expect((await render())!.text).toContain("Complete your profile");
+    await backend.run(async (ctx) => {
+        const account = (await ctx.db.query("accounts").collect())[0];
+        await ctx.db.patch(account._id, { demographics: { age: null }, onboardedAt: 1 });
+        await ctx.db.patch(memberId, { bio: "I build things.", visibility: "private" });
+    });
+    const completed = (await render())!;
+    expect(completed.text).not.toContain("Complete your profile");
+    expect(completed.text).not.toContain(profilePlaceholder.text);
+    expect(completed.html).not.toContain(profilePlaceholder.html);
+    expect(completed.text).not.toContain("I build things.");
+    expect(completed.html).toContain("Join Discord");
+
+    // disabled accounts must not receive a prompt to create or complete an account
+    await backend.run(async (ctx) => {
+        const account = (await ctx.db.query("accounts").collect())[0];
+        await ctx.db.patch(account._id, { status: "disabled" });
+        await ctx.db.patch(memberId, { bio: undefined });
+    });
+    expect((await render())!.text).not.toContain("Complete your profile");
+});
+
+test("test_select_only_recent_published_news_for_the_digest", async () => {
+    const { backend, memberId } = await setup();
+    const now = Date.now();
+    const posts = await backend.run(async (ctx) => {
+        for (const [slug, publishedAt, date, isPublished] of [
+            ["recent", now - 1, now - 1, true],
+            ["draft", now - 2, now - 2, false],
+            ["future", now + 1, now + 1, true],
+            ["future-story", now - 3, now + 1, true],
+            ["old", now - 7 * 86400000, now - 7 * 86400000, true],
+            ["second", now - 4, now - 4, true],
+            ["third", now - 5, now - 5, true],
+            ["fourth", now - 6, now - 6, true],
+        ] as const) {
+            const published = {
+                title: slug,
+                description: "Published copy",
+                body: "",
+                kind: "post" as const,
+                topics: [],
+                authors: [],
+                organisations: [],
+                date,
+            };
+            await ctx.db.insert("posts", {
+                slug,
+                publishedAt,
+                published: isPublished ? published : undefined,
+                draft: { ...published, title: "Unpublished edit" },
+                createdBy: memberId,
+                updatedAt: now,
+            });
+        }
+        return ctx.db.query("posts").collect();
+    });
+    expect(digestNews(posts, now)).toEqual(
+        ["recent", "second", "third"].map((slug) => ({
+            slug,
+            title: slug,
+            description: "Published copy",
+        })),
+    );
+});
 
 const http = httpRouter();
 http.route({ path: "/mail/webhook", method: "POST", handler: receive });
