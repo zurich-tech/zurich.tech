@@ -158,7 +158,8 @@
     display: contents;
 }
 
-.site-topbar__actions :is(.site-theme-toggle, .search-trigger, .header-menu, .social-links a),
+.site-topbar__actions
+    :is(.site-theme-toggle, .search-trigger, .header-menu, .header-admin, .social-links a),
 .header-avatar {
     display: inline-flex;
     width: 36px;
@@ -173,7 +174,9 @@
         color var(--fast) var(--ease);
 }
 
-.site-topbar__actions :is(.site-theme-toggle, .search-trigger, .header-menu, .social-links a) svg {
+.site-topbar__actions
+    :is(.site-theme-toggle, .search-trigger, .header-menu, .header-admin, .social-links a)
+    svg {
     width: 18px;
     height: 18px;
 }
@@ -183,10 +186,16 @@
     height: 16px;
 }
 
-.site-topbar__actions :is(.site-theme-toggle, .search-trigger, .header-menu, .social-links a):hover,
+.site-topbar__actions
+    :is(.site-theme-toggle, .search-trigger, .header-menu, .header-admin, .social-links a):hover,
 .header-avatar:hover {
     background: var(--color-wash);
     color: var(--color-accent);
+}
+
+.site-topbar__actions .header-admin.active {
+    color: var(--color-accent);
+    background: var(--color-wash);
 }
 
 .header-avatar .avatar {

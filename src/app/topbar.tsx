@@ -8,6 +8,7 @@ import { Dialog } from "../components/dialog";
 import { ThemeToggle } from "./theme";
 import { SocialLinks } from "../components/social";
 import { site } from "./site";
+import { Shield } from "lucide-solid";
 
 const destinations = ["About", "Events", "Jobs", "News", "Map", "Sponsor", "Stats"];
 
@@ -36,8 +37,8 @@ export function Topbar() {
                 <div class="site-topbar__actions">
                     {/* administration */}
                     <Show when={account.user() && currentProfile()?.canManage}>
-                        <A class="header-account header-admin" href="/admin">
-                            Admin
+                        <A class="header-admin" href="/admin" aria-label="Admin" title="Admin">
+                            <Shield aria-hidden="true" strokeWidth={1.5} />
                         </A>
                     </Show>
 
