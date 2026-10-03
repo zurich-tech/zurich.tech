@@ -2,6 +2,68 @@ import { filterLocations } from "../src/map/filter";
 import { expect, test } from "bun:test";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
 import { arrangeLogos, honeycomb } from "../src/map/placement";
+import { addBadges } from "../src/map/layers";
+import type { Map as GeographicMap } from "maplibre-gl";
+
+test("test_load_external_badges_with_anonymous_cors_before_assigning_source", async () => {
+    // model the browser's canvas restriction when an image was not requested with CORS
+    const originalImage = Object.getOwnPropertyDescriptor(globalThis, "Image");
+    const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+    const requests: string[][] = [];
+    const pixels = { width: 64, height: 64, data: new Uint8ClampedArray(64 * 64 * 4) };
+    class BadgeImage {
+        crossOrigin = "";
+        width = 32;
+        height = 32;
+        set src(source: string) {
+            requests.push([this.crossOrigin, source]);
+        }
+        async decode() {}
+    }
+    const context = {
+        beginPath() {},
+        arc() {},
+        fill() {},
+        save() {},
+        clip() {},
+        restore() {},
+        fillText() {},
+        drawImage(image: BadgeImage) {
+            if (image.crossOrigin !== "anonymous") throw new Error("Canvas is tainted");
+        },
+        getImageData: () => pixels,
+    };
+    const images = new Map<string, unknown>();
+    const map = {
+        hasImage: (id: string) => images.has(id),
+        addImage: (id: string, image: unknown) => images.set(id, image),
+    } as unknown as GeographicMap;
+
+    // exercise the public badge loading path and restore browser globals afterwards
+    try {
+        Object.defineProperty(globalThis, "Image", { configurable: true, value: BadgeImage });
+        Object.defineProperty(globalThis, "document", {
+            configurable: true,
+            value: { createElement: () => ({ getContext: () => context }) },
+        });
+        const places = groupLocations([
+            { ...office("external"), logoUrl: "https://logos.example/logo.png" },
+            office("initial"),
+        ]);
+        await addBadges(map, places);
+        await addBadges(map, places);
+        expect(requests).toEqual([["anonymous", "https://logos.example/logo.png"]]);
+        expect([...images].sort(([left], [right]) => left.localeCompare(right))).toEqual([
+            ["badge:external", pixels],
+            ["badge:initial", pixels],
+        ]);
+    } finally {
+        if (originalImage) Object.defineProperty(globalThis, "Image", originalImage);
+        else Reflect.deleteProperty(globalThis, "Image");
+        if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+        else Reflect.deleteProperty(globalThis, "document");
+    }
+});
 
 /** Create a public office record for grouping scenarios. */
 function office(id: string, line1 = "Baslerstrasse 77"): LocatedOrganisation {

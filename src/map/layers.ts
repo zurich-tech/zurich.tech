@@ -248,6 +248,8 @@ async function drawBadge(organisation: Organisation) {
 /** Load an image, reporting a failure and returning nothing so the badge shows the initial. */
 async function loadImage(source: string) {
     const image = new Image();
+    // request permission to read external logos back from the badge canvas
+    image.crossOrigin = "anonymous";
     image.src = source;
     try {
         await image.decode();

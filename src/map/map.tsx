@@ -367,9 +367,14 @@ export function CommunityMap(props: {
         // skip results that a newer filter has already replaced
         let isStale = false;
         onCleanup(() => (isStale = true));
-        void addBadges(current.map, places).then(() => {
-            if (!isStale) showOrganisations(current.map, places, isHighlighted);
-        });
+        void addBadges(current.map, places)
+            .then(() => {
+                if (!isStale) showOrganisations(current.map, places, isHighlighted);
+            })
+            .catch((error) => {
+                console.error("Map badges failed to load", error);
+                if (!isStale) setError(true);
+            });
     });
 
     // Mark hovered and selected organisations above the rest.
