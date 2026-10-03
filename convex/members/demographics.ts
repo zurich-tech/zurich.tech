@@ -29,8 +29,12 @@ export const demographicOptions = {
         { value: "21+", label: "21+ years" },
     ],
     education: [
+        { value: "none", label: "No formal qualification" },
+        { value: "compulsory", label: "Compulsory schooling" },
         { value: "secondary", label: "Secondary school" },
-        { value: "vocational", label: "Apprenticeship / vocational qualification" },
+        { value: "upper-secondary", label: "Upper-secondary school" },
+        { value: "vocational", label: "Apprenticeship / vocational" },
+        { value: "professional", label: "Higher vocational education" },
         { value: "bachelor", label: "Bachelor’s degree" },
         { value: "master", label: "Master’s degree" },
         { value: "doctorate", label: "Doctorate" },
@@ -48,7 +52,7 @@ export const demographicLabels = {
     roles: "What do you do?",
     languages: "Which languages do you speak?",
     experience: "How long have you been working?",
-    education: "What’s your education level?",
+    education: "Highest completed education",
     age: "How old are you?",
 };
 /** Reasons to join, independent of subjects and volunteering preferences. */

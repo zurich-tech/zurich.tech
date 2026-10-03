@@ -139,3 +139,17 @@ test("test_accept_curated_languages_without_duplicates_or_reclassifying_answers"
         { value: "ta", label: "Tamil" },
     ]);
 });
+
+test("test_distinguish_schooling_and_professional_education_in_reports", () => {
+    const options = demographicOptions.education.filter((option) =>
+        ["compulsory", "upper-secondary", "professional", "secondary"].includes(option.value),
+    );
+    expect(
+        summarise(["compulsory", "upper-secondary", "professional", "secondary"], options),
+    ).toEqual({
+        responses: 4,
+        total: 4,
+        withheld: 0,
+        groups: options.map((option) => ({ label: option.label, count: 1, percentage: 25 })),
+    });
+});

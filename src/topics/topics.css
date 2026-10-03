@@ -50,8 +50,21 @@
     color: var(--color-soft);
 }
 
-.choice-grid:is(.role-choices, .language-choices) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+/* fill the last row without changing the available survey answers */
+.community-section .choice-grid {
+    --choice-columns: 3;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.community-section .choice-grid > label {
+    flex: 1 1 calc((100% - (var(--choice-columns) - 1) * var(--space-5)) / var(--choice-columns));
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.community-section .choice-grid:is(.role-choices, .language-choices) {
+    --choice-columns: 2;
 }
 
 .demographic-fields {
@@ -103,12 +116,18 @@
 }
 
 .interest-groups {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--space-6);
 }
 
+.interest-group {
+    flex: 1 1 calc((100% - 2 * var(--space-6)) / 3);
+    min-width: 0;
+}
+
 .interest-groups .choice-grid {
+    --choice-columns: 1;
     grid-template-columns: minmax(0, 1fr);
 }
 
@@ -148,14 +167,20 @@
 }
 
 @container (min-width: 640px) {
-    .choice-grid:is(.role-choices, .language-choices) {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+    .community-section .choice-grid:is(.role-choices, .language-choices) {
+        --choice-columns: 4;
     }
 }
 
 @container (max-width: 540px) {
     .choice-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .community-section .choice-grid {
+        --choice-columns: 2;
+    }
+    .interest-group {
+        flex-basis: 100%;
     }
     .community-section > .demographic-fields,
     .community-section > .country-fields,
@@ -165,5 +190,11 @@
 
     .interest-groups .choice-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@container (max-width: 340px) {
+    .community-section .choice-grid {
+        --choice-columns: 1;
     }
 }

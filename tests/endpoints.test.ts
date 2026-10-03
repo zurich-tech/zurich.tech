@@ -307,6 +307,32 @@ test("test_allow_team_email_drafts_without_sending_or_recipient_records", async 
     ).toEqual([messageId]);
 });
 
+test("test_roundtrip_expanded_education_and_preserve_existing_answers", async () => {
+    const { editor } = await setup();
+    for (const education of [
+        "none",
+        "compulsory",
+        "upper-secondary",
+        "professional",
+        "secondary",
+        "vocational",
+        "bachelor",
+        "master",
+        "doctorate",
+        "other",
+    ] as const) {
+        const answers = {
+            demographics: { education },
+            interests: [],
+            motivations: [],
+            participation: [],
+        };
+        await editor.mutation(api.members.audience.save, answers);
+        const saved = await editor.query(api.members.audience.current, {});
+        expect(saved.demographics).toEqual({ education });
+    }
+});
+
 test("test_show_member_emails_only_in_the_administrator_access_directory", async () => {
     const { backend, editor, ids } = await setup();
     await backend.run(async (ctx) => {

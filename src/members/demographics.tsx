@@ -178,7 +178,7 @@ export function CommunityFields(props: {
                     statistics.
                 </p>
                 <TopicFields
-                    label="What do you like?"
+                    label="What are you interested in?"
                     isInterests
                     name="interest"
                     values={props.values.interests}
@@ -209,22 +209,24 @@ export function CommunityFields(props: {
 
             {/* participation */}
             <section class="community-section">
-                <h3>How would you like to get involved?</h3>
-                <div class="choice-grid">
-                    <For each={participationOptions}>
-                        {(option) => (
-                            <label class="checkbox">
-                                <input
-                                    type="checkbox"
-                                    name="participation"
-                                    value={option.value}
-                                    checked={props.values.participation.includes(option.value)}
-                                />
-                                {option.label}
-                            </label>
-                        )}
-                    </For>
-                </div>
+                <fieldset class="survey-choice">
+                    <legend>How would you like to get involved?</legend>
+                    <div class="choice-grid">
+                        <For each={participationOptions}>
+                            {(option) => (
+                                <label class="checkbox">
+                                    <input
+                                        type="checkbox"
+                                        name="participation"
+                                        value={option.value}
+                                        checked={props.values.participation.includes(option.value)}
+                                    />
+                                    {option.label}
+                                </label>
+                            )}
+                        </For>
+                    </div>
+                </fieldset>
             </section>
 
             {/* background */}
@@ -234,7 +236,7 @@ export function CommunityFields(props: {
 
             {/* residence and citizenship */}
             <section class="community-section">
-                <h3>Where are you from?</h3>
+                <h3>Residence and citizenship</h3>
                 <CountryFields values={props.values.demographics} />
             </section>
 
@@ -280,14 +282,24 @@ export function DemographicFields(props: { values: Answers }) {
                             {demographicLabels[field]}
                             <select name={field} value={props.values[field] ?? ""}>
                                 <option value="">Not answered</option>
-                                <For each={demographicOptions[field]}>
+                                <For
+                                    each={demographicOptions[field].filter(
+                                        (option) =>
+                                            field !== "education" ||
+                                            option.value !== "secondary" ||
+                                            props.values.education === "secondary",
+                                    )}
+                                >
                                     {(option) => (
                                         <option value={option.value}>{option.label}</option>
                                     )}
                                 </For>
                             </select>
                             <Show when={field === "education"}>
-                                <small>Highest completed qualification.</small>
+                                <small>
+                                    Upper-secondary: Matura, A-levels or equivalent. Higher
+                                    vocational: HF or federal professional qualifications.
+                                </small>
                             </Show>
                         </label>
                     )}
