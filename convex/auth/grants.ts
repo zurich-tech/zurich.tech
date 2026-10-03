@@ -12,13 +12,14 @@ export async function permissions(ctx: Context) {
         .query("accessGrants")
         .withIndex("by_account", (q) => q.eq("accountId", account._id))
         .collect();
-    return { account, isAdmin: !!account.isAdmin, grants };
+    return { account, isAdmin: !!account.isAdmin, isTeam: account.isTeam, grants };
 }
 
 /** Enter the workspace without granting authority over unrelated records. */
 export async function requireWorkspace(ctx: Context) {
     const access = await permissions(ctx);
-    if (!access.isAdmin && !access.grants.length) throw new Error("Editing access is required.");
+    if (!access.isAdmin && !access.isTeam && !access.grants.length)
+        throw new Error("Editing access is required.");
     return access;
 }
 
@@ -56,14 +57,18 @@ export async function requireRevision(
     const original = event ? event.seriesId : draft?.seriesId;
     if (draft && !allows(access, { eventId: draft.eventId, seriesId: original }, role))
         throw new Error("You do not have access to this event.");
-    if ((!draft || seriesId !== original) && !canCreate(access, seriesId))
+    if (
+        (!draft || seriesId !== original) &&
+        !(role === "editor" && access.isTeam) &&
+        !canCreate(access, seriesId)
+    )
         throw new Error("Organiser access to the destination series is required.");
     return access.account;
 }
 
-/** Fetch only events covered by explicit grants, with no unrelated registration reads. */
+/** Read team content or assigned events without including attendee records. */
 export async function scopedEvents(ctx: Context, access: Awaited<ReturnType<typeof permissions>>) {
-    if (access.isAdmin) return await ctx.db.query("events").collect();
+    if (access.isAdmin || access.isTeam) return await ctx.db.query("events").collect();
     const groups = await Promise.all(
         access.grants.map(async ({ scope }) => {
             if (scope.kind === "series")
@@ -84,7 +89,7 @@ export async function scopedRevisions(
     access: Awaited<ReturnType<typeof permissions>>,
     events: Doc<"events">[],
 ) {
-    if (access.isAdmin) return await ctx.db.query("submissions").collect();
+    if (access.isAdmin || access.isTeam) return await ctx.db.query("submissions").collect();
     const groups = await Promise.all([
         ...events.map((event) =>
             ctx.db

@@ -2,7 +2,7 @@ import { articleTopics } from "../../src/news/model";
 import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { v } from "convex/values";
-import { requireAdmin } from "../auth/access";
+import { requireTeam } from "../auth/access";
 
 /** Read published news only; drafts never enter the public response. */
 export const list = query({
@@ -79,7 +79,7 @@ async function publishedPost(ctx: QueryCtx, post: Doc<"posts">, topics: Doc<"top
 export const workspace = query({
     args: {},
     handler: async (ctx) => {
-        await requireAdmin(ctx);
+        await requireTeam(ctx);
         return {
             posts: await ctx.db.query("posts").order("desc").collect(),
             members: (await ctx.db.query("members").collect())

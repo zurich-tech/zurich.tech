@@ -14,10 +14,24 @@ export const list = query({
                 .filter((a) => a.status === "active")
                 .map(async (account) => {
                     const member = await ctx.db.get(account.memberId);
+                    const emails = await ctx.db
+                        .query("emails")
+                        .withIndex("by_member", (query) => query.eq("memberId", account.memberId))
+                        .collect();
+
                     return {
                         id: account._id,
                         name: member?.name ?? "Member",
+                        emails: emails
+                            .sort(
+                                (a, b) =>
+                                    Number(b.isPrimary) - Number(a.isPrimary) ||
+                                    a.email.localeCompare(b.email),
+                            )
+                            .map((email) => email.email),
                         isAdmin: account.isAdmin,
+                        isTeam: account.isTeam,
+                        isMailSender: !!account.isMailSender,
                         isSelf: account._id === viewer._id,
                         grants: grants.filter((g) => g.accountId === account._id),
                     };
@@ -33,6 +47,30 @@ export const list = query({
                 name: s.name,
             })),
         };
+    },
+});
+
+/** Assign team or email authority explicitly and record who changed it. */
+export const setPermission = mutation({
+    args: {
+        id: v.id("accounts"),
+        permission: v.union(v.literal("isTeam"), v.literal("isMailSender")),
+        isEnabled: v.boolean(),
+    },
+    handler: async (ctx, args) => {
+        const viewer = await requireAdmin(ctx);
+        const account = await ctx.db.get(args.id);
+        if (!account || account.status !== "active") throw new Error("Account not found.");
+
+        // retain independent permissions and an attributable audit record
+        await ctx.db.patch(args.id, { [args.permission]: args.isEnabled, updatedAt: Date.now() });
+        await ctx.db.insert("accessChanges", {
+            actorId: viewer._id,
+            accountId: args.id,
+            action: args.permission,
+            detail: String(args.isEnabled),
+            createdAt: Date.now(),
+        });
     },
 });
 

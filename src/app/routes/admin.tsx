@@ -22,9 +22,6 @@ import { Referrals } from "../../statistics/referrals";
 
 const adminTabs = [
     { id: "audience", label: "Audience" },
-    { id: "topics", label: "Topics" },
-    { id: "news", label: "News" },
-    { id: "organisations", label: "Organisations" },
     { id: "jobs", label: "Jobs" },
     { id: "sponsors", label: "Sponsors" },
     { id: "people", label: "Access" },
@@ -32,17 +29,25 @@ const adminTabs = [
     { id: "traffic", label: "Traffic" },
 ];
 
+/** Public content workspaces shared by the team and administrators. */
+const teamTabs = [
+    { id: "topics", label: "Topics" },
+    { id: "news", label: "News" },
+    { id: "organisations", label: "Organisations" },
+];
+
 /** Load only the selected panel, with server-enforced scoped access. */
 export default function Route() {
     const access = useAccess();
+    const isTeam = () => access.current()?.isAdmin || access.current()?.isTeam;
     const [params, setParams] = useSearchParams();
     const section = () => (typeof params.section === "string" ? params.section : "events");
     const tabs = () => [
         { id: "events", label: "Events" },
-        ...(access.current()?.isAdmin ||
-        access.current()?.grants.some((grant) => grant.scope.kind === "series")
+        ...(isTeam() || access.current()?.grants.some((grant) => grant.scope.kind === "series")
             ? [{ id: "series", label: "Series" }]
             : []),
+        ...(isTeam() ? teamTabs : []),
         ...(access.current()?.isAdmin ? adminTabs : []),
     ];
     /** Leave record-specific views when switching workspaces. */
@@ -131,7 +136,7 @@ export default function Route() {
                             <Match when={access.current()?.isAdmin && section() === "audience"}>
                                 <Audience />
                             </Match>
-                            <Match when={access.current()?.isAdmin && section() === "topics"}>
+                            <Match when={isTeam() && section() === "topics"}>
                                 <TopicsAdmin />
                             </Match>
                             <Match when={access.current()?.isAdmin && section() === "people"}>
@@ -140,7 +145,7 @@ export default function Route() {
                             <Match when={access.current()?.isAdmin && section() === "email"}>
                                 <EmailAdmin />
                             </Match>
-                            <Match when={access.current()?.isAdmin && section() === "news"}>
+                            <Match when={isTeam() && section() === "news"}>
                                 <NewsAdmin />
                             </Match>
                             {/* campaign links and aggregate arrivals */}
@@ -149,8 +154,9 @@ export default function Route() {
                             </Match>
                             <Match
                                 when={
-                                    access.current()?.isAdmin &&
-                                    ["jobs", "sponsors", "organisations"].includes(section())
+                                    (isTeam() && section() === "organisations") ||
+                                    (access.current()?.isAdmin &&
+                                        ["jobs", "sponsors"].includes(section()))
                                 }
                             >
                                 <Management

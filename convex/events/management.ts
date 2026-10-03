@@ -23,7 +23,12 @@ export const workspace = query({
             }),
         );
         const counts = await Promise.all(
-            (args.editor ? [] : events).map(async (event) => {
+            (args.editor
+                ? []
+                : events.filter((event) =>
+                      allows(access, { eventId: event._id, seriesId: event.seriesId }, "organiser"),
+                  )
+            ).map(async (event) => {
                 const rows = await ctx.db
                     .query("registrations")
                     .withIndex("by_event", (q) => q.eq("eventId", event._id))

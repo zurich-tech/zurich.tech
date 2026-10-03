@@ -24,6 +24,7 @@ import { normalizeEmail } from "../members/emails";
 import { consumeLimit } from "../mail/limits";
 import { requireAccount } from "../auth/access";
 import { requireEvent, requireRegistration } from "../auth/grants";
+import { requireMailSender } from "../auth/access";
 import { enqueue } from "../mail/messages";
 import { requireMail } from "../mail/provider";
 
@@ -368,6 +369,7 @@ export const decide = mutation({
     args: { id: v.id("registrations"), decision, receipt: v.string() },
     handler: async (ctx, args) => {
         await requireRegistration(ctx, args.id);
+        await requireMailSender(ctx);
         const plan = await decisionPlan(ctx, { id: args.id, decision: args.decision });
         if (plan.receipt !== args.receipt)
             throw new Error("The event or registrations changed. Please review and confirm again.");

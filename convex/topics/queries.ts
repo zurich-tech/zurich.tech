@@ -1,5 +1,5 @@
 import { query, mutation, type QueryCtx } from "../_generated/server";
-import { requireAdmin } from "../auth/access";
+import { requireTeam } from "../auth/access";
 import { v } from "convex/values";
 
 /** Include archived labels so existing content remains intelligible. */
@@ -9,11 +9,11 @@ export const list = query({
         (await ctx.db.query("topics").collect()).sort((a, b) => a.name.localeCompare(b.name)),
 });
 
-/** Only administrators curate the catalogue; existing keys cannot be renamed. */
+/** Let the team curate the catalogue without renaming existing keys. */
 export const save = mutation({
     args: { slug: v.string(), name: v.string(), isActive: v.boolean() },
     handler: async (ctx, args) => {
-        await requireAdmin(ctx);
+        await requireTeam(ctx);
         const name = args.name.trim();
         if (
             !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(args.slug) ||

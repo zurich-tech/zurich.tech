@@ -2,7 +2,7 @@ import { v } from "convex/values";
 import { mutation, query, type QueryCtx, type MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { requireAccount } from "../auth/access";
-import { requireCompany } from "../organisations/mutations";
+import { requireOrganisation } from "../organisations/mutations";
 
 /** Authorize a location through its member or organisation owner. */
 async function requireOwner(
@@ -12,7 +12,7 @@ async function requireOwner(
     const viewer = await requireAccount(ctx);
     const organisationId = ctx.db.normalizeId("organisations", ownerId);
     if (organisationId)
-        return { ...(await requireCompany(ctx, organisationId)), isOrganisation: true };
+        return { ...(await requireOrganisation(ctx, organisationId)), isOrganisation: true };
     if (ownerId !== viewer.memberId && !viewer.isAdmin)
         throw new Error("You cannot manage this location.");
     if (!(await ctx.db.get(ownerId))) throw new Error("Location owner is missing.");

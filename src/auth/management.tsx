@@ -13,7 +13,7 @@ type Scope = { kind: "event"; id: Id<"events"> } | { kind: "series"; id: Id<"ser
 type Role = "editor" | "organiser";
 const roles = {
     editor: "Prepare drafts.",
-    organiser: "Edit, publish, manage attendees and send event emails.",
+    organiser: "Edit, publish and manage attendees. Sending requires separate email permission.",
 };
 
 /** Assign a person either full administration or named events and series. */
@@ -42,7 +42,9 @@ export function AccessManager() {
         choices().find((item) => item.id === scope.id)?.name ?? "Deleted record";
     const people = () =>
         records()?.people.filter((p) =>
-            p.name.toLowerCase().includes(search().trim().toLowerCase()),
+            [p.name, ...p.emails].some((value) =>
+                value.toLowerCase().includes(search().trim().toLowerCase()),
+            ),
         );
 
     /** Confirm the exact authority before applying an assignment. */
@@ -80,7 +82,7 @@ export function AccessManager() {
                     action: "Save",
                     description: isAdmin
                         ? `${account.name} will have full access to events, emails and settings.`
-                        : `${account.name} will have access only to their assigned events and series.`,
+                        : `${account.name} will retain their team membership, email permission and event assignments.`,
                     isDestructive: !isAdmin,
                 }))
             )
@@ -88,6 +90,34 @@ export function AccessManager() {
             await (
                 await memberClient()
             ).mutation(api.auth.management.setAdmin, { id: account.id, isAdmin });
+        }, "Access saved.");
+    }
+
+    /** Confirm independent team and email permissions before saving them. */
+    async function permission(key: "isTeam" | "isMailSender", isEnabled: boolean) {
+        const account = person();
+        if (!account) return;
+        await command.perform(async () => {
+            if (
+                !(await confirm({
+                    title: key === "isTeam" ? "Change team membership" : "Change email permission",
+                    action: "Save",
+                    description: `${account.name}: ${isEnabled ? "enable" : "disable"} ${key === "isTeam" ? "team membership and content management" : "event email sending"}.`,
+                    details:
+                        key === "isTeam"
+                            ? "Team members appear on the team page and manage content. Attendee access and email sending remain separate."
+                            : "Applies only to assigned events and series. Subscriber campaigns and sending limits remain administrator-only.",
+                    isDestructive: !isEnabled,
+                }))
+            )
+                return false;
+            await (
+                await memberClient()
+            ).mutation(api.auth.management.setPermission, {
+                id: account.id,
+                permission: key,
+                isEnabled,
+            });
         }, "Access saved.");
     }
 
@@ -121,13 +151,14 @@ export function AccessManager() {
                             <TableToolbar
                                 value={search()}
                                 onSearch={setSearch}
-                                placeholder="Search people…"
+                                placeholder="Search name or email…"
                             />
                             <div class="table-scroll">
                                 <table class="admin-table">
                                     <thead>
                                         <tr>
                                             <th>Person</th>
+                                            <th>Email</th>
                                             <th>Access</th>
                                             <th>Actions</th>
                                         </tr>
@@ -137,13 +168,21 @@ export function AccessManager() {
                                             each={people()}
                                             fallback={
                                                 <tr>
-                                                    <td colspan="3">No people found.</td>
+                                                    <td colspan="4">No people found.</td>
                                                 </tr>
                                             }
                                         >
                                             {(p) => (
                                                 <tr>
                                                     <td>{p.name}</td>
+                                                    <td>
+                                                        <For
+                                                            each={p.emails}
+                                                            fallback="No email recorded"
+                                                        >
+                                                            {(email) => <div>{email}</div>}
+                                                        </For>
+                                                    </td>
                                                     <td>
                                                         {p.isAdmin
                                                             ? "Administrator"
@@ -154,7 +193,15 @@ export function AccessManager() {
                                                                             `${grant.role === "editor" ? "Editor" : "Organiser"} · ${title(grant.scope)}`,
                                                                     )
                                                                     .join(", ")
-                                                              : "None"}
+                                                              : p.isTeam
+                                                                ? "Team"
+                                                                : "None"}
+                                                        {p.isTeam && (p.isAdmin || p.grants.length)
+                                                            ? " · Team"
+                                                            : ""}
+                                                        {!p.isAdmin && p.isMailSender
+                                                            ? " · Email sender"
+                                                            : ""}
                                                     </td>
                                                     <td>
                                                         <div class="admin-actions">
@@ -180,6 +227,7 @@ export function AccessManager() {
                 >
                     {(current) => (
                         <div class="editor">
+                            <For each={current().emails}>{(email) => <p>{email}</p>}</For>
                             <FormSection title="Access">
                                 <label>
                                     Level
@@ -194,7 +242,7 @@ export function AccessManager() {
                                             void administration(next);
                                         }}
                                     >
-                                        <option value="assigned">Assigned events and series</option>
+                                        <option value="assigned">Standard access</option>
                                         <option value="admin">Administrator</option>
                                     </select>
                                 </label>
@@ -206,6 +254,34 @@ export function AccessManager() {
                                 <Show when={current().isSelf}>
                                     <p>You cannot change your own administrator access.</p>
                                 </Show>
+                            </FormSection>
+                            <FormSection title="Permissions">
+                                <For
+                                    each={[
+                                        { key: "isTeam" as const, label: "Team member" },
+                                        {
+                                            key: "isMailSender" as const,
+                                            label: "Send event emails",
+                                        },
+                                    ].filter((item) => item.key === "isTeam" || !current().isAdmin)}
+                                >
+                                    {(item) => (
+                                        <label class="checkbox">
+                                            <input
+                                                type="checkbox"
+                                                checked={current()[item.key]}
+                                                disabled={command.isPending()}
+                                                onChange={(event) => {
+                                                    const isEnabled = event.currentTarget.checked;
+                                                    event.currentTarget.checked =
+                                                        current()[item.key];
+                                                    void permission(item.key, isEnabled);
+                                                }}
+                                            />
+                                            {item.label}
+                                        </label>
+                                    )}
+                                </For>
                             </FormSection>
                             <Show when={!current().isAdmin}>
                                 <FormSection title="Assignments">

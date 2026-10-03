@@ -4,7 +4,7 @@ import { v } from "convex/values";
 import { mutation, internalMutation, type QueryCtx, type MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { normalizeEmail } from "../members/emails";
-import { requireAccount, requireAdmin } from "../auth/access";
+import { requireAccount, requireTeam } from "../auth/access";
 import { normalizeUrl, normalizeImageUrl, socialLinks } from "../members/urls";
 
 /** Upsert a curated organisation. */
@@ -21,7 +21,7 @@ export const upsert = mutation({
     },
     handler: async (ctx, args) => {
         // restrict directory editing to the team
-        await requireAdmin(ctx);
+        await requireTeam(ctx);
         const { id, ...values } = args;
         if (
             !values.name.trim() ||
@@ -63,6 +63,19 @@ export async function requireCompany(ctx: QueryCtx | MutationCtx, id: Id<"organi
     return { viewer, organisation };
 }
 
+/** Allow directory edits without granting company billing or ownership authority. */
+export async function requireOrganisation(ctx: QueryCtx | MutationCtx, id: Id<"organisations">) {
+    const viewer = await requireAccount(ctx);
+    const organisation = await ctx.db.get(id);
+    if (
+        !organisation ||
+        (!viewer.isAdmin && !viewer.isTeam && organisation.ownerId !== viewer.memberId)
+    )
+        throw new Error("You cannot manage this organisation.");
+
+    return { viewer, organisation };
+}
+
 /** Create or edit a company used on approved jobs and sponsorships. */
 export const upsertCompany = mutation({
     args: {
@@ -83,9 +96,9 @@ export const upsertCompany = mutation({
         description: v.string(),
     },
     handler: async (ctx, args) => {
-        // require an account and ownership of any existing company
+        // require directory authority or ownership of an existing company
         const viewer = await requireAccount(ctx);
-        if (args.id) await requireCompany(ctx, args.id);
+        if (args.id) await requireOrganisation(ctx, args.id);
         if (
             !args.name.trim() ||
             args.name.length > 160 ||
@@ -106,7 +119,7 @@ export const upsertCompany = mutation({
                 "This company URL is already taken. Ask the team to grant access to the existing company.",
             );
 
-        // let the team assign an existing company to a verified signed in member
+        // let administrators assign a company to a verified signed in member
         let ownerId: Id<"members"> | undefined;
         if (args.ownerEmail) {
             if (!viewer.isAdmin) throw new Error("Admin access is required to assign a company.");
@@ -151,7 +164,7 @@ export const upsertCompany = mutation({
 
         const organisationId = await ctx.db.insert("organisations", {
             ...values,
-            ownerId: ownerId ?? viewer.memberId,
+            ownerId: ownerId ?? (viewer.isTeam || viewer.isAdmin ? undefined : viewer.memberId),
         });
         await writeProfiles(ctx, organisationId, { profileUrl, socials });
         return organisationId;

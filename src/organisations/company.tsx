@@ -29,11 +29,11 @@ export function CompanyForm(props: {
         location: string;
         description: string;
     };
-    /** Allow team members to assign company ownership. */
+    /** Allow administrators to assign company ownership. */
     isAdmin?: boolean;
     owners?: { memberId: Id<"members">; name: string; email?: string }[];
     /** Refresh company records after a successful save. */
-    onSave: () => unknown;
+    onSave: (id: Id<"organisations">) => unknown;
     isPending: boolean;
     setIsPending: (value: boolean) => void;
 }) {
@@ -53,7 +53,7 @@ export function CompanyForm(props: {
         setError(undefined);
         setSuccess(undefined);
         try {
-            await (
+            const id = await (
                 await memberClient()
             ).mutation(api.organisations.mutations.upsertCompany, {
                 id: props.item?._id,
@@ -77,7 +77,7 @@ export function CompanyForm(props: {
                 description: text("description"),
             });
             savedEditor(form);
-            await props.onSave();
+            await props.onSave(id);
             if (!props.item) {
                 form.reset();
                 resetEditor(form);

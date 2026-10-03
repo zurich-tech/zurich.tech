@@ -1,6 +1,6 @@
 import { v, ConvexError } from "convex/values";
 import { mutation } from "../_generated/server";
-import { requireAdmin } from "../auth/access";
+import { requireTeam } from "../auth/access";
 import { content } from "./content";
 import { validateContent } from "./validation";
 
@@ -13,7 +13,7 @@ export const save = mutation({
         expectedUpdatedAt: v.optional(v.number()),
     },
     handler: async (ctx, args) => {
-        const account = await requireAdmin(ctx);
+        const account = await requireTeam(ctx);
         const existing = args.id ? await ctx.db.get(args.id) : null;
         if (args.id && !existing) throw new ConvexError("Post not found.");
         if (existing && existing.updatedAt !== args.expectedUpdatedAt)
@@ -51,7 +51,7 @@ export const save = mutation({
 export const publish = mutation({
     args: { id: v.id("posts"), isPublished: v.boolean(), expectedUpdatedAt: v.number() },
     handler: async (ctx, args) => {
-        await requireAdmin(ctx);
+        await requireTeam(ctx);
         const post = await ctx.db.get(args.id);
         if (!post) throw new ConvexError("Post not found.");
         if (post.updatedAt !== args.expectedUpdatedAt)
@@ -72,7 +72,7 @@ export const publish = mutation({
 export const remove = mutation({
     args: { id: v.id("posts"), expectedUpdatedAt: v.number() },
     handler: async (ctx, args) => {
-        await requireAdmin(ctx);
+        await requireTeam(ctx);
         const post = await ctx.db.get(args.id);
         if (!post) throw new ConvexError("Post not found.");
         if (post.updatedAt !== args.expectedUpdatedAt)

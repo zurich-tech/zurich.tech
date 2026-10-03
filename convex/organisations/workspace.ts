@@ -3,19 +3,38 @@ import { invoiceBalance } from "../billing/invoices";
 import { readProfiles } from "../members/links";
 import type { Doc } from "../_generated/dataModel";
 import { query } from "../_generated/server";
+import { v } from "convex/values";
 import { requireAccount } from "../auth/access";
 import { jobExpiry, jobStatus, jobAllowance } from "../jobs/jobs";
 
 /** Read the current employer's company, job and sponsorship workspace. */
 export const employer = query({
-    args: {},
-    handler: async (ctx) => {
+    args: { directory: v.optional(v.boolean()) },
+    handler: async (ctx, args) => {
         // identify the account before selecting owned records
         const viewer = await requireAccount(ctx);
         const organisations = await ctx.db.query("organisations").collect();
         const companies = organisations.filter(
-            (row) => viewer.isAdmin || row.ownerId === viewer.memberId,
+            (row) =>
+                viewer.isAdmin ||
+                (args.directory && viewer.isTeam) ||
+                row.ownerId === viewer.memberId,
         );
+
+        // keep financial records and account identities out of directory requests
+        if (args.directory)
+            return {
+                owners: [],
+                isAdmin: viewer.isAdmin,
+                organisations: await Promise.all(
+                    companies.map(async (company) => ({
+                        ...company,
+                        ...(await readProfiles(ctx, company._id, "all")),
+                    })),
+                ),
+                jobs: [],
+                sponsorships: [],
+            };
 
         // read jobs belonging to the visible companies
         const jobs = (

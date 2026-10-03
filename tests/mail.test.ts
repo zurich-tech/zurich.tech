@@ -1082,7 +1082,7 @@ test("scoped organisers cannot read or send global campaigns or campaigns for an
             authId: "organiser",
             memberId,
             status: "active",
-            isTeam: true,
+            isTeam: false,
             isAdmin: false,
             createdAt: 1,
             updatedAt: 1,

@@ -1,14 +1,15 @@
-/** Authority is independent of public team membership and named organisers. */
+/** Event assignments remain independent of team content access and public organiser credits. */
 export type Role = "editor" | "organiser";
 export type Scope = { kind: "event" | "series"; id: string };
 export type Grant = { role: Role; scope: Scope };
-export type Access = { isAdmin: boolean; grants: Grant[] };
+export type Access = { isAdmin: boolean; isTeam?: boolean; grants: Grant[] };
 export type Target = { eventId?: string; seriesId?: string };
 
 /** Combine explicit grants, including series authority inherited by its events. */
 export function allows(access: Access, target: Target, role: Role = "editor") {
     return (
         access.isAdmin ||
+        (role === "editor" && !!access.isTeam) ||
         access.grants.some(
             (grant) =>
                 (role === "editor" || grant.role === "organiser") &&

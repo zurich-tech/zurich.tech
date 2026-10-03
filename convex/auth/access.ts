@@ -37,9 +37,26 @@ export const grantAdmin = internalMutation({
     },
 });
 
-/** Require explicit global authority; public team membership is not a permission. */
+/** Require administrative authority, independently of team content access. */
 export async function requireAdmin(ctx: QueryCtx | MutationCtx) {
     const account = await requireAccount(ctx);
     if (!account.isAdmin) throw new Error("Admin access is required.");
+    return account;
+}
+
+/** Require team content management without granting administrative authority. */
+export async function requireTeam(ctx: QueryCtx | MutationCtx) {
+    const account = await requireAccount(ctx);
+    if (!account.isAdmin && !account.isTeam) throw new Error("Team access is required.");
+
+    return account;
+}
+
+/** Require explicit email authority independently of event and content assignments. */
+export async function requireMailSender(ctx: QueryCtx | MutationCtx) {
+    const account = await requireAccount(ctx);
+    if (!account.isAdmin && !account.isMailSender)
+        throw new Error("Email sending permission is required.");
+
     return account;
 }

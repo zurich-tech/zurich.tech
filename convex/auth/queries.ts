@@ -18,8 +18,9 @@ export const signInProviders = query({
 export const current = query({
     args: {},
     handler: async (ctx) => {
-        const { account, grants, isAdmin } = await permissions(ctx);
-        const events = isAdmin ? [] : await scopedEvents(ctx, { account, grants, isAdmin });
+        const access = await permissions(ctx);
+        const { account, grants, isAdmin, isTeam } = access;
+        const events = isAdmin ? [] : await scopedEvents(ctx, access);
         const targets = events.map((event) => ({ eventId: event._id, seriesId: event.seriesId }));
 
         // expose ownership only to the account that can act on it
@@ -33,10 +34,11 @@ export const current = query({
             ownedOrganisationIds: organisations.map((item) => item._id),
             isTeam: account.isTeam,
             isAdmin,
+            canSendMail: isAdmin || !!account.isMailSender,
             grants: grants.map(({ scope, role }) => ({ scope, role })),
-            canManage: isAdmin || grants.length > 0,
+            canManage: isAdmin || isTeam || grants.length > 0,
             editableEventIds: targets
-                .filter((target) => allows({ isAdmin, grants }, target))
+                .filter((target) => allows(access, target))
                 .map((target) => target.eventId),
             organisedEventIds: targets
                 .filter((target) => allows({ isAdmin, grants }, target, "organiser"))

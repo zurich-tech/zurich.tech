@@ -1,4 +1,5 @@
 import { useConfirmation } from "../components/dialog";
+import { useAccess } from "../auth/edit";
 import { FilterPills } from "../components/filter-pills";
 import { Empty } from "../components/empty";
 import { Card } from "../components/card";
@@ -215,6 +216,7 @@ function AttendeeRow(props: {
     /** Run a command and refresh its visible result. */
     perform: Perform;
 }) {
+    const access = useAccess();
     const confirm = useConfirmation();
     return (
         <tr>
@@ -289,7 +291,12 @@ function AttendeeRow(props: {
                         {(action) => (
                             <button
                                 class="button"
-                                disabled={props.isPending}
+                                disabled={props.isPending || !access.current()?.canSendMail}
+                                title={
+                                    !access.current()?.canSendMail
+                                        ? "This sends a registration email; email sending permission required"
+                                        : undefined
+                                }
                                 onClick={() =>
                                     props.perform(async () => {
                                         const client = await memberClient();

@@ -1,4 +1,5 @@
 import { createResource, createSignal } from "solid-js";
+import { useAccess } from "../auth/edit";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { memberClient } from "../auth/convex";
@@ -8,6 +9,7 @@ import { errorMessage } from "../components/errors";
 
 /** Confirm the current unsent follow-up audience before a manual send. */
 export function FollowUp(props: { eventId: Id<"events"> }) {
+    const access = useAccess();
     const confirm = useConfirmation();
     const [preview, { refetch }] = createResource(
         () => props.eventId,
@@ -64,7 +66,12 @@ export function FollowUp(props: { eventId: Id<"events"> }) {
                 <button
                     type="button"
                     class="button"
-                    disabled={pending() || !preview()?.emails}
+                    disabled={pending() || !preview()?.emails || !access.current()?.canSendMail}
+                    title={
+                        !access.current()?.canSendMail
+                            ? "Email sending permission required"
+                            : undefined
+                    }
                     onClick={send}
                 >
                     Send follow-up

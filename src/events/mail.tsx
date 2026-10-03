@@ -1,4 +1,5 @@
 import { Campaigns } from "../mail/campaigns";
+import { useAccess } from "../auth/edit";
 import { FollowUp } from "./followup";
 import { useConfirmation } from "../components/dialog";
 import { createResource, createSignal, For, Show, startTransition } from "solid-js";
@@ -12,6 +13,7 @@ import "../mail/mail.css";
 
 /** Preview and explicitly send event mail from the team editor. */
 export function EventMail(props: { eventId: Id<"events"> }) {
+    const access = useAccess();
     const confirm = useConfirmation();
     const [preview, { refetch }] = createResource(
         () => props.eventId,
@@ -87,7 +89,21 @@ export function EventMail(props: { eventId: Id<"events"> }) {
                                         type="button"
                                         class="button"
                                         disabled={
-                                            isPending() || !item()?.recipients || !!item()?.reason
+                                            isPending() ||
+                                            !item()?.recipients ||
+                                            !!item()?.reason ||
+                                            !(kind === "announcement"
+                                                ? access.current()?.isAdmin
+                                                : access.current()?.canSendMail)
+                                        }
+                                        title={
+                                            kind === "announcement"
+                                                ? !access.current()?.isAdmin
+                                                    ? "Administrator access required"
+                                                    : undefined
+                                                : !access.current()?.canSendMail
+                                                  ? "Email sending permission required"
+                                                  : undefined
                                         }
                                         onClick={() => void send(kind)}
                                     >

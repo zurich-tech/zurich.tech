@@ -15,6 +15,7 @@ import { v } from "convex/values";
 import type { Id } from "../_generated/dataModel";
 import { mutation, type MutationCtx } from "../_generated/server";
 import { requireEvent, requireRevision } from "../auth/grants";
+import { requireAdmin, requireMailSender } from "../auth/access";
 import { eventFields, submissionFields } from "./fields";
 import { normalizeUrl, normalizeImageUrl } from "../members/urls";
 import { promoteWaitlist } from "./registrations";
@@ -48,7 +49,10 @@ export const save = mutation({
         // editor saves remain in submissions; only publication changes the live event
         if (publish) {
             if (receipt === undefined) throw new Error("Confirm publication first.");
-            confirmAction(await eventAction(ctx, event, "publish", values, announce), receipt);
+            const action = await eventAction(ctx, event, "publish", values, announce);
+            if (announce) await requireAdmin(ctx);
+            if (action.requiresMail) await requireMailSender(ctx);
+            confirmAction(action, receipt);
         }
 
         await validateTopics(ctx, values.topics, existing?.topics);
@@ -525,6 +529,7 @@ export const cancel = mutation({
     handler: async (ctx, args) => {
         // require organiser access to this event
         await requireEvent(ctx, args.eventId);
+        await requireMailSender(ctx);
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("You cannot manage this event.");
         confirmAction(await eventAction(ctx, event, "cancel"), args.receipt);

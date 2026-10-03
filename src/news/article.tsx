@@ -87,7 +87,7 @@ export function ArticleList(props: ArticleListProps) {
                                 image={props.isCompact ? undefined : articleImage(article)}
                                 actions={
                                     !props.isCompact ? (
-                                        <EditLink href={`/news/edit?id=${article.id}`} />
+                                        <EditLink team href={`/news/edit?id=${article.id}`} />
                                     ) : undefined
                                 }
                                 description={

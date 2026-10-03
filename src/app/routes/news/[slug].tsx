@@ -45,7 +45,7 @@ export default function Route() {
                 <>
                     <PageCommands
                         items={
-                            access.current()?.isAdmin
+                            access.current()?.isAdmin || access.current()?.isTeam
                                 ? [
                                       {
                                           id: "edit-news",
@@ -70,7 +70,7 @@ export default function Route() {
                         <ItemHeader
                             title={post().title}
                             summary={post().description}
-                            actions={<EditLink href={`/news/edit?id=${post().id}`} />}
+                            actions={<EditLink team href={`/news/edit?id=${post().id}`} />}
                         >
                             <div class="article-metadata">
                                 <div class="article-byline">

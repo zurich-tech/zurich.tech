@@ -1,4 +1,5 @@
 import { registerCommands } from "../search/actions";
+import { useAccess } from "../auth/edit";
 import "./mail.css";
 import { timestamp } from "../events/time";
 import { createResource, createSignal, createUniqueId, Show, For } from "solid-js";
@@ -12,6 +13,10 @@ import { useWorkspaceCommand } from "../app/workspace";
 
 /** Draft and review one-off messages without initiating any deliveries. */
 export function Campaigns(props: { eventId?: Id<"events"> }) {
+    const access = useAccess();
+    const canOperate = () =>
+        props.eventId ? access.canEvent(props.eventId, "organiser") : !!access.current()?.isAdmin;
+    const canSend = () => canOperate() && !!access.current()?.canSendMail;
     const formId = createUniqueId();
     const confirm = useConfirmation();
     const [result, { refetch }] = createResource(async () =>
@@ -197,6 +202,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                   },
                   ...(current()?.status === "draft" &&
                   current()?.attemptLimit === undefined &&
+                  canSend() &&
                   !command.isPending() &&
                   scheduledAt() !== "" &&
                   settings() &&
@@ -586,7 +592,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                 <div class="form-actions">
                                     <button
                                         class="button"
-                                        disabled={command.isPending()}
+                                        disabled={command.isPending() || !canSend()}
                                         onClick={() =>
                                             void command.perform(async () => {
                                                 if (
@@ -637,7 +643,11 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                     >
                                         <button
                                             class="button"
-                                            disabled={command.isPending()}
+                                            disabled={
+                                                command.isPending() ||
+                                                !canOperate() ||
+                                                (item().status === "paused" && !canSend())
+                                            }
                                             onClick={() =>
                                                 void command.perform(async () => {
                                                     const isPaused = item().status !== "paused";
@@ -681,6 +691,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                             class="button button--primary"
                                             disabled={
                                                 command.isPending() ||
+                                                !access.current()?.isAdmin ||
                                                 !["draft", "completed"].includes(item().status) ||
                                                 !detail()?.audience?.first.length
                                             }
@@ -699,6 +710,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                             class="button button--primary"
                                             disabled={
                                                 command.isPending() ||
+                                                !canSend() ||
                                                 scheduledAt() === "" ||
                                                 !settings() ||
                                                 settings()!.isLocked ||
@@ -711,9 +723,11 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                         </button>
                                     </Show>
                                     <Show
-                                        when={["draft", "queued", "scheduled", "paused"].includes(
-                                            item().status,
-                                        )}
+                                        when={
+                                            ["draft", "queued", "scheduled", "paused"].includes(
+                                                item().status,
+                                            ) && canOperate()
+                                        }
                                     >
                                         <button
                                             class="button"

@@ -5,6 +5,7 @@ import { DeleteRecord } from "../../events/delete";
 import { EventOptions } from "../../events/participation";
 import { useConfirmation } from "../../components/dialog";
 import { EventMail } from "../../events/mail";
+import { Campaigns } from "../../mail/campaigns";
 import { readConfirmation } from "../../events/confirmation";
 import { isTentative } from "../../../convex/events/conditions";
 import { confirmEvent } from "../../events/actions";
@@ -465,7 +466,12 @@ export default function Route() {
                                                 <p>Changes appear on the event page when saved.</p>
                                             }
                                         >
-                                            <Show when={visibility() === "public"}>
+                                            <Show
+                                                when={
+                                                    visibility() === "public" &&
+                                                    authority.current()?.isAdmin
+                                                }
+                                            >
                                                 <label class="checkbox">
                                                     <input
                                                         type="checkbox"
@@ -496,8 +502,16 @@ export default function Route() {
                                                 <button
                                                     class="button"
                                                     type="button"
-                                                    disabled={isPending()}
+                                                    disabled={
+                                                        isPending() ||
+                                                        !authority.current()?.canSendMail
+                                                    }
                                                     onClick={() => void transition("cancel")}
+                                                    title={
+                                                        !authority.current()?.canSendMail
+                                                            ? "Email sending permission required"
+                                                            : undefined
+                                                    }
                                                 >
                                                     Cancel event
                                                 </button>
@@ -645,6 +659,9 @@ export default function Route() {
                         </Editor>
                         <Show when={canPublish() && isPublished() && currentEvent()}>
                             <EventMail eventId={currentEvent()!.id} />
+                        </Show>
+                        <Show when={!canPublish() && isPublished() && currentEvent()}>
+                            <Campaigns eventId={currentEvent()!.id} />
                         </Show>
                     </Show>
                 </Show>

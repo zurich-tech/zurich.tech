@@ -14,7 +14,7 @@ export function Management(props: {
     section: "jobs" | "sponsors" | "organisations";
     organisationId?: string;
 }) {
-    const { workspace, refetch } = useEmployerWorkspace();
+    const { workspace, refetch } = useEmployerWorkspace(() => props.section === "organisations");
     const command = useWorkspaceCommand(refetch);
     const [selected, setSelected] = createSignal<string | undefined>(props.organisationId);
     const [isSaving, setIsSaving] = createSignal(false);
@@ -103,7 +103,7 @@ export function Management(props: {
                                 class={isCreating() || selected() ? undefined : "admin-table-card"}
                                 toolbar={
                                     <>
-                                        <Show when={organisation()}>
+                                        <Show when={organisation() && current().isAdmin}>
                                             <a
                                                 class="action-link"
                                                 href={`/jobs/submit?organisation=${organisation()!._id}`}
@@ -212,9 +212,9 @@ export function Management(props: {
                                         item={organisation()}
                                         isAdmin={current().isAdmin}
                                         owners={current().owners}
-                                        onSave={async () => {
+                                        onSave={async (id) => {
                                             await startTransition(refetch);
-                                            setSelected(undefined);
+                                            setSelected(id);
                                         }}
                                     />
                                 </Show>

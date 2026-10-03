@@ -15,6 +15,8 @@ export const accounts = defineTable({
     onboardedAt: v.optional(v.number()),
     isTeam: v.boolean(),
     isAdmin: v.boolean(),
+    /** Explicit permission to send event email; absent means no permission. */
+    isMailSender: v.optional(v.boolean()),
     memberId: v.id("members"),
     status: accountStatus,
     createdAt: v.number(),

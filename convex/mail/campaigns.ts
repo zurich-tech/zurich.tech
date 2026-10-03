@@ -9,8 +9,9 @@ import {
 } from "../_generated/server";
 import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
-import { requireAdmin } from "../auth/access";
-import { requireEvent, requireSeries } from "../auth/grants";
+import { requireAdmin, requireMailSender } from "../auth/access";
+import { allows } from "../auth/permissions";
+import { permissions, requireEvent, requireSeries } from "../auth/grants";
 import { authComponent } from "../auth/component";
 import { campaignEmail, eventEmail } from "./templates";
 import { eventPlace } from "../events/place";
@@ -27,10 +28,11 @@ import { consumeLimit } from "./limits";
 async function authorize(
     ctx: QueryCtx,
     campaign: { eventId?: Id<"events">; seriesId?: Id<"series">; audience?: Audience },
+    role: "editor" | "organiser" = "editor",
 ) {
     if (campaign.audience?.kind === "subscribers") return await requireAdmin(ctx);
-    if (campaign.eventId) return await requireEvent(ctx, campaign.eventId);
-    if (campaign.seriesId) return await requireSeries(ctx, campaign.seriesId);
+    if (campaign.eventId) return await requireEvent(ctx, campaign.eventId, role);
+    if (campaign.seriesId) return await requireSeries(ctx, campaign.seriesId, role);
     return await requireAdmin(ctx);
 }
 
@@ -57,7 +59,7 @@ function render(campaign: Doc<"campaigns">) {
 export const list = query({
     args: { eventId: v.optional(v.id("events")) },
     handler: async (ctx, args) => {
-        await authorize(ctx, args);
+        const viewer = await authorize(ctx, args);
         const campaigns = args.eventId
             ? await ctx.db
                   .query("campaigns")
@@ -67,18 +69,20 @@ export const list = query({
             : await ctx.db.query("campaigns").order("desc").take(30);
         return {
             sending: await state(ctx),
-            campaigns: campaigns.map((campaign) => {
-                const { recipients, content: _content, ...values } = campaign;
-                return {
-                    ...values,
-                    state: campaign.status[0].toUpperCase() + campaign.status.slice(1),
-                    recipients: recipients?.length ?? 0,
-                    accepted: campaign.accepted ?? 0,
-                    delivered: campaign.delivered ?? 0,
-                    failed: campaign.failed ?? 0,
-                    skipped: campaign.skipped ?? 0,
-                };
-            }),
+            campaigns: campaigns
+                .filter((campaign) => viewer.isAdmin || campaign.audience?.kind !== "subscribers")
+                .map((campaign) => {
+                    const { recipients, content: _content, ...values } = campaign;
+                    return {
+                        ...values,
+                        state: campaign.status[0].toUpperCase() + campaign.status.slice(1),
+                        recipients: recipients?.length ?? 0,
+                        accepted: campaign.accepted ?? 0,
+                        delivered: campaign.delivered ?? 0,
+                        failed: campaign.failed ?? 0,
+                        skipped: campaign.skipped ?? 0,
+                    };
+                }),
         };
     },
 });
@@ -89,6 +93,13 @@ export const preview = query({
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
         const viewer = await authorize(ctx, campaign);
+        const access = await permissions(ctx);
+        const event = campaign.eventId ? await ctx.db.get(campaign.eventId) : null;
+        const canInspectRecipients = allows(
+            access,
+            { eventId: campaign.eventId, seriesId: event?.seriesId ?? campaign.seriesId },
+            "organiser",
+        );
         const selected = await select(ctx, campaign.audience!, campaign.category!);
 
         // show administrators the exact draft order without exposing global addresses to organisers
@@ -99,11 +110,13 @@ export const preview = query({
                       selected.recipients.filter((id) => !campaign.recipients?.includes(id)),
                   )
                 : undefined;
-        const messages = await ctx.db
-            .query("messages")
-            .withIndex("by_campaign", (q) => q.eq("campaignId", args.id))
-            .order("desc")
-            .take(50);
+        const messages = canInspectRecipients
+            ? await ctx.db
+                  .query("messages")
+                  .withIndex("by_campaign", (q) => q.eq("campaignId", args.id))
+                  .order("desc")
+                  .take(50)
+            : [];
         return {
             id: campaign._id,
             updatedAt: campaign.updatedAt,
@@ -351,6 +364,8 @@ export const queue = mutation({
     },
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
+        await authorize(ctx, campaign, "organiser");
+        await requireMailSender(ctx);
         requireAudienceDelivery();
         if (campaign.attemptLimit !== undefined)
             throw new Error("Release a reviewed batch instead.");
@@ -504,6 +519,8 @@ export const pause = mutation({
     args: { id: v.id("campaigns"), isPaused: v.boolean() },
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
+        await authorize(ctx, campaign, "organiser");
+        if (!args.isPaused) await requireMailSender(ctx);
         if (
             args.isPaused
                 ? !["scheduled", "queued"].includes(campaign.status)
@@ -532,6 +549,7 @@ export const cancel = mutation({
     args: { id: v.id("campaigns") },
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
+        await authorize(ctx, campaign, "organiser");
         if (["completed", "cancelled"].includes(campaign.status))
             throw new Error("Campaign has already finished.");
         await ctx.db.patch(args.id, { status: "cancelled", updatedAt: Date.now() });
@@ -565,6 +583,8 @@ export const test = mutation({
     args: { id: v.id("campaigns") },
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
+        await authorize(ctx, campaign, "organiser");
+        await requireMailSender(ctx);
         const user = await authComponent.getAuthUser(ctx);
         if (!user?.emailVerified) throw new Error("Verify your email first.");
         if (!recipientAllowed(user.email))

@@ -3,6 +3,7 @@ import { internalMutation, mutation, type MutationCtx } from "../_generated/serv
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
 import { requireEvent } from "../auth/grants";
+import { requireMailSender } from "../auth/access";
 import { confirmAction, eventAction } from "./actions";
 import { confirmationDecision, isTentative } from "./conditions";
 
@@ -94,6 +95,7 @@ export const decide = mutation({
     },
     handler: async (ctx, args) => {
         await requireEvent(ctx, args.eventId);
+        await requireMailSender(ctx);
         const event = await ctx.db.get(args.eventId);
         if (
             !event ||

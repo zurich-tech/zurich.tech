@@ -15,11 +15,15 @@ export type AttendeeList = FunctionReturnType<typeof api.events.registrations.li
 export type Perform = (operation: () => Promise<unknown>, message: string) => Promise<void>;
 
 /** Load the employer or team workspace under the current authenticated identity. */
-export function useEmployerWorkspace() {
+export function useEmployerWorkspace(directory: () => boolean = () => false) {
     const account = useAccount();
     const [workspace, { refetch }] = createResource(
-        () => account.user()?.id,
-        async () => await (await memberClient()).query(api.organisations.workspace.employer, {}),
+        () =>
+            account.user()?.id
+                ? { accountId: account.user()!.id, directory: directory() }
+                : undefined,
+        async ({ directory }) =>
+            await (await memberClient()).query(api.organisations.workspace.employer, { directory }),
     );
 
     return { account, workspace, refetch };

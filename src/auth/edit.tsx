@@ -39,11 +39,19 @@ function createAccess() {
     const key = createMemo(() => {
         const value = current();
         return value?.canManage
-            ? JSON.stringify([value.accountId, value.isAdmin, value.grants, value.editableEventIds])
+            ? JSON.stringify([
+                  value.accountId,
+                  value.isAdmin,
+                  value.isTeam,
+                  value.canSendMail,
+                  value.grants,
+                  value.editableEventIds,
+              ])
             : undefined;
     });
     const canEvent = (id: string | undefined, role: "editor" | "organiser" = "editor") =>
         !!current()?.isAdmin ||
+        (role === "editor" && !!current()?.isTeam) ||
         (!!id &&
             (role === "editor"
                 ? current()?.editableEventIds
@@ -51,6 +59,7 @@ function createAccess() {
             )?.includes(id as Id<"events">) === true);
     const canSeries = (id: string | undefined, role: "editor" | "organiser" = "editor") =>
         !!current()?.isAdmin ||
+        (role === "editor" && !!current()?.isTeam) ||
         (!!id &&
             !!current()?.grants.some(
                 (grant) =>
@@ -60,6 +69,7 @@ function createAccess() {
             ));
     const canCreate = (seriesId?: string) =>
         !!current()?.isAdmin ||
+        !!current()?.isTeam ||
         !!current()?.grants.some(
             (grant) =>
                 grant.scope.kind === "series" &&
@@ -93,6 +103,7 @@ export function EditLink(
         seriesId?: Id<"series">;
         href?: string;
         role?: "editor" | "organiser";
+        team?: boolean;
     } & {
         label?: string;
     },
@@ -137,12 +148,14 @@ export function EditLink(
                         ? context.current()?.memberId === props.memberId
                         : props.organisationId
                           ? context.current()?.isAdmin ||
+                            context.current()?.isTeam ||
                             context.current()?.ownedOrganisationIds.includes(props.organisationId)
                           : props.eventId
                             ? context.canEvent(props.eventId, props.role)
                             : props.seriesId
                               ? context.canSeries(props.seriesId, props.role)
-                              : context.current()?.isAdmin)
+                              : context.current()?.isAdmin ||
+                                (props.team && context.current()?.isTeam))
                 }
             >
                 <div class="team-edit">

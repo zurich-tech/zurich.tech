@@ -13,7 +13,7 @@ export function NewsActions(props: { isCompact?: boolean }) {
             >
                 Suggest a story
             </a>
-            {!props.isCompact && <EditLink href="/admin?section=news" label="Manage" />}
+            {!props.isCompact && <EditLink team href="/admin?section=news" label="Manage" />}
         </>
     );
 }

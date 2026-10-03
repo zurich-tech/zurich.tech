@@ -10,6 +10,7 @@ export async function confirmEvent(
     confirm: Confirm,
 ) {
     const preview = await (await memberClient()).query(api.events.actions.preview, args);
+    if (preview.permissionError) throw new Error(preview.permissionError);
     const effects =
         args.action === "unpublish"
             ? "This hides the event and closes registration. Existing registrations are kept."

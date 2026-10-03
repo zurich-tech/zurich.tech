@@ -12,6 +12,7 @@ import {
 import { internal } from "../_generated/api";
 import type { Doc, Id } from "../_generated/dataModel";
 import { requireWorkspace, requireSeries, requireRevision, requireSchedule } from "../auth/grants";
+import { requireAdmin, requireMailSender } from "../auth/access";
 import { allows } from "../auth/permissions";
 import { publicOrganisers } from "./organisers";
 import { recurrence, occurrences, validateRecurrence } from "./recurrence";
@@ -70,6 +71,8 @@ export const save = mutation({
     },
     handler: async (ctx, args) => {
         const viewer = await requireSeries(ctx, args.seriesId);
+        if (args.publication === "published" && args.status === "active")
+            await requireMailSender(ctx);
         validateRecurrence(args.recurrence);
         const series = await ctx.db.get(args.seriesId);
         if (!series) throw new Error("Series not found.");
@@ -311,6 +314,7 @@ export const announce = mutation({
     args: { id: v.id("schedules"), receipt: v.string() },
     handler: async (ctx, args) => {
         await requireSchedule(ctx, args.id);
+        await requireAdmin(ctx);
         requireMail();
         requireAudienceDelivery();
         const preview = await announcementPreview(ctx, args.id);

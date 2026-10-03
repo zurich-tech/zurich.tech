@@ -5,6 +5,7 @@ import { internalMutation, mutation, query, type QueryCtx } from "../_generated/
 import type { Doc } from "../_generated/dataModel";
 import { internal } from "../_generated/api";
 import { requireEvent } from "../auth/grants";
+import { requireMailSender } from "../auth/access";
 import { receivesFollowUp as eligible } from "./audiences";
 import { create } from "./campaigns";
 import { links } from "./personalization";
@@ -48,6 +49,7 @@ export const send = mutation({
     args: { eventId: v.id("events"), receipt: v.string() },
     handler: async (ctx, args) => {
         await requireEvent(ctx, args.eventId);
+        await requireMailSender(ctx);
         requireMail();
         requireAudienceDelivery();
         const actual = await audience(ctx, args.eventId);

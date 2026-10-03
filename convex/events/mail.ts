@@ -4,6 +4,7 @@ import { query, mutation, type QueryCtx, type MutationCtx } from "../_generated/
 import type { Doc } from "../_generated/dataModel";
 import { internal } from "../_generated/api";
 import { requireEvent } from "../auth/grants";
+import { requireAdmin, requireMailSender } from "../auth/access";
 import { receivesAnnouncement } from "../mail/events";
 import { requireMail } from "../mail/provider";
 import { isTentative } from "./conditions";
@@ -130,6 +131,8 @@ export const send = mutation({
     args: { eventId: v.id("events"), kind, receipt: v.string() },
     handler: async (ctx, args) => {
         await requireEvent(ctx, args.eventId);
+        if (args.kind === "announcement") await requireAdmin(ctx);
+        else await requireMailSender(ctx);
         const event = await ctx.db.get(args.eventId);
         if (!event) throw new Error("Event not found.");
         const actual = await audience(ctx, event, args.kind);

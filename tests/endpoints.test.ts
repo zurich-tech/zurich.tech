@@ -2,6 +2,8 @@ import { convexTest, schema, modules, member } from "./backend";
 import { expect, test } from "bun:test";
 import { api } from "../convex/_generated/api";
 import { revisionFields } from "../convex/events/fields";
+import { canSend } from "../convex/mail/access";
+import { requireCompany } from "../convex/organisations/mutations";
 
 async function setup() {
     const backend = convexTest(schema, modules);
@@ -15,7 +17,7 @@ async function setup() {
             authId: "editor",
             memberId,
             status: "active",
-            isTeam: true,
+            isTeam: false,
             isAdmin: false,
             createdAt: 1,
             updatedAt: 1,
@@ -83,6 +85,290 @@ async function setup() {
     });
     return { backend, editor: backend.withIdentity({ subject: "editor" }), ids };
 }
+
+test("test_allow_team_content_without_attendee_financial_or_admin_access", async () => {
+    const { backend, editor, ids } = await setup();
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.accountId, { isTeam: true });
+        await ctx.db.delete(ids.grantId);
+    });
+    const access = await editor.query(api.auth.queries.current, {});
+    expect(access.canManage).toBe(true);
+    expect(access.canSendMail).toBe(false);
+    expect(access.organisedEventIds).toEqual([]);
+    const workspace = await editor.query(api.events.management.workspace, {});
+    expect(workspace.counts).toEqual([]);
+    expect(workspace.organiserEventIds).toEqual([]);
+    expect(workspace.published.map((event) => event._id)).toEqual([ids.otherId]);
+    await editor.mutation(api.events.mutations.edit, { eventId: ids.otherId });
+    await editor.mutation(api.topics.queries.save, {
+        slug: "robotics",
+        name: "Robotics",
+        isActive: true,
+    });
+    await expect(editor.query(api.news.queries.workspace, {})).resolves.toBeDefined();
+    await expect(
+        editor.query(api.events.registrations.list, { eventId: ids.eventId }),
+    ).rejects.toThrow("You do not have access to this event.");
+    await expect(editor.query(api.auth.management.list, {})).rejects.toThrow(
+        "Admin access is required.",
+    );
+    await expect(
+        editor.mutation(api.auth.management.setPermission, {
+            id: ids.accountId,
+            permission: "isMailSender",
+            isEnabled: true,
+        }),
+    ).rejects.toThrow("Admin access is required.");
+
+    // directory creation must not implicitly confer ownership or financial access
+    const fields = {
+        name: "Test Lab",
+        kind: "company" as const,
+        slug: "test-lab",
+        website: "https://example.com",
+        location: "Zurich",
+        description: "Research",
+    };
+    const organisationId = await editor.mutation(api.organisations.mutations.upsertCompany, fields);
+    expect((await backend.run((ctx) => ctx.db.get(organisationId)))?.ownerId).toBeUndefined();
+    await editor.mutation(api.organisations.mutations.upsertCompany, {
+        ...fields,
+        id: organisationId,
+        name: "Updated Lab",
+    });
+    await expect(editor.run((ctx) => requireCompany(ctx, organisationId))).rejects.toThrow(
+        "You cannot manage this company.",
+    );
+    await expect(
+        editor.mutation(api.organisations.mutations.upsertCompany, {
+            ...fields,
+            id: organisationId,
+            ownerEmail: "owner@example.com",
+        }),
+    ).rejects.toThrow("Admin access is required to assign a company.");
+    const directory = await editor.query(api.organisations.workspace.employer, { directory: true });
+    expect(directory.organisations.map((organisation) => organisation._id)).toEqual([
+        organisationId,
+    ]);
+    expect(directory.jobs).toEqual([]);
+    expect(directory.sponsorships).toEqual([]);
+    expect(directory.owners).toEqual([]);
+    expect((await editor.query(api.organisations.workspace.employer, {})).organisations).toEqual(
+        [],
+    );
+
+    // manage public organisation locations, never another member's private locations
+    const address = {
+        name: "Office",
+        line1: "Example 1",
+        locality: "Zurich",
+        countryCode: "CH",
+        latitude: 47.37,
+        longitude: 8.54,
+    };
+    const locationId = await editor.mutation(api.places.locations.save, {
+        ...address,
+        ownerId: organisationId,
+    });
+    expect(
+        (await editor.query(api.places.locations.list, { ownerId: organisationId })).map(
+            (location) => location._id,
+        ),
+    ).toEqual([locationId]);
+    await editor.mutation(api.places.locations.remove, { id: locationId });
+    expect(await editor.query(api.places.locations.list, { ownerId: organisationId })).toEqual([]);
+    const privateMemberId = await backend.run((ctx) =>
+        member(ctx, { name: "Private", searchText: "private", visibility: "private" }),
+    );
+    await expect(
+        editor.query(api.places.locations.list, { ownerId: privateMemberId }),
+    ).rejects.toThrow("You cannot manage this location.");
+    await expect(
+        editor.mutation(api.places.locations.save, { ...address, ownerId: privateMemberId }),
+    ).rejects.toThrow("You cannot manage this location.");
+
+    // removing team membership immediately removes directory and unrelated draft access
+    await backend.run((ctx) => ctx.db.patch(ids.accountId, { isTeam: false }));
+    await expect(
+        editor.mutation(api.organisations.mutations.upsertCompany, {
+            ...fields,
+            id: organisationId,
+        }),
+    ).rejects.toThrow("You cannot manage this organisation.");
+    await expect(
+        editor.mutation(api.events.mutations.edit, { eventId: ids.otherId }),
+    ).rejects.toThrow("You do not have access to this event.");
+});
+
+test("test_require_explicit_email_permission_even_for_event_organisers", async () => {
+    const { backend, editor, ids } = await setup();
+    await backend.run((ctx) => ctx.db.patch(ids.grantId, { role: "organiser" }));
+    const campaignId = await editor.mutation(api.mail.campaigns.save, {
+        subject: "Update",
+        message: "Hello",
+        audience: { kind: "registrations", eventId: ids.eventId, status: "active" },
+    });
+    await expect(
+        editor.mutation(api.mail.campaigns.queue, {
+            id: campaignId,
+            expectedUpdatedAt: 0,
+            expectedRecipients: 0,
+        }),
+    ).rejects.toThrow("Email sending permission is required.");
+    await expect(editor.mutation(api.mail.campaigns.test, { id: campaignId })).rejects.toThrow(
+        "Email sending permission is required.",
+    );
+    await expect(
+        editor.mutation(api.mail.campaigns.pause, { id: campaignId, isPaused: false }),
+    ).rejects.toThrow("Email sending permission is required.");
+    await expect(
+        editor.mutation(api.events.mail.send, {
+            eventId: ids.eventId,
+            kind: "reminder",
+            receipt: "forged",
+        }),
+    ).rejects.toThrow("Email sending permission is required.");
+    await expect(
+        editor.mutation(api.events.mutations.cancel, { eventId: ids.eventId, receipt: "forged" }),
+    ).rejects.toThrow("Email sending permission is required.");
+
+    // sender permission never grants event scope or global subscriber access
+    await backend.run((ctx) => ctx.db.patch(ids.accountId, { isMailSender: true }));
+    const campaign = (await backend.run((ctx) => ctx.db.get(campaignId)))!;
+    expect(await backend.run((ctx) => canSend(ctx, campaign))).toBe(true);
+    await expect(
+        editor.mutation(api.events.mail.send, {
+            eventId: ids.otherId,
+            kind: "reminder",
+            receipt: "forged",
+        }),
+    ).rejects.toThrow("You do not have access to this event.");
+    await expect(
+        editor.mutation(api.events.mail.send, {
+            eventId: ids.eventId,
+            kind: "announcement",
+            receipt: "forged",
+        }),
+    ).rejects.toThrow("Admin access is required.");
+    await expect(editor.query(api.mail.campaigns.list, {})).rejects.toThrow(
+        "Admin access is required.",
+    );
+
+    // recheck both independent permission and event assignment before queued delivery
+    await backend.run((ctx) => ctx.db.patch(ids.accountId, { isMailSender: false }));
+    expect(await backend.run((ctx) => canSend(ctx, campaign))).toBe(false);
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.accountId, { isMailSender: true });
+        await ctx.db.delete(ids.grantId);
+    });
+    expect(await backend.run((ctx) => canSend(ctx, campaign))).toBe(false);
+    expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toEqual([]);
+});
+
+test("test_allow_team_email_drafts_without_sending_or_recipient_records", async () => {
+    process.env.SITE_URL ||= "https://example.invalid";
+    const { backend, editor, ids } = await setup();
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.accountId, { isTeam: true, isMailSender: true });
+        await ctx.db.delete(ids.grantId);
+    });
+    const id = await editor.mutation(api.mail.campaigns.save, {
+        subject: "Update",
+        message: "Hello",
+        audience: { kind: "registrations", eventId: ids.otherId, status: "active" },
+    });
+    const messageId = await backend.run((ctx) =>
+        ctx.db.insert("messages", {
+            campaignId: id,
+            key: "private-recipient",
+            to: "private@example.invalid",
+            subject: "Update",
+            text: "Hello",
+            status: "accepted",
+            isBulk: true,
+            nextAttemptAt: 1,
+            attempts: 1,
+            createdAt: 1,
+        }),
+    );
+    expect((await editor.query(api.mail.campaigns.preview, { id })).messages).toEqual([]);
+    await expect(
+        editor.mutation(api.mail.campaigns.queue, {
+            id,
+            expectedUpdatedAt: 0,
+            expectedRecipients: 0,
+        }),
+    ).rejects.toThrow("You do not have access to this event.");
+    expect(
+        await backend.run(async (ctx) =>
+            (await ctx.db.query("messages").collect()).map((message) => message._id),
+        ),
+    ).toEqual([messageId]);
+});
+
+test("test_show_member_emails_only_in_the_administrator_access_directory", async () => {
+    const { backend, editor, ids } = await setup();
+    await backend.run(async (ctx) => {
+        for (const [email, isPrimary] of [
+            ["alias@example.invalid", false],
+            ["primary@example.invalid", true],
+        ] as const) {
+            await ctx.db.insert("emails", {
+                memberId: ids.memberId,
+                email,
+                isPrimary,
+                createdAt: 1,
+                updatedAt: 1,
+            });
+        }
+    });
+    await expect(editor.query(api.auth.management.list, {})).rejects.toThrow(
+        "Admin access is required.",
+    );
+
+    await backend.run((ctx) => ctx.db.patch(ids.accountId, { isAdmin: true }));
+    const directory = await editor.query(api.auth.management.list, {});
+    expect(directory.people.map(({ id, name, emails }) => ({ id, name, emails }))).toEqual([
+        {
+            id: ids.accountId,
+            name: "Test",
+            emails: ["primary@example.invalid", "alias@example.invalid"],
+        },
+    ]);
+});
+
+test("test_audit_independent_team_and_email_permissions", async () => {
+    const { backend, editor, ids } = await setup();
+    await backend.run((ctx) => ctx.db.patch(ids.accountId, { isAdmin: true }));
+    await editor.mutation(api.auth.management.setPermission, {
+        id: ids.accountId,
+        permission: "isTeam",
+        isEnabled: true,
+    });
+    await editor.mutation(api.auth.management.setPermission, {
+        id: ids.accountId,
+        permission: "isMailSender",
+        isEnabled: true,
+    });
+    const changes = await backend.run((ctx) => ctx.db.query("accessChanges").collect());
+    expect(
+        changes.map(({ actorId, accountId, action, detail }) => ({
+            actorId,
+            accountId,
+            action,
+            detail,
+        })),
+    ).toEqual([
+        { actorId: ids.accountId, accountId: ids.accountId, action: "isTeam", detail: "true" },
+        {
+            actorId: ids.accountId,
+            accountId: ids.accountId,
+            action: "isMailSender",
+            detail: "true",
+        },
+    ]);
+});
 
 test("workspace exposes only the assigned event and no account directory", async () => {
     const { editor, ids } = await setup();
@@ -756,7 +1042,7 @@ test("community answers support refusal, multiple roles and clearing without cha
 });
 
 // Archived topics retain their identity but cannot acquire new assignments.
-test("topic curation requires an admin and archived interests can only be retained", async () => {
+test("scoped editors cannot curate topics and archived interests can only be retained", async () => {
     const { backend, editor, ids } = await setup();
     await expect(
         editor.mutation(api.topics.queries.save, {

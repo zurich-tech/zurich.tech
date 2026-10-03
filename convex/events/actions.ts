@@ -115,6 +115,15 @@ export async function eventAction(
     }
 
     const emails = announcements + updates + promotions;
+    // include future product mail activated by publication, not just today's recipient count
+    const requiresMail =
+        emails > 0 ||
+        ["cancel", "confirm", "approve"].includes(intent) ||
+        (intent === "publish" &&
+            !!proposed &&
+            (!!proposed.confirmation ||
+                !!proposed.followUp?.isEnabled ||
+                (proposed.registration.kind === "native" && proposed.startsAt > now)));
     return {
         title: proposed?.title ?? event!.title,
         visibility: proposed?.visibility ?? event?.visibility ?? "public",
@@ -123,6 +132,7 @@ export async function eventAction(
             !!proposed &&
             (event.visibility ?? "public") !== (proposed.visibility ?? "public"),
         emails,
+        requiresMail,
         followUp: proposed?.followUp?.isEnabled
             ? {
                   delayHours: proposed.followUp.delayHours,
@@ -168,16 +178,26 @@ export const preview = query({
         const id = args.eventId ?? draft?.eventId;
         const event = id ? await ctx.db.get(id) : null;
         if (id && !event) throw new Error("Event not found.");
-        if (id) await requireEvent(ctx, id);
-        else
-            await requireRevision(
-                ctx,
-                draft,
-                args.fields?.seriesId ?? draft?.seriesId,
-                "organiser",
-            );
+        const viewer = id
+            ? await requireEvent(ctx, id)
+            : await requireRevision(
+                  ctx,
+                  draft,
+                  args.fields?.seriesId ?? draft?.seriesId,
+                  "organiser",
+              );
 
-        return await eventAction(ctx, event, args.action, args.fields, args.announce);
+        const result = await eventAction(ctx, event, args.action, args.fields, args.announce);
+
+        return {
+            ...result,
+            permissionError:
+                args.announce && !viewer.isAdmin
+                    ? "Administrator access is required to announce to subscribers."
+                    : result.requiresMail && !viewer.isAdmin && !viewer.isMailSender
+                      ? "This action sends or schedules email. Email sending permission is required; you can still save a draft."
+                      : undefined,
+        };
     },
 });
 
