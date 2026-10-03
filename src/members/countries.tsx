@@ -15,7 +15,12 @@ export function CountryFields(props: { values: Demographics }) {
         <div class="country-fields">
             <label>
                 Where do you live?
-                <select name="residence" value={props.values.residence ?? ""}>
+                <select
+                    name="residence"
+                    value={
+                        props.values.residence === undefined ? "CH" : (props.values.residence ?? "")
+                    }
+                >
                     <option value="">Not answered</option>
                     <For each={countries}>
                         {(country) => <option value={country.value}>{country.label}</option>}
