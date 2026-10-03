@@ -1,4 +1,5 @@
 import { countries } from "./countries";
+import { languages } from "./languages";
 import { v, type Infer } from "convex/values";
 
 /** Stable survey choices shared by forms, validation and aggregate reports. */
@@ -18,14 +19,7 @@ export const demographicOptions = {
         { value: "sales", label: "Sales" },
         { value: "other", label: "Other" },
     ],
-    languages: [
-        { value: "en", label: "English" },
-        { value: "de", label: "German" },
-        { value: "fr", label: "French" },
-        { value: "it", label: "Italian" },
-        { value: "es", label: "Spanish" },
-        { value: "pt", label: "Portuguese" },
-    ],
+    languages,
     experience: [
         { value: "none", label: "Not started yet" },
         { value: "under2", label: "Under 2 years" },

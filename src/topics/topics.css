@@ -50,7 +50,7 @@
     color: var(--color-soft);
 }
 
-.choice-grid.role-choices {
+.choice-grid:is(.role-choices, .language-choices) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -148,7 +148,7 @@
 }
 
 @container (min-width: 640px) {
-    .choice-grid.role-choices {
+    .choice-grid:is(.role-choices, .language-choices) {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }

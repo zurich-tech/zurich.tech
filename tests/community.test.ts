@@ -103,3 +103,39 @@ test("working languages accept multiple explicit answers and reject invented cho
     expect(() => validateDemographics({ languages: ["en", "en"] })).toThrow();
     expect(() => validateDemographics({ languages: ["invented"] })).toThrow();
 });
+
+test("test_accept_and_count_russian_and_chinese", () => {
+    // use the shared choices for profile validation and audience reporting
+    const languages = ["ru", "zh"];
+    expect(() => validateDemographics({ languages })).not.toThrow();
+    const options = demographicOptions.languages.filter((option) =>
+        languages.includes(option.value),
+    );
+    expect(options).toEqual([
+        { value: "zh", label: "Chinese" },
+        { value: "ru", label: "Russian" },
+    ]);
+    expect(summarise([languages], options)).toEqual({
+        responses: 1,
+        total: 1,
+        withheld: 0,
+        groups: [
+            { label: "Chinese", count: 1, percentage: 100 },
+            { label: "Russian", count: 1, percentage: 100 },
+        ],
+    });
+});
+
+test("test_accept_curated_languages_without_duplicates_or_reclassifying_answers", () => {
+    const options = demographicOptions.languages;
+    expect(options.length).toBe(16);
+    expect(new Set(options.map((option) => option.value)).size).toBe(options.length);
+    expect(() =>
+        validateDemographics({ languages: options.map((option) => option.value) }),
+    ).not.toThrow();
+    expect(options.filter((option) => ["de", "gsw", "zh"].includes(option.value))).toEqual([
+        { value: "zh", label: "Chinese" },
+        { value: "de", label: "German" },
+        { value: "gsw", label: "Swiss German" },
+    ]);
+});

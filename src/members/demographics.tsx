@@ -252,7 +252,6 @@ export function DemographicFields(props: { values: Answers }) {
         <>
             <fieldset class="survey-choice">
                 <legend>{demographicLabels.roles}</legend>
-                <p class="survey-intro">Select all that apply.</p>
                 <div class="choice-grid role-choices">
                     <For
                         each={demographicOptions.roles.filter(
@@ -304,7 +303,7 @@ function LanguageFields(props: { values: Answers }) {
         <fieldset class="survey-choice">
             <legend>{demographicLabels.languages}</legend>
             <p class="survey-intro">With at least professional fluency.</p>
-            <div class="choice-grid">
+            <div class="choice-grid language-choices">
                 <For each={demographicOptions.languages}>
                     {(option) => (
                         <label class="checkbox">
