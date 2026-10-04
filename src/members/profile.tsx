@@ -35,8 +35,6 @@ export function ProfileSettings() {
     const [photo, setPhoto] = createSignal<string>();
 
     const [slug, setSlug] = createSignal<string>();
-    const [publicChoice, setPublicChoice] = createSignal<boolean>();
-    const isPublic = () => publicChoice() ?? profile.latest?.visibility === "public";
     const [candidate, setCandidate] = createSignal<string>();
     let slugTimer: ReturnType<typeof setTimeout> | undefined;
     onCleanup(() => clearTimeout(slugTimer));
@@ -146,8 +144,10 @@ export function ProfileSettings() {
                 socials: { linkedin: text("linkedin"), github: text("github"), x: text("x") },
                 ...readCommunity(fields),
             });
-            savedEditor(editor);
+            setSlug(undefined);
+            setCandidate(undefined);
             await startTransition(refetch);
+            savedEditor(editor);
             setSuccess("Profile saved.");
         } catch (caught) {
             setError(errorMessage(caught, "Could not save profile."));
@@ -317,7 +317,7 @@ export function ProfileSettings() {
                         />
                         <div class="profile-address">
                             <label>
-                                Profile address
+                                Profile address (optional)
                                 <input
                                     name="handle"
                                     aria-label="Profile address"
@@ -325,17 +325,14 @@ export function ProfileSettings() {
                                     autocapitalize="none"
                                     spellcheck={false}
                                     maxlength="40"
-                                    required={isPublic()}
                                     pattern="[a-zA-Z][a-zA-Z0-9\-]{2,39}"
                                     title="Use 3–40 letters, numbers or hyphens, starting with a letter."
-                                    placeholder="your-name"
+                                    placeholder="Automatic"
                                     value={slug() ?? current().handle ?? ""}
                                     onInvalid={(event) => {
                                         const field = event.currentTarget;
                                         field.setCustomValidity(
-                                            field.validity.valueMissing
-                                                ? "Choose a profile address or turn off Public profile."
-                                                : "Use 3–40 letters, numbers or hyphens, starting with a letter.",
+                                            "Use 3–40 letters, numbers or hyphens, starting with a letter.",
                                         );
                                     }}
                                     onInput={(event) => {
@@ -369,14 +366,7 @@ export function ProfileSettings() {
                                 <input
                                     type="checkbox"
                                     name="isPublic"
-                                    checked={isPublic()}
-                                    onChange={(event) => {
-                                        setPublicChoice(event.currentTarget.checked);
-                                        const field = event.currentTarget.form?.elements.namedItem(
-                                            "handle",
-                                        ) as HTMLInputElement;
-                                        field.setCustomValidity("");
-                                    }}
+                                    checked={current().visibility === "public"}
                                 />
                                 Public profile
                             </label>

@@ -26,20 +26,10 @@ async function setup() {
     return backend.withIdentity({ subject: "member" });
 }
 
-test("test_require_an_address_only_for_public_profiles", async () => {
+test("test_save_private_and_public_profiles_without_a_custom_address", async () => {
     const client = await setup();
     const answers = { languages: ["en", "de", "ru"] };
     const before = await client.query(api.members.profiles.current, {});
-
-    // reject publication without losing or partially saving profile answers
-    await expect(
-        client.mutation(api.members.profiles.save, {
-            name: "Test member",
-            isPublic: true,
-            demographics: answers,
-        }),
-    ).rejects.toMatchObject({ data: "Choose a profile address or turn off Public profile." });
-    expect(await client.query(api.members.profiles.current, {})).toEqual(before);
 
     // accept private survey answers without requiring a public address
     await client.mutation(api.members.profiles.save, {
@@ -52,11 +42,10 @@ test("test_require_an_address_only_for_public_profiles", async () => {
         demographics: answers,
     });
 
-    // publish only after the member chooses an address
+    // allocate an address when publishing, without requiring a custom choice
     await client.mutation(api.members.profiles.save, {
         name: "Test member",
         isPublic: true,
-        handle: "Test-member",
     });
     expect(await client.query(api.members.profiles.current, {})).toEqual({
         ...before,
@@ -64,6 +53,70 @@ test("test_require_an_address_only_for_public_profiles", async () => {
         handle: "test-member",
         visibility: "public",
     });
+});
+
+test("test_preserve_existing_addresses_when_left_blank_or_changing_visibility", async () => {
+    const client = await setup();
+    await client.mutation(api.members.profiles.save, {
+        name: "Test member",
+        isPublic: true,
+        handle: "Custom-address",
+    });
+    const before = await client.query(api.members.profiles.current, {});
+
+    // neither clearing the optional field nor editing the name breaks existing links
+    for (const isPublic of [false, true]) {
+        await client.mutation(api.members.profiles.save, {
+            name: "Updated member",
+            isPublic,
+            handle: " ",
+        });
+        expect(await client.query(api.members.profiles.current, {})).toEqual({
+            ...before,
+            name: "Updated member",
+            visibility: isPublic ? "public" : "private",
+        });
+    }
+});
+
+test("test_generate_unique_addresses_without_claiming_active_or_reserved_names", async () => {
+    const client = await setup();
+    await client.run(async (ctx) => {
+        const memberId = await member(ctx, {
+            name: "Other member",
+            searchText: "other member",
+            visibility: "private",
+        });
+        for (const [name, status] of [
+            ["test-member", "active"],
+            ["test-member-2", "reserved"],
+            ["test-member-3", "released"],
+        ] as const) {
+            await ctx.db.insert("handles", { name, status, memberId, createdAt: 1, updatedAt: 1 });
+        }
+    });
+    await expect(
+        client.mutation(api.members.profiles.save, {
+            name: "Test member",
+            isPublic: true,
+            handle: "test-member",
+        }),
+    ).rejects.toMatchObject({ data: "This profile address is already taken." });
+    await client.mutation(api.members.profiles.save, { name: "Test member", isPublic: true });
+    expect((await client.query(api.members.profiles.current, {})).handle).toBe("test-member-3");
+});
+
+test("test_generate_valid_addresses_for_accented_short_and_non_latin_names", async () => {
+    for (const [name, handle] of [
+        ["Florian Cäsar", "florian-casar"],
+        ["Li", "member"],
+        ["张伟", "member"],
+        ["A".repeat(120), "a".repeat(30)],
+    ]) {
+        const client = await setup();
+        await client.mutation(api.members.profiles.save, { name, isPublic: true });
+        expect((await client.query(api.members.profiles.current, {})).handle).toBe(handle);
+    }
 });
 
 test("test_expose_actionable_profile_validation_messages", async () => {

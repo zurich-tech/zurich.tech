@@ -8,7 +8,7 @@ import {
 } from "./demographics";
 import { readProfiles, writeProfiles } from "./links";
 import { ConvexError, v } from "convex/values";
-import { query, mutation } from "../_generated/server";
+import { query, mutation, type QueryCtx } from "../_generated/server";
 import { authComponent } from "../auth/component";
 import { requireAccount } from "../auth/access";
 import { searchText } from "./search";
@@ -81,13 +81,15 @@ export const save = mutation({
             throw new ConvexError("Keep the headline within 160 characters.");
 
         // reserve the chosen public address without allowing another member's handle
-        const handle = args.handle?.trim() ? normalizeHandle(args.handle) : undefined;
-        if (args.isPublic && !handle)
-            throw new ConvexError("Choose a profile address or turn off Public profile.");
         const handles = await ctx.db
             .query("handles")
             .withIndex("by_member", (q) => q.eq("memberId", member._id))
             .collect();
+        let handle = args.handle?.trim()
+            ? normalizeHandle(args.handle)
+            : handles.find((row) => row.status === "active")?.name;
+        if (!handle && args.isPublic) handle = await availableHandle(name, ctx);
+
         if (handle) {
             const existing = await ctx.db
                 .query("handles")
@@ -187,6 +189,30 @@ export const available = query({
         };
     },
 });
+
+/** Choose an unclaimed public address without exposing an email or changing an existing URL. */
+async function availableHandle(name: string, ctx: QueryCtx): Promise<string> {
+    // build a readable address with space for a collision suffix
+    const normalized = name
+        .normalize("NFKD")
+        .replace(/\p{M}/gu, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^[^a-z]+/, "")
+        .slice(0, 30)
+        .replace(/-+$/, "");
+    const base = normalized.length >= 3 ? normalized : "member";
+
+    // let the transaction retry concurrent claims, respecting both active and reserved addresses
+    for (let suffix = 1; ; suffix++) {
+        const handle = suffix === 1 ? base : `${base}-${suffix}`;
+        const existing = await ctx.db
+            .query("handles")
+            .withIndex("by_name", (q) => q.eq("name", handle))
+            .unique();
+        if (!existing || existing.status === "released") return handle;
+    }
+}
 
 /** Normalize a member slug and enforce its format for lookup and saving. */
 function normalizeHandle(value: string) {
