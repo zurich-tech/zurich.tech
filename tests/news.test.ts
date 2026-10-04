@@ -37,6 +37,8 @@ test("news detail matches the feed and excludes drafts and private authors", asy
         return { id, slug: "published", ...content, date: 10, authors: [] };
     });
     expect(await backend.query(api.news.queries.list, {})).toEqual([expected]);
+    const { body, ...preview } = expected;
+    expect(await backend.query(api.news.queries.headlines, {})).toEqual([preview]);
     expect(await backend.query(api.news.queries.detail, { slug: "published" })).toEqual(expected);
     expect(await backend.query(api.news.queries.detail, { slug: "draft" })).toBeNull();
     expect(await backend.query(api.news.queries.detail, { slug: "missing" })).toBeNull();
@@ -52,6 +54,10 @@ test("news detail matches the feed and excludes drafts and private authors", asy
         });
     });
     expect((await backend.query(api.news.queries.list, {})).map((post) => post.slug)).toEqual([
+        "newer",
+        "published",
+    ]);
+    expect((await backend.query(api.news.queries.headlines, {})).map((post) => post.slug)).toEqual([
         "newer",
         "published",
     ]);

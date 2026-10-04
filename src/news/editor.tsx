@@ -16,7 +16,7 @@ import { Markdown } from "../components/markdown";
 import { MarkdownEditor } from "../components/markdown-editor";
 import { errorMessage } from "../components/errors";
 import { SocialCopy } from "./social";
-import { getArticles, getArticle } from "./queries";
+import { getArticles, getArticle, getHeadlines } from "./queries";
 import "./article.css";
 
 type Content = Doc<"posts">["draft"];
@@ -139,7 +139,7 @@ export function NewsEditor(props: {
             setVersion(result.updatedAt);
             setPublished(isPublished ? draftContent() : undefined);
             if (isPublished) setHasPublished(true);
-            await revalidate([getArticles.key, getArticle.key]);
+            await revalidate([getArticles.key, getArticle.key, getHeadlines.key]);
             navigate("/admin?section=news");
         });
     }

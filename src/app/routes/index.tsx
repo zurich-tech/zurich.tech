@@ -4,8 +4,8 @@ import { getSponsors } from "../../sponsorships/queries";
 import { getTopics } from "../../topics/queries";
 import { site } from "../site";
 import { getCalendar, getGallery } from "../../events/queries";
-import { getArticles } from "../../news/queries";
-import { getDirectory } from "../../organisations/queries";
+import { getHeadlines } from "../../news/queries";
+import { getSeries } from "../../organisations/queries";
 import { getJobs } from "../../jobs/queries";
 import { ArticleList } from "../../news/article";
 import { For, Show } from "solid-js";
@@ -25,8 +25,8 @@ export const route = {
         Promise.all([
             getCalendar(),
             getSubscriberCount(),
-            getArticles(),
-            getDirectory(),
+            getHeadlines(),
+            getSeries(),
             getJobs(),
             getGallery(),
             getMap(),
@@ -40,8 +40,8 @@ export default function Route() {
     // read published events and series from the live catalogue
     const entries = getCalendar.use(() => []);
     const subscribers = getSubscriberCount.use(() => []);
-    const articles = getArticles.use(() => []);
-    const directory = getDirectory.use(() => []);
+    const articles = getHeadlines.use(() => []);
+    const series = getSeries.use(() => []);
     const jobs = getJobs.use(() => []);
     const photos = getGallery.use(() => []);
 
@@ -65,7 +65,7 @@ export default function Route() {
                     <Programme
                         isPlanningEnabled
                         entries={entries() ?? []}
-                        series={directory()?.series ?? []}
+                        series={series() ?? []}
                         limit={5}
                     />
                     <Show when={(photos()?.length ?? 0) > 0}>

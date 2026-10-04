@@ -1,5 +1,5 @@
 import { getCalendar } from "../../../events/queries";
-import { getDirectory } from "../../../organisations/queries";
+import { getSeries } from "../../../organisations/queries";
 import { Programme } from "../../../events/programme";
 import { Page } from "../../page";
 import { SeriesList } from "../../../events/series-list";
@@ -8,13 +8,13 @@ import { Seo } from "../../seo";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
-    preload: () => Promise.all([getCalendar(), getDirectory()]),
+    preload: () => Promise.all([getCalendar(), getSeries()]),
 };
 
 /** Browse the complete event calendar. */
 export default function Route() {
     const events = getCalendar.use(() => []);
-    const directory = getDirectory.use(() => []);
+    const series = getSeries.use(() => []);
 
     return (
         <>
@@ -29,11 +29,11 @@ export default function Route() {
                         isCalendarEnabled
                         isPlanningEnabled
                         entries={events() ?? []}
-                        series={directory()?.series ?? []}
+                        series={series() ?? []}
                     />
                     <aside class="listing-sidebar">
                         <SeriesList
-                            series={directory()?.series ?? []}
+                            series={series() ?? []}
                             entries={events() ?? []}
                             now={Date.now()}
                         />

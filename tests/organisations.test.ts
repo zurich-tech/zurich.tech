@@ -2,6 +2,60 @@ import { convexTest, schema, modules, member } from "./backend";
 import { expect, test } from "bun:test";
 import { api } from "../convex/_generated/api";
 
+test("test_read_one_organisation_with_only_public_locations", async () => {
+    const backend = convexTest(schema, modules);
+    await backend.run(async (ctx) => {
+        const organisation = await ctx.db.insert("organisations", {
+            name: "Example",
+            slug: "example",
+            kind: "company",
+            description: "Public profile",
+            location: "Zurich",
+            website: "https://example.org",
+            updatedAt: 1,
+        });
+        const addressId = await ctx.db.insert("addresses", {
+            line1: "Public street",
+            locality: "Zurich",
+            countryCode: "CH",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.insert("locations", {
+            ownerId: organisation,
+            addressId,
+            name: "Office",
+            visibility: "public",
+        });
+        await ctx.db.insert("locations", {
+            ownerId: organisation,
+            addressId,
+            name: "Private office",
+            visibility: "private",
+        });
+    });
+    const directory = await backend.query(api.organisations.queries.directory, {});
+    const organisation = await backend.query(api.organisations.queries.detail, { slug: "example" });
+    expect(organisation).toEqual(directory.organisations[0]);
+    expect(organisation!.locations.map((location) => location.name)).toEqual(["Office"]);
+    expect(await backend.query(api.organisations.queries.detail, { slug: "missing" })).toBeNull();
+});
+
+test("test_read_public_series_without_organisation_records", async () => {
+    const backend = convexTest(schema, modules);
+    const published = await backend.run(async (ctx) => {
+        const fields = { name: "Meetup", description: "Public programme", topics: [] };
+        const id = await ctx.db.insert("series", { ...fields, slug: "meetup", status: "active" });
+        await ctx.db.insert("series", { ...fields, slug: "proposal", status: "proposed" });
+        return ctx.db.get(id);
+    });
+
+    const series = await backend.query(api.organisations.queries.series, {});
+    const directory = await backend.query(api.organisations.queries.directory, {});
+    expect(series).toEqual([{ ...published!, organiser: null, coOrganisers: [] }]);
+    expect(series).toEqual(directory.series);
+});
+
 test("organisation owners can create and change categories without changing identity", async () => {
     const backend = convexTest(schema, modules);
     await backend.run(async (ctx) => {
@@ -45,6 +99,17 @@ test("organisation owners can create and change categories without changing iden
 
     expect(saved).toBe(id);
     expect((await backend.run((ctx) => ctx.db.get(id)))?.kind).toBe("university");
+    // changing a slug moves the indexed public page without leaving the previous lookup alive
+    await owner.mutation(api.organisations.mutations.upsertCompany, {
+        ...values,
+        id,
+        slug: "renamed",
+        kind: "university",
+    });
+    expect(await backend.query(api.organisations.queries.detail, { slug: "example" })).toBeNull();
+    expect(await backend.query(api.organisations.queries.detail, { slug: "renamed" })).toEqual(
+        (await backend.query(api.organisations.queries.directory, {})).organisations[0],
+    );
     await expect(
         backend.mutation(api.organisations.mutations.upsertCompany, {
             ...values,

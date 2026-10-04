@@ -3,6 +3,7 @@ import {
     createContext,
     createMemo,
     createSignal,
+    createEffect,
     onMount,
     onCleanup,
     useContext,
@@ -30,6 +31,7 @@ const Context = createContext<Catalogue>();
 /** Start one public subscription per browser application and reuse its in-memory index. */
 export function CatalogueProvider(props: { children: JSX.Element }) {
     const connect = usePublicClient();
+    const [isRequested, setRequested] = createSignal(false);
     const [result, setResult] = createSignal<SearchRecord[] | Error>();
     const records = createMemo(() => {
         const value = result();
@@ -38,22 +40,25 @@ export function CatalogueProvider(props: { children: JSX.Element }) {
     let reconnect = () => {};
     const index = createMemo(() => indexRecords(records()));
 
-    // Share the anonymous application connection and release this subscription on cleanup.
+    // defer the full search index until a search view needs it, then retain it for navigation
     onMount(() => {
-        const client = connect();
-        let unsubscribe = () => {};
-        reconnect = () => {
-            unsubscribe();
-            if (result() instanceof Error) setResult(undefined);
-            unsubscribe = client.onUpdate(
-                api.search.search.catalogue,
-                {},
-                (value) => setResult(value),
-                (error) => setResult(error),
-            );
-        };
-        reconnect();
-        onCleanup(() => unsubscribe());
+        createEffect(() => {
+            if (!isRequested()) return;
+            const client = connect();
+            let unsubscribe = () => {};
+            reconnect = () => {
+                unsubscribe();
+                setResult(undefined);
+                unsubscribe = client.onUpdate(
+                    api.search.search.catalogue,
+                    {},
+                    (value) => setResult(value),
+                    (error) => setResult(error),
+                );
+            };
+            reconnect();
+            onCleanup(() => unsubscribe());
+        });
     });
     const catalogue: Catalogue = {
         isReady: () => Array.isArray(result()),
@@ -62,9 +67,13 @@ export function CatalogueProvider(props: { children: JSX.Element }) {
             return value instanceof Error ? value.message : "";
         },
         retry: () => reconnect(),
-        search: (text, kind, limit) => searchRecords(index(), text, kind, limit),
-        upcoming: () =>
-            records()
+        search: (text, kind, limit) => {
+            setRequested(true);
+            return searchRecords(index(), text, kind, limit);
+        },
+        upcoming: () => {
+            setRequested(true);
+            return records()
                 .filter(
                     (record) =>
                         record.kind === "Events" &&
@@ -73,7 +82,8 @@ export function CatalogueProvider(props: { children: JSX.Element }) {
                 )
                 .sort((a, b) => a.startsAt! - b.startsAt!)
                 .slice(0, 4)
-                .map((record) => matchRecord(record, [])!),
+                .map((record) => matchRecord(record, [])!);
+        },
     };
     return <Context.Provider value={catalogue}>{props.children}</Context.Provider>;
 }

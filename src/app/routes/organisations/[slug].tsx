@@ -4,7 +4,7 @@ import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { SocialLinks } from "../../../components/social";
 import { JobEntry } from "../../../jobs/job";
-import { getDirectory } from "../../../organisations/queries";
+import { getOrganisation } from "../../../organisations/queries";
 import { getJobs } from "../../../jobs/queries";
 import { Arrow } from "../../../components/arrow";
 import { Share } from "../../../components/share";
@@ -15,18 +15,18 @@ import { For, Show } from "solid-js";
 import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 import { NotFound } from "../../notfound";
+import { routeParam } from "../../params";
 import "../../../organisations/organisations.css";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
-    preload: () => getDirectory(),
+    preload: ({ params }: { params: Record<string, string> }) => getOrganisation(params.slug),
 };
 
 /** Present an organisation in the same card layout as event details. */
 export default function Route() {
     const params = useParams();
-    const directory = getDirectory.use(() => []);
-    const organisation = () => directory()?.organisations.find((item) => item.slug === params.slug);
+    const organisation = getOrganisation.use(() => [routeParam("slug", params.slug)]);
     // load only the open jobs attached to this organisation
     const jobs = getJobs.use(() => {
         const current = organisation();
@@ -34,7 +34,7 @@ export default function Route() {
     });
 
     return (
-        <Show when={organisation()} fallback={directory() ? <NotFound /> : null}>
+        <Show when={organisation()} fallback={organisation() === null ? <NotFound /> : null}>
             {(item) => (
                 <>
                     <Seo

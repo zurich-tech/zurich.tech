@@ -5,7 +5,7 @@ import { site } from "../../site";
 import { SeriesDetails } from "../../../events/series-details";
 import { useParams } from "@solidjs/router";
 import { Show } from "solid-js";
-import { getDirectory } from "../../../organisations/queries";
+import { getSeries } from "../../../organisations/queries";
 import { getCalendar } from "../../../events/queries";
 import { Programme } from "../../../events/programme";
 import { EditLink } from "../../../auth/edit";
@@ -13,16 +13,16 @@ import { Page, ItemHeader } from "../../page";
 import { Seo } from "../../seo";
 import { NotFound } from "../../notfound";
 
-export const route = { preload: () => Promise.all([getDirectory(), getCalendar()]) };
+export const route = { preload: () => Promise.all([getSeries(), getCalendar()]) };
 
 /** Browse the description and complete programme of one series. */
 export default function Route() {
     const params = useParams();
-    const directory = getDirectory.use(() => []);
+    const seriesList = getSeries.use(() => []);
     const events = getCalendar.use(() => []);
-    const series = () => directory()?.series.find((item) => item.slug === params.slug);
+    const series = () => seriesList()?.find((item) => item.slug === params.slug);
     return (
-        <Show when={directory()}>
+        <Show when={seriesList()}>
             <Show when={series()} fallback={<NotFound />}>
                 {(item) => (
                     <>
@@ -53,7 +53,7 @@ export default function Route() {
                                 <div class="detail-content">
                                     <Programme
                                         entries={events() ?? []}
-                                        series={directory()!.series}
+                                        series={seriesList()!}
                                         seriesId={item()._id}
                                         isCalendarEnabled
                                         isPlanningEnabled

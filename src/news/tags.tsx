@@ -1,10 +1,10 @@
 import { FilterPills } from "../components/filter-pills";
 import { createMemo } from "solid-js";
 import { FacetList } from "../components/facets";
-import type { Article } from "./model";
+import type { ArticlePreview } from "./model";
 
 /** Link to the news archive filtered by each published tag. */
-export function TagPills(props: { articles: Article[]; selected?: string }) {
+export function TagPills(props: { articles: ArticlePreview[]; selected?: string }) {
     // list each published tag once, alphabetically
     const tags = createMemo(() => {
         const unique = new Map(
@@ -33,7 +33,7 @@ export function TagPills(props: { articles: Article[]; selected?: string }) {
 }
 
 /** List every tag with its article count for the news sidebar, most used first. */
-export function TopicList(props: { articles: Article[]; selected?: string }) {
+export function TopicList(props: { articles: ArticlePreview[]; selected?: string }) {
     // count each tag once per article
     const tags = createMemo(() => {
         const counts = new Map<string, { slug: string; name: string; count: number }>();
@@ -69,7 +69,7 @@ export function TopicList(props: { articles: Article[]; selected?: string }) {
 }
 
 /** Combine the announcement category and technology topics for display and filtering. */
-export function articleTags(article: Article) {
+export function articleTags(article: ArticlePreview) {
     return [
         ...(article.category === "funding" ? [{ slug: "funding", name: "Funding" }] : []),
         ...article.topics,

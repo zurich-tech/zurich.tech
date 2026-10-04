@@ -4,6 +4,9 @@ import type { api } from "../../convex/_generated/api";
 /** One published news record, shared by lists and article pages. */
 export type Article = FunctionReturnType<typeof api.news.queries.list>[number];
 
+/** Published article metadata without its full body. */
+export type ArticlePreview = FunctionReturnType<typeof api.news.queries.headlines>[number];
+
 /** Resolve topic identities to the current public labels. */
 export function articleTopics(
     slugs: string[],

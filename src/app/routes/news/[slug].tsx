@@ -3,7 +3,7 @@ import { useAccess } from "../../../auth/edit";
 import { EditLink } from "../../../auth/edit";
 import { Share } from "../../../components/share";
 import { timeZone } from "../../site";
-import { getArticle, getArticles } from "../../../news/queries";
+import { getArticle, getHeadlines } from "../../../news/queries";
 
 import { isCurrentYear } from "../../../events/time";
 import { useParams } from "@solidjs/router";
@@ -13,7 +13,7 @@ import { articleImage } from "../../../news/article";
 import { organisationKinds } from "../../../../convex/organisations/kinds";
 import { Card } from "../../../components/card";
 import { Entry } from "../../../events/entry";
-import type { Article } from "../../../news/model";
+import type { ArticlePreview } from "../../../news/model";
 import { Arrow } from "../../../components/arrow";
 import "../../../news/article.css";
 import { Markdown } from "../../../components/markdown";
@@ -27,7 +27,7 @@ import { routeParam } from "../../params";
 export const route = {
     preload: ({ params }: { params: Record<string, string> }) => {
         getArticle(params.slug);
-        getArticles();
+        getHeadlines();
     },
 };
 
@@ -37,7 +37,7 @@ export default function Route() {
     const params = useParams();
     const slug = () => routeParam("slug", params.slug);
     const article = getArticle.use(() => [slug()]);
-    const articles = getArticles.use(() => []);
+    const articles = getHeadlines.use(() => []);
 
     return (
         <Show when={article()} fallback={article() === null ? <NotFound /> : undefined}>
@@ -221,10 +221,10 @@ export default function Route() {
 }
 
 /** Pick up to four other stories, those about the same organisations first, then shared topics. */
-function related(post: Article, articles: Article[]): Article[] {
+function related(post: ArticlePreview, articles: ArticlePreview[]): ArticlePreview[] {
     const organisations = new Set(post.organisations.map((organisation) => organisation.slug));
     const topics = new Set(post.topics.map((topic) => topic.slug));
-    const score = (other: Article) =>
+    const score = (other: ArticlePreview) =>
         other.organisations.some((organisation) => organisations.has(organisation.slug))
             ? 2
             : other.topics.some((topic) => topics.has(topic.slug))

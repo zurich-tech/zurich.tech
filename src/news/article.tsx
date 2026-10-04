@@ -3,7 +3,7 @@ import "./article.css";
 import { NewsActions } from "./actions";
 import { EditLink } from "../auth/edit";
 import { articleTags, TagPills } from "./tags";
-import { type Article } from "./model";
+import { type Article, type ArticlePreview } from "./model";
 import { For, Show, createEffect, createMemo, createSignal, on } from "solid-js";
 import { pageSize } from "../app/site";
 import "../events/programme.css";
@@ -17,7 +17,7 @@ import { TableToolbar } from "../components/toolbar";
 /** Article list properties. */
 type ArticleListProps = {
     /** The articles to show. */
-    articles: Article[];
+    articles: (Article | ArticlePreview)[];
     /** Use the collection heading as the page title. */
     isPage?: boolean;
     /** Show only titles and subtitles in the homepage sidebar. */
@@ -95,7 +95,7 @@ export function ArticleList(props: ArticleListProps) {
                                         text={
                                             terms().length
                                                 ? searchExcerpt(
-                                                      `${article.description} ${article.body}`,
+                                                      `${article.description} ${"body" in article ? article.body : ""}`,
                                                       terms(),
                                                   )
                                                 : article.description
@@ -141,16 +141,16 @@ export function ArticleList(props: ArticleListProps) {
 }
 
 /** Use the story's organisation icon, or its initial when no organisation is linked. */
-export function articleImage(article: Article) {
+export function articleImage(article: ArticlePreview) {
     return { url: article.organisations[0]?.iconUrl, initial: article.title.slice(0, 1) };
 }
 
 /** Build searchable article text. */
-function articleText(article: Article) {
+function articleText(article: Article | ArticlePreview) {
     return [
         article.title,
         article.description,
-        article.body,
+        "body" in article ? article.body : "",
         new Date(article.date).toISOString().slice(0, 10),
         article.url ?? "",
         ...article.organisations.map((organisation) => organisation.name),

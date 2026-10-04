@@ -7,17 +7,27 @@ import { requireTeam } from "../auth/access";
 /** Read published news only; drafts never enter the public response. */
 export const list = query({
     args: {},
-    handler: async (ctx) => {
-        const [topics, posts] = await Promise.all([
-            ctx.db.query("topics").collect(),
-            ctx.db.query("posts").collect(),
-        ]);
-        const published = await Promise.all(
-            posts.filter((post) => post.published).map((post) => publishedPost(ctx, post, topics)),
-        );
-        return published.sort((a, b) => b.date - a.date || a.slug.localeCompare(b.slug));
-    },
+    handler: readPublished,
 });
+
+/** Read news previews without downloading every article body. */
+export const headlines = query({
+    args: {},
+    handler: async (ctx) => (await readPublished(ctx)).map(({ body, ...article }) => article),
+});
+
+/** Resolve published posts in descending publication order. */
+async function readPublished(ctx: QueryCtx) {
+    const [topics, posts] = await Promise.all([
+        ctx.db.query("topics").collect(),
+        ctx.db.query("posts").collect(),
+    ]);
+    const published = await Promise.all(
+        posts.filter((post) => post.published).map((post) => publishedPost(ctx, post, topics)),
+    );
+
+    return published.sort((a, b) => b.date - a.date || a.slug.localeCompare(b.slug));
+}
 
 /** Read one published article without loading the archive. */
 export const detail = query({

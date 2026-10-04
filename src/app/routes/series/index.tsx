@@ -3,7 +3,7 @@ import { matchesSearch } from "../../../search/search";
 import { TableToolbar } from "../../../components/toolbar";
 import { Highlight } from "../../../components/highlight";
 import { For, Show } from "solid-js";
-import { getDirectory } from "../../../organisations/queries";
+import { getSeries } from "../../../organisations/queries";
 import { getCalendar } from "../../../events/queries";
 import { Card } from "../../../components/card";
 import { SeriesDetails } from "../../../events/series-details";
@@ -13,19 +13,19 @@ import { Page } from "../../page";
 import { Contribute } from "../../contribute";
 import { Seo } from "../../seo";
 
-/** Fetch the directory and public programme together. */
-export const route = { preload: () => Promise.all([getDirectory(), getCalendar()]) };
+/** Fetch published series and the public programme together. */
+export const route = { preload: () => Promise.all([getSeries(), getCalendar()]) };
 
 /** Discover each series through its description and latest events. */
 export default function Route() {
-    const directory = getDirectory.use(() => []);
+    const seriesList = getSeries.use(() => []);
     const events = getCalendar.use(() => []);
     const now = Date.now();
     const { query, setQuery, terms } = useSearch();
 
     // keep search results and their empty state in sync
     const matches = () =>
-        directory()?.series.filter((series) =>
+        seriesList()?.filter((series) =>
             matchesSearch(
                 [
                     series.name,
@@ -92,7 +92,7 @@ export default function Route() {
                                         <Show when={recent().length}>
                                             <EventList
                                                 events={recent()}
-                                                series={directory()!.series}
+                                                series={seriesList()!}
                                                 now={now}
                                                 showToday
                                                 actions={(event) => (
@@ -107,9 +107,9 @@ export default function Route() {
                                 );
                             }}
                         </For>
-                        <Show when={directory() && matches().length === 0}>
+                        <Show when={seriesList() && matches().length === 0}>
                             <p class="empty-copy">
-                                {directory()!.series.length
+                                {seriesList()!.length
                                     ? "No series match your search."
                                     : "No series listed yet."}
                             </p>
