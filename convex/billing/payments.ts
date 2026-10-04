@@ -1,3 +1,4 @@
+import { ConvexError } from "convex/values";
 import { refreshRecognition } from "../sponsorships/recognition";
 import { query } from "../_generated/server";
 import { requireAccount } from "../auth/access";
@@ -79,14 +80,14 @@ export async function recordPayment(
     // require a bounded payment reference
     const reference = payment.reference.trim();
     if (!reference || reference.length > 160)
-        throw new Error("Enter a payment reference up to 160 characters.");
+        throw new ConvexError("Enter a payment reference up to 160 characters.");
 
     // reject duplicate invoice and checkout references
     const existing = await ctx.db
         .query("payments")
         .withIndex("by_reference", (q) => q.eq("reference", reference))
         .unique();
-    if (existing) throw new Error("This payment has already been recorded.");
+    if (existing) throw new ConvexError("This payment has already been recorded.");
 
     const id = await ctx.db.insert("payments", { ...payment, reference });
     const sponsorshipId = ctx.db.normalizeId("sponsorships", payment.subjectId);

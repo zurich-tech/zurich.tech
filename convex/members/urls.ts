@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 
 /** Optional public social accounts shared by members and organisations. */
 export const socialLinks = v.object({
@@ -18,9 +18,14 @@ export function normalizeSocialLinks(links?: { linkedin?: string; github?: strin
 
 /** Validate a public HTTP link. */
 export function normalizeUrl(value: string): string {
-    const url = new URL(value);
+    let url: URL;
+    try {
+        url = new URL(value);
+    } catch {
+        throw new ConvexError("Enter a valid HTTP or HTTPS URL.");
+    }
     if (url.protocol !== "https:" && url.protocol !== "http:")
-        throw new Error("Use an HTTP or HTTPS URL.");
+        throw new ConvexError("Use an HTTP or HTTPS URL.");
 
     return url.href;
 }

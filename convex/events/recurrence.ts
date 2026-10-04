@@ -1,4 +1,4 @@
-import { v, type Infer } from "convex/values";
+import { ConvexError, v, type Infer } from "convex/values";
 import { civilTime, timestamp } from "../../src/events/time";
 
 /** Civil recurrence rules; weekdays run Monday (0) through Sunday (6). */
@@ -23,7 +23,7 @@ export function dateValue(value: string) {
         !Number.isFinite(result) ||
         new Date(result).toISOString().slice(0, 10) !== value
     )
-        throw new Error("Enter a valid date.");
+        throw new ConvexError("Enter a valid date.");
     return result;
 }
 
@@ -31,16 +31,17 @@ export function dateValue(value: string) {
 export function validateRecurrence(rule: Recurrence) {
     const start = dateValue(rule.start);
     if (rule.end && dateValue(rule.end) < start)
-        throw new Error("The end date must follow the start date.");
+        throw new ConvexError("The end date must follow the start date.");
     if (!Number.isInteger(rule.interval) || rule.interval < 1 || rule.interval > 52)
-        throw new Error("Use an interval between 1 and 52.");
-    if (!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(rule.time)) throw new Error("Enter a valid time.");
+        throw new ConvexError("Use an interval between 1 and 52.");
+    if (!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(rule.time))
+        throw new ConvexError("Enter a valid time.");
     if (
         rule.weekdays.some((value) => !Number.isInteger(value) || value < 0 || value > 6) ||
         (rule.frequency === "weekly" && !rule.weekdays.length)
     )
-        throw new Error("Choose at least one weekday.");
-    if (rule.excluded.length > 366) throw new Error("Use at most 366 skipped dates.");
+        throw new ConvexError("Choose at least one weekday.");
+    if (rule.excluded.length > 366) throw new ConvexError("Use at most 366 skipped dates.");
     rule.excluded.forEach(dateValue);
 }
 

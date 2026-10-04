@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { internalMutation } from "../_generated/server";
 import { state } from "./sending";
 import { requireAudienceDelivery } from "./policy";
@@ -17,9 +17,13 @@ export const release = internalMutation({
         const settings = await state(ctx);
         const count = args.messageIds.length;
         if (settings.isPaused || count < 1 || count > 100 || settings.remaining < count)
-            throw new Error("Approve enough active allowance for 1 to 100 reviewed messages.");
+            throw new ConvexError(
+                "Approve enough active allowance for 1 to 100 reviewed messages.",
+            );
         if (new Set(args.messageIds).size !== count || !args.source.trim())
-            throw new Error("Provide distinct reviewed messages and their verification source.");
+            throw new ConvexError(
+                "Provide distinct reviewed messages and their verification source.",
+            );
         const campaign = await ctx.db.get(args.campaignId);
         if (
             !campaign ||
@@ -28,11 +32,11 @@ export const release = internalMutation({
             !["paused", "queued"].includes(campaign.status) ||
             (!campaign.reviewedBatch && campaign.status !== "paused")
         )
-            throw new Error(
+            throw new ConvexError(
                 "Pause a fully materialised campaign before its first reviewed release.",
             );
         if (campaign.expiresAt !== undefined && campaign.expiresAt <= Date.now())
-            throw new Error("This campaign has expired.");
+            throw new ConvexError("This campaign has expired.");
 
         // retain at most one unresolved provider outcome across all reviewed batches
         const pending = [];
@@ -42,11 +46,13 @@ export const release = internalMutation({
         ]) {
             const message = await ctx.db.get(id);
             if (!message || message.campaignId !== campaign._id || message.status === "queued")
-                throw new Error("The previous reviewed batch has not settled.");
+                throw new ConvexError("The previous reviewed batch has not settled.");
             if (message.status === "accepted" && !message.outcome) pending.push(id);
         }
         if (pending.length > 1)
-            throw new Error("More than one reviewed delivery is awaiting a provider outcome.");
+            throw new ConvexError(
+                "More than one reviewed delivery is awaiting a provider outcome.",
+            );
 
         // keep only one bulk campaign active
         const campaigns = await ctx.db.query("campaigns").collect();
@@ -58,7 +64,7 @@ export const release = internalMutation({
                     ["campaign", "announcement", "weekly"].includes(row.category ?? ""),
             )
         )
-            throw new Error("Pause other bulk campaigns before releasing a batch.");
+            throw new ConvexError("Pause other bulk campaigns before releasing a batch.");
 
         // reject stale evidence, opt-outs, aliases and any previously contacted recipient
         const identities = new Set<string>();
@@ -84,7 +90,7 @@ export const release = internalMutation({
                 subscription.deliveredAt !== undefined ||
                 (subscription.weekly === false && subscription.announcements === false)
             )
-                throw new Error(
+                throw new ConvexError(
                     "Reviewed recipients must be untouched, subscribed and without adverse history.",
                 );
             const keys = [
@@ -92,7 +98,7 @@ export const release = internalMutation({
                 ...(subscription.memberId ? [subscription.memberId] : []),
             ];
             if (keys.some((key) => identities.has(key)))
-                throw new Error("Duplicate reviewed recipient identity.");
+                throw new ConvexError("Duplicate reviewed recipient identity.");
             keys.forEach((key) => identities.add(key));
             const aliases = subscription.memberId
                 ? await ctx.db
@@ -111,7 +117,7 @@ export const release = internalMutation({
                             !row.isTest && (row.attempts > 0 || row.firstAttemptAt !== undefined),
                     )
                 )
-                    throw new Error("Reviewed recipient has already been contacted.");
+                    throw new ConvexError("Reviewed recipient has already been contacted.");
             }
         }
         if (args.isDryRun) return { count, released: false };
@@ -142,21 +148,21 @@ export const apply = internalMutation({
         // preserve authorization and require a fully materialised campaign
         const settings = await state(ctx);
         if (!settings.isPaused && settings.remaining > 0)
-            throw new Error("Stop bulk sending before reordering a campaign.");
+            throw new ConvexError("Stop bulk sending before reordering a campaign.");
         const campaign = await ctx.db.get(args.campaignId);
         if (
             !campaign ||
             !["queued", "paused"].includes(campaign.status) ||
             campaign.cursor !== campaign.recipients?.length
         )
-            throw new Error("Campaign must be fully queued before reordering.");
+            throw new ConvexError("Campaign must be fully queued before reordering.");
         if (
             args.messageIds.length > 100 ||
             new Set(args.messageIds).size !== args.messageIds.length ||
             !Number.isSafeInteger(args.first) ||
             args.first + args.messageIds.length > Date.now()
         )
-            throw new Error("Provide at most 100 distinct messages with past due positions.");
+            throw new ConvexError("Provide at most 100 distinct messages with past due positions.");
 
         // reject changed, attempted or unrelated messages atomically, without touching retry backoff
         for (const [index, id] of args.messageIds.entries()) {
@@ -169,7 +175,9 @@ export const apply = internalMutation({
                 message.attempts !== 0 ||
                 message.claimedAt
             )
-                throw new Error("Only unattempted queued campaign messages can be reordered.");
+                throw new ConvexError(
+                    "Only unattempted queued campaign messages can be reordered.",
+                );
             await ctx.db.patch(id, { nextAttemptAt: args.first + index });
         }
 

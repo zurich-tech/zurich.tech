@@ -1,6 +1,6 @@
 import { requireAudienceDelivery } from "./policy";
 import { eventPlace } from "../events/place";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { internalMutation, mutation, query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { internal } from "../_generated/api";
@@ -15,7 +15,7 @@ import { eventEmail } from "./templates";
 /** Compute the unsent audience used by both confirmation and sending. */
 async function audience(ctx: QueryCtx, eventId: Doc<"events">["_id"]) {
     const event = await ctx.db.get(eventId);
-    if (!event) throw new Error("Event not found.");
+    if (!event) throw new ConvexError("Event not found.");
     const rows = await ctx.db
         .query("registrations")
         .withIndex("by_event", (q) => q.eq("eventId", eventId))
@@ -54,7 +54,7 @@ export const send = mutation({
         requireAudienceDelivery();
         const actual = await audience(ctx, args.eventId);
         if (actual.receipt !== args.receipt)
-            throw new Error("Recipients changed. Review and confirm again.");
+            throw new ConvexError("Recipients changed. Review and confirm again.");
         await ctx.scheduler.runAfter(0, internal.mail.followup.deliver, {
             eventId: args.eventId,
             cursor: null,

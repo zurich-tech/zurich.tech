@@ -6,7 +6,7 @@ import { confirmationDecision, isTentative } from "./conditions";
 import { evaluate } from "./confirmation";
 import { eventEmail, registrationCopy } from "../mail/templates";
 import { siteOrigin } from "../auth/environment";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import {
     action,
     internalMutation,
@@ -73,14 +73,15 @@ export const joinMember = internalMutation({
     handler: async (ctx, args) => {
         const account = await requireAccount(ctx);
         const user = await authComponent.getAuthUser(ctx);
-        if (!user.emailVerified) throw new Error("Verify your account email before registering.");
+        if (!user.emailVerified)
+            throw new ConvexError("Verify your account email before registering.");
         const member = await ctx.db.get(account.memberId);
         if (!member) throw new Error("Profile not found.");
         const event = await ctx.db
             .query("events")
             .withIndex("by_slug", (q) => q.eq("slug", args.eventSlug))
             .unique();
-        if (!event) throw new Error("Event not found.");
+        if (!event) throw new ConvexError("Event not found.");
         const policy = requireOpenEvent(event);
         if (
             args.answers.length !== policy.questions.length ||
@@ -89,7 +90,7 @@ export const joinMember = internalMutation({
                 (question, index) => question.isRequired && !args.answers[index]?.trim(),
             )
         )
-            throw new Error("Answer the required event questions.");
+            throw new ConvexError("Answer the required event questions.");
         const email = normalizeEmail(user.email);
         await consumeLimit(ctx, `register:${account.memberId}`, 5, 3600000, Date.now());
 
@@ -151,7 +152,7 @@ export const get = query({
             .unique();
         if (!row) return null;
         const event = await ctx.db.get(row.eventId);
-        if (!event) throw new Error("Event not found.");
+        if (!event) throw new ConvexError("Event not found.");
 
         return {
             venue: disclosePlace(
@@ -183,11 +184,13 @@ export const cancel = mutation({
             .query("registrations")
             .withIndex("by_token", (range) => range.eq("token", args.token))
             .unique();
-        if (!row) throw new Error("Registration not found.");
+        if (!row) throw new ConvexError("Registration not found.");
         if (row.status === "cancelled") return;
         const plan = await decisionPlan(ctx, { id: row._id, decision: "cancel" }, true);
         if (plan.receipt !== args.receipt)
-            throw new Error("Registration changes are pending. Please review and confirm again.");
+            throw new ConvexError(
+                "Registration changes are pending. Please review and confirm again.",
+            );
         await ctx.db.patch(row._id, { status: "cancelled", updatedAt: plan.now });
         await promoteWaitlist(ctx, plan.event);
     },
@@ -201,7 +204,7 @@ export const previewCancellation = query({
             .query("registrations")
             .withIndex("by_token", (q) => q.eq("token", args.token))
             .unique();
-        if (!row) throw new Error("Registration not found.");
+        if (!row) throw new ConvexError("Registration not found.");
         const plan = await decisionPlan(ctx, { id: row._id, decision: "cancel" }, true);
         return { receipt: plan.receipt, emails: plan.emails, recipients: plan.recipients };
     },
@@ -214,7 +217,7 @@ export const list = query({
         // require organiser access to this event
         await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
-        if (!event) throw new Error("You cannot manage this event.");
+        if (!event) throw new ConvexError("You cannot manage this event.");
         const rows = await registrations(ctx, event);
 
         return { event, rows: rows.map(({ token, checkInToken, ...row }) => row) };
@@ -240,36 +243,37 @@ async function decisionPlan(
     isSelf = false,
 ) {
     const row = await ctx.db.get(args.id);
-    if (!row) throw new Error("Registration not found.");
+    if (!row) throw new ConvexError("Registration not found.");
     const event = await ctx.db.get(row.eventId);
-    if (!event) throw new Error("You cannot manage this event.");
+    if (!event) throw new ConvexError("You cannot manage this event.");
     if (isTentative(event) && event.confirmation!.decidesAt <= Date.now())
-        throw new Error("The confirmation deadline has passed. Wait for the event decision.");
+        throw new ConvexError("The confirmation deadline has passed. Wait for the event decision.");
     const policy = event.registration;
     if (isSelf && (event.status !== "scheduled" || event.startsAt <= Date.now()))
-        throw new Error("This event no longer accepts registration changes.");
-    if (policy.kind !== "native") throw new Error("This event does not use native registration.");
+        throw new ConvexError("This event no longer accepts registration changes.");
+    if (policy.kind !== "native")
+        throw new ConvexError("This event does not use native registration.");
 
     // never allocate seats after an event has ended or been cancelled
     if (
         ["approve", "waitlist", "rescind"].includes(args.decision) &&
         (event.status !== "scheduled" || event.startsAt <= Date.now())
     )
-        throw new Error("Admission is closed for this event.");
+        throw new ConvexError("Admission is closed for this event.");
     if (args.decision === "approve" && row.status !== "pending" && row.status !== "waitlist")
-        throw new Error("Only pending or waitlisted applications can be approved.");
+        throw new ConvexError("Only pending or waitlisted applications can be approved.");
     if (args.decision === "waitlist" && row.status !== "pending" && row.status !== "going")
-        throw new Error("Only pending or confirmed attendees can be waitlisted.");
+        throw new ConvexError("Only pending or confirmed attendees can be waitlisted.");
     if (
         args.decision === "rescind" &&
         row.status !== "going" &&
         !(row.status === "waitlist" && row.approvedAt !== undefined)
     )
-        throw new Error("This registration has no approval to rescind.");
+        throw new ConvexError("This registration has no approval to rescind.");
     if (args.decision === "cancel" && (row.status === "cancelled" || row.status === "declined"))
-        throw new Error("This registration is already closed.");
+        throw new ConvexError("This registration is already closed.");
     if (args.decision === "decline" && row.status !== "pending" && row.status !== "waitlist")
-        throw new Error("Only pending or waitlisted applications can be declined.");
+        throw new ConvexError("Only pending or waitlisted applications can be declined.");
 
     // resolve the decision against current confirmed attendance
     const rows = await registrations(ctx, event);
@@ -372,7 +376,9 @@ export const decide = mutation({
         await requireMailSender(ctx);
         const plan = await decisionPlan(ctx, { id: args.id, decision: args.decision });
         if (plan.receipt !== args.receipt)
-            throw new Error("The event or registrations changed. Please review and confirm again.");
+            throw new ConvexError(
+                "The event or registrations changed. Please review and confirm again.",
+            );
         const { row, event, status, now } = plan;
 
         // record the decision and notify affected attendees
@@ -392,12 +398,13 @@ export function requireOpenEvent(event: Doc<"events">) {
     // check the native policy and registration window
     const policy = event.registration;
     if (isTentative(event) && event.confirmation!.decidesAt <= Date.now())
-        throw new Error("Registration is closed while the event decision is pending.");
+        throw new ConvexError("Registration is closed while the event decision is pending.");
     if (event.status !== "scheduled" || event.startsAt <= Date.now())
-        throw new Error("Registration is closed.");
-    if (policy.kind !== "native") throw new Error("This event does not accept registrations here.");
+        throw new ConvexError("Registration is closed.");
+    if (policy.kind !== "native")
+        throw new ConvexError("This event does not accept registrations here.");
     if (policy.closesAt !== undefined && policy.closesAt <= Date.now())
-        throw new Error("Registration is closed.");
+        throw new ConvexError("Registration is closed.");
 
     return policy;
 }
@@ -512,7 +519,7 @@ export async function register(
     requireRecipient(ticket.email);
     if (!ticket.eventId) throw new Error("The verification request has no event.");
     const event = await ctx.db.get(ticket.eventId);
-    if (!event) throw new Error("Event not found.");
+    if (!event) throw new ConvexError("Event not found.");
     const policy = requireOpenEvent(event);
 
     // enrol new addresses atomically with attendance, preserving existing opt-outs

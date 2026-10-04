@@ -1,6 +1,6 @@
 import { refreshRecognition } from "./recognition";
 import { contribution } from "./contributions";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import type { Doc, Id } from "../_generated/dataModel";
 import { mutation, internalMutation, type MutationCtx, type QueryCtx } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
@@ -85,15 +85,15 @@ export async function agreeTerm(
     // validate the company, dates and contribution before changing any records
     const sponsor = await ctx.db.get(args.sponsorshipId);
     if (!sponsor || !("organisationId" in sponsor))
-        throw new Error("Company sponsorship not found.");
+        throw new ConvexError("Company sponsorship not found.");
     if (!(await ctx.db.get(recordedBy))) throw new Error("Recording member not found.");
     if (
         ![args.startsAt, args.endsAt, args.publishedAt ?? 0].every(Number.isFinite) ||
         args.endsAt <= args.startsAt ||
         (args.publishedAt !== undefined && args.publishedAt >= args.endsAt)
     )
-        throw new Error("Enter valid agreement and publication dates.");
-    if (!args.reason.trim()) throw new Error("Explain the agreement or change.");
+        throw new ConvexError("Enter valid agreement and publication dates.");
+    if (!args.reason.trim()) throw new ConvexError("Explain the agreement or change.");
     if (
         args.contribution.kind === "money" &&
         (!Number.isFinite(args.contribution.amount) ||
@@ -102,9 +102,9 @@ export async function agreeTerm(
             Math.abs(args.contribution.amount * 100 - Math.round(args.contribution.amount * 100)) >
                 0.00001)
     )
-        throw new Error("Enter a positive CHF amount with at most two decimals.");
+        throw new ConvexError("Enter a positive CHF amount with at most two decimals.");
     if (args.contribution.kind === "inKind" && !args.contribution.description.trim())
-        throw new Error("Describe the in-kind contribution.");
+        throw new ConvexError("Describe the in-kind contribution.");
     await requireCheckoutClosed(ctx, sponsor._id);
 
     // retain prior versions and reject overlapping benefit periods
@@ -113,7 +113,7 @@ export async function agreeTerm(
         ? terms.find((term) => term._id === args.replacesId)
         : undefined;
     if (args.replacesId && (!previous || previous.supersededAt || previous.endedAt !== undefined))
-        throw new Error("Select a current term to amend.");
+        throw new ConvexError("Select a current term to amend.");
     for (const term of terms) {
         if (
             term._id !== args.replacesId &&
@@ -121,7 +121,7 @@ export async function agreeTerm(
             args.startsAt < Math.min(term.endsAt, term.endedAt ?? Infinity) &&
             args.endsAt > term.startsAt
         )
-            throw new Error(
+            throw new ConvexError(
                 "Agreement dates overlap an existing term. Amend that term or choose a later start.",
             );
     }
@@ -150,9 +150,9 @@ export const end = mutation({
         const reviewer = await requireAdmin(ctx);
         const term = await ctx.db.get(args.id);
         if (!term || term.supersededAt || term.endedAt !== undefined)
-            throw new Error("Select an open agreement.");
+            throw new ConvexError("Select an open agreement.");
         if (!Number.isFinite(args.endedAt) || args.endedAt > term.endsAt || !args.reason.trim())
-            throw new Error("Enter an end date and reason.");
+            throw new ConvexError("Enter an end date and reason.");
         await requireCheckoutClosed(ctx, term.sponsorshipId);
         await ctx.db.patch(term._id, {
             endedAt: args.endedAt,

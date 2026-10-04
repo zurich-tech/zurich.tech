@@ -4,7 +4,7 @@ import { subscriptionHistory } from "./history";
 import { verificationEmail } from "./templates";
 import { register, requireOpenEvent, registrations } from "../events/registrations";
 import { siteOrigin } from "../auth/environment";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, internalMutation, query } from "../_generated/server";
 
 import type { Doc } from "../_generated/dataModel";
@@ -36,12 +36,12 @@ export const prepare = internalMutation({
         let event: Doc<"events"> | undefined;
         if (args.purpose === "registration") {
             if (!args.name.trim() || args.name.length > 120)
-                throw new Error("Enter your name, up to 120 characters.");
+                throw new ConvexError("Enter your name, up to 120 characters.");
             const found = await ctx.db
                 .query("events")
                 .withIndex("by_slug", (range) => range.eq("slug", args.eventSlug!))
                 .unique();
-            if (!found) throw new Error("Event not found.");
+            if (!found) throw new ConvexError("Event not found.");
             event = found;
             const policy = requireOpenEvent(event);
             const answers = args.answers ?? [];
@@ -52,11 +52,11 @@ export const prepare = internalMutation({
                     (question, index) => question.isRequired && !answers[index]?.trim(),
                 )
             )
-                throw new Error("Answer the required event questions.");
+                throw new ConvexError("Answer the required event questions.");
             if (policy.overflow === "closed" && policy.capacity !== null) {
                 const rows = await registrations(ctx, event);
                 if (rows.filter((row) => row.status === "going").length >= policy.capacity)
-                    throw new Error("This event is full.");
+                    throw new ConvexError("This event is full.");
             }
         }
         // reject suppressed recipients before queueing mail
@@ -65,7 +65,7 @@ export const prepare = internalMutation({
             .withIndex("by_email", (range) => range.eq("email", email))
             .collect();
         if (existing.some((row) => row.status === "suppressed"))
-            throw new Error("This address cannot receive email.");
+            throw new ConvexError("This address cannot receive email.");
 
         // retain the verification request and independent unsubscribe token
         const expiresAt = now + 3600000;
@@ -107,9 +107,11 @@ export const confirm = mutation({
             .withIndex("by_token", (range) => range.eq("token", args.token))
             .unique();
         if (!ticket || ticket.expiresAt <= Date.now())
-            throw new Error("This link has expired. Please request a new one.");
+            throw new ConvexError("This link has expired. Please request a new one.");
         if (ticket.usedAt)
-            throw new Error("This link has already been used. Check your confirmation email.");
+            throw new ConvexError(
+                "This link has already been used. Check your confirmation email.",
+            );
         const now = Date.now();
 
         // explicit subscription confirmation may renew a previous opt-out
@@ -118,7 +120,7 @@ export const confirm = mutation({
             .withIndex("by_email", (q) => q.eq("email", ticket.email))
             .unique();
         if (subscription?.status === "suppressed")
-            throw new Error("This address cannot receive email.");
+            throw new ConvexError("This address cannot receive email.");
         if (ticket.purpose === "subscription") {
             const values = {
                 email: ticket.email,

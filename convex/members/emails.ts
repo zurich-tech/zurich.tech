@@ -1,3 +1,4 @@
+import { ConvexError } from "convex/values";
 const maximumEmailLength = 254;
 
 /** Normalize and validate one email address. */
@@ -7,7 +8,7 @@ export function normalizeEmail(value: string): string {
     // reject malformed or unreasonably large addresses
     const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!isValid || email.length > maximumEmailLength) {
-        throw new Error("Enter a valid email address.");
+        throw new ConvexError("Enter a valid email address.");
     }
 
     return email;

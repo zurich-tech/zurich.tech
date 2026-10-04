@@ -1,3 +1,4 @@
+import { ConvexError } from "convex/values";
 import type { QueryCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { isPublicMember, memberHandle } from "../members/queries";
@@ -22,7 +23,7 @@ export async function publicOrganiser(ctx: QueryCtx, id?: Id<"members">) {
 /** Require a public profile before assigning public attribution. */
 export async function validatePrimaryOrganiser(ctx: QueryCtx, id?: Id<"members">) {
     if (id && !(await publicOrganiser(ctx, id)))
-        throw new Error("Choose an organiser with a public profile.");
+        throw new ConvexError("Choose an organiser with a public profile.");
 }
 
 /** Resolve ordered public credits independently from editing assignments. */
@@ -52,7 +53,8 @@ export async function publicOrganisers(
 
 /** Require explicit public profiles and bound the number of displayed credits. */
 export async function validateCoOrganisers(ctx: QueryCtx, ids?: Id<"members">[]) {
-    if ((ids?.length ?? 0) > 20) throw new Error("Choose at most 20 co-organisers.");
-    if (ids && new Set(ids).size !== ids.length) throw new Error("Choose each co-organiser once.");
+    if ((ids?.length ?? 0) > 20) throw new ConvexError("Choose at most 20 co-organisers.");
+    if (ids && new Set(ids).size !== ids.length)
+        throw new ConvexError("Choose each co-organiser once.");
     await Promise.all((ids ?? []).map((id) => validatePrimaryOrganiser(ctx, id)));
 }

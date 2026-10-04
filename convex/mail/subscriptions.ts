@@ -1,5 +1,5 @@
 import { subscriptionHistory } from "./history";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { action, internalMutation, mutation, query } from "../_generated/server";
 import { internal } from "../_generated/api";
 
@@ -11,14 +11,16 @@ export const suppress = internalMutation({
     handler: async (ctx, args) => {
         // require a paused sender and a bounded, attributed import
         const policy = await ctx.db.query("mailPolicy").unique();
-        if (!policy?.isPaused) throw new Error("Pause bulk sending before importing exclusions.");
-        if (!args.source.trim()) throw new Error("Suppression source is required.");
-        if (args.emails.length > 500) throw new Error("Import at most 500 exclusions at once.");
+        if (!policy?.isPaused)
+            throw new ConvexError("Pause bulk sending before importing exclusions.");
+        if (!args.source.trim()) throw new ConvexError("Suppression source is required.");
+        if (args.emails.length > 500)
+            throw new ConvexError("Import at most 500 exclusions at once.");
 
         // normalize addresses and reject malformed input before any changes
         const emails = [...new Set(args.emails.map((email) => email.trim().toLowerCase()))];
         if (emails.some((email) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)))
-            throw new Error("Invalid exclusion address.");
+            throw new ConvexError("Invalid exclusion address.");
         const now = Date.now();
         let changed = 0;
 
@@ -81,7 +83,7 @@ export const unsubscribe = mutation({
             .query("subscriptions")
             .withIndex("by_token", (range) => range.eq("token", args.token))
             .unique();
-        if (!row) throw new Error("Subscription not found.");
+        if (!row) throw new ConvexError("Subscription not found.");
         if (row.status !== "suppressed") {
             const now = Date.now();
             await ctx.db.patch(row._id, {

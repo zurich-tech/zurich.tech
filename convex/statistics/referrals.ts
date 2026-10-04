@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query, type MutationCtx } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
 import { siteOrigin } from "../auth/environment";
@@ -23,11 +23,12 @@ export const create = mutation({
     handler: async (ctx, args) => {
         // only administrators can introduce stored campaign labels
         await requireAdmin(ctx);
-        if (!valid(args)) throw new Error("Use lowercase campaign labels and a public page path.");
+        if (!valid(args))
+            throw new ConvexError("Use lowercase campaign labels and a public page path.");
 
         // require a public destination before generating a social link
         if (!(await register(args, ctx)))
-            throw new Error("Choose a published event, article or public landing page.");
+            throw new ConvexError("Choose a published event, article or public landing page.");
 
         return url(args, siteOrigin());
     },

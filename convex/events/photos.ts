@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 
 import {
     action,
@@ -39,7 +39,7 @@ async function requirePhotos(ctx: QueryCtx | MutationCtx, eventId: Id<"events">)
             allows(access, { eventId, seriesId: event.seriesId }, "organiser")
         )
     )
-        throw new Error("Team or organiser access is required to manage photos.");
+        throw new ConvexError("Team or organiser access is required to manage photos.");
     return access.account;
 }
 
@@ -75,14 +75,14 @@ export const upload = action({
                 text(0, 4) !== "RIFF" ||
                 text(8, 12) !== "WEBP"
             )
-                throw new Error("Choose a valid WebP image within the upload size limit.");
+                throw new ConvexError("Choose a valid WebP image within the upload size limit.");
         }
         if (
             ![args.width, args.height].every(
                 (value) => Number.isInteger(value) && value > 0 && value <= 2000,
             )
         )
-            throw new Error("Photo dimensions must be between 1 and 2000 pixels.");
+            throw new ConvexError("Photo dimensions must be between 1 and 2000 pixels.");
 
         // Roll back stored files if either storage or publication fails.
         const ids: Id<"_storage">[] = [];
@@ -135,7 +135,7 @@ export const remove = mutation({
     args: { id: v.id("photos") },
     handler: async (ctx, { id }) => {
         const photo = await ctx.db.get(id);
-        if (!photo) throw new Error("Photo not found.");
+        if (!photo) throw new ConvexError("Photo not found.");
         await requirePhotos(ctx, photo.eventId);
         if ("storageId" in photo) {
             await ctx.storage.delete(photo.storageId);
@@ -264,7 +264,7 @@ export const attachEventBatch = internalMutation({
 /** Validate one complete ordered event gallery and return its object keys. */
 export function validateEventImages(slug: string, images: readonly EventImage[]): Set<string> {
     if (images.length < 1 || images.length > 10) {
-        throw new Error("An import batch must contain between 1 and 10 files.");
+        throw new ConvexError("An import batch must contain between 1 and 10 files.");
     }
 
     // require a dense ordered batch of immutable event objects
@@ -277,7 +277,7 @@ export function validateEventImages(slug: string, images: readonly EventImage[])
             Number.isInteger(image.height) &&
             image.height > 0;
         if (image.position !== position || !hasValidDimensions) {
-            throw new Error("Media positions must be dense and dimensions must be positive.");
+            throw new ConvexError("Media positions must be dense and dimensions must be positive.");
         }
 
         // constrain the full image to the event's immutable namespace
@@ -299,7 +299,7 @@ export function validateEventImages(slug: string, images: readonly EventImage[])
 
         // reject duplicate objects within one gallery
         if (keys.has(image.key) || keys.has(image.thumbnailKey)) {
-            throw new Error("One media object occurs more than once.");
+            throw new ConvexError("One media object occurs more than once.");
         }
         keys.add(image.key);
         keys.add(image.thumbnailKey);

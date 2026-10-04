@@ -1,7 +1,7 @@
 import { internal } from "../_generated/api";
 import { recipientAllowed } from "./policy";
 import { updateMessage } from "./progress";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import {
     query,
     mutation,
@@ -69,7 +69,7 @@ export const approve = mutation({
             args.limit > args.ceiling ||
             args.ceiling > maximumCeiling
         )
-            throw new Error(
+            throw new ConvexError(
                 "Choose whole-number limits between 0 and the daily pace, up to 10,000.",
             );
 
@@ -77,7 +77,7 @@ export const approve = mutation({
         const quota = await ctx.db.query("mailQuota").unique();
         const usage = advance(quota ?? quotaDefaults, Date.now());
         if (args.limit < usage.count)
-            throw new Error("The approved total cannot be lower than today's used attempts.");
+            throw new ConvexError("The approved total cannot be lower than today's used attempts.");
 
         // save the reviewed pace without replenishing usage
         const values = { ...usage, ceiling: args.ceiling };
@@ -98,14 +98,14 @@ export const configure = mutation({
     handler: async (ctx, args) => {
         await requireAdmin(ctx);
         if (!args.isPaused && recipientsLocked())
-            throw new Error("Test recipient lock is enabled.");
+            throw new ConvexError("Test recipient lock is enabled.");
         if (
             !args.isPaused &&
             (!process.env.RESEND_WEBHOOK_SECRET ||
                 !process.env.MAIL_FROM ||
                 !process.env.RESEND_API_KEY)
         )
-            throw new Error("Configure the sender and signed delivery webhooks first.");
+            throw new ConvexError("Configure the sender and signed delivery webhooks first.");
         const policy = await ctx.db.query("mailPolicy").unique();
 
         // preserve pacing across changes; an explicit resume starts a new health review period

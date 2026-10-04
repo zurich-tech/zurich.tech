@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query, internalQuery, httpAction, type MutationCtx } from "../_generated/server";
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
@@ -30,7 +30,7 @@ export const pass = mutation({
             .query("registrations")
             .withIndex("by_token", (q) => q.eq("token", args.token))
             .unique();
-        if (!row) throw new Error("Registration not found.");
+        if (!row) throw new ConvexError("Registration not found.");
         const event = await ctx.db.get(row.eventId);
         if (
             !event ||
@@ -55,7 +55,7 @@ export const roster = query({
     handler: async (ctx, args) => {
         await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
-        if (!event) throw new Error("Event not found.");
+        if (!event) throw new ConvexError("Event not found.");
         const rows = await ctx.db
             .query("registrations")
             .withIndex("by_event", (q) => q.eq("eventId", args.eventId))
@@ -91,20 +91,20 @@ export const record = mutation({
     handler: async (ctx, args) => {
         const viewer = await requireEvent(ctx, args.eventId);
         if (!!args.token === !!args.registrationId)
-            throw new Error("Choose a pass or registration.");
+            throw new ConvexError("Choose a pass or registration.");
         const row = args.registrationId
             ? await ctx.db.get(args.registrationId)
             : await ctx.db
                   .query("registrations")
                   .withIndex("by_check_in_token", (q) => q.eq("checkInToken", args.token))
                   .unique();
-        if (!row) throw new Error("Invalid pass.");
-        if (row.eventId !== args.eventId) throw new Error("Wrong event.");
+        if (!row) throw new ConvexError("Invalid pass.");
+        if (row.eventId !== args.eventId) throw new ConvexError("Wrong event.");
         const event = await ctx.db.get(args.eventId);
-        if (!event?.checkIn?.isEnabled) throw new Error("Check-in is disabled.");
+        if (!event?.checkIn?.isEnabled) throw new ConvexError("Check-in is disabled.");
         if (event.status === "cancelled" || event.status === "draft" || isTentative(event))
-            throw new Error("Event is not confirmed.");
-        if (row.status !== "going") throw new Error("Registration is not confirmed.");
+            throw new ConvexError("Event is not confirmed.");
+        if (row.status !== "going") throw new ConvexError("Registration is not confirmed.");
 
         // an indexed read makes simultaneous scans conflict and retry safely
         const existing = await ctx.db
@@ -118,7 +118,7 @@ export const record = mutation({
                 .withIndex("by_event", (q) => q.eq("eventId", event._id))
                 .collect();
             if (attendance.length >= event.venueCapacity)
-                throw new Error("Venue capacity reached. No further check-ins allowed.");
+                throw new ConvexError("Venue capacity reached. No further check-ins allowed.");
         }
         const now = Date.now();
         await ctx.db.insert("attendances", {

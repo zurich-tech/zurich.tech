@@ -1,6 +1,6 @@
 import type { Doc } from "../_generated/dataModel";
 import { isTentative } from "./conditions";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { query, mutation, type QueryCtx } from "../_generated/server";
 import { requireAccount } from "../auth/access";
 import { requireEvent } from "../auth/grants";
@@ -11,9 +11,9 @@ async function context(ctx: QueryCtx, token: string) {
         .query("registrations")
         .withIndex("by_token", (q) => q.eq("token", token))
         .unique();
-    if (!registration) throw new Error("Registration not found.");
+    if (!registration) throw new ConvexError("Registration not found.");
     const event = await ctx.db.get(registration.eventId);
-    if (!event) throw new Error("Event not found.");
+    if (!event) throw new ConvexError("Event not found.");
     return { registration, event };
 }
 
@@ -70,7 +70,7 @@ export const save = mutation({
     },
     handler: async (ctx, args) => {
         const { registration, event } = await context(ctx, args.token);
-        if (!isOpen(event, registration)) throw new Error("Feedback is not open.");
+        if (!isOpen(event, registration)) throw new ConvexError("Feedback is not open.");
         const speaker = args.speakerId ? await ctx.db.get(args.speakerId) : null;
         if (
             args.speakerId
@@ -80,15 +80,15 @@ export const save = mutation({
                   speaker.isRemoved
                 : !event.feedback?.isEventEnabled
         )
-            throw new Error("Feedback is disabled.");
+            throw new ConvexError("Feedback is disabled.");
         const comment = args.comment?.trim() || undefined;
         if (
             args.rating !== undefined &&
             (!Number.isInteger(args.rating) || args.rating < 1 || args.rating > 5)
         )
-            throw new Error("Choose a rating from 1 to 5.");
+            throw new ConvexError("Choose a rating from 1 to 5.");
         if ((comment?.length ?? 0) > 4000 || (args.rating === undefined && !comment))
-            throw new Error("Add a rating or a comment of up to 4,000 characters.");
+            throw new ConvexError("Add a rating or a comment of up to 4,000 characters.");
 
         // update the existing response rather than counting another vote
         const rows = await ctx.db

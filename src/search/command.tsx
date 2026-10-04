@@ -1,5 +1,6 @@
 import { SearchIcon, SearchResult, type Match } from "./result";
 import { SearchNotice } from "./notice";
+import { errorMessage } from "../components/errors";
 import { FilterPills } from "../components/filter-pills";
 import { useCatalogue } from "./catalogue";
 import { search as searchSite } from "./queries";
@@ -342,7 +343,7 @@ export function CommandPalette() {
                 else window.location.assign(command.href);
             } else await command.run?.();
         } catch (caught) {
-            setError(caught instanceof Error ? caught.message : "Could not complete the action.");
+            setError(errorMessage(caught, "Could not complete the action."));
             setOpen(true);
             dialog.showModal();
             input.focus();

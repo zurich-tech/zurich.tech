@@ -1,3 +1,4 @@
+import { ConvexError } from "convex/values";
 import { internalMutation, type MutationCtx } from "../_generated/server";
 
 /** Consume one request from a bounded verification window. */
@@ -17,7 +18,7 @@ export async function consumeLimit(
     } else if (limit.expiresAt <= now) {
         await ctx.db.patch(limit._id, { count: 1, expiresAt: now + duration });
     } else if (limit.count >= maximum) {
-        throw new Error("Too many verification requests. Try again later.");
+        throw new ConvexError("Too many verification requests. Try again later.");
     } else {
         await ctx.db.patch(limit._id, { count: limit.count + 1 });
     }

@@ -1,7 +1,7 @@
 import { enrollSubscription } from "./enrollment";
 import { recipientsLocked } from "./policy";
 import { subscriptionHistory } from "./history";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { action, internalAction, internalMutation, query } from "../_generated/server";
 import { internal } from "../_generated/api";
 import { requireAccount } from "../auth/access";
@@ -57,14 +57,14 @@ export const update = internalMutation({
         const account = await requireAccount(ctx);
         const user = await authComponent.getAuthUser(ctx);
         if (!user.emailVerified)
-            throw new Error("Verify your email before changing email preferences.");
+            throw new ConvexError("Verify your email before changing email preferences.");
         const email = normalizeEmail(user.email);
         const existing = await ctx.db
             .query("subscriptions")
             .withIndex("by_email", (q) => q.eq("email", email))
             .unique();
         if (existing?.status === "suppressed")
-            throw new Error("Email delivery is blocked for this address. Contact the team.");
+            throw new ConvexError("Email delivery is blocked for this address. Contact the team.");
         // preserve the existing unsubscribe token when preferences change
         const now = Date.now();
         const values = {

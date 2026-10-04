@@ -1,6 +1,6 @@
 import { organisationKind } from "./kinds";
 import { writeProfiles } from "../members/links";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, internalMutation, type QueryCtx, type MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { normalizeEmail } from "../members/emails";
@@ -30,7 +30,7 @@ export const upsert = mutation({
             values.description.length > 5000 ||
             !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(values.slug)
         )
-            throw new Error("Enter a name, valid slug, and concise description.");
+            throw new ConvexError("Enter a name, valid slug, and concise description.");
         values.website = normalizeUrl(values.website);
         values.headline = values.headline?.trim() || undefined;
 
@@ -40,7 +40,7 @@ export const upsert = mutation({
             .withIndex("by_slug", (range) => range.eq("slug", values.slug))
             .unique();
         if (collision && collision._id !== id)
-            throw new Error("An organisation already uses this URL.");
+            throw new ConvexError("An organisation already uses this URL.");
 
         // update the existing profile or create its first record
         if (id) {
@@ -58,7 +58,7 @@ export async function requireCompany(ctx: QueryCtx | MutationCtx, id: Id<"organi
     const viewer = await requireAccount(ctx);
     const organisation = await ctx.db.get(id);
     if (!organisation || (!viewer.isAdmin && organisation.ownerId !== viewer.memberId))
-        throw new Error("You cannot manage this company.");
+        throw new ConvexError("You cannot manage this company.");
 
     return { viewer, organisation };
 }
@@ -71,7 +71,7 @@ export async function requireOrganisation(ctx: QueryCtx | MutationCtx, id: Id<"o
         !organisation ||
         (!viewer.isAdmin && !viewer.isTeam && organisation.ownerId !== viewer.memberId)
     )
-        throw new Error("You cannot manage this organisation.");
+        throw new ConvexError("You cannot manage this organisation.");
 
     return { viewer, organisation };
 }
@@ -107,7 +107,9 @@ export const upsertCompany = mutation({
             args.description.length > 5000 ||
             !args.location.trim()
         )
-            throw new Error("Enter a company name, URL slug, location and concise description.");
+            throw new ConvexError(
+                "Enter a company name, URL slug, location and concise description.",
+            );
 
         // reject another organisation using the same URL
         const collision = await ctx.db
@@ -115,14 +117,15 @@ export const upsertCompany = mutation({
             .withIndex("by_slug", (q) => q.eq("slug", args.slug))
             .unique();
         if (collision && collision._id !== args.id)
-            throw new Error(
+            throw new ConvexError(
                 "This company URL is already taken. Ask the team to grant access to the existing company.",
             );
 
         // let administrators assign a company to a verified signed in member
         let ownerId: Id<"members"> | undefined;
         if (args.ownerEmail) {
-            if (!viewer.isAdmin) throw new Error("Admin access is required to assign a company.");
+            if (!viewer.isAdmin)
+                throw new ConvexError("Admin access is required to assign a company.");
             const address = await ctx.db
                 .query("emails")
                 .withIndex("by_email", (q) => q.eq("email", normalizeEmail(args.ownerEmail!)))
@@ -134,7 +137,9 @@ export const upsertCompany = mutation({
                       .unique()
                 : null;
             if (!address?.verifiedAt || ownerAccount?.status !== "active")
-                throw new Error("The company owner must sign in first with a verified email.");
+                throw new ConvexError(
+                    "The company owner must sign in first with a verified email.",
+                );
             ownerId = address.memberId;
         }
 
@@ -175,7 +180,8 @@ export const upsertCompany = mutation({
 export const setHost = internalMutation({
     args: { organisationId: v.id("organisations") },
     handler: async (ctx, args) => {
-        if (!(await ctx.db.get(args.organisationId))) throw new Error("Organisation not found.");
+        if (!(await ctx.db.get(args.organisationId)))
+            throw new ConvexError("Organisation not found.");
 
         // Keep a single host while allowing its identity to change without code changes.
         for (const organisation of await ctx.db.query("organisations").collect()) {

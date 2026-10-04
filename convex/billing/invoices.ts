@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, internalMutation, type MutationCtx, type QueryCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { requireAdmin } from "../auth/access";
@@ -23,7 +23,7 @@ export function requireAmount(amount: number) {
         !Number.isSafeInteger(Math.round(amount * 100)) ||
         Math.abs(amount * 100 - Math.round(amount * 100)) > 0.00001
     )
-        throw new Error("Enter a positive CHF amount with at most two decimals.");
+        throw new ConvexError("Enter a positive CHF amount with at most two decimals.");
 }
 
 /** Register an issued invoice without sending mail or recording payment. */
@@ -57,19 +57,19 @@ export async function issueInvoice(
 ) {
     const term = await ctx.db.get(args.termId);
     if (!term || term.contribution.kind !== "money")
-        throw new Error("Select a monetary agreement.");
+        throw new ConvexError("Select a monetary agreement.");
     requireAmount(args.amount);
     if (![args.issuedAt, args.dueAt].every(Number.isFinite) || args.dueAt < args.issuedAt)
-        throw new Error("Enter valid invoice and due dates.");
+        throw new ConvexError("Enter valid invoice and due dates.");
     const number = args.number.trim(),
         reference = args.reference.replace(/\s/g, "").toUpperCase(),
         document = args.document.trim();
     if (!number || !reference || !document)
-        throw new Error(
+        throw new ConvexError(
             "Enter the invoice number, payment reference and document filename or HTTPS URL.",
         );
     if (document.includes(":") && !document.startsWith("https://"))
-        throw new Error("Use an HTTPS document URL or a filename.");
+        throw new ConvexError("Use an HTTPS document URL or a filename.");
     for (const [index, field, value] of [
         ["by_number", "number", number],
         ["by_reference", "reference", reference],
@@ -80,7 +80,9 @@ export async function issueInvoice(
                 .withIndex(index, (q) => q.eq(field, value))
                 .unique()
         )
-            throw new Error("This invoice number or payment reference is already registered.");
+            throw new ConvexError(
+                "This invoice number or payment reference is already registered.",
+            );
     }
     return await ctx.db.insert("invoices", {
         ...args,
@@ -103,10 +105,10 @@ export const receive = mutation({
     handler: async (ctx, args) => {
         const reviewer = await requireAdmin(ctx);
         const invoice = await ctx.db.get(args.invoiceId);
-        if (!invoice || invoice.voidedAt) throw new Error("Select an open invoice.");
+        if (!invoice || invoice.voidedAt) throw new ConvexError("Select an open invoice.");
         requireAmount(args.amount);
         if (!Number.isFinite(args.paidAt) || args.paidAt > Date.now())
-            throw new Error("Enter the actual receipt date, no later than today.");
+            throw new ConvexError("Enter the actual receipt date, no later than today.");
         const term = await ctx.db.get(invoice.termId);
         if (!term) throw new Error("Invoice agreement is missing.");
         return await recordPayment(ctx, {
@@ -130,7 +132,7 @@ export const refund = mutation({
     handler: async (ctx, args) => {
         const reviewer = await requireAdmin(ctx);
         const payment = await ctx.db.get(args.paymentId);
-        if (!payment?.invoiceId) throw new Error("Select an invoice payment.");
+        if (!payment?.invoiceId) throw new ConvexError("Select an invoice payment.");
         requireAmount(args.amount);
         if (
             !Number.isFinite(args.paidAt) ||
@@ -139,7 +141,7 @@ export const refund = mutation({
             !args.reason.trim() ||
             !args.reference.trim()
         )
-            throw new Error("Enter the refund date, bank reference and reason.");
+            throw new ConvexError("Enter the refund date, bank reference and reason.");
         const refunds = await ctx.db
             .query("refunds")
             .withIndex("by_payment", (q) => q.eq("paymentId", payment._id))
@@ -148,14 +150,14 @@ export const refund = mutation({
             Math.round((refunds.reduce((sum, row) => sum + row.amount, 0) + args.amount) * 100) >
             Math.round(payment.amount * 100)
         )
-            throw new Error("Refunds cannot exceed the payment received.");
+            throw new ConvexError("Refunds cannot exceed the payment received.");
         if (
             await ctx.db
                 .query("refunds")
                 .withIndex("by_reference", (q) => q.eq("reference", args.reference.trim()))
                 .unique()
         )
-            throw new Error("This refund has already been recorded.");
+            throw new ConvexError("This refund has already been recorded.");
         return await ctx.db.insert("refunds", {
             ...args,
             reference: args.reference.trim(),
@@ -173,10 +175,10 @@ export const voidInvoice = mutation({
         const reviewer = await requireAdmin(ctx);
         const invoice = await ctx.db.get(args.id);
         if (!invoice || invoice.voidedAt || !args.reason.trim())
-            throw new Error("Select an open invoice and explain why it is void.");
+            throw new ConvexError("Select an open invoice and explain why it is void.");
         const balance = await invoiceBalance(ctx, invoice._id);
         if (balance.received !== 0)
-            throw new Error("Return the received funds before voiding this invoice.");
+            throw new ConvexError("Return the received funds before voiding this invoice.");
         await ctx.db.patch(invoice._id, {
             voidedAt: Date.now(),
             voidedBy: reviewer.memberId,
@@ -188,7 +190,7 @@ export const voidInvoice = mutation({
 /** Calculate settlement from receipts and refunds rather than a mutable status flag. */
 export async function invoiceBalance(ctx: Pick<QueryCtx, "db">, invoiceId: Id<"invoices">) {
     const invoice = await ctx.db.get(invoiceId);
-    if (!invoice) throw new Error("Invoice not found.");
+    if (!invoice) throw new ConvexError("Invoice not found.");
     const payments = await ctx.db
         .query("payments")
         .withIndex("by_invoice", (q) => q.eq("invoiceId", invoiceId))

@@ -1,5 +1,5 @@
 import { jobPrice, jobDurationMonths } from "../../src/sponsorships/plans";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { requireAdmin } from "../auth/access";
@@ -62,7 +62,7 @@ export const save = mutation({
         // require access to both the current and proposed company
         const { viewer } = await requireCompany(ctx, args.organisationId);
         const row = args.id ? await ctx.db.get(args.id) : null;
-        if (args.id && !row) throw new Error("Job not found.");
+        if (args.id && !row) throw new ConvexError("Job not found.");
         if (row) await requireCompany(ctx, row.organisationId);
 
         // keep published company identity and URLs stable
@@ -70,12 +70,13 @@ export const save = mutation({
             .query("jobs")
             .withIndex("by_slug", (q) => q.eq("slug", args.slug))
             .unique();
-        if (collision && collision._id !== args.id) throw new Error("A job already uses this URL.");
+        if (collision && collision._id !== args.id)
+            throw new ConvexError("A job already uses this URL.");
         if (
             row?.publishedAt &&
             (row.slug !== args.slug || row.organisationId !== args.organisationId)
         )
-            throw new Error("A published job's company and URL cannot change.");
+            throw new ConvexError("A published job's company and URL cannot change.");
 
         // retain the public revision until the team approves the edit
         const { id, submit, billingEmail, ...fields } = args;
@@ -84,7 +85,7 @@ export const save = mutation({
         // validate topic references against the shared catalogue
         const topics = await ctx.db.query("topics").collect();
         if (values.topics.some((slug) => !topics.some((topic) => topic.slug === slug)))
-            throw new Error("Select existing topics.");
+            throw new ConvexError("Select existing topics.");
         const administration = {
             billingEmail: normalizeEmail(billingEmail),
             updatedBy: viewer.memberId,
@@ -120,7 +121,7 @@ export const save = mutation({
         if (
             owned.filter((item) => item.status === "draft" || item.status === "review").length >= 20
         )
-            throw new Error("Finish your existing drafts before adding more jobs.");
+            throw new ConvexError("Finish your existing drafts before adding more jobs.");
 
         return await ctx.db.insert("jobs", {
             ...values,
@@ -146,18 +147,18 @@ export const publish = mutation({
 
         // require management access before changing publication state
         const row = await ctx.db.get(args.id);
-        if (!row) throw new Error("Job not found.");
+        if (!row) throw new ConvexError("Job not found.");
         const now = Date.now();
         const revision = row.draft ?? row;
         if (revision.applicationDeadline !== undefined && revision.applicationDeadline <= now)
-            throw new Error("Update the application deadline before publishing.");
+            throw new ConvexError("Update the application deadline before publishing.");
         let expiresAt = await jobExpiry(ctx, row);
         let sponsorshipId = row.sponsorshipId;
 
         // record a manual payment independently of hosted checkout
         if (args.funding === "invoice") {
             if (!args.invoiceReference?.trim())
-                throw new Error("Enter the paid invoice reference.");
+                throw new ConvexError("Enter the paid invoice reference.");
             await recordPayment(ctx, {
                 reference: args.invoiceReference,
                 amount: jobPrice,
@@ -173,15 +174,15 @@ export const publish = mutation({
         // allocate one of the company's active sponsorship slots
         else if (args.funding === "sponsor" || (args.funding === "existing" && row.sponsorshipId)) {
             const allocation = await jobAllowance(ctx, row.organisationId, row._id);
-            if (!allocation) throw new Error("This company has no active sponsorship.");
+            if (!allocation) throw new ConvexError("This company has no active sponsorship.");
             if (allocation.available !== null && allocation.available < 1)
-                throw new Error("All included job slots are in use.");
+                throw new ConvexError("All included job slots are in use.");
             sponsorshipId = allocation.id;
             expiresAt = allocation.endsAt;
         }
         // approve an edit without changing the original paid term
         else if (!expiresAt || expiresAt <= now)
-            throw new Error("Confirm payment or allocate a sponsor slot first.");
+            throw new ConvexError("Confirm payment or allocate a sponsor slot first.");
         if (!expiresAt) throw new Error("Missing job expiry.");
 
         // publish the approved revision and renew its freshness timestamp
@@ -210,13 +211,13 @@ export const updateStatus = mutation({
     handler: async (ctx, args) => {
         // require management access before changing publication state
         const row = await ctx.db.get(args.id);
-        if (!row) throw new Error("Job not found.");
+        if (!row) throw new ConvexError("Job not found.");
         const { viewer } = await requireCompany(ctx, row.organisationId);
 
         // return unapproved changes to the employer with the review note
         if (args.action === "decline") {
             if (!viewer.isAdmin || !args.note?.trim())
-                throw new Error("Team review and a reason are required.");
+                throw new ConvexError("Team review and a reason are required.");
             await ctx.db.patch(row._id, {
                 status: row.publishedAt ? row.status : "draft",
                 draftStatus: row.draft ? "draft" : undefined,
@@ -233,9 +234,9 @@ export const updateStatus = mutation({
         } else {
             const expiresAt = await jobExpiry(ctx, row);
             if (row.status !== "published" || expiresAt === null || expiresAt <= Date.now())
-                throw new Error("Renew or publish this job before confirming it.");
+                throw new ConvexError("Renew or publish this job before confirming it.");
             if (row.applicationDeadline !== undefined && row.applicationDeadline <= Date.now())
-                throw new Error("Update the application deadline before confirming.");
+                throw new ConvexError("Update the application deadline before confirming.");
             if (row.sponsorshipId) {
                 const allocation = await jobAllowance(ctx, row.organisationId, row._id);
                 if (
@@ -243,7 +244,9 @@ export const updateStatus = mutation({
                     allocation.id !== row.sponsorshipId ||
                     (allocation.available !== null && allocation.available < 1)
                 )
-                    throw new Error("No sponsorship slot is available to reconfirm this job.");
+                    throw new ConvexError(
+                        "No sponsorship slot is available to reconfirm this job.",
+                    );
             }
             await ctx.db.patch(row._id, {
                 confirmedAt: Date.now(),

@@ -1,5 +1,5 @@
 import { canSend } from "./access";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import {
     query,
     mutation,
@@ -40,7 +40,7 @@ async function authorize(
 /** Load a campaign after checking its actual scope. */
 async function get(ctx: QueryCtx, id: Id<"campaigns">) {
     const campaign = await ctx.db.get(id);
-    if (!campaign) throw new Error("Campaign not found.");
+    if (!campaign) throw new ConvexError("Campaign not found.");
     await authorize(ctx, campaign);
     return campaign;
 }
@@ -179,15 +179,15 @@ export const announcement = mutation({
             event.visibility === "unlisted" ||
             event.startsAt <= Date.now()
         )
-            throw new Error("Choose a published upcoming event.");
+            throw new ConvexError("Choose a published upcoming event.");
         if (args.audience.kind !== "subscribers" || args.audience.excludeEventId !== event._id)
-            throw new Error("Announcements must exclude existing event registrations.");
+            throw new ConvexError("Announcements must exclude existing event registrations.");
         if (
             args.audience.deliveredSince !== undefined &&
             (!Number.isFinite(args.audience.deliveredSince) ||
                 args.audience.deliveredSince > Date.now())
         )
-            throw new Error("Choose a valid delivery history date.");
+            throw new ConvexError("Choose a valid delivery history date.");
 
         // retain the regular template and its consent category, not attendee reminder semantics
         const content = eventEmail({ ...event, ...(await eventPlace(ctx, event)) }, "New event", {
@@ -228,17 +228,17 @@ export const release = mutation({
         requireAudienceDelivery();
         const sending = await state(ctx);
         if (sending.isPaused || !sending.hasWebhook || sending.remaining <= 0)
-            throw new Error("Approve today's bulk allowance before releasing a batch.");
+            throw new ConvexError("Approve today's bulk allowance before releasing a batch.");
         if (
             campaign.attemptLimit === undefined ||
             !["draft", "completed"].includes(campaign.status) ||
             campaign.updatedAt !== args.expectedUpdatedAt
         )
-            throw new Error(
+            throw new ConvexError(
                 "Campaign changed or its previous batch has not finished. Preview it again.",
             );
         if (campaign.expiresAt !== undefined && campaign.expiresAt <= Date.now())
-            throw new Error("This campaign has expired.");
+            throw new ConvexError("This campaign has expired.");
 
         // require the same ordered identities, even when the eligible count has not changed
         const selected = await select(ctx, campaign.audience!, campaign.category!);
@@ -252,9 +252,9 @@ export const release = mutation({
             next.length !== args.recipients.length ||
             next.some((id, index) => id !== args.recipients[index])
         )
-            throw new Error("Recipient order changed. Preview the batch again.");
+            throw new ConvexError("Recipient order changed. Preview the batch again.");
         if (sending.remaining < next.length)
-            throw new Error("Today's remaining allowance does not cover this batch.");
+            throw new ConvexError("Today's remaining allowance does not cover this batch.");
 
         // prevent a new shared allowance from accidentally reviving unrelated campaign work
         const others = await ctx.db.query("campaigns").collect();
@@ -266,7 +266,7 @@ export const release = mutation({
                     ["campaign", "announcement", "weekly"].includes(row.category ?? ""),
             )
         )
-            throw new Error("Pause other bulk campaigns before releasing this batch.");
+            throw new ConvexError("Pause other bulk campaigns before releasing this batch.");
         const content = await attribute(render(campaign), campaign, ctx);
         await ctx.db.patch(campaign._id, {
             recipients: [...(campaign.recipients ?? []), ...next],
@@ -301,7 +301,7 @@ export const save = mutation({
             message.length > 10000 ||
             message.includes("https://mail.invalid/")
         )
-            throw new Error(
+            throw new ConvexError(
                 "Enter a subject up to 160 characters and a message up to 10,000 characters.",
             );
         const existing = args.id ? await get(ctx, args.id) : null;
@@ -309,7 +309,7 @@ export const save = mutation({
             existing &&
             (existing.status !== "draft" || existing.content || existing.eventId !== eventId)
         )
-            throw new Error("Only written drafts in the same audience scope can be edited.");
+            throw new ConvexError("Only written drafts in the same audience scope can be edited.");
 
         // keep category derived from scope rather than allowing privilege-changing intent flags
         const values = {
@@ -340,7 +340,8 @@ async function start(ctx: MutationCtx, campaign: Doc<"campaigns">, recipients?: 
         recipients ?? (await select(ctx, campaign.audience!, campaign.category!)).recipients,
     );
     const selected = ranked.map((row) => row.id);
-    if (selected.length > 10000) throw new Error("Campaign audience exceeds 10,000 recipients.");
+    if (selected.length > 10000)
+        throw new ConvexError("Campaign audience exceeds 10,000 recipients.");
 
     // register shared attribution links before freezing content and personalising messages
     const content = await attribute(render(campaign), campaign, ctx);
@@ -371,20 +372,20 @@ export const queue = mutation({
         await requireMailSender(ctx);
         requireAudienceDelivery();
         if (campaign.attemptLimit !== undefined)
-            throw new Error("Release a reviewed batch instead.");
+            throw new ConvexError("Release a reviewed batch instead.");
         const sending = await state(ctx);
         if (sending.isPaused || !sending.hasWebhook)
-            throw new Error("Configure and enable bulk delivery first.");
+            throw new ConvexError("Configure and enable bulk delivery first.");
         if (campaign.status !== "draft" || campaign.updatedAt !== args.expectedUpdatedAt)
-            throw new Error("Campaign changed. Preview it again.");
+            throw new ConvexError("Campaign changed. Preview it again.");
         const selected = await select(ctx, campaign.audience!, campaign.category!);
         if (!selected.recipients.length || selected.recipients.length !== args.expectedRecipients)
-            throw new Error("Recipient count changed. Preview it again.");
+            throw new ConvexError("Recipient count changed. Preview it again.");
         if (
             args.scheduledAt !== undefined &&
             (!Number.isFinite(args.scheduledAt) || args.scheduledAt <= Date.now())
         )
-            throw new Error("Choose a future send time.");
+            throw new ConvexError("Choose a future send time.");
 
         const sender = await authorize(ctx, campaign);
         await ctx.db.patch(args.id, { authorId: sender._id });
@@ -529,9 +530,9 @@ export const pause = mutation({
                 ? !["scheduled", "queued"].includes(campaign.status)
                 : campaign.status !== "paused"
         )
-            throw new Error("Campaign cannot change to that state.");
+            throw new ConvexError("Campaign cannot change to that state.");
         if (!args.isPaused && recipientsLocked())
-            throw new Error("Test recipient lock is enabled.");
+            throw new ConvexError("Test recipient lock is enabled.");
         const status = args.isPaused ? "paused" : campaign.recipients ? "queued" : "scheduled";
         const account = await authorize(ctx, campaign);
         await ctx.db.patch(args.id, {
@@ -554,7 +555,7 @@ export const cancel = mutation({
         const campaign = await get(ctx, args.id);
         await authorize(ctx, campaign, "organiser");
         if (["completed", "cancelled"].includes(campaign.status))
-            throw new Error("Campaign has already finished.");
+            throw new ConvexError("Campaign has already finished.");
         await ctx.db.patch(args.id, { status: "cancelled", updatedAt: Date.now() });
     },
 });
@@ -565,7 +566,7 @@ export const duplicate = mutation({
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
         if (campaign.key || campaign.attemptLimit !== undefined)
-            throw new Error("Automatic campaigns are created by their product action.");
+            throw new ConvexError("Automatic campaigns are created by their product action.");
         const account = await authorize(ctx, campaign);
         return await ctx.db.insert("campaigns", {
             subject: campaign.subject,
@@ -589,9 +590,9 @@ export const test = mutation({
         await authorize(ctx, campaign, "organiser");
         await requireMailSender(ctx);
         const user = await authComponent.getAuthUser(ctx);
-        if (!user?.emailVerified) throw new Error("Verify your email first.");
+        if (!user?.emailVerified) throw new ConvexError("Verify your email first.");
         if (!recipientAllowed(user.email))
-            throw new Error("Your email is not in the test recipient allowlist.");
+            throw new ConvexError("Your email is not in the test recipient allowlist.");
         await consumeLimit(ctx, `mail-test:${user._id}`, 5, 3600000, Date.now());
         const content = render(campaign);
         const registration = campaign.eventId
@@ -610,7 +611,7 @@ export const test = mutation({
             (link) => content.text.includes(link) || content.html?.includes(link),
         );
         if (!source && needsLinks)
-            throw new Error(
+            throw new ConvexError(
                 campaign.eventId
                     ? "Register for this event before testing its email."
                     : "Add your email as a subscriber before testing this email.",

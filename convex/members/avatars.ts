@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { action, internalMutation } from "../_generated/server";
 import { api, internal } from "../_generated/api";
 import { requireAccount } from "../auth/access";
@@ -17,7 +17,7 @@ export const upload = action({
             text(0, 4) !== "RIFF" ||
             text(8, 12) !== "WEBP"
         )
-            throw new Error("Choose a valid image under 500 KB after resizing.");
+            throw new ConvexError("Choose a valid image under 500 KB after resizing.");
         const id = await ctx.storage.store(new Blob([args.bytes], { type: "image/webp" }));
 
         // remove an unclaimed upload if the account becomes unavailable
@@ -38,7 +38,7 @@ export const attach = internalMutation({
         const member = await ctx.db.get(account.memberId);
         if (!member) throw new Error("Member not found.");
         const avatarUrl = await ctx.storage.getUrl(args.id);
-        if (!avatarUrl) throw new Error("Image not found.");
+        if (!avatarUrl) throw new ConvexError("Image not found.");
         await ctx.db.patch(member._id, {
             avatarId: args.id,
             avatarUrl,

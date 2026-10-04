@@ -1,7 +1,7 @@
 import { isListed } from "./visibility";
 import { requireAudienceDelivery } from "../mail/policy";
 import { validateAddress } from "./place";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import {
     mutation,
     query,
@@ -75,14 +75,14 @@ export const save = mutation({
             await requireMailSender(ctx);
         validateRecurrence(args.recurrence);
         const series = await ctx.db.get(args.seriesId);
-        if (!series) throw new Error("Series not found.");
+        if (!series) throw new ConvexError("Series not found.");
         const existing = args.id ? await ctx.db.get(args.id) : null;
         if (
             series.status === "archived" &&
             (args.status === "active" || existing?.seriesId !== args.seriesId)
         )
-            throw new Error("Restore the series before adding or activating schedules.");
-        if (args.id && !existing) throw new Error("Schedule not found.");
+            throw new ConvexError("Restore the series before adding or activating schedules.");
+        if (args.id && !existing) throw new ConvexError("Schedule not found.");
         if (existing) await requireSchedule(ctx, existing._id);
         if (existing) {
             const events = await ctx.db
@@ -97,18 +97,18 @@ export const save = mutation({
                     !existing.recurrence.excluded.includes(event.occurrence),
             );
             if (skipped)
-                throw new Error(
+                throw new ConvexError(
                     `${skipped.occurrence} already has an event. Cancel that occurrence first.`,
                 );
         }
         const source = args.sourceId ? await ctx.db.get(args.sourceId) : null;
-        if (args.sourceId && !source) throw new Error("Template event not found.");
+        if (args.sourceId && !source) throw new ConvexError("Template event not found.");
         if (source) await requireRevision(ctx, source, source.seriesId, "organiser");
-        if (!existing && !source) throw new Error("Choose a saved event as the template.");
+        if (!existing && !source) throw new ConvexError("Choose a saved event as the template.");
         const template = source ? revisionFields(source) : existing!.template;
         template.seriesId = args.seriesId;
         if (args.title !== undefined) {
-            if (!args.title.trim()) throw new Error("Enter an occurrence title.");
+            if (!args.title.trim()) throw new ConvexError("Enter an occurrence title.");
             template.title = args.title.trim();
         }
         validateConfirmation(template.confirmation, template.registration, template.startsAt);
@@ -117,14 +117,16 @@ export const save = mutation({
             args.publication === "published" &&
             (!template.description.trim() || !template.location.trim())
         )
-            throw new Error(
+            throw new ConvexError(
                 "Add a description and venue to the template before publishing occurrences.",
             );
         if (template.endsAt !== undefined && template.endsAt - template.startsAt > 7 * 86400000)
-            throw new Error("Recurring events must last at most seven days.");
+            throw new ConvexError("Recurring events must last at most seven days.");
         const credits = await publicOrganisers(ctx, template, await ctx.db.get(args.seriesId));
         if (!credits.organiser)
-            throw new Error("Choose a public primary organiser, directly or through the series.");
+            throw new ConvexError(
+                "Choose a public primary organiser, directly or through the series.",
+            );
         const now = Date.now();
         const values = {
             seriesId: args.seriesId,
@@ -198,7 +200,7 @@ export async function generate(ctx: MutationCtx, schedule: Doc<"schedules">) {
     const reserved = new Set(existing.map((event) => event.occurrence));
     // Number across the series, including manually created events and other schedules.
     const series = await ctx.db.get(schedule.seriesId);
-    if (!series) throw new Error("Series not found.");
+    if (!series) throw new ConvexError("Series not found.");
     const events = await ctx.db
         .query("events")
         .withIndex("by_series", (q) => q.eq("seriesId", schedule.seriesId))
@@ -318,9 +320,11 @@ export const announce = mutation({
         requireMail();
         requireAudienceDelivery();
         const preview = await announcementPreview(ctx, args.id);
-        if (!preview.recipients) throw new Error("No subscribers to announce to.");
+        if (!preview.recipients) throw new ConvexError("No subscribers to announce to.");
         if (preview.receipt !== args.receipt)
-            throw new Error("The schedule or recipients changed. Review the announcement again.");
+            throw new ConvexError(
+                "The schedule or recipients changed. Review the announcement again.",
+            );
         const now = Date.now();
         const schedule = (await ctx.db.get(args.id))!;
         await ctx.db.patch(schedule.seriesId, { announcedAt: now });
@@ -336,10 +340,10 @@ export const announce = mutation({
 async function announcementPreview(ctx: Pick<QueryCtx, "db">, id: Id<"schedules">) {
     const schedule = await ctx.db.get(id);
     if (!schedule || schedule.status !== "active")
-        throw new Error("Activate the schedule before announcing it.");
+        throw new ConvexError("Activate the schedule before announcing it.");
     const series = await ctx.db.get(schedule.seriesId);
     if (!series || series.announcedAt)
-        throw new Error("This series is unavailable or already announced.");
+        throw new ConvexError("This series is unavailable or already announced.");
     const events = await ctx.db
         .query("events")
         .withIndex("by_schedule_and_occurrence", (q) => q.eq("scheduleId", id))
@@ -350,7 +354,7 @@ async function announcementPreview(ctx: Pick<QueryCtx, "db">, id: Id<"schedules"
                 isListed(event) && event.status === "scheduled" && event.startsAt > Date.now(),
         )
     )
-        throw new Error("Publish an upcoming occurrence before announcing the series.");
+        throw new ConvexError("Publish an upcoming occurrence before announcing the series.");
     const subscriptions = await ctx.db.query("subscriptions").collect();
     const now = Date.now();
     const recipients = subscriptions.filter((row) => receivesAnnouncement(row, now));

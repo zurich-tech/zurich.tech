@@ -1,5 +1,5 @@
 import { requireAudienceDelivery } from "../mail/policy";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { query, mutation, type QueryCtx, type MutationCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { internal } from "../_generated/api";
@@ -28,10 +28,11 @@ export async function isAnnounced(ctx: QueryCtx, event: Doc<"events">) {
 /** Queue the event's single subscriber announcement after explicit consent. */
 export async function queueAnnouncement(ctx: MutationCtx, event: Doc<"events">) {
     if (event.visibility === "unlisted")
-        throw new Error("Unlisted events cannot be announced to subscribers.");
+        throw new ConvexError("Unlisted events cannot be announced to subscribers.");
     if (event.status !== "scheduled" || event.startsAt <= Date.now())
-        throw new Error("Only upcoming published events can be announced.");
-    if (await isAnnounced(ctx, event)) throw new Error("This event has already been announced.");
+        throw new ConvexError("Only upcoming published events can be announced.");
+    if (await isAnnounced(ctx, event))
+        throw new ConvexError("This event has already been announced.");
     requireMail();
     requireAudienceDelivery();
 
@@ -116,7 +117,7 @@ export const preview = query({
     handler: async (ctx, args) => {
         await requireEvent(ctx, args.eventId);
         const event = await ctx.db.get(args.eventId);
-        if (!event) throw new Error("Event not found.");
+        if (!event) throw new ConvexError("Event not found.");
 
         return {
             title: event.title,
@@ -134,12 +135,14 @@ export const send = mutation({
         if (args.kind === "announcement") await requireAdmin(ctx);
         else await requireMailSender(ctx);
         const event = await ctx.db.get(args.eventId);
-        if (!event) throw new Error("Event not found.");
+        if (!event) throw new ConvexError("Event not found.");
         const actual = await audience(ctx, event, args.kind);
-        if (actual.reason) throw new Error(actual.reason);
-        if (!actual.recipients) throw new Error("No eligible recipients.");
+        if (actual.reason) throw new ConvexError(actual.reason);
+        if (!actual.recipients) throw new ConvexError("No eligible recipients.");
         if (actual.receipt !== args.receipt)
-            throw new Error("The event or recipients changed. Please review and confirm again.");
+            throw new ConvexError(
+                "The event or recipients changed. Please review and confirm again.",
+            );
         requireMail();
         requireAudienceDelivery();
 

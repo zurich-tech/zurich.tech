@@ -1,5 +1,5 @@
 import { query } from "../_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import type { AddressAccess } from "./fields";
 import { permissions } from "../auth/grants";
 import { allows } from "../auth/permissions";
@@ -127,9 +127,9 @@ export function validateAddress(
     const policy = event.addressAccess;
     if (policy?.kind === "confirmed") {
         if (event.registration.kind !== "native")
-            throw new Error("Confirmed-only addresses require registration on zurich.tech.");
+            throw new ConvexError("Confirmed-only addresses require registration on zurich.tech.");
         if (isPublished && !event.address?.trim())
-            throw new Error("Add the address for confirmed attendees before publishing.");
+            throw new ConvexError("Add the address for confirmed attendees before publishing.");
     }
 
     // External links must be ordinary web links with a readable site name.
@@ -138,7 +138,7 @@ export function validateAddress(
         try {
             url = new URL(policy.url);
         } catch {
-            throw new Error("Enter a web address and a short site name.");
+            throw new ConvexError("Enter a web address and a short site name.");
         }
         if (
             !["https:", "http:"].includes(url.protocol) ||
@@ -147,6 +147,6 @@ export function validateAddress(
             !policy.label.trim() ||
             policy.label.length > 80
         )
-            throw new Error("Enter a web address and a short site name.");
+            throw new ConvexError("Enter a web address and a short site name.");
     }
 }

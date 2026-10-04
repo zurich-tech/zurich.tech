@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { internalMutation, mutation, type MutationCtx } from "../_generated/server";
 import { internal } from "../_generated/api";
 import type { Doc } from "../_generated/dataModel";
@@ -103,14 +103,14 @@ export const decide = mutation({
             event.startsAt <= Date.now() ||
             !isTentative(event)
         )
-            throw new Error("This event is not awaiting confirmation.");
+            throw new ConvexError("This event is not awaiting confirmation.");
         confirmAction(await eventAction(ctx, event, args.action), args.receipt);
         if (args.action === "confirm") await settle(ctx, event, "confirmed");
         else {
             if (!event.confirmation!.isApprovalRequired)
-                throw new Error("This event does not require team approval.");
+                throw new ConvexError("This event does not require team approval.");
             if (event.confirmation!.decidesAt <= Date.now())
-                throw new Error("The approval deadline has passed.");
+                throw new ConvexError("The approval deadline has passed.");
             const approvedAt = Date.now();
             await ctx.db.patch(event._id, { approvedAt, updatedAt: approvedAt });
             await evaluate(ctx, { ...event, approvedAt });

@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { query, mutation, type QueryCtx } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
 import type { Id } from "../_generated/dataModel";
@@ -21,7 +21,7 @@ export const remove = mutation({
     handler: async (ctx, args) => {
         await requireAdmin(ctx);
         const reason = await deletionReason(ctx, args.id);
-        if (reason) throw new Error(reason);
+        if (reason) throw new ConvexError(reason);
 
         // delete event content together with all of its editable revisions
         const draftId = ctx.db.normalizeId("submissions", args.id);

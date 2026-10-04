@@ -1,6 +1,6 @@
 import { validateTopics } from "../topics/queries";
 import { validatePrimaryOrganiser, validateCoOrganisers } from "./organisers";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { requireSeries, requireWorkspace } from "../auth/grants";
 import { allows } from "../auth/permissions";
@@ -58,9 +58,10 @@ export const upsert = mutation({
         values.coOrganiserIds = args.coOrganiserIds;
         await validateCoOrganisers(ctx, values.coOrganiserIds);
         await validatePrimaryOrganiser(ctx, values.primaryOrganiserId);
-        if (!id && !publish) throw new Error("Publish a new series before assigning editors.");
+        if (!id && !publish)
+            throw new ConvexError("Publish a new series before assigning editors.");
         if (!values.name.trim() || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(values.slug))
-            throw new Error("Enter a name and valid slug.");
+            throw new ConvexError("Enter a name and valid slug.");
         if (
             values.name.length > 200 ||
             values.slug.length > 160 ||
@@ -68,7 +69,7 @@ export const upsert = mutation({
             values.topics.length > 12 ||
             values.topics.some((topic) => topic.length > 60)
         )
-            throw new Error("Series content is too long.");
+            throw new ConvexError("Series content is too long.");
 
         // Retain archived topics already present in the published series or its draft.
         const current = id ? await ctx.db.get(id) : null;
@@ -88,10 +89,11 @@ export const upsert = mutation({
             .query("series")
             .withIndex("by_slug", (range) => range.eq("slug", values.slug))
             .unique();
-        if (existing && existing._id !== id) throw new Error("A series already uses this URL.");
+        if (existing && existing._id !== id)
+            throw new ConvexError("A series already uses this URL.");
         // update the existing series or create its first record
         if (id) {
-            if (!current) throw new Error("Series not found.");
+            if (!current) throw new ConvexError("Series not found.");
             if (publish) {
                 await ctx.db.patch(id, values);
                 if (draft) await ctx.db.delete(draft._id);
@@ -115,7 +117,7 @@ export const archive = mutation({
     args: { id: v.id("series"), isArchived: v.boolean() },
     handler: async (ctx, args) => {
         await requireSeries(ctx, args.id);
-        if (!(await ctx.db.get(args.id))) throw new Error("Series not found.");
+        if (!(await ctx.db.get(args.id))) throw new ConvexError("Series not found.");
         await ctx.db.patch(args.id, { status: args.isArchived ? "archived" : "active" });
 
         // restoration leaves schedules paused until explicitly resumed

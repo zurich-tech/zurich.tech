@@ -1,7 +1,7 @@
 import { readProfiles } from "../members/links";
 import type { Doc } from "../_generated/dataModel";
 import { paidTerm } from "../billing/payments";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { query, mutation } from "../_generated/server";
 import { requireAccount } from "../auth/access";
 
@@ -67,7 +67,7 @@ export const setVisibility = mutation({
             .query("sponsorships")
             .withIndex("by_member", (q) => q.eq("memberId", viewer.memberId))
             .unique();
-        if (!patron) throw new Error("Support plan not found.");
+        if (!patron) throw new ConvexError("Support plan not found.");
         await ctx.db.patch(patron._id, { isPublic: args.isPublic });
     },
 });

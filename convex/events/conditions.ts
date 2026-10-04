@@ -1,3 +1,4 @@
+import { ConvexError } from "convex/values";
 import type { Confirmation, Registration } from "./fields";
 
 /** An unconditional event is confirmed without storing redundant state. */
@@ -13,16 +14,16 @@ export function validateConfirmation(
 ) {
     if (!confirmation) return;
     if (!Number.isFinite(confirmation.decidesAt) || confirmation.decidesAt >= startsAt)
-        throw new Error("Set the confirmation deadline before the event starts.");
+        throw new ConvexError("Set the confirmation deadline before the event starts.");
     if (!confirmation.minimum && !confirmation.isApprovalRequired)
-        throw new Error("Choose a minimum turnout or team approval.");
+        throw new ConvexError("Choose a minimum turnout or team approval.");
     if (confirmation.minimum !== undefined) {
         if (!Number.isInteger(confirmation.minimum) || confirmation.minimum < 1)
-            throw new Error("Minimum turnout must be a positive whole number.");
+            throw new ConvexError("Minimum turnout must be a positive whole number.");
         if (registration.kind !== "native")
-            throw new Error("Minimum turnout requires registration on zurich.tech.");
+            throw new ConvexError("Minimum turnout requires registration on zurich.tech.");
         if (registration.capacity !== null && confirmation.minimum > registration.capacity)
-            throw new Error("Minimum turnout cannot exceed capacity.");
+            throw new ConvexError("Minimum turnout cannot exceed capacity.");
     }
 }
 

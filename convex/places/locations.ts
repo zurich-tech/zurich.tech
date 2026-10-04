@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query, type QueryCtx, type MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { requireAccount } from "../auth/access";
@@ -14,7 +14,7 @@ async function requireOwner(
     if (organisationId)
         return { ...(await requireOrganisation(ctx, organisationId)), isOrganisation: true };
     if (ownerId !== viewer.memberId && !viewer.isAdmin)
-        throw new Error("You cannot manage this location.");
+        throw new ConvexError("You cannot manage this location.");
     if (!(await ctx.db.get(ownerId))) throw new Error("Location owner is missing.");
     return { viewer, isOrganisation: false };
 }
@@ -44,10 +44,10 @@ export const save = mutation({
             !Number.isFinite(args.longitude) ||
             Math.abs(args.longitude) > 180
         )
-            throw new Error("Enter a valid address and coordinates.");
+            throw new ConvexError("Enter a valid address and coordinates.");
         const existing = args.id ? await ctx.db.get(args.id) : null;
         if (args.id && (!existing || existing.ownerId !== args.ownerId))
-            throw new Error("Location not found.");
+            throw new ConvexError("Location not found.");
         const address = {
             line1: args.line1.trim(),
             locality: args.locality.trim(),
@@ -111,7 +111,7 @@ export const remove = mutation({
     args: { id: v.id("locations") },
     handler: async (ctx, args) => {
         const location = await ctx.db.get(args.id);
-        if (!location) throw new Error("Location not found.");
+        if (!location) throw new ConvexError("Location not found.");
         await requireOwner(ctx, location.ownerId);
         await ctx.db.delete(location._id);
     },

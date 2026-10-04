@@ -1,5 +1,5 @@
 import { isListed } from "../events/visibility";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import { query, type QueryCtx } from "../_generated/server";
 import { memberHandle, isPublicMember } from "../members/queries";
@@ -96,7 +96,7 @@ export const search = query({
     handler: async (ctx, args) => {
         const text = args.text.trim();
         if (text.length < 2) return [];
-        if (text.length > 200) throw new Error("Search must be at most 200 characters.");
+        if (text.length > 200) throw new ConvexError("Search must be at most 200 characters.");
         const includes = (kind: string) =>
             !args.kinds || args.kinds.some((value) => value === kind);
         const [catalogue, members, organisations, posts, jobs] = await Promise.all([

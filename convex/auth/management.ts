@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query } from "../_generated/server";
 import { requireAdmin } from "./access";
 
@@ -60,7 +60,7 @@ export const setPermission = mutation({
     handler: async (ctx, args) => {
         const viewer = await requireAdmin(ctx);
         const account = await ctx.db.get(args.id);
-        if (!account || account.status !== "active") throw new Error("Account not found.");
+        if (!account || account.status !== "active") throw new ConvexError("Account not found.");
 
         // retain independent permissions and an attributable audit record
         await ctx.db.patch(args.id, { [args.permission]: args.isEnabled, updatedAt: Date.now() });
@@ -79,9 +79,10 @@ export const setAdmin = mutation({
     args: { id: v.id("accounts"), isAdmin: v.boolean() },
     handler: async (ctx, args) => {
         const viewer = await requireAdmin(ctx);
-        if (viewer._id === args.id) throw new Error("You cannot change your own admin access.");
+        if (viewer._id === args.id)
+            throw new ConvexError("You cannot change your own admin access.");
         const account = await ctx.db.get(args.id);
-        if (!account || account.status !== "active") throw new Error("Account not found.");
+        if (!account || account.status !== "active") throw new ConvexError("Account not found.");
         await ctx.db.patch(args.id, { isAdmin: args.isAdmin, updatedAt: Date.now() });
         await ctx.db.insert("accessChanges", {
             actorId: viewer._id,
@@ -107,7 +108,7 @@ export const setGrant = mutation({
         const viewer = await requireAdmin(ctx);
         const account = await ctx.db.get(args.accountId);
         if (!account || account.status !== "active" || !(await ctx.db.get(args.scope.id)))
-            throw new Error("Account or scope not found.");
+            throw new ConvexError("Account or scope not found.");
         const grants = await ctx.db
             .query("accessGrants")
             .withIndex("by_account", (q) => q.eq("accountId", args.accountId))

@@ -1,3 +1,4 @@
+import { ConvexError } from "convex/values";
 import { countries } from "../members/countries";
 import type { Job } from "./fields";
 import { normalizeEmail } from "../members/emails";
@@ -15,11 +16,11 @@ export function normalizeJob(job: Job): Job {
         job.description.length > 50000 ||
         !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(job.slug)
     )
-        throw new Error("Enter a title, short summary, description and valid URL slug.");
+        throw new ConvexError("Enter a title, short summary, description and valid URL slug.");
     const list = (values: string[], limit: number, length: number) => {
         const result = [...new Set(values.map((value) => value.trim()).filter(Boolean))];
         if (result.length > limit || result.some((value) => value.length > length))
-            throw new Error("Too many or excessively long job details.");
+            throw new ConvexError("Too many or excessively long job details.");
         return result;
     };
     const locations = job.locations.map((location) => ({
@@ -35,11 +36,11 @@ export function normalizeJob(job: Job): Job {
                 !countries.some((country) => country.value === location.countryCode),
         )
     )
-        throw new Error("Enter valid cities and countries.");
+        throw new ConvexError("Enter valid cities and countries.");
     if (job.workplace !== "remote" && !locations.length)
-        throw new Error("Enter at least one workplace location.");
+        throw new ConvexError("Enter at least one workplace location.");
     if (job.remoteEligibility && (job.workplace === "onsite" || job.remoteEligibility.length > 300))
-        throw new Error(
+        throw new ConvexError(
             "Remote eligibility requires a hybrid or remote role and at most 300 characters.",
         );
 
@@ -50,10 +51,10 @@ export function normalizeJob(job: Job): Job {
     if (salary) {
         validateRange(salary.amount, "salary");
         if (!Intl.supportedValuesOf("currency").includes(salary.currency))
-            throw new Error("Select a supported salary currency.");
+            throw new ConvexError("Select a supported salary currency.");
     }
     if (job.compensation && !salary && !job.compensation.equity)
-        throw new Error("Enter salary or equity, or omit compensation.");
+        throw new ConvexError("Enter salary or equity, or omit compensation.");
     if (
         job.duration?.kind === "fixed" &&
         job.duration.months !== undefined &&
@@ -61,15 +62,15 @@ export function normalizeJob(job: Job): Job {
             job.duration.months < 1 ||
             job.duration.months > 120)
     )
-        throw new Error("Enter a duration between 1 and 120 months.");
+        throw new ConvexError("Enter a duration between 1 and 120 months.");
     if (job.applicationDeadline !== undefined && !Number.isFinite(job.applicationDeadline))
-        throw new Error("Enter a valid application deadline.");
+        throw new ConvexError("Enter a valid application deadline.");
     if (
         job.application.kind === "email" &&
         ((job.application.subject?.length ?? 0) > 200 ||
             /[\r\n]/.test(job.application.subject ?? ""))
     )
-        throw new Error("Enter a short, single-line email subject.");
+        throw new ConvexError("Enter a short, single-line email subject.");
 
     return {
         ...job,
@@ -112,5 +113,5 @@ function validateRange(
         ) ||
         (range.min !== undefined && range.max !== undefined && range.min > range.max)
     )
-        throw new Error(`Enter a valid ${label} range.`);
+        throw new ConvexError(`Enter a valid ${label} range.`);
 }

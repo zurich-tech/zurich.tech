@@ -1,3 +1,4 @@
+import { ConvexError } from "convex/values";
 import { allows, canCreate, type Role } from "./permissions";
 import { requireAccount } from "./access";
 import type { QueryCtx, MutationCtx } from "../_generated/server";
@@ -19,7 +20,7 @@ export async function permissions(ctx: Context) {
 export async function requireWorkspace(ctx: Context) {
     const access = await permissions(ctx);
     if (!access.isAdmin && !access.isTeam && !access.grants.length)
-        throw new Error("Editing access is required.");
+        throw new ConvexError("Editing access is required.");
     return access;
 }
 
@@ -28,7 +29,7 @@ export async function requireEvent(ctx: Context, eventId: Id<"events">, role: Ro
     const access = await permissions(ctx);
     const event = await ctx.db.get(eventId);
     if (!event || !allows(access, { eventId, seriesId: event.seriesId }, role))
-        throw new Error("You do not have access to this event.");
+        throw new ConvexError("You do not have access to this event.");
     return access.account;
 }
 
@@ -40,7 +41,7 @@ export async function requireSeries(
 ) {
     const access = await permissions(ctx);
     if (!allows(access, { seriesId }, role))
-        throw new Error("You do not have access to this series.");
+        throw new ConvexError("You do not have access to this series.");
     return access.account;
 }
 
@@ -53,16 +54,16 @@ export async function requireRevision(
 ) {
     const access = await permissions(ctx);
     const event = draft?.eventId ? await ctx.db.get(draft.eventId) : null;
-    if (draft?.eventId && !event) throw new Error("Event not found.");
+    if (draft?.eventId && !event) throw new ConvexError("Event not found.");
     const original = event ? event.seriesId : draft?.seriesId;
     if (draft && !allows(access, { eventId: draft.eventId, seriesId: original }, role))
-        throw new Error("You do not have access to this event.");
+        throw new ConvexError("You do not have access to this event.");
     if (
         (!draft || seriesId !== original) &&
         !(role === "editor" && access.isTeam) &&
         !canCreate(access, seriesId)
     )
-        throw new Error("Organiser access to the destination series is required.");
+        throw new ConvexError("Organiser access to the destination series is required.");
     return access.account;
 }
 
@@ -113,13 +114,13 @@ export async function scopedRevisions(
 /** Authorise attendee operations against the registration's actual event. */
 export async function requireRegistration(ctx: Context, id: Id<"registrations">) {
     const registration = await ctx.db.get(id);
-    if (!registration) throw new Error("Registration not found.");
+    if (!registration) throw new ConvexError("Registration not found.");
     return await requireEvent(ctx, registration.eventId);
 }
 
 /** Schedules belong to their series rather than an individual occurrence. */
 export async function requireSchedule(ctx: Context, id: Id<"schedules">) {
     const schedule = await ctx.db.get(id);
-    if (!schedule) throw new Error("Schedule not found.");
+    if (!schedule) throw new ConvexError("Schedule not found.");
     return await requireSeries(ctx, schedule.seriesId);
 }

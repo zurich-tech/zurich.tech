@@ -1,6 +1,6 @@
 import { countries } from "./countries";
 import { languages } from "./languages";
-import { v, type Infer } from "convex/values";
+import { ConvexError, v, type Infer } from "convex/values";
 
 /** Stable survey choices shared by forms, validation and aggregate reports. */
 export const demographicOptions = {
@@ -97,7 +97,7 @@ export function validateDemographics(value: Demographics) {
                 (role) => !demographicOptions.roles.some((option) => option.value === role),
             ))
     )
-        throw new Error("Choose each professional role once from the available options.");
+        throw new ConvexError("Choose each professional role once from the available options.");
 
     if (
         value.languages &&
@@ -107,25 +107,25 @@ export function validateDemographics(value: Demographics) {
                     !demographicOptions.languages.some((option) => option.value === language),
             ))
     )
-        throw new Error("Choose each language once from the available options.");
+        throw new ConvexError("Choose each language once from the available options.");
 
     // store country codes, never free-form locations or inferred citizenship
     const isCountry = (code: string) => countries.some((country) => country.value === code);
     if (value.residence != null && !isCountry(value.residence))
-        throw new Error("Choose your country of residence from the list.");
+        throw new ConvexError("Choose your country of residence from the list.");
     if (
         value.citizenships &&
         (new Set(value.citizenships).size !== value.citizenships.length ||
             value.citizenships.some((code) => !isCountry(code)))
     )
-        throw new Error("Choose each country of citizenship once from the list.");
+        throw new ConvexError("Choose each country of citizenship once from the list.");
 }
 export function validateParticipation(values: string[]) {
     if (
         new Set(values).size !== values.length ||
         values.some((value) => !participationOptions.some((option) => option.value === value))
     )
-        throw new Error("Choose each way to participate once from the available options.");
+        throw new ConvexError("Choose each way to participate once from the available options.");
 }
 
 /** Accept explicit motivations without inferring them from topic interests. */
@@ -134,5 +134,5 @@ export function validateMotivations(values: string[]) {
         new Set(values).size !== values.length ||
         values.some((value) => !motivationOptions.some((option) => option.value === value))
     )
-        throw new Error("Choose each reason once from the available options.");
+        throw new ConvexError("Choose each reason once from the available options.");
 }

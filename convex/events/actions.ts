@@ -1,7 +1,7 @@
 import { isAnnounced } from "./mail";
 import { confirmationDecision, isTentative } from "./conditions";
 import { receivesAnnouncement } from "../mail/events";
-import { v, type Infer } from "convex/values";
+import { ConvexError, v, type Infer } from "convex/values";
 import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { requireEvent, requireRevision } from "../auth/grants";
@@ -34,12 +34,12 @@ export async function eventAction(
         proposed = { ...proposed, visibility: event.visibility };
 
     const now = Date.now();
-    if (intent !== "publish" && !event) throw new Error("Event not found.");
+    if (intent !== "publish" && !event) throw new ConvexError("Event not found.");
     if (event?.status === "cancelled")
-        throw new Error("This event is cancelled. Duplicate it to create a new event.");
-    if (intent === "publish" && !proposed) throw new Error("Event fields are required.");
+        throw new ConvexError("This event is cancelled. Duplicate it to create a new event.");
+    if (intent === "publish" && !proposed) throw new ConvexError("Event fields are required.");
     if (intent === "unpublish" && event?.status === "draft")
-        throw new Error("This event is already unpublished.");
+        throw new ConvexError("This event is already unpublished.");
 
     // apply the same subscription and suppression rules as delivery
     const subscriptions = await ctx.db.query("subscriptions").collect();
@@ -72,10 +72,11 @@ export async function eventAction(
     if (intent === "publish" && proposed) {
         if (announce) {
             if (proposed.visibility === "unlisted")
-                throw new Error("Unlisted events cannot be announced to subscribers.");
-            if (proposed.startsAt <= now) throw new Error("Only upcoming events can be announced.");
+                throw new ConvexError("Unlisted events cannot be announced to subscribers.");
+            if (proposed.startsAt <= now)
+                throw new ConvexError("Only upcoming events can be announced.");
             if (event && (await isAnnounced(ctx, event)))
-                throw new Error("This event has already been announced.");
+                throw new ConvexError("This event has already been announced.");
             const subscribers = subscriptions.filter((row) => receivesAnnouncement(row, now));
             announcements = subscribers.length;
             for (const row of subscribers) recipients.add(row.email);
@@ -174,10 +175,10 @@ export const preview = query({
     },
     handler: async (ctx, args) => {
         const draft = args.id ? await ctx.db.get(args.id) : null;
-        if (args.id && !draft) throw new Error("Draft not found.");
+        if (args.id && !draft) throw new ConvexError("Draft not found.");
         const id = args.eventId ?? draft?.eventId;
         const event = id ? await ctx.db.get(id) : null;
-        if (id && !event) throw new Error("Event not found.");
+        if (id && !event) throw new ConvexError("Event not found.");
         const viewer = id
             ? await requireEvent(ctx, id)
             : await requireRevision(
@@ -204,5 +205,7 @@ export const preview = query({
 /** Require a new confirmation when the event or recipient counts have changed. */
 export function confirmAction(actual: { receipt: string }, expected: string) {
     if (actual.receipt !== expected)
-        throw new Error("The event or email recipients changed. Please review and confirm again.");
+        throw new ConvexError(
+            "The event or email recipients changed. Please review and confirm again.",
+        );
 }

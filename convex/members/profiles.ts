@@ -7,7 +7,7 @@ import {
     validateMotivations,
 } from "./demographics";
 import { readProfiles, writeProfiles } from "./links";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { query, mutation } from "../_generated/server";
 import { authComponent } from "../auth/component";
 import { requireAccount } from "../auth/access";
@@ -72,15 +72,18 @@ export const save = mutation({
         if (args.motivations) validateMotivations(args.motivations);
         const name = args.name.trim();
         const bio = args.bio?.trim() || undefined;
-        if (!name || name.length > 120) throw new Error("Enter a name, up to 120 characters.");
-        if ((bio?.length ?? 0) > 1000) throw new Error("Keep your bio within 1,000 characters.");
+        if (!name || name.length > 120)
+            throw new ConvexError("Enter a name, up to 120 characters.");
+        if ((bio?.length ?? 0) > 1000)
+            throw new ConvexError("Keep your bio within 1,000 characters.");
         const headline = args.headline?.trim() || undefined;
         if ((headline?.length ?? 0) > 160)
-            throw new Error("Keep the headline within 160 characters.");
+            throw new ConvexError("Keep the headline within 160 characters.");
 
         // reserve the chosen public address without allowing another member's handle
         const handle = args.handle?.trim() ? normalizeHandle(args.handle) : undefined;
-        if (args.isPublic && !handle) throw new Error("Choose a slug for your public profile.");
+        if (args.isPublic && !handle)
+            throw new ConvexError("Choose a profile address or turn off Public profile.");
         const handles = await ctx.db
             .query("handles")
             .withIndex("by_member", (q) => q.eq("memberId", member._id))
@@ -91,7 +94,7 @@ export const save = mutation({
                 .withIndex("by_name", (q) => q.eq("name", handle))
                 .unique();
             if (existing && existing.memberId !== member._id && existing.status !== "released")
-                throw new Error("This slug is already taken.");
+                throw new ConvexError("This profile address is already taken.");
             if (existing)
                 await ctx.db.patch(existing._id, {
                     memberId: member._id,
@@ -154,7 +157,7 @@ export const refreshPhoto = mutation({
         const member = await ctx.db.get(account.memberId);
         if (!member) throw new Error("Member not found.");
         const avatarUrl = normalizeImageUrl(args.image);
-        if (!avatarUrl) throw new Error("The provider has no profile photo.");
+        if (!avatarUrl) throw new ConvexError("The provider has no profile photo.");
 
         await ctx.db.patch(account.memberId, {
             avatarUrl,
@@ -189,7 +192,7 @@ export const available = query({
 function normalizeHandle(value: string) {
     const handle = value.trim().toLowerCase();
     if (!/^[a-z][a-z0-9-]{2,39}$/.test(handle))
-        throw new Error("Use 3–40 letters, numbers or hyphens, starting with a letter.");
+        throw new ConvexError("Use 3–40 letters, numbers or hyphens, starting with a letter.");
 
     return handle;
 }

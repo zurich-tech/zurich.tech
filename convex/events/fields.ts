@@ -1,7 +1,7 @@
 import { visibility } from "./visibility";
 import { affiliations } from "../members/affiliations";
 import type { Doc } from "../_generated/dataModel";
-import { v, type Infer } from "convex/values";
+import { ConvexError, v, type Infer } from "convex/values";
 
 export { format } from "./formats";
 import { format } from "./formats";
@@ -33,7 +33,7 @@ export type SeatPolicy = Pick<Extract<Registration, { kind: "native" }>, "capaci
 /** Resolve an eligible applicant's seat without exceeding capacity. */
 export function resolveSeat(policy: SeatPolicy, confirmed: number): "going" | "waitlist" {
     if (policy.capacity === null || confirmed < policy.capacity) return "going";
-    if (policy.overflow === "closed") throw new Error("This event is full.");
+    if (policy.overflow === "closed") throw new ConvexError("This event is full.");
 
     return "waitlist";
 }

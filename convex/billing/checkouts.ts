@@ -1,6 +1,6 @@
 import { refreshRecognition } from "../sponsorships/recognition";
 import { jobExpiry, jobStatus } from "../jobs/jobs";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { internalMutation, query, type MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { requireAccount } from "../auth/access";
@@ -39,12 +39,12 @@ export const reserve = internalMutation({
                 });
                 agreement = await ctx.db.get(id);
             }
-            if (!agreement) throw new Error("Sponsorship not found.");
+            if (!agreement) throw new ConvexError("Sponsorship not found.");
             if (agreement.tier !== selected.tier) {
                 await requireCheckoutClosed(ctx, agreement._id);
                 const term = await paidTerm(ctx, agreement._id);
                 if (term && term.endsAt > now)
-                    throw new Error("Contact us to change your active support plan.");
+                    throw new ConvexError("Contact us to change your active support plan.");
                 await ctx.db.patch(agreement._id, { tier: selected.tier, updatedAt: now });
             }
             selected = { kind: "sponsorship", id: agreement._id };
@@ -53,21 +53,22 @@ export const reserve = internalMutation({
         // require ownership and derive prices entirely on the server
         if (args.purchase.kind === "job") {
             const job = await ctx.db.get(args.purchase.id);
-            if (!job) throw new Error("Job not found.");
+            if (!job) throw new ConvexError("Job not found.");
             await requireCompany(ctx, job.organisationId);
             if (job.status === "draft")
-                throw new Error("Submit this job for review before paying.");
+                throw new ConvexError("Submit this job for review before paying.");
             amount = jobPrice;
             name = `${job.title} · ${jobDurationMonths} months`;
             email = job.billingEmail;
         } else if (selected.kind === "sponsorship") {
             const sponsor = await ctx.db.get(selected.id);
-            if (!sponsor) throw new Error("Sponsorship not found.");
+            if (!sponsor) throw new ConvexError("Sponsorship not found.");
             if ("memberId" in sponsor) {
-                if (sponsor.memberId !== viewer.memberId) throw new Error("Sponsorship not found.");
+                if (sponsor.memberId !== viewer.memberId)
+                    throw new ConvexError("Sponsorship not found.");
             } else await requireCompany(ctx, sponsor.organisationId);
             if (sponsor.status === "declined" || sponsor.status === "ended")
-                throw new Error("Request a new sponsorship before paying.");
+                throw new ConvexError("Request a new sponsorship before paying.");
 
             if ("memberId" in sponsor) {
                 const plan = personalTiers.find((tier) => tier.id === sponsor.tier)!;
@@ -75,7 +76,7 @@ export const reserve = internalMutation({
                 name = `${plan.name} support · one year`;
                 email = user.email;
             } else {
-                throw new Error(
+                throw new ConvexError(
                     "Company sponsorships are settled against issued invoices in the workspace.",
                 );
             }
@@ -200,7 +201,7 @@ export const status = query({
             .query("checkouts")
             .withIndex("by_session", (q) => q.eq("sessionId", args.sessionId))
             .unique();
-        if (!row || row.memberId !== viewer.memberId) throw new Error("Payment not found.");
+        if (!row || row.memberId !== viewer.memberId) throw new ConvexError("Payment not found.");
 
         const sponsorship =
             row.purchase.kind === "sponsorship" ? await ctx.db.get(row.purchase.id) : null;
@@ -265,7 +266,7 @@ export async function requireCheckoutClosed(ctx: MutationCtx, id: Id<"sponsorshi
                 row.purchase.id === id,
         )
     )
-        throw new Error(
+        throw new ConvexError(
             "A payment is open for this sponsorship. Complete it or wait for the checkout to expire before changing it.",
         );
 }

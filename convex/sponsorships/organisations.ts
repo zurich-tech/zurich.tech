@@ -1,6 +1,6 @@
 import { readProfiles } from "../members/links";
 import { requireCheckoutClosed } from "../billing/checkouts";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import { query, mutation, type QueryCtx } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
@@ -33,7 +33,7 @@ export const request = mutation({
         if (existing) {
             // keep one relationship and retain all prior agreements under it
             if (existing.status === "active")
-                throw new Error("Manage or renew this sponsorship in the workspace.");
+                throw new ConvexError("Manage or renew this sponsorship in the workspace.");
             await ctx.db.patch(existing._id, {
                 tier: args.tier,
                 billingEmail: normalizeEmail(args.billingEmail),
@@ -62,10 +62,10 @@ export const end = mutation({
         await requireAdmin(ctx);
         const row = await ctx.db.get(args.id);
         if (!row || !("organisationId" in row))
-            throw new Error("Organisation sponsorship not found.");
+            throw new ConvexError("Organisation sponsorship not found.");
         await requireCheckoutClosed(ctx, row._id);
         if (row.status !== "requested")
-            throw new Error("End individual agreements in the sponsorship history.");
+            throw new ConvexError("End individual agreements in the sponsorship history.");
         await ctx.db.patch(row._id, {
             status: "declined",
             updatedAt: Date.now(),
@@ -80,14 +80,14 @@ export const updateRequest = mutation({
         // require ownership before renewal or withdrawal
         const row = await ctx.db.get(args.id);
         if (!row || !("organisationId" in row))
-            throw new Error("Organisation sponsorship not found.");
+            throw new ConvexError("Organisation sponsorship not found.");
         await requireCompany(ctx, row.organisationId);
 
         // withdraw only an unpaid request with no open checkout
         if (args.action === "withdraw") {
             await requireCheckoutClosed(ctx, row._id);
             if (row.status !== "requested")
-                throw new Error("Only unpaid requests can be withdrawn.");
+                throw new ConvexError("Only unpaid requests can be withdrawn.");
             await ctx.db.patch(row._id, {
                 status: "ended",
                 note: "Request withdrawn.",
@@ -95,7 +95,7 @@ export const updateRequest = mutation({
             });
         } else {
             if (row.status !== "active")
-                throw new Error("Request a sponsorship before renewing it.");
+                throw new ConvexError("Request a sponsorship before renewing it.");
             await ctx.db.patch(row._id, { isRenewalRequested: true, updatedAt: Date.now() });
         }
     },

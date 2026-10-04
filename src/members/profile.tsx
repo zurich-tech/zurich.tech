@@ -35,6 +35,8 @@ export function ProfileSettings() {
     const [photo, setPhoto] = createSignal<string>();
 
     const [slug, setSlug] = createSignal<string>();
+    const [publicChoice, setPublicChoice] = createSignal<boolean>();
+    const isPublic = () => publicChoice() ?? profile.latest?.visibility === "public";
     const [candidate, setCandidate] = createSignal<string>();
     let slugTimer: ReturnType<typeof setTimeout> | undefined;
     onCleanup(() => clearTimeout(slugTimer));
@@ -66,7 +68,7 @@ export function ProfileSettings() {
         setSlug(value.trim().toLowerCase());
         setCandidate(undefined);
         clearTimeout(slugTimer);
-        slugTimer = setTimeout(() => setCandidate(value.trim().toLowerCase()), 300);
+        slugTimer = setTimeout(() => setCandidate(value.trim().toLowerCase() || undefined), 300);
     }
 
     /** Resize and square-crop a chosen image before uploading it. */
@@ -323,9 +325,23 @@ export function ProfileSettings() {
                                     autocapitalize="none"
                                     spellcheck={false}
                                     maxlength="40"
+                                    required={isPublic()}
+                                    pattern="[a-zA-Z][a-zA-Z0-9\-]{2,39}"
+                                    title="Use 3–40 letters, numbers or hyphens, starting with a letter."
                                     placeholder="your-name"
                                     value={slug() ?? current().handle ?? ""}
-                                    onInput={(event) => checkSlug(event.currentTarget.value)}
+                                    onInvalid={(event) => {
+                                        const field = event.currentTarget;
+                                        field.setCustomValidity(
+                                            field.validity.valueMissing
+                                                ? "Choose a profile address or turn off Public profile."
+                                                : "Use 3–40 letters, numbers or hyphens, starting with a letter.",
+                                        );
+                                    }}
+                                    onInput={(event) => {
+                                        event.currentTarget.setCustomValidity("");
+                                        checkSlug(event.currentTarget.value);
+                                    }}
                                 />
                                 <span>
                                     zurich.tech/members/{slug() ?? current().handle ?? "your-name"}
@@ -353,7 +369,14 @@ export function ProfileSettings() {
                                 <input
                                     type="checkbox"
                                     name="isPublic"
-                                    checked={current().visibility === "public"}
+                                    checked={isPublic()}
+                                    onChange={(event) => {
+                                        setPublicChoice(event.currentTarget.checked);
+                                        const field = event.currentTarget.form?.elements.namedItem(
+                                            "handle",
+                                        ) as HTMLInputElement;
+                                        field.setCustomValidity("");
+                                    }}
                                 />
                                 Public profile
                             </label>
