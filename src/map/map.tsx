@@ -144,6 +144,7 @@ export function CommunityMap(props: {
             })),
     );
     let container!: HTMLDivElement;
+    let isDisposed = false;
     let closeButton: HTMLButtonElement | undefined;
     let backButton: HTMLButtonElement | undefined;
 
@@ -192,7 +193,6 @@ export function CommunityMap(props: {
 
     // Load WebGL only in the browser and dispose it when navigating away.
     onMount(() => {
-        let isDisposed = false;
         let map: GeographicMap | undefined;
         const observer = new ResizeObserver(() => {
             map?.resize();
@@ -364,17 +364,15 @@ export function CommunityMap(props: {
         const places = filtered();
         if (!current) return;
 
-        // skip results that a newer filter has already replaced
+        // show the marker layer now and ignore logo updates after this view is disposed
         let isStale = false;
         onCleanup(() => (isStale = true));
-        void addBadges(current.map, places)
-            .then(() => {
-                if (!isStale) showOrganisations(current.map, places, isHighlighted);
-            })
-            .catch((error) => {
-                console.error("Map badges failed to load", error);
-                if (!isStale) setError(true);
-            });
+        const badges = addBadges(current.map, places, () => !isDisposed);
+        showOrganisations(current.map, places, isHighlighted);
+        void badges.catch((error) => {
+            console.error("Map badges failed to load", error);
+            if (!isStale) setError(true);
+        });
     });
 
     // Mark hovered and selected organisations above the rest.
@@ -598,6 +596,7 @@ export function CommunityMap(props: {
                                                         >
                                                             {(source) => (
                                                                 <Image
+                                                                    loading="lazy"
                                                                     src={source()}
                                                                     darkSrc={
                                                                         place.organisations[0]

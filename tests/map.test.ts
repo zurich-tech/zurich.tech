@@ -10,6 +10,7 @@ test("test_load_external_badges_with_anonymous_cors_before_assigning_source", as
     const originalImage = Object.getOwnPropertyDescriptor(globalThis, "Image");
     const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
     const requests: string[][] = [];
+    const decodes: (() => void)[] = [];
     const pixels = { width: 64, height: 64, data: new Uint8ClampedArray(64 * 64 * 4) };
     class BadgeImage {
         crossOrigin = "";
@@ -18,7 +19,9 @@ test("test_load_external_badges_with_anonymous_cors_before_assigning_source", as
         set src(source: string) {
             requests.push([this.crossOrigin, source]);
         }
-        async decode() {}
+        decode() {
+            return new Promise<void>((resolve) => decodes.push(resolve));
+        }
     }
     const context = {
         beginPath() {},
@@ -34,9 +37,14 @@ test("test_load_external_badges_with_anonymous_cors_before_assigning_source", as
         getImageData: () => pixels,
     };
     const images = new Map<string, unknown>();
+    const updates: string[] = [];
     const map = {
         hasImage: (id: string) => images.has(id),
         addImage: (id: string, image: unknown) => images.set(id, image),
+        updateImage: (id: string, image: unknown) => {
+            updates.push(id);
+            images.set(id, image);
+        },
     } as unknown as GeographicMap;
 
     // exercise the public badge loading path and restore browser globals afterwards
@@ -50,13 +58,33 @@ test("test_load_external_badges_with_anonymous_cors_before_assigning_source", as
             { ...office("external"), logoUrl: "https://logos.example/logo.png" },
             office("initial"),
         ]);
-        await addBadges(map, places);
-        await addBadges(map, places);
+        const loading = addBadges(map, places, () => true);
+        // every marker is available before the pending image has downloaded
+        expect([...images.keys()]).toEqual(["badge:external", "badge:initial"]);
+        expect(updates).toEqual([]);
+        decodes.shift()!();
+        await loading;
+        await addBadges(map, places, () => true);
         expect(requests).toEqual([["anonymous", "https://logos.example/logo.png"]]);
         expect([...images].sort(([left], [right]) => left.localeCompare(right))).toEqual([
             ["badge:external", pixels],
             ["badge:initial", pixels],
         ]);
+        expect(updates).toEqual(["badge:external"]);
+
+        // navigation must stop a pending logo from touching the disposed map
+        let isActive = true;
+        const pending = addBadges(
+            map,
+            groupLocations([
+                { ...office("disposed"), logoUrl: "https://logos.example/pending.png" },
+            ]),
+            () => isActive,
+        );
+        isActive = false;
+        decodes.shift()!();
+        await pending;
+        expect(updates).toEqual(["badge:external"]);
     } finally {
         if (originalImage) Object.defineProperty(globalThis, "Image", originalImage);
         else Reflect.deleteProperty(globalThis, "Image");

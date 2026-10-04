@@ -92,16 +92,29 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
     });
 }
 
-/** Draw the badge of every organisation at these places that the map does not have yet. */
-export async function addBadges(map: GeographicMap, places: MapLocation[]) {
-    const missing = places
-        .flatMap((place) => place.organisations)
-        .filter((person) => !map.hasImage(badgeId(person)));
+/** Show initials immediately, then upgrade each badge independently as its logo arrives. */
+export async function addBadges(
+    map: GeographicMap,
+    places: MapLocation[],
+    isActive: () => boolean,
+) {
+    const missing = [
+        ...new Map(
+            places
+                .flatMap((place) => place.organisations)
+                .map((person) => [badgeId(person), person]),
+        ).values(),
+    ].filter((person) => !map.hasImage(badgeId(person)));
+    // register every initial before starting any image downloads
+    for (const person of missing) map.addImage(badgeId(person), drawBadge(person), { pixelRatio });
+
+    // one slow image must not hold back other markers or write into a disposed map
     await Promise.all(
         missing.map(async (person) => {
-            const badge = await drawBadge(person);
-            if (!map.hasImage(badgeId(person)))
-                map.addImage(badgeId(person), badge, { pixelRatio });
+            const source = person.mapLogoUrl ?? person.logoUrl;
+            if (!source) return;
+            const image = await loadImage(source);
+            if (image && isActive()) map.updateImage(badgeId(person), drawBadge(person, image));
         }),
     );
 }
@@ -209,7 +222,7 @@ function drawRing(diameter: number, colour: string) {
 }
 
 /** Draw an organisation's icon, or its initial, inside a white circle. */
-async function drawBadge(organisation: Organisation) {
+function drawBadge(organisation: Organisation, image?: HTMLImageElement) {
     const { canvas, context, radius } = createCanvas(badgeSize);
 
     // white disc with a fine outline
@@ -223,8 +236,6 @@ async function drawBadge(organisation: Organisation) {
     context.fill();
 
     // icon clipped to the disc, or the initial when there is none
-    const source = organisation.mapLogoUrl ?? organisation.logoUrl;
-    const image = source ? await loadImage(source) : undefined;
     if (image) {
         const size = radius * 1.5;
         const scale = Math.min(size / image.width, size / image.height);

@@ -12,6 +12,7 @@ export function Image(
     return (
         <>
             <img
+                decoding="async"
                 {...attributes}
                 src={sources.src}
                 classList={{ ...sources.classList, "image--light": Boolean(sources.darkSrc) }}
@@ -19,6 +20,7 @@ export function Image(
             <Show when={sources.darkSrc}>
                 {(source) => (
                     <img
+                        decoding="async"
                         {...attributes}
                         src={source()}
                         classList={{ ...sources.classList, "image--dark": true }}
