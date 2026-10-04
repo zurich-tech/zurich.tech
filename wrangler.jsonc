@@ -1,7 +1,8 @@
 {
     "$schema": "node_modules/wrangler/config-schema.json",
     "name": "zurich-tech",
-    "main": ".output/server/index.mjs",
+    "main": "scripts/deployment/worker.js",
+    "version_metadata": { "binding": "VERSION" },
     "compatibility_date": "2026-06-24",
     "compatibility_flags": ["nodejs_compat"],
     "routes": [

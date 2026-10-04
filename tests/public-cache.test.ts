@@ -3,6 +3,40 @@ import { AsyncLocalStorage } from "node:async_hooks";
 import { RequestContext } from "solid-js/web";
 import { cachedPublic } from "../src/data/cache";
 
+/** Return current content before a background cache write finishes. */
+test("public cache does not wait for storage when the request owns background work", async () => {
+    const globals = globalThis as typeof globalThis & { [RequestContext]?: unknown };
+    const previousContext = globals[RequestContext];
+    const previousCaches = globals.caches;
+    const context = new AsyncLocalStorage();
+    const background: Promise<unknown>[] = [];
+    const write = Promise.withResolvers<void>();
+    globals[RequestContext] = context;
+    globals.caches = {
+        open: async () => ({ match: async () => undefined, put: () => write.promise }),
+    } as unknown as CacheStorage;
+
+    try {
+        const result = context.run(
+            {
+                request: new Request("https://example.com/news"),
+                response: { headers: new Headers() },
+                nativeEvent: {
+                    context: { waitUntil: (work: Promise<unknown>) => background.push(work) },
+                },
+            },
+            () => cachedPublic("background", async () => "Current"),
+        );
+        expect(await Promise.race([result, Bun.sleep(1000).then(() => "Blocked")])).toBe("Current");
+        expect(background.length).toBe(1);
+    } finally {
+        write.resolve();
+        await Promise.all(background);
+        globals[RequestContext] = previousContext;
+        globals.caches = previousCaches;
+    }
+});
+
 /** Check caching without replacing Solid's request isolation or Convex's value encoding. */
 test("public cache reuses values, isolates keys, sets bounded freshness and never stores failures", async () => {
     const globals = globalThis as typeof globalThis & { [RequestContext]?: unknown };

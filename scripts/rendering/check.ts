@@ -37,6 +37,29 @@ async function main() {
         );
     }
 
+    // verify the deployed entrypoint actually bypasses rendering on repeated public visits
+    const cacheUrl = new URL("/about", origin);
+    let hit = false;
+    for (let attempt = 0; attempt < 5; attempt++) {
+        const response = await fetch(cacheUrl, { signal: AbortSignal.timeout(15000) });
+        await response.text();
+        if (response.headers.get("X-Page-Cache") === "hit") {
+            hit = true;
+            break;
+        }
+        await Bun.sleep(200);
+    }
+    if (!hit) throw new Error("Public HTML did not enter the page cache");
+    for (const request of [
+        new Request(cacheUrl, { headers: { Cookie: "cache-check=1" } }),
+        new Request(new URL("/about?cache-check=1", origin)),
+    ]) {
+        const response = await fetch(request, { signal: AbortSignal.timeout(15000) });
+        await response.text();
+        if (response.headers.has("X-Page-Cache"))
+            throw new Error("Private or parameterized requests must bypass the page cache");
+    }
+
     // Exercise lazy routes and their imports, not just the initial document.
     for (const name of assets) {
         const response = await fetch(new URL(`/_build/assets/${name}`, origin), {

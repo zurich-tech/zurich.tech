@@ -46,11 +46,12 @@ export async function cachedPublic<T extends Value>(
             "Cache-Control": `public, max-age=${maxAge}`,
         },
     });
-    try {
-        await cache?.put(url.href, response);
-    } catch (error) {
+    const store = cache?.put(url.href, response).catch((error: unknown) => {
         console.error("Could not store public cache; returning current data.", error);
-    }
+    });
+    // let the request lifetime own persistence without delaying HTML on cache writes
+    if (store && event.nativeEvent?.context.waitUntil) event.nativeEvent.context.waitUntil(store);
+    else await store;
     event.response.headers.append(
         "Server-Timing",
         `public;desc="miss";dur=${(performance.now() - started).toFixed(1)}`,
