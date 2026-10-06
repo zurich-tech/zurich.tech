@@ -30,7 +30,7 @@
 
 .event-overview__body {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) calc(var(--sidebar-width) - var(--card-inset));
+    grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
     align-items: start;
     gap: var(--column-gap);
 }
@@ -97,8 +97,6 @@
 .event-ticket {
     display: grid;
     gap: var(--space-3);
-    border-left: var(--rule) solid var(--color-line);
-    padding-left: var(--space-5);
 }
 
 .event-actions {
@@ -124,14 +122,9 @@
     font-size: var(--text-xs);
 }
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
     .event-overview__body {
         grid-template-columns: minmax(0, 1fr);
-    }
-
-    .event-ticket {
-        border-left: 0;
-        padding-left: 0;
     }
 
     .event-actions {
