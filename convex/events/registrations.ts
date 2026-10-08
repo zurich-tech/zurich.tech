@@ -1,4 +1,5 @@
 import { enrollSubscription } from "../mail/enrollment";
+import { signupHistory } from "./history";
 import { requireRecipient } from "../mail/policy";
 import { eventPlace, disclosePlace } from "./place";
 import { ensureToken } from "./checkin";
@@ -207,6 +208,24 @@ export const previewCancellation = query({
         if (!row) throw new ConvexError("Registration not found.");
         const plan = await decisionPlan(ctx, { id: row._id, decision: "cancel" }, true);
         return { receipt: plan.receipt, emails: plan.emails, recipients: plan.recipients };
+    },
+});
+
+/** Read daily first-signup totals for an event's organisers, without attendee identities. */
+export const history = query({
+    args: { eventId: v.id("events") },
+    handler: async (ctx, args) => {
+        // authorise before reading or returning private registration aggregates
+        await requireEvent(ctx, args.eventId);
+        const event = await ctx.db.get(args.eventId);
+        if (!event) throw new ConvexError("Event not found.");
+        if (event.registration.kind !== "native") return [];
+        const rows = await ctx.db
+            .query("registrations")
+            .withIndex("by_event", (q) => q.eq("eventId", args.eventId))
+            .collect();
+
+        return signupHistory(rows, Math.min(Date.now(), event.endsAt ?? event.startsAt));
     },
 });
 

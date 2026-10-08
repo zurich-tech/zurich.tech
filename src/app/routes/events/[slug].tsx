@@ -8,6 +8,7 @@ import { useCancellation } from "../../../events/cancellation";
 import { RegistrationStatus } from "../../../events/status";
 import { EventBadges, EventTags } from "../../../events/tags";
 import { RegistrationCounts } from "../../../events/statistics";
+import { RegistrationHistory } from "../../../events/history";
 import { ConfirmationNotice } from "../../../events/confirmation";
 import { isTentative } from "../../../../convex/events/conditions";
 import { useAccount } from "../../../auth";
@@ -493,6 +494,14 @@ export default function Route() {
                                         event={event()!}
                                         isOrganiser={access.canEvent(event()!.id, "organiser")}
                                     />
+                                    <Show
+                                        when={
+                                            event()!.registration.kind === "native" &&
+                                            access.canEvent(event()!.id, "organiser")
+                                        }
+                                    >
+                                        <RegistrationHistory eventId={event()!.id} />
+                                    </Show>
                                     <Show
                                         when={
                                             isRsvpOpen(event()) &&

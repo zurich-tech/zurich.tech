@@ -1,0 +1,48 @@
+.signup-history {
+    margin: var(--space-4) 0 0;
+    min-width: 0;
+    font-size: var(--text-sm);
+}
+.signup-history figcaption,
+.signup-history__dates {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.signup-history figcaption span,
+.signup-history__note,
+.signup-history__dates {
+    color: var(--color-soft);
+    font-size: 11px;
+}
+.signup-history svg {
+    display: block;
+    width: 100%;
+    height: 100px;
+}
+.signup-history polyline {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 2;
+}
+.signup-history circle {
+    fill: var(--color-accent);
+}
+.signup-history__baseline {
+    stroke: var(--color-line);
+}
+.signup-history input {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    accent-color: var(--color-accent);
+}
+.signup-history__value {
+    margin: 4px 0;
+    font-size: 12px;
+}
+.signup-history__note {
+    margin: 6px 0 0;
+    line-height: 1.5;
+}
