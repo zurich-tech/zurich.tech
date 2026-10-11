@@ -2,6 +2,7 @@ import { convexTest, schema, modules, member } from "./backend";
 import { expect, test } from "bun:test";
 import { api } from "../convex/_generated/api";
 import type { FunctionArgs } from "convex/server";
+import { demographicOptions } from "../convex/members/demographics";
 
 /** Create a signed-in member with no public address. */
 async function setup() {
@@ -25,6 +26,45 @@ async function setup() {
 
     return backend.withIdentity({ subject: "member" });
 }
+
+test("test_roundtrip_optional_event_attendance_answers", async () => {
+    const client = await setup();
+    const before = await client.query(api.members.profiles.current, {});
+    expect(before.demographics).toEqual({});
+
+    // preserve every agreed range through both survey entry points
+    for (let index = 0; index < 8; index++) {
+        const demographics = {
+            eventsAttended: demographicOptions.eventsAttended[index].value,
+            eventsPerYear: demographicOptions.eventsPerYear[index].value,
+        };
+        await client.mutation(api.members.profiles.save, {
+            name: "Test member",
+            isPublic: false,
+            demographics,
+        });
+        expect((await client.query(api.members.audience.current, {})).demographics).toEqual(
+            demographics,
+        );
+        await client.mutation(api.members.audience.save, {
+            demographics,
+            interests: [],
+            motivations: [],
+            participation: [],
+        });
+        expect((await client.query(api.members.profiles.current, {})).demographics).toEqual(
+            demographics,
+        );
+    }
+
+    // distinguish an explicit zero from clearing an optional answer
+    await client.mutation(api.members.profiles.save, {
+        name: "Test member",
+        isPublic: false,
+        demographics: {},
+    });
+    expect((await client.query(api.members.audience.current, {})).demographics).toEqual({});
+});
 
 test("test_save_private_and_public_profiles_without_a_custom_address", async () => {
     const client = await setup();

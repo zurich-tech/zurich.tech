@@ -229,6 +229,51 @@ export function CommunityFields(props: {
                 </fieldset>
             </section>
 
+            {/* event attendance */}
+            <For each={["eventsAttended", "eventsPerYear"] as const}>
+                {(field) => {
+                    const [selected, setSelected] = createSignal(props.values.demographics[field]);
+
+                    return (
+                        <section class="community-section">
+                            <fieldset class="survey-choice">
+                                <legend>{demographicLabels[field]}</legend>
+                                <Show when={field === "eventsAttended"}>
+                                    <p class="survey-intro">
+                                        Including previous ZurichNLP and ZurichAI events.
+                                    </p>
+                                </Show>
+                                <div class="choice-grid attendance-choices">
+                                    <For each={demographicOptions[field]}>
+                                        {(option) => (
+                                            <label class="checkbox">
+                                                <input
+                                                    type="radio"
+                                                    name={field}
+                                                    value={option.value}
+                                                    checked={selected() === option.value}
+                                                    onChange={() => setSelected(option.value)}
+                                                />
+                                                {option.label}
+                                            </label>
+                                        )}
+                                    </For>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="button button--ghost"
+                                    disabled={selected() == null}
+                                    aria-label={`Clear answer: ${demographicLabels[field]}`}
+                                    onClick={() => setSelected(undefined)}
+                                >
+                                    Clear answer
+                                </button>
+                            </fieldset>
+                        </section>
+                    );
+                }}
+            </For>
+
             {/* background */}
             <section class="community-section">
                 <DemographicFields values={props.values.demographics} />

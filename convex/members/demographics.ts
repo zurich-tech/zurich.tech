@@ -4,6 +4,26 @@ import { ConvexError, v, type Infer } from "convex/values";
 
 /** Stable survey choices shared by forms, validation and aggregate reports. */
 export const demographicOptions = {
+    eventsAttended: [
+        { value: "0", label: "None yet" },
+        { value: "1", label: "1" },
+        { value: "2-3", label: "2–3" },
+        { value: "4-6", label: "4–6" },
+        { value: "7-10", label: "7–10" },
+        { value: "11-20", label: "11–20" },
+        { value: "21-50", label: "21–50" },
+        { value: "51+", label: "51+" },
+    ],
+    eventsPerYear: [
+        { value: "0", label: "None" },
+        { value: "1-2", label: "1–2" },
+        { value: "3-4", label: "3–4" },
+        { value: "5-6", label: "5–6" },
+        { value: "7-9", label: "7–9" },
+        { value: "10-12", label: "10–12" },
+        { value: "13-24", label: "13–24" },
+        { value: "25+", label: "25+" },
+    ],
     roles: [
         { value: "engineering", label: "Engineer" },
         { value: "research", label: "Researcher" },
@@ -49,6 +69,8 @@ export const demographicOptions = {
     ],
 } as const;
 export const demographicLabels = {
+    eventsAttended: "How many zurich.tech events have you attended?",
+    eventsPerYear: "How many zurich.tech events would you like to attend per year?",
     roles: "What do you do?",
     languages: "Which languages do you speak?",
     experience: "How long have you been working?",
@@ -77,6 +99,8 @@ export const participationOptions = [
 const choice = (options: readonly { value: string }[]) =>
     v.optional(v.union(v.null(), v.union(...options.map((option) => v.literal(option.value)))));
 export const demographics = v.object({
+    eventsAttended: choice(demographicOptions.eventsAttended),
+    eventsPerYear: choice(demographicOptions.eventsPerYear),
     roles: v.optional(v.union(v.null(), v.array(v.string()))),
     languages: v.optional(v.union(v.null(), v.array(v.string()))),
     experience: choice(demographicOptions.experience),

@@ -63,7 +63,7 @@
     overflow-wrap: anywhere;
 }
 
-.community-section .choice-grid:is(.role-choices, .language-choices) {
+.community-section .choice-grid:is(.role-choices, .language-choices, .attendance-choices) {
     --choice-columns: 2;
 }
 
@@ -167,7 +167,7 @@
 }
 
 @container (min-width: 640px) {
-    .community-section .choice-grid:is(.role-choices, .language-choices) {
+    .community-section .choice-grid:is(.role-choices, .language-choices, .attendance-choices) {
         --choice-columns: 4;
     }
 }
