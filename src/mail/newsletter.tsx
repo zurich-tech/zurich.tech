@@ -65,15 +65,8 @@ export function Newsletter() {
     return (
         <section class="newsletter" id="newsletter" aria-labelledby="newsletter-title">
             {/* heading */}
-            <div class="newsletter-heading">
-                <h2 id="newsletter-title">Every Monday</h2>
-                <Show when={account.user()}>
-                    <a class="action-link" href="/settings?section=notifications">
-                        Settings
-                    </a>
-                </Show>
-            </div>
-            <p class="newsletter-description">This week's events, news and jobs in Zurich tech.</p>
+            <h2 id="newsletter-title">Every Monday</h2>
+            <p class="newsletter-description">Events, news and jobs in Zurich tech.</p>
             <Show
                 when={!account.isPending() && preferences.state !== "pending"}
                 fallback={<p role="status">Loading…</p>}
@@ -86,14 +79,7 @@ export function Newsletter() {
                                 <Show
                                     when={preferences.error}
                                     fallback={
-                                        <span
-                                            class="tag status-control"
-                                            classList={{
-                                                "tag-upcoming":
-                                                    !!preferences()?.weekly &&
-                                                    !preferences()?.isSuppressed,
-                                            }}
-                                        >
+                                        <span class="newsletter-status">
                                             {preferences()?.isSuppressed
                                                 ? "Delivery blocked"
                                                 : preferences()?.weekly
@@ -125,6 +111,9 @@ export function Newsletter() {
                                         {isPending() ? "Subscribing…" : "Subscribe"}
                                     </button>
                                 </Show>
+                                <a class="action-link" href="/settings?section=notifications">
+                                    Email settings
+                                </a>
                             </div>
                             <Show
                                 when={

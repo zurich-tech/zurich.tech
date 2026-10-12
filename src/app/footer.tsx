@@ -39,14 +39,16 @@ export function Footer() {
                     <A class="site-footer__wordmark" href="/" aria-label="zurich.tech home">
                         <span aria-hidden="true" innerHTML={wordmark} />
                     </A>
-                    <p>
-                        A volunteer-run non-profit association for the people building technology in
-                        Zurich.
-                    </p>
+                    <p>A volunteer-run non-profit for people in tech around Zurich.</p>
                     <SocialLinks name={site.name} profiles={site.socials} />
                 </div>
 
-                {/* link groups */}
+                {/* weekly email */}
+                <Newsletter />
+            </div>
+
+            {/* secondary navigation */}
+            <div class="site-footer__navigation">
                 <For each={groups}>
                     {(group) => (
                         <nav class="site-footer__group" aria-label={group.title}>
@@ -57,9 +59,6 @@ export function Footer() {
                         </nav>
                     )}
                 </For>
-
-                {/* weekly email */}
-                <Newsletter />
             </div>
         </footer>
     );

@@ -400,7 +400,7 @@
    Footer
    ================================================================================ */
 
-/* one compact blue band: brand, links and the weekly email */
+/* pair the brand and weekly email above compact navigation */
 .site-footer {
     margin-top: var(--space-12);
     background: var(--color-brand);
@@ -409,9 +409,9 @@
 
 .site-footer__body {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 1.6fr);
-    gap: var(--space-8) var(--space-6);
-    padding: var(--space-10) var(--gutter);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-8);
+    padding: var(--space-8) var(--gutter) var(--space-6);
 }
 
 .site-footer__brand {
@@ -422,7 +422,7 @@
 }
 
 .site-footer__brand p {
-    max-width: 30ch;
+    max-width: 42ch;
     font-size: var(--text-sm);
     opacity: 0.85;
 }
@@ -447,15 +447,24 @@
     color: var(--color-on-brand);
 }
 
-.site-footer__group {
+.site-footer__navigation {
     display: grid;
-    align-content: start;
-    justify-items: start;
-    gap: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4) var(--space-8);
+    margin: 0 var(--gutter);
+    padding: var(--space-5) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-on-brand) 25%, transparent);
+}
+
+.site-footer__group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-4);
 }
 
 .site-footer h2 {
-    margin-bottom: var(--space-1);
+    margin: 0;
     font: 500 var(--text-xs) / 1.5 var(--font-mono);
     opacity: 0.75;
 }
@@ -477,33 +486,26 @@
     outline-color: var(--color-on-brand);
 }
 
-/* weekly email signup inside the footer */
+/* keep the subscription form and member state in the same column */
 .newsletter {
     display: grid;
     align-content: start;
     gap: var(--space-3);
 }
 
-.newsletter-heading {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-3);
-}
-
-.site-footer .newsletter-heading h2 {
+.site-footer .newsletter h2 {
     margin: 0;
     font: 500 var(--text-xl) / 1.2 var(--font-mono);
-    letter-spacing: -0.035em;
+    letter-spacing: 0;
     opacity: 1;
 }
 
-.newsletter-heading .action-link,
+.newsletter .action-link,
 .newsletter-description {
     color: color-mix(in srgb, var(--color-on-brand) 80%, transparent);
 }
 
-.newsletter-heading .action-link:hover {
+.newsletter .action-link:hover {
     color: var(--color-on-brand);
 }
 
@@ -557,18 +559,34 @@
     gap: var(--space-3);
 }
 
+.newsletter-status {
+    color: var(--color-on-brand);
+    font-size: var(--text-sm);
+}
+
+.newsletter-actions .button--primary {
+    border-color: var(--color-on-brand);
+    background: var(--color-on-brand);
+    color: var(--color-brand);
+}
+
+.newsletter-actions .button--primary:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--color-on-brand) 90%, var(--color-brand));
+    color: var(--color-brand);
+}
+
 .site-footer :is(.form-error, .form-success) {
     color: var(--color-on-brand);
 }
 
-@media (max-width: 900px) {
-    .site-footer__body {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (max-width: 700px) {
+    .site-footer__body,
+    .site-footer__navigation {
+        grid-template-columns: minmax(0, 1fr);
     }
 
-    .site-footer__brand,
-    .site-footer .newsletter {
-        grid-column: 1 / -1;
+    .site-footer__group h2 {
+        flex-basis: 100%;
     }
 }
 
