@@ -158,6 +158,10 @@ test("test_tag_email_destinations_automatically_without_personalising_tracking",
         text: result.original.text
             .replace("https://zurich.tech/events\n", `https://zurich.tech/events${query}\n`)
             .replace(
+                "Share zurich.tech: https://zurich.tech/\n",
+                `Share zurich.tech: https://zurich.tech/${query}\n`,
+            )
+            .replace(
                 "zurich.tech: https://zurich.tech\n",
                 `zurich.tech: https://zurich.tech/${query}\n`,
             ),
@@ -166,7 +170,8 @@ test("test_tag_email_destinations_automatically_without_personalising_tracking",
                 'href="https://zurich.tech/events"',
                 `href="https://zurich.tech/events${escaped}"`,
             )
-            .replaceAll('href="https://zurich.tech"', `href="https://zurich.tech/${escaped}"`),
+            .replaceAll('href="https://zurich.tech"', `href="https://zurich.tech/${escaped}"`)
+            .replaceAll('href="https://zurich.tech/"', `href="https://zurich.tech/${escaped}"`),
     });
     expect(result.repeated).toEqual(result.tagged);
     expect(result.transactional).toEqual(result.original);
