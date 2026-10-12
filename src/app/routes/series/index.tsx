@@ -1,135 +1,217 @@
+import { createMemo, For, Show } from "solid-js";
+import { ArrowRight } from "lucide-solid";
 import { useSearch } from "../../../search/local";
 import { matchesSearch } from "../../../search/search";
 import { TableToolbar } from "../../../components/toolbar";
 import { Highlight } from "../../../components/highlight";
-import { For, Show } from "solid-js";
+import { Markdown } from "../../../components/markdown";
 import { getSeries } from "../../../organisations/queries";
 import { getCalendar } from "../../../events/queries";
-import { Card } from "../../../components/card";
-import { SeriesDetails } from "../../../events/series-details";
-import { EventList } from "../../../events/list";
+import { seriesActivity } from "../../../events/activity";
+import { Organisers } from "../../../events/organiser";
+import { EventTags } from "../../../events/tags";
 import { EditLink } from "../../../auth/edit";
-import { Page } from "../../page";
-import { Contribute } from "../../contribute";
+import { Page, PageHeader } from "../../page";
+import { timeZone } from "../../site";
 import { Seo } from "../../seo";
+import "../../../events/catalogue.css";
+
+/** Display unambiguous event dates in Zurich time. */
+const eventDate = new Intl.DateTimeFormat("en-GB", {
+    timeZone,
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+});
 
 /** Fetch published series and the public programme together. */
 export const route = { preload: () => Promise.all([getSeries(), getCalendar()]) };
 
-/** Discover each series through its description and latest events. */
+/** Present a compact directory, leaving full histories on each series page. */
 export default function Route() {
-    const seriesList = getSeries.use(() => []);
+    const series = getSeries.use(() => []);
     const events = getCalendar.use(() => []);
     const now = Date.now();
     const { query, setQuery, terms } = useSearch();
 
-    // keep search results and their empty state in sync
+    // group the calendar once and put the nearest upcoming series first
+    const rows = createMemo(() => {
+        const activity = seriesActivity(events() ?? [], now);
+
+        return (series() ?? [])
+            .map((item) => ({ item, activity: activity.get(item._id) }))
+            .sort(
+                (left, right) =>
+                    (left.activity?.next?.startsAt ?? Infinity) -
+                        (right.activity?.next?.startsAt ?? Infinity) ||
+                    left.item.name.localeCompare(right.item.name),
+            );
+    });
+
+    // retain topic and organiser searches alongside names and descriptions
     const matches = () =>
-        seriesList()?.filter((series) =>
+        rows().filter(({ item }) =>
             matchesSearch(
                 [
-                    series.name,
-                    series.description,
-                    ...series.topics,
-                    series.organiser?.name,
-                    ...series.coOrganisers.map((person) => person.name),
+                    item.name,
+                    item.description,
+                    ...item.topics,
+                    item.organiser?.name,
+                    ...item.coOrganisers.map((person) => person.name),
                 ].join(" "),
                 terms(),
             ),
-        ) ?? [];
+        );
 
     return (
         <>
             <Seo title="Series" description="Tech event series in Zurich." />
-            <Page>
-                <div class="listing-layout">
-                    <Card
-                        title="Series"
-                        heading="h1"
-                        class="listing-card"
-                        toolbar={
-                            <EditLink href="/admin?section=series&series=new" label="New series" />
-                        }
-                    >
-                        <TableToolbar
-                            value={query()}
-                            onSearch={setQuery}
-                            placeholder="Search series…"
-                        />
-                        <For each={matches()}>
-                            {(series) => {
-                                const occurrences = () =>
-                                    events()?.filter((event) => event.seriesId === series._id);
-                                const recent = () =>
-                                    [...(occurrences() ?? [])]
-                                        .sort((left, right) => right.startsAt - left.startsAt)
-                                        .slice(0, 3);
+            <Page class="series-catalogue">
+                <PageHeader
+                    title="Series"
+                    actions={
+                        <EditLink href="/admin?section=series&series=new" label="New series" />
+                    }
+                />
+                <TableToolbar value={query()} onSearch={setQuery} placeholder="Search series…">
+                    <span class="series-count">{matches().length} series</span>
+                </TableToolbar>
 
-                                return (
-                                    <Card
-                                        title={<Highlight text={series.name} terms={terms()} />}
-                                        titleHref={`/series/${series.slug}`}
-                                        class="card--sections series-preview"
-                                        toolbar={
+                {/* keep each series identity separate from its next or latest event */}
+                <div class="series-directory">
+                    <For each={matches()}>
+                        {({ item, activity }) => {
+                            const event = activity?.next ?? activity?.latest;
+
+                            return (
+                                <article class="series-row" aria-labelledby={`series-${item.slug}`}>
+                                    <div class="series-row-copy">
+                                        <div class="series-row-heading">
+                                            <h2 id={`series-${item.slug}`}>
+                                                <a href={`/series/${item.slug}`}>
+                                                    <Highlight text={item.name} terms={terms()} />
+                                                    <ArrowRight size={18} aria-hidden="true" />
+                                                </a>
+                                            </h2>
                                             <div class="row-actions">
                                                 <EditLink
-                                                    href={`/admin?section=series&schedule=new&series=${series._id}`}
-                                                    seriesId={series._id}
+                                                    href={`/admin?section=series&schedule=new&series=${item._id}`}
+                                                    seriesId={item._id}
                                                     role="organiser"
                                                     label="New schedule"
                                                 />
                                                 <EditLink
-                                                    href={`/admin?section=series&series=${series._id}`}
-                                                    seriesId={series._id}
+                                                    href={`/admin?section=series&series=${item._id}`}
+                                                    seriesId={item._id}
                                                     label="Edit"
                                                 />
                                             </div>
-                                        }
-                                    >
-                                        <div class="card-section">
-                                            <SeriesDetails series={series} events={occurrences()} />
                                         </div>
-                                        <Show when={recent().length}>
-                                            <EventList
-                                                events={recent()}
-                                                series={seriesList()!}
-                                                now={now}
-                                                showToday
-                                                actions={(event) => (
-                                                    <EditLink
-                                                        href={`/submit?event=${event.id}`}
-                                                        eventId={event.id}
-                                                    />
+                                        <Show when={item.description.trim()}>
+                                            <div class="series-row-description">
+                                                <Markdown source={item.description} />
+                                            </div>
+                                        </Show>
+                                        <div class="series-row-meta">
+                                            <EventTags
+                                                detailed
+                                                topics={item.topics.filter(
+                                                    (topic) => topic !== item.slug,
                                                 )}
                                             />
+                                            <Show when={activity?.held}>
+                                                <span>
+                                                    {activity!.held}{" "}
+                                                    {activity!.held === 1 ? "event" : "events"} held
+                                                </span>
+                                            </Show>
+                                            <Show when={item.status === "archived"}>
+                                                <span>Archived</span>
+                                            </Show>
+                                        </div>
+                                        <Show when={item.organiser || item.coOrganisers.length}>
+                                            <div
+                                                class="series-row-organisers"
+                                                aria-label="Organisers"
+                                            >
+                                                <Organisers
+                                                    primary={item.organiser}
+                                                    others={item.coOrganisers}
+                                                />
+                                            </div>
                                         </Show>
-                                    </Card>
-                                );
-                            }}
-                        </For>
-                        <Show when={seriesList() && matches().length === 0}>
-                            <p class="empty-copy">
-                                {seriesList()!.length
-                                    ? "No series match your search."
-                                    : "No series listed yet."}
-                            </p>
-                        </Show>
-                    </Card>
-
-                    {/* invite new organisers, then other ways to take part */}
-                    <aside class="listing-sidebar">
-                        <Card title="Start a series" class="offer-card">
-                            <p>
-                                Run a recurring meetup in Zurich? We help with venues, speakers and
-                                getting the word out.
-                            </p>
-                            <a class="button button--primary" href="/contribute#events">
-                                Suggest a series
-                            </a>
-                        </Card>
-                        <Contribute />
-                    </aside>
+                                    </div>
+                                    <div
+                                        class="series-row-event"
+                                        classList={{
+                                            "series-row-event--upcoming": !!activity?.next,
+                                        }}
+                                    >
+                                        <Show
+                                            when={event}
+                                            fallback={
+                                                <span class="series-activity-label">
+                                                    {item.status === "archived"
+                                                        ? "No events held"
+                                                        : "First event to be announced"}
+                                                </span>
+                                            }
+                                        >
+                                            {(event) => (
+                                                <>
+                                                    <span class="series-activity-label">
+                                                        {activity?.next
+                                                            ? "Next event"
+                                                            : "Latest event"}
+                                                    </span>
+                                                    <time
+                                                        dateTime={new Date(
+                                                            event().startsAt,
+                                                        ).toISOString()}
+                                                    >
+                                                        {eventDate.format(event().startsAt)}
+                                                    </time>
+                                                    <a
+                                                        class="series-event-title"
+                                                        href={`/events/${event().slug}`}
+                                                    >
+                                                        {event().title}
+                                                    </a>
+                                                    <Show when={event().location}>
+                                                        <span class="series-event-venue">
+                                                            {event().location}
+                                                        </span>
+                                                    </Show>
+                                                </>
+                                            )}
+                                        </Show>
+                                    </div>
+                                </article>
+                            );
+                        }}
+                    </For>
+                    <Show when={series() && matches().length === 0}>
+                        <p class="empty-copy">
+                            {series()!.length
+                                ? "No series match your search."
+                                : "No series listed yet."}
+                        </p>
+                    </Show>
                 </div>
+
+                {/* offer new organisers one clear route without a permanent sidebar */}
+                <section class="series-contribute">
+                    <div>
+                        <h2>Start a series</h2>
+                        <p>
+                            Run a recurring meetup in Zurich? We help with venues, speakers and
+                            getting the word out.
+                        </p>
+                    </div>
+                    <a class="button" href="/contribute#events">
+                        Suggest a series <ArrowRight size={16} aria-hidden="true" />
+                    </a>
+                </section>
             </Page>
         </>
     );
