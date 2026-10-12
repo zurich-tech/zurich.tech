@@ -11,6 +11,8 @@ import { create } from "./campaigns";
 import { links } from "./personalization";
 import { requireMail } from "./provider";
 import { eventEmail } from "./templates";
+import { activeSponsors } from "../sponsorships/organisations";
+import { openJobs } from "../jobs/jobs";
 
 /** Compute the unsent audience used by both confirmation and sending. */
 async function audience(ctx: QueryCtx, eventId: Doc<"events">["_id"]) {
@@ -100,6 +102,8 @@ export const deliver = internalMutation({
                 expiresAt: event.endsAt + 7 * 86400000,
                 content: eventEmail({ ...event, ...(await eventPlace(ctx, event)) }, "Thank you", {
                     unsubscribeUrl: links.unsubscribe,
+                    sponsors: await activeSponsors(ctx),
+                    jobs: await openJobs(ctx),
                     description: event.checkIn?.isEnabled
                         ? `Thanks for coming to ${event.title}.`
                         : `Thanks for your interest in ${event.title}.`,

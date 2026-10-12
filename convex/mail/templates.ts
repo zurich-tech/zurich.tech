@@ -7,7 +7,7 @@ import type { Recurrence } from "../events/recurrence";
 import type { AddressAccess } from "../events/fields";
 import type { Confirmation } from "../events/fields";
 import { layout, paragraph, escapeHtml, sectionHeading, palette, mono, socials } from "./layout";
-import { involvement, profilePlaceholder, sharing } from "./involvement";
+import { involvement, sharing } from "./involvement";
 import { tiers } from "../../src/sponsorships/plans";
 import type { activeSponsors } from "../sponsorships/organisations";
 import { siteOrigin } from "../auth/environment";
@@ -219,6 +219,8 @@ export function eventEmail(
         summary?: boolean;
         manageUrl?: string;
         unsubscribeUrl?: string;
+        sponsors?: Parameters<typeof newsletterEdition>[1];
+        jobs?: Parameters<typeof newsletterEdition>[2];
     } = {},
 ) {
     const copy = eventCopy[title];
@@ -226,7 +228,12 @@ export function eventEmail(
     const isInvitation = title === "New event";
     const programme = programmeContent(options.programme);
     // keep operational messages focused and never promote link-only or unpublished events
-    const hasParticipation = ["New event", "Registration confirmed", "Thank you"].includes(title);
+    const hasParticipation = [
+        "New event",
+        "Registration confirmed",
+        "Event reminder",
+        "Thank you",
+    ].includes(title);
     const isShareable =
         event.visibility !== "unlisted" && event.status !== "draft" && event.status !== "cancelled";
     const share =
@@ -240,15 +247,14 @@ export function eventEmail(
               )
             : { html: "", text: "" };
     const participation =
-        hasParticipation && isShareable
-            ? {
-                  html: `${sectionHeading("Get involved")}${profilePlaceholder.html}${share.html}`,
-                  text: `Get involved\n\n${profilePlaceholder.text}\n\n${share.text}`,
-              }
-            : { html: "", text: "" };
+        hasParticipation && isShareable ? involvement(undefined, share) : { html: "", text: "" };
     const links = [
         { label: "Email preferences", url: `${siteOrigin()}/settings?section=notifications` },
     ];
+    // keep promotional sections out of operational notifications
+    const additions = hasParticipation
+        ? emailListings(options.sponsors ?? [], options.jobs ?? [])
+        : { html: "", text: "" };
     if (options.unsubscribeUrl) links.push({ label: "Unsubscribe", url: options.unsubscribeUrl });
     const action = options.manageUrl
         ? {
@@ -272,6 +278,7 @@ export function eventEmail(
             programme.text,
             `${action.label}: ${action.url}`,
             participation.text,
+            additions.text,
             ...links.map((link) => `${link.label}: ${link.url}`),
             `Legal: ${siteOrigin()}/legal`,
         ]
@@ -291,10 +298,45 @@ export function eventEmail(
             afterAction:
                 (options.passUrl
                     ? `${sectionHeading("Your check-in pass")}<p style="margin:16px 0;font-size:14px;color:${palette.soft}">Show this code at the door, or open your pass using the button above.</p><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code. Use View pass if images are unavailable." width="216" height="216" style="display:block;width:216px;max-width:100%;height:auto;background:#ffffff;border:12px solid #ffffff" />`
-                    : "") + participation.html,
+                    : "") +
+                participation.html +
+                additions.html,
             action,
             links,
         }),
+    };
+}
+
+/** Render sponsors followed by eligible jobs below an email's main content. */
+function emailListings(
+    sponsors: Parameters<typeof newsletterEdition>[1],
+    jobs: NonNullable<Parameters<typeof newsletterEdition>[2]>,
+    isCompact = true,
+) {
+    // limit each organisation equally and link the complete board
+    const vacancies = selectJobs(jobs).map((job) => jobListing(job, isCompact));
+
+    // preserve the newsletter's sponsor ordering and relative logo sizes
+    const recognition = sponsorRecognition(sponsors);
+
+    return {
+        html:
+            (recognition.length
+                ? `${sectionHeading("Sponsors", `${siteOrigin()}/sponsor`)}${recognition.map((section) => section.logos).join("")}`
+                : "") +
+            (vacancies.length
+                ? `${sectionHeading("Jobs", `${siteOrigin()}/jobs`)}${vacancies.map((job) => job.html).join("")}<p><a href="${escapeHtml(`${siteOrigin()}/jobs`)}" style="color:${palette.brand}">All jobs &rarr;</a></p>`
+                : ""),
+        text: [
+            recognition.length
+                ? `Sponsors\n${recognition.map((section) => section.text).join("\n")}`
+                : "",
+            vacancies.length
+                ? `Jobs\n\n${vacancies.map((job) => job.text).join("\n\n")}\n\nAll jobs: ${siteOrigin()}/jobs`
+                : "",
+        ]
+            .filter(Boolean)
+            .join("\n\n"),
     };
 }
 
@@ -358,7 +400,7 @@ export function newsletterEdition(
         | "workload"
         | "compensation"
         | "summary"
-    > & { company: { name: string; logoUrl?: string } })[] = [],
+    > & { company: { slug: string; name: string; logoUrl?: string } })[] = [],
     options: { news?: NewsletterStory[]; date?: number } = {},
 ) {
     // keep addresses and external address instructions on the event page
@@ -376,47 +418,8 @@ export function newsletterEdition(
         )
         .join("");
 
-    // render eligible sponsor logos in tier order
-    const recognition = tiers
-        .filter((tier) => tier.newsletter)
-        .flatMap((tier) => {
-            const selected = sponsors.filter((sponsor) => sponsor.tier === tier.id);
-            if (!selected.length) return [];
-            const logos = selected
-                .map(
-                    (sponsor) =>
-                        `<a href="${escapeHtml(sponsor.profileUrl ?? sponsor.website)}" style="display:inline-block;padding:12px;color:${palette.brand}">${sponsor.logoUrl ? `<img src="${escapeHtml(new URL(emailLogos[sponsor.logoUrl] ?? sponsor.logoUrl, siteOrigin()).href)}" alt="${escapeHtml(sponsor.name)}" width="${tier.logoWidth}" style="max-height:80px;object-fit:contain">` : escapeHtml(sponsor.name)}</a>`,
-                )
-                .join("");
-
-            return [
-                {
-                    html: `${sectionHeading(`${tier.name} sponsors`)}<div style="padding:12px 0">${logos}</div>`,
-                    text: `${tier.name} sponsors\n${selected.map((sponsor) => `${sponsor.name} · ${sponsor.profileUrl ?? sponsor.website}`).join("\n")}`,
-                },
-            ];
-        });
-
-    // include only eligible jobs, linking to their complete public listing
-    const vacancies = jobs.map((job) => {
-        const url = `${siteOrigin()}/jobs/${job.slug}`;
-        const details = [job.company.name, locationsLabel(job.locations)]
-            .filter(Boolean)
-            .join(" · ");
-        const facts = jobFacts(job);
-        const heading = `<h3 style="margin:0 0 6px;font:500 20px/1.25 ${mono};letter-spacing:0"><a style="color:${palette.ink};text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(details)}</p>`;
-
-        // keep company logos beside the heading without narrowing the description
-        const logo = job.company.logoUrl;
-        const header = logo
-            ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed"><tr><td width="76" valign="top"><a href="${escapeHtml(url)}"><img src="${escapeHtml(new URL(emailLogos[logo] ?? logo, siteOrigin()).href)}" alt="${escapeHtml(job.company.name)}" width="60" height="60" style="display:block;width:60px;height:60px;object-fit:contain;border:0" /></a></td><td valign="top">${heading}</td></tr></table>`
-            : heading;
-
-        return {
-            html: `<div style="padding:20px 0">${header}<p style="margin:8px 0 0;color:${palette.soft};font-size:14px">${escapeHtml(facts.join(" · "))}</p>${paragraph(job.summary)}<a href="${escapeHtml(url)}" style="color:${palette.brand}">View role &rarr;</a></div>`,
-            text: `${job.title}\n${details}\n${facts.join(" · ")}\n${job.summary}\n${url}`,
-        };
-    });
+    // use the same sponsor ordering and job selection as event emails
+    const additions = emailListings(sponsors, jobs, false);
 
     // render published stories without a generic introduction
     const news = options.news ?? [];
@@ -430,24 +433,82 @@ export function newsletterEdition(
         date: options.date,
         preview: listings[0]?.title ?? news[0]?.title ?? jobs[0]?.title,
         html:
-            (events ? `${sectionHeading("Upcoming events")}${events}` : "") +
-            (stories.length
-                ? `${sectionHeading("News")}${stories.map((story) => story.html).join("")}`
+            (events
+                ? `${sectionHeading("Upcoming events", `${siteOrigin()}/events`)}${events}`
                 : "") +
-            (vacancies.length
-                ? `${sectionHeading("Jobs")}${vacancies.map((job) => job.html).join("")}`
+            (stories.length
+                ? `${sectionHeading("News", `${siteOrigin()}/news`)}${stories.map((story) => story.html).join("")}`
                 : "") +
             (options.date === undefined ? "" : resourcesPlaceholder.html) +
             participation.html +
-            recognition.map((section) => section.html).join(""),
+            additions.html,
         text: [
             ...listings.map((entry) => eventText(entry, true)),
             ...stories.map((story) => story.text),
-            ...vacancies.map((job) => job.text),
             options.date === undefined ? "" : resourcesPlaceholder.text,
             participation.text,
-            ...recognition.map((section) => section.text),
+            additions.text,
         ].join("\n\n"),
+    };
+}
+
+/** Select at most two jobs per organisation, retaining the newest-first input order. */
+function selectJobs(jobs: NonNullable<Parameters<typeof newsletterEdition>[2]>) {
+    const counts = new Map<string, number>();
+
+    // use organisation identity rather than potentially shared display names
+    return jobs.filter((job) => {
+        const count = counts.get(job.company.slug) ?? 0;
+        counts.set(job.company.slug, count + 1);
+
+        return count < 2;
+    });
+}
+
+/** Render eligible sponsor logos in tier order for newsletters and event emails. */
+function sponsorRecognition(sponsors: Parameters<typeof newsletterEdition>[1]) {
+    return tiers
+        .filter((tier) => tier.newsletter)
+        .flatMap((tier) => {
+            const selected = sponsors.filter((sponsor) => sponsor.tier === tier.id);
+            if (!selected.length) return [];
+            const logos = selected
+                .map(
+                    (sponsor) =>
+                        `<a href="${escapeHtml(sponsor.profileUrl ?? sponsor.website)}" style="display:inline-block;padding:12px;color:${palette.brand}">${sponsor.logoUrl ? `<img src="${escapeHtml(new URL(emailLogos[sponsor.logoUrl] ?? sponsor.logoUrl, siteOrigin()).href)}" alt="${escapeHtml(sponsor.name)}" width="${tier.logoWidth}" style="max-height:80px;object-fit:contain">` : escapeHtml(sponsor.name)}</a>`,
+                )
+                .join("");
+
+            return [
+                {
+                    logos: `<div style="padding:12px 0">${logos}</div>`,
+                    text: `${tier.name} sponsors\n${selected.map((sponsor) => `${sponsor.name} · ${sponsor.profileUrl ?? sponsor.website}`).join("\n")}`,
+                },
+            ];
+        });
+}
+
+/** Render one public vacancy with its company image and application details. */
+function jobListing(
+    job: NonNullable<Parameters<typeof newsletterEdition>[2]>[number],
+    isCompact = false,
+) {
+    const url = `${siteOrigin()}/jobs/${job.slug}`;
+    const details = [job.company.name, locationsLabel(job.locations)].filter(Boolean).join(" · ");
+    const facts = jobFacts(job);
+    const heading = `<h3 style="margin:0 0 6px;font:500 20px/1.25 ${mono};letter-spacing:0"><a style="color:${palette.ink};text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(details)}</p>`;
+
+    // keep company logos beside the heading without narrowing the description
+    const logo = job.company.logoUrl;
+    const header = logo
+        ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed"><tr><td width="76" valign="top"><a href="${escapeHtml(url)}"><img src="${escapeHtml(new URL(emailLogos[logo] ?? logo, siteOrigin()).href)}" alt="${escapeHtml(job.company.name)}" width="60" height="60" style="display:block;width:60px;height:60px;object-fit:contain;border:0" /></a></td><td valign="top">${heading}</td></tr></table>`
+        : heading;
+
+    return {
+        html: `<div style="padding:20px 0">${header}${isCompact ? "" : `<p style="margin:8px 0 0;color:${palette.soft};font-size:14px">${escapeHtml(facts.join(" · "))}</p>${paragraph(job.summary)}<a href="${escapeHtml(url)}" style="color:${palette.brand}">View role &rarr;</a>`}</div>`,
+        text: isCompact
+            ? `${job.title}\n${details}\n${url}`
+            : `${job.title}\n${details}\n${facts.join(" · ")}\n${job.summary}\n${url}`,
     };
 }
 
@@ -509,6 +570,10 @@ export function seriesEmail(
     series: { name: string; slug: string; description: string },
     rule: Recurrence,
     unsubscribeUrl: string,
+    listings: {
+        sponsors?: Parameters<typeof newsletterEdition>[1];
+        jobs?: Parameters<typeof newsletterEdition>[2];
+    } = {},
 ) {
     const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const unit = { daily: "day", weekly: "week", monthly: "month" }[rule.frequency];
@@ -528,6 +593,7 @@ export function seriesEmail(
     ];
     const subject = `New series: ${series.name}`;
     const participation = involvement();
+    const additions = emailListings(listings.sponsors ?? [], listings.jobs ?? []);
     return {
         subject,
         text: [
@@ -537,6 +603,7 @@ export function seriesEmail(
             series.description,
             `View events: ${url}`,
             participation.text,
+            additions.text,
             ...socials.map((link) => `${link.label}: ${link.url}`),
             ...links.map((link) => `${link.label}: ${link.url}`),
         ].join("\n\n"),
@@ -546,7 +613,7 @@ export function seriesEmail(
             preview: `${timing}. ${series.description}`,
             body: `${paragraph(series.description)}<p style="color:${palette.soft}">${escapeHtml(timing)}<br>${escapeHtml(dates)}</p>`,
             action: { label: "View events", url },
-            afterAction: participation.html,
+            afterAction: participation.html + additions.html,
             links,
             isCommunity: true,
         }),
@@ -557,9 +624,14 @@ export function seriesEmail(
 export function campaignEmail(
     campaign: { subject: string; message: string },
     unsubscribeUrl?: string,
+    listings: {
+        sponsors?: Parameters<typeof newsletterEdition>[1];
+        jobs?: Parameters<typeof newsletterEdition>[2];
+    } = {},
 ) {
     const origin = siteOrigin();
     const participation = involvement();
+    const additions = emailListings(listings.sponsors ?? [], listings.jobs ?? []);
     const links = [{ label: "Email preferences", url: `${origin}/settings?section=notifications` }];
     if (unsubscribeUrl) links.push({ label: "Unsubscribe", url: unsubscribeUrl });
     return {
@@ -567,6 +639,7 @@ export function campaignEmail(
         text: [
             campaign.message,
             participation.text,
+            additions.text,
             ...socials.map((link) => `${link.label}: ${link.url}`),
             `zurich.tech: ${origin}`,
             ...links.map((link) => `${link.label}: ${link.url}`),
@@ -576,7 +649,7 @@ export function campaignEmail(
             title: campaign.subject,
             preview: excerpt(campaign.message),
             body: markdown(campaign.message),
-            afterAction: participation.html,
+            afterAction: participation.html + additions.html,
             links,
             isCommunity: true,
         }),

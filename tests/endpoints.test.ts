@@ -458,6 +458,36 @@ test("disabled accounts lose authority even with existing grants", async () => {
     await expect(editor.query(api.events.management.workspace, {})).rejects.toThrow();
 });
 
+test("test_enable_followup_after_event_only_when_send_time_is_future", async () => {
+    const { backend, editor, ids } = await setup();
+    const draft = await backend.run((ctx) => ctx.db.get(ids.draftId));
+    const fields = {
+        ...revisionFields(draft!),
+        id: ids.draftId,
+        startsAt: Date.now() - 4 * 3600000,
+        endsAt: Date.now() - 2 * 3600000,
+        registration: {
+            kind: "native" as const,
+            admission: "automatic" as const,
+            capacity: null,
+            overflow: "waitlist" as const,
+            questions: [],
+        },
+    };
+    await editor.mutation(api.events.mutations.save, {
+        ...fields,
+        followUp: { isEnabled: true, delayHours: 12 },
+    });
+    await expect(
+        editor.mutation(api.events.mutations.save, {
+            ...fields,
+            followUp: { isEnabled: true, delayHours: 1 },
+        }),
+    ).rejects.toThrow("Choose a future send time before enabling follow-up.");
+    expect((await backend.run((ctx) => ctx.db.get(ids.eventId)))?.followUp).toBeUndefined();
+    expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toEqual([]);
+});
+
 test("saving a published-event draft changes neither the live event nor email queue", async () => {
     const { backend, editor, ids } = await setup();
     const draft = await backend.run((ctx) => ctx.db.get(ids.draftId));

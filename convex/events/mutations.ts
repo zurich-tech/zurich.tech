@@ -115,9 +115,11 @@ export const save = mutation({
             throw new ConvexError("Use zurich.tech registration for check-in and feedback.");
         if (
             values.followUp?.isEnabled &&
-            (!values.endsAt || (!event?.followUp?.isEnabled && values.endsAt <= Date.now()))
+            (!values.endsAt ||
+                (!event?.followUp?.isEnabled &&
+                    values.endsAt + values.followUp.delayHours * 3600000 <= Date.now()))
         )
-            throw new ConvexError("Set a future end time before enabling follow-up.");
+            throw new ConvexError("Choose a future send time before enabling follow-up.");
         if (
             values.followUp &&
             (!Number.isInteger(values.followUp.delayHours) ||

@@ -58,44 +58,45 @@ const programme = {
     ],
 };
 const registration = "https://zurich.tech/registration?token=preview-only";
+const sponsors: Parameters<typeof newsletterEdition>[1] = [
+    {
+        name: "ETH AI Center",
+        tier: "gold",
+        website: "https://ai.ethz.ch",
+        logoUrl: "/sponsors/eth-ai-center.svg",
+    },
+];
+const jobs: NonNullable<Parameters<typeof newsletterEdition>[2]> = [
+    {
+        title: "Research Engineer",
+        slug: "example-role",
+        company: {
+            slug: "eth-ai-center",
+            name: "ETH AI Center",
+            logoUrl: "/sponsors/eth-ai-center.svg",
+        },
+        summary: "Build and evaluate NLP tools.",
+        locations: [{ locality: "Zurich", countryCode: "CH" }],
+        workplace: "hybrid",
+        engagement: "employment",
+        workload: { min: 80, max: 100 },
+        compensation: undefined,
+    },
+];
 const pass = qrcode(0, "M");
 pass.addData(registration);
 pass.make();
-const edition = newsletterEdition(
-    [event],
-    [
+const edition = newsletterEdition([event], sponsors, jobs, {
+    date: Date.parse("2026-10-05T06:00:00Z"),
+    news: [
         {
-            name: "ETH AI Center",
-            tier: "gold",
-            website: "https://ai.ethz.ch",
-            logoUrl: "/sponsors/eth-ai-center.svg",
+            title: "A new chapter for Zurich tech",
+            slug: "introducing-zurich-tech",
+            description:
+                "Meet the volunteer-run association bringing Zurich’s technology communities together.",
         },
     ],
-    [
-        {
-            title: "Research Engineer",
-            slug: "example-role",
-            company: { name: "ETH AI Center", logoUrl: "/sponsors/eth-ai-center.svg" },
-            summary: "Build and evaluate NLP tools.",
-            locations: [{ locality: "Zurich", countryCode: "CH" }],
-            workplace: "hybrid",
-            engagement: "employment",
-            workload: { min: 80, max: 100 },
-            compensation: undefined,
-        },
-    ],
-    {
-        date: Date.parse("2026-10-05T06:00:00Z"),
-        news: [
-            {
-                title: "A new chapter for Zurich tech",
-                slug: "introducing-zurich-tech",
-                description:
-                    "Meet the volunteer-run association bringing Zurich’s technology communities together.",
-            },
-        ],
-    },
-);
+});
 const previews = [
     ...(["create", "complete", "none"] as ProfilePrompt[]).map((profile) => {
         const email = newsletterEmail(edition, unsubscribe);
@@ -114,6 +115,8 @@ const previews = [
     {
         name: "New event",
         ...eventEmail(event, "New event", {
+            sponsors,
+            jobs,
             summary: true,
             unsubscribeUrl: unsubscribe,
             programme,
@@ -122,6 +125,8 @@ const previews = [
     ...Object.values(registrationCopy).map((copy) => ({
         name: copy.title,
         ...eventEmail(event, copy.title, {
+            sponsors,
+            jobs,
             description: copy.description,
             manageUrl: ["Registration cancelled", "Registration declined"].includes(copy.title)
                 ? undefined
@@ -146,6 +151,8 @@ const previews = [
     {
         name: "Reminder",
         ...eventEmail(event, "Event reminder", {
+            sponsors,
+            jobs,
             subject: "Reminder",
             manageUrl: registration,
             programme,
@@ -171,6 +178,8 @@ const previews = [
     {
         name: "Follow-up",
         ...eventEmail(event, "Thank you", {
+            sponsors,
+            jobs,
             description:
                 "Thanks for coming to ZurichNLP #22. Your feedback helps us plan the next one.",
             actionLabel: "Share your feedback",
@@ -206,6 +215,7 @@ const previews = [
                 excluded: [],
             },
             unsubscribe,
+            { sponsors, jobs },
         ),
     },
     {
@@ -217,11 +227,14 @@ const previews = [
                     "Hello,\n\nWe’re bringing people from across Zurich’s technology community together. Whether you’d like to give a talk, host an evening or lend a hand, there’s room to get involved.\n\n[Find your way to contribute](https://zurich.tech/contribute)\n\nSee you soon,\nThe zurich.tech team",
             },
             unsubscribe,
+            { sponsors, jobs },
         ),
     },
     {
         name: "Confirmation with check-in pass",
         ...eventEmail(event, "Registration confirmed", {
+            sponsors,
+            jobs,
             manageUrl: registration,
             passUrl: pass.createDataURL(6, 24),
         }),
@@ -234,6 +247,8 @@ const resources = attendedResources([
 ]);
 const returning = invitationCopy("ZurichNLP #21");
 const invitation = eventEmail(event, "New event", {
+    sponsors,
+    jobs,
     summary: true,
     unsubscribeUrl: unsubscribe,
     programme,

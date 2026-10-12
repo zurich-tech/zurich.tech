@@ -12,6 +12,7 @@ import {
     newsletterEmail,
     newsletterEdition,
     campaignEmail,
+    seriesEmail,
     registrationCopy,
     signInEmail,
     verificationEmail,
@@ -47,7 +48,7 @@ test("test_render_consistent_profile_actions_and_public_sharing", () => {
 });
 
 test("test_limit_event_participation_to_appropriate_messages_and_public_links", () => {
-    for (const title of ["New event", "Registration confirmed", "Thank you"]) {
+    for (const title of ["New event", "Registration confirmed", "Event reminder", "Thank you"]) {
         const email = eventEmail(event, title, {
             manageUrl: "https://zurich.tech/registration?token=secret",
         });
@@ -79,7 +80,6 @@ test("test_limit_event_participation_to_appropriate_messages_and_public_links", 
         expect(eventEmail({ ...event, status: "draft" }, title).text).not.toContain("intent/tweet");
     }
     for (const title of [
-        "Event reminder",
         "Event updated",
         "Event cancelled",
         "Event confirmed",
@@ -93,6 +93,101 @@ test("test_limit_event_participation_to_appropriate_messages_and_public_links", 
         expect(email.text).not.toContain(profilePlaceholder.text);
         expect(email.html).not.toContain("Get involved");
     }
+});
+
+test("test_include_bounded_jobs_sponsors_and_full_followup_participation", () => {
+    const sponsors: Parameters<typeof newsletterEdition>[1] = [
+        {
+            name: "Sponsor & Co",
+            tier: "gold",
+            website: "https://example.com",
+            logoUrl: "/sponsors/eth-ai-center.svg",
+        },
+    ];
+    const jobs: NonNullable<Parameters<typeof newsletterEdition>[2]> = Array.from(
+        { length: 9 },
+        (_, index) => ({
+            slug: `role-${index}`,
+            title: `Role ${index}`,
+            company: { slug: `company-${index % 3}`, name: "Company" },
+            locations: [{ locality: "Zurich", countryCode: "CH" }],
+            workplace: "hybrid",
+            engagement: "employment",
+            workload: { min: 80, max: 100 },
+            compensation: undefined,
+            summary: "Build tools.",
+        }),
+    );
+    const followup = eventEmail(event, "Thank you", {
+        sponsors,
+        jobs,
+        manageUrl: "https://zurich.tech/registration?token=secret",
+    });
+    for (const content of [followup.html, followup.text]) {
+        expect(content).toContain("Join Discord");
+        expect(content).toContain("Volunteer");
+        expect(content).toContain("Sponsors");
+        expect(content).toContain("Role 2");
+        expect(content).toContain("Role 5");
+        expect(content).not.toContain("Role 6");
+        expect(content).toContain("All jobs");
+    }
+    expect(followup.html).toContain(profilePlaceholder.html);
+    expect(followup.html).toContain("/sponsors/eth-ai-center.png");
+    expect(followup.html.indexOf("token=secret")).toBeLessThan(
+        followup.html.indexOf("Get involved"),
+    );
+
+    // apply the same company cap and final section order to newsletters and event emails
+    const newsletter = newsletterEdition([], sponsors, jobs);
+    const series = seriesEmail(
+        { name: "ZurichNLP", slug: "zurichnlp", description: "NLP talks." },
+        {
+            frequency: "monthly",
+            interval: 1,
+            weekdays: [],
+            start: "2026-10-12",
+            time: "18:00",
+            timezone: "Europe/Zurich",
+            excluded: [],
+        },
+        "https://zurich.tech/unsubscribe?token=example",
+        { sponsors, jobs },
+    );
+    for (const email of [
+        followup,
+        newsletter,
+        series,
+        campaignEmail({ subject: "News", message: "Community news." }, undefined, {
+            sponsors,
+            jobs,
+        }),
+        eventEmail(event, "New event", { sponsors, jobs }),
+        eventEmail(event, "Registration confirmed", { sponsors, jobs }),
+        eventEmail(event, "Event reminder", { sponsors, jobs }),
+    ]) {
+        for (const content of [email.html, email.text]) {
+            const included = jobs
+                .filter((job) => content.includes(job.title))
+                .map((job) => job.slug);
+            expect(included).toEqual(["role-0", "role-1", "role-2", "role-3", "role-4", "role-5"]);
+            expect(content.indexOf("Get involved")).toBeLessThan(content.indexOf("Sponsor &"));
+            expect(content.indexOf("Sponsor &")).toBeLessThan(content.indexOf("Role 0"));
+            expect(content.indexOf("Role 5")).toBeLessThan(content.indexOf("All jobs"));
+        }
+    }
+
+    // include substantive notifications but keep urgent changes free of promotions
+    const confirmation = eventEmail(event, "Registration confirmed", { sponsors, jobs });
+    expect(confirmation.text).toContain("Sponsors");
+    expect(confirmation.text).toContain("Role 0");
+    const reminder = eventEmail(event, "Event reminder", { sponsors, jobs });
+    expect(reminder.text).toContain("Sponsors");
+    expect(reminder.text).toContain("Role 0");
+    expect(eventEmail(event, "Event updated", { sponsors, jobs }).text).not.toContain("Sponsors");
+    expect(eventEmail(event, "Event cancelled", { sponsors, jobs }).text).not.toContain("Role 0");
+    expect(eventEmail(event, "Thank you").html).not.toContain("Sponsors");
+    expect(eventEmail(event, "Thank you").text).not.toContain("All jobs");
 });
 
 test("test_highlight_speakers_and_group_invitation_logistics", () => {
@@ -132,7 +227,11 @@ test("test_include_company_logos_without_changing_plain_text_jobs", () => {
     const job = {
         title: "Research Engineer",
         slug: "research-engineer",
-        company: { name: "Research & Co", logoUrl: "/sponsors/eth-ai-center.svg" },
+        company: {
+            slug: "research",
+            name: "Research & Co",
+            logoUrl: "/sponsors/eth-ai-center.svg",
+        },
         locations: [],
         workplace: "hybrid" as const,
         engagement: "employment" as const,
@@ -141,7 +240,11 @@ test("test_include_company_logos_without_changing_plain_text_jobs", () => {
         summary: "Build research tools.",
     };
     const illustrated = newsletterEdition([], [], [job]);
-    const textOnly = newsletterEdition([], [], [{ ...job, company: { name: job.company.name } }]);
+    const textOnly = newsletterEdition(
+        [],
+        [],
+        [{ ...job, company: { slug: job.company.slug, name: job.company.name } }],
+    );
     expect(illustrated.html).toContain('src="https://zurich.tech/sponsors/eth-ai-center.png"');
     expect(illustrated.html).toContain('alt="Research &amp; Co"');
     expect(textOnly.html).not.toContain("<img");

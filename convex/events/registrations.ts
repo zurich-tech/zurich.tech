@@ -1,4 +1,6 @@
 import { enrollSubscription } from "../mail/enrollment";
+import { activeSponsors } from "../sponsorships/organisations";
+import { openJobs } from "../jobs/jobs";
 import { signupHistory } from "./history";
 import { requireRecipient } from "../mail/policy";
 import { eventPlace, disclosePlace } from "./place";
@@ -513,6 +515,8 @@ async function notify(
         copy.title,
         {
             ...copy,
+            sponsors: copy.title === "Registration confirmed" ? await activeSponsors(ctx) : [],
+            jobs: copy.title === "Registration confirmed" ? await openJobs(ctx) : [],
             passUrl:
                 row.status === "going" && event.checkIn?.isEnabled && !isTentative(event)
                     ? `${process.env.CONVEX_SITE_URL}/passes/qr?token=${encodeURIComponent(await ensureToken(ctx, row))}`

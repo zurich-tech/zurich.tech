@@ -72,8 +72,12 @@ export function layout(options: {
 }
 
 /** Render a section label with one quiet separator. */
-export function sectionHeading(title: string) {
-    return `<h2 style="margin:28px 0 0;padding-top:16px;border-top:1px solid ${palette.line};color:${palette.soft};font:500 13px/1.4 ${mono};letter-spacing:0">${escapeHtml(title)}</h2>`;
+export function sectionHeading(title: string, url?: string) {
+    const label = url
+        ? `<a href="${escapeHtml(url)}" style="color:inherit;text-decoration:underline">${escapeHtml(title)}</a>`
+        : escapeHtml(title);
+
+    return `<h2 style="margin:28px 0 0;padding-top:16px;border-top:1px solid ${palette.line};color:${palette.soft};font:500 13px/1.4 ${mono};letter-spacing:0">${label}</h2>`;
 }
 
 /** Render a short paragraph with safe line breaks. */

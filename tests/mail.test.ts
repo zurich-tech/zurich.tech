@@ -23,6 +23,93 @@ import { profilePlaceholder } from "../convex/mail/involvement";
 import { digestNews } from "../convex/mail/newsletter";
 import { health } from "../convex/mail/health";
 
+test("test_preview_current_listings_and_freeze_them_in_event_announcements", async () => {
+    const { backend, admin, eventId, memberId } = await announcement();
+    const organisationId = await backend.run(async (ctx) => {
+        const organisationId = await ctx.db.insert("organisations", {
+            name: "Example sponsor",
+            slug: "example",
+            kind: "company",
+            description: "",
+            website: "https://example.com",
+            location: "Zurich",
+            updatedAt: 1,
+        });
+        const sponsorshipId = await ctx.db.insert("sponsorships", {
+            organisationId,
+            tier: "gold",
+            recognition: "gold",
+            status: "active",
+            isPublic: true,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.insert("sponsorshipTerms", {
+            sponsorshipId,
+            tier: "gold",
+            contribution: { kind: "money", amount: 5000 },
+            startsAt: Date.now() - 1000,
+            endsAt: Date.now() + 86400000,
+            reason: "Test",
+            recordedBy: memberId,
+            createdAt: 1,
+        });
+        for (let index = 0; index < 3; index++) {
+            await ctx.db.insert("jobs", {
+                organisationId,
+                sponsorshipId,
+                title: `Engineer ${index}`,
+                slug: `engineer-${index}`,
+                summary: "Build tools.",
+                description: "Build tools.",
+                locations: [],
+                workplace: "onsite",
+                engagement: "employment",
+                topics: [],
+                skills: [],
+                languages: [],
+                application: { kind: "url", url: "https://example.com/jobs" },
+                billingEmail: "billing@example.com",
+                status: "published",
+                publishedAt: Date.now() - index,
+                confirmedAt: Date.now(),
+                createdBy: memberId,
+                updatedBy: memberId,
+                createdAt: 1,
+                updatedAt: 1,
+            });
+        }
+
+        return organisationId;
+    });
+    const writtenId = await admin.mutation(api.mail.campaigns.save, {
+        subject: "Community news",
+        message: "See you soon.",
+        audience: { kind: "subscribers" },
+    });
+    const announcementId = await admin.mutation(api.mail.campaigns.announcement, {
+        eventId,
+        audience: { kind: "subscribers", excludeEventId: eventId },
+    });
+    for (const id of [writtenId, announcementId]) {
+        const preview = await admin.query(api.mail.campaigns.preview, { id });
+        expect(preview.html).toContain("Example sponsor");
+        expect(preview.html).toContain("Engineer 0");
+        expect(preview.html).toContain("Engineer 1");
+        expect(preview.html).not.toContain("Engineer 2");
+    }
+
+    // retain the saved announcement while written drafts still reflect current listings
+    await backend.run((ctx) => ctx.db.patch(organisationId, { name: "Renamed sponsor" }));
+    expect((await admin.query(api.mail.campaigns.preview, { id: announcementId })).html).toContain(
+        "Example sponsor",
+    );
+    expect((await admin.query(api.mail.campaigns.preview, { id: writtenId })).html).toContain(
+        "Renamed sponsor",
+    );
+    expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toEqual([]);
+});
+
 test("test_freeze_published_speakers_and_programme_in_announcement_order", async () => {
     const { backend, admin, eventId } = await announcement();
     await backend.run(async (ctx) => {

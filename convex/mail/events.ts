@@ -9,6 +9,8 @@ import { create } from "./campaigns";
 import { select } from "./audiences";
 import { links } from "./personalization";
 import { readProgramme } from "./programme";
+import { activeSponsors } from "../sponsorships/organisations";
+import { openJobs } from "../jobs/jobs";
 
 /** Announce one published event to the audience present at publication. */
 export const announce = internalMutation({
@@ -42,6 +44,8 @@ export const announce = internalMutation({
                 content: eventEmail({ ...event, ...(await eventPlace(ctx, event)) }, "New event", {
                     eventId: event._id,
                     programme: await readProgramme(ctx, event._id),
+                    sponsors: await activeSponsors(ctx),
+                    jobs: await openJobs(ctx),
                     summary: true,
                     unsubscribeUrl: links.unsubscribe,
                 }),
@@ -134,6 +138,8 @@ export const remind = internalMutation({
                     "Event reminder",
                     {
                         subject: "Reminder",
+                        sponsors: await activeSponsors(ctx),
+                        jobs: await openJobs(ctx),
                         programme: await readProgramme(ctx, event._id),
                         passUrl: event.checkIn?.isEnabled ? links.pass : undefined,
                         manageUrl: links.registration,

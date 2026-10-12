@@ -70,7 +70,10 @@ export function sharing(title: string, description: string, path = "/") {
 }
 
 /** Invite participation without competing with the edition's main content. */
-export function involvement(prompt?: ProfilePrompt) {
+export function involvement(
+    prompt?: ProfilePrompt,
+    share = sharing("Share zurich.tech", "Introduce someone to zurich.tech."),
+) {
     const profile = prompt ? profileInvitation(prompt) : profilePlaceholder;
     const invitations = [
         invitation("Join Discord", "Ask questions and discuss events.", socials[0].url),
@@ -79,11 +82,11 @@ export function involvement(prompt?: ProfilePrompt) {
             "Give a talk, host an event, volunteer or suggest an idea.",
             `${siteOrigin()}/contribute`,
         ),
-        sharing("Share zurich.tech", "Introduce someone to zurich.tech."),
+        share,
     ];
 
     return {
-        html: `${sectionHeading("Get involved")}${profile.html}${invitations.map((entry) => entry.html).join("")}`,
+        html: `${sectionHeading("Get involved", `${siteOrigin()}/contribute`)}${profile.html}${invitations.map((entry) => entry.html).join("")}`,
         text: ["Get involved", profile.text, ...invitations.map((entry) => entry.text)]
             .filter(Boolean)
             .join("\n\n"),

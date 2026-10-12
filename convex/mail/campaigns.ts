@@ -14,6 +14,8 @@ import { allows } from "../auth/permissions";
 import { permissions, requireEvent, requireSeries } from "../auth/grants";
 import { authComponent } from "../auth/component";
 import { campaignEmail, eventEmail } from "./templates";
+import { activeSponsors } from "../sponsorships/organisations";
+import { openJobs } from "../jobs/jobs";
 import { readProgramme } from "./programme";
 import { eventPlace } from "../events/place";
 import { attribute } from "./referrals";
@@ -47,12 +49,13 @@ async function get(ctx: QueryCtx, id: Id<"campaigns">) {
 }
 
 /** Render written content through the shared code template. */
-function render(campaign: Doc<"campaigns">) {
+async function render(campaign: Doc<"campaigns">, ctx: QueryCtx) {
     return (
         campaign.content ??
         campaignEmail(
             campaign,
             campaign.audience?.kind === "subscribers" ? links.unsubscribe : undefined,
+            { sponsors: await activeSponsors(ctx), jobs: await openJobs(ctx) },
         )
     );
 }
@@ -119,6 +122,8 @@ export const preview = query({
                   .order("desc")
                   .take(50)
             : [];
+        const content = await render(campaign, ctx);
+
         return {
             id: campaign._id,
             updatedAt: campaign.updatedAt,
@@ -132,11 +137,11 @@ export const preview = query({
                       first: ranked.slice(0, 100),
                   }
                 : undefined,
-            html: render(campaign).html?.replaceAll(
+            html: content.html?.replaceAll(
                 profilePlaceholder.html,
                 profileInvitation("create").html,
             ),
-            subject: render(campaign).subject,
+            subject: content.subject,
             messages: messages.map((row) => ({
                 id: row._id,
                 to:
@@ -198,6 +203,8 @@ export const announcement = mutation({
             eventId: event._id,
             summary: true,
             programme: await readProgramme(ctx, event._id),
+            sponsors: await activeSponsors(ctx),
+            jobs: await openJobs(ctx),
             unsubscribeUrl: links.unsubscribe,
         });
         return await ctx.db.insert("campaigns", {
@@ -271,7 +278,7 @@ export const release = mutation({
             )
         )
             throw new ConvexError("Pause other bulk campaigns before releasing this batch.");
-        const content = await attribute(render(campaign), campaign, ctx);
+        const content = await attribute(await render(campaign, ctx), campaign, ctx);
         await ctx.db.patch(campaign._id, {
             recipients: [...(campaign.recipients ?? []), ...next],
             content,
@@ -348,7 +355,7 @@ async function start(ctx: MutationCtx, campaign: Doc<"campaigns">, recipients?: 
         throw new ConvexError("Campaign audience exceeds 10,000 recipients.");
 
     // register shared attribution links before freezing content and personalising messages
-    const content = await attribute(render(campaign), campaign, ctx);
+    const content = await attribute(await render(campaign, ctx), campaign, ctx);
     await ctx.db.patch(campaign._id, {
         recipients: selected,
         content,
@@ -399,7 +406,7 @@ export const queue = mutation({
             await ctx.db.patch(args.id, {
                 status: "scheduled",
                 scheduledAt: args.scheduledAt,
-                content: render(campaign),
+                content: await render(campaign, ctx),
                 updatedAt: Date.now(),
             });
         else await start(ctx, campaign, selected.recipients);
@@ -598,7 +605,7 @@ export const test = mutation({
         if (!recipientAllowed(user.email))
             throw new ConvexError("Your email is not in the test recipient allowlist.");
         await consumeLimit(ctx, `mail-test:${user._id}`, 5, 3600000, Date.now());
-        const content = render(campaign);
+        const content = await render(campaign, ctx);
         const registration = campaign.eventId
             ? await ctx.db
                   .query("registrations")

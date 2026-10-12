@@ -5,6 +5,8 @@ import { receivesAnnouncement } from "./events";
 import { create } from "./campaigns";
 import { links } from "./personalization";
 import { seriesEmail } from "./templates";
+import { activeSponsors } from "../sponsorships/organisations";
+import { openJobs } from "../jobs/jobs";
 
 /** Announce a recurring programme once while respecting global event preferences. */
 export const announce = internalMutation({
@@ -41,7 +43,10 @@ export const announce = internalMutation({
                 audience: { kind: "subscribers" },
                 category: "announcement",
                 seriesId: series._id,
-                content: seriesEmail(series, schedule.recurrence, links.unsubscribe),
+                content: seriesEmail(series, schedule.recurrence, links.unsubscribe, {
+                    sponsors: await activeSponsors(ctx),
+                    jobs: await openJobs(ctx),
+                }),
             },
             subscriptions
                 .filter((row) => receivesAnnouncement(row, args.publishedAt))
