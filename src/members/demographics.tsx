@@ -242,7 +242,8 @@ export function CommunityFields(props: {
                             <legend>{demographicLabels[field]}</legend>
                             <Show when={field === "eventsAttended"}>
                                 <p class="survey-intro">
-                                    Including previous ZurichNLP and ZurichAI events.
+                                    Including all ZurichNLP, ZurichCV, ZurichRobotics and ZurichAI
+                                    events.
                                 </p>
                             </Show>
                             <div class="choice-grid attendance-choices">

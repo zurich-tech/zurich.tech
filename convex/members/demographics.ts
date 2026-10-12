@@ -38,10 +38,10 @@ export const demographicOptions = {
     roles: [
         { value: "engineering", label: "Engineer" },
         { value: "research", label: "Researcher" },
-        { value: "product", label: "Product manager" },
+        { value: "product", label: "Product" },
         { value: "design", label: "Designer" },
         { value: "founding", label: "Founder" },
-        { value: "ownership", label: "Business owner" },
+        { value: "ownership", label: "Owner" },
         { value: "leadership", label: "Manager" },
         { value: "consulting", label: "Consultant" },
         { value: "investing", label: "Investor" },
