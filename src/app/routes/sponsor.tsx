@@ -36,7 +36,6 @@ const benefits: { label: string; value: (tier: (typeof tiers)[number]) => string
     { label: "Event banner", value: (tier) => tier.banner },
     { label: "Community map", value: (tier) => tier.map },
     { label: "Every newsletter", value: (tier) => tier.newsletter },
-    { label: "Every event", value: (tier) => tier.slides },
     { label: "News sharing", value: (tier) => tier.news?.description },
     { label: "Partner events", value: (tier) => tier.events },
 ];
