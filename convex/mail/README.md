@@ -84,13 +84,18 @@ These controls are independent:
 - Campaign pause: holds that campaign's remaining messages.
 
 The initial daily pace is 500, with no automatic increases.
-An administrator must approve an absolute attempt total for the current Zurich calendar day.
-Missing or expired approvals block bulk attempts even when delivery is enabled.
+An administrator must approve an absolute attempt total for the current Zurich calendar day for manual bulk campaigns.
+The current scheduler-created newsletter edition sends automatically without daily approval.
+Only the `weekly` campaign with the exact `digest:<lastWeek>` key recorded by `mailSchedules` qualifies, and expired editions do not qualify.
+Missing or expired approvals still block other bulk attempts even when delivery is enabled.
 Approval preserves consumed quota and pacing, and never resumes paused delivery.
 For a launch, approve 100 attempts at a daily pace of 500, review delivery results, then raise the approved total to 500.
 Review again before approving 1,000 on day two and the remaining audience on day three.
-A complaint pauses delivery and halves the pace, with a floor of one attempt per day.
-The hourly ceiling spreads the daily ceiling over eight hours.
+A new complaint pauses bulk delivery when the complaint rate reaches 0.08%, halving the pace with a floor of one attempt per day.
+The hourly limit is configured independently from the shared daily ceiling.
+Older quotas without an explicit hourly limit retain their original eight-hour pacing.
+Saving limits does not approve campaigns, resume delivery or reset usage and health.
+A complaint-rate stop also halves an explicitly configured hourly limit.
 Attempts and retries share the same atomic quota.
 Pausing and resuming does not replenish quota.
 
@@ -101,7 +106,12 @@ Resend posts signed delivery, bounce, complaint, failure and suppression reports
 The endpoint verifies original bytes and timestamps and handles reports arriving before acceptance is stored.
 Permanent bounces, complaints and provider suppression prevent later sends to that address.
 Temporary bounces record failure without permanently suppressing the recipient.
-A complaint pauses bulk delivery; bounce rates do not pause delivery or change its pace.
+The complaint rate uses provider-accepted bulk messages from the last seven Zurich calendar days, never planned recipients or retry attempts.
+Daily `mailHealth` cohorts keep this calculation bounded; complaints are attributed to the original send date and callbacks are deduplicated.
+Messages accepted before cohort tracking was introduced remain suppressible but are excluded from these cohorts.
+Every recent complaint is visible in Admin, even below the stop threshold.
+Bounce rates do not pause delivery or change its pace.
+Resuming delivery does not erase complaint cohorts.
 Explicit resume resets health counters; suppression and history remain.
 RFC 8058 unsubscribe changes consent only on POST; GET opens the confirmation page.
 

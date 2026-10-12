@@ -6,6 +6,7 @@ import { api, internal } from "../_generated/api";
 import { subscriptionHistory } from "./history";
 import { siteOrigin } from "../auth/environment";
 import { halve, sendingDate } from "./policy";
+import { health, recordComplaint, complaintLimit } from "./health";
 
 const outcomes = ["delivered", "bounced", "complained", "failed", "suppressed"] as const;
 const rank = {
@@ -66,7 +67,7 @@ export async function reconcile(ctx: MutationCtx, providerId: string) {
             });
     }
 
-    // track bounces and stop the rollout on complaints
+    // retain counters and stop bulk delivery only when recent complaints reach the rate limit
     if (delivery.isBulk) {
         const settings = await ctx.db.query("mailQuota").unique();
         if (settings) {
@@ -74,7 +75,11 @@ export async function reconcile(ctx: MutationCtx, providerId: string) {
                 settings.bounced +
                 (outcome === "bounced" && delivery.outcome !== "bounced" ? 1 : 0);
             const complained = settings.complained + (outcome === "complained" ? 1 : 0);
-            const shouldPause = complained > 0;
+            // legacy messages predate cohort tracking and cannot alter the recent rate
+            if (outcome === "complained" && delivery.sentAt !== undefined)
+                await recordComplaint(ctx, delivery.sentAt);
+            const recent = await health(ctx, now);
+            const shouldPause = outcome === "complained" && recent.rate >= complaintLimit;
             await ctx.db.patch(settings._id, { bounced, complained });
             const policy = await ctx.db.query("mailPolicy").unique();
 
@@ -82,12 +87,15 @@ export async function reconcile(ctx: MutationCtx, providerId: string) {
             if (shouldPause && policy && !policy.isPaused)
                 await ctx.db.patch(settings._id, {
                     ceiling: halve(settings.ceiling),
+                    ...(settings.hourlyLimit !== undefined
+                        ? { hourlyLimit: halve(settings.hourlyLimit) }
+                        : {}),
                     stoppedOn: sendingDate(Date.now()),
                 });
             if (shouldPause && policy)
                 await ctx.db.patch(policy._id, {
                     isPaused: true,
-                    pauseReason: "Spam complaint received. Review delivery before resuming.",
+                    pauseReason: `Spam complaint rate ${recent.rate.toFixed(3)}% (${recent.complained}/${recent.sent} sends in the last 7 Zurich calendar days) reached the ${complaintLimit}% limit. Review delivery before resuming.`,
                 });
         }
     }

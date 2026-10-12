@@ -14,27 +14,50 @@ export function Sending() {
     );
     const command = useWorkspaceCommand(refetch);
 
+    /** Set shared limits independently of campaign approval. */
+    async function pace(event: SubmitEvent) {
+        event.preventDefault();
+        const fields = new FormData(event.currentTarget as HTMLFormElement);
+        const daily = Number(fields.get("daily"));
+        const hourly = Number(fields.get("hourly"));
+
+        await command.perform(async () => {
+            if (
+                !(await confirm({
+                    title: "Update sending limits",
+                    action: "Save",
+                    description: `Allow up to ${daily} bulk attempts per day, paced at ${hourly} per hour.`,
+                    details:
+                        "Applies to newsletters and approved campaigns. Existing usage and delivery protections are preserved; no campaigns are approved or resumed.",
+                }))
+            )
+                return false;
+            await (await memberClient()).mutation(api.mail.sending.pace, { daily, hourly });
+        }, "Sending limits saved.");
+    }
+
     /** Review today's absolute release limit without resuming paused delivery. */
     async function approve(event: SubmitEvent) {
-        // read the requested absolute allowance and sending pace
+        // read the requested absolute allowance
         event.preventDefault();
         const fields = new FormData(event.currentTarget as HTMLFormElement);
         const limit = Number(fields.get("limit"));
-        const ceiling = Number(fields.get("ceiling"));
 
         // require explicit confirmation because an active sender can consume the released quota
         await command.perform(async () => {
+            const client = await memberClient();
+            const latest = await client.query(api.mail.sending.current, {});
             if (
                 !(await confirm({
                     title: "Approve today's delivery",
                     action: "Approve",
-                    description: `Release up to ${limit} total attempts today, paced at ${ceiling} per day.`,
+                    description: `Release campaigns up to ${limit} total bulk attempts today, paced at ${latest.limits.hourly} per hour.`,
                     details:
                         "Includes attempts already used and retries. Expires at Zurich midnight. Paused delivery stays paused; active delivery can continue immediately.",
                 }))
             )
                 return false;
-            await (await memberClient()).mutation(api.mail.sending.approve, { limit, ceiling });
+            await client.mutation(api.mail.sending.approve, { limit });
         }, "Today's limit approved.");
     }
 
@@ -51,7 +74,7 @@ export function Sending() {
                     action: isPaused ? "Pause" : "Resume",
                     description: isPaused
                         ? "Stop sending queued subscriber emails."
-                        : `Enable queued subscriber emails with ${latest.remaining} attempts remaining today, paced at ${limit.hourly} per hour.`,
+                        : `Enable scheduled newsletters and approved campaigns, paced at ${limit.hourly} per hour with a shared daily limit of ${limit.daily}.`,
                     details:
                         "Registration confirmations and event notices are handled separately. Emails already being sent cannot be recalled.",
                 }))
@@ -69,11 +92,7 @@ export function Sending() {
                 <Show when={settings()}>
                     {(value) => (
                         <span class="tag status-control">
-                            {value().isPaused
-                                ? "Paused"
-                                : value().remaining === 0
-                                  ? "Awaiting approval"
-                                  : "Sending"}
+                            {value().isPaused ? "Paused" : "Enabled"}
                         </span>
                     )}
                 </Show>
@@ -130,13 +149,13 @@ export function Sending() {
                                     <dd>{value().count.toLocaleString("en-CH")}</dd>
                                 </div>
                             </dl>
-                            {/* daily approval */}
-                            <form class="editor" onSubmit={approve}>
+                            {/* shared limits */}
+                            <form class="editor" onSubmit={pace}>
                                 <div class="form-columns">
                                     <label>
-                                        Daily pace
+                                        Daily limit
                                         <input
-                                            name="ceiling"
+                                            name="daily"
                                             type="number"
                                             min="1"
                                             max="10000"
@@ -146,18 +165,42 @@ export function Sending() {
                                         />
                                     </label>
                                     <label>
-                                        Approved total today
+                                        Hourly limit
                                         <input
-                                            name="limit"
+                                            name="hourly"
                                             type="number"
-                                            min={value().count}
-                                            max="10000"
+                                            min="1"
+                                            max="3600"
                                             step="1"
                                             required
-                                            value={Math.max(value().approvedLimit, value().count)}
+                                            value={value().limits.hourly}
                                         />
                                     </label>
                                 </div>
+                                <button class="button" type="submit" disabled={command.isPending()}>
+                                    Save sending limits
+                                </button>
+                            </form>
+                        </section>
+                        <section class="mail-section">
+                            <h3>Campaign approval</h3>
+                            <p class="mail-note">
+                                Scheduled newsletter editions send automatically within the shared
+                                limits. Other bulk campaigns require approval for each sending day.
+                            </p>
+                            <form class="editor" onSubmit={approve}>
+                                <label>
+                                    Approved total today
+                                    <input
+                                        name="limit"
+                                        type="number"
+                                        min={value().count}
+                                        max="10000"
+                                        step="1"
+                                        required
+                                        value={Math.max(value().approvedLimit, value().count)}
+                                    />
+                                </label>
                                 <button class="button" type="submit" disabled={command.isPending()}>
                                     Approve today's limit
                                 </button>
@@ -188,6 +231,21 @@ export function Sending() {
                                 </dl>
                             </section>
                         </Show>
+                        <section class="mail-section">
+                            <h3>Complaint rate</h3>
+                            <p class="mail-note">
+                                {value().health.complained} complaints /{" "}
+                                {value().health.sent.toLocaleString("en-CH")} sends
+                                {" · "}
+                                {value().health.rate.toFixed(3)}% · Last 7 Zurich calendar days.
+                            </p>
+                            <Show when={value().health.complained > 0}>
+                                <p role="status">
+                                    Complaining addresses have been suppressed. Bulk delivery pauses
+                                    at 0.08%.
+                                </p>
+                            </Show>
+                        </section>
                         <div class="mail-control">
                             <div>
                                 <strong>Subscriber delivery</strong>
@@ -199,9 +257,7 @@ export function Sending() {
                                           : (value().pauseReason ??
                                             (value().isPaused
                                                 ? "Queued campaigns are held."
-                                                : value().remaining === 0
-                                                  ? "Queued campaigns await today's approval."
-                                                  : "Queued campaigns are being sent."))}
+                                                : "Scheduled newsletters and approved campaigns can send within the shared limits."))}
                                 </p>
                             </div>
                             <div class="mail-buttons">

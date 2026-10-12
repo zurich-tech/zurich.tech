@@ -1,4 +1,5 @@
 import { ConvexError } from "convex/values";
+import type { Doc } from "../_generated/dataModel";
 
 /** The daily bulk ceiling of a sender without reputation. */
 export const initialCeiling = 500;
@@ -32,9 +33,24 @@ export function halve(ceiling: number) {
     return Math.max(1, Math.floor(ceiling / 2));
 }
 
-/** Spread a daily ceiling evenly across the sending hours. */
-export function hourly(ceiling: number) {
-    return Math.ceil(ceiling / sendingHours);
+/** Use the explicit hourly limit, retaining eight-hour pacing for older quotas. */
+export function hourly(ceiling: number, limit?: number) {
+    return limit ?? Math.ceil(ceiling / sendingHours);
+}
+
+/** Recognise only the current scheduler-created edition, never arbitrary weekly campaigns. */
+export function scheduledNewsletter(
+    campaign: Doc<"campaigns"> | null | undefined,
+    lastWeek: string | undefined,
+    now: number,
+) {
+    return !!(
+        lastWeek &&
+        campaign?.category === "weekly" &&
+        campaign.key === `digest:${lastWeek}` &&
+        campaign.expiresAt !== undefined &&
+        campaign.expiresAt > now
+    );
 }
 
 /** Only newsletters and announcements use the bulk queue. */

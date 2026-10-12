@@ -96,6 +96,15 @@ export function NewsletterSchedule() {
                                 <span>Empty weeks are skipped</span>
                             </div>
                         </dl>
+                        <Show when={sending()}>
+                            {(delivery) => (
+                                <p class="mail-note">
+                                    {delivery().isPaused
+                                        ? "Subscriber delivery is paused. Scheduled editions will not send until delivery resumes."
+                                        : `Automatic delivery at up to ${delivery().limits.hourly.toLocaleString("en-CH")} emails per hour, within the shared ${delivery().limits.daily.toLocaleString("en-CH")} daily limit.`}
+                                </p>
+                            )}
+                        </Show>
                         <section class="mail-section">
                             <h3>Next edition</h3>
                             <label>

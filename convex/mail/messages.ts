@@ -5,6 +5,7 @@ import { updateMessage } from "./progress";
 import { reconcile } from "./webhooks";
 import { isBulk, recipientAllowed } from "./policy";
 import { reserve } from "./sending";
+import { recordSent } from "./health";
 import { receivesFollowUp } from "./audiences";
 import { isTentative } from "../events/conditions";
 import { v } from "convex/values";
@@ -254,7 +255,7 @@ export const claim = internalMutation({
             });
             return false;
         }
-        if (isBulk(delivery.category) && !(await reserve(ctx, now))) return false;
+        if (isBulk(delivery.category) && !(await reserve(ctx, now, controlled))) return false;
         // consume campaign and shared allowances atomically, including retries
         if (controlled?.attemptLimit !== undefined)
             await ctx.db.patch(controlled._id, { attempts: (controlled.attempts ?? 0) + 1 });
@@ -293,13 +294,19 @@ export const finish = internalMutation({
             delivery.attempts >= 5
                 ? Number.MAX_SAFE_INTEGER
                 : Date.now() + 60000 * 2 ** delivery.attempts;
+        const sentAt =
+            args.providerId && !args.error && delivery.isBulk && !delivery.isTest
+                ? Date.now()
+                : undefined;
         await updateMessage(ctx, delivery, {
             status: args.error ? (delivery.attempts >= 5 ? "failed" : "queued") : "accepted",
             error: args.error,
             providerId: args.providerId,
+            sentAt,
             nextAttemptAt,
         });
         if (args.providerId && isBulk(delivery.category)) {
+            if (sentAt !== undefined) await recordSent(ctx, sentAt);
             const settings = await ctx.db.query("mailQuota").unique();
             if (settings) await ctx.db.patch(settings._id, { accepted: settings.accepted + 1 });
         }

@@ -34,6 +34,8 @@ export const messages = defineTable({
     attempts: v.number(),
     createdAt: v.number(),
     providerId: v.optional(v.string()),
+    /** Provider acceptance time for messages included in daily delivery health cohorts. */
+    sentAt: v.optional(v.number()),
     subscriptionId: v.optional(v.id("subscriptions")),
     category: v.optional(category),
     eventId: v.optional(v.id("events")),
@@ -50,6 +52,13 @@ export const messages = defineTable({
     .index("by_key", ["key"])
     .index("by_event_and_category", ["eventId", "category"])
     .index("by_status", ["status"]);
+
+/** Daily bulk acceptance cohorts; late complaints belong to the original sending day. */
+export const mailHealth = defineTable({
+    date: v.string(),
+    sent: v.number(),
+    complained: v.number(),
+}).index("by_date", ["date"]);
 
 /** Stored verifications. */
 export const verifications = defineTable({
@@ -143,6 +152,8 @@ export const mailQuota = defineTable({
     count: v.number(),
     nextAt: v.number(),
     ceiling: v.number(),
+    /** Explicit hourly pace; older quotas retain their original eight-hour pacing. */
+    hourlyLimit: v.optional(v.number()),
     stoppedOn: v.optional(v.string()),
     accepted: v.number(),
     bounced: v.number(),

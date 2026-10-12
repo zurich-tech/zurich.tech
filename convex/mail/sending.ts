@@ -10,10 +10,19 @@ import {
     type QueryCtx,
 } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
-import { advance, hourly, initialCeiling, maximumCeiling, recipientsLocked } from "./policy";
+import type { Doc } from "../_generated/dataModel";
+import { health } from "./health";
+import {
+    advance,
+    hourly,
+    initialCeiling,
+    maximumCeiling,
+    recipientsLocked,
+    scheduledNewsletter,
+} from "./policy";
 
 /** Empty counters do not imply permission to send. */
-export const quotaDefaults = {
+export const quotaDefaults: Omit<Doc<"mailQuota">, "_id" | "_creationTime"> = {
     date: "",
     count: 0,
     nextAt: 0,
@@ -37,7 +46,7 @@ export async function state(ctx: QueryCtx) {
         ...usage,
         isPaused: policy?.isPaused ?? true,
         pauseReason: policy?.pauseReason,
-        limits: { daily: usage.ceiling, hourly: hourly(usage.ceiling) },
+        limits: { daily: usage.ceiling, hourly: hourly(usage.ceiling, quota.hourlyLimit) },
         approvedLimit,
         remaining,
         isLocked: recipientsLocked(),
@@ -51,38 +60,54 @@ export const current = query({
     args: {},
     handler: async (ctx) => {
         await requireAdmin(ctx);
-        return await state(ctx);
+        return { ...(await state(ctx)), health: await health(ctx, Date.now()) };
     },
 });
 
-/** Approve today's total attempts and pace without enabling delivery or resetting counters. */
+/** Set shared delivery limits without approving campaigns or resetting usage and health. */
+export const pace = mutation({
+    args: { daily: v.number(), hourly: v.number() },
+    handler: async (ctx, args) => {
+        await requireAdmin(ctx);
+        if (
+            !Number.isInteger(args.daily) ||
+            !Number.isInteger(args.hourly) ||
+            args.daily < 1 ||
+            args.daily > maximumCeiling ||
+            args.hourly < 1 ||
+            args.hourly > 3600
+        )
+            throw new ConvexError(
+                "Choose a daily limit from 1 to 10,000 and an hourly limit from 1 to 3,600.",
+            );
+
+        // preserve consumed attempts, pending reservations and delivery health
+        const quota = await ctx.db.query("mailQuota").unique();
+        const values = { ceiling: args.daily, hourlyLimit: args.hourly };
+        if (quota) await ctx.db.patch(quota._id, values);
+        else await ctx.db.insert("mailQuota", { ...quotaDefaults, ...values });
+    },
+});
+
+/** Approve today's total attempts without changing limits, enabling delivery or resetting counters. */
 export const approve = mutation({
-    args: { limit: v.number(), ceiling: v.number() },
+    args: { limit: v.number() },
     handler: async (ctx, args) => {
         // restrict approvals to valid, bounded administrator requests
         await requireAdmin(ctx);
-        if (
-            !Number.isInteger(args.limit) ||
-            !Number.isInteger(args.ceiling) ||
-            args.limit < 0 ||
-            args.ceiling < 1 ||
-            args.limit > args.ceiling ||
-            args.ceiling > maximumCeiling
-        )
+        const quota = await ctx.db.query("mailQuota").unique();
+        const usage = advance(quota ?? quotaDefaults, Date.now());
+        if (!Number.isInteger(args.limit) || args.limit < 0 || args.limit > usage.ceiling)
             throw new ConvexError(
                 "Choose whole-number limits between 0 and the daily pace, up to 10,000.",
             );
 
         // preserve consumed attempts, health counters and the next reserved send time
-        const quota = await ctx.db.query("mailQuota").unique();
-        const usage = advance(quota ?? quotaDefaults, Date.now());
         if (args.limit < usage.count)
             throw new ConvexError("The approved total cannot be lower than today's used attempts.");
 
-        // save the reviewed pace without replenishing usage
-        const values = { ...usage, ceiling: args.ceiling };
-        if (quota) await ctx.db.patch(quota._id, values);
-        else await ctx.db.insert("mailQuota", { ...quotaDefaults, ...values });
+        // initialise missing counters without modifying an existing quota
+        if (!quota) await ctx.db.insert("mailQuota", { ...quotaDefaults, ...usage });
 
         // a missing policy remains paused; approval alone never releases queued messages
         const policy = await ctx.db.query("mailPolicy").unique();
@@ -123,7 +148,7 @@ export const configure = mutation({
 });
 
 /** Reserve one paced bulk attempt atomically, including retries. */
-export async function reserve(ctx: MutationCtx, now: number) {
+export async function reserve(ctx: MutationCtx, now: number, campaign?: Doc<"campaigns"> | null) {
     const policy = await ctx.db.query("mailPolicy").unique();
     if (!policy || policy.isPaused || recipientsLocked() || !process.env.RESEND_WEBHOOK_SECRET)
         return false;
@@ -132,9 +157,10 @@ export async function reserve(ctx: MutationCtx, now: number) {
 
     // advance the sending day, preserving hourly pacing across midnight
     const { date, count, ceiling } = advance(quota, now);
+    const schedule = await ctx.db.query("mailSchedules").unique();
+    const isAutomatic = scheduledNewsletter(campaign, schedule?.lastWeek, now);
     if (
-        policy.approvedDate !== date ||
-        count >= (policy.approvedLimit ?? 0) ||
+        (!isAutomatic && (policy.approvedDate !== date || count >= (policy.approvedLimit ?? 0))) ||
         count >= ceiling ||
         now < quota.nextAt
     )
@@ -143,7 +169,7 @@ export async function reserve(ctx: MutationCtx, now: number) {
         date,
         count: count + 1,
         ceiling,
-        nextAt: now + 3600000 / hourly(ceiling),
+        nextAt: now + 3600000 / hourly(ceiling, quota.hourlyLimit),
     });
     return true;
 }
@@ -160,11 +186,11 @@ export const dispatch = internalMutation({
                 (settings.isPaused ||
                     settings.isLocked ||
                     !settings.hasWebhook ||
-                    settings.remaining === 0)
+                    settings.count >= settings.limits.daily)
             )
                 continue;
             const rows = bulk
-                ? await dueBulk(ctx, now)
+                ? await dueBulk(ctx, now, settings.remaining > 0)
                 : await ctx.db
                       .query("messages")
                       .withIndex("by_due", (q) =>
@@ -192,7 +218,8 @@ export const dispatch = internalMutation({
                     });
                     continue;
                 }
-                const at = now + position++ * (bulk ? 3600000 / settings.limits.hourly : 600);
+                const start = bulk ? Math.max(now, settings.nextAt) : now;
+                const at = start + position++ * (bulk ? 3600000 / settings.limits.hourly : 600);
                 if (at >= now + 60000) break;
                 await ctx.scheduler.runAt(at, internal.mail.messages.deliver, {
                     id: row._id,
@@ -204,18 +231,24 @@ export const dispatch = internalMutation({
 });
 
 /** Read due bulk mail only from campaigns allowed to run, plus standalone messages. */
-async function dueBulk(ctx: QueryCtx, now: number) {
+async function dueBulk(ctx: QueryCtx, now: number, isApproved: boolean) {
     // select campaign state before reading message bodies, so paused backlogs cost no queue slots
     const campaigns = await ctx.db
         .query("campaigns")
         .withIndex("by_schedule", (q) => q.eq("status", "queued"))
         .collect();
+    const schedule = await ctx.db.query("mailSchedules").unique();
     const active = campaigns.filter(
         (campaign) =>
-            campaign.attemptLimit === undefined || (campaign.attempts ?? 0) < campaign.attemptLimit,
+            (isApproved || scheduledNewsletter(campaign, schedule?.lastWeek, now)) &&
+            (campaign.attemptLimit === undefined ||
+                (campaign.attempts ?? 0) < campaign.attemptLimit),
     );
     const rows = [];
-    for (const id of [undefined, ...active.map((campaign) => campaign._id)]) {
+    for (const id of [
+        ...(isApproved ? [undefined] : []),
+        ...active.map((campaign) => campaign._id),
+    ]) {
         // read only the reviewed identities so an older backlog cannot consume queue slots
         const reviewed = active.find((campaign) => campaign._id === id)?.reviewedBatch;
         if (reviewed) {

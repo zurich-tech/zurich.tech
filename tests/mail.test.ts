@@ -21,6 +21,7 @@ import {
 import { attendanceCopy, resourcesPlaceholder, welcome } from "../convex/mail/attendance";
 import { profilePlaceholder } from "../convex/mail/involvement";
 import { digestNews } from "../convex/mail/newsletter";
+import { health } from "../convex/mail/health";
 
 test("test_freeze_published_speakers_and_programme_in_announcement_order", async () => {
     const { backend, admin, eventId } = await announcement();
@@ -894,7 +895,7 @@ test("test_approve_batches_without_resuming_or_replenishing_usage", async () => 
     setSystemTime(new Date("2026-09-28T06:00:00Z"));
     const { backend, admin, settingsId } = await setup();
     await admin.mutation(api.mail.sending.configure, { isPaused: true });
-    await admin.mutation(api.mail.sending.approve, { limit: 100, ceiling: 500 });
+    await admin.mutation(api.mail.sending.approve, { limit: 100 });
     expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(false);
     await admin.mutation(api.mail.sending.configure, { isPaused: false });
     expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(true);
@@ -902,7 +903,7 @@ test("test_approve_batches_without_resuming_or_replenishing_usage", async () => 
     // stop at the checkpoint and release only the remaining daily allowance
     await backend.run((ctx) => ctx.db.patch(settingsId, { count: 100, nextAt: 0 }));
     expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(false);
-    await admin.mutation(api.mail.sending.approve, { limit: 500, ceiling: 500 });
+    await admin.mutation(api.mail.sending.approve, { limit: 500 });
     expect((await admin.query(api.mail.sending.current, {})).count).toBe(100);
     expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(true);
 
@@ -910,17 +911,16 @@ test("test_approve_batches_without_resuming_or_replenishing_usage", async () => 
     setSystemTime(new Date("2026-09-28T22:00:00Z"));
     expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(false);
     expect((await admin.query(api.mail.sending.current, {})).limits.daily).toBe(500);
-    await admin.mutation(api.mail.sending.approve, { limit: 1000, ceiling: 1000 });
+    await admin.mutation(api.mail.sending.pace, { daily: 1000, hourly: 125 });
+    await admin.mutation(api.mail.sending.approve, { limit: 1000 });
     expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(true);
-    await expect(
-        backend.mutation(api.mail.sending.approve, { limit: 1000, ceiling: 1000 }),
-    ).rejects.toThrow();
-    await expect(
-        admin.mutation(api.mail.sending.approve, { limit: 0, ceiling: 1000 }),
-    ).rejects.toThrow("The approved total cannot be lower than today's used attempts.");
-    await expect(
-        admin.mutation(api.mail.sending.approve, { limit: 1001, ceiling: 1000 }),
-    ).rejects.toThrow("Choose whole-number limits");
+    await expect(backend.mutation(api.mail.sending.approve, { limit: 1000 })).rejects.toThrow();
+    await expect(admin.mutation(api.mail.sending.approve, { limit: 0 })).rejects.toThrow(
+        "The approved total cannot be lower than today's used attempts.",
+    );
+    await expect(admin.mutation(api.mail.sending.approve, { limit: 1001 })).rejects.toThrow(
+        "Choose whole-number limits",
+    );
 });
 
 test("test_require_approval_and_preserve_pacing_and_health", async () => {
@@ -942,13 +942,10 @@ test("test_require_approval_and_preserve_pacing_and_health", async () => {
     expect(await backend.run((ctx) => reserve(ctx, Date.now() + 60000))).toBe(false);
     expect((await admin.query(api.mail.sending.current, {})).remaining).toBe(0);
 
-    // approval changes only the pace, retaining health, usage and the next send time
+    // approval retains limits, health, usage and the next send time
     const before = (await backend.run((ctx) => ctx.db.get(settingsId)))!;
-    await admin.mutation(api.mail.sending.approve, { limit: 100, ceiling: 1000 });
-    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toEqual({
-        ...before,
-        ceiling: 1000,
-    });
+    await admin.mutation(api.mail.sending.approve, { limit: 100 });
+    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toEqual(before);
     expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(false);
     expect((await admin.query(api.mail.sending.current, {})).remaining).toBe(80);
 
@@ -964,18 +961,167 @@ test("test_reject_invalid_batch_limits", async () => {
     // malformed approvals leave the existing policy and quota unchanged
     const { backend, admin, settingsId } = await setup();
     const before = await backend.run((ctx) => ctx.db.get(settingsId));
-    for (const args of [
-        { limit: -1, ceiling: 500 },
-        { limit: 0, ceiling: 0 },
-        { limit: 0.5, ceiling: 500 },
-        { limit: 100, ceiling: 500.5 },
-        { limit: 10001, ceiling: 10001 },
-    ]) {
+    for (const args of [{ limit: -1 }, { limit: 0.5 }, { limit: 501 }, { limit: 10001 }]) {
         await expect(admin.mutation(api.mail.sending.approve, args)).rejects.toThrow(
             "Choose whole-number limits between 0 and the daily pace, up to 10,000.",
         );
     }
     expect(await backend.run((ctx) => ctx.db.get(settingsId))).toEqual(before);
+});
+
+test("test_set_independent_limits_without_approving_or_resetting_delivery", async () => {
+    const { backend, admin, settingsId } = await setup();
+    await backend.run((ctx) =>
+        ctx.db.patch(settingsId, {
+            count: 123,
+            nextAt: Date.now() + 60000,
+            accepted: 120,
+            bounced: 3,
+        }),
+    );
+    const quota = (await backend.run((ctx) => ctx.db.get(settingsId)))!;
+    const policy = await backend.run((ctx) => ctx.db.query("mailPolicy").unique());
+    await admin.mutation(api.mail.sending.pace, { daily: 5000, hourly: 1600 });
+    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toEqual({
+        ...quota,
+        ceiling: 5000,
+        hourlyLimit: 1600,
+    });
+    expect(await backend.run((ctx) => ctx.db.query("mailPolicy").unique())).toEqual(policy);
+    expect((await admin.query(api.mail.sending.current, {})).limits).toEqual({
+        daily: 5000,
+        hourly: 1600,
+    });
+
+    for (const args of [
+        { daily: 0, hourly: 1600 },
+        { daily: 5000, hourly: 0 },
+        { daily: 10001, hourly: 1600 },
+        { daily: 5000, hourly: 3601 },
+        { daily: 5000.5, hourly: 1600 },
+        { daily: 5000, hourly: 1600.5 },
+    ]) {
+        await expect(admin.mutation(api.mail.sending.pace, args)).rejects.toThrow(
+            "Choose a daily limit from 1 to 10,000 and an hourly limit from 1 to 3,600.",
+        );
+    }
+    await expect(
+        backend.mutation(api.mail.sending.pace, { daily: 5000, hourly: 1600 }),
+    ).rejects.toThrow();
+});
+
+/** Seed a scheduled edition alongside unapproved mail, without contacting the provider. */
+async function scheduledEdition() {
+    setSystemTime(new Date("2026-10-19T06:00:00Z"));
+    const fixture = await setup();
+    const ids = await fixture.backend.run(async (ctx) => {
+        const policy = (await ctx.db.query("mailPolicy").unique())!;
+        await ctx.db.patch(policy._id, { approvedDate: "2026-10-02", approvedLimit: 1026 });
+        await ctx.db.patch(fixture.settingsId, { ceiling: 5000, hourlyLimit: 1600 });
+        const scheduleId = await ctx.db.insert("mailSchedules", {
+            isPaused: false,
+            lastWeek: "2026-10-19",
+        });
+        const campaignId = await ctx.db.insert("campaigns", {
+            key: "digest:2026-10-19",
+            category: "weekly",
+            status: "queued",
+            subject: "Newsletter",
+            message: "Newsletter",
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            expiresAt: Date.now() + 7 * 86400000,
+        });
+        const automatic = await enqueue(
+            ctx,
+            "newsletter",
+            "test@example.invalid",
+            "Newsletter",
+            "Newsletter",
+            fixture.subscriptionId,
+            0,
+            undefined,
+            { campaignId, category: "weekly" },
+        );
+        const manual = await enqueue(
+            ctx,
+            "manual",
+            "test@example.invalid",
+            "Manual",
+            "Manual",
+            fixture.subscriptionId,
+            0,
+            undefined,
+            { category: "weekly" },
+        );
+        return { policyId: policy._id, scheduleId, campaignId, automatic, manual };
+    });
+    return { ...fixture, ...ids };
+}
+
+test("test_dispatch_and_claim_only_scheduled_newsletters_without_daily_approval", async () => {
+    const { backend, settingsId, automatic, manual, campaignId } = await scheduledEdition();
+    await backend.mutation(internal.mail.sending.dispatch, {});
+    const jobs = await backend.run((ctx) => ctx.db.system.query("_scheduled_functions").collect());
+    expect(jobs.map((row) => row.args)).toEqual([[{ id: automatic }]]);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: manual })).toBe(false);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: automatic })).toBe(true);
+    const quota = (await backend.run((ctx) => ctx.db.get(settingsId)))!;
+    expect({ count: quota.count, nextAt: quota.nextAt }).toEqual({
+        count: 1,
+        nextAt: Date.now() + 2250,
+    });
+
+    // shared spacing and the daily ceiling apply even without manual approval
+    const campaign = await backend.run((ctx) => ctx.db.get(campaignId));
+    expect(await backend.run((ctx) => reserve(ctx, Date.now() + 2249, campaign))).toBe(false);
+    expect(await backend.run((ctx) => reserve(ctx, Date.now() + 2250, campaign))).toBe(true);
+    await backend.run((ctx) => ctx.db.patch(settingsId, { count: 5000 }));
+    expect(await backend.run((ctx) => reserve(ctx, Date.now() + 4500, campaign))).toBe(false);
+    expect(await backend.run((ctx) => ctx.db.get(manual))).toMatchObject({
+        attempts: 0,
+        status: "queued",
+    });
+});
+
+test("test_keep_newsletter_authority_scoped_and_respect_delivery_stops", async () => {
+    const { backend, admin, campaignId, policyId, automatic, settingsId } =
+        await scheduledEdition();
+    const campaign = (await backend.run((ctx) => ctx.db.get(campaignId)))!;
+    for (const other of [
+        { ...campaign, key: undefined },
+        { ...campaign, key: "digest:2026-10-12" },
+        { ...campaign, category: "campaign" as const },
+        { ...campaign, expiresAt: Date.now() },
+    ])
+        expect(await backend.run((ctx) => reserve(ctx, Date.now(), other))).toBe(false);
+
+    await admin.mutation(api.mail.sending.configure, { isPaused: true });
+    expect(await backend.mutation(internal.mail.messages.claim, { id: automatic })).toBe(false);
+    await backend.run((ctx) => ctx.db.patch(policyId, { isPaused: false }));
+    process.env.MAIL_RECIPIENTS = "test@example.invalid";
+    expect(await backend.mutation(internal.mail.messages.claim, { id: automatic })).toBe(false);
+    delete process.env.MAIL_RECIPIENTS;
+    delete process.env.RESEND_WEBHOOK_SECRET;
+    expect(await backend.mutation(internal.mail.messages.claim, { id: automatic })).toBe(false);
+    process.env.RESEND_WEBHOOK_SECRET = secret;
+
+    // complaints halt automatic newsletters and reduce both limits without replenishing usage
+    await backend.mutation(internal.mail.messages.finish, {
+        id: automatic,
+        providerId: "newsletter-complaint",
+    });
+    await backend.mutation(internal.mail.webhooks.record, {
+        providerEventId: "newsletter-complaint-event",
+        providerId: "newsletter-complaint",
+        type: "complained",
+    });
+    expect(await backend.run((ctx) => ctx.db.get(policyId))).toMatchObject({ isPaused: true });
+    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toMatchObject({
+        ceiling: 2500,
+        hourlyLimit: 800,
+    });
+    expect(await backend.run((ctx) => reserve(ctx, Date.now() + 3600000, campaign))).toBe(false);
 });
 
 test("campaign queue confirms saved content and audience, while the lock permits only drafts", async () => {
@@ -1117,6 +1263,159 @@ test("signed callbacks reconcile before acceptance, deduplicate and never undo s
         token: "private-unsubscribe-token",
     });
     expect((await backend.run((ctx) => ctx.db.get(subscriptionId)))?.status).toBe("suppressed");
+});
+
+test("test_pause_at_complaint_rate_instead_of_first_complaint", async () => {
+    setSystemTime(new Date("2026-10-19T06:00:00Z"));
+    const { backend, admin, settingsId } = await setup();
+    const ids = await backend.run(async (ctx) => {
+        // represent previously accepted sends, not the campaign's planned audience
+        await ctx.db.insert("mailHealth", { date: "2026-10-19", sent: 3193, complained: 0 });
+        const ids = [];
+        for (let index = 0; index < 3; index++) {
+            ids.push(
+                await enqueue(
+                    ctx,
+                    `complaint:${index}`,
+                    `recipient${index}@example.invalid`,
+                    "Newsletter",
+                    "Newsletter",
+                    undefined,
+                    0,
+                    undefined,
+                    { category: "weekly" },
+                ),
+            );
+        }
+        return ids;
+    });
+    for (let index = 0; index < 3; index++)
+        await backend.mutation(internal.mail.messages.finish, {
+            id: ids[index],
+            providerId: `complaint:${index}`,
+        });
+
+    for (let index = 0; index < 3; index++) {
+        const event = {
+            providerEventId: `event:${index}`,
+            providerId: `complaint:${index}`,
+            type: "complained" as const,
+        };
+        await backend.mutation(internal.mail.webhooks.record, event);
+        await backend.mutation(internal.mail.webhooks.record, {
+            ...event,
+            providerEventId: `duplicate:${index}`,
+        });
+        const state = await admin.query(api.mail.sending.current, {});
+        expect(state.health).toEqual({
+            sent: 3196,
+            complained: index + 1,
+            rate: ((index + 1) * 100) / 3196,
+        });
+        expect(state.isPaused).toBe(index === 2);
+        const recipient = await backend.run((ctx) =>
+            ctx.db
+                .query("subscriptions")
+                .withIndex("by_email", (q) => q.eq("email", `recipient${index}@example.invalid`))
+                .unique(),
+        );
+        expect(recipient?.status).toBe("suppressed");
+    }
+    expect((await backend.run((ctx) => ctx.db.get(settingsId)))?.ceiling).toBe(250);
+    await admin.mutation(api.mail.sending.configure, { isPaused: false });
+    expect((await admin.query(api.mail.sending.current, {})).health.complained).toBe(3);
+});
+
+test("test_attribute_late_complaints_to_the_original_send_window", async () => {
+    setSystemTime(new Date("2026-10-12T06:00:00Z"));
+    const { backend, admin } = await setup();
+    const id = await backend.run((ctx) =>
+        enqueue(ctx, "old-edition", "old@example.invalid", "Old", "Old", undefined, 0, undefined, {
+            category: "weekly",
+        }),
+    );
+    await backend.mutation(internal.mail.messages.finish, { id, providerId: "old-edition" });
+    await backend.mutation(internal.mail.messages.finish, { id, providerId: "old-edition" });
+    expect(await backend.run((ctx) => health(ctx, Date.now()))).toEqual({
+        sent: 1,
+        complained: 0,
+        rate: 0,
+    });
+
+    // a late complaint still suppresses its recipient but does not taint the next edition's rate
+    setSystemTime(new Date("2026-10-19T06:00:00Z"));
+    await backend.mutation(internal.mail.webhooks.record, {
+        providerEventId: "late",
+        providerId: "old-edition",
+        type: "complained",
+    });
+    const current = await admin.query(api.mail.sending.current, {});
+    expect(current.health).toEqual({ sent: 0, complained: 0, rate: 0 });
+    expect(current.isPaused).toBe(false);
+    expect(await backend.run((ctx) => ctx.db.query("mailHealth").unique())).toMatchObject({
+        date: "2026-10-12",
+        sent: 1,
+        complained: 1,
+    });
+    expect(
+        (
+            await backend.run((ctx) =>
+                ctx.db
+                    .query("subscriptions")
+                    .withIndex("by_email", (q) => q.eq("email", "old@example.invalid"))
+                    .unique(),
+            )
+        )?.status,
+    ).toBe("suppressed");
+});
+
+test("test_pause_at_exact_rate_boundary_without_counting_unsent_or_test_mail", async () => {
+    const { backend, admin } = await setup();
+    const id = await backend.run(async (ctx) => {
+        await ctx.db.insert("mailHealth", {
+            date: sendingDate(Date.now()),
+            sent: 1249,
+            complained: 0,
+        });
+        await enqueue(
+            ctx,
+            "unsent",
+            "unsent@example.invalid",
+            "Unsent",
+            "Unsent",
+            undefined,
+            0,
+            undefined,
+            { category: "weekly" },
+        );
+        return await enqueue(
+            ctx,
+            "boundary",
+            "boundary@example.invalid",
+            "Sent",
+            "Sent",
+            undefined,
+            0,
+            undefined,
+            { category: "weekly" },
+        );
+    });
+    const testId = await backend.run((ctx) =>
+        enqueue(ctx, "self-test", "test@example.invalid", "Test", "Test", undefined, 0, undefined, {
+            category: "weekly",
+            isTest: true,
+        }),
+    );
+    await backend.mutation(internal.mail.messages.finish, { id: testId, providerId: "self-test" });
+    await backend.mutation(internal.mail.messages.finish, { id, providerId: "boundary" });
+    await backend.mutation(internal.mail.webhooks.record, {
+        providerEventId: "boundary",
+        providerId: "boundary",
+        type: "complained",
+    });
+    const state = await admin.query(api.mail.sending.current, {});
+    expect(state.health).toEqual({ sent: 1250, complained: 1, rate: 0.08 });
+    expect(state.isPaused).toBe(true);
 });
 
 test("test_suppress_hard_bounces_without_pausing_or_reducing_pace", async () => {
