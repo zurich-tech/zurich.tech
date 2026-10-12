@@ -10,6 +10,8 @@ export const checkouts = defineTable({
     email: v.string(),
     /** Amount in CHF, before conversion to Stripe minor units. */
     amount: v.number(),
+    /** Purchased coverage in days; absent for original calendar-month plans. */
+    durationDays: v.optional(v.number()),
     status: v.union(
         v.literal("pending"),
         v.literal("paid"),
@@ -42,9 +44,11 @@ export const payments = defineTable({
     name: v.string(),
     /** Amount in CHF, before conversion to Stripe minor units. */
     amount: v.number(),
+    /** Purchased coverage in days; absent for original calendar-month plans. */
+    durationDays: v.optional(v.number()),
     /** Payment acceptance time in Unix milliseconds. */
     paidAt: v.number(),
-    /** Full refund time; excludes this payment from annual coverage. */
+    /** Full refund time; excludes this payment from paid coverage. */
     refundedAt: v.optional(v.number()),
     /** Team member who recorded a manual payment. */
     recordedBy: v.optional(v.id("members")),

@@ -1,4 +1,4 @@
-import { jobPrice, jobDurationMonths } from "../../src/sponsorships/plans";
+import { jobPrice, jobDurationDays } from "../../src/sponsorships/plans";
 import { ConvexError, v } from "convex/values";
 import { mutation, query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
@@ -10,6 +10,9 @@ import { confirmationPeriod, jobFields } from "./fields";
 import { normalizeEmail } from "../members/emails";
 import { normalizeJob } from "./validation";
 import { readTerms, selectTerm } from "../sponsorships/terms";
+
+/** Original coverage for purchases without an explicit duration. */
+const legacyDurationMonths = 6;
 
 /** Read the public job board, excluding expired or unconfirmed vacancies. */
 export const list = query({
@@ -162,13 +165,14 @@ export const publish = mutation({
             await recordPayment(ctx, {
                 reference: args.invoiceReference,
                 amount: jobPrice,
+                durationDays: jobDurationDays,
                 subjectId: row._id,
                 memberId: (await requireCompany(ctx, row.organisationId)).organisation.ownerId,
-                name: `${row.title} · ${jobDurationMonths} months`,
+                name: `${row.title} · ${jobDurationDays} days`,
                 recordedBy: reviewer.memberId,
                 paidAt: now,
             });
-            expiresAt = (await paidTerm(ctx, row._id, jobDurationMonths))!.endsAt;
+            expiresAt = (await paidTerm(ctx, row._id, legacyDurationMonths))!.endsAt;
             sponsorshipId = undefined;
         }
         // allocate one of the company's active sponsorship slots
@@ -317,7 +321,8 @@ export async function jobExpiry(
 
         return (await jobTerm(ctx, sponsor))?.endsAt ?? null;
     }
-    const term = await paidTerm(ctx, job._id, jobDurationMonths);
+    // retain six calendar months for payments made before durations were recorded
+    const term = await paidTerm(ctx, job._id, legacyDurationMonths);
 
     return term?.endsAt ?? null;
 }

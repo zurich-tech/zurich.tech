@@ -1,7 +1,9 @@
 import type { Id } from "../convex/_generated/dataModel";
 import { expect, test } from "bun:test";
 import { convexTest, schema, modules, member } from "./backend";
-import { api } from "../convex/_generated/api";
+import { api, internal } from "../convex/_generated/api";
+import { jobExpiry, jobStatus } from "../convex/jobs/jobs";
+import { paidTerm } from "../convex/billing/payments";
 import type { Job } from "../convex/jobs/fields";
 import { normalizeJob } from "../convex/jobs/validation";
 import { applicationHref, rangeLabel, salaryLabel } from "../src/jobs/format";
@@ -222,4 +224,106 @@ test("allow admin publication during recognition without changing sponsorship da
             async (ctx) => (await ctx.db.query("sponsorshipTerms").collect())[0]!.startsAt,
         ),
     ).toBe(startsAt);
+});
+
+test("test_charge_CHF_50_for_90_days_and_expire_at_the_boundary", async () => {
+    const { backend, admin, job } = await setup();
+    const id = await admin.mutation(api.jobs.jobs.save, {
+        ...job,
+        billingEmail: "billing@example.com",
+        submit: true,
+    });
+    await admin.mutation(api.jobs.jobs.publish, {
+        id,
+        funding: "invoice",
+        invoiceReference: "job-invoice",
+    });
+    await backend.run(async (ctx) => {
+        const payment = (await ctx.db.query("payments").collect())[0]!;
+        expect([payment.amount, payment.durationDays, payment.name]).toEqual([
+            50,
+            90,
+            "Engineer · 90 days",
+        ]);
+        const row = (await ctx.db.get(id))!;
+        const expiresAt = await jobExpiry(ctx, row);
+        expect(expiresAt).toBe(payment.paidAt + 90 * 86400000);
+        expect(jobStatus(row, expiresAt, expiresAt! - 1)).toBe("published");
+        expect(jobStatus(row, expiresAt, expiresAt!)).toBe("expired");
+    });
+});
+
+test("test_preserve_legacy_checkouts_and_apply_90_day_renewals_and_refunds", async () => {
+    const { backend, owner, admin, ids, job } = await setup();
+    const id = await admin.mutation(api.jobs.jobs.save, {
+        ...job,
+        billingEmail: "billing@example.com",
+        submit: true,
+    });
+    const oldCheckout = await backend.run((ctx) =>
+        ctx.db.insert("checkouts", {
+            memberId: ids.owner,
+            purchase: { kind: "job", id },
+            name: "Engineer · 6 months",
+            email: "billing@example.com",
+            amount: 100,
+            status: "pending",
+            createdAt: Date.now(),
+            expiresAt: Date.now() + 1800000,
+        }),
+    );
+    const reused = await owner.mutation(internal.billing.checkouts.reserve, {
+        purchase: { kind: "job", id },
+    });
+    expect([reused._id, reused.amount, reused.durationDays]).toEqual([oldCheckout, 100, undefined]);
+    await backend.mutation(internal.billing.checkouts.complete, {
+        id: oldCheckout,
+        sessionId: "old-session",
+        amount: 10000,
+        currency: "chf",
+        paymentIntent: "old-payment",
+    });
+
+    // anchor the legacy purchase at a month end to exercise calendar-month clamping
+    const paidAt = Date.UTC(2026, 7, 31);
+    const legacyEnd = Date.UTC(2027, 1, 28);
+    await backend.run(async (ctx) => {
+        const payment = (await ctx.db.query("payments").collect())[0]!;
+        await ctx.db.patch(payment._id, { paidAt });
+        expect(await jobExpiry(ctx, (await ctx.db.get(id))!)).toBe(legacyEnd);
+    });
+
+    const checkout = await owner.mutation(internal.billing.checkouts.reserve, {
+        purchase: { kind: "job", id },
+    });
+    expect([checkout.amount, checkout.durationDays, checkout.name]).toEqual([
+        50,
+        90,
+        "Engineer · 90 days",
+    ]);
+    const completion = {
+        id: checkout._id,
+        sessionId: "new-session",
+        amount: 5000,
+        currency: "chf",
+        paymentIntent: "new-payment",
+    };
+    await backend.mutation(internal.billing.checkouts.complete, completion);
+    await backend.mutation(internal.billing.checkouts.complete, completion);
+    await backend.run(async (ctx) => {
+        const payments = await ctx.db.query("payments").collect();
+        expect(payments.length).toBe(2);
+        const renewal = payments.find((payment) => payment.reference === "new-session")!;
+        expect(renewal.durationDays).toBe(90);
+        await ctx.db.patch(renewal._id, { paidAt: paidAt + 86400000 });
+        expect(await paidTerm(ctx, id, 6)).toEqual({
+            startsAt: paidAt,
+            endsAt: legacyEnd + 90 * 86400000,
+        });
+    });
+    await backend.mutation(internal.billing.checkouts.refund, { paymentIntent: "new-payment" });
+    expect(await backend.run((ctx) => paidTerm(ctx, id, 6))).toEqual({
+        startsAt: paidAt,
+        endsAt: legacyEnd,
+    });
 });

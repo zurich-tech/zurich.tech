@@ -7,7 +7,7 @@ import { requireAccount } from "../auth/access";
 import { authComponent } from "../auth/component";
 import { paidTerm, recordPayment } from "./payments";
 import { requireCompany } from "../organisations/mutations";
-import { personalTiers, jobPrice, jobDurationMonths } from "../../src/sponsorships/plans";
+import { personalTiers, jobPrice, jobDurationDays } from "../../src/sponsorships/plans";
 import { purchase } from "./purchases";
 
 /** Reserve one purchase before creating its Stripe session. */
@@ -21,6 +21,7 @@ export const reserve = internalMutation({
         let amount = 0;
         let name = "";
         let email = user.email;
+        let durationDays: number | undefined;
 
         let selected = args.purchase;
         if (selected.kind === "support") {
@@ -58,7 +59,8 @@ export const reserve = internalMutation({
             if (job.status === "draft")
                 throw new ConvexError("Submit this job for review before paying.");
             amount = jobPrice;
-            name = `${job.title} · ${jobDurationMonths} months`;
+            durationDays = jobDurationDays;
+            name = `${job.title} · ${jobDurationDays} days`;
             email = job.billingEmail;
         } else if (selected.kind === "sponsorship") {
             const sponsor = await ctx.db.get(selected.id);
@@ -101,6 +103,7 @@ export const reserve = internalMutation({
             memberId: viewer.memberId,
             purchase: selected,
             amount,
+            durationDays,
             name,
             email,
             status: "pending" as const,
@@ -168,6 +171,7 @@ export const complete = internalMutation({
             memberId: checkout.memberId,
             name: checkout.name,
             amount: checkout.amount,
+            durationDays: checkout.durationDays,
             paidAt: now,
         });
         await ctx.db.patch(checkout._id, {

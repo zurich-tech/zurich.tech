@@ -60,7 +60,7 @@ export const personalTiers = [
 ] as const;
 
 /** Price of one job listing in CHF. */
-export const jobPrice = 100;
+export const jobPrice = 50;
 
-/** Paid job listing duration in calendar months. */
-export const jobDurationMonths = 6;
+/** Paid job listing duration in days. */
+export const jobDurationDays = 90;

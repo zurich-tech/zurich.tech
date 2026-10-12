@@ -18,7 +18,7 @@ import { Seo } from "../../seo";
 import { JobEntry } from "../../../jobs/job";
 import { FacetList } from "../../../components/facets";
 import { workplaces, engagements } from "../../../jobs/filters";
-import { jobPrice, jobDurationMonths } from "../../../sponsorships/plans";
+import { jobPrice, jobDurationDays } from "../../../sponsorships/plans";
 
 /** Begin public data requests before rendering the route. */
 export const route = {
@@ -186,8 +186,9 @@ export default function Route() {
                         <Card title="Hiring?" class="offer-card">
                             <p class="tier-price">
                                 <span>CHF</span> {jobPrice}
-                                <span>/ listing · {jobDurationMonths} months</span>
+                                <span>/ listing · {jobDurationDays} days</span>
                             </p>
+                            <p class="text-soft">One payment. No subscription.</p>
                             <a class="button button--primary" href="/jobs/submit">
                                 Post a job
                             </a>

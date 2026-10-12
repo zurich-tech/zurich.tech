@@ -5,7 +5,7 @@ export { SponsorshipCard } from "../sponsorships/editor";
 import { Show, createSignal } from "solid-js";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
-import { jobPrice, jobDurationMonths } from "../sponsorships/plans";
+import { jobPrice, jobDurationDays } from "../sponsorships/plans";
 import { timeZone } from "../app/site";
 import { memberClient } from "../auth/convex";
 import type { Perform } from "../app/workspace";
@@ -256,7 +256,7 @@ export function JobReview(props: {
                             onChange={(event) => setFunding(event.currentTarget.value)}
                         >
                             <option value="invoice">
-                                Paid invoice · CHF {jobPrice} / {jobDurationMonths} months
+                                Paid invoice · CHF {jobPrice} / {jobDurationDays} days
                             </option>
                             <option
                                 value="sponsor"

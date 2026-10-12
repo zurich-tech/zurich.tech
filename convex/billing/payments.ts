@@ -65,7 +65,10 @@ export async function paidTerm(
         const start = Math.max(payment.paidAt, term?.endsAt ?? payment.paidAt);
         term = {
             startsAt: term && term.endsAt >= payment.paidAt ? term.startsAt : payment.paidAt,
-            endsAt: termEnd(start, months),
+            endsAt:
+                payment.durationDays === undefined
+                    ? termEnd(start, months)
+                    : start + payment.durationDays * 86400000,
         };
     }
 

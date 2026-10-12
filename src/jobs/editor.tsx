@@ -10,7 +10,7 @@ import { MarkdownEditor } from "../components/markdown-editor";
 import { TopicFields } from "../topics/fields";
 import { CompanySelect } from "../organisations/company";
 import { engagements, seniorities } from "./filters";
-import { jobPrice, jobDurationMonths } from "../sponsorships/plans";
+import { jobPrice, jobDurationDays } from "../sponsorships/plans";
 
 /** Edit the vacancy fields and request publication review. */
 export function JobForm(props: {
@@ -468,7 +468,7 @@ export function JobForm(props: {
                         </label>
 
                         <p>
-                            CHF {jobPrice} · {jobDurationMonths} months. Included for sponsors.
+                            CHF {jobPrice} · {jobDurationDays} days. Included for sponsors.
                         </p>
                         <p class="text-soft">
                             Reviewed before publication. Reconfirm every 90 days.
