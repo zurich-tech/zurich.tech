@@ -230,7 +230,12 @@ export function CommunityFields(props: {
             </section>
 
             {/* event attendance */}
-            <For each={["eventsAttended", "eventsPerYear"] as const}>
+            <input
+                type="hidden"
+                name="eventsPerYear"
+                value={props.values.demographics.eventsPerYear ?? ""}
+            />
+            <For each={["eventsAttended", "eventFrequency"] as const}>
                 {(field) => {
                     const [selected, setSelected] = createSignal(props.values.demographics[field]);
 

@@ -14,6 +14,17 @@ export const demographicOptions = {
         { value: "21-50", label: "21–50" },
         { value: "51+", label: "51+" },
     ],
+    eventFrequency: [
+        { value: "never", label: "Never" },
+        { value: "few-yearly", label: "A few times a year" },
+        { value: "every-other-month", label: "Every other month" },
+        { value: "monthly", label: "Once a month" },
+        { value: "twice-monthly", label: "Twice a month" },
+        { value: "weekly", label: "Weekly" },
+        { value: "several-weekly", label: "Several times a week" },
+        { value: "unsure", label: "Not sure yet" },
+    ],
+    // retain original annual answers without reinterpreting them as frequency choices
     eventsPerYear: [
         { value: "0", label: "None" },
         { value: "1-2", label: "1–2" },
@@ -70,7 +81,8 @@ export const demographicOptions = {
 } as const;
 export const demographicLabels = {
     eventsAttended: "How many zurich.tech events have you attended?",
-    eventsPerYear: "How many zurich.tech events would you like to attend per year?",
+    eventFrequency: "How often would you like to attend zurich.tech events?",
+    eventsPerYear: "Events per year (previous question)",
     roles: "What do you do?",
     languages: "Which languages do you speak?",
     experience: "How long have you been working?",
@@ -100,6 +112,7 @@ const choice = (options: readonly { value: string }[]) =>
     v.optional(v.union(v.null(), v.union(...options.map((option) => v.literal(option.value)))));
 export const demographics = v.object({
     eventsAttended: choice(demographicOptions.eventsAttended),
+    eventFrequency: choice(demographicOptions.eventFrequency),
     eventsPerYear: choice(demographicOptions.eventsPerYear),
     roles: v.optional(v.union(v.null(), v.array(v.string()))),
     languages: v.optional(v.union(v.null(), v.array(v.string()))),

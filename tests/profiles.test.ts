@@ -32,11 +32,11 @@ test("test_roundtrip_optional_event_attendance_answers", async () => {
     const before = await client.query(api.members.profiles.current, {});
     expect(before.demographics).toEqual({});
 
-    // preserve every agreed range through both survey entry points
+    // preserve every agreed attendance and frequency choice through both survey entry points
     for (let index = 0; index < 8; index++) {
         const demographics = {
             eventsAttended: demographicOptions.eventsAttended[index].value,
-            eventsPerYear: demographicOptions.eventsPerYear[index].value,
+            eventFrequency: demographicOptions.eventFrequency[index].value,
         };
         await client.mutation(api.members.profiles.save, {
             name: "Test member",
@@ -64,6 +64,40 @@ test("test_roundtrip_optional_event_attendance_answers", async () => {
         demographics: {},
     });
     expect((await client.query(api.members.audience.current, {})).demographics).toEqual({});
+});
+
+test("test_preserve_annual_answers_separately_from_event_frequency", async () => {
+    const client = await setup();
+
+    // retain each original annual range without selecting a new frequency on its behalf
+    for (const option of demographicOptions.eventsPerYear) {
+        const previous = { eventsPerYear: option.value };
+        await client.mutation(api.members.profiles.save, {
+            name: "Test member",
+            isPublic: false,
+            demographics: previous,
+        });
+        expect((await client.query(api.members.audience.current, {})).demographics).toEqual(
+            previous,
+        );
+
+        // save and clear a new answer without losing or converting the original response
+        for (const demographics of [
+            { ...previous, eventFrequency: "several-weekly" as const },
+            { ...previous, eventFrequency: "unsure" as const },
+            previous,
+        ]) {
+            await client.mutation(api.members.audience.save, {
+                demographics,
+                interests: [],
+                motivations: [],
+                participation: [],
+            });
+            expect((await client.query(api.members.profiles.current, {})).demographics).toEqual(
+                demographics,
+            );
+        }
+    }
 });
 
 test("test_save_private_and_public_profiles_without_a_custom_address", async () => {
