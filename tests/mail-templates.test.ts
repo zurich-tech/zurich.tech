@@ -2,6 +2,12 @@ import { afterAll, beforeAll, expect, test } from "bun:test";
 import { excerpt } from "../convex/mail/markdown";
 import { programmeContent } from "../convex/mail/programme";
 import {
+    involvement,
+    profileInvitation,
+    profilePlaceholder,
+    sharing,
+} from "../convex/mail/involvement";
+import {
     eventEmail,
     newsletterEmail,
     newsletterEdition,
@@ -20,6 +26,74 @@ const event = {
 
 /** Preserve the caller's website configuration. */
 const previousSiteUrl = process.env.SITE_URL;
+
+test("test_render_consistent_profile_actions_and_public_sharing", () => {
+    expect(profileInvitation("none")).toEqual({ html: "", text: "" });
+    expect(profileInvitation("create").text).toBe(
+        "Sign Up: https://zurich.tech/settings?section=profile\nShare your interests to help us create better events.",
+    );
+    expect(profileInvitation("complete").text).toBe(
+        "Complete Your Profile: https://zurich.tech/settings?section=profile\nShare your interests to help us create better events.",
+    );
+    const participation = involvement("none");
+    expect(participation.html).not.toContain("WhatsApp");
+    expect(participation.text).toContain("Introduce someone to zurich.tech.");
+    expect(() => sharing("Share", "Example", "/registration?token=secret")).toThrow(
+        "Email sharing requires a public site URL without parameters or fragments.",
+    );
+    expect(() => sharing("Share", "Example", "https://example.com/")).toThrow(
+        "Email sharing requires a public site URL without parameters or fragments.",
+    );
+});
+
+test("test_limit_event_participation_to_appropriate_messages_and_public_links", () => {
+    for (const title of ["New event", "Registration confirmed", "Thank you"]) {
+        const email = eventEmail(event, title, {
+            manageUrl: "https://zurich.tech/registration?token=secret",
+        });
+        expect(email.text).toContain(profilePlaceholder.text);
+        expect(email.html).toContain(profilePlaceholder.html);
+        const urls: string[] = [];
+        new HTMLRewriter()
+            .on("a", {
+                element(element) {
+                    const href = element.getAttribute("href")!;
+                    if (
+                        href.startsWith("mailto:") ||
+                        href.includes("/sharing/") ||
+                        href.includes("/intent/")
+                    )
+                        urls.push(href);
+                },
+            })
+            .transform(email.html);
+        const encoded = encodeURIComponent("https://zurich.tech/events/zurichnlp-22");
+        expect(urls).toEqual([
+            `mailto:?body=${encoded}`,
+            `https://www.linkedin.com/sharing/share-offsite/?url=${encoded}`,
+            `https://twitter.com/intent/tweet?url=${encoded}`,
+        ]);
+        expect(eventEmail({ ...event, visibility: "unlisted" }, title).text).not.toContain(
+            "intent/tweet",
+        );
+        expect(eventEmail({ ...event, status: "draft" }, title).text).not.toContain("intent/tweet");
+    }
+    for (const title of [
+        "Event reminder",
+        "Event updated",
+        "Event cancelled",
+        "Event confirmed",
+        "Registration pending",
+        "Registration waitlisted",
+        "Registration declined",
+        "Registration cancelled",
+        "Registration received",
+    ]) {
+        const email = eventEmail(event, title);
+        expect(email.text).not.toContain(profilePlaceholder.text);
+        expect(email.html).not.toContain("Get involved");
+    }
+});
 
 test("test_highlight_speakers_and_group_invitation_logistics", () => {
     const programme = {

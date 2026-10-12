@@ -22,6 +22,7 @@ import { recipientAllowed, recipientsLocked, requireAudienceDelivery } from "./p
 import { audience, type Audience, type Category, type Content, type Recipient } from "./model";
 import { rank, select } from "./audiences";
 import { links, personalize } from "./personalization";
+import { profileInvitation, profilePlaceholder } from "./involvement";
 import { state } from "./sending";
 import { consumeLimit } from "./limits";
 
@@ -131,7 +132,10 @@ export const preview = query({
                       first: ranked.slice(0, 100),
                   }
                 : undefined,
-            html: render(campaign).html,
+            html: render(campaign).html?.replaceAll(
+                profilePlaceholder.html,
+                profileInvitation("create").html,
+            ),
             subject: render(campaign).subject,
             messages: messages.map((row) => ({
                 id: row._id,
@@ -607,9 +611,11 @@ export const test = mutation({
             .withIndex("by_email", (q) => q.eq("email", user.email))
             .unique();
         const source = campaign.audience?.kind === "registrations" ? registration : subscription;
-        const needsLinks = Object.values(links).some(
-            (link) => content.text.includes(link) || content.html?.includes(link),
-        );
+        const needsLinks =
+            content.text.includes(profilePlaceholder.text) ||
+            Object.values(links).some(
+                (link) => content.text.includes(link) || content.html?.includes(link),
+            );
         if (!source && needsLinks)
             throw new ConvexError(
                 campaign.eventId

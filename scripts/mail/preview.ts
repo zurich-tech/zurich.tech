@@ -258,6 +258,23 @@ previews.push(
     },
 );
 
+// resolve the same placeholders as delivery, exposing each recipient state for review
+const variants = previews.flatMap((preview) => {
+    if (!preview.html.includes(profilePlaceholder.html)) return [preview];
+
+    return (["create", "complete", "none"] as ProfilePrompt[]).map((state) => {
+        const profile = profileInvitation(state);
+
+        return {
+            ...preview,
+            name: `${preview.name} · ${state}`,
+            html: preview.html.replaceAll(profilePlaceholder.html, profile.html),
+            text: preview.text.replaceAll(profilePlaceholder.text, profile.text),
+        };
+    });
+});
+previews.splice(0, previews.length, ...variants);
+
 // write template output and plain text, alongside desktop and narrow browser previews
 await mkdir(directory, { recursive: true });
 for (const [index, preview] of previews.entries()) {
@@ -265,11 +282,11 @@ for (const [index, preview] of previews.entries()) {
     await Bun.write(`${directory}/${index}.txt`, preview.text);
     await Bun.write(
         `${directory}/${index}-review.html`,
-        `<!doctype html><html lang="en"><meta charset="utf-8"><title>${escapeHtml(preview.name)}</title><style>body{font:15px Arial;background:#edf0f4;color:#14223a;margin:24px}main{display:flex;gap:24px;flex-wrap:wrap}iframe{height:1800px;border:1px solid #ccd1db;background:white}a{color:#174ed8}h2{font-size:14px}</style><a href="index.html">All previews</a><h1>${escapeHtml(preview.name)}</h1><p>Subject: ${escapeHtml(preview.subject)}</p><p><a href="${index}.txt">Plain text</a></p><main><section><h2>Desktop · 600px</h2><iframe title="Desktop email" width="600" src="${index}.html"></iframe></section><section><h2>Mobile · 320px</h2><iframe title="Mobile email" width="320" src="${index}.html"></iframe></section></main></html>`,
+        `<!doctype html><html lang="en"><meta charset="utf-8"><title>${escapeHtml(preview.name)}</title><style>body{font:15px Arial;background:#edf0f4;color:#14223a;margin:24px}main{display:flex;gap:24px;flex-wrap:wrap}iframe{height:1800px;border:1px solid #ccd1db;background:white}a{color:#174ed8}h2{font-size:14px}</style><a href="index.html">All previews</a><h1>${escapeHtml(preview.name)}</h1><p>Subject: ${escapeHtml(preview.subject)}</p><p><a href="${index}.html">Full email</a> · <a href="${index}.txt">Plain text</a></p><main><section><h2>Desktop · 600px email in a 720px viewport</h2><iframe title="Desktop email" width="720" src="${index}.html"></iframe></section><section><h2>Mobile · 320px</h2><iframe title="Mobile email" width="320" src="${index}.html"></iframe></section></main></html>`,
     );
 }
 await Bun.write(
     `${directory}/index.html`,
-    `<!doctype html><html lang="en"><meta charset="utf-8"><title>Email previews</title><style>body{font:16px/1.6 Arial;max-width:720px;margin:40px auto;color:#14223a}a{color:#174ed8}li{margin:8px 0}</style><h1>Email previews</h1><p>Fictional sample content. Nothing is sent.</p><ul>${previews.map((preview, index) => `<li><a href="${index}-review.html">${escapeHtml(preview.name)}</a></li>`).join("")}</ul></html>`,
+    `<!doctype html><html lang="en"><meta charset="utf-8"><title>Email previews</title><style>body{font:16px/1.6 Arial;max-width:720px;margin:40px auto;color:#14223a}a{color:#174ed8}li{margin:8px 0}</style><h1>Email previews</h1><p>Fictional sample content, rendered with the actual email templates. Nothing is sent. Profile variants: create = no account, complete = unfinished profile, none = no prompt.</p><ul>${previews.map((preview, index) => `<li><a href="${index}-review.html">${escapeHtml(preview.name)}</a></li>`).join("")}</ul></html>`,
 );
 console.log(`Email previews: ${directory}/index.html`);

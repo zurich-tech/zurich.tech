@@ -12,7 +12,12 @@ import { sendingDate } from "../convex/mail/policy";
 import { rank, select } from "../convex/mail/audiences";
 import { prioritize } from "../scripts/mail/order";
 import { personalize } from "../convex/mail/personalization";
-import { eventEmail, newsletterEdition, newsletterEmail } from "../convex/mail/templates";
+import {
+    campaignEmail,
+    eventEmail,
+    newsletterEdition,
+    newsletterEmail,
+} from "../convex/mail/templates";
 import { attendanceCopy, resourcesPlaceholder, welcome } from "../convex/mail/attendance";
 import { profilePlaceholder } from "../convex/mail/involvement";
 import { digestNews } from "../convex/mail/newsletter";
@@ -164,44 +169,52 @@ test("test_reference_only_checked_in_attendees_and_recent_public_resources", asy
     expect((await render())!.text).toContain(welcome);
 });
 
-test("test_personalize_newsletter_profiles_without_using_private_survey_or_visibility", async () => {
-    const { backend, subscriptionId, memberId } = await setup();
-    const content = newsletterEmail(newsletterEdition([], []));
-    const render = () => backend.run((ctx) => personalize(ctx, content, subscriptionId));
-    expect((await render())!.text).toContain("Create your profile");
+test.each(["Newsletter", "New event", "Registration confirmed", "Thank you", "Written campaign"])(
+    "test_personalize_%s_profiles_without_using_private_survey_or_visibility",
+    async (kind) => {
+        const { backend, subscriptionId, memberId } = await setup();
+        const content =
+            kind === "Newsletter"
+                ? newsletterEmail(newsletterEdition([], []))
+                : kind === "Written campaign"
+                  ? campaignEmail({ subject: "Hello", message: "Welcome" })
+                  : eventEmail({ title: "Example", slug: "example", startsAt: Date.now() }, kind);
+        const render = () => backend.run((ctx) => personalize(ctx, content, subscriptionId));
+        expect((await render())!.text).toContain("Sign Up");
 
-    // resolve an existing account through its verified email even without a subscription member id
-    await backend.run((ctx) =>
-        ctx.db.insert("emails", {
-            email: "test@example.invalid",
-            memberId,
-            isPrimary: true,
-            verifiedAt: 1,
-            createdAt: 1,
-            updatedAt: 1,
-        }),
-    );
-    expect((await render())!.text).toContain("Complete your profile");
-    await backend.run(async (ctx) => {
-        const account = (await ctx.db.query("accounts").collect())[0];
-        await ctx.db.patch(account._id, { demographics: { age: null }, onboardedAt: 1 });
-        await ctx.db.patch(memberId, { bio: "I build things.", visibility: "private" });
-    });
-    const completed = (await render())!;
-    expect(completed.text).not.toContain("Complete your profile");
-    expect(completed.text).not.toContain(profilePlaceholder.text);
-    expect(completed.html).not.toContain(profilePlaceholder.html);
-    expect(completed.text).not.toContain("I build things.");
-    expect(completed.html).toContain("Join Discord");
+        // resolve an existing account through its verified email even without a subscription member id
+        await backend.run((ctx) =>
+            ctx.db.insert("emails", {
+                email: "test@example.invalid",
+                memberId,
+                isPrimary: true,
+                verifiedAt: 1,
+                createdAt: 1,
+                updatedAt: 1,
+            }),
+        );
+        expect((await render())!.text).toContain("Complete Your Profile");
+        await backend.run(async (ctx) => {
+            const account = (await ctx.db.query("accounts").collect())[0];
+            await ctx.db.patch(account._id, { demographics: { age: null }, onboardedAt: 1 });
+            await ctx.db.patch(memberId, { bio: "I build things.", visibility: "private" });
+        });
+        const completed = (await render())!;
+        expect(completed.text).not.toContain("Complete Your Profile");
+        expect(completed.text).not.toContain(profilePlaceholder.text);
+        expect(completed.html).not.toContain(profilePlaceholder.html);
+        expect(completed.text).not.toContain("I build things.");
+        expect(completed.html).toContain("Get involved");
 
-    // disabled accounts must not receive a prompt to create or complete an account
-    await backend.run(async (ctx) => {
-        const account = (await ctx.db.query("accounts").collect())[0];
-        await ctx.db.patch(account._id, { status: "disabled" });
-        await ctx.db.patch(memberId, { bio: undefined });
-    });
-    expect((await render())!.text).not.toContain("Complete your profile");
-});
+        // disabled accounts must not receive a prompt to create or complete an account
+        await backend.run(async (ctx) => {
+            const account = (await ctx.db.query("accounts").collect())[0];
+            await ctx.db.patch(account._id, { status: "disabled" });
+            await ctx.db.patch(memberId, { bio: undefined });
+        });
+        expect((await render())!.text).not.toContain("Complete Your Profile");
+    },
+);
 
 test("test_select_only_recent_published_news_for_the_digest", async () => {
     const { backend, memberId } = await setup();
@@ -1892,6 +1905,23 @@ test("verified event registration enrolls once and explicit resubscription enabl
         token: "account-unsubscribe",
     });
     await confirm("first", "registration");
+    // render profile prompts before enqueueing transactional confirmations
+    const confirmations = await backend.run((ctx) => ctx.db.query("messages").collect());
+    const memberConfirmation = confirmations.find(
+        (message) =>
+            message.to === "test@example.invalid" &&
+            message.subject.endsWith("Registration confirmed"),
+    );
+    const guestConfirmation = confirmations.find(
+        (message) =>
+            message.to === "guest@example.invalid" &&
+            message.subject.endsWith("Registration confirmed"),
+    );
+    expect(memberConfirmation?.text).toContain("Complete Your Profile");
+    expect(guestConfirmation?.text).toContain("Sign Up");
+    expect(memberConfirmation?.html).not.toContain(profilePlaceholder.html);
+    expect(guestConfirmation?.text).not.toContain(profilePlaceholder.text);
+
     const row = await backend.run((ctx) =>
         ctx.db
             .query("subscriptions")

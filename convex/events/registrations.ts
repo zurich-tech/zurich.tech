@@ -6,6 +6,8 @@ import { ensureToken } from "./checkin";
 import { confirmationDecision, isTentative } from "./conditions";
 import { evaluate } from "./confirmation";
 import { eventEmail, registrationCopy } from "../mail/templates";
+import { personalize } from "../mail/personalization";
+import { profilePlaceholder } from "../mail/involvement";
 import { siteOrigin } from "../auth/environment";
 import { ConvexError, v } from "convex/values";
 import {
@@ -521,7 +523,23 @@ async function notify(
                     : undefined,
         },
     );
-    await enqueue(ctx, key, row.email, message.subject, message.text, undefined, 0, message.html);
+    // resolve profile state only for notifications that request it
+    const personalized = message.text.includes(profilePlaceholder.text)
+        ? await personalize(ctx, message, row._id)
+        : message;
+    if (!personalized)
+        throw new Error("Registration disappeared while preparing its notification.");
+
+    await enqueue(
+        ctx,
+        key,
+        row.email,
+        personalized.subject,
+        personalized.text,
+        undefined,
+        0,
+        personalized.html,
+    );
 }
 
 /** Allocate a verified attendee through the event admission policy. */

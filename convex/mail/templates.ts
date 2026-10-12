@@ -7,7 +7,7 @@ import type { Recurrence } from "../events/recurrence";
 import type { AddressAccess } from "../events/fields";
 import type { Confirmation } from "../events/fields";
 import { layout, paragraph, escapeHtml, sectionHeading, palette, mono, socials } from "./layout";
-import { involvement } from "./involvement";
+import { involvement, profilePlaceholder, sharing } from "./involvement";
 import { tiers } from "../../src/sponsorships/plans";
 import type { activeSponsors } from "../sponsorships/organisations";
 import { siteOrigin } from "../auth/environment";
@@ -33,6 +33,8 @@ type Event = {
     confirmation?: Confirmation;
     confirmedAt?: number;
     status?: string;
+    /** Exclude link-only events from sharing suggestions. */
+    visibility?: "public" | "unlisted";
 };
 
 /** Describe address access without exposing restricted content in a public email. */
@@ -223,6 +225,27 @@ export function eventEmail(
     const description = options.description ?? copy?.description;
     const isInvitation = title === "New event";
     const programme = programmeContent(options.programme);
+    // keep operational messages focused and never promote link-only or unpublished events
+    const hasParticipation = ["New event", "Registration confirmed", "Thank you"].includes(title);
+    const isShareable =
+        event.visibility !== "unlisted" && event.status !== "draft" && event.status !== "cancelled";
+    const share =
+        hasParticipation && isShareable
+            ? sharing(
+                  title === "Thank you" ? "Share the Event" : "Bring Someone Along",
+                  title === "Thank you"
+                      ? "Share the event page with someone who would be interested."
+                      : "Invite someone who would enjoy this event.",
+                  `/events/${event.slug}`,
+              )
+            : { html: "", text: "" };
+    const participation =
+        hasParticipation && isShareable
+            ? {
+                  html: `${sectionHeading("Get involved")}${profilePlaceholder.html}${share.html}`,
+                  text: `Get involved\n\n${profilePlaceholder.text}\n\n${share.text}`,
+              }
+            : { html: "", text: "" };
     const links = [
         { label: "Email preferences", url: `${siteOrigin()}/settings?section=notifications` },
     ];
@@ -248,6 +271,7 @@ export function eventEmail(
             eventText(event, options.summary),
             programme.text,
             `${action.label}: ${action.url}`,
+            participation.text,
             ...links.map((link) => `${link.label}: ${link.url}`),
             `Legal: ${siteOrigin()}/legal`,
         ]
@@ -264,9 +288,10 @@ export function eventEmail(
             body: isInvitation
                 ? `${description ? paragraph(description) : ""}${options.summary && event.summary ? paragraph(event.summary) : ""}${programme.html}${sectionHeading("When & where")}<p style="margin:16px 0 0;font-weight:600">${escapeHtml(eventTime(event.startsAt))}</p>${eventLocation(event)}${isTentative(event) ? paragraph("Tentative · Awaiting event confirmation") : ""}`
                 : `${description ? paragraph(description) : ""}<div style="margin-top:24px;padding:20px;border-left:3px solid ${palette.brand};background:#f4f7ff">${eventDetails(event, options.summary)}</div>${programme.html}`,
-            afterAction: options.passUrl
-                ? `${sectionHeading("Your check-in pass")}<p style="margin:16px 0;font-size:14px;color:${palette.soft}">Show this code at the door, or open your pass using the button above.</p><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code. Use View pass if images are unavailable." width="216" height="216" style="display:block;width:216px;max-width:100%;height:auto;background:#ffffff;border:12px solid #ffffff" />`
-                : undefined,
+            afterAction:
+                (options.passUrl
+                    ? `${sectionHeading("Your check-in pass")}<p style="margin:16px 0;font-size:14px;color:${palette.soft}">Show this code at the door, or open your pass using the button above.</p><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code. Use View pass if images are unavailable." width="216" height="216" style="display:block;width:216px;max-width:100%;height:auto;background:#ffffff;border:12px solid #ffffff" />`
+                    : "") + participation.html,
             action,
             links,
         }),
@@ -502,6 +527,7 @@ export function seriesEmail(
         { label: "Unsubscribe", url: unsubscribeUrl },
     ];
     const subject = `New series: ${series.name}`;
+    const participation = involvement();
     return {
         subject,
         text: [
@@ -510,6 +536,7 @@ export function seriesEmail(
             dates,
             series.description,
             `View events: ${url}`,
+            participation.text,
             ...socials.map((link) => `${link.label}: ${link.url}`),
             ...links.map((link) => `${link.label}: ${link.url}`),
         ].join("\n\n"),
@@ -519,6 +546,7 @@ export function seriesEmail(
             preview: `${timing}. ${series.description}`,
             body: `${paragraph(series.description)}<p style="color:${palette.soft}">${escapeHtml(timing)}<br>${escapeHtml(dates)}</p>`,
             action: { label: "View events", url },
+            afterAction: participation.html,
             links,
             isCommunity: true,
         }),
@@ -531,12 +559,14 @@ export function campaignEmail(
     unsubscribeUrl?: string,
 ) {
     const origin = siteOrigin();
+    const participation = involvement();
     const links = [{ label: "Email preferences", url: `${origin}/settings?section=notifications` }];
     if (unsubscribeUrl) links.push({ label: "Unsubscribe", url: unsubscribeUrl });
     return {
         subject: campaign.subject,
         text: [
             campaign.message,
+            participation.text,
             ...socials.map((link) => `${link.label}: ${link.url}`),
             `zurich.tech: ${origin}`,
             ...links.map((link) => `${link.label}: ${link.url}`),
@@ -546,6 +576,7 @@ export function campaignEmail(
             title: campaign.subject,
             preview: excerpt(campaign.message),
             body: markdown(campaign.message),
+            afterAction: participation.html,
             links,
             isCommunity: true,
         }),
