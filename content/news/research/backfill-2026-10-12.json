@@ -1,0 +1,81 @@
+{
+    "reviewedAt": "2026-10-12",
+    "scope": "Ten September and October announcements explicitly approved by Florian for publication. Existing xorlab coverage is excluded.",
+    "exceptions": "Assaia and vyzn are explicitly approved exceptions to the usual disclosed funding threshold. No amount or round stage is inferred. Assaia's announcement date is not its investment closing date.",
+    "articles": [
+        {
+            "slug": "namespace-series-b",
+            "localConnection": "Zurich-founded developer infrastructure company, already listed as Namespace in the organisation directory.",
+            "sources": [
+                "https://namespace.so/blog/series-b",
+                "https://siliconangle.com/2026/10/05/namespace-raises-42m-to-build-out-developer-focused-compute-cloud/"
+            ]
+        },
+        {
+            "slug": "klarent-seed",
+            "localConnection": "Company announcement identifies Zurich headquarters.",
+            "sources": ["https://klarent.ai/blogs/klarent-secures-8m-seed-funding/"],
+            "notes": "Use the company's USD 8M and 9 October announcement, not media currency conversions."
+        },
+        {
+            "slug": "unisieve-series-a",
+            "localConnection": "Company announcement identifies Zurich base.",
+            "sources": [
+                "https://unisieve.com/resources/unisieve-raises-9m-to-scale-high-precision-membrane-solution-for-industrial-separations"
+            ]
+        },
+        {
+            "slug": "cotierra-funding-2026",
+            "localConnection": "Investor announcement identifies Zurich base.",
+            "sources": [
+                "https://www.linkedin.com/company/cotierra-ag",
+                "https://www.pauliggroup.com/news/pauligs-venture-arm-pinc-co-leads-eur26-million-investment-in-cotierra-to-strengthen-coffee-supply-chain-resilience"
+            ],
+            "notes": "Company announcement uses USD 3M; investor reports EUR 2.6M for the same financing. No stage inferred."
+        },
+        {
+            "slug": "prevision-medicine-seed",
+            "localConnection": "Company announcement identifies Zurich headquarters and Lausanne operations.",
+            "sources": [
+                "https://previsionmedicine.com/news/press-release-prevision-medicine-raises-5-4m-in-seed-funding-round"
+            ]
+        },
+        {
+            "slug": "piomic-growth-financing",
+            "localConnection": "Company announcement identifies Zurich base.",
+            "sources": [
+                "https://www.piomic.com/news/swisscanto-leads-usd-25m-growth-financing-for-piomic-medical/"
+            ]
+        },
+        {
+            "slug": "etfbook-funding-2026",
+            "localConnection": "Company announcement identifies Zurich headquarters.",
+            "sources": [
+                "https://etfbook.com/company/announcements/funding-round-with-expedition-growth-and-blackfin"
+            ],
+            "notes": "Separate from the February 2025 Series A already published."
+        },
+        {
+            "slug": "novago-series-b",
+            "localConnection": "Company-issued press release identifies Schlieren base.",
+            "sources": [
+                "https://www.prnewswire.co.uk/news-releases/novago-therapeutics-closes-usd-30-million-series-b-financing-to-advance-proof-of-concept-study-in-acute-spinal-cord-injury-302866193.html"
+            ],
+            "notes": "CHF 24M equity round; separate non-dilutive support is not included."
+        },
+        {
+            "slug": "assaia-united-investment",
+            "localConnection": "Company announcement identifies Zurich base; existing organisation directory entry.",
+            "sources": [
+                "https://www.assaia.com/resources/united-airlines-ventures-invests-in-assaia-to-support-next-generation-airport-operations-technology"
+            ],
+            "notes": "Announced 9 September; investment occurred earlier in 2026. Amount undisclosed."
+        },
+        {
+            "slug": "vyzn-buildify-investment",
+            "localConnection": "Company blog lists Zurich office at Seilergraben 49; existing organisation directory entry.",
+            "sources": ["https://www.vyzn.tech/blog/"],
+            "notes": "Company blog dates this investment to 8 September. Do not confuse with December 2025 seed financing."
+        }
+    ]
+}
