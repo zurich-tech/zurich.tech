@@ -43,7 +43,7 @@ export function Topbar() {
                     </Show>
 
                     {/* tools */}
-                    <SocialLinks name={site.name} profiles={site.socials} />
+                    <SocialLinks name={site.name} profiles={site.socials} email={site.email} />
                     <ThemeToggle />
                     <CommandPalette />
                     <button

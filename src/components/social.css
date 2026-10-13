@@ -32,6 +32,10 @@
     fill: currentColor;
 }
 
+.social-links svg.lucide {
+    fill: none;
+}
+
 .social-links--labelled {
     gap: var(--space-2) var(--space-4);
 }

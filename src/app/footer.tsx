@@ -40,7 +40,7 @@ export function Footer() {
                         <span aria-hidden="true" innerHTML={wordmark} />
                     </A>
                     <p>A volunteer-run non-profit for people in tech around Zurich.</p>
-                    <SocialLinks name={site.name} profiles={site.socials} />
+                    <SocialLinks name={site.name} profiles={site.socials} email={site.email} />
                 </div>
 
                 {/* weekly email */}

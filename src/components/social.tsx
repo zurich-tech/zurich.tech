@@ -1,5 +1,6 @@
 import "./social.css";
 import { For, Show } from "solid-js";
+import { Mail } from "lucide-solid";
 import linkedin from "./assets/social/linkedin.svg?raw";
 import github from "./assets/social/github.svg?raw";
 import x from "./assets/social/x.svg?raw";
@@ -20,6 +21,7 @@ export type SocialProfiles = Partial<Record<(typeof platforms)[number]["id"], st
 
 /** Link to verified profiles with compact, labelled icons. */
 export function SocialLinks(props: {
+    /** Public contact address, when provided. */ email?: string;
     /** Show platform names alongside the icons. */ labelled?: boolean;
     /** Profile owner's name. */ name: string;
     /** Named social accounts or an ordered list of public links. */ profiles:
@@ -70,6 +72,16 @@ export function SocialLinks(props: {
                     </a>
                 )}
             </For>
+            <Show when={props.email}>
+                {(email) => (
+                    <a href={`mailto:${email()}`} aria-label={`Email ${props.name}`} title="Email">
+                        <Mail aria-hidden="true" />
+                        <Show when={props.labelled}>
+                            <span class="social-label">Email</span>
+                        </Show>
+                    </a>
+                )}
+            </Show>
         </div>
     );
 }

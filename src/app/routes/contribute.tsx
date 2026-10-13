@@ -26,15 +26,14 @@ export default function Route() {
                                 <section id="speakers">
                                     <h3>Suggest a speaker</h3>
                                     <p>
-                                        Know someone you’d like to hear speak? Tell us on Discord.
+                                        Know someone you’d like to hear speak? Send us their name
+                                        and a topic.
                                     </p>
                                     <a
                                         class="action-link"
-                                        href={site.socials.discord}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                        href={`mailto:${site.email}?subject=Speaker%20suggestion`}
                                     >
-                                        Tell us on Discord <Arrow direction="external" />
+                                        Suggest a speaker <Arrow />
                                     </a>
                                 </section>
                                 <section id="talks">
@@ -42,11 +41,9 @@ export default function Route() {
                                     <p>Share what you’re building, researching or learning.</p>
                                     <a
                                         class="action-link"
-                                        href={site.socials.discord}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                        href={`mailto:${site.email}?subject=Talk%20proposal`}
                                     >
-                                        Tell us on Discord <Arrow direction="external" />
+                                        Propose a talk <Arrow />
                                     </a>
                                 </section>
                                 <section id="events">
@@ -54,11 +51,9 @@ export default function Route() {
                                     <p>Help run an event, or suggest one you’d like to organise.</p>
                                     <a
                                         class="action-link"
-                                        href={site.socials.discord}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                        href={`mailto:${site.email}?subject=Event%20proposal`}
                                     >
-                                        Tell us on Discord <Arrow direction="external" />
+                                        Propose an event <Arrow />
                                     </a>
                                 </section>
                                 <section id="venues">
@@ -66,11 +61,9 @@ export default function Route() {
                                     <p>Have space for a talk, workshop or community event?</p>
                                     <a
                                         class="action-link"
-                                        href={site.socials.discord}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                        href={`mailto:${site.email}?subject=Venue%20offer`}
                                     >
-                                        Tell us on Discord <Arrow direction="external" />
+                                        Offer a venue <Arrow />
                                     </a>
                                 </section>
                             </div>
