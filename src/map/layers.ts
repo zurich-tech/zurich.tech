@@ -1,4 +1,9 @@
-import type { ExpressionSpecification, GeoJSONSource, Map as GeographicMap } from "maplibre-gl";
+import type {
+    ExpressionSpecification,
+    GeoJSONSource,
+    Map as GeographicMap,
+    SymbolLayerSpecification,
+} from "maplibre-gl";
 import { honeycomb } from "./placement";
 import type { MapLocation } from "./queries";
 
@@ -35,18 +40,25 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
     });
 
     // draw the shared images once
-    map.addImage("ring-active", drawRing(badgeSize + 8, "#ffffff"), { pixelRatio });
+    map.addImage("ring-active", drawRing(badgeSize + 8, isLabelled ? "#174ed8" : "#ffffff"), {
+        pixelRatio,
+    });
     map.addImage("logo-space", new ImageData(logoSpace * pixelRatio, logoSpace * pixelRatio), {
+        pixelRatio,
+    });
+    map.addImage("organisation-dot", drawDot(isLabelled ? "#174ed8" : "#ffffff"), {
         pixelRatio,
     });
 
     // draw every organisation, naming it where the label fits
-    map.addLayer({
+    const organisations: SymbolLayerSpecification = {
         id: "organisations",
         type: "symbol",
         source: "organisations",
         layout: {
-            "icon-image": ["case", ["get", "isLogo"], "logo-space", ["get", "badge"]],
+            "icon-image": isLabelled
+                ? ["case", ["get", "isLogo"], "logo-space", ["get", "badge"]]
+                : ["case", ["get", "isLogo"], "logo-space", "organisation-dot"],
             "icon-size": [
                 "interpolate",
                 ["linear"],
@@ -66,11 +78,29 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
             "text-max-width": 12,
         },
         paint: {
-            "text-color": "#ffffff",
-            "text-halo-color": "#174ed8",
+            "icon-opacity": isLabelled ? ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 1] : 1,
+            "text-opacity": ["interpolate", ["linear"], ["zoom"], 14, 0, 15, 1],
+            "text-color": isLabelled ? "#26364a" : "#ffffff",
+            "text-halo-color": isLabelled ? "#edf0f2" : "#174ed8",
             "text-halo-width": 1.5,
         },
-    });
+    };
+
+    // crossfade dots into logos before introducing organisation names
+    if (isLabelled) {
+        map.addLayer({
+            ...organisations,
+            id: "organisation-dots",
+            maxzoom: 13,
+            layout: {
+                ...organisations.layout,
+                "icon-image": ["case", ["get", "isLogo"], "logo-space", "organisation-dot"],
+                "text-field": "",
+            },
+            paint: { "icon-opacity": ["interpolate", ["linear"], ["zoom"], 12, 1, 13, 0] },
+        });
+    }
+    map.addLayer(organisations);
 
     // mark hovered and selected organisations above the rest
     map.addLayer({
@@ -88,7 +118,13 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
             ] as unknown as ExpressionSpecification,
             "icon-allow-overlap": true,
             "icon-ignore-placement": true,
+            "text-field": isLabelled ? ["get", "name"] : "",
+            "text-font": ["Noto Sans Regular"],
+            "text-size": labelSize,
+            "text-anchor": "left",
+            "text-allow-overlap": true,
         },
+        paint: { "text-color": "#174ed8", "text-halo-color": "#ffffff", "text-halo-width": 2 },
     });
 }
 
@@ -123,12 +159,12 @@ export async function addBadges(
 export function showOrganisations(
     map: GeographicMap,
     places: MapLocation[],
-    isHighlighted: (organisation: Organisation) => boolean,
+    isHighlighted: (organisation: Organisation, place: MapLocation) => boolean,
 ) {
     // lay out logos at the centre and every other organisation around them
     const entries = places.flatMap((place) => {
-        const logos = place.organisations.filter(isHighlighted);
-        const others = place.organisations.filter((person) => !isHighlighted(person));
+        const logos = place.organisations.filter((person) => isHighlighted(person, place));
+        const others = place.organisations.filter((person) => !isHighlighted(person, place));
         return [
             ...logos.map((person) => ({ place, person, isLogo: true, cell: 0 })),
             ...others.map((person, index) => ({
@@ -175,8 +211,11 @@ export function showOrganisations(
         ]),
     ] as unknown as ExpressionSpecification;
     map.setLayoutProperty("organisations", "icon-offset", iconOffset);
+    if (map.getLayer("organisation-dots"))
+        map.setLayoutProperty("organisation-dots", "icon-offset", iconOffset);
     map.setLayoutProperty("organisations-active", "icon-offset", iconOffset);
     map.setLayoutProperty("organisations", "text-offset", labelOffset);
+    map.setLayoutProperty("organisations-active", "text-offset", labelOffset);
 }
 
 /** Mark these organisations as hovered or selected. */
@@ -217,6 +256,17 @@ function drawRing(diameter: number, colour: string) {
     context.beginPath();
     context.arc(radius, radius, radius - pixelRatio, 0, Math.PI * 2);
     context.stroke();
+
+    return context.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+/** Draw a compact overview dot within the same bounds as an organisation badge. */
+function drawDot(colour: string) {
+    const { canvas, context, radius } = createCanvas(badgeSize);
+    context.fillStyle = colour;
+    context.beginPath();
+    context.arc(radius, radius, 5 * pixelRatio, 0, Math.PI * 2);
+    context.fill();
 
     return context.getImageData(0, 0, canvas.width, canvas.height);
 }

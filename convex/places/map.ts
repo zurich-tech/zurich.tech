@@ -42,10 +42,11 @@ export const map = query({
                     mapLogoDarkUrl: organisation.mapLogoDarkUrl,
                     latitude: address.latitude,
                     longitude: address.longitude,
-                    recognition: organisation.isHost
-                        ? "Host"
-                        : sponsor
-                          ? `${sponsor.tier[0].toUpperCase()}${sponsor.tier.slice(1)} sponsor`
+                    isSponsor: Boolean(sponsor),
+                    recognition: sponsor
+                        ? `${sponsor.tier[0].toUpperCase()}${sponsor.tier.slice(1)} sponsor`
+                        : organisation.isHost
+                          ? "Host"
                           : undefined,
                     headline: organisation.headline,
                     prominence:

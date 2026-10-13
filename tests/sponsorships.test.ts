@@ -54,6 +54,39 @@ async function setup() {
     return { backend, admin, ids, terms, now };
 }
 
+test("test_distinguish_active_sponsors_from_hosts_on_the_map", async () => {
+    const { backend, admin, ids, terms } = await setup();
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.organisationId, { isHost: true });
+        const addressId = await ctx.db.insert("addresses", {
+            line1: "Teststrasse 1",
+            locality: "Zurich",
+            countryCode: "CH",
+            latitude: 47.38,
+            longitude: 8.5,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.insert("locations", {
+            ownerId: ids.organisationId,
+            addressId,
+            name: "Office",
+            visibility: "public",
+        });
+    });
+    const markers = async () =>
+        (await backend.query(api.places.map.map, {})).map(({ isSponsor, recognition }) => ({
+            isSponsor,
+            recognition,
+        }));
+
+    expect(await markers()).toEqual([{ isSponsor: false, recognition: "Host" }]);
+    await admin.mutation(api.sponsorships.terms.agree, terms);
+    expect(await markers()).toEqual([{ isSponsor: true, recognition: "Bronze sponsor" }]);
+    await backend.run((ctx) => ctx.db.patch(ids.sponsorshipId, { isPublic: false }));
+    expect(await markers()).toEqual([{ isSponsor: false, recognition: "Host" }]);
+});
+
 test("test_publish_before_payment_and_preserve_dates_through_partial_receipts_and_refunds", async () => {
     const { backend, admin, terms, now } = await setup();
     const termId = await admin.mutation(api.sponsorships.terms.agree, terms);

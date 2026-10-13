@@ -13,6 +13,8 @@ export interface LocatedOrganisation {
     mapLogoDarkUrl?: string;
     headline?: string;
     recognition?: string;
+    /** Whether the organisation has an active sponsorship. */
+    isSponsor?: boolean;
     prominence: "large" | "medium" | "small";
     latitude: number;
     longitude: number;

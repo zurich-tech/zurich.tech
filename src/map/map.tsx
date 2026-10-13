@@ -1,4 +1,4 @@
-import { FilterPills } from "../components/filter-pills";
+import { Search, List, X, Plus, ArrowLeft, ZoomIn, ZoomOut, LocateFixed } from "lucide-solid";
 import { organisationKinds } from "../../convex/organisations/kinds";
 import { createEffect, createMemo, createSignal, onMount, onCleanup, Show, For } from "solid-js";
 import { Dynamic, render } from "solid-js/web";
@@ -24,59 +24,72 @@ function isHighlighted(organisation: MapLocation["organisations"][number]) {
     return Boolean(organisation.recognition);
 }
 
-/** Keep the circuit-map palette while fetching geographic detail at each zoom. */
-const style: StyleSpecification = {
-    version: 8,
-    glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
-    sources: { geography: { type: "vector", url: "https://tiles.openfreemap.org/planet" } },
-    layers: [
-        { id: "background", type: "background", paint: { "background-color": "#174ed8" } },
-        {
-            id: "water",
-            type: "fill",
-            source: "geography",
-            "source-layer": "water",
-            paint: { "fill-color": "#5b8bdf", "fill-outline-color": "#83a6eb" },
-        },
-        {
-            id: "rivers",
-            type: "line",
-            source: "geography",
-            "source-layer": "waterway",
-            paint: { "line-color": "#ffffff", "line-opacity": 0.35, "line-width": 1 },
-        },
-        {
-            id: "roads",
-            type: "line",
-            source: "geography",
-            "source-layer": "transportation",
-            filter: ["!", ["in", ["get", "class"], ["literal", ["rail", "ferry"]]]],
-            paint: {
-                "line-color": "#ffffff",
-                "line-opacity": [
-                    "match",
-                    ["get", "class"],
-                    ["motorway", "trunk", "primary"],
-                    0.48,
-                    0.16,
-                ],
-                "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.3, 13, 0.7, 17, 1.5],
+/** Keep banners blue and give the interactive map a quieter geographic palette. */
+function mapStyle(isHero: boolean): StyleSpecification {
+    return {
+        version: 8,
+        glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
+        sources: { geography: { type: "vector", url: "https://tiles.openfreemap.org/planet" } },
+        layers: [
+            {
+                id: "background",
+                type: "background",
+                paint: { "background-color": isHero ? "#174ed8" : "#edf0f2" },
             },
-        },
-        {
-            id: "railways",
-            type: "line",
-            source: "geography",
-            "source-layer": "transportation",
-            filter: ["==", ["get", "class"], "rail"],
-            paint: {
-                "line-color": "#ffffff",
-                "line-opacity": 0.18,
-                "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.3, 13, 0.65, 17, 1.2],
+            {
+                id: "water",
+                type: "fill",
+                source: "geography",
+                "source-layer": "water",
+                paint: {
+                    "fill-color": isHero ? "#5b8bdf" : "#a8c7ef",
+                    "fill-outline-color": isHero ? "#83a6eb" : "#8eb5e7",
+                },
             },
-        },
-    ],
-};
+            {
+                id: "rivers",
+                type: "line",
+                source: "geography",
+                "source-layer": "waterway",
+                paint: {
+                    "line-color": isHero ? "#ffffff" : "#8eb5e7",
+                    "line-opacity": isHero ? 0.35 : 1,
+                    "line-width": 1,
+                },
+            },
+            {
+                id: "roads",
+                type: "line",
+                source: "geography",
+                "source-layer": "transportation",
+                filter: ["!", ["in", ["get", "class"], ["literal", ["rail", "ferry"]]]],
+                paint: {
+                    "line-color": "#ffffff",
+                    "line-opacity": [
+                        "match",
+                        ["get", "class"],
+                        ["motorway", "trunk", "primary"],
+                        isHero ? 0.24 : 1,
+                        isHero ? 0 : 0.8,
+                    ],
+                    "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.3, 13, 0.7, 17, 1.5],
+                },
+            },
+            {
+                id: "railways",
+                type: "line",
+                source: "geography",
+                "source-layer": "transportation",
+                filter: ["==", ["get", "class"], "rail"],
+                paint: {
+                    "line-color": isHero ? "#ffffff" : "#8c99a8",
+                    "line-opacity": isHero ? 0.08 : 0.18,
+                    "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.3, 13, 0.65, 17, 1.2],
+                },
+            },
+        ],
+    };
+}
 
 /** Load continuous geography, with a wider noninteractive view for page banners. */
 export function CommunityMap(props: {
@@ -91,10 +104,14 @@ export function CommunityMap(props: {
     const [error, setError] = createSignal(false);
     const { query: search, setQuery: setSearch, terms } = useSearch();
     const [category, setCategory] = createSignal("all");
+    const [isPanelOpen, setPanelOpen] = createSignal(false);
     const [hovered, setHovered] = createSignal<string[]>([]);
     const [selected, setSelected] = createSignal<string[]>([]);
     const [selectedOrganisation, setSelectedOrganisation] = createSignal<string>();
-    const [crowdedCount, setCrowdedCount] = createSignal(0);
+    const [crowded, setCrowded] = createSignal<Set<string>>(new Set(), {
+        equals: (previous, next) =>
+            previous.size === next.size && [...previous].every((id) => next.has(id)),
+    });
     const [view, setView] = createSignal(0);
     const filtered = createMemo(() =>
         props.isHero
@@ -104,17 +121,14 @@ export function CommunityMap(props: {
     const organisationCount = () =>
         filtered().reduce((sum, place) => sum + place.organisations.length, 0);
 
-    // list each organisation once, hosts and sponsors first, then everyone else, each by name
+    // list organisations alphabetically without separating supporters from other results
     const listed = createMemo(() =>
         filtered()
             .flatMap((place) =>
                 place.organisations.map((person) => ({ ...place, organisations: [person] })),
             )
-            .sort(
-                (left, right) =>
-                    Number(!isHighlighted(left.organisations[0])) -
-                        Number(!isHighlighted(right.organisations[0])) ||
-                    left.organisations[0].name.localeCompare(right.organisations[0].name),
+            .sort((left, right) =>
+                left.organisations[0].name.localeCompare(right.organisations[0].name),
             ),
     );
 
@@ -126,11 +140,6 @@ export function CommunityMap(props: {
             ? listed().filter((place) => bounds.contains([place.longitude, place.latitude]))
             : listed();
     });
-
-    // count the hosts and sponsors in view to place the divider after them
-    const highlightedCount = createMemo(
-        () => visible().filter((place) => isHighlighted(place.organisations[0])).length,
-    );
 
     // narrow the selected places to the chosen organisation
     const selectedPlaces = createMemo(() =>
@@ -145,33 +154,41 @@ export function CommunityMap(props: {
     );
     let container!: HTMLDivElement;
     let isDisposed = false;
-    let closeButton: HTMLButtonElement | undefined;
     let backButton: HTMLButtonElement | undefined;
 
     /** Return keyboard focus to the map after dismissing location details. */
     function closeDetails() {
         setSelected([]);
+        setHovered([]);
         instance()?.map.getCanvas().focus({ preventScroll: true });
+    }
+
+    /** Keep a chosen address visible beside the desktop panel or above the mobile sheet. */
+    function focusLocation(place: MapLocation, duration: number) {
+        const map = instance()?.map;
+        if (!map) return;
+
+        // preserve closer inspection while bringing distant results to neighbourhood scale
+        map.easeTo({
+            center: [place.longitude, place.latitude],
+            zoom: Math.max(map.getZoom(), 14),
+            offset: container.clientWidth <= 800 ? [0, -container.clientHeight * 0.3] : [180, 0],
+            duration,
+        });
     }
 
     /** Keep selection shared between the markers and the directory. */
     function select(places: MapLocation[]) {
+        setPanelOpen(true);
         setSelectedOrganisation(
             places.length === 1 && places[0].organisations.length === 1
                 ? places[0].organisations[0].id
                 : undefined,
         );
         setSelected(places.map((place) => place.id));
-        const map = instance()?.map;
         const first = places[0];
-        if (map && first && !map.getBounds().contains([first.longitude, first.latitude])) {
-            map.easeTo({ center: [first.longitude, first.latitude], duration: 400 });
-        }
-        queueMicrotask(() =>
-            (window.matchMedia("(max-width: 800px)").matches ? closeButton : backButton)?.focus({
-                preventScroll: true,
-            }),
-        );
+        if (first) focusLocation(first, 400);
+        queueMicrotask(() => backButton?.focus({ preventScroll: true }));
     }
 
     /** Fit the full city extent on every screen size and restore it on reset. */
@@ -187,7 +204,20 @@ export function CommunityMap(props: {
                       [8.44, 47.32],
                       [8.64, 47.44],
                   ],
-            { padding: props.isHero ? 0 : 64, duration: 0 },
+            {
+                padding: props.isHero
+                    ? 0
+                    : window.matchMedia("(max-width: 800px)").matches
+                      ? {
+                            top: 48,
+                            right: 24,
+                            bottom: isPanelOpen() ? container.clientHeight * 0.65 : 210,
+                            left: 24,
+                        }
+                      : { top: 64, right: 64, bottom: 64, left: 400 },
+                duration: 0,
+                maxZoom: props.isHero ? 18 : 12,
+            },
         );
     }
 
@@ -197,6 +227,7 @@ export function CommunityMap(props: {
         const observer = new ResizeObserver(() => {
             map?.resize();
             if (props.isHero) frame();
+            else if (selectedPlaces()[0]) focusLocation(selectedPlaces()[0], 0);
             setView((value) => value + 1);
         });
         observer.observe(container);
@@ -213,7 +244,7 @@ export function CommunityMap(props: {
                 library.setWorkerUrl(workerUrl);
                 map = new library.Map({
                     container,
-                    style,
+                    style: mapStyle(Boolean(props.isHero)),
                     center: [8.54, 47.385],
                     zoom: 12,
                     minZoom: 3,
@@ -239,7 +270,7 @@ export function CommunityMap(props: {
                     frame();
                 });
                 if (!props.isHero) {
-                    map.on("click", "organisations", (event) => {
+                    map.on("click", ["organisations", "organisation-dots"], (event) => {
                         const feature = event.features?.[0];
                         const place = filtered().find(
                             (entry) => entry.id === feature?.properties.place,
@@ -247,13 +278,13 @@ export function CommunityMap(props: {
                         const person = place?.organisations.find(
                             (entry) => entry.id === feature?.properties.id,
                         );
-                        if (place && person) select([{ ...place, organisations: [person] }]);
+                        if (place && person) select([place]);
                     });
-                    map.on("mousemove", "organisations", (event) => {
+                    map.on("mousemove", ["organisations", "organisation-dots"], (event) => {
                         map!.getCanvas().style.cursor = "pointer";
                         setHovered([event.features?.[0]?.properties.id]);
                     });
-                    map.on("mouseleave", "organisations", () => {
+                    map.on("mouseleave", ["organisations", "organisation-dots"], () => {
                         map!.getCanvas().style.cursor = "";
                         setHovered([]);
                     });
@@ -283,7 +314,7 @@ export function CommunityMap(props: {
             }),
             { width: container.clientWidth, height: container.clientHeight },
         );
-        setCrowdedCount(logos.crowded.length);
+        setCrowded(new Set(logos.crowded.map((logo) => logo.id)));
         const markers = logos.placed.map(({ place: anchor, person: first, size, offset }) => {
             const places = [{ ...anchor, organisations: [first] }];
             const element = document.createElement("div");
@@ -296,6 +327,7 @@ export function CommunityMap(props: {
                         class="map-pin"
                         classList={{
                             "map-pin--hero": props.isHero,
+                            "map-pin--sponsor": first.isSponsor,
                             "map-pin--hovered": hovered().includes(first.id),
                             "map-pin--selected": places.some(
                                 (place) =>
@@ -308,6 +340,7 @@ export function CommunityMap(props: {
                             "--map-logo-size": `${size - 4}px`,
                         }}
                         aria-label={`${first.name} — ${anchor.address}`}
+                        title={first.name}
                         aria-pressed={
                             props.isHero
                                 ? undefined
@@ -367,8 +400,16 @@ export function CommunityMap(props: {
         // show the marker layer now and ignore logo updates after this view is disposed
         let isStale = false;
         onCleanup(() => (isStale = true));
-        const badges = addBadges(current.map, places, () => !isDisposed);
-        showOrganisations(current.map, places, isHighlighted);
+        const badges = props.isHero
+            ? Promise.resolve()
+            : addBadges(current.map, places, () => !isDisposed);
+        const crowdedIds = crowded();
+        showOrganisations(
+            current.map,
+            places,
+            (organisation, place) =>
+                isHighlighted(organisation) && !crowdedIds.has(`${place.id}:${organisation.id}`),
+        );
         void badges.catch((error) => {
             console.error("Map badges failed to load", error);
             if (!isStale) setError(true);
@@ -392,6 +433,11 @@ export function CommunityMap(props: {
                 if (event.key === "Escape" && selected().length) {
                     event.stopPropagation();
                     closeDetails();
+                } else if (event.key === "Escape" && isPanelOpen()) {
+                    event.stopPropagation();
+                    setPanelOpen(false);
+                    setHovered([]);
+                    instance()?.map.getCanvas().focus({ preventScroll: true });
                 }
             }}
         >
@@ -416,9 +462,7 @@ export function CommunityMap(props: {
                                 aria-label="Zoom in"
                                 title="Zoom in"
                             >
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M5 12h14M12 5v14" />
-                                </svg>
+                                <ZoomIn aria-hidden="true" />
                             </button>
                             <button
                                 class="map-control"
@@ -428,9 +472,7 @@ export function CommunityMap(props: {
                                 aria-label="Zoom out"
                                 title="Zoom out"
                             >
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M5 12h14" />
-                                </svg>
+                                <ZoomOut aria-hidden="true" />
                             </button>
                             <button
                                 class="map-control"
@@ -441,10 +483,7 @@ export function CommunityMap(props: {
                                 aria-label="Reset map view"
                                 title="Reset map view"
                             >
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4" />
-                                    <circle cx="12" cy="12" r="3" />
-                                </svg>
+                                <LocateFixed aria-hidden="true" />
                             </button>
                         </div>
                     </Show>
@@ -457,207 +496,235 @@ export function CommunityMap(props: {
                             © OpenStreetMap · OpenFreeMap
                         </a>
                     </Show>
-                    <Show when={!props.isHero && selectedPlaces().length}>
-                        <section class="map-sheet" aria-label="Selected location">
-                            <header>
-                                <strong>
-                                    {selectedPlaces().length === 1
-                                        ? "At this location"
-                                        : `${selectedPlaces().length} locations`}
-                                </strong>
-                                <button
-                                    type="button"
-                                    aria-label="Close location details"
-                                    ref={closeButton}
-                                    onClick={closeDetails}
-                                >
-                                    Close ×
-                                </button>
-                            </header>
-                            <PlaceDetails places={selectedPlaces()} />
-                        </section>
-                    </Show>
                 </div>
                 <Show when={!props.isHero}>
-                    <aside class="map-directory-panel" aria-label="Map directory">
+                    <aside class="map-directory-panel" aria-label="Map explorer">
                         <header class="map-directory-heading">
-                            <h1>Map</h1>
-                            <a class="action-link" href="/manage">
-                                Add your organisation
+                            <h1>Explore Zurich</h1>
+                            <a
+                                class="map-panel-action"
+                                href="/manage"
+                                aria-label="Add your organisation"
+                                title="Add your organisation"
+                            >
+                                <Plus size={18} />
                             </a>
+                            <button
+                                class="map-panel-action"
+                                type="button"
+                                aria-label={
+                                    isPanelOpen() ? "Collapse results" : "Browse organisations"
+                                }
+                                title={isPanelOpen() ? "Collapse results" : "Browse organisations"}
+                                aria-expanded={isPanelOpen()}
+                                aria-controls="map-results-panel"
+                                onClick={() => {
+                                    setPanelOpen(!isPanelOpen());
+                                    setSelected([]);
+                                    setHovered([]);
+                                }}
+                            >
+                                {isPanelOpen() ? <X size={18} /> : <List size={18} />}
+                            </button>
                         </header>
                         <label class="map-search">
+                            <Search size={18} aria-hidden="true" />
                             <input
                                 class="field__control"
                                 type="search"
                                 aria-label="Search organisations or addresses"
                                 value={search()}
-                                placeholder="Search the map…"
+                                placeholder="Search organisations or addresses"
                                 onInput={(event) => {
                                     setSearch(event.currentTarget.value);
                                     setSelected([]);
+                                    setPanelOpen(true);
                                 }}
                             />
                         </label>
                         <div class="map-filters">
-                            <FilterPills
-                                label="Organisation category"
+                            <select
+                                aria-label="Organisation type"
                                 value={category()}
-                                options={[
-                                    { value: "all", label: "All" },
-                                    ...Object.entries(organisationKinds)
-                                        .filter(([kind]) =>
-                                            organisations()?.some((place) =>
-                                                place.organisations.some(
-                                                    (entry) => entry.kind === kind,
-                                                ),
-                                            ),
-                                        )
-                                        .map(([value, label]) => ({ value, label })),
-                                ]}
-                                onChange={(value) => {
-                                    setCategory(value);
+                                onChange={(event) => {
+                                    setCategory(event.currentTarget.value);
                                     setSelected([]);
                                     setHovered([]);
+                                    setPanelOpen(true);
                                 }}
-                            />
+                            >
+                                <option value="all">All types</option>
+                                <For each={Object.entries(organisationKinds)}>
+                                    {([value, label]) => <option value={value}>{label}</option>}
+                                </For>
+                            </select>
+                            <button
+                                type="button"
+                                class="map-browse"
+                                onClick={() => {
+                                    setSelected([]);
+                                    setPanelOpen(true);
+                                }}
+                            >
+                                <List size={14} /> {organisationCount()} organisation
+                                {organisationCount() === 1 ? "" : "s"}
+                            </button>
                         </div>
-                        <Show
-                            when={selectedPlaces().length}
-                            fallback={
-                                <>
-                                    <p class="map-results" role="status">
-                                        {organisations() === undefined
-                                            ? "Loading locations…"
-                                            : visible().length === organisationCount()
-                                              ? `${organisationCount()} organisation${organisationCount() === 1 ? "" : "s"}`
-                                              : `${visible().length} of ${organisationCount()} organisations in view`}
-                                    </p>
-                                    <Show
-                                        when={organisations() !== undefined && !filtered().length}
-                                    >
-                                        <p class="map-empty">No locations match your search.</p>
-                                    </Show>
-                                    <Show when={crowdedCount() > 0}>
-                                        <p class="map-results" role="status">
-                                            Map is crowded. {crowdedCount()} additional
-                                            organisations are listed below.
-                                        </p>
-                                    </Show>
-                                    <For each={visible()}>
-                                        {(place, index) => (
-                                            <>
-                                                {/* line between hosts and sponsors and everyone else */}
-                                                <Show
-                                                    when={
-                                                        index() > 0 &&
-                                                        index() === highlightedCount()
-                                                    }
-                                                >
-                                                    <hr class="group-divider" />
-                                                </Show>
-                                                <button
-                                                    class="map-location-row"
-                                                    classList={{
-                                                        "is-hovered": place.organisations.some(
-                                                            (person) =>
-                                                                hovered().includes(person.id),
-                                                        ),
-                                                    }}
-                                                    onPointerEnter={() =>
-                                                        setHovered(
-                                                            place.organisations.map(
-                                                                (person) => person.id,
-                                                            ),
-                                                        )
-                                                    }
-                                                    onPointerLeave={() => setHovered([])}
-                                                    onFocus={() =>
-                                                        setHovered(
-                                                            place.organisations.map(
-                                                                (person) => person.id,
-                                                            ),
-                                                        )
-                                                    }
-                                                    onBlur={() => setHovered([])}
-                                                    type="button"
-                                                    onClick={() => select([place])}
-                                                >
-                                                    <span class="map-row-logo">
-                                                        <Show
-                                                            when={
-                                                                place.organisations[0].mapLogoUrl ??
-                                                                place.organisations[0].logoUrl
+                        <Show when={isPanelOpen()}>
+                            <div id="map-results-panel" class="map-panel-content">
+                                <Show
+                                    when={selectedPlaces().length}
+                                    fallback={
+                                        <>
+                                            <p class="map-results" role="status">
+                                                {organisations() === undefined
+                                                    ? "Loading locations…"
+                                                    : search() ||
+                                                        category() !== "all" ||
+                                                        visible().length === organisationCount()
+                                                      ? `${organisationCount()} organisation${organisationCount() === 1 ? "" : "s"}`
+                                                      : `${visible().length} of ${organisationCount()} organisations in view`}
+                                            </p>
+                                            <Show
+                                                when={
+                                                    organisations() !== undefined &&
+                                                    !(
+                                                        search() || category() !== "all"
+                                                            ? listed()
+                                                            : visible()
+                                                    ).length
+                                                }
+                                            >
+                                                <p class="map-empty">
+                                                    {search() || category() !== "all"
+                                                        ? "No locations match your search."
+                                                        : "No organisations in this area."}
+                                                </p>
+                                            </Show>
+                                            <For
+                                                each={
+                                                    search() || category() !== "all"
+                                                        ? listed()
+                                                        : visible()
+                                                }
+                                            >
+                                                {(place) => (
+                                                    <>
+                                                        <button
+                                                            class="map-location-row"
+                                                            classList={{
+                                                                "is-hovered":
+                                                                    place.organisations.some(
+                                                                        (person) =>
+                                                                            hovered().includes(
+                                                                                person.id,
+                                                                            ),
+                                                                    ),
+                                                            }}
+                                                            onPointerEnter={() =>
+                                                                setHovered(
+                                                                    place.organisations.map(
+                                                                        (person) => person.id,
+                                                                    ),
+                                                                )
                                                             }
-                                                            fallback={place.organisations[0].name.slice(
-                                                                0,
-                                                                1,
-                                                            )}
+                                                            onPointerLeave={() => setHovered([])}
+                                                            onFocus={() =>
+                                                                setHovered(
+                                                                    place.organisations.map(
+                                                                        (person) => person.id,
+                                                                    ),
+                                                                )
+                                                            }
+                                                            onBlur={() => setHovered([])}
+                                                            type="button"
+                                                            onClick={() => select([place])}
                                                         >
-                                                            {(source) => (
-                                                                <Image
-                                                                    loading="lazy"
-                                                                    src={source()}
-                                                                    darkSrc={
+                                                            <span class="map-row-logo">
+                                                                <Show
+                                                                    when={
                                                                         place.organisations[0]
-                                                                            .mapLogoDarkUrl
+                                                                            .mapLogoUrl ??
+                                                                        place.organisations[0]
+                                                                            .logoUrl
                                                                     }
-                                                                    alt=""
-                                                                />
-                                                            )}
-                                                        </Show>
-                                                    </span>
-                                                    <span class="map-row-copy">
-                                                        <strong>
-                                                            <Highlight
-                                                                text={place.organisations
-                                                                    .map((person) => person.name)
-                                                                    .join(" · ")}
-                                                                terms={terms()}
-                                                            />
-                                                        </strong>
-                                                        <small>
-                                                            <Show
-                                                                when={
-                                                                    place.organisations[0]
-                                                                        .recognition
-                                                                }
-                                                            >
-                                                                {(recognition) => (
-                                                                    <span class="tag tag-status tag-emphasis">
-                                                                        {recognition()}
-                                                                    </span>
-                                                                )}
-                                                            </Show>
-                                                            {
-                                                                organisationKinds[
-                                                                    place.organisations[0].kind
-                                                                ]
-                                                            }
-                                                            {" · "}
-                                                            {place.address.split(", ").at(-1)}
-                                                        </small>
-                                                    </span>
-                                                </button>
-                                            </>
-                                        )}
-                                    </For>
-                                </>
-                            }
-                        >
-                            <div class="map-desktop-details">
-                                <button
-                                    class="map-back"
-                                    type="button"
-                                    ref={backButton}
-                                    onClick={() => {
-                                        frame();
-                                        closeDetails();
-                                    }}
+                                                                    fallback={place.organisations[0].name.slice(
+                                                                        0,
+                                                                        1,
+                                                                    )}
+                                                                >
+                                                                    {(source) => (
+                                                                        <Image
+                                                                            loading="lazy"
+                                                                            src={source()}
+                                                                            darkSrc={
+                                                                                place
+                                                                                    .organisations[0]
+                                                                                    .mapLogoDarkUrl
+                                                                            }
+                                                                            alt=""
+                                                                        />
+                                                                    )}
+                                                                </Show>
+                                                            </span>
+                                                            <span class="map-row-copy">
+                                                                <strong>
+                                                                    <Highlight
+                                                                        text={place.organisations
+                                                                            .map(
+                                                                                (person) =>
+                                                                                    person.name,
+                                                                            )
+                                                                            .join(" · ")}
+                                                                        terms={terms()}
+                                                                    />
+                                                                </strong>
+                                                                <small>
+                                                                    <Show
+                                                                        when={
+                                                                            place.organisations[0]
+                                                                                .recognition
+                                                                        }
+                                                                    >
+                                                                        {(recognition) => (
+                                                                            <span class="map-recognition">
+                                                                                {recognition()}
+                                                                            </span>
+                                                                        )}
+                                                                    </Show>
+                                                                    {
+                                                                        organisationKinds[
+                                                                            place.organisations[0]
+                                                                                .kind
+                                                                        ]
+                                                                    }
+                                                                    {" · "}
+                                                                    {place.address
+                                                                        .split(", ")
+                                                                        .at(-1)}
+                                                                </small>
+                                                            </span>
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </For>
+                                        </>
+                                    }
                                 >
-                                    ← All locations
-                                </button>
-                                <PlaceDetails places={selectedPlaces()} />
+                                    <div class="map-details">
+                                        <button
+                                            class="map-back"
+                                            type="button"
+                                            ref={backButton}
+                                            onClick={() => {
+                                                closeDetails();
+                                            }}
+                                        >
+                                            <ArrowLeft size={16} /> Results
+                                        </button>
+                                        <PlaceDetails places={selectedPlaces()} />
+                                    </div>
+                                </Show>
                             </div>
                         </Show>
                     </aside>
