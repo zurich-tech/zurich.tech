@@ -1,4 +1,5 @@
 import { site } from "./site";
+import previewImage from "../components/assets/og.png?url";
 
 import { useLocation } from "@solidjs/router";
 import { Meta, Title } from "@solidjs/meta";
@@ -30,7 +31,7 @@ export function Seo(props: {
     const metadata = createMemo(() => ({
         title: props.isHome ? site.name : `${props.title} - ${site.name}`,
         description: props.description,
-        image: props.image ?? `${site.url}/og.png`,
+        image: props.image ?? new URL(previewImage, site.url).href,
         imageAlt: props.title,
         type: props.isArticle ? "article" : "website",
     }));
