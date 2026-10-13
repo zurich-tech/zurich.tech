@@ -7,7 +7,7 @@ export default function Route() {
     return (
         <>
             <Seo title="About you" description="Help us make better events for everyone." />
-            <Page width="narrow" class="survey-page">
+            <Page class="survey-page">
                 <PageHeader title="About you" summary="Help us make better events for everyone." />
                 <Survey />
             </Page>

@@ -10,6 +10,23 @@ import {
     type CommunityAnswers,
 } from "../convex/members/demographics";
 import { summarise } from "../convex/members/audience";
+import { allLanguages, languages } from "../convex/members/languages";
+
+test("test_label_every_language_without_raw_codes_or_duplicate_names", () => {
+    expect(allLanguages).toHaveLength(184);
+    expect(new Set(allLanguages.map((language) => language.value)).size).toBe(184);
+    expect(new Set(allLanguages.map((language) => language.label)).size).toBe(184);
+    for (const language of allLanguages) {
+        expect(language.label.length).toBeGreaterThan(2);
+        expect(language.label).not.toBe(language.value);
+    }
+    for (const language of languages) expect(allLanguages).toContainEqual(language);
+    expect(allLanguages.filter(({ value }) => ["aa", "ab", "ae"].includes(value))).toEqual([
+        { value: "ab", label: "Abkhazian" },
+        { value: "aa", label: "Afar" },
+        { value: "ae", label: "Avestan" },
+    ]);
+});
 
 test("test_resume_all_survey_states_without_a_midway_stop", () => {
     const answers: CommunityAnswers = {

@@ -86,7 +86,7 @@ export const demographicLabels = {
     roles: "What do you do?",
     languages: "Which languages do you speak?",
     experience: "How long have you been working?",
-    education: "Highest completed education",
+    education: "What is your highest completed level of education?",
     age: "How old are you?",
 };
 /** Reasons to join, independent of subjects and volunteering preferences. */

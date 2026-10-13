@@ -13,7 +13,6 @@
 
 .survey {
     width: 100%;
-    max-width: 800px;
     margin: 0 auto;
     display: grid;
     gap: var(--space-5);
@@ -102,8 +101,8 @@
     }
 }
 
-.survey-question .demographic-fields,
-.survey-question .country-fields {
+.survey-question .community-section > .demographic-fields,
+.survey-question .community-section > .country-fields {
     grid-template-columns: minmax(0, 1fr);
 }
 
@@ -148,8 +147,7 @@
     padding-block: var(--space-6);
 }
 
-.survey-overview p,
-.survey-status {
+.survey-overview p {
     color: var(--color-soft);
     font-size: var(--text-sm);
 }

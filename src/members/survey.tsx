@@ -20,6 +20,8 @@ import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
 import { CommunityFields, readCommunity } from "./demographics";
 import { getTopics } from "../topics/queries";
+import { SurveyWrites } from "./saving";
+import { useUnsavedChanges } from "../components/unsaved";
 import "./survey.css";
 
 /** Anonymous answers stay in this tab until explicitly saved after sign-in. */
@@ -33,14 +35,14 @@ const empty: CommunityAnswers = {
     participation: [],
     motivations: [],
 };
-/** Short question names for the overview. */
+/** Question labels shared by navigation and the answer overview. */
 const labels = {
     ...demographicLabels,
-    interests: "Interests",
+    interests: "What are you interested in?",
     motivations: "What brings you here?",
-    participation: "Get involved",
+    participation: "How would you like to get involved?",
     residence: "Where do you live?",
-    citizenships: "Citizenship",
+    citizenships: "Which countries are you a citizen of?",
 };
 
 /** Offer optional questions one at a time, without replacing the full profile editor. */
@@ -82,7 +84,11 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
     const [view, setView] = createSignal<"question" | "edit" | "overview" | "complete">("question");
     const [error, setError] = createSignal<string>();
     const [isPending, setIsPending] = createSignal(false);
-    const [status, setStatus] = createSignal("");
+    const [saveError, setSaveError] = createSignal<string>();
+    const writes = new SurveyWrites(async (answers) =>
+        (await memberClient()).mutation(api.members.audience.saveDraft, { answers }),
+    );
+    useUnsavedChanges(() => writes.isPending);
     let form: HTMLFormElement | undefined;
     let heading: HTMLHeadingElement | undefined;
     let survey: HTMLDivElement | undefined;
@@ -143,8 +149,8 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
         setView(position === "overview" ? "overview" : "question");
     }
 
-    /** Persist one action before changing screens, keeping failures on the current question. */
-    async function move(target: number | "overview", isSkip = false) {
+    /** Save locally before moving; persist account changes without blocking navigation. */
+    function move(target: number | "overview", isSkip = false) {
         if (isPending()) return;
         setError(undefined);
         try {
@@ -152,12 +158,13 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
             const values = isSkip
                 ? undefined
                 : surveyAnswer(readCommunity(new FormData(form)), key);
-            // read enabled controls before locking the form during persistence
-            setIsPending(true);
             if (props.accountId) {
-                await (
-                    await memberClient()
-                ).mutation(api.members.audience.answer, { question: key, values });
+                const previous = surveyAnswer(answers(), key);
+                const isChanged =
+                    values !== undefined &&
+                    (previous.length !== values.length ||
+                        previous.some((value, index) => value !== values[index]));
+                if (!visited().includes(key) || isChanged) writes.add({ question: key, values });
             } else {
                 const next = { ...draft(), [key]: values ?? draft()[key] ?? null };
                 sessionStorage.setItem(draftKey, JSON.stringify(next));
@@ -165,12 +172,22 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
             }
             if (values !== undefined) setAnswers((value) => answerQuestion(value, key, values));
             setVisited((value) => [...new Set([...value, key])]);
-            setStatus(props.accountId ? "Saved" : "Draft saved in this tab");
             navigate(target);
+            if (props.accountId) void saveAnswers();
         } catch (caught) {
             setError(errorMessage(caught, "Could not save your answer. Please try again."));
-        } finally {
-            setIsPending(false);
+        }
+    }
+
+    /** Keep failures visible and queued while allowing the survey to remain usable. */
+    async function saveAnswers() {
+        try {
+            await writes.flush();
+            setSaveError(undefined);
+        } catch (caught) {
+            setSaveError(
+                `Your latest answers have not been saved. ${errorMessage(caught, "Please retry before leaving.")}`,
+            );
         }
     }
 
@@ -210,7 +227,6 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
             setAnswers(value);
             setVisited(value.surveyVisited);
             resume(value, value.surveyVisited, !!value.surveyCompletedAt);
-            setStatus("Answers saved");
         } catch (caught) {
             setError(errorMessage(caught, "Could not save your draft. Please try again."));
         } finally {
@@ -223,10 +239,11 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
         setIsPending(true);
         setError(undefined);
         try {
+            await writes.flush();
+            setSaveError(undefined);
             await (await memberClient()).mutation(api.members.audience.finish, {});
             props.onComplete?.();
             setView("complete");
-            setStatus("");
             focusQuestion();
         } catch (caught) {
             setError(errorMessage(caught, "Could not finish. Please try again."));
@@ -506,9 +523,12 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
                     </Show>
                 </Show>
             </Show>
-            <p class="survey-status" role="status">
-                {status()}
-            </p>
+            <Show when={saveError()}>
+                <FormMessage error={saveError()} />
+                <button type="button" class="action-link" onClick={() => void saveAnswers()}>
+                    Retry saving answers
+                </button>
+            </Show>
             <FormMessage error={error()} />
         </div>
     );
