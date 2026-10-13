@@ -318,14 +318,30 @@
     padding: 0 16px 14px;
 }
 
-.map-filters select {
+.map-type {
+    position: relative;
     min-width: 0;
     max-width: 50%;
+}
+
+.map-type > svg {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 16px;
+    height: 16px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.map-type select {
+    appearance: none;
+    width: 100%;
     background: var(--color-paper);
     color: var(--color-ink);
     border: 1px solid var(--color-line);
     border-radius: 4px;
-    padding: 6px 8px;
+    padding: 6px 34px 6px 12px;
     font-size: 13px;
 }
 

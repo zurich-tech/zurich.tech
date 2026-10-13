@@ -2,8 +2,57 @@ import { filterLocations } from "../src/map/filter";
 import { expect, test } from "bun:test";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
 import { arrangeLogos, honeycomb } from "../src/map/placement";
-import { addBadges } from "../src/map/layers";
+import { addBadges, showOrganisations } from "../src/map/layers";
 import type { Map as GeographicMap } from "maplibre-gl";
+
+test("test_keep_shared_addresses_at_their_anchor_until_logos_appear", () => {
+    const properties = new Map<string, unknown>();
+    let source: { features: { properties: { id: string } }[] } = { features: [] };
+    const map = {
+        getSource: () => ({ setData: (value: typeof source) => (source = value) }),
+        getLayer: () => true,
+        setLayoutProperty: (layer: string, property: string, value: unknown) =>
+            properties.set(`${layer}:${property}`, value),
+    } as unknown as GeographicMap;
+    showOrganisations(map, groupLocations([office("first"), office("second")]), () => false);
+
+    // retain both organisations and collapse their offsets at overview zooms
+    expect(source.features.map((feature) => feature.properties.id)).toEqual(["first", "second"]);
+    const offsets = properties.get("organisations:icon-offset");
+    const collapsed = [
+        "match",
+        ["get", "cell"],
+        0,
+        ["literal", [0, 0]],
+        1,
+        ["literal", [0, 0]],
+        ["literal", [0, 0]],
+    ];
+    const expanded = [
+        "match",
+        ["get", "cell"],
+        0,
+        ["literal", [0, 0]],
+        1,
+        ["literal", [36, 0]],
+        ["literal", [0, 0]],
+    ];
+    expect(offsets).toEqual([
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        10,
+        collapsed,
+        12,
+        collapsed,
+        13,
+        expanded,
+        14.5,
+        expanded,
+    ]);
+    expect(properties.get("organisation-dots:icon-offset")).toEqual(offsets);
+    expect(properties.get("organisations-active:icon-offset")).toEqual(offsets);
+});
 
 test("test_load_external_badges_with_anonymous_cors_before_assigning_source", async () => {
     // model the browser's canvas restriction when an image was not requested with CORS

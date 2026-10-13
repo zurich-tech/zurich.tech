@@ -1,4 +1,14 @@
-import { Search, List, X, Plus, ArrowLeft, ZoomIn, ZoomOut, LocateFixed } from "lucide-solid";
+import {
+    Search,
+    List,
+    X,
+    Plus,
+    ArrowLeft,
+    ChevronDown,
+    ZoomIn,
+    ZoomOut,
+    LocateFixed,
+} from "lucide-solid";
 import { organisationKinds } from "../../convex/organisations/kinds";
 import { createEffect, createMemo, createSignal, onMount, onCleanup, Show, For } from "solid-js";
 import { Dynamic, render } from "solid-js/web";
@@ -543,21 +553,24 @@ export function CommunityMap(props: {
                             />
                         </label>
                         <div class="map-filters">
-                            <select
-                                aria-label="Organisation type"
-                                value={category()}
-                                onChange={(event) => {
-                                    setCategory(event.currentTarget.value);
-                                    setSelected([]);
-                                    setHovered([]);
-                                    setPanelOpen(true);
-                                }}
-                            >
-                                <option value="all">All types</option>
-                                <For each={Object.entries(organisationKinds)}>
-                                    {([value, label]) => <option value={value}>{label}</option>}
-                                </For>
-                            </select>
+                            <div class="map-type">
+                                <select
+                                    aria-label="Organisation type"
+                                    value={category()}
+                                    onChange={(event) => {
+                                        setCategory(event.currentTarget.value);
+                                        setSelected([]);
+                                        setHovered([]);
+                                        setPanelOpen(true);
+                                    }}
+                                >
+                                    <option value="all">All types</option>
+                                    <For each={Object.entries(organisationKinds)}>
+                                        {([value, label]) => <option value={value}>{label}</option>}
+                                    </For>
+                                </select>
+                                <ChevronDown size={16} aria-hidden="true" />
+                            </div>
                             <button
                                 type="button"
                                 class="map-browse"

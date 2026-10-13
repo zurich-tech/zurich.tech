@@ -13,11 +13,12 @@ const badgeSize = 32;
 /** Pixel distance between badges of organisations sharing a building at full scale. */
 const badgeSpacing = 36;
 
-/** Badge scale at each zoom, growing from the city overview to street level. */
+/** Zoom, badge scale and shared-address spacing from city overview to street level. */
 const badgeScales = [
-    [10, 0.5],
-    [12, 0.7],
-    [14.5, 1],
+    [10, 0.5, 0],
+    [12, 0.7, 0],
+    [13, 0.82, badgeSpacing],
+    [14.5, 1, badgeSpacing],
 ] as const;
 
 /** Space kept clear of labels under each host or sponsor logo, in CSS pixels. */
@@ -114,7 +115,7 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
                 "interpolate",
                 ["linear"],
                 ["zoom"],
-                ...badgeScales.flat(),
+                ...badgeScales.flatMap(([zoom, scale]) => [zoom, scale]),
             ] as unknown as ExpressionSpecification,
             "icon-allow-overlap": true,
             "icon-ignore-placement": true,
@@ -196,16 +197,21 @@ export function showOrganisations(
 
     // cover every honeycomb cell in use; icon offsets scale with the icon, labels follow each scale
     const cells = Math.max(1, ...entries.map((entry) => entry.cell + 1));
-    const iconOffset = cellOffsets(cells, badgeSpacing, 0);
+    const iconOffset = [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        ...badgeScales.flatMap(([zoom, , spacing]) => [zoom, cellOffsets(cells, spacing, 0)]),
+    ] as unknown as ExpressionSpecification;
     const labelOffset = [
         "interpolate",
         ["linear"],
         ["zoom"],
-        ...badgeScales.flatMap(([zoom, scale]) => [
+        ...badgeScales.flatMap(([zoom, scale, spacing]) => [
             zoom,
             cellOffsets(
                 cells,
-                (badgeSpacing * scale) / labelSize,
+                (spacing * scale) / labelSize,
                 ((badgeSize * scale) / 2 + 4) / labelSize,
             ),
         ]),
