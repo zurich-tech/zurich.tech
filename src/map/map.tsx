@@ -21,6 +21,7 @@ import { useSearch } from "../search/local";
 import { filterLocations } from "./filter";
 import { Highlight } from "../components/highlight";
 import { arrangeLogos } from "./placement";
+import { logoBackground } from "./colour";
 import {
     addBadges,
     addOrganisationLayers,
@@ -371,7 +372,24 @@ export function CommunityMap(props: {
                                     when={first.mapLogoUrl ?? first.logoUrl}
                                     fallback={first.name.slice(0, 1)}
                                 >
-                                    {(source) => <img src={source()} alt="" />}
+                                    {(source) => (
+                                        <img
+                                            crossorigin={first.isSponsor ? undefined : "anonymous"}
+                                            src={source()}
+                                            alt=""
+                                            onLoad={(event) => {
+                                                if (!first.isSponsor) {
+                                                    const image = event.currentTarget;
+                                                    image
+                                                        .closest<HTMLElement>(".map-pin")!
+                                                        .style.setProperty(
+                                                            "--map-logo-background",
+                                                            logoBackground(image),
+                                                        );
+                                                }
+                                            }}
+                                        />
+                                    )}
                                 </Show>
                             </span>
                         </span>

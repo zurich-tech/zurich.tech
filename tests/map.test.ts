@@ -3,7 +3,35 @@ import { expect, test } from "bun:test";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
 import { arrangeLogos, honeycomb } from "../src/map/placement";
 import { addBadges, showOrganisations } from "../src/map/layers";
+import { cornerColour } from "../src/map/colour";
 import type { Map as GeographicMap } from "maplibre-gl";
+
+test("test_match_solid_logo_backgrounds_without_recolouring_transparent_or_varied_artwork", () => {
+    const sample = (colours: number[][]) =>
+        ({ width: 2, height: 2, data: new Uint8ClampedArray(colours.flat()) }) as ImageData;
+    expect(cornerColour(sample(Array(4).fill([20, 30, 40, 255])))).toBe("rgb(20, 30, 40)");
+    expect(cornerColour(sample(Array(4).fill([0, 0, 0, 0])))).toBe("#ffffff");
+    expect(
+        cornerColour(
+            sample([
+                [20, 30, 40, 255],
+                [22, 32, 42, 255],
+                [20, 30, 40, 255],
+                [22, 32, 42, 255],
+            ]),
+        ),
+    ).toBe("rgb(21, 31, 41)");
+    expect(
+        cornerColour(
+            sample([
+                [0, 0, 0, 255],
+                [255, 255, 255, 255],
+                [0, 0, 0, 255],
+                [255, 255, 255, 255],
+            ]),
+        ),
+    ).toBe("#ffffff");
+});
 
 test("test_keep_shared_addresses_at_their_anchor_until_logos_appear", () => {
     const properties = new Map<string, unknown>();

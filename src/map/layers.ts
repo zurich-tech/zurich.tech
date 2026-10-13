@@ -5,6 +5,7 @@ import type {
     SymbolLayerSpecification,
 } from "maplibre-gl";
 import { honeycomb } from "./placement";
+import { logoBackground } from "./colour";
 import type { MapLocation } from "./queries";
 
 /** Badge diameter in CSS pixels at full scale. */
@@ -281,12 +282,12 @@ function drawDot(colour: string) {
 function drawBadge(organisation: Organisation, image?: HTMLImageElement) {
     const { canvas, context, radius } = createCanvas(badgeSize);
 
-    // white disc with a fine outline
+    // extend solid logo backgrounds into the disc, retaining a fine outline
     context.fillStyle = "#bbc8df";
     context.beginPath();
     context.arc(radius, radius, radius, 0, Math.PI * 2);
     context.fill();
-    context.fillStyle = "#ffffff";
+    context.fillStyle = image ? logoBackground(image) : "#ffffff";
     context.beginPath();
     context.arc(radius, radius, radius - pixelRatio, 0, Math.PI * 2);
     context.fill();
