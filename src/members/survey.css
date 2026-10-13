@@ -1,0 +1,160 @@
+.survey-page {
+    margin-inline: auto;
+}
+
+.survey-page .page-header {
+    border: 0;
+    padding: 0;
+}
+
+.survey-page .page-header h1 {
+    letter-spacing: 0;
+}
+
+.survey {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    gap: var(--space-5);
+    scroll-margin-top: var(--space-4);
+}
+
+.survey-question .country-fields .selection > label {
+    font: 500 var(--text-lg) / 1.4 var(--font-mono);
+}
+
+.survey-header,
+.survey-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+}
+
+.survey progress {
+    width: 100%;
+    height: 4px;
+    accent-color: var(--color-brand);
+}
+
+.survey .survey-controls {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+
+.survey-question {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.survey-question .community-section {
+    border: 0;
+    padding: 0;
+}
+
+.survey-question .checkbox {
+    padding: var(--space-3);
+    min-height: 48px;
+    border: var(--rule) solid var(--color-line);
+    cursor: pointer;
+    overflow-wrap: normal;
+}
+
+.survey-question .checkbox:has(input:checked) {
+    border-color: var(--color-brand);
+    background: color-mix(in srgb, var(--color-brand) 6%, transparent);
+}
+
+.survey-question .checkbox:focus-within {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+}
+
+.survey-question .interest-groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+/* flatten topic groups into one grid instead of nesting responsive columns */
+.survey-question .interest-group,
+.survey-question .interest-group .choice-grid {
+    display: contents;
+}
+
+.survey-question .interest-group .checkbox {
+    flex: 1 1 calc((100% - 2 * var(--space-3)) / 3);
+    min-width: min(100%, 150px);
+}
+
+.survey-question .choice-grid {
+    gap: var(--space-3);
+}
+
+@container (max-width: 480px) {
+    .survey-question .interest-group .checkbox {
+        flex-basis: calc((100% - var(--space-3)) / 2);
+    }
+}
+
+.survey-question .demographic-fields,
+.survey-question .country-fields {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.survey-actions {
+    margin-top: auto;
+    padding-top: var(--space-5);
+    border-top: var(--rule) solid var(--color-line);
+}
+
+.survey-overview > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+    border-bottom: var(--rule) solid var(--color-line);
+}
+
+.survey-overview h3 {
+    font-size: var(--text-md);
+}
+
+.survey-overview > div > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.survey-overview button {
+    flex-shrink: 0;
+}
+
+.survey-footer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.survey-complete {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-6);
+}
+
+.survey-overview p,
+.survey-status {
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}
+
+.survey-overview p.survey-answer {
+    color: var(--color-ink);
+    font-weight: 600;
+}

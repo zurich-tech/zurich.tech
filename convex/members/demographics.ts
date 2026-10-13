@@ -1,5 +1,5 @@
 import { countries } from "./countries";
-import { languages } from "./languages";
+import { languages, allLanguages } from "./languages";
 import { ConvexError, v, type Infer } from "convex/values";
 
 /** Stable survey choices shared by forms, validation and aggregate reports. */
@@ -125,6 +125,91 @@ export const demographics = v.object({
 export type Demographics = Infer<typeof demographics>;
 export const participation = v.array(v.string());
 
+/** Ordered questions in the optional guided survey. */
+export const surveyQuestions = [
+    "interests",
+    "eventFrequency",
+    "eventsAttended",
+    "motivations",
+    "participation",
+    "roles",
+    "experience",
+    "education",
+    "age",
+    "residence",
+    "citizenships",
+    "languages",
+] as const;
+/** A current survey question, excluding retired fields. */
+export type SurveyQuestion = (typeof surveyQuestions)[number];
+/** Validate progress against current questions. */
+export const surveyQuestion = v.union(...surveyQuestions.map((key) => v.literal(key)));
+/** Answers shared by the full editor and guided survey. */
+export type CommunityAnswers = {
+    demographics: Demographics;
+    interests: string[];
+    participation: string[];
+    motivations: string[];
+};
+
+/** Return the explicit values of one question. */
+export function surveyAnswer(answers: CommunityAnswers, question: SurveyQuestion): string[] {
+    const value =
+        question === "interests" || question === "participation" || question === "motivations"
+            ? answers[question]
+            : answers.demographics[question];
+
+    return Array.isArray(value) ? value : value ? [value] : [];
+}
+
+/** Resume unvisited questions without repeating saved answers or explicit skips. */
+export function surveyPosition(
+    answers: CommunityAnswers,
+    visited: readonly SurveyQuestion[],
+    isComplete = false,
+): number | "overview" {
+    const index = surveyQuestions.findIndex(
+        (question) => !visited.includes(question) && !surveyAnswer(answers, question).length,
+    );
+
+    return isComplete || index < 0 ? "overview" : index;
+}
+
+/** Replace one answer without changing any other question. */
+export function answerQuestion(
+    answers: CommunityAnswers,
+    question: SurveyQuestion,
+    values: string[],
+): CommunityAnswers {
+    if (question === "interests" || question === "participation" || question === "motivations") {
+        if (question === "participation") validateParticipation(values);
+        if (question === "motivations") validateMotivations(values);
+
+        return { ...answers, [question]: values };
+    }
+
+    // validate scalar choices before constructing the stored demographic answer
+    const isMultiple =
+        question === "roles" || question === "languages" || question === "citizenships";
+    if (!isMultiple && values.length > 1) throw new ConvexError("Choose only one answer.");
+    if (
+        !isMultiple &&
+        question !== "residence" &&
+        values.some(
+            (value) => !demographicOptions[question].some((option) => option.value === value),
+        )
+    ) {
+        throw new ConvexError("Choose an answer from the available options.");
+    }
+    const demographics = {
+        ...answers.demographics,
+        [question]: isMultiple ? values : (values[0] ?? null),
+    };
+    validateDemographics(demographics);
+
+    return { ...answers, demographics };
+}
+
 /** Validate multi-select responses without treating absence as a negative answer. */
 export function validateDemographics(value: Demographics) {
     if (
@@ -140,8 +225,7 @@ export function validateDemographics(value: Demographics) {
         value.languages &&
         (new Set(value.languages).size !== value.languages.length ||
             value.languages.some(
-                (language) =>
-                    !demographicOptions.languages.some((option) => option.value === language),
+                (language) => !allLanguages.some((option) => option.value === language),
             ))
     )
         throw new ConvexError("Choose each language once from the available options.");

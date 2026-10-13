@@ -381,6 +381,7 @@ export function ProfileSettings() {
                             <h3 id="profile-about-title">
                                 About you <span>Optional · Private</span>
                             </h3>
+                            <a href="/survey">Open guided survey</a>
                             <div class="profile-about__fields">
                                 <CommunityFields values={current()} />
                             </div>

@@ -1,4 +1,4 @@
-import { demographics } from "../members/demographics";
+import { demographics, surveyQuestion } from "../members/demographics";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
@@ -13,6 +13,10 @@ export const accounts = defineTable({
     motivations: v.optional(v.array(v.string())),
     participation: v.optional(v.array(v.string())),
     onboardedAt: v.optional(v.number()),
+    /** Questions saved or explicitly skipped in the guided survey. */
+    surveyVisited: v.optional(v.array(surveyQuestion)),
+    /** Explicitly finishing the survey is distinct from dismissing onboarding. */
+    surveyCompletedAt: v.optional(v.number()),
     isTeam: v.boolean(),
     isAdmin: v.boolean(),
     /** Explicit permission to send event email; absent means no permission. */

@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "@solidjs/router";
 import { api } from "../../../convex/_generated/api";
 import { useAccount } from "../../auth";
 import { memberClient } from "../../auth/convex";
-import { Demographics } from "../../members/demographics";
+import { Survey } from "../../members/survey";
 import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
 
@@ -31,17 +31,15 @@ export default function Route() {
         );
     }
     createEffect(() => {
-        if (current()?.onboardedAt) finish();
+        if (!current.error && current() && (current()?.onboardedAt || params.next === "/survey"))
+            finish();
     });
 
     return (
         <>
             <Seo title="Welcome" description="Complete your optional community profile." />
-            <Page width="narrow">
-                <PageHeader
-                    title="Welcome"
-                    summary="Help us understand our community, inform sponsors and plan future events."
-                />
+            <Page width="narrow" class="survey-page">
+                <PageHeader title="Welcome" summary="Help us make better events for everyone." />
                 <Show
                     when={account.user()}
                     fallback={
@@ -52,8 +50,11 @@ export default function Route() {
                         </Show>
                     }
                 >
-                    <Show when={current() && !current()?.onboardedAt}>
-                        <Demographics onComplete={finish} />
+                    <Show when={current.loading}>
+                        <Loading />
+                    </Show>
+                    <Show when={!current.error && current() && !current()?.onboardedAt}>
+                        <Survey onComplete={finish} />
                     </Show>
                     <Show when={current.error}>
                         <FormMessage error="Could not load your profile." />

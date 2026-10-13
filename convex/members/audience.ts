@@ -1,4 +1,5 @@
 import { countries } from "./countries";
+import { allLanguages, languages } from "./languages";
 import { v } from "convex/values";
 import { query, mutation } from "../_generated/server";
 import { requireAccount, requireAdmin } from "../auth/access";
@@ -10,6 +11,8 @@ import {
     validateParticipation,
     validateMotivations,
     motivationOptions,
+    surveyQuestion,
+    answerQuestion,
 } from "./demographics";
 import { validateTopics } from "../topics/queries";
 
@@ -24,7 +27,37 @@ export const current = query({
             participation: account.participation ?? [],
             motivations: account.motivations ?? [],
             onboardedAt: account.onboardedAt,
+            surveyVisited: account.surveyVisited ?? [],
+            surveyCompletedAt: account.surveyCompletedAt,
         };
+    },
+});
+
+/** Save or skip one question without replacing unrelated answers or changing consent. */
+export const answer = mutation({
+    args: { question: surveyQuestion, values: v.optional(v.array(v.string())) },
+    handler: async (ctx, args) => {
+        const account = await requireAccount(ctx);
+        const previous = {
+            demographics: account.demographics ?? {},
+            interests: account.interests ?? [],
+            motivations: account.motivations ?? [],
+            participation: account.participation ?? [],
+        };
+        const answers =
+            args.values === undefined
+                ? previous
+                : answerQuestion(previous, args.question, args.values);
+        if (args.question === "interests" && args.values !== undefined) {
+            await validateTopics(ctx, args.values, account.interests);
+        }
+
+        // persist progress atomically with the answer, including explicit skips
+        await ctx.db.patch(account._id, {
+            ...answers,
+            surveyVisited: [...new Set([...(account.surveyVisited ?? []), args.question])],
+            updatedAt: Date.now(),
+        });
     },
 });
 
@@ -63,6 +96,54 @@ export const skip = mutation({
     },
 });
 
+/** Finish the optional survey, retaining unanswered questions and existing answers. */
+export const finish = mutation({
+    args: {},
+    handler: async (ctx) => {
+        const account = await requireAccount(ctx);
+        const now = Date.now();
+        await ctx.db.patch(account._id, {
+            surveyCompletedAt: now,
+            onboardedAt: account.onboardedAt ?? now,
+            updatedAt: now,
+        });
+    },
+});
+
+/** Import an explicitly approved draft atomically, without overwriting skipped questions. */
+export const saveDraft = mutation({
+    args: {
+        answers: v.array(
+            v.object({ question: surveyQuestion, values: v.optional(v.array(v.string())) }),
+        ),
+    },
+    handler: async (ctx, args) => {
+        const account = await requireAccount(ctx);
+        let answers = {
+            demographics: account.demographics ?? {},
+            interests: account.interests ?? [],
+            participation: account.participation ?? [],
+            motivations: account.motivations ?? [],
+        };
+        for (const entry of args.answers) {
+            if (entry.values !== undefined)
+                answers = answerQuestion(answers, entry.question, entry.values);
+        }
+        await validateTopics(ctx, answers.interests, account.interests);
+
+        await ctx.db.patch(account._id, {
+            ...answers,
+            surveyVisited: [
+                ...new Set([
+                    ...(account.surveyVisited ?? []),
+                    ...args.answers.map((entry) => entry.question),
+                ]),
+            ],
+            updatedAt: Date.now(),
+        });
+    },
+});
+
 /** Aggregate exact response counts and percentages for administrators. */
 export function summarise(
     values: (string | string[] | null | undefined)[],
@@ -98,6 +179,14 @@ export const summary = query({
         const accounts = (await ctx.db.query("accounts").collect()).filter(
             (account) => account.status === "active",
         );
+        // retain the common choices and include additional languages only when reported
+        const reportedLanguages = new Set([
+            ...languages.map((language) => language.value),
+            ...accounts.flatMap((account) => account.demographics?.languages ?? []),
+        ]);
+        const languageOptions = allLanguages.filter((language) =>
+            reportedLanguages.has(language.value),
+        );
         const background = (
             Object.keys(demographicLabels) as (keyof typeof demographicLabels)[]
         ).map((field) => ({
@@ -106,7 +195,7 @@ export const summary = query({
             multiple: field === "roles" || field === "languages",
             ...summarise(
                 accounts.map((account) => account.demographics?.[field]),
-                demographicOptions[field],
+                field === "languages" ? languageOptions : demographicOptions[field],
             ),
         }));
         return [

@@ -1,91 +1,52 @@
-import { createEffect, createSignal, For, Index, Show } from "solid-js";
+import { Show } from "solid-js";
 import { countries } from "../../convex/members/countries";
-import type { Demographics } from "../../convex/members/demographics";
-import "../topics/topics.css";
+import type { Demographics, SurveyQuestion } from "../../convex/members/demographics";
+import { Selection } from "../components/selection";
 
-/** Collect private residence and citizenship independently, including multiple citizenships. */
-export function CountryFields(props: { values: Demographics }) {
-    // show unanswered citizenships as one empty selection
-    const [citizenships, setCitizenships] = createSignal<string[]>([]);
-    createEffect(() => {
-        setCitizenships(props.values.citizenships?.length ? [...props.values.citizenships] : [""]);
-    });
+/** Common alternate country names used when searching. */
+const aliases: Record<string, string> = {
+    CH: "Schweiz Suisse Svizzera Svizra Swiss",
+    GB: "UK Britain Great Britain England Scotland Wales Northern Ireland",
+    US: "USA America United States of America",
+    DE: "Deutschland",
+    AT: "Osterreich Österreich",
+    NL: "Holland Nederland",
+    KR: "South Korea",
+    CZ: "Czech Republic",
+    AE: "UAE",
+    CI: "Ivory Coast",
+    TR: "Turkey Türkiye",
+};
+/** Search labels and stable country codes without inferring citizenship. */
+const options = countries.map((country) => ({ ...country, aliases: aliases[country.value] }));
 
+/** Collect optional residence and multiple citizenships through searchable controls. */
+export function CountryFields(props: { values: Demographics; question?: SurveyQuestion }) {
     return (
         <div class="country-fields">
-            <label>
-                Where do you live?
-                <select
+            <Show when={!props.question || props.question === "residence"}>
+                <Selection
+                    label="Where do you live?"
                     name="residence"
-                    value={
-                        props.values.residence === undefined ? "CH" : (props.values.residence ?? "")
+                    options={options}
+                    values={
+                        props.values.residence === undefined
+                            ? ["CH"]
+                            : props.values.residence
+                              ? [props.values.residence]
+                              : []
                     }
-                >
-                    <option value="">Not answered</option>
-                    <For each={countries}>
-                        {(country) => <option value={country.value}>{country.label}</option>}
-                    </For>
-                </select>
-            </label>
-            <fieldset class="citizenship-fields">
-                <legend>Which countries are you a citizen of?</legend>
-                <Index each={citizenships()}>
-                    {(value, index) => (
-                        <div class="citizenship-row">
-                            <select
-                                name="citizenship"
-                                aria-label={`Country of citizenship ${index + 1}`}
-                                value={value()}
-                                onChange={(event) => {
-                                    const next = event.currentTarget.value;
-                                    setCitizenships((values) =>
-                                        values.map((current, position) =>
-                                            position === index ? next : current,
-                                        ),
-                                    );
-                                }}
-                            >
-                                <option value="">Not answered</option>
-                                <For each={countries}>
-                                    {(country) => (
-                                        <option
-                                            value={country.value}
-                                            disabled={
-                                                country.value !== value() &&
-                                                citizenships().includes(country.value)
-                                            }
-                                        >
-                                            {country.label}
-                                        </option>
-                                    )}
-                                </For>
-                            </select>
-                            <Show when={citizenships().length > 1}>
-                                <button
-                                    type="button"
-                                    class="action-link"
-                                    aria-label={`Remove citizenship ${index + 1}`}
-                                    onClick={() =>
-                                        setCitizenships((values) =>
-                                            values.filter((_, position) => position !== index),
-                                        )
-                                    }
-                                >
-                                    Remove
-                                </button>
-                            </Show>
-                        </div>
-                    )}
-                </Index>
-                <button
-                    type="button"
-                    class="action-link"
-                    disabled={citizenships().includes("")}
-                    onClick={() => setCitizenships((values) => [...values, ""])}
-                >
-                    Add another citizenship
-                </button>
-            </fieldset>
+                />
+            </Show>
+            <Show when={!props.question || props.question === "citizenships"}>
+                <Selection
+                    label="Which countries are you a citizen of?"
+                    name="citizenship"
+                    options={options}
+                    values={props.values.citizenships ?? []}
+                    isMultiple
+                />
+            </Show>
         </div>
     );
 }

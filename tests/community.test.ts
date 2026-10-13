@@ -5,8 +5,34 @@ import {
     validateParticipation,
     participationOptions,
     demographicOptions,
+    surveyPosition,
+    surveyQuestions,
+    type CommunityAnswers,
 } from "../convex/members/demographics";
 import { summarise } from "../convex/members/audience";
+
+test("test_resume_all_survey_states_without_a_midway_stop", () => {
+    const answers: CommunityAnswers = {
+        demographics: {},
+        interests: [],
+        motivations: [],
+        participation: [],
+    };
+    expect(surveyPosition(answers, [])).toBe(0);
+    for (let index = 0; index < surveyQuestions.length; index++) {
+        expect(surveyPosition(answers, surveyQuestions.slice(0, index))).toBe(index);
+    }
+    expect(surveyPosition(answers, surveyQuestions)).toBe("overview");
+    expect(surveyPosition(answers, [], true)).toBe("overview");
+
+    // existing answers and explicit skips both count as progress
+    expect(
+        surveyPosition(
+            { ...answers, interests: ["hardware"], demographics: { eventsAttended: "0" } },
+            ["eventFrequency"],
+        ),
+    ).toBe(3);
+});
 
 test("test_accept_sales_without_reinterpreting_legacy_roles", () => {
     expect(() => validateDemographics({ roles: ["sales", "other", "engineering"] })).not.toThrow();

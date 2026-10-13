@@ -6,7 +6,14 @@ export const interestGroups = [
     },
     {
         name: "Technology",
-        topics: ["hardware", "software-engineering", "data-engineering", "graphics", "security"],
+        topics: [
+            "hardware",
+            "electronics",
+            "software-engineering",
+            "data-engineering",
+            "graphics",
+            "security",
+        ],
     },
     {
         name: "People & society",
