@@ -79,10 +79,10 @@ export const demographicOptions = {
         })),
     ],
 } as const;
+/** Current survey questions shown in forms and audience reports. */
 export const demographicLabels = {
     eventsAttended: "How many zurich.tech events have you attended?",
     eventFrequency: "How often would you like to attend zurich.tech events?",
-    eventsPerYear: "Events per year (previous question)",
     roles: "What do you do?",
     languages: "Which languages do you speak?",
     experience: "How long have you been working?",

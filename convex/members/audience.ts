@@ -99,7 +99,7 @@ export const summary = query({
             (account) => account.status === "active",
         );
         const background = (
-            Object.keys(demographicOptions) as (keyof typeof demographicOptions)[]
+            Object.keys(demographicLabels) as (keyof typeof demographicLabels)[]
         ).map((field) => ({
             field,
             label: demographicLabels[field],

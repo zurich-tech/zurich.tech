@@ -27,6 +27,43 @@ async function setup() {
     return backend.withIdentity({ subject: "member" });
 }
 
+test("test_exclude_retired_questions_from_audience_reports", async () => {
+    const backend = convexTest(schema, modules);
+    await backend.run(async (ctx) => {
+        const memberId = await member(ctx, {
+            name: "Admin",
+            searchText: "admin",
+            visibility: "private",
+        });
+        await ctx.db.insert("accounts", {
+            authId: "admin",
+            memberId,
+            status: "active",
+            isTeam: true,
+            isAdmin: true,
+            createdAt: 1,
+            updatedAt: 1,
+            demographics: { eventsPerYear: "10-12", eventFrequency: "monthly" },
+        });
+    });
+
+    // report only current questions even when an account retains an annual answer
+    const client = backend.withIdentity({ subject: "admin" });
+    const report = await client.query(api.members.audience.summary, {});
+    expect(report.map((question) => question.field)).toEqual([
+        "eventsAttended",
+        "eventFrequency",
+        "roles",
+        "languages",
+        "experience",
+        "education",
+        "age",
+        "residence",
+        "citizenships",
+        "motivations",
+    ]);
+});
+
 test("test_roundtrip_optional_event_attendance_answers", async () => {
     const client = await setup();
     const before = await client.query(api.members.profiles.current, {});
