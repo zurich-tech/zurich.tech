@@ -1,4 +1,5 @@
 import { assetReferences, validateAsset } from "../deployment/assets";
+import { site } from "../../src/app/site";
 
 /** Check completed public HTML against a built preview or deployment. */
 async function main() {
@@ -10,6 +11,29 @@ async function main() {
         : ["/", "/events", "/news", "/series", "/about", "/jobs", "/sponsor", "/map"];
 
     const assets = new Set<string>();
+
+    // exercise real route handlers, not just the redirect function
+    const socials = {
+        ...site.socials,
+        github: "https://github.com/zurich-tech",
+        twitter: site.socials.x,
+    };
+    for (const [path, destination] of Object.entries(socials)) {
+        for (const method of ["GET", "HEAD"]) {
+            const response = await fetch(new URL(`/${path}?next=https://example.com`, origin), {
+                method,
+                redirect: "manual",
+                signal: AbortSignal.timeout(15000),
+            });
+            if (
+                response.status !== 302 ||
+                response.headers.get("location") !== destination ||
+                response.headers.get("cache-control") !== "no-store" ||
+                (await response.text()) !== ""
+            )
+                throw new Error(`${method} /${path}: expected an empty, uncached social redirect`);
+        }
+    }
 
     // Test HTML before JavaScript can conceal a server rendering failure.
     for (const path of routes) {
