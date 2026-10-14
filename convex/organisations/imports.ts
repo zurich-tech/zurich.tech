@@ -6,6 +6,37 @@ import { organisationKind } from "./kinds";
 import { validateSpecificTopics } from "../topics/queries";
 import { normalizeHeadline } from "./headlines";
 
+/** Explicit review of a distinct institute and every existing organisation on its website host. */
+const instituteReview = v.object({
+    /** Existing university identity, checked exactly in both modes. */
+    parentId: v.id("organisations"),
+    /** Expected parent slug. */
+    parentSlug: v.string(),
+    /** Expected parent name. */
+    parentName: v.string(),
+    /** Expected parent website, without canonicalisation. */
+    parentWebsite: v.string(),
+    /** Complete existing membership of the candidate website host. */
+    peers: v.array(
+        v.object({
+            /** Expected organisation record. */
+            id: v.id("organisations"),
+            /** Expected profile slug. */
+            slug: v.string(),
+            /** Expected organisation name. */
+            name: v.string(),
+            /** Expected full website, without canonicalisation. */
+            website: v.string(),
+        }),
+    ),
+    /** Explanation of the institute's distinct research identity. */
+    reason: v.string(),
+    /** Primary evidence including the institute page itself. */
+    sources: v.array(v.string()),
+    /** Opt into copying this exact existing parent map asset. */
+    parentMapLogoUrl: v.optional(v.string()),
+});
+
 /** Reviewed profile fields shared by existing and new office addresses. */
 const profile = {
     name: v.string(),
@@ -20,6 +51,7 @@ const profile = {
     mapLogoUrl: v.optional(v.string()),
     socials: v.optional(socialLinks),
     topics: v.optional(v.array(v.string())),
+    instituteReview: v.optional(instituteReview),
 };
 
 /** Import reviewed organisations and public offices atomically through the deployment CLI. */
@@ -51,6 +83,7 @@ export const apply = internalMutation({
         const existing = await ctx.db.query("organisations").collect();
         const names = new Set(existing.map((row) => normalizeName(row.name)));
         const domains = new Set(existing.map((row) => domain(row.website)));
+        const websites = new Set(existing.map((row) => websiteKey(row.website)));
         const slugs = new Set(existing.map((row) => row.slug));
         const result: string[] = [];
 
@@ -77,7 +110,7 @@ export const apply = internalMutation({
 
         // validate every record during both preview and application
         for (const row of args.organisations) {
-            const { office, sources, socials, ...input } = row;
+            const { office, sources, socials, instituteReview: institute, ...input } = row;
             const {
                 addressId: existingId,
                 address: reviewed,
@@ -105,19 +138,38 @@ export const apply = internalMutation({
             for (const source of sources) normalizeUrl(source);
 
             // validate branding and social destinations identically in preview and application
-            if (fields.mapLogoUrl !== undefined) hostedLogo(fields.mapLogoUrl, fields.slug);
+            const parentLogo = institute
+                ? reviewInstitute({ ...fields, website, instituteReview: institute }, existing)
+                : undefined;
+            if (parentLogo !== undefined) fields.mapLogoUrl = parentLogo;
+            else if (fields.mapLogoUrl !== undefined) hostedLogo(fields.mapLogoUrl, fields.slug);
             const links = reviewedSocials(socials);
             if (fields.topics !== undefined) await validateSpecificTopics(ctx, fields.topics);
 
             // refuse aliases and repeated records rather than overwrite curated profiles
             const key = normalizeName(name);
             const hostname = domain(website);
-            if (names.has(key) || domains.has(hostname) || slugs.has(fields.slug))
+            const unreviewedBatchPeer =
+                institute &&
+                args.organisations.some(
+                    (other) =>
+                        other !== row &&
+                        domain(other.website) === hostname &&
+                        other.instituteReview?.parentId !== institute.parentId,
+                );
+            if (
+                names.has(key) ||
+                websites.has(websiteKey(website)) ||
+                (!institute && domains.has(hostname)) ||
+                unreviewedBatchPeer ||
+                slugs.has(fields.slug)
+            )
                 throw new Error(
                     `Possible duplicate organisation: ${name}. Review the existing record.`,
                 );
             names.add(key);
             domains.add(hostname);
+            websites.add(websiteKey(website));
             slugs.add(fields.slug);
 
             // require explicit evidence and Swiss coordinates before matching a reviewed address
@@ -350,7 +402,7 @@ export const enrich = internalMutation({
                 .query("organisations")
                 .withIndex("by_slug", (q) => q.eq("slug", row.slug))
                 .unique();
-            if (!organisation || domain(organisation.website) !== domain(row.website))
+            if (!organisation || websiteKey(organisation.website) !== websiteKey(row.website))
                 throw new Error(`Organisation identity changed: ${row.slug}.`);
             const existing = await ctx.db
                 .query("links")
@@ -417,7 +469,7 @@ export const logos = internalMutation({
                 .query("organisations")
                 .withIndex("by_slug", (q) => q.eq("slug", row.slug))
                 .unique();
-            if (!organisation || domain(organisation.website) !== domain(row.website))
+            if (!organisation || websiteKey(organisation.website) !== websiteKey(row.website))
                 throw new Error(`Organisation identity changed: ${row.slug}.`);
             if (organisation.mapLogoUrl || organisation.logoUrl)
                 throw new Error(`Organisation already has a logo: ${row.slug}.`);
@@ -482,4 +534,93 @@ function normalizeName(name: string) {
 /** Compare canonical website hosts without the common www alias. */
 function domain(website: string) {
     return new URL(normalizeUrl(website)).hostname.replace(/^www\./, "");
+}
+
+/** Compare full website identities, retaining paths and queries rather than only the host. */
+function websiteKey(website: string) {
+    const url = new URL(normalizeUrl(website));
+    const path = decodeURIComponent(url.pathname).replace(/\/+$/, "");
+
+    return JSON.stringify([
+        url.username,
+        url.password,
+        domain(website),
+        url.port,
+        path,
+        url.search,
+    ]);
+}
+
+/** Verify institute evidence and stale identities before permitting shared hosting or parent branding. */
+function reviewInstitute(
+    row: Pick<Doc<"organisations">, "kind" | "slug" | "website" | "mapLogoUrl"> & {
+        /** Exact parent and host peers approved by the reviewer. */
+        instituteReview: Infer<typeof instituteReview>;
+    },
+    existing: Doc<"organisations">[],
+) {
+    // require an existing university, never a new or guessed parent
+    const review = row.instituteReview;
+    const parent = existing.find((item) => item._id === review.parentId);
+    if (
+        !parent ||
+        parent.kind !== "university" ||
+        parent.slug !== review.parentSlug ||
+        parent.name !== review.parentName ||
+        parent.website !== review.parentWebsite
+    )
+        throw new Error(`Institute parent changed: ${row.slug}.`);
+
+    // restrict this review to a distinct institutional page or institutional subdomain
+    const url = new URL(row.website);
+    const host = domain(row.website);
+    const parentHost = domain(parent.website);
+    if (
+        row.kind !== "lab" ||
+        !review.reason.trim() ||
+        !review.sources.length ||
+        review.sources.length > 100 ||
+        url.username ||
+        url.password ||
+        url.search ||
+        url.hash ||
+        url.port ||
+        (host !== parentHost && !host.endsWith(`.${parentHost}`)) ||
+        websiteKey(row.website) === websiteKey(parent.website) ||
+        (host === parentHost && url.pathname.replace(/\/+$/, "") === "")
+    )
+        throw new Error(`Invalid institute review: ${row.slug}.`);
+    for (const source of review.sources) normalizeUrl(source);
+    if (!review.sources.some((source) => websiteKey(source) === websiteKey(row.website)))
+        throw new Error(`Institute primary page is required: ${row.slug}.`);
+
+    // compare the entire original host membership, including exact reviewed website paths
+    const peers = existing.filter((item) => domain(item.website) === host);
+    if (
+        review.peers.length > 100 ||
+        review.peers.length !== peers.length ||
+        new Set(review.peers.map((peer) => peer.id)).size !== peers.length ||
+        review.peers.some(
+            (peer) =>
+                !peers.some(
+                    (item) =>
+                        item._id === peer.id &&
+                        item.slug === peer.slug &&
+                        item.name === peer.name &&
+                        item.website === peer.website,
+                ),
+        )
+    )
+        throw new Error(`Institute host peers changed: ${row.slug}.`);
+
+    // copy only the parent's exact current map asset, without enabling arbitrary shared URLs
+    if (
+        review.parentMapLogoUrl !== undefined &&
+        (!review.parentMapLogoUrl ||
+            parent.mapLogoUrl !== review.parentMapLogoUrl ||
+            (row.mapLogoUrl !== undefined && row.mapLogoUrl !== review.parentMapLogoUrl))
+    )
+        throw new Error(`Institute parent logo changed or conflicts: ${row.slug}.`);
+
+    return review.parentMapLogoUrl;
 }
