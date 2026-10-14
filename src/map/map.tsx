@@ -30,6 +30,7 @@ import { matchingPlaces, placeName, selectPlaces } from "./places";
 import { Highlight } from "../components/highlight";
 import { arrangeLogos } from "./placement";
 import { overview } from "./camera";
+import { sheetHeights, sheetPosition } from "./sheet";
 import { logoBackground } from "./colour";
 import { isPreviewPath, type Point } from "./hover";
 import {
@@ -127,7 +128,22 @@ export function CommunityMap(props: {
     }>();
     const [zoom, setZoom] = createSignal(12);
     const [error, setError] = createSignal(false);
-    const { query: search, setQuery: setSearch, terms } = useSearch();
+    const { query, setQuery, terms } = useSearch();
+    const [search, setSearch] = createSignal(query());
+    let searchTimer: ReturnType<typeof setTimeout> | undefined;
+
+    // keep typing immediate while committing expensive map filters after a short pause
+    createEffect(() => {
+        const value = query();
+        clearTimeout(searchTimer);
+        setSearch(value);
+    });
+    onCleanup(() => clearTimeout(searchTimer));
+    function searchMap(value: string) {
+        setSearch(value);
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => setQuery(value), 150);
+    }
     const [groupSearch, setGroupSearch] = createSignal("");
     const groupTerms = createMemo(() => searchTerms(groupSearch()));
     const [params, setParams] = useSearchParams();
@@ -137,7 +153,9 @@ export function CommunityMap(props: {
     );
     const topics = getTopics.use(() => (props.isHero ? undefined : []));
     const selectedTopics = createMemo(() => expandTopicFilters(topic(), topics()));
+    const [isFilterOpen, setFilterOpen] = createSignal(false);
     const topicCounts = createMemo(() => {
+        if (!isFilterOpen()) return {};
         const candidates = filterLocations(organisations() ?? [], category(), terms());
 
         return Object.fromEntries(
@@ -160,9 +178,54 @@ export function CommunityMap(props: {
             }),
         );
     });
-    const isFiltered = () => Boolean(search() || category() !== "all" || topic().length);
-    const [isPanelOpen, setPanelOpen] = createSignal(false);
-    const [isFilterOpen, setFilterOpen] = createSignal(false);
+    const isFiltered = () => Boolean(query() || category() !== "all" || topic().length);
+    const [isPanelOpen, setPanelOpen] = createSignal(isFiltered());
+    const [isExpanded, setExpanded] = createSignal(false);
+    const [dragHeight, setDragHeight] = createSignal<number>();
+    let panel!: HTMLElement;
+    let handle!: HTMLButtonElement;
+    let drag: { y: number; height: number; heights: number[] } | undefined;
+    let didDrag = false;
+    let suppressHandleClick = false;
+
+    /** Begin a sheet gesture only when the mobile handle is visible. */
+    function startSheet(y: number) {
+        if (!handle?.offsetHeight) return;
+        const filters = panel.querySelector<HTMLElement>(".map-filters")!;
+        const controls = filters.getBoundingClientRect().bottom - panel.getBoundingClientRect().top;
+        drag = {
+            y,
+            height: panel.clientHeight,
+            heights: sheetHeights(panel.parentElement!.clientHeight, controls + 8),
+        };
+        didDrag = false;
+    }
+
+    /** Follow the pointer without changing the map camera on every movement. */
+    function moveSheet(y: number) {
+        if (!drag || Math.abs(y - drag.y) < 5) return;
+        didDrag = true;
+        setPanelOpen(true);
+        setDragHeight(
+            Math.max(drag.heights[0], Math.min(drag.heights[2], drag.height + drag.y - y)),
+        );
+    }
+
+    /** Settle the sheet, then keep an active selection in the remaining map area. */
+    function finishSheet(y: number, cancelled = false) {
+        if (!drag) return;
+        if (didDrag) {
+            const position = sheetPosition(drag.heights, drag.height, cancelled ? 0 : y - drag.y);
+            setPanelOpen(position > 0);
+            setExpanded(position === 2);
+        }
+        drag = undefined;
+        setDragHeight(undefined);
+        queueMicrotask(() => {
+            const place = selectedPlaces()[0];
+            if (place) focusLocation(place, 0);
+        });
+    }
     const [hovered, setHovered] = createSignal<string[]>([]);
     const [selected, setSelected] = createSignal<string[]>([]);
     const [selectedOrganisation, setSelectedOrganisation] = createSignal<string>();
@@ -181,8 +244,8 @@ export function CommunityMap(props: {
     const markers = createMemo(() => matchingPlaces(organisations() ?? [], filtered()));
 
     // list organisations alphabetically without separating supporters from other results
-    const listed = createMemo(() =>
-        filtered()
+    const directory = createMemo(() =>
+        (organisations() ?? [])
             .flatMap((place) =>
                 place.organisations.map((person) => ({ ...place, organisations: [person] })),
             )
@@ -190,6 +253,17 @@ export function CommunityMap(props: {
                 left.organisations[0].name.localeCompare(right.organisations[0].name),
             ),
     );
+    // retain row identity across searches so matching DOM nodes and images are reused
+    const listed = createMemo(() => {
+        const matches = new Map(
+            filtered().map((place) => [
+                place.id,
+                new Set(place.organisations.map((entry) => entry.id)),
+            ]),
+        );
+
+        return directory().filter((place) => matches.get(place.id)?.has(place.organisations[0].id));
+    });
 
     // keep the list to what the map currently shows
     const visible = createMemo(() => {
@@ -476,11 +550,21 @@ export function CommunityMap(props: {
         const map = instance()?.map;
         if (!map) return;
 
+        // centre selection in the space actually left beside or above the panel
+        const panel = container
+            .closest(".map-layout")
+            ?.querySelector<HTMLElement>(".map-directory-panel");
+        const isBottom = panel && panel.clientWidth >= container.clientWidth * 0.8;
+        const offset: [number, number] = isBottom
+            ? [0, -panel.clientHeight / 2]
+            : [(panel?.clientWidth ?? 0) / 2, 0];
+
         // preserve closer inspection while bringing distant results to neighbourhood scale
         map.easeTo({
             center: [place.longitude, place.latitude],
             zoom: Math.max(map.getZoom(), 14),
-            offset: container.clientWidth <= 800 ? [0, -container.clientHeight * 0.3] : [180, 0],
+            padding: { top: 0, right: 0, bottom: 0, left: 0 },
+            offset,
             duration,
         });
     }
@@ -490,6 +574,8 @@ export function CommunityMap(props: {
         closePreview();
         setGroupSearch("");
         setPanelOpen(true);
+        setExpanded(false);
+        panel?.querySelector<HTMLInputElement>(".map-search input")?.blur();
         setSelectedOrganisation(
             places.length === 1 && places[0].organisations.length === 1
                 ? places[0].organisations[0].id
@@ -497,8 +583,10 @@ export function CommunityMap(props: {
         );
         setSelected(places.map((place) => place.id));
         const first = places[0];
-        if (first) focusLocation(first, 400);
-        queueMicrotask(() => backButton?.focus({ preventScroll: true }));
+        queueMicrotask(() => {
+            if (first) focusLocation(first, 400);
+            backButton?.focus({ preventScroll: true });
+        });
     }
 
     /** Fit the full city extent on every screen size and restore it on reset. */
@@ -516,6 +604,19 @@ export function CommunityMap(props: {
     // Load WebGL only in the browser and dispose it when navigating away.
     onMount(() => {
         let map: GeographicMap | undefined;
+        // fit the explorer above mobile keyboards without moving its controls off screen
+        const viewport = window.visualViewport;
+        const shell = container.closest<HTMLElement>(".site-shell");
+        const resizeViewport = () => {
+            if (!props.isHero && viewport)
+                shell?.style.setProperty("--map-viewport-height", `${viewport.height}px`);
+        };
+        resizeViewport();
+        viewport?.addEventListener("resize", resizeViewport);
+        onCleanup(() => {
+            viewport?.removeEventListener("resize", resizeViewport);
+            if (!props.isHero) shell?.style.removeProperty("--map-viewport-height");
+        });
         // dismiss mouse previews even when keyboard focus is outside the map
         const dismissPreview = (event: KeyboardEvent) => {
             if (event.key !== "Escape" || !previewKey) return;
@@ -924,8 +1025,73 @@ export function CommunityMap(props: {
                     </Show>
                 </div>
                 <Show when={!props.isHero}>
-                    <aside class="map-directory-panel" aria-label="Map explorer">
+                    <aside
+                        ref={panel}
+                        class="map-directory-panel"
+                        classList={{
+                            "is-open": isPanelOpen(),
+                            "is-expanded": isExpanded(),
+                            "is-dragging": dragHeight() !== undefined,
+                        }}
+                        style={{
+                            "--sheet-height":
+                                dragHeight() === undefined ? undefined : `${dragHeight()}px`,
+                        }}
+                        aria-label="Map explorer"
+                    >
+                        <button
+                            ref={handle}
+                            class="map-sheet-handle"
+                            type="button"
+                            aria-label={
+                                isPanelOpen()
+                                    ? isExpanded()
+                                        ? "Collapse map results"
+                                        : "Expand map results"
+                                    : "Open map results"
+                            }
+                            aria-expanded={isPanelOpen()}
+                            aria-controls="map-results-panel"
+                            onPointerDown={(event) => {
+                                if (event.button !== 0) return;
+                                startSheet(event.clientY);
+                                event.currentTarget.setPointerCapture(event.pointerId);
+                            }}
+                            onPointerMove={(event) => moveSheet(event.clientY)}
+                            onPointerUp={(event) => {
+                                suppressHandleClick = didDrag;
+                                finishSheet(event.clientY);
+                            }}
+                            onPointerCancel={(event) => finishSheet(event.clientY, true)}
+                            onClick={() => {
+                                if (suppressHandleClick) {
+                                    suppressHandleClick = false;
+                                    return;
+                                }
+                                const expanded = isPanelOpen() && !isExpanded();
+                                setPanelOpen(!isExpanded());
+                                setExpanded(expanded);
+                                queueMicrotask(() => {
+                                    const place = selectedPlaces()[0];
+                                    if (place) focusLocation(place, 0);
+                                });
+                            }}
+                        >
+                            <span />
+                        </button>
                         <header class="map-directory-heading">
+                            <Show when={selectedPlaces().length}>
+                                <button
+                                    class="map-panel-action map-back"
+                                    type="button"
+                                    ref={backButton}
+                                    aria-label="Back to results"
+                                    title="Back to results"
+                                    onClick={closeDetails}
+                                >
+                                    <ArrowLeft size={18} />
+                                </button>
+                            </Show>
                             <h1>Explore Zurich</h1>
                             <a
                                 class="map-panel-action"
@@ -946,6 +1112,7 @@ export function CommunityMap(props: {
                                 aria-controls="map-results-panel"
                                 onClick={() => {
                                     setPanelOpen(!isPanelOpen());
+                                    setExpanded(false);
                                     setSelected([]);
                                     setHovered([]);
                                 }}
@@ -961,8 +1128,14 @@ export function CommunityMap(props: {
                                 aria-label="Search organisations or addresses"
                                 value={search()}
                                 placeholder="Search organisations or addresses"
+                                onFocus={() => {
+                                    if (handle?.offsetHeight) {
+                                        setPanelOpen(true);
+                                        setExpanded(true);
+                                    }
+                                }}
                                 onInput={(event) => {
-                                    setSearch(event.currentTarget.value);
+                                    searchMap(event.currentTarget.value);
                                     setSelected([]);
                                     setPanelOpen(true);
                                 }}
@@ -1009,6 +1182,33 @@ export function CommunityMap(props: {
                                 id="map-results-panel"
                                 class="map-panel-content"
                                 onScroll={closePreview}
+                                onTouchStart={(event) => {
+                                    if (
+                                        event.currentTarget.scrollTop <= 0 &&
+                                        event.touches.length === 1
+                                    )
+                                        startSheet(event.touches[0].clientY);
+                                }}
+                                on:touchmove={(event) => {
+                                    if (!drag) return;
+                                    if (event.touches.length !== 1) {
+                                        finishSheet(drag.y, true);
+                                        return;
+                                    }
+                                    const y = event.touches[0].clientY;
+                                    if (!didDrag && y <= drag.y) {
+                                        drag = undefined;
+                                        return;
+                                    }
+                                    if (event.cancelable) {
+                                        event.preventDefault();
+                                        moveSheet(y);
+                                    }
+                                }}
+                                onTouchEnd={(event) => finishSheet(event.changedTouches[0].clientY)}
+                                onTouchCancel={(event) =>
+                                    finishSheet(event.changedTouches[0].clientY, true)
+                                }
                             >
                                 <Show
                                     when={selectedPlaces().length}
@@ -1156,16 +1356,6 @@ export function CommunityMap(props: {
                                     }
                                 >
                                     <div class="map-details">
-                                        <button
-                                            class="map-back"
-                                            type="button"
-                                            ref={backButton}
-                                            onClick={() => {
-                                                closeDetails();
-                                            }}
-                                        >
-                                            <ArrowLeft size={16} /> Results
-                                        </button>
                                         <Show when={!selectedOrganisation()}>
                                             <h2 class="map-place__name">
                                                 {placeName(selectedPlaces()[0])}

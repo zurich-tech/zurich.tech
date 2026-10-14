@@ -13,7 +13,9 @@ export function overview(
     // reserve panel space without consuming the entire map on short or narrow screens
     const padding =
         width <= 800
-            ? { top: 48, right: 24, bottom: isPanelOpen ? height * 0.65 : 210, left: 24 }
+            ? width >= 600 && height <= 448 && width > height
+                ? { top: 24, right: 60, bottom: 24, left: Math.min(360, width * 0.55) + 16 }
+                : { top: 48, right: 24, bottom: isPanelOpen ? height * 0.6 : 180, left: 24 }
             : { top: 64, right: 64, bottom: 64, left: 400 };
     const horizontal = Math.min(1, (width * 0.8) / (padding.left + padding.right));
     const vertical = Math.min(1, (height * 0.8) / (padding.top + padding.bottom));

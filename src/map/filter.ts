@@ -31,9 +31,8 @@ export function filterLocations(
     topics?: ReadonlySet<string>,
 ): MapLocation[] {
     return locations
-        .map((place) => ({
-            ...place,
-            organisations: place.organisations.filter(
+        .map((place) => {
+            const organisations = place.organisations.filter(
                 (entry) =>
                     (category === "all" || entry.kind === category) &&
                     (topics === undefined || entry.topics?.some((topic) => topics.has(topic))) &&
@@ -41,7 +40,11 @@ export function filterLocations(
                         [place.address, entry.name, entry.headline ?? ""].join(" "),
                         terms,
                     ),
-            ),
-        }))
+            );
+
+            return organisations.length === place.organisations.length
+                ? place
+                : { ...place, organisations };
+        })
         .filter((place) => place.organisations.length > 0);
 }

@@ -33,7 +33,7 @@ test("test_frame_initial_and_reset_views_with_the_same_viewport_geometry", () =>
             [8.64, 47.44],
         ],
         fitBoundsOptions: {
-            padding: { top: 48, right: 24, bottom: 210, left: 24 },
+            padding: { top: 48, right: 24, bottom: 180, left: 24 },
             duration: 0,
             maxZoom: 12,
         },
@@ -44,7 +44,7 @@ test("test_frame_initial_and_reset_views_with_the_same_viewport_geometry", () =>
             [8.64, 47.44],
         ],
         fitBoundsOptions: {
-            padding: { top: 48, right: 24, bottom: 520, left: 24 },
+            padding: { top: 48, right: 24, bottom: 480, left: 24 },
             duration: 0,
             maxZoom: 12,
         },
@@ -55,6 +55,13 @@ test("test_frame_initial_and_reset_views_with_the_same_viewport_geometry", () =>
             [8.68, 47.46],
         ],
         fitBoundsOptions: { padding: 0, duration: 0, maxZoom: 18 },
+    });
+    // reserve the side panel rather than a bottom sheet on landscape phones
+    expect(overview(false, 740, 338, true).fitBoundsOptions.padding).toEqual({
+        top: 24,
+        right: 60,
+        bottom: 24,
+        left: 376,
     });
 });
 
@@ -410,6 +417,26 @@ test("test_load_external_badges_with_anonymous_cors_before_assigning_source", as
         isActive = false;
         decodes.shift()!();
         await pending;
+        expect(updates).toEqual(["badge:external"]);
+
+        // cap concurrent downloads and stop queued requests after navigation
+        isActive = true;
+        const before = requests.length;
+        const bounded = addBadges(
+            map,
+            groupLocations(
+                Array.from({ length: 20 }, (_, index) => ({
+                    ...office(`bounded-${index}`),
+                    logoUrl: `https://logos.example/${index}.png`,
+                })),
+            ),
+            () => isActive,
+        );
+        expect(requests.length - before).toBe(6);
+        isActive = false;
+        for (const resolve of decodes.splice(0)) resolve();
+        await bounded;
+        expect(requests.length - before).toBe(6);
         expect(updates).toEqual(["badge:external"]);
     } finally {
         if (originalImage) Object.defineProperty(globalThis, "Image", originalImage);

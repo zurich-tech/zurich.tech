@@ -144,13 +144,17 @@ export async function addBadges(
     // register every initial before starting any image downloads
     for (const person of missing) map.addImage(badgeId(person), drawBadge(person), { pixelRatio });
 
-    // one slow image must not hold back other markers or write into a disposed map
+    // bound downloads and decoding rather than flooding a phone with every logo at once
+    let next = 0;
     await Promise.all(
-        missing.map(async (person) => {
-            const source = person.mapLogoUrl ?? person.logoUrl;
-            if (!source) return;
-            const image = await loadImage(source);
-            if (image && isActive()) map.updateImage(badgeId(person), drawBadge(person, image));
+        Array.from({ length: Math.min(6, missing.length) }, async () => {
+            while (next < missing.length && isActive()) {
+                const person = missing[next++];
+                const source = person.mapLogoUrl ?? person.logoUrl;
+                if (!source) continue;
+                const image = await loadImage(source);
+                if (image && isActive()) map.updateImage(badgeId(person), drawBadge(person, image));
+            }
         }),
     );
 }
