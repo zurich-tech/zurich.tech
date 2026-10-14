@@ -27,13 +27,11 @@
                 "https://www.aioniclabs.ai/imprint",
                 "https://mtec.ethz.ch/news/dmtec-news/2026/01/Aionic_Labs.html"
             ],
-            "status": "eligible",
-            "remaining": [
-                "verify operating address and coordinates",
-                "review and host official icon",
-                "import and verify production"
-            ],
-            "duplicateCheck": "Absent from 508 production organisations and consolidated research queue on 2026-10-14",
+            "status": "imported-and-verified",
+            "remaining": [],
+            "addressLabel": "Registered address",
+            "verification": "Imported on 2026-10-14 after user approval of the registered address. Independently checked the production profile, classification, official hosted logo, public address, exact Registered address label and LinkedIn link. Working premises are not asserted.",
+            "duplicateCheck": "Absent from fresh production before import; exactly one matching record after import in the 560-organisation registry",
             "notes": "Do not confuse with the unrelated California company Aionic Labs Inc or Aionite Capital. OpenTSLM is a linked research project, not yet a verified company GitHub account."
         }
     ]

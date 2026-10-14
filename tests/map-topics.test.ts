@@ -2,8 +2,29 @@ import { expect, test } from "bun:test";
 import { api } from "../convex/_generated/api";
 import { descendantTopics } from "../convex/topics/hierarchy";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
-import { filterLocations } from "../src/map/filter";
+import { expandTopicFilters, filterLocations, topicFilters } from "../src/map/filter";
 import { convexTest, schema, modules, member } from "./backend";
+
+test("test_roundtrip_multiple_topic_filters_and_expand_each_family", () => {
+    const hierarchy = [
+        { slug: "ai" },
+        { slug: "nlp", parent: "ai" },
+        { slug: "hardware" },
+        { slug: "electronics", parent: "hardware" },
+    ];
+    expect(topicFilters(undefined)).toEqual([]);
+    expect(topicFilters("nlp")).toEqual(["nlp"]);
+    expect(topicFilters("ai,,hardware,ai")).toEqual(["ai", "hardware"]);
+    const selected = topicFilters("ai,hardware");
+    expect(topicFilters(selected.join(","))).toEqual(selected);
+    expect(expandTopicFilters(selected, hierarchy)).toEqual(
+        new Set(["ai", "nlp", "hardware", "electronics"]),
+    );
+    expect(expandTopicFilters([], hierarchy)).toBeUndefined();
+    expect(expandTopicFilters(["unknown"], hierarchy)).toEqual(new Set());
+    expect(expandTopicFilters(["ai"], undefined)).toEqual(new Set());
+    expect(expandTopicFilters(["unknown", "nlp"], hierarchy)).toEqual(new Set(["nlp"]));
+});
 
 test("test_match_topic_descendants_kind_and_search_on_the_same_tenant", () => {
     const hierarchy = [
@@ -64,6 +85,9 @@ test("test_match_topic_descendants_kind_and_search_on_the_same_tenant", () => {
     expect(filterLocations(places, "all", ["hardware"], ai)).toEqual([]);
     expect(filterLocations(places, "all", [], new Set())).toEqual([]);
     expect(filterLocations(places, "all", [])).toEqual(places);
+    expect(
+        filterLocations(places, "all", [], expandTopicFilters(["ai", "hardware"], hierarchy)),
+    ).toEqual(expected(["akina", "hardware", "direct"]));
 });
 
 test("test_roundtrip_company_topics_through_public_map_and_address_grouping", async () => {

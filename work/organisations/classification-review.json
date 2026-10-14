@@ -1,6 +1,6 @@
 {
     "reviewedAt": "2026-10-14",
-    "productionOrganisationCount": 550,
+    "productionOrganisationCount": 613,
     "complete": false,
     "deployment": {
         "commit": "b6965ca",
@@ -12,11 +12,25 @@
         "initialClassificationB": { "reviewed": 184, "updated": 181, "unchanged": 3 },
         "remainingClassificationB": { "reviewed": 69, "updated": 63, "unchanged": 6 },
         "headlineCleanup": 325,
-        "newOrganisations": 42,
+        "newOrganisations": 105,
         "energyCorrections": 7,
+        "investorMandateCorrections": 4,
         "additionalSocialLinks": { "organisations": 49, "links": 50 }
     },
-    "verification": "Each classification batch and correction was compared with a separate fresh production export after application. All 42 new organisations were independently checked against organisation, public location, address and social-link records. Official logos were visually reviewed and their hosted bytes and CORS access verified before import.",
+    "verification": "Each classification batch and correction was compared with a separate fresh production export after application. All 105 new organisations were independently checked against organisation, public location, address and social-link records. Treeless has two independently verified public sites under one organisation. Official logos were visually reviewed and their hosted bytes and CORS access verified before import. The 594-record structural audit found no duplicate names or slugs and no invalid topic references; subsequent imports each passed current-production deduplication. This does not establish semantic completeness or exhaustively detect aliases.",
+    "registeredAddresses": ["aionic-labs", "lakestar", "snglr-capital", "cyclowatt", "openversum"],
+    "latestImports": {
+        "winterthur": ["xiag", "itivity", "digitalmaterial", "beebase", "won-data", "nsync"],
+        "researchBatch": [
+            "cyclowatt",
+            "cellx-biosolutions",
+            "56k-cloud",
+            "plat4mation",
+            "fablab-winti"
+        ],
+        "verification": "All eleven passed supported importer dry runs and independent fresh production verification of identity, classification, public location, address, official logo and social links. N:SYNC retains Cloud without its redundant Software ancestor."
+    },
+    "investorClassification": "Use explicit investment mandates, not a requirement to develop technical products themselves and not topics inferred from individual portfolio companies. Broad investors may legitimately have no topic tags. Four mandate-backed updates for D11Z, Redalpine, Uebermorgen and Swisscom Ventures were independently verified.",
     "socialVerification": "All 50 additional links were independently reviewed for identity, then checked against fresh production records for exact destination and public visibility. Sony AI, GetYourGuide, Empa, Disney Research and Pinterest use their organisation-wide accounts, not Zurich-only accounts.",
     "energyDefinition": "Energy requires substantive energy technology, not environmental benefits or climate-related analytics alone.",
     "correctedTopics": [
@@ -29,10 +43,10 @@
         { "slug": "kitro", "topics": ["analytics"] }
     ],
     "holds": [
-        "Aionic Labs: registered address confirmed; working-office address unconfirmed",
+        "CLYOS: own adaptive assessment is evidenced, but substantial technical activity versus coaching-led business needs a separate scope review",
         "CLIMADA Technologies: retain exclusion and do not restore its map location",
         "Reasoning Labs: confirm current independent identity and substantive primary product or research evidence",
-        "TX Ventures: profile and logo reviewed; importer must support its official LinkedIn showcase page before publication",
+        "itopia, Systaim, rqmicro, Cytosurge, Pearl Technology and Philochem: readable official map artwork requires further review",
         "Remaining uncertain classifications, address evidence and illegible logos require review"
     ],
     "remaining": "Candidate discovery, primary-source review, verified social links, readable official logos and remaining classifications are not complete. The current organisation count is not an ecosystem-completeness claim."
