@@ -1,0 +1,40 @@
+{
+    "reviewedAt": "2026-10-14",
+    "organisations": [
+        {
+            "name": "Aionic Labs",
+            "legalName": "Aionic AG",
+            "slug": "aionic-labs",
+            "website": "https://www.aioniclabs.ai",
+            "kind": "startup",
+            "headline": "Develops language models that reason over time-series and sensor data",
+            "topics": ["machine-learning", "nlp"],
+            "location": "Zurich",
+            "socials": { "linkedin": "https://www.linkedin.com/company/aioniclabs" },
+            "logoSource": "https://www.aioniclabs.ai/uploads/aionic-labs-icon-black.png",
+            "publishedAddress": {
+                "line1": "Bahnhofplatz 1",
+                "postalCode": "8001",
+                "locality": "Zurich",
+                "countryCode": "CH",
+                "source": "https://www.aioniclabs.ai/imprint",
+                "kind": "registered"
+            },
+            "sources": [
+                "https://www.linkedin.com/company/aioniclabs/",
+                "https://www.aioniclabs.ai/",
+                "https://www.aioniclabs.ai/press",
+                "https://www.aioniclabs.ai/imprint",
+                "https://mtec.ethz.ch/news/dmtec-news/2026/01/Aionic_Labs.html"
+            ],
+            "status": "eligible",
+            "remaining": [
+                "verify operating address and coordinates",
+                "review and host official icon",
+                "import and verify production"
+            ],
+            "duplicateCheck": "Absent from 508 production organisations and consolidated research queue on 2026-10-14",
+            "notes": "Do not confuse with the unrelated California company Aionic Labs Inc or Aionite Capital. OpenTSLM is a linked research project, not yet a verified company GitHub account."
+        }
+    ]
+}
