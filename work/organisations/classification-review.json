@@ -1,25 +1,370 @@
 {
     "reviewedAt": "2026-10-14",
-    "productionOrganisationCount": 613,
+    "productionOrganisationCount": 765,
     "complete": false,
+    "approvedCandidates": {
+        "south-pole": {
+            "decision": "User explicitly approved inclusion on 2026-10-14",
+            "status": "Imported and independently verified at 765 records",
+            "classification": "Use the verified software and analytics work; climate advisory alone does not imply Energy"
+        }
+    },
+    "auditClarifications": {
+        "zurich-tech": "The map uses mapLogoUrl or logoUrl. This listing already has its official branding/logo.png in logoUrl, so the mapLogoUrl-only audit warning is not a missing-logo defect. No branding update is needed.",
+        "additionalCoordinates": "Five further building-coordinate corrections affecting eleven public locations were applied only after refreshing and reviewing stale shared-address references, then independently verified. No address text or organisation references changed."
+    },
     "deployment": {
-        "commit": "b6965ca",
-        "workflowRun": "38588276264",
-        "status": "success"
+        "commit": "d3bd61dee1ba37a3d713158387bd9b7658eec674",
+        "workflowRun": "38601436573",
+        "status": "Worker and Convex deployed. CI initially received HTTP 404 for one current-build asset; a subsequent independent strict check passed all 182 assets without retries. Chrome map rendering and topic filtering verified. The transient failure cause is unproven; verification guards remain unchanged."
+    },
+    "instituteDeployment": {
+        "commit": "018efa519f9bb01fea6032ea309fce1752d3fc32",
+        "workflowRun": "38609174284",
+        "status": "Checks, Convex and Worker deployment, and production page and asset verification passed"
     },
     "applied": {
-        "initialClassificationA": { "reviewed": 253, "updated": 248, "unchanged": 5 },
-        "initialClassificationB": { "reviewed": 184, "updated": 181, "unchanged": 3 },
-        "remainingClassificationB": { "reviewed": 69, "updated": 63, "unchanged": 6 },
+        "initialClassificationA": {
+            "reviewed": 253,
+            "updated": 248,
+            "unchanged": 5
+        },
+        "initialClassificationB": {
+            "reviewed": 184,
+            "updated": 181,
+            "unchanged": 3
+        },
+        "remainingClassificationB": {
+            "reviewed": 69,
+            "updated": 63,
+            "unchanged": 6
+        },
         "headlineCleanup": 325,
-        "newOrganisations": 105,
+        "newOrganisations": 257,
+        "additionalTopicAssignments": 2,
+        "technoparkCoordinates": {
+            "addresses": 16,
+            "publicLocations": 64
+        },
+        "additionalCoordinates": {
+            "addresses": 5,
+            "publicLocations": 11
+        },
         "energyCorrections": 7,
         "investorMandateCorrections": 4,
-        "additionalSocialLinks": { "organisations": 49, "links": 50 }
+        "additionalSocialLinks": {
+            "organisations": 49,
+            "links": 50
+        }
     },
-    "verification": "Each classification batch and correction was compared with a separate fresh production export after application. All 105 new organisations were independently checked against organisation, public location, address and social-link records. Treeless has two independently verified public sites under one organisation. Official logos were visually reviewed and their hosted bytes and CORS access verified before import. The 594-record structural audit found no duplicate names or slugs and no invalid topic references; subsequent imports each passed current-production deduplication. This does not establish semantic completeness or exhaustively detect aliases.",
-    "registeredAddresses": ["aionic-labs", "lakestar", "snglr-capital", "cyclowatt", "openversum"],
+    "verification": "Each classification batch, import and correction was compared with separate fresh production records after application; latestImports records each verified count. Treeless has two independently verified public sites under one organisation. Official logos were visually reviewed and their hosted bytes and CORS access verified before import; new ZHAW institutes use the verified existing parent logo with exact parent and peer identity guards. Serpentine Ventures and Innovation Park Zurich received independently verified mandate-backed topics. The remaining fifteen records without specific topics comprise thirteen deliberate generalist assignments and two excluded holds. Sixteen Technopark address records affecting 64 public locations and five further address records affecting eleven public locations were corrected and separately verified. These checks do not establish semantic completeness or exhaustively detect aliases.",
+    "instituteBatch": ["zhaw-ims", "zhaw-icp", "zhaw-iefe", "zhaw-iamp"],
+    "companyCensusBatches": {
+        "censusFour": [
+            "emil-frey-it-solutions",
+            "evolit-switzerland",
+            "equans-switzerland",
+            "dream-production"
+        ],
+        "censusThree": ["infometis", "insite", "infosec-global"],
+        "branding": "Emil Frey IT Solutions uses the official group branding and social account. InfoSec Global explicitly remains identified as part of Keyfactor, using its parent logo and accounts; no separate Keyfactor listing was created. insite has no verified supported social link.",
+        "location": "Dream Production uses the current contact page office at Selnaustrasse 3; the older legal-page address is retained in research evidence but not used as another location. Equans uses its documented Buckhauserstrasse technical office, not its generic headquarters footer."
+    },
+    "registeredAddresses": [
+        "aionic-labs",
+        "lakestar",
+        "snglr-capital",
+        "cyclowatt",
+        "openversum",
+        "kaiko-ai",
+        "unchained-commerce"
+    ],
     "latestImports": {
+        "verifiedAt765": {
+            "slugs": ["south-pole"],
+            "verification": "User explicitly approved inclusion. The current official office page embeds structured office-map data identifying Technoparkstrasse 1 as Zurich headquarters; this resolves the prior address hold. The official office contact logo and public LinkedIn/X links were verified. Luumo supports Software and Analytics, without inferring Energy from climate advisory. Supported dry run, import and independent fresh-record verification passed. No separate Luumo or South Pole legal-entity duplicate was added.",
+            "evidence": [
+                "/tmp/zurich-registry-review/south-pole-current-office.json",
+                "/tmp/zurich-registry-review/south-pole-prepared.json",
+                "/tmp/zurich-registry-review/last41-primary/luumoCurrent.json"
+            ]
+        },
+        "verifiedAt764": {
+            "slugs": ["esri-zurich", "automate", "cognel", "netmedia", "yuuniq"],
+            "verification": "All five passed supported dry run, import and independent fresh-record verification. Official logos were visually reviewed and their hosted bytes and CORS verified. Esri Zurich is the corporate R&D centre, not a second Procedural record. Cognel represents Kopfwerker once and uses NLP rather than an unsupported general machine-learning research claim. YUUNIQ represents Meta Health once at its current Winterthur address. netMEDIA has no verified supported social account, so none was invented. Descriptions omit terminal full stops.",
+            "evidence": [
+                "/tmp/zurich-registry-review/last41-main-prepared.json",
+                "/tmp/zurich-registry-review/last41-ready-evidence.json",
+                "/tmp/zurich-registry-review/last41-final.json"
+            ]
+        },
+        "verifiedAt759": {
+            "slugs": ["webling", "vertec", "incentage", "pronovia", "profidata"],
+            "verification": "All five passed supported dry run, import and independent fresh-record verification. Official compact logos were visually reviewed and hosted bytes and CORS verified. Source evidence establishes local software development rather than generic consulting. Legal operator and brand aliases were checked before import. The complete fresh structural audit found 759 organisations, 757 mapped, no duplicate names or slugs, invalid topics, missing mapped logos or missing public coordinates. Fifteen previously documented topic-free generalists and excluded holds remain unchanged. Source coverage and semantic completeness remain unproven.",
+            "evidence": [
+                "/tmp/zurich-registry-review/resumed-swissmade-prepared.json",
+                "/tmp/zurich-registry-review/shard2-continuation-swissmade-batch01-evidence.json",
+                "/tmp/zurich-registry-review/current-audit.json"
+            ]
+        },
+        "verifiedAt754": {
+            "slugs": ["multiplechat"],
+            "verification": "Supported dry run, import and independent fresh-record verification passed. Official imprint identifies NLP GmbH trading as MultipleChat and connects the former Beratics identity. Its Kusnacht address is explicitly labelled Registered address. NLP reflects the multi-model collaboration product, without claiming foundation-model research. Official logo and supplied public social links were verified.",
+            "evidence": [
+                "/tmp/zurich-registry-review/resumed-one-prepared.json",
+                "/tmp/zurich-registry-review/recovery-next4-evidence.json",
+                "/tmp/zurich-registry-review/recovery-next4-multiplechat-browser.json"
+            ]
+        },
+        "verifiedAt753": {
+            "slugs": ["mecas", "tcg-inventory", "eth-aimm", "percim", "prometeia", "terraview"],
+            "verification": "All six passed the supported production dry run and import, followed by independent fresh-record verification of every published field, public office and supplied social link. Official logos were visually reviewed and hosted bytes and CORS verified. mecas, TCG Inventory and Percim are explicitly mapped as registered addresses. ETH AIMM uses its documented Technopark laboratory and office address, not a publisher footer. Terraview uses the verified Winterthur entity and TerraviewOS account, not the unrelated terraview.ru company. Descriptions omit terminal full stops. The preceding 747-record structural audit retained the fifteen documented topic-free generalists and excluded holds; these are not new classification failures. Source coverage and semantic completeness remain unproven.",
+            "evidence": [
+                "/tmp/zurich-registry-review/resumed-six-prepared.json",
+                "/tmp/zurich-registry-review/recovery-next2-evidence.json",
+                "/tmp/zurich-registry-review/recovery-next2-socials.json"
+            ]
+        },
+        "verifiedAt747": {
+            "slugs": ["olmero", "q-sys-switzerland"],
+            "verification": "The two imports completed and were independently verified before the event-editing break. Olmero is the Hubexo-operated construction software business. Q-SYS Switzerland represents the verified Seervision operation rather than creating a second Seervision listing. The subsequent fresh production audit confirmed 747 organisations and 745 mapped records.",
+            "evidence": [
+                "/tmp/zurich-registry-review/operators-two-prepared.json",
+                "/tmp/zurich-registry-review/current-audit.json"
+            ]
+        },
+        "verifiedAt745": {
+            "slugs": [
+                "pront",
+                "pv-computing",
+                "snowflake-productions",
+                "theia-solutions",
+                "zeix",
+                "relyz",
+                "scheuss-partner",
+                "smg-swiss-marketplace-group",
+                "switch",
+                "zurichnetgroup"
+            ],
+            "verification": "All ten passed the supported production dry run, import and independent fresh-record verification of every published field, public office and supplied social link. Official compact logos were visually reviewed, and hosted bytes and CORS verified. Snowflake Productions is the Swiss web engineering company, not the US database vendor. SMG is represented as the group employer rather than additional listings for each marketplace brand. relyz uses its September 2026 published office move. Switch is a technical nonprofit, with its physical 8004 address rather than the 8021 post-office box. The full 745-record audit found 743 mapped organisations and no duplicate names or slugs, invalid topics, missing public coordinates or missing mapped logos. The fifteen previously documented topic-free generalists and excluded holds remain unchanged. Source coverage and semantic completeness remain unproven.",
+            "evidence": [
+                "/tmp/zurich-registry-review/census-ten-prepared.json",
+                "/tmp/zurich-registry-review/discovery-expansion-census45-frozen.json",
+                "/tmp/zurich-registry-review/current-audit.json"
+            ]
+        },
+        "verifiedAt735": {
+            "slugs": ["gnl", "evis-bioscience", "logway"],
+            "verification": "All three passed the supported production dry run, import and independent fresh-record verification. GNL's proprietary mechanical sole development supports Design, without unsupported Materials or Medtech claims; its address is explicitly registered. EVis has a published Schlieren laboratory address and non-viral gene-delivery technology. LOGWAY develops iCOSS warehouse control software from its published Zurich office. Official compact logos were visually reviewed and hosted bytes and CORS verified. The full audit found 735 organisations, 733 mapped, no duplicate names or slugs, invalid topics, missing public coordinates or missing mapped logos. The fifteen records without specific topics remain the previously documented generalists and excluded holds; semantic and ecosystem completeness remain unproven.",
+            "evidence": [
+                "/tmp/zurich-registry-review/recovery-three-prepared.json",
+                "/tmp/zurich-registry-review/recovery-next3-evidence.json",
+                "/tmp/zurich-registry-review/current-audit.json"
+            ]
+        },
+        "verifiedAt732": {
+            "slugs": ["voviva", "alp-bio", "sylva", "forte-digital", "adularia"],
+            "verification": "Five reviewed organisations passed supported dry run, import and independent exact-field verification. Official logos were visually reviewed at map size and hosted bytes/CORS verified. Registered addresses remain labelled, SYLVA's incorrect website postcode was resolved against the active federal record, Adularia's former Recolony identity was checked, and Forte's published landlord address remains distinguished from headquarters. Full audit found 732 organisations and 730 mapped with no new structural issues. The original twelve-entry handoff was not applied wholesale.",
+            "evidence": [
+                "/tmp/zurich-registry-review/fourteenth-five-prepared.json",
+                "/tmp/zurich-registry-review/fourteenth-five-published.json",
+                "/tmp/zurich-registry-review/shard-3-fourteenth-review.json"
+            ]
+        },
+        "verifiedAt727": {
+            "slugs": ["zhaw-ids", "zhaw-zav"],
+            "verification": "Both institutes passed supported production dry run, import and independent exact-field verification with unchanged parent and peer guards. Shared public addresses and verified university branding were reused. Registry audit found 727 organisations and 725 mapped, without new structural issues. INE remains held for technical-scope evidence and was not imported.",
+            "evidence": [
+                "/tmp/zurich-registry-review/labs-two-prepared.json",
+                "/tmp/zurich-registry-review/labs-two-main-review.json"
+            ]
+        },
+        "verifiedAt725": {
+            "slugs": ["monostream", "n47", "netgen-switzerland"],
+            "verification": "Supported production dry run, import and independent exact-field verification passed for all three companies. Official office and software-team evidence reviewed separately; official logos visually checked at map size and hosted bytes/CORS verified. Shared public addresses reused where matched. Registry-wide audit found no new structural issues.",
+            "evidence": [
+                "/tmp/zurich-registry-review/census-five-prepared.json",
+                "/tmp/zurich-registry-review/census-five-published.json"
+            ]
+        },
+        "verifiedAt722": {
+            "slugs": ["arbrea-labs", "foxki", "nedicare"],
+            "verification": "Supported import and independent fresh-record verification passed for all three organisations, including classifications, official logos, public addresses and supported social links. The complete structural audit found 722 organisations and 720 mapped. Fifteen records without specific topics remain thirteen deliberate generalists and two excluded holds. Q-SYS was excluded from this batch because current Zurich engineering activity remains unconfirmed.",
+            "evidence": [
+                "/tmp/zurich-registry-review/handoff-ten-prepared.json",
+                "/tmp/zurich-registry-review/handoff-ten-main-review.json"
+            ]
+        },
+        "verifiedAt719": {
+            "slugs": ["zhaw-imes", "zhaw-impe", "zhaw-ipp"],
+            "verification": "All three institutes passed supported import and independent fresh-record verification, retaining exact university parent and existing peer guards and the verified parent logo. IMPE retains its published institutional postal code; IPP uses its separately verified Lagerplatz location.",
+            "evidence": [
+                "/tmp/zurich-registry-review/labs-three-prepared.json",
+                "/tmp/zurich-registry-review/labs-three-logos.json"
+            ]
+        },
+        "verifiedAt705": {
+            "slugs": [
+                "philochem",
+                "hydken",
+                "pearl-technology",
+                "al-s-pharma",
+                "conteo",
+                "scope",
+                "buildup",
+                "etavis",
+                "vat"
+            ],
+            "verification": "All nine passed supported production dry runs, imports and independent fresh-record verification. Genuine official logos were visually reviewed and remote bytes/CORS verified, with Philochem and Pearl source-resolution limitations retained. Scope uses the current registered address instead of contradictory website contact addresses. Conteo represents former Additively once. ETAVIS and VAT reuse the independently verified Technopark building point. VAT's annual report confirms its Zurich innovation hub. The full audit found 705 organisations and 703 mapped, with no duplicate names/slugs, invalid topics, missing public coordinates or missing logos. The seventeen no-topic records remain pending final disposition review, not evidence of completeness.",
+            "evidence": [
+                "/tmp/zurich-registry-review/twelfth-reviewed.json",
+                "/tmp/zurich-registry-review/handoff-nine-reviewed.json",
+                "/tmp/zurich-registry-review/current-audit.json"
+            ]
+        },
+        "verifiedAt696": {
+            "slugs": ["blockchain-presence", "lifematrix", "cointact"],
+            "verification": "All three passed supported dry runs, imports and independent fresh-record verification. Official logos were visually reviewed and hosted bytes/CORS verified. Blockchain Presence and Cointact use labelled registered addresses without personal care-of details; LifeMatrix uses its explicitly published visitor address in Schlieren. Descriptions avoid regulatory approval claims and do not infer cryptocurrency activity from Cointact's name.",
+            "evidence": [
+                "/tmp/zurich-registry-review/blockchain-presence-reviewed.json",
+                "/tmp/zurich-registry-review/handoff-seven-reviewed.json"
+            ]
+        },
+        "verifiedAt693": {
+            "slugs": ["immunai", "renesas-design-zurich"],
+            "verification": "Both profiles passed the supported production dry run and import, followed by independent fresh-record verification. Immunai and acquired Nebion are represented once; the current official contact page confirms the Zurich office. Renesas uses its verified registered address, not an inferred design-centre location. Group-wide social accounts are confirmed by official pages. Official logos were visually reviewed and their published bytes and CORS checked; Renesas's source icon is only 32 pixels, not claimed to be high-resolution artwork.",
+            "evidence": [
+                "/tmp/zurich-registry-review/handoff-eight-reviewed.json",
+                "/tmp/zurich-registry-review/shard2-continuation-handoff-08-evidence.json"
+            ]
+        },
+        "verifiedAt691": {
+            "slugs": [
+                "oneconsult",
+                "bmpi",
+                "panter",
+                "esurance",
+                "cyberlink",
+                "dory-health",
+                "innovative-web"
+            ],
+            "verification": "Seven profiles passed supported production dry runs and imports, followed by independent fresh-record verification of identity, classification, public location, coordinates, official logo and supplied social links. All official logo objects passed remote byte and CORS verification. DoryHealth describes compartment-opening records, not proof of medication ingestion. No completeness claim is made.",
+            "evidence": [
+                "/tmp/zurich-registry-review/census-seven-reviewed.json",
+                "/tmp/zurich-registry-review/discovery-expansion-census-ready.json"
+            ]
+        },
+        "verifiedAt684": {
+            "slugs": [
+                "magnebotix",
+                "suind",
+                "visium",
+                "insili",
+                "inilabs",
+                "freisicht",
+                "baxiva",
+                "bubble-robotics",
+                "lock-and-key-biosciences"
+            ],
+            "verification": "All nine passed supported production dry runs, imports and independent fresh-record verification. Official icons were visually reviewed; hosted bytes and CORS were verified. Federal registered addresses remain labelled, and Freisicht's label omits unnecessary personal care-of details. iniLabs is described separately from products transferred to iniVation and SynSense. The fresh 684-record audit found 682 mapped organisations and no duplicate names or slugs, invalid topic references, missing public coordinates or missing logos; the existing seventeen no-topic records remain for contextual review. Completeness is not established.",
+            "evidence": [
+                "/tmp/zurich-registry-review/recovery-nine-reviewed.json",
+                "/tmp/zurich-registry-review/current-audit.json"
+            ],
+            "geographyReview": "A separate review of additions from 625 through 659 found no material coordinate errors across 34 organisations and 26 addresses. Six older suffix or entrance ambiguities have no evidence justifying relocation; retain their current pins and exact address text."
+        },
+        "verifiedAt675": {
+            "slugs": [
+                "rqmicro",
+                "cytosurge",
+                "checktor-biosciences",
+                "intelliact",
+                "enlightware",
+                "micropow",
+                "rehaptix",
+                "heiq-materials",
+                "linked-engineering",
+                "araris-biotech",
+                "meteodat",
+                "cross-ing",
+                "adaptivv",
+                "molecular-machines-industries",
+                "planted",
+                "skaaltec"
+            ],
+            "verification": "Sixteen profiles passed supported production dry runs, imports and independent fresh-record verification. Official logos were visually reviewed and hosted bytes verified. Checktor uses the Registered address label without unnecessary personal care-of details; HeiQ uses its explicitly published Operational headquarters. Planted uses its federal registered address, and Skaaltec its explicitly published Balgrist Campus office. The full audit at 675 records found 673 mapped organisations, no duplicate names or slugs, invalid topic references, missing public coordinates or missing logos. Seventeen previously reviewed broad institutions, investors and excluded holds remain without specific topics. This structural audit does not establish semantic or ecosystem completeness.",
+            "evidence": [
+                "/tmp/zurich-registry-review/supplement-fourteen-reviewed.json",
+                "/tmp/zurich-registry-review/planted-skaaltec-reviewed.json",
+                "/tmp/zurich-registry-review/current-audit.json"
+            ]
+        },
+        "verifiedAt659": {
+            "slugs": [
+                "odne",
+                "mathys-partner",
+                "aerne-engineering",
+                "infineon-switzerland",
+                "in-finitude",
+                "sphera",
+                "antavi",
+                "frontdam-buddyns"
+            ],
+            "verification": "All eight passed supported dry runs, imports and independent fresh-record verification. Odne is a startup, consistent with its current primary announcement. AEH was excluded because its own engineering role remains unproven. Sphera retains Software and Analytics without the unsupported Energy tag; BuddyNS retains Cloud and Systems without their redundant Software parent. The fresh 659-record structural audit found 657 mapped organisations and no duplicate names or slugs, invalid topic references, missing public coordinates or missing logos. Seventeen broad institutions, investors and excluded holds remain without specific topics. Coverage and semantic completeness remain unproven.",
+            "evidence": [
+                "/tmp/zurich-registry-review/seventh-three-reviewed.json",
+                "/tmp/zurich-registry-review/fourth-sixth-reviewed.json",
+                "/tmp/zurich-registry-review/current-audit.json"
+            ]
+        },
+        "verifiedAt651": {
+            "slugs": [
+                "abrantix",
+                "4data",
+                "xebia-switzerland",
+                "md-systems",
+                "42talents",
+                "alabus",
+                "kayak"
+            ],
+            "verification": "All seven passed a supported production dry run, import and separate fresh-record verification. Official compact MD Systems and alabus icons replace illegibly small wordmarks. Xebia and KAYAK local technical activity is supported by their official Zurich job listings. Public addresses, topics, supplied socials and hosted official logo bytes were reviewed. The 644-record structural audit remains the latest whole-registry audit; this batch does not imply source coverage is complete.",
+            "evidence": "/tmp/zurich-registry-review/employers-seven-reviewed.json"
+        },
+        "verifiedAt644": {
+            "slugs": [
+                "aaaccell",
+                "careerfairy",
+                "spineplanner",
+                "am-tec-switzerland",
+                "cyfex",
+                "lucid-concepts",
+                "cellvie",
+                "linkster-therapeutics",
+                "thelkin",
+                "kluvo",
+                "lend",
+                "timetoact-group-schweiz",
+                "consys",
+                "dimpora",
+                "mondaic",
+                "delta-labs",
+                "cloudbroker",
+                "swiss-robotics-advanced-technologies",
+                "fleco-power"
+            ],
+            "verification": "All nineteen passed current-production importer dry runs and independent verification of identity, kind, topics, public address, location label, hosted official logo and supplied social links. The fresh full audit at 644 records found no duplicate names or slugs, invalid topic references or missing public coordinates. The earlier 625-record coverage reconciliation remains a historical snapshot, not the current count.",
+            "registeredAddresses": [
+                "aaaccell",
+                "careerfairy",
+                "cellvie",
+                "linkster-therapeutics",
+                "kluvo",
+                "timetoact-group-schweiz",
+                "dimpora",
+                "mondaic",
+                "delta-labs"
+            ]
+        },
         "winterthur": ["xiag", "itivity", "digitalmaterial", "beebase", "won-data", "nsync"],
         "researchBatch": [
             "cyclowatt",
@@ -34,19 +379,40 @@
     "socialVerification": "All 50 additional links were independently reviewed for identity, then checked against fresh production records for exact destination and public visibility. Sony AI, GetYourGuide, Empa, Disney Research and Pinterest use their organisation-wide accounts, not Zurich-only accounts.",
     "energyDefinition": "Energy requires substantive energy technology, not environmental benefits or climate-related analytics alone.",
     "correctedTopics": [
-        { "slug": "belian", "topics": ["analytics"] },
-        { "slug": "climeworks", "topics": ["hardware", "materials"] },
-        { "slug": "collateral-good", "topics": ["materials", "manufacturing"] },
-        { "slug": "correntics", "topics": ["analytics"] },
-        { "slug": "cotierra", "topics": ["hardware", "software-engineering"] },
-        { "slug": "impact-build", "topics": ["robotics", "manufacturing"] },
-        { "slug": "kitro", "topics": ["analytics"] }
+        {
+            "slug": "belian",
+            "topics": ["analytics"]
+        },
+        {
+            "slug": "climeworks",
+            "topics": ["hardware", "materials"]
+        },
+        {
+            "slug": "collateral-good",
+            "topics": ["materials", "manufacturing"]
+        },
+        {
+            "slug": "correntics",
+            "topics": ["analytics"]
+        },
+        {
+            "slug": "cotierra",
+            "topics": ["hardware", "software-engineering"]
+        },
+        {
+            "slug": "impact-build",
+            "topics": ["robotics", "manufacturing"]
+        },
+        {
+            "slug": "kitro",
+            "topics": ["analytics"]
+        }
     ],
     "holds": [
         "CLYOS: own adaptive assessment is evidenced, but substantial technical activity versus coaching-led business needs a separate scope review",
         "CLIMADA Technologies: retain exclusion and do not restore its map location",
         "Reasoning Labs: confirm current independent identity and substantive primary product or research evidence",
-        "itopia, Systaim, rqmicro, Cytosurge, Pearl Technology and Philochem: readable official map artwork requires further review",
+        "itopia and Systaim: readable official map artwork requires further review; rqmicro, Cytosurge, Pearl Technology and Philochem have since been reviewed and imported",
         "Remaining uncertain classifications, address evidence and illegible logos require review"
     ],
     "remaining": "Candidate discovery, primary-source review, verified social links, readable official logos and remaining classifications are not complete. The current organisation count is not an ecosystem-completeness claim."
