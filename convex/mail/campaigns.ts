@@ -20,8 +20,21 @@ import { readProgramme } from "./programme";
 import { eventPlace } from "../events/place";
 import { attribute } from "./referrals";
 import { enqueue } from "./messages";
-import { recipientAllowed, recipientsLocked, requireAudienceDelivery } from "./policy";
-import { audience, type Audience, type Category, type Content, type Recipient } from "./model";
+import {
+    isBulk,
+    recipientAllowed,
+    recipientsLocked,
+    requireAudienceDelivery,
+    sendingDate,
+} from "./policy";
+import {
+    audience,
+    recipient,
+    type Audience,
+    type Category,
+    type Content,
+    type Recipient,
+} from "./model";
 import { rank, select } from "./audiences";
 import { links, personalize } from "./personalization";
 import { profileInvitation, profilePlaceholder } from "./involvement";
@@ -128,6 +141,8 @@ export const preview = query({
             id: campaign._id,
             updatedAt: campaign.updatedAt,
             recipients: selected.recipients.length,
+            recipientIds:
+                viewer.isAdmin && isBulk(campaign.category) ? selected.recipients : undefined,
             excluded: selected.excluded,
             audience: ranked
                 ? {
@@ -218,8 +233,6 @@ export const announcement = mutation({
             expiresAt: event.startsAt,
             authorId: account._id,
             status: "draft",
-            attemptLimit: 0,
-            attempts: 0,
             createdAt: Date.now(),
             updatedAt: Date.now(),
         });
@@ -236,6 +249,7 @@ export const release = mutation({
     handler: async (ctx, args) => {
         await requireAdmin(ctx);
         const campaign = await get(ctx, args.id);
+        if (campaign.approval) throw new ConvexError("This campaign already has its own approval.");
         requireAudienceDelivery();
         const sending = await state(ctx);
         if (sending.isPaused || !sending.hasWebhook || sending.remaining <= 0)
@@ -346,11 +360,17 @@ export const save = mutation({
 
 /** Freeze audience membership and engagement order exactly once when a campaign starts. */
 async function start(ctx: MutationCtx, campaign: Doc<"campaigns">, recipients?: Recipient[]) {
-    const ranked = await rank(
-        ctx,
-        recipients ?? (await select(ctx, campaign.audience!, campaign.category!)).recipients,
-    );
-    const selected = ranked.map((row) => row.id);
+    // keep approved identities and order; transactional audiences are resolved when due
+    const selected = campaign.approval
+        ? campaign.recipients
+        : (
+              await rank(
+                  ctx,
+                  recipients ??
+                      (await select(ctx, campaign.audience!, campaign.category!)).recipients,
+              )
+          ).map((row) => row.id);
+    if (!selected) throw new Error("Approved campaign audience is missing.");
     if (selected.length > 10000)
         throw new ConvexError("Campaign audience exceeds 10,000 recipients.");
 
@@ -369,21 +389,30 @@ async function start(ctx: MutationCtx, campaign: Doc<"campaigns">, recipients?: 
         });
 }
 
-/** Confirm saved content and audience; scheduled audiences are frozen when due. */
+/** Approve saved content and a bounded subscriber audience for one sending day. */
 export const queue = mutation({
     args: {
         id: v.id("campaigns"),
         expectedUpdatedAt: v.number(),
         expectedRecipients: v.number(),
+        expectedRecipientIds: v.optional(v.array(recipient)),
         scheduledAt: v.optional(v.number()),
+        hourlyLimit: v.optional(v.number()),
     },
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
         await authorize(ctx, campaign, "organiser");
         await requireMailSender(ctx);
         requireAudienceDelivery();
-        if (campaign.attemptLimit !== undefined)
-            throw new ConvexError("Release a reviewed batch instead.");
+        // never turn an old, partially sent batch into a fresh campaign approval
+        if (
+            campaign.approval ||
+            campaign.recipients !== undefined ||
+            campaign.reviewedBatch ||
+            (campaign.attempts ?? 0) > 0 ||
+            (campaign.attemptLimit ?? 0) > 0
+        )
+            throw new ConvexError("This campaign has already been released. Create a new draft.");
         const sending = await state(ctx);
         if (sending.isPaused || !sending.hasWebhook)
             throw new ConvexError("Configure and enable bulk delivery first.");
@@ -399,6 +428,58 @@ export const queue = mutation({
             throw new ConvexError("Choose a future send time.");
 
         const sender = await authorize(ctx, campaign);
+        const now = Date.now();
+        const sendAt = args.scheduledAt ?? now;
+        if (campaign.expiresAt !== undefined && sendAt >= campaign.expiresAt)
+            throw new ConvexError("Choose a send time before the campaign expires.");
+
+        // approve bulk mail independently from the legacy shared daily allowance
+        if (isBulk(campaign.category)) {
+            await requireAdmin(ctx);
+            if (
+                !args.expectedRecipientIds ||
+                args.expectedRecipientIds.length !== selected.recipients.length ||
+                selected.recipients.some((id, index) => id !== args.expectedRecipientIds![index])
+            )
+                throw new ConvexError("Recipients changed. Preview the campaign again.");
+            if (
+                !Number.isInteger(args.hourlyLimit) ||
+                args.hourlyLimit! < 1 ||
+                args.hourlyLimit! > sending.limits.hourly
+            )
+                throw new ConvexError(`Choose an hourly limit from 1 to ${sending.limits.hourly}.`);
+            if (selected.recipients.length > sending.limits.daily)
+                throw new ConvexError("The audience exceeds the shared daily limit.");
+
+            // freeze identities and content now; new subscribers need a separate approval
+            const ranked = await rank(ctx, selected.recipients);
+            const values = {
+                authorId: sender._id,
+                approval: {
+                    date: sendingDate(sendAt),
+                    limit: ranked.length,
+                    hourlyLimit: args.hourlyLimit!,
+                    approvedAt: now,
+                    approvedBy: sender._id,
+                },
+                attemptLimit: ranked.length,
+                attempts: 0,
+                scheduledAt: sendAt,
+                recipients: ranked.map((row) => row.id),
+                content: await render(campaign, ctx),
+                status: "scheduled" as const,
+                updatedAt: now,
+            };
+            await ctx.db.patch(args.id, values);
+            if (args.scheduledAt === undefined)
+                await start(ctx, { ...campaign, ...values }, values.recipients);
+
+            return;
+        }
+
+        // preserve the existing event-organiser workflow for transactional messages
+        if (args.hourlyLimit !== undefined)
+            throw new ConvexError("Hourly limits apply only to subscriber campaigns.");
         await ctx.db.patch(args.id, { authorId: sender._id });
 
         // freeze content at confirmation, and recipients at the actual send time
@@ -510,6 +591,24 @@ export const batch = internalMutation({
 export const tick = internalMutation({
     args: {},
     handler: async (ctx) => {
+        const now = Date.now();
+        const date = sendingDate(now);
+        // expire approvals even while global delivery is paused
+        for (const status of ["scheduled", "queued"] as const) {
+            const campaigns = await ctx.db
+                .query("campaigns")
+                .withIndex("by_schedule", (q) => q.eq("status", status))
+                .collect();
+            for (const campaign of campaigns) {
+                if (campaign.approval && campaign.approval.date < date)
+                    await ctx.db.patch(campaign._id, {
+                        status: "paused",
+                        pauseReason:
+                            "Campaign approval expired at Zurich midnight. Review unsent recipients in a new campaign.",
+                        updatedAt: now,
+                    });
+            }
+        }
         const sending = await state(ctx);
         if (sending.isLocked || sending.isPaused) return;
         const due = await ctx.db
@@ -519,7 +618,8 @@ export const tick = internalMutation({
             )
             .take(20);
         for (const campaign of due) {
-            if (await canSend(ctx, campaign)) await start(ctx, campaign);
+            if (await canSend(ctx, campaign))
+                await start(ctx, campaign, campaign.approval ? campaign.recipients : undefined);
             else
                 await ctx.db.patch(campaign._id, {
                     status: "paused",
@@ -544,7 +644,14 @@ export const pause = mutation({
             throw new ConvexError("Campaign cannot change to that state.");
         if (!args.isPaused && recipientsLocked())
             throw new ConvexError("Test recipient lock is enabled.");
-        const status = args.isPaused ? "paused" : campaign.recipients ? "queued" : "scheduled";
+        if (!args.isPaused && campaign.approval && campaign.approval.date < sendingDate(Date.now()))
+            throw new ConvexError(
+                "Campaign approval expired. Review unsent recipients in a new campaign.",
+            );
+        const hasStarted = campaign.approval
+            ? campaign.cursor !== undefined
+            : !!campaign.recipients;
+        const status = args.isPaused ? "paused" : hasStarted ? "queued" : "scheduled";
         const account = await authorize(ctx, campaign);
         await ctx.db.patch(args.id, {
             status,
@@ -576,7 +683,11 @@ export const duplicate = mutation({
     args: { id: v.id("campaigns") },
     handler: async (ctx, args) => {
         const campaign = await get(ctx, args.id);
-        if (campaign.key || campaign.attemptLimit !== undefined)
+        if (
+            campaign.key ||
+            campaign.category === "announcement" ||
+            (campaign.attemptLimit !== undefined && !campaign.approval)
+        )
             throw new ConvexError("Automatic campaigns are created by their product action.");
         const account = await authorize(ctx, campaign);
         return await ctx.db.insert("campaigns", {

@@ -36,31 +36,6 @@ export function Sending() {
         }, "Sending limits saved.");
     }
 
-    /** Review today's absolute release limit without resuming paused delivery. */
-    async function approve(event: SubmitEvent) {
-        // read the requested absolute allowance
-        event.preventDefault();
-        const fields = new FormData(event.currentTarget as HTMLFormElement);
-        const limit = Number(fields.get("limit"));
-
-        // require explicit confirmation because an active sender can consume the released quota
-        await command.perform(async () => {
-            const client = await memberClient();
-            const latest = await client.query(api.mail.sending.current, {});
-            if (
-                !(await confirm({
-                    title: "Approve today's delivery",
-                    action: "Approve",
-                    description: `Release campaigns up to ${limit} total bulk attempts today, paced at ${latest.limits.hourly} per hour.`,
-                    details:
-                        "Includes attempts already used and retries. Expires at Zurich midnight. Paused delivery stays paused; active delivery can continue immediately.",
-                }))
-            )
-                return false;
-            await client.mutation(api.mail.sending.approve, { limit });
-        }, "Today's limit approved.");
-    }
-
     /** Confirm delivery changes; ordinary saves never enable sending. */
     async function change(isPaused: boolean) {
         await command.perform(async () => {
@@ -181,36 +156,6 @@ export function Sending() {
                                     Save sending limits
                                 </button>
                             </form>
-                        </section>
-                        <section class="mail-section">
-                            <h3>Campaign approval</h3>
-                            <p class="mail-note">
-                                Scheduled newsletter editions send automatically within the shared
-                                limits. Other bulk campaigns require approval for each sending day.
-                            </p>
-                            <form class="editor" onSubmit={approve}>
-                                <label>
-                                    Approved total today
-                                    <input
-                                        name="limit"
-                                        type="number"
-                                        min={value().count}
-                                        max="10000"
-                                        step="1"
-                                        required
-                                        value={Math.max(value().approvedLimit, value().count)}
-                                    />
-                                </label>
-                                <button class="button" type="submit" disabled={command.isPending()}>
-                                    Approve today's limit
-                                </button>
-                            </form>
-                            <p class="mail-note">
-                                {value().remaining > 0
-                                    ? `${value().remaining} attempts remaining today.`
-                                    : "Awaiting approval."}{" "}
-                                Approvals expire at Zurich midnight. Retries count toward the limit.
-                            </p>
                         </section>
                         <Show when={value().accepted || value().bounced || value().complained}>
                             <section class="mail-section">

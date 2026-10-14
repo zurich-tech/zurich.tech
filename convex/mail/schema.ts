@@ -162,6 +162,18 @@ export const mailQuota = defineTable({
 
 /** Written or product-generated group send, frozen when sending starts. */
 export const campaigns = defineTable({
+    /** One administrator's approval of the frozen audience for one Zurich sending day. */
+    approval: v.optional(
+        v.object({
+            date: v.string(),
+            limit: v.number(),
+            hourlyLimit: v.number(),
+            approvedAt: v.number(),
+            approvedBy: v.id("accounts"),
+        }),
+    ),
+    /** Earliest next attempt under this campaign's own pace, preserved across pauses. */
+    nextAttemptAt: v.optional(v.number()),
     /** Exact message identities admitted from an existing queue by the latest review. */
     reviewedBatch: v.optional(
         v.object({

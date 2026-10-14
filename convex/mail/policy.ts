@@ -53,6 +53,21 @@ export function scheduledNewsletter(
     );
 }
 
+/** Check a campaign's own approval without borrowing another campaign's allowance. */
+export function approvedCampaign(campaign: Doc<"campaigns">, now: number) {
+    const approval = campaign.approval;
+
+    return !!(
+        approval &&
+        campaign.status === "queued" &&
+        campaign.scheduledAt !== undefined &&
+        campaign.scheduledAt <= now &&
+        approval.date === sendingDate(now) &&
+        (campaign.attempts ?? 0) < approval.limit &&
+        (campaign.expiresAt === undefined || campaign.expiresAt > now)
+    );
+}
+
 /** Only newsletters and announcements use the bulk queue. */
 export function isBulk(category?: string) {
     return category === "weekly" || category === "announcement" || category === "campaign";

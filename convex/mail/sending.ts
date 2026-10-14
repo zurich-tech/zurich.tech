@@ -14,6 +14,7 @@ import type { Doc } from "../_generated/dataModel";
 import { health } from "./health";
 import {
     advance,
+    approvedCampaign,
     hourly,
     initialCeiling,
     maximumCeiling,
@@ -159,10 +160,14 @@ export async function reserve(ctx: MutationCtx, now: number, campaign?: Doc<"cam
     const { date, count, ceiling } = advance(quota, now);
     const schedule = await ctx.db.query("mailSchedules").unique();
     const isAutomatic = scheduledNewsletter(campaign, schedule?.lastWeek, now);
+    const isApproved = campaign?.approval
+        ? approvedCampaign(campaign, now)
+        : isAutomatic || (policy.approvedDate === date && count < (policy.approvedLimit ?? 0));
     if (
-        (!isAutomatic && (policy.approvedDate !== date || count >= (policy.approvedLimit ?? 0))) ||
+        !isApproved ||
         count >= ceiling ||
-        now < quota.nextAt
+        now < quota.nextAt ||
+        (campaign?.approval && now < (campaign.nextAttemptAt ?? 0))
     )
         return false;
     await ctx.db.patch(quota._id, {
@@ -171,6 +176,13 @@ export async function reserve(ctx: MutationCtx, now: number, campaign?: Doc<"cam
         ceiling,
         nextAt: now + 3600000 / hourly(ceiling, quota.hourlyLimit),
     });
+
+    // reserve this campaign's pace in the same transaction as the shared quota
+    if (campaign?.approval)
+        await ctx.db.patch(campaign._id, {
+            nextAttemptAt: now + 3600000 / campaign.approval.hourlyLimit,
+        });
+
     return true;
 }
 
@@ -180,6 +192,7 @@ export const dispatch = internalMutation({
     handler: async (ctx) => {
         const now = Date.now();
         const settings = await state(ctx);
+        const campaigns = new Map<string, Doc<"campaigns"> | null>();
         for (const bulk of [false, true]) {
             if (
                 bulk &&
@@ -190,17 +203,21 @@ export const dispatch = internalMutation({
             )
                 continue;
             const rows = bulk
-                ? await dueBulk(ctx, now, settings.remaining > 0)
+                ? await dueBulk(ctx, now, settings.remaining > 0, campaigns)
                 : await ctx.db
                       .query("messages")
                       .withIndex("by_due", (q) =>
                           q.eq("isBulk", bulk).eq("status", "queued").lte("nextAttemptAt", now),
                       )
                       .take(100);
-            let position = 0;
+            const pending = [];
             for (const row of rows) {
+                // reuse campaign state across messages and the bulk audience scan
+                if (row.campaignId && !campaigns.has(row.campaignId))
+                    campaigns.set(row.campaignId, await ctx.db.get(row.campaignId));
+                const campaign = row.campaignId ? campaigns.get(row.campaignId) : null;
+
                 // rotate held work so it cannot starve another campaign
-                const campaign = row.campaignId ? await ctx.db.get(row.campaignId) : null;
                 if (
                     (!row.isTest &&
                         (campaign?.status === "paused" ||
@@ -218,9 +235,33 @@ export const dispatch = internalMutation({
                     });
                     continue;
                 }
-                const start = bulk ? Math.max(now, settings.nextAt) : now;
-                const at = start + position++ * (bulk ? 3600000 / settings.limits.hourly : 600);
-                if (at >= now + 60000) break;
+                pending.push({ row, campaign });
+            }
+
+            // fill each shared slot from the bounded queue, retaining due order for ties
+            let sharedAt = bulk ? Math.max(now, settings.nextAt) : now;
+            const nextAttempts = new Map<string, number>();
+            while (pending.length) {
+                let selected = -1;
+                let at = now + 60000;
+                for (const [index, { campaign }] of pending.entries()) {
+                    const campaignAt =
+                        bulk && campaign?.approval
+                            ? (nextAttempts.get(campaign._id) ?? campaign.nextAttemptAt ?? now)
+                            : now;
+                    const eligibleAt = Math.max(sharedAt, campaignAt);
+                    if (eligibleAt < at) {
+                        selected = index;
+                        at = eligibleAt;
+                    }
+                }
+                if (selected === -1) break;
+
+                // advance both clocks from the allocated time, not the queue position
+                const { row, campaign } = pending.splice(selected, 1)[0];
+                sharedAt = at + (bulk ? 3600000 / settings.limits.hourly : 600);
+                if (bulk && campaign?.approval)
+                    nextAttempts.set(campaign._id, at + 3600000 / campaign.approval.hourlyLimit);
                 await ctx.scheduler.runAt(at, internal.mail.messages.deliver, {
                     id: row._id,
                 });
@@ -231,16 +272,24 @@ export const dispatch = internalMutation({
 });
 
 /** Read due bulk mail only from campaigns allowed to run, plus standalone messages. */
-async function dueBulk(ctx: QueryCtx, now: number, isApproved: boolean) {
+async function dueBulk(
+    ctx: QueryCtx,
+    now: number,
+    isApproved: boolean,
+    cache: Map<string, Doc<"campaigns"> | null>,
+) {
     // select campaign state before reading message bodies, so paused backlogs cost no queue slots
     const campaigns = await ctx.db
         .query("campaigns")
         .withIndex("by_schedule", (q) => q.eq("status", "queued"))
         .collect();
+    for (const campaign of campaigns) cache.set(campaign._id, campaign);
     const schedule = await ctx.db.query("mailSchedules").unique();
     const active = campaigns.filter(
         (campaign) =>
-            (isApproved || scheduledNewsletter(campaign, schedule?.lastWeek, now)) &&
+            (campaign.approval
+                ? approvedCampaign(campaign, now)
+                : isApproved || scheduledNewsletter(campaign, schedule?.lastWeek, now)) &&
             (campaign.attemptLimit === undefined ||
                 (campaign.attempts ?? 0) < campaign.attemptLimit),
     );
@@ -250,7 +299,8 @@ async function dueBulk(ctx: QueryCtx, now: number, isApproved: boolean) {
         ...active.map((campaign) => campaign._id),
     ]) {
         // read only the reviewed identities so an older backlog cannot consume queue slots
-        const reviewed = active.find((campaign) => campaign._id === id)?.reviewedBatch;
+        const campaign = id ? cache.get(id) : undefined;
+        const reviewed = campaign?.reviewedBatch;
         if (reviewed) {
             for (const messageId of reviewed.messages) {
                 const message = await ctx.db.get(messageId);
@@ -260,6 +310,21 @@ async function dueBulk(ctx: QueryCtx, now: number, isApproved: boolean) {
             }
             continue;
         }
+        // do not let a slow campaign fill every shared dispatch slot with waiting messages
+        const capacity = campaign?.approval
+            ? Math.min(
+                  100,
+                  Math.max(
+                      0,
+                      Math.ceil(
+                          ((now + 60000 - Math.max(now, campaign.nextAttemptAt ?? 0)) *
+                              campaign.approval.hourlyLimit) /
+                              3600000,
+                      ),
+                  ),
+              )
+            : 100;
+        if (!capacity) continue;
         const messages = await ctx.db
             .query("messages")
             .withIndex("by_campaign_due", (q) =>
@@ -269,7 +334,7 @@ async function dueBulk(ctx: QueryCtx, now: number, isApproved: boolean) {
                     .eq("status", "queued")
                     .lte("nextAttemptAt", now),
             )
-            .take(100);
+            .take(capacity);
         rows.push(...messages);
     }
 

@@ -2,6 +2,7 @@ import type { Doc } from "../_generated/dataModel";
 import { isTentative } from "../events/conditions";
 import type { QueryCtx } from "../_generated/server";
 import type { Audience, Category, Recipient } from "./model";
+import { sendingDate } from "./policy";
 
 /** Resolve a supported audience, respecting purpose-specific preferences and suppression. */
 export async function select(ctx: QueryCtx, audience: Audience, category: Category) {
@@ -42,11 +43,28 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
             .query("campaigns")
             .withIndex("by_event", (q) => q.eq("eventId", filtered.excludeEventId!))
             .collect();
-        const recipients = new Set(
-            campaigns
-                .filter((campaign) => campaign.category === "announcement")
-                .flatMap((campaign) => campaign.recipients ?? []),
-        );
+        const recipients = new Set<Recipient>();
+        for (const campaign of campaigns) {
+            if (campaign.category !== "announcement") continue;
+
+            // release never-attempted identities when a new approval is cancelled or expires
+            if (
+                campaign.approval &&
+                (campaign.status === "cancelled" ||
+                    campaign.approval.date < sendingDate(Date.now()))
+            ) {
+                const messages = await ctx.db
+                    .query("messages")
+                    .withIndex("by_campaign", (q) => q.eq("campaignId", campaign._id))
+                    .collect();
+                for (const message of messages) {
+                    if (!message.isTest && message.attempts > 0 && message.subscriptionId)
+                        recipients.add(message.subscriptionId);
+                }
+            } else {
+                for (const id of campaign.recipients ?? []) recipients.add(id);
+            }
+        }
         for (const id of recipients) {
             const recipient = await ctx.db.get(id);
             if (!recipient) throw new Error("Announcement recipient no longer exists.");

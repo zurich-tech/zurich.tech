@@ -593,6 +593,8 @@ async function announcement() {
             deliveredSince: Date.now() - 86400000,
         },
     });
+    // retain coverage of the old reviewed-batch records without creating new ones in production
+    await fixture.backend.run((ctx) => ctx.db.patch(id, { attemptLimit: 0, attempts: 0 }));
     return { ...fixture, eventId, id };
 }
 
@@ -608,7 +610,7 @@ test("test_prepare_announcement_without_sending_and_reject_changed_identities", 
             expectedUpdatedAt: preview.updatedAt,
             expectedRecipients: 1,
         }),
-    ).rejects.toThrow("Release a reviewed batch instead.");
+    ).rejects.toThrow("Recipients changed. Preview the campaign again.");
 
     // equal counts must not permit an unreviewed replacement address
     await backend.run(async (ctx) => {
@@ -661,6 +663,7 @@ test("test_exclude_announcement_recipients_across_campaigns_and_member_addresses
         deliveredSince: Date.now() - 86400000,
     };
     const broader = await admin.mutation(api.mail.campaigns.announcement, { eventId, audience });
+    await backend.run((ctx) => ctx.db.patch(broader, { attemptLimit: 0, attempts: 0 }));
     const original = await admin.query(api.mail.campaigns.preview, { id });
     const stale = await admin.query(api.mail.campaigns.preview, { id: broader });
     expect(stale.audience!.first.map((row) => row.id)).toEqual([subscriptionId]);
@@ -1212,7 +1215,7 @@ test("test_keep_newsletter_authority_scoped_and_respect_delivery_stops", async (
 });
 
 test("campaign queue confirms saved content and audience, while the lock permits only drafts", async () => {
-    const { backend, admin } = await setup();
+    const { backend, admin, subscriptionId } = await setup();
     process.env.MAIL_RECIPIENTS = "test@example.invalid";
     const id = await admin.mutation(api.mail.campaigns.save, {
         subject: "Hello",
@@ -1223,6 +1226,8 @@ test("campaign queue confirms saved content and audience, while the lock permits
         id,
         expectedUpdatedAt: campaign!.updatedAt,
         expectedRecipients: 1,
+        expectedRecipientIds: [subscriptionId],
+        hourlyLimit: 50,
     };
     await expect(admin.mutation(api.mail.campaigns.queue, args)).rejects.toThrow("lock");
     delete process.env.MAIL_RECIPIENTS;
@@ -1632,8 +1637,8 @@ test("weekly scheduling is Monday 08:00 Zurich in summer and winter, and skips e
     }
 });
 
-test("scheduled audiences freeze at start, content stays fixed, and pause preserves queued work", async () => {
-    const { backend, admin } = await setup();
+test("scheduled audiences freeze at approval, content stays fixed, and pause preserves queued work", async () => {
+    const { backend, admin, subscriptionId } = await setup();
     const id = await admin.mutation(api.mail.campaigns.save, {
         subject: "Schedule",
         message: "Original text.",
@@ -1645,6 +1650,8 @@ test("scheduled audiences freeze at start, content stays fixed, and pause preser
         expectedUpdatedAt: draft!.updatedAt,
         expectedRecipients: 1,
         scheduledAt: at,
+        expectedRecipientIds: [subscriptionId],
+        hourlyLimit: 50,
     });
     await backend.run((ctx) =>
         ctx.db.insert("subscriptions", {
@@ -1659,7 +1666,7 @@ test("scheduled audiences freeze at start, content stays fixed, and pause preser
     await backend.mutation(internal.mail.campaigns.tick, {});
     await backend.mutation(internal.mail.campaigns.batch, { id });
     const messages = await backend.run((ctx) => ctx.db.query("messages").collect());
-    expect(messages).toHaveLength(2);
+    expect(messages).toHaveLength(1);
     expect(messages[0].text).toContain("Original text.");
     expect(messages[0].html).not.toContain("mail.invalid");
     await admin.mutation(api.mail.campaigns.pause, { id, isPaused: true });
@@ -1680,7 +1687,7 @@ test("scheduled audiences freeze at start, content stays fixed, and pause preser
         }),
     );
     await backend.mutation(internal.mail.campaigns.batch, { id });
-    expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toHaveLength(2);
+    expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toHaveLength(1);
     await backend.finishAllScheduledFunctions(() => {});
 });
 
@@ -1787,7 +1794,7 @@ test("self-test refuses a verified account outside the delivery lock", async () 
 });
 
 test("revoking sender access pauses queued written mail before a provider attempt", async () => {
-    const { backend, admin } = await setup();
+    const { backend, admin, subscriptionId } = await setup();
     const id = await admin.mutation(api.mail.campaigns.save, {
         subject: "Access",
         message: "A scheduled notice",
@@ -1797,6 +1804,8 @@ test("revoking sender access pauses queued written mail before a provider attemp
         id,
         expectedUpdatedAt: draft!.updatedAt,
         expectedRecipients: 1,
+        expectedRecipientIds: [subscriptionId],
+        hourlyLimit: 50,
     });
     await backend.mutation(internal.mail.campaigns.batch, { id });
     await backend.finishAllScheduledFunctions(() => {});

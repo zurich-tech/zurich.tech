@@ -35,14 +35,18 @@ Accounts, profiles and attendance remain when someone unsubscribes.
 ## Lifecycle
 
 Written campaigns start as drafts.
-Sending confirms the saved revision and current eligible recipient count.
-Content freezes at confirmation; recipient membership freezes when sending starts.
-Scheduled campaigns therefore include the audience eligible at their scheduled time.
+Sending confirms the saved revision and exact eligible subscriber identities.
+For subscriber campaigns, Send or Schedule freezes content and recipients and records one administrator's approval for the chosen Zurich calendar day.
+The approval caps attempts at the reviewed recipient count, including retries, and sets a campaign-specific hourly pace.
+New subscribers do not enlarge an already approved campaign.
+Event-organiser transactional campaigns retain their audience selection at the scheduled start.
 Each recipient is rechecked for consent and registration state immediately before sending.
 
 Campaigns can be scheduled, paused, resumed or cancelled.
 Pausing retains the audience, content, attempts and progress.
 Cancellation stops unsent work; messages already being sent cannot be recalled.
+For newly approved event announcements, cancellation or approval expiry releases never-attempted recipients for a replacement campaign.
+Attempted recipients remain excluded from subsequent announcements for that event.
 Written campaigns can be duplicated into new drafts.
 Tests go only to the authenticated verified account and still respect the recipient allowlist.
 Test messages retain campaign history but never advance campaign counters or completion.
@@ -84,13 +88,15 @@ These controls are independent:
 - Campaign pause: holds that campaign's remaining messages.
 
 The initial daily pace is 500, with no automatic increases.
-An administrator must approve an absolute attempt total for the current Zurich calendar day for manual bulk campaigns.
+An administrator approves each new subscriber campaign once through Send or Schedule, without a separate daily approval or manual batch releases.
+Campaign approval applies only from its start time until Zurich midnight on its approved day.
+Expired unfinished campaigns pause for review; resuming cannot extend their approval or replenish attempts.
+Shared daily and hourly limits still apply, and a lower campaign pace cannot increase the shared pace.
 The current scheduler-created newsletter edition sends automatically without daily approval.
 Only the `weekly` campaign with the exact `digest:<lastWeek>` key recorded by `mailSchedules` qualifies, and expired editions do not qualify.
-Missing or expired approvals still block other bulk attempts even when delivery is enabled.
-Approval preserves consumed quota and pacing, and never resumes paused delivery.
-For a launch, approve 100 attempts at a daily pace of 500, review delivery results, then raise the approved total to 500.
-Review again before approving 1,000 on day two and the remaining audience on day three.
+Legacy campaigns without their own approval retain their existing daily-approval and batch controls in the backend.
+They are not migrated, expanded or resumed by deploying this change; the normal admin UI no longer releases additional batches.
+Approving a new campaign never authorises an unrelated legacy queue.
 A new complaint pauses bulk delivery when the complaint rate reaches 0.08%, halving the pace with a floor of one attempt per day.
 The hourly limit is configured independently from the shared daily ceiling.
 Older quotas without an explicit hourly limit retain their original eight-hour pacing.
@@ -117,12 +123,12 @@ RFC 8058 unsubscribe changes consent only on POST; GET opens the confirmation pa
 
 ## Production controls
 
-Explicit daily approvals, hourly pacing and complaint stops are permanent production controls.
+Explicit campaign approvals, shared limits, hourly pacing and complaint stops are production controls.
 Campaigns group recipients by registrations in the last 90 days, last year, earlier, or none.
 Within each group, distinct event count sorts first, then real activity recency and stable identity ties.
 Cancelled and declined registrations do not contribute; email and member identity both match historical records.
 Registration activity is capped at the event date to avoid treating imported old events as new interest.
-Administrators can preview cohort counts and the first 100 recipients before queueing.
+Administrators can preview cohort counts and the first 100 recipients before queueing; this is a preview sample, not a sending batch limit.
 The development recipient allowlist is independent of these controls and is unset in production.
 Campaign test sends remain available for reviewing an email without enrolling its audience.
 
