@@ -9,7 +9,7 @@ export const organisationKinds = {
     lab: "Lab",
     community: "Community",
     nonprofit: "Non-profit",
-    space: "Space",
+    space: "Hub",
 } as const;
 
 export type OrganisationKind = keyof typeof organisationKinds;

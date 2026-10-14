@@ -89,6 +89,7 @@ async function readOrganisation(
         name: organisation.name,
         headline: organisation.headline,
         kind: organisation.kind,
+        topics: organisation.topics ?? [],
         description: organisation.description,
         location: organisation.location,
         website: organisation.website,

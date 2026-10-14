@@ -37,6 +37,7 @@ export const map = query({
                     },
                     name: organisation.name,
                     kind: organisation.kind,
+                    topics: organisation.topics ?? [],
                     location: location.name,
                     slug: organisation.slug,
                     website: organisation.website,

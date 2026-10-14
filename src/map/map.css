@@ -378,13 +378,15 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    flex-wrap: wrap;
     padding: 0 16px 14px;
 }
 
 .map-type {
     position: relative;
     min-width: 0;
-    max-width: 50%;
+    flex: 1 1 120px;
+    max-width: calc(50% - 6px);
 }
 
 .map-type > svg {
@@ -472,6 +474,15 @@
     font-size: var(--text-xs);
 }
 
+/* keep descriptions readable without changing row height on hover */
+.map-row-headline {
+    margin-top: 4px;
+    color: var(--color-ink);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    overflow-wrap: break-word;
+}
+
 .map-row-logo {
     display: grid;
     width: 28px;
@@ -502,6 +513,24 @@
     box-shadow: 0 4px 20px #172b4926;
     overflow: auto;
     max-height: min(360px, calc(100dvh - 140px));
+}
+
+/* attach directory previews to the panel instead of using a geographic tooltip tip */
+.map-preview--sidebar .maplibregl-popup-tip {
+    display: none;
+}
+
+.map-preview--sidebar .maplibregl-popup-content {
+    min-height: var(--map-preview-row-height);
+    border-left: 2px solid var(--color-accent);
+    border-radius: 0 6px 6px 0;
+    box-shadow: 4px 4px 12px #172b491a;
+}
+
+/* extend the result with contact details instead of repeating its description */
+.map-preview--sidebar .map-person {
+    border-top: 0;
+    padding-top: 0;
 }
 
 .map-preview:is(
@@ -592,7 +621,7 @@
     color: var(--color-accent);
 }
 
-.map-person__link > span:nth-child(2) {
+.map-person__copy {
     display: grid;
     min-width: 0;
     flex: 1;
@@ -606,6 +635,10 @@
 
 .map-person .social-links {
     margin: var(--space-1) 0 0 calc(32px + var(--space-3) - 8px);
+}
+
+.map-preview--sidebar .map-person .social-links {
+    margin-left: -8px;
 }
 
 .map-person small {

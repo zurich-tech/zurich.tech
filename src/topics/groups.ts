@@ -20,5 +20,3 @@ export const interestGroups = [
         topics: ["ai-policy", "climate-tech", "biotech", "product-design", "startups"],
     },
 ];
-
-export const excludedInterests = ["machine-learning", "distributed-systems", "community"];

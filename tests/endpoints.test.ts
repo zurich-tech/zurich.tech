@@ -1144,13 +1144,19 @@ test("scoped editors cannot curate topics and archived interests can only be ret
             motivations: [],
         }),
     ).rejects.toThrow();
+    // reuse an archived label, but reject reactivation while that label is active
+    await editor.mutation(api.topics.queries.save, {
+        slug: "robots",
+        name: "Robotics",
+        isActive: true,
+    });
     await expect(
         editor.mutation(api.topics.queries.save, {
-            slug: "robots",
+            slug: "robotics",
             name: "Robotics",
             isActive: true,
         }),
-    ).rejects.toThrow();
+    ).rejects.toThrow("A topic already uses this name.");
 });
 
 test("address defaults do not trigger registration updates; real visibility changes do", async () => {

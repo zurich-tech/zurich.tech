@@ -6,6 +6,8 @@ export interface LocatedOrganisation {
     id: string;
     name: string;
     kind: OrganisationKind;
+    /** Curated topic keys assigned to this organisation. */
+    topics?: string[];
     slug: string;
     /** The organisation's public website. */
     website?: string;

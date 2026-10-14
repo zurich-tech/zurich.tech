@@ -1,7 +1,8 @@
 import { Select } from "../components/field";
 import { MarkdownEditor } from "../components/markdown-editor";
 import { organisationKinds, type OrganisationKind } from "../../convex/organisations/kinds";
-import { createSignal, For, Show } from "solid-js";
+import { createEffect, createSignal, For, Show } from "solid-js";
+import { TopicFields } from "../topics/fields";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import { memberClient } from "../auth/convex";
@@ -17,6 +18,8 @@ export function CompanyForm(props: {
         ownerId?: Id<"members">;
         name: string;
         kind: OrganisationKind;
+        /** Curated topic keys for the organisation. */
+        topics?: string[];
         headline?: string;
         slug: string;
         website: string;
@@ -39,6 +42,8 @@ export function CompanyForm(props: {
 }) {
     const [error, setError] = createSignal<string>();
     const [success, setSuccess] = createSignal<string>();
+    const [topics, setTopics] = createSignal(props.item?.topics ?? []);
+    createEffect(() => setTopics(props.item?.topics ?? []));
     const isPending = () => props.isPending;
     const setIsPending = props.setIsPending;
 
@@ -53,6 +58,10 @@ export function CompanyForm(props: {
         setError(undefined);
         setSuccess(undefined);
         try {
+            // reject oversized selections before making a save request
+            const selectedTopics = fields.getAll("topic").map(String);
+            if (selectedTopics.length > 12) throw new Error("Choose at most 12 topics.");
+
             const id = await (
                 await memberClient()
             ).mutation(api.organisations.mutations.upsertCompany, {
@@ -60,6 +69,7 @@ export function CompanyForm(props: {
                 ownerEmail: props.isAdmin ? text("ownerEmail") || undefined : undefined,
                 name: text("name"),
                 kind: text("kind") as OrganisationKind,
+                topics: selectedTopics,
                 headline: text("headline") || undefined,
                 slug: text("slug"),
                 website: text("website"),
@@ -81,6 +91,7 @@ export function CompanyForm(props: {
             if (!props.item) {
                 form.reset();
                 resetEditor(form);
+                setTopics([]);
             }
             setSuccess("Organisation saved.");
         } catch (caught) {
@@ -132,6 +143,12 @@ export function CompanyForm(props: {
                         </For>
                     </Select>
                 </label>
+                <TopicFields
+                    isSpecific
+                    label="Topics (up to 12)"
+                    values={topics()}
+                    onChange={setTopics}
+                />
                 <div class="form-columns">
                     <label>
                         Headline

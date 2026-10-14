@@ -6,6 +6,49 @@ const apply = makeFunctionReference<"mutation">("organisations/imports:apply");
 const enrich = makeFunctionReference<"mutation">("organisations/imports:enrich");
 const logos = makeFunctionReference<"mutation">("organisations/imports:logos");
 
+test("test_validate_imported_topics_in_preview_and_apply", async () => {
+    const { backend, row } = await fixture();
+    await backend.run(async (ctx) => {
+        await ctx.db.insert("topics", { slug: "ai", name: "AI", isActive: true });
+        await ctx.db.insert("topics", {
+            slug: "agents",
+            name: "Agents",
+            parent: "ai",
+            isActive: true,
+        });
+        await ctx.db.insert("topics", { slug: "community", name: "Community", isActive: false });
+    });
+    for (const topics of [["missing"], ["community"], ["ai", "ai"]]) {
+        for (const isApply of [false, true]) {
+            const message =
+                topics.length > 1
+                    ? "Choose at most 12 distinct topics."
+                    : `Choose an available topic: ${topics[0]}.`;
+            await expect(
+                backend.mutation(apply, { apply: isApply, organisations: [{ ...row, topics }] }),
+            ).rejects.toThrow(message);
+            expect(
+                await backend.run((ctx) => ctx.db.query("organisations").collect()),
+            ).toHaveLength(1);
+        }
+    }
+    const organisations = [{ ...row, topics: ["ai"] }];
+    for (const isApply of [false, true]) {
+        await expect(
+            backend.mutation(apply, {
+                apply: isApply,
+                organisations: [{ ...row, topics: ["ai", "agents"] }],
+            }),
+        ).rejects.toThrow("Choose specific topics without ancestors: ai.");
+    }
+    await backend.mutation(apply, { apply: false, organisations });
+    expect(await backend.run((ctx) => ctx.db.query("organisations").collect())).toHaveLength(1);
+    await backend.mutation(apply, { apply: true, organisations });
+    expect(
+        (await backend.run((ctx) => ctx.db.query("organisations").collect()))[1]!.topics,
+    ).toEqual(["ai"]);
+});
+
 /** Independently reviewed Swiss office and its public evidence. */
 const reviewedAddress = {
     line1: "Technoparkstrasse 1",

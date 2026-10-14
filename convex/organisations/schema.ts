@@ -19,6 +19,8 @@ export const organisations = defineTable({
     headline: v.optional(v.string()),
     description: v.string(),
     kind: organisationKind,
+    /** Catalogue subjects assigned to this organisation, absent on legacy records. */
+    topics: v.optional(v.array(v.string())),
     website: v.string(),
     location: v.string(),
     updatedAt: v.number(),

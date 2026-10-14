@@ -103,6 +103,7 @@ import type * as news_imports from "../news/imports.js";
 import type * as news_mutations from "../news/mutations.js";
 import type * as news_queries from "../news/queries.js";
 import type * as news_validation from "../news/validation.js";
+import type * as organisations_headlines from "../organisations/headlines.js";
 import type * as organisations_imports from "../organisations/imports.js";
 import type * as organisations_kinds from "../organisations/kinds.js";
 import type * as organisations_mutations from "../organisations/mutations.js";
@@ -121,6 +122,9 @@ import type * as sponsorships_terms from "../sponsorships/terms.js";
 import type * as statistics_history from "../statistics/history.js";
 import type * as statistics_queries from "../statistics/queries.js";
 import type * as statistics_referrals from "../statistics/referrals.js";
+import type * as topics_catalogue from "../topics/catalogue.js";
+import type * as topics_hierarchy from "../topics/hierarchy.js";
+import type * as topics_imports from "../topics/imports.js";
 import type * as topics_queries from "../topics/queries.js";
 import type * as topics_removal from "../topics/removal.js";
 
@@ -226,6 +230,7 @@ declare const fullApi: ApiFromModules<{
   "news/mutations": typeof news_mutations;
   "news/queries": typeof news_queries;
   "news/validation": typeof news_validation;
+  "organisations/headlines": typeof organisations_headlines;
   "organisations/imports": typeof organisations_imports;
   "organisations/kinds": typeof organisations_kinds;
   "organisations/mutations": typeof organisations_mutations;
@@ -244,6 +249,9 @@ declare const fullApi: ApiFromModules<{
   "statistics/history": typeof statistics_history;
   "statistics/queries": typeof statistics_queries;
   "statistics/referrals": typeof statistics_referrals;
+  "topics/catalogue": typeof topics_catalogue;
+  "topics/hierarchy": typeof topics_hierarchy;
+  "topics/imports": typeof topics_imports;
   "topics/queries": typeof topics_queries;
   "topics/removal": typeof topics_removal;
 }>;

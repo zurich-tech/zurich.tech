@@ -3,6 +3,8 @@ import type { Doc, Id } from "../_generated/dataModel";
 import { internalMutation } from "../_generated/server";
 import { normalizeUrl, socialLinks } from "../members/urls";
 import { organisationKind } from "./kinds";
+import { validateSpecificTopics } from "../topics/queries";
+import { normalizeHeadline } from "./headlines";
 
 /** Reviewed profile fields shared by existing and new office addresses. */
 const profile = {
@@ -17,6 +19,7 @@ const profile = {
     sources: v.array(v.string()),
     mapLogoUrl: v.optional(v.string()),
     socials: v.optional(socialLinks),
+    topics: v.optional(v.array(v.string())),
 };
 
 /** Import reviewed organisations and public offices atomically through the deployment CLI. */
@@ -89,7 +92,7 @@ export const apply = internalMutation({
             if (
                 !name ||
                 name.length > 160 ||
-                !fields.headline.trim() ||
+                !normalizeHeadline(fields.headline) ||
                 fields.headline.length > 160 ||
                 !fields.description.trim() ||
                 fields.description.length > 5000 ||
@@ -104,6 +107,7 @@ export const apply = internalMutation({
             // validate branding and social destinations identically in preview and application
             if (fields.mapLogoUrl !== undefined) hostedLogo(fields.mapLogoUrl, fields.slug);
             const links = reviewedSocials(socials);
+            if (fields.topics !== undefined) await validateSpecificTopics(ctx, fields.topics);
 
             // refuse aliases and repeated records rather than overwrite curated profiles
             const key = normalizeName(name);
@@ -153,6 +157,7 @@ export const apply = internalMutation({
                     ...fields,
                     name,
                     website,
+                    headline: normalizeHeadline(fields.headline),
                     updatedAt: Date.now(),
                 });
                 await ctx.db.insert("locations", {
@@ -178,6 +183,103 @@ export const apply = internalMutation({
         return { applied: args.apply, count: result.length, slugs: result };
     },
 });
+
+/** Preview or remove trailing full stops from existing organisation headlines. */
+export const cleanHeadlines = internalMutation({
+    args: { apply: v.boolean() },
+    handler: async (ctx, { apply }) => {
+        // change only the headline, preserving descriptions and all other profile fields
+        const organisations = await ctx.db.query("organisations").collect();
+        const slugs: string[] = [];
+        for (const organisation of organisations) {
+            if (organisation.headline === undefined) continue;
+            const headline = normalizeHeadline(organisation.headline) || undefined;
+            if (headline === organisation.headline) continue;
+            slugs.push(organisation.slug);
+            if (apply) await ctx.db.patch(organisation._id, { headline, updatedAt: Date.now() });
+        }
+
+        return { applied: apply, count: slugs.length, slugs };
+    },
+});
+
+/** Apply reviewed kinds and subjects only while the expected identity and assignments match. */
+export const classify = internalMutation({
+    args: {
+        apply: v.boolean(),
+        organisations: v.array(
+            v.object({
+                slug: v.string(),
+                name: v.optional(v.string()),
+                website: v.string(),
+                expectedKind: organisationKind,
+                kind: organisationKind,
+                expectedTopics: v.optional(v.array(v.string())),
+                topics: v.array(v.string()),
+                reason: v.string(),
+                sources: v.array(v.string()),
+                confidence: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
+            }),
+        ),
+    },
+    handler: async (ctx, args) => {
+        // require a bounded batch with distinct reviewed identities
+        if (!args.organisations.length || args.organisations.length > 100)
+            throw new Error("Classify between 1 and 100 reviewed organisations.");
+        const slugs = new Set<string>();
+        const result = { applied: args.apply, updated: 0, unchanged: 0 };
+        for (const row of args.organisations) {
+            if (slugs.has(row.slug)) throw new Error(`Repeated organisation: ${row.slug}.`);
+            slugs.add(row.slug);
+            if (!row.reason.trim() || !row.sources.length)
+                throw new Error(`Classification evidence is required: ${row.slug}.`);
+            for (const source of row.sources) normalizeUrl(source);
+            const organisation = await ctx.db
+                .query("organisations")
+                .withIndex("by_slug", (q) => q.eq("slug", row.slug))
+                .unique();
+            if (
+                !organisation ||
+                (row.name !== undefined && organisation.name !== row.name) ||
+                normalizeUrl(organisation.website) !== normalizeUrl(row.website)
+            )
+                throw new Error(`Organisation identity changed: ${row.slug}.`);
+
+            // require an explicit expected kind and optional exact prior subjects for corrections
+            if (organisation.kind !== row.expectedKind)
+                throw new Error(`Organisation kind changed: ${row.slug}.`);
+            const previous = organisation.topics ?? [];
+            await validateSpecificTopics(ctx, row.topics, previous);
+            const sameTopics = equalTopics(previous, row.topics);
+            if (row.expectedTopics !== undefined && !equalTopics(previous, row.expectedTopics))
+                throw new Error(`Organisation topics changed: ${row.slug}.`);
+            if (row.expectedTopics === undefined && previous.length && !sameTopics)
+                throw new Error(`Existing topics differ: ${row.slug}.`);
+            const isUnchanged = sameTopics && organisation.kind === row.kind;
+            if (isUnchanged) result.unchanged++;
+            else {
+                if (args.apply)
+                    await ctx.db.patch(organisation._id, {
+                        kind: row.kind,
+                        topics: row.topics,
+                        updatedAt: Date.now(),
+                    });
+                result.updated++;
+            }
+        }
+
+        return result;
+    },
+});
+
+/** Compare assignments as distinct sets without treating their display order as a change. */
+function equalTopics(previous: string[], topics: string[]) {
+    return (
+        new Set(topics).size === topics.length &&
+        previous.length === topics.length &&
+        previous.every((slug) => topics.includes(slug))
+    );
+}
 
 /** Require finite coordinates inside the Swiss geographic bounding box. */
 function isSwissAddress(address: Pick<Doc<"addresses">, "countryCode" | "latitude" | "longitude">) {

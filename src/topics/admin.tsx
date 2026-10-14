@@ -1,4 +1,4 @@
-import { createResource, createSignal, For, Show } from "solid-js";
+import { createMemo, createResource, createSignal, For, Show } from "solid-js";
 import { revalidate } from "@solidjs/router";
 import { api } from "../../convex/_generated/api";
 import { memberClient, publicClient } from "../auth/convex";
@@ -7,6 +7,8 @@ import { Loading } from "../components/loading";
 import { Editor, savedEditor, leaveEditor, FormMessage } from "../components/form";
 import { useWorkspaceCommand } from "../app/workspace";
 import { getTopics } from "./queries";
+import { Select } from "../components/field";
+import { descendantTopics } from "../../convex/topics/hierarchy";
 
 /** Edit one catalogue entry at a time, protecting unsaved changes when switching records. */
 export function TopicsAdmin() {
@@ -15,6 +17,17 @@ export function TopicsAdmin() {
     );
     const [selected, setSelected] = createSignal<string>();
     const current = () => topics()?.find((topic) => topic.slug === selected());
+    const parents = createMemo(() => {
+        const entries = topics() ?? [];
+        const entry = current();
+        const descendants = entry ? descendantTopics(entry.slug, entries) : new Set<string>();
+
+        // retain an archived current parent without offering other archived parents
+        return entries.filter(
+            (topic) =>
+                (topic.isActive || topic.slug === entry?.parent) && !descendants.has(topic.slug),
+        );
+    });
     const command = useWorkspaceCommand(async () => {
         await refetch();
         await revalidate(getTopics.key);
@@ -34,6 +47,7 @@ export function TopicsAdmin() {
                 slug,
                 name: String(values.get("name")),
                 isActive: values.has("isActive"),
+                parent: String(values.get("parent") ?? "") || null,
             });
             savedEditor(form);
             setSelected(slug);
@@ -82,13 +96,14 @@ export function TopicsAdmin() {
                 fallback={
                     <>
                         <p class="admin-context">
-                            Shared by events, series, news and member interests.
+                            Shared by organisations, events, jobs, news and member interests.
                         </p>
                         <div class="table-scroll">
                             <table class="admin-table">
                                 <thead>
                                     <tr>
                                         <th>Topic</th>
+                                        <th>Parent</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -98,6 +113,11 @@ export function TopicsAdmin() {
                                         {(topic) => (
                                             <tr>
                                                 <td>{topic.name}</td>
+                                                <td>
+                                                    {topics()?.find(
+                                                        (item) => item.slug === topic.parent,
+                                                    )?.name ?? "—"}
+                                                </td>
                                                 <td>{topic.isActive ? "Available" : "Archived"}</td>
                                                 <td>
                                                     <button
@@ -140,6 +160,24 @@ export function TopicsAdmin() {
                             <span>Fixed once created; used in links and stored selections.</span>
                         </label>
                     </div>
+                    <label>
+                        Parent
+                        <Select name="parent" value={current()?.parent ?? ""}>
+                            <option value="" selected={!current()?.parent}>
+                                None
+                            </option>
+                            <For each={parents()}>
+                                {(topic) => (
+                                    <option
+                                        value={topic.slug}
+                                        selected={current()?.parent === topic.slug}
+                                    >
+                                        {topic.name}
+                                    </option>
+                                )}
+                            </For>
+                        </Select>
+                    </label>
                     <label class="checkbox">
                         <input
                             type="checkbox"

@@ -6,6 +6,8 @@ import type { Id } from "../_generated/dataModel";
 import { normalizeEmail } from "../members/emails";
 import { requireAccount, requireTeam } from "../auth/access";
 import { normalizeUrl, normalizeImageUrl, socialLinks } from "../members/urls";
+import { validateSpecificTopics } from "../topics/queries";
+import { normalizeHeadline } from "./headlines";
 
 /** Upsert a curated organisation. */
 export const upsert = mutation({
@@ -16,13 +18,18 @@ export const upsert = mutation({
         headline: v.optional(v.string()),
         description: v.string(),
         kind: organisationKind,
+        topics: v.optional(v.array(v.string())),
         website: v.string(),
         location: v.string(),
     },
     handler: async (ctx, args) => {
         // restrict directory editing to the team
         await requireTeam(ctx);
-        const { id, ...values } = args;
+        const { id, topics, ...fields } = args;
+        const previous = id ? await ctx.db.get(id) : null;
+        if (id && !previous) throw new ConvexError("Organisation not found.");
+        if (topics !== undefined) await validateSpecificTopics(ctx, topics, previous?.topics);
+        const values = { ...fields, ...(topics === undefined ? {} : { topics }) };
         if (
             !values.name.trim() ||
             values.name.length > 160 ||
@@ -32,7 +39,7 @@ export const upsert = mutation({
         )
             throw new ConvexError("Enter a name, valid slug, and concise description.");
         values.website = normalizeUrl(values.website);
-        values.headline = values.headline?.trim() || undefined;
+        values.headline = normalizeHeadline(values.headline ?? "") || undefined;
 
         // reject another organisation using the same URL
         const collision = await ctx.db
@@ -83,6 +90,7 @@ export const upsertCompany = mutation({
         ownerEmail: v.optional(v.string()),
         name: v.string(),
         kind: organisationKind,
+        topics: v.optional(v.array(v.string())),
         headline: v.optional(v.string()),
         slug: v.string(),
         website: v.string(),
@@ -98,7 +106,9 @@ export const upsertCompany = mutation({
     handler: async (ctx, args) => {
         // require directory authority or ownership of an existing company
         const viewer = await requireAccount(ctx);
-        if (args.id) await requireOrganisation(ctx, args.id);
+        const previous = args.id ? (await requireOrganisation(ctx, args.id)).organisation : null;
+        if (args.topics !== undefined)
+            await validateSpecificTopics(ctx, args.topics, previous?.topics);
         if (
             !args.name.trim() ||
             args.name.length > 160 ||
@@ -144,11 +154,12 @@ export const upsertCompany = mutation({
         }
 
         // keep company identity stable while allowing its owner to maintain public details
-        const { id, ownerEmail, profileUrl, socials, ...fields } = args;
+        const { id, ownerEmail, profileUrl, socials, topics, ...fields } = args;
         const values = {
             ...fields,
+            ...(topics === undefined ? {} : { topics }),
             name: args.name.trim(),
-            headline: args.headline?.trim() || undefined,
+            headline: normalizeHeadline(args.headline ?? "") || undefined,
             website: normalizeUrl(args.website),
             logoUrl: args.logoUrl ? normalizeImageUrl(args.logoUrl) : undefined,
             logoDarkUrl: args.logoDarkUrl ? normalizeImageUrl(args.logoDarkUrl) : undefined,

@@ -1,5 +1,6 @@
-import { interestGroups, excludedInterests } from "./groups";
+import { interestGroups } from "./groups";
 import { getTopics } from "./queries";
+import { selectSpecificTopic } from "./selection";
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
 import "./topics.css";
 
@@ -7,6 +8,8 @@ import "./topics.css";
 export function TopicFields(props: {
     values: string[];
     isInterests?: boolean;
+    /** Keep organisation topics specific without redundant parent selections. */
+    isSpecific?: boolean;
     name?: string;
     label?: string;
     onChange?: (values: string[]) => void;
@@ -16,7 +19,9 @@ export function TopicFields(props: {
     createEffect(() => setSelected(props.values));
     const update = (slug: string, checked: boolean) => {
         const values = checked
-            ? [...selected(), slug]
+            ? props.isSpecific
+                ? selectSpecificTopic(selected(), slug, topics() ?? [])
+                : [...selected(), slug]
             : selected().filter((value) => value !== slug);
         setSelected(values);
         props.onChange?.(values);
@@ -34,10 +39,11 @@ export function TopicFields(props: {
                 .filter((topic) => group.topics.includes(topic.slug))
                 .sort((a, b) => group.topics.indexOf(a.slug) - group.topics.indexOf(b.slug)),
         }));
+        // preserve existing specialist answers without expanding the curated survey
         const other = available.filter(
             (topic) =>
                 !interestGroups.some((group) => group.topics.includes(topic.slug)) &&
-                !excludedInterests.includes(topic.slug),
+                props.values.includes(topic.slug),
         );
         return [...grouped, { name: "More", entries: other }].filter(
             (group) => group.entries.length,
