@@ -458,7 +458,7 @@ function socialUrl(value: string, kind: "linkedin" | "github" | "x") {
     const valid =
         kind === "linkedin"
             ? (hostname === "linkedin.com" || hostname.endsWith(".linkedin.com")) &&
-              /^\/(company|school)\/[^/]+\/?$/.test(url.pathname)
+              /^\/(company|school|showcase)\/[^/]+\/?$/.test(url.pathname)
             : kind === "github"
               ? hostname === "github.com" && /^\/[A-Za-z0-9_-]+\/?$/.test(url.pathname)
               : (hostname === "x.com" || hostname === "twitter.com") &&

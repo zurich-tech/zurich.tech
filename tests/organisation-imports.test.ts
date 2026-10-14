@@ -524,6 +524,89 @@ test("test_enrich_social_links_without_replacing_curated_destinations", async ()
     ).rejects.toThrow("Organisation identity changed: existing.");
 });
 
+test("test_import_and_enrich_linkedin_organisation_profiles_with_canonical_urls", async () => {
+    for (const path of ["company/example", "school/example", "showcase/tx-ventures-vc"]) {
+        const { backend, row } = await fixture();
+        const socials = { linkedin: `https://ch.linkedin.com/${path}/?utm_source=site#about` };
+        const organisations = [{ ...row, socials }];
+        await backend.mutation(apply, { apply: false, organisations });
+        expect(await backend.run((ctx) => ctx.db.query("links").collect())).toEqual([]);
+        await backend.mutation(apply, { apply: true, organisations });
+        expect(
+            (await backend.run((ctx) => ctx.db.query("links").collect())).map(
+                ({ kind, url, visibility }) => ({ kind, url, visibility }),
+            ),
+        ).toEqual([
+            { kind: "linkedin", url: `https://www.linkedin.com/${path}`, visibility: "public" },
+        ]);
+
+        // accept the exact official URL and recognise an existing canonical destination
+        const enrichment = [
+            {
+                slug: "existing",
+                website: "https://existing.example",
+                socials: { linkedin: `https://www.linkedin.com/${path}/` },
+                sources: ["https://existing.example"],
+            },
+        ];
+        expect(await backend.mutation(enrich, { apply: false, organisations: enrichment })).toEqual(
+            {
+                applied: false,
+                added: 1,
+                unchanged: 0,
+            },
+        );
+        expect(await backend.run((ctx) => ctx.db.query("links").collect())).toHaveLength(1);
+        expect(await backend.mutation(enrich, { apply: true, organisations: enrichment })).toEqual({
+            applied: true,
+            added: 1,
+            unchanged: 0,
+        });
+        expect(await backend.mutation(enrich, { apply: true, organisations: enrichment })).toEqual({
+            applied: true,
+            added: 0,
+            unchanged: 1,
+        });
+    }
+});
+
+test("test_reject_non_organisation_linkedin_paths_and_lookalike_hosts", async () => {
+    const { backend, row } = await fixture();
+    for (const linkedin of [
+        "https://www.linkedin.com/in/someone",
+        "https://www.linkedin.com/staff/someone",
+        "https://www.linkedin.com/profiles/someone",
+        "https://www.linkedin.com/showcase/",
+        "https://www.linkedin.com/showcase/tx-ventures-vc/posts",
+        "https://www.linkedin.com/company/example/people",
+        "https://notlinkedin.com/showcase/tx-ventures-vc",
+        "https://linkedin.com.example.org/showcase/tx-ventures-vc",
+        "https://linkedin.com@example.org/showcase/tx-ventures-vc",
+    ]) {
+        for (const isApply of [false, true]) {
+            for (const mutation of [apply, enrich]) {
+                const organisation =
+                    mutation === apply
+                        ? { ...row, socials: { linkedin } }
+                        : {
+                              slug: "existing",
+                              website: "https://existing.example",
+                              socials: { linkedin },
+                              sources: ["https://existing.example"],
+                          };
+                await expect(
+                    backend.mutation(mutation, {
+                        apply: isApply,
+                        organisations: [organisation],
+                    }),
+                ).rejects.toThrow(`Invalid linkedin organisation profile: ${linkedin}.`);
+            }
+        }
+    }
+    expect(await backend.run((ctx) => ctx.db.query("links").collect())).toEqual([]);
+    expect(await backend.run((ctx) => ctx.db.query("organisations").collect())).toHaveLength(1);
+});
+
 test("test_reject_share_links_and_personal_linkedin_profiles", async () => {
     const { backend } = await fixture();
     for (const socials of [

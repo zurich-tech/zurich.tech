@@ -1,0 +1,39 @@
+{
+    "reviewedAt": "2026-10-14",
+    "productionOrganisationCount": 550,
+    "complete": false,
+    "deployment": {
+        "commit": "b6965ca",
+        "workflowRun": "38588276264",
+        "status": "success"
+    },
+    "applied": {
+        "initialClassificationA": { "reviewed": 253, "updated": 248, "unchanged": 5 },
+        "initialClassificationB": { "reviewed": 184, "updated": 181, "unchanged": 3 },
+        "remainingClassificationB": { "reviewed": 69, "updated": 63, "unchanged": 6 },
+        "headlineCleanup": 325,
+        "newOrganisations": 42,
+        "energyCorrections": 7,
+        "additionalSocialLinks": { "organisations": 49, "links": 50 }
+    },
+    "verification": "Each classification batch and correction was compared with a separate fresh production export after application. All 42 new organisations were independently checked against organisation, public location, address and social-link records. Official logos were visually reviewed and their hosted bytes and CORS access verified before import.",
+    "socialVerification": "All 50 additional links were independently reviewed for identity, then checked against fresh production records for exact destination and public visibility. Sony AI, GetYourGuide, Empa, Disney Research and Pinterest use their organisation-wide accounts, not Zurich-only accounts.",
+    "energyDefinition": "Energy requires substantive energy technology, not environmental benefits or climate-related analytics alone.",
+    "correctedTopics": [
+        { "slug": "belian", "topics": ["analytics"] },
+        { "slug": "climeworks", "topics": ["hardware", "materials"] },
+        { "slug": "collateral-good", "topics": ["materials", "manufacturing"] },
+        { "slug": "correntics", "topics": ["analytics"] },
+        { "slug": "cotierra", "topics": ["hardware", "software-engineering"] },
+        { "slug": "impact-build", "topics": ["robotics", "manufacturing"] },
+        { "slug": "kitro", "topics": ["analytics"] }
+    ],
+    "holds": [
+        "Aionic Labs: registered address confirmed; working-office address unconfirmed",
+        "CLIMADA Technologies: retain exclusion and do not restore its map location",
+        "Reasoning Labs: confirm current independent identity and substantive primary product or research evidence",
+        "TX Ventures: profile and logo reviewed; importer must support its official LinkedIn showcase page before publication",
+        "Remaining uncertain classifications, address evidence and illegible logos require review"
+    ],
+    "remaining": "Candidate discovery, primary-source review, verified social links, readable official logos and remaining classifications are not complete. The current organisation count is not an ecosystem-completeness claim."
+}
