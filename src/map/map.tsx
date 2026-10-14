@@ -21,9 +21,12 @@ import { getMap, type MapLocation } from "./queries";
 import { Image } from "../components/image";
 import { SocialLinks } from "../components/social";
 import { useSearch } from "../search/local";
+import { searchTerms } from "../search/search";
 import { filterLocations } from "./filter";
+import { matchingPlaces, placeName, selectPlaces } from "./places";
 import { Highlight } from "../components/highlight";
 import { arrangeLogos } from "./placement";
+import { overview } from "./camera";
 import { logoBackground } from "./colour";
 import { isPreviewPath, type Point } from "./hover";
 import {
@@ -122,6 +125,8 @@ export function CommunityMap(props: {
     const [zoom, setZoom] = createSignal(12);
     const [error, setError] = createSignal(false);
     const { query: search, setQuery: setSearch, terms } = useSearch();
+    const [groupSearch, setGroupSearch] = createSignal("");
+    const groupTerms = createMemo(() => searchTerms(groupSearch()));
     const [category, setCategory] = createSignal("all");
     const [isPanelOpen, setPanelOpen] = createSignal(false);
     const [hovered, setHovered] = createSignal<string[]>([]);
@@ -139,6 +144,7 @@ export function CommunityMap(props: {
     );
     const organisationCount = () =>
         filtered().reduce((sum, place) => sum + place.organisations.length, 0);
+    const markers = createMemo(() => matchingPlaces(organisations() ?? [], filtered()));
 
     // list organisations alphabetically without separating supporters from other results
     const listed = createMemo(() =>
@@ -162,14 +168,7 @@ export function CommunityMap(props: {
 
     // narrow the selected places to the chosen organisation
     const selectedPlaces = createMemo(() =>
-        filtered()
-            .filter((place) => selected().includes(place.id))
-            .map((place) => ({
-                ...place,
-                organisations: place.organisations.filter(
-                    (person) => !selectedOrganisation() || person.id === selectedOrganisation(),
-                ),
-            })),
+        selectPlaces(organisations() ?? [], selected(), selectedOrganisation()),
     );
     let container!: HTMLDivElement;
     let isDisposed = false;
@@ -244,13 +243,21 @@ export function CommunityMap(props: {
         previewKey = key;
         const bounds = container.getBoundingClientRect();
         previewOrigin = { x: bounds.left + point[0], y: bounds.top + point[1] };
-        setHovered([places[0].organisations[0].id]);
+        setHovered(places.flatMap((place) => place.organisations.map((person) => person.id)));
 
-        // anchor to the displayed marker, including displaced logos and shared-address badges
+        // anchor to the displayed marker, including displaced standalone logos
         const position = current.map.unproject(point);
         previewTimer = setTimeout(
             () => {
                 const element = document.createElement("div");
+                // balance up to two logo rows without reserving empty columns for smaller groups
+                const tenants = places[0].organisations
+                    .filter((person) => person.mapLogoUrl ?? person.logoUrl)
+                    .slice(0, 14);
+                const columns =
+                    tenants.length > 7
+                        ? Math.ceil(tenants.length / 2)
+                        : Math.max(1, tenants.length);
                 disposePreview = render(
                     () => (
                         <div
@@ -268,7 +275,40 @@ export function CommunityMap(props: {
                                     leavePreview();
                             }}
                         >
-                            <PlaceDetails places={places} />
+                            <Show
+                                when={places[0].organisations.length > 1}
+                                fallback={<PlaceDetails places={places} />}
+                            >
+                                <section class="map-place map-place--shared">
+                                    <h2 class="map-place__name">{placeName(places[0])}</h2>
+                                    <p class="map-place__address">{places[0].address}</p>
+                                    <div
+                                        class="map-tenants"
+                                        style={{ "--map-tenant-columns": columns }}
+                                        aria-label="Organisations at this address"
+                                    >
+                                        <For each={tenants}>
+                                            {(person) => (
+                                                <Image
+                                                    src={person.mapLogoUrl ?? person.logoUrl}
+                                                    alt={person.name}
+                                                    title={person.name}
+                                                    width={32}
+                                                    height={32}
+                                                />
+                                            )}
+                                        </For>
+                                    </div>
+                                    <button
+                                        class="map-browse"
+                                        type="button"
+                                        onClick={() => select(places)}
+                                    >
+                                        View all {places[0].organisations.length} organisations{" "}
+                                        <ArrowRight size={16} />
+                                    </button>
+                                </section>
+                            </Show>
                         </div>
                     ),
                     element,
@@ -330,6 +370,7 @@ export function CommunityMap(props: {
     /** Keep selection shared between the markers and the directory. */
     function select(places: MapLocation[]) {
         closePreview();
+        setGroupSearch("");
         setPanelOpen(true);
         setSelectedOrganisation(
             places.length === 1 && places[0].organisations.length === 1
@@ -345,31 +386,13 @@ export function CommunityMap(props: {
     /** Fit the full city extent on every screen size and restore it on reset. */
     function frame() {
         setSelected([]);
-        instance()?.map.fitBounds(
-            props.isHero
-                ? [
-                      [8.4, 47.3],
-                      [8.68, 47.46],
-                  ]
-                : [
-                      [8.44, 47.32],
-                      [8.64, 47.44],
-                  ],
-            {
-                padding: props.isHero
-                    ? 0
-                    : window.matchMedia("(max-width: 800px)").matches
-                      ? {
-                            top: 48,
-                            right: 24,
-                            bottom: isPanelOpen() ? container.clientHeight * 0.65 : 210,
-                            left: 24,
-                        }
-                      : { top: 64, right: 64, bottom: 64, left: 400 },
-                duration: 0,
-                maxZoom: props.isHero ? 18 : 12,
-            },
+        const camera = overview(
+            Boolean(props.isHero),
+            container.clientWidth,
+            container.clientHeight,
+            isPanelOpen(),
         );
+        instance()?.map.fitBounds(camera.bounds, camera.fitBoundsOptions);
     }
 
     // Load WebGL only in the browser and dispose it when navigating away.
@@ -402,7 +425,15 @@ export function CommunityMap(props: {
         };
         window.addEventListener("pointerout", leaveWindow);
         window.addEventListener("blur", closePreview);
+        let previousWidth = container.clientWidth;
+        let previousHeight = container.clientHeight;
         const observer = new ResizeObserver(() => {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            if (width === previousWidth && height === previousHeight) return;
+            previousWidth = width;
+            previousHeight = height;
+
             closePreview();
             map?.resize();
             if (props.isHero) frame();
@@ -429,8 +460,13 @@ export function CommunityMap(props: {
                 map = new library.Map({
                     container,
                     style: mapStyle(Boolean(props.isHero)),
-                    center: [8.54, 47.385],
-                    zoom: 12,
+                    ...overview(
+                        Boolean(props.isHero),
+                        container.clientWidth,
+                        container.clientHeight,
+                        isPanelOpen(),
+                    ),
+                    trackResize: false,
                     minZoom: 3,
                     maxZoom: 18,
                     interactive: !props.isHero,
@@ -452,38 +488,26 @@ export function CommunityMap(props: {
                 map.on("load", () => {
                     addOrganisationLayers(map!, !props.isHero);
                     setInstance({ map: map!, Marker: library.Marker, Popup: library.Popup });
-                    frame();
+                    setZoom(map!.getZoom());
                 });
                 if (!props.isHero) {
                     map.on("click", ["organisations", "organisation-dots"], (event) => {
                         const feature = event.features?.[0];
-                        const place = filtered().find(
+                        const place = markers().find(
                             (entry) => entry.id === feature?.properties.place,
                         );
-                        const person = place?.organisations.find(
-                            (entry) => entry.id === feature?.properties.id,
-                        );
-                        if (place && person) select([place]);
+                        if (place) select([place]);
                     });
                     map.on("mousemove", ["organisations", "organisation-dots"], (event) => {
                         if (!window.matchMedia("(any-hover: hover)").matches || map!.isMoving())
                             return;
                         map!.getCanvas().style.cursor = "pointer";
                         const feature = event.features?.[0];
-                        const place = filtered().find(
+                        const place = markers().find(
                             (entry) => entry.id === feature?.properties.place,
                         );
                         if (place) {
-                            const people =
-                                map!.getZoom() <= 12
-                                    ? place.organisations
-                                    : place.organisations.filter(
-                                          (person) => person.id === feature?.properties.id,
-                                      );
-                            showPreview(
-                                [{ ...place, organisations: people }],
-                                [event.point.x, event.point.y],
-                            );
+                            showPreview([place], [event.point.x, event.point.y]);
                         }
                     });
                     map.on("mouseleave", ["organisations", "organisation-dots"], () => {
@@ -500,128 +524,180 @@ export function CommunityMap(props: {
     // Place host and sponsor logos, moving them apart where they would overlap.
     createEffect(() => {
         const current = instance();
-        const entries = filtered();
+        const entries = markers();
         view();
         if (!current) return;
+
+        // shared addresses always stay at their real position, independent of group size
+        const groups = entries
+            .filter((place) => place.organisations.length > 1)
+            .map((place) => ({
+                id: place.id,
+                ...current.map.project([place.longitude, place.latitude]),
+                place,
+                person: place.organisations[0],
+                size: 24,
+                offset: [0, 0] as [number, number],
+            }))
+            .filter(
+                (marker) =>
+                    marker.x >= 0 &&
+                    marker.y >= 0 &&
+                    marker.x <= container.clientWidth &&
+                    marker.y <= container.clientHeight,
+            );
+
         const logos = arrangeLogos(
-            entries.flatMap((place) => {
-                const point = current.map.project([place.longitude, place.latitude]);
-                return place.organisations.filter(isHighlighted).map((person) => ({
-                    id: `${place.id}:${person.id}`,
-                    ...point,
-                    size: { large: 36, medium: 30, small: 26 }[person.prominence],
-                    place,
-                    person,
-                }));
-            }),
+            entries
+                .filter((place) => place.organisations.length === 1)
+                .flatMap((place) => {
+                    const point = current.map.project([place.longitude, place.latitude]);
+                    return place.organisations.filter(isHighlighted).map((person) => ({
+                        id: `${place.id}:${person.id}`,
+                        ...point,
+                        size: { large: 36, medium: 30, small: 26 }[person.prominence],
+                        place,
+                        person,
+                    }));
+                }),
             { width: container.clientWidth, height: container.clientHeight },
+            groups,
         );
         setCrowded(new Set(logos.crowded.map((logo) => logo.id)));
-        const markers = logos.placed.map(({ place: anchor, person: first, size, offset }) => {
-            const places = [{ ...anchor, organisations: [first] }];
-            const element = document.createElement("div");
-            const dispose = render(
-                () => (
-                    <Dynamic
-                        component={props.isHero ? "a" : "button"}
-                        href={props.isHero ? "/map" : undefined}
-                        type={props.isHero ? undefined : "button"}
-                        class="map-pin"
-                        classList={{
-                            "map-pin--hero": props.isHero,
-                            "map-pin--sponsor": first.isSponsor,
-                            "map-pin--hovered": hovered().includes(first.id),
-                            "map-pin--selected": places.some(
-                                (place) =>
-                                    selected().includes(place.id) &&
-                                    (!selectedOrganisation() ||
-                                        selectedOrganisation() === first.id),
-                            ),
-                        }}
-                        style={{
-                            "--map-logo-size": `${size - 4}px`,
-                        }}
-                        aria-label={`${first.name} — ${anchor.address}`}
-                        title={props.isHero ? first.name : undefined}
-                        aria-pressed={
-                            props.isHero
-                                ? undefined
-                                : places.some((place) => selected().includes(place.id)) &&
-                                  (!selectedOrganisation() || selectedOrganisation() === first.id)
-                        }
-                        onPointerEnter={(event: PointerEvent & { currentTarget: HTMLElement }) => {
-                            if (props.isHero) setHovered([first.id]);
-                            else if (event.pointerType === "mouse")
-                                previewLogo(places, event.currentTarget);
-                        }}
-                        onPointerLeave={leavePreview}
-                        onFocus={(event: FocusEvent & { currentTarget: HTMLElement }) => {
-                            if (props.isHero) setHovered([first.id]);
-                            else if (event.currentTarget.matches(":focus-visible"))
-                                previewLogo(places, event.currentTarget, true);
-                        }}
-                        onBlur={leavePreview}
-                        onClick={() => {
-                            if (!props.isHero) select(places);
-                        }}
-                    >
-                        <span class="map-pin__logos">
-                            <span class="map-logo">
-                                <Show
-                                    when={first.mapLogoUrl ?? first.logoUrl}
-                                    fallback={first.name.slice(0, 1)}
-                                >
-                                    {(source) => (
-                                        <img
-                                            crossorigin={first.isSponsor ? undefined : "anonymous"}
-                                            src={source()}
-                                            alt=""
-                                            onLoad={(event) => {
-                                                if (!first.isSponsor) {
-                                                    const image = event.currentTarget;
-                                                    image
-                                                        .closest<HTMLElement>(".map-pin")!
-                                                        .style.setProperty(
-                                                            "--map-logo-background",
-                                                            logoBackground(image),
-                                                        );
-                                                }
-                                            }}
-                                        />
-                                    )}
-                                </Show>
+        const placedMarkers = [...logos.placed, ...groups].map(
+            ({ place: anchor, person: first, size, offset }) => {
+                const places = [anchor];
+                const isGroup = anchor.organisations.length > 1;
+                const name = isGroup ? placeName(anchor) : first.name;
+                const element = document.createElement("div");
+                const dispose = render(
+                    () => (
+                        <Dynamic
+                            component={props.isHero ? "a" : "button"}
+                            href={props.isHero ? "/map" : undefined}
+                            type={props.isHero ? undefined : "button"}
+                            class="map-pin"
+                            classList={{
+                                "map-pin--group": isGroup,
+                                "map-pin--hero": props.isHero,
+                                "map-pin--sponsor": anchor.organisations.some(
+                                    (person) => person.isSponsor,
+                                ),
+                                "map-pin--hovered": anchor.organisations.some((person) =>
+                                    hovered().includes(person.id),
+                                ),
+                                "map-pin--selected": places.some(
+                                    (place) =>
+                                        selected().includes(place.id) &&
+                                        (!selectedOrganisation() ||
+                                            anchor.organisations.some(
+                                                (person) => person.id === selectedOrganisation(),
+                                            )),
+                                ),
+                            }}
+                            style={{
+                                "--map-logo-size": `${size - 4}px`,
+                            }}
+                            aria-label={`${name}, ${anchor.address}${isGroup ? `, ${anchor.organisations.length} organisations` : ""}`}
+                            title={props.isHero ? name : undefined}
+                            aria-pressed={
+                                props.isHero
+                                    ? undefined
+                                    : places.some((place) => selected().includes(place.id)) &&
+                                      (!selectedOrganisation() ||
+                                          anchor.organisations.some(
+                                              (person) => person.id === selectedOrganisation(),
+                                          ))
+                            }
+                            onPointerEnter={(
+                                event: PointerEvent & { currentTarget: HTMLElement },
+                            ) => {
+                                if (props.isHero) setHovered([first.id]);
+                                else if (event.pointerType === "mouse")
+                                    previewLogo(places, event.currentTarget);
+                            }}
+                            onPointerLeave={leavePreview}
+                            onFocus={(event: FocusEvent & { currentTarget: HTMLElement }) => {
+                                if (props.isHero) setHovered([first.id]);
+                                else if (event.currentTarget.matches(":focus-visible"))
+                                    previewLogo(places, event.currentTarget, true);
+                            }}
+                            onBlur={leavePreview}
+                            onClick={() => {
+                                if (!props.isHero) select(places);
+                            }}
+                        >
+                            <span class="map-pin__logos">
+                                <span class="map-logo">
+                                    <Show
+                                        when={isGroup}
+                                        fallback={
+                                            <Show
+                                                when={first.mapLogoUrl ?? first.logoUrl}
+                                                fallback={first.name.slice(0, 1)}
+                                            >
+                                                {(source) => (
+                                                    <img
+                                                        crossorigin={
+                                                            first.isSponsor
+                                                                ? undefined
+                                                                : "anonymous"
+                                                        }
+                                                        src={source()}
+                                                        alt=""
+                                                        onLoad={(event) => {
+                                                            if (!first.isSponsor) {
+                                                                const image = event.currentTarget;
+                                                                image
+                                                                    .closest<HTMLElement>(
+                                                                        ".map-pin",
+                                                                    )!
+                                                                    .style.setProperty(
+                                                                        "--map-logo-background",
+                                                                        logoBackground(image),
+                                                                    );
+                                                            }
+                                                        }}
+                                                    />
+                                                )}
+                                            </Show>
+                                        }
+                                    >
+                                        <span class="map-pin__dot" aria-hidden="true" />
+                                    </Show>
+                                </span>
                             </span>
-                        </span>
-                    </Dynamic>
-                ),
-                element,
-            );
-            // draw a fine connector back to the unchanged geographic anchor
-            const distance = Math.hypot(...offset);
-            if (distance > 0) {
-                const connector = document.createElement("span");
-                connector.className = "map-connector";
-                connector.style.width = `${distance}px`;
-                connector.style.transform = `rotate(${Math.atan2(-offset[1], -offset[0])}rad)`;
-                element.prepend(connector);
-            }
-            const marker = new current.Marker({ element, offset })
-                .setLngLat([anchor.longitude, anchor.latitude])
-                .addTo(current.map);
-            return { marker, dispose };
-        });
+                        </Dynamic>
+                    ),
+                    element,
+                );
+                // draw a fine connector back to the unchanged geographic anchor
+                const distance = Math.hypot(...offset);
+                if (distance > 0) {
+                    const connector = document.createElement("span");
+                    connector.className = "map-connector";
+                    connector.style.width = `${distance}px`;
+                    connector.style.transform = `rotate(${Math.atan2(-offset[1], -offset[0])}rad)`;
+                    element.prepend(connector);
+                }
+                const marker = new current.Marker({ element, offset })
+                    .setLngLat([anchor.longitude, anchor.latitude])
+                    .addTo(current.map);
+                return { marker, dispose };
+            },
+        );
         onCleanup(() =>
-            markers.forEach(({ marker, dispose }) => {
+            placedMarkers.forEach(({ marker, dispose }) => {
                 marker.remove();
                 dispose();
             }),
         );
     });
 
-    // Draw every organisation as a badge, with space under each logo for labels.
+    // draw standalone badges and reserve label space for logos and shared addresses
     createEffect(() => {
         const current = instance();
-        const places = filtered();
+        const places = markers();
         if (!current) return;
 
         // show the marker layer now and ignore logo updates after this view is disposed
@@ -629,7 +705,11 @@ export function CommunityMap(props: {
         onCleanup(() => (isStale = true));
         const badges = props.isHero
             ? Promise.resolve()
-            : addBadges(current.map, places, () => !isDisposed);
+            : addBadges(
+                  current.map,
+                  places.filter((place) => place.organisations.length === 1),
+                  () => !isDisposed,
+              );
         const crowdedIds = crowded();
         showOrganisations(
             current.map,
@@ -650,7 +730,7 @@ export function CommunityMap(props: {
             ...hovered(),
             ...selectedPlaces().flatMap((place) => place.organisations.map((person) => person.id)),
         ];
-        if (current) highlightOrganisations(current.map, ids);
+        if (current) highlightOrganisations(current.map, markers(), ids);
     });
 
     return (
@@ -952,7 +1032,49 @@ export function CommunityMap(props: {
                                         >
                                             <ArrowLeft size={16} /> Results
                                         </button>
-                                        <PlaceDetails places={selectedPlaces()} />
+                                        <Show when={!selectedOrganisation()}>
+                                            <h2 class="map-place__name">
+                                                {placeName(selectedPlaces()[0])}
+                                            </h2>
+                                            <label class="map-search">
+                                                <Search size={18} aria-hidden="true" />
+                                                <input
+                                                    class="field__control"
+                                                    type="search"
+                                                    aria-label="Search this address"
+                                                    placeholder="Search this address"
+                                                    value={groupSearch()}
+                                                    onInput={(event) =>
+                                                        setGroupSearch(event.currentTarget.value)
+                                                    }
+                                                />
+                                            </label>
+                                            <p class="map-results" role="status">
+                                                {filterLocations(
+                                                    selectedPlaces(),
+                                                    "all",
+                                                    groupTerms(),
+                                                ).reduce(
+                                                    (count, place) =>
+                                                        count + place.organisations.length,
+                                                    0,
+                                                )}{" "}
+                                                of{" "}
+                                                {selectedPlaces().reduce(
+                                                    (count, place) =>
+                                                        count + place.organisations.length,
+                                                    0,
+                                                )}{" "}
+                                                organisations
+                                            </p>
+                                        </Show>
+                                        <PlaceDetails
+                                            places={filterLocations(
+                                                selectedPlaces(),
+                                                "all",
+                                                groupTerms(),
+                                            )}
+                                        />
                                     </div>
                                 </Show>
                             </div>

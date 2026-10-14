@@ -7,5 +7,5 @@ date: "2024-11-19"
 url: "https://www.calvin-risk.com/blog/innovating-the-ai-governance-and-risk-management-market-our-recent-funding-and-work"
 authors: []
 organisations: ["calvin-risk"]
-topics: ["ai-safety"]
+topics: []
 ---

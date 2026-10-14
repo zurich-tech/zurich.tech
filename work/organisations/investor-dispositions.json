@@ -1,0 +1,712 @@
+{
+    "audit": "Finite investor candidate disposition inventory",
+    "status": "closed for this evidence-only pass",
+    "networkRequestsThisPass": 0,
+    "scope": "Zurich and Zug operating offices. This inventory covers the named leads actually captured during this audit, not every member of the source directories or the entire Swiss investor scene.",
+    "existingEvidence": "User explicitly confirms the original fourteen investors have now been imported. Local organisations-current.json and organisations-final.json both still contain 368 records and predate these imports. They contain Zühlke but no name/domain matches for the five additional profiles.",
+    "counts": {
+        "existing": 14,
+        "verified": 5,
+        "held": 22,
+        "outside": 6
+    },
+    "sourcesReviewed": [
+        {
+            "url": "https://www.seca.ch/find-members/",
+            "coverage": "Member directory screened for named investor leads; not all 500+ members enumerated. Captured extra leads b2venture, Creathor Ventures and ACE Ventures are explicitly held above."
+        },
+        {
+            "url": "https://www.seca.ch/media/hsjhcf1u/vc-map-ssa-2024.pdf",
+            "coverage": "Historical map read as discovery material. Named map shortlist is disposed above; historical locations never override primary contact evidence."
+        },
+        {
+            "url": "https://www.seca.ch/our-activities/seca-chapters/venture-capital/",
+            "coverage": "VC chapter read; current 2026 map link discovered."
+        },
+        {
+            "url": "https://www.seca.ch/media/e2glazf5/vc-map-ssa-2026.pdf",
+            "coverage": "Link discovered but PDF fetch failed. Contents were not read; no claim of coverage of its unobserved entries."
+        },
+        {
+            "url": "https://www.sictic.ch/partners/",
+            "coverage": "Institutional-investor and angel-network partner leads screened. EquityPitcher and QBIT now verified; Founderful, Swisscom Ventures and Tenity already imported; BAS held."
+        },
+        {
+            "url": "https://economy.zg.ch/dam/jcr%3Afe75cebc-5a7e-442f-87c2-99fbbd8aa696/Fact%20Sheet%20Private%20Equity.pdf",
+            "coverage": "Zug cluster overview read as discovery. Relevant VC leads captured in this audit are disposed above; broad private-equity managers and service providers were not treated as technology VCs."
+        }
+    ],
+    "candidates": [
+        {
+            "name": "Founderful",
+            "slug": "founderful",
+            "cohort": "Zurich",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.founderful.com/imprint"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Swisscom Ventures",
+            "slug": "swisscom-ventures",
+            "cohort": "Zurich",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://ventures.swisscom.com/contact/"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "SICTIC",
+            "slug": "sictic",
+            "cohort": "Zurich",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.sictic.ch/"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Verve Ventures",
+            "slug": "verve-ventures",
+            "cohort": "Zurich",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.verve.vc/impressum/"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Emerald Technology Ventures",
+            "slug": "emerald-technology-ventures",
+            "cohort": "Zurich",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.emerald.vc/contact"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Tenity",
+            "slug": "tenity",
+            "cohort": "Zurich",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.tenity.com/coworking-zurich/"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Planven",
+            "slug": "planven",
+            "cohort": "Zurich",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.planvenev.com/contact.aspx"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Collateral Good",
+            "slug": "collateral-good",
+            "cohort": "Zurich",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://collateralgood.eu/contact/"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Übermorgen Ventures",
+            "slug": "uebermorgen-ventures",
+            "cohort": "Zurich",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.uebermorgen.vc/privacy-policy"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Redalpine",
+            "slug": "redalpine",
+            "cohort": "Zug",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.redalpine.com/contact"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Evolution Equity Partners",
+            "slug": "evolution-equity-partners",
+            "cohort": "Zug",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://evolutionequity.com/contact-us/"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "Spicehaus Partners",
+            "slug": "spicehaus-partners",
+            "cohort": "Zug",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.spicehaus.com/"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "CV VC",
+            "slug": "cv-vc",
+            "cohort": "Zug",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.cvvc.com/contact-us"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "HBM Partners",
+            "slug": "hbm-partners",
+            "cohort": "Zug",
+            "disposition": "existing",
+            "reason": "User confirms this member of the original fourteen-investor cohort is now imported. Do not reimport.",
+            "sources": ["https://www.hbmpartners.com/contact"],
+            "nextAction": "None; preserve the imported record."
+        },
+        {
+            "name": "EquityPitcher Ventures",
+            "slug": "equitypitcher-ventures",
+            "cohort": "Zurich",
+            "disposition": "verified",
+            "reason": "Official homepage describes venture investing and publishes the complete Zurich contact address. LinkedIn and favicon are explicit website links; favicon is a brand candidate, not a verified full wordmark.",
+            "sources": ["https://www.equitypitcher.com/"],
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "Backbone Ventures",
+            "slug": "backbone-ventures",
+            "cohort": "Zurich",
+            "disposition": "verified",
+            "reason": "Homepage explicitly describes Zurich and Frankfurt operating bases and gives BackBone Ventures AG, Stockerstrasse 14, CH-8002 Zürich. Header logo URL is source-exact but a small blurred rendition; obtain a suitable original rendition before use.",
+            "sources": ["https://www.backbone.vc/"],
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "QBIT Capital",
+            "slug": "qbit-capital",
+            "cohort": "Zurich",
+            "disposition": "verified",
+            "reason": "Official website identifies its Technopark headquarters and complete Zurich address. Official theme logo discovered. No official social URL was verified; socials intentionally empty.",
+            "sources": ["https://qbitcapital.xyz/", "https://qbitcapital.xyz/contact-us/"],
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "Nextech Invest",
+            "slug": "nextech-invest",
+            "cohort": "Zurich",
+            "disposition": "verified",
+            "reason": "Homepage explicitly identifies its Zurich base; contact page lists the Zurich office with office photograph and full address. Website favicon discovered; full wordmark is not a standalone verified asset. No official social URL verified.",
+            "sources": ["https://www.nextechinvest.com/", "https://www.nextechinvest.com/contact/"],
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "Winti Ventures",
+            "slug": "winti-ventures",
+            "cohort": "Zurich",
+            "disposition": "verified",
+            "reason": "Official homepage publishes the complete Winterthur contact address, describes investor introductions and financing outcomes, and links the organisation LinkedIn and header logo.",
+            "sources": ["https://winti-ventures.ch/"],
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "DART Ventures",
+            "cohort": "Zurich",
+            "disposition": "held",
+            "reason": "Original hold retained. Current primary pages describe investing and show 8005 Zurich but no complete street address. dartlabs.io redirected to dart.ventures; DART Labs is a legacy brand.",
+            "sources": ["https://www.dart.ventures/about"],
+            "nextAction": "Obtain an official Zurich operating street address; retain the verified current DART Ventures brand."
+        },
+        {
+            "name": "Blue Horizon",
+            "cohort": "Zurich",
+            "disposition": "held",
+            "reason": "Original hold retained. Official contact page gives Delphinstrasse 5, CH-8008 Zurich, but homepage announces AgFunder taking over management of the growth fund; ongoing investment activity of the remaining organisation is unresolved.",
+            "sources": ["https://bluehorizon.com/", "https://bluehorizon.com/contact/"],
+            "nextAction": "Resolve investment-manager transfer and current independently active investing before adding; address alone is insufficient."
+        },
+        {
+            "name": "SNGLR Capital",
+            "cohort": "Zug",
+            "disposition": "held",
+            "reason": "Original hold retained. VC page confirms active funds and Zug. Parent-group privacy page gives SNGLR Holding AG, Dammstrasse 19, 6300 Zug; this is not explicit confirmation of the investment team's operating street address.",
+            "sources": ["https://www.snglr.vc/", "https://www.snglr.group/privacy-policy/"],
+            "nextAction": "Confirm investment-team operating address and relationship between SNGLR Capital and parent group."
+        },
+        {
+            "name": "Hammer Team",
+            "cohort": "Zug",
+            "disposition": "held",
+            "reason": "Original hold retained. Official investment page describes venture capital and says the team operates from its estate in Cham, but no exact street/postcode was captured.",
+            "sources": ["https://hammerteam.com/hammer-digital/", "https://hammerteam.com/hammer/"],
+            "nextAction": "Find an official full address for the Cham investment office; do not substitute an estate map centroid."
+        },
+        {
+            "name": "Marcau Partners",
+            "cohort": "Zurich",
+            "disposition": "held",
+            "reason": "Primary imprint gives Marcau Partners AG, Schiffbaustrasse 10, 8005 Zurich. Active investment management and official LinkedIn are evidenced, but collected pages do not explicitly distinguish operating office from legal address. Header image requires visual branding check.",
+            "sources": [
+                "https://www.marcau.vc/",
+                "https://www.marcau.vc/Imprint",
+                "https://www.marcau.vc/contact-us/"
+            ],
+            "nextAction": "Confirm operating-office use of Schiffbaustrasse 10 and visually verify the header logo asset."
+        },
+        {
+            "name": "Lakestar",
+            "cohort": "Zurich",
+            "disposition": "held",
+            "reason": "Primary legal page lists Lakestar Advisors GmbH, Bahnhofstrasse 18, 8001 Zürich as domiciled website operator. Current homepage describes ongoing portfolio work and targeted investment products, but operating-office evidence is not explicit.",
+            "sources": ["https://www.lakestar.com/", "https://www.lakestar.com/legal"],
+            "nextAction": "Confirm Zurich operating office; resolve current investment scope and official socials."
+        },
+        {
+            "name": "Serpentine Ventures",
+            "cohort": "Zurich",
+            "disposition": "held",
+            "reason": "Active investment narrative and recent portfolio news captured. Imprint gives Bahnhofplatz 1, 8001 Zürich, but only legal-address evidence, inline branding and no verified official socials were captured.",
+            "sources": ["https://www.serpentine.vc/", "https://www.serpentine.vc/impressum/"],
+            "nextAction": "Confirm operating-office use of Bahnhofplatz 1 and source a usable official logo; omit socials unless verified."
+        },
+        {
+            "name": "TX Ventures",
+            "cohort": "Zurich",
+            "disposition": "held",
+            "reason": "Official site confirms investing and publishes TX Group AG, Werdstrasse 21, PO Box, 8021 Zurich. The published postal code is a post-office-box address; exact operating street postal address and official company LinkedIn URL were not resolved.",
+            "sources": [
+                "https://www.tx.ventures/",
+                "https://www.tx.ventures/team",
+                "https://www.tx.ventures/news"
+            ],
+            "nextAction": "Verify the operating street postcode from a primary source; do not guess 8004 or reuse PO-box postcode for geocoding."
+        },
+        {
+            "name": "Momenta",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "Current momenta.vc site confirms physical-AI investing. Collected primary content did not give a complete Zurich or Zug operating address; portfolio-company Zurich locations are not office evidence.",
+            "sources": ["https://momenta.vc/", "https://www.momenta.one/iot-venture-capital"],
+            "nextAction": "Find current investor office address in Zurich or Zug, not a portfolio-company address."
+        },
+        {
+            "name": "FiveT Fintech",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "Named in the VC-map shortlist. Public request to fivet.com/pages/fivet-fintech returned HTTP 429; no complete operating-office evidence obtained.",
+            "sources": [
+                "https://www.seca.ch/media/hsjhcf1u/vc-map-ssa-2024.pdf",
+                "https://fivet.com/pages/fivet-fintech"
+            ],
+            "nextAction": "Verify current FiveT Fintech operating office and active investment identity when access is available; do not repeat requests in this audit."
+        },
+        {
+            "name": "L1 Digital",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "VC-map lead. Attempted l1digital.ch fetch failed; canonical primary site, current office and active venture-investment scope were not verified.",
+            "sources": ["https://www.seca.ch/media/hsjhcf1u/vc-map-ssa-2024.pdf"],
+            "nextAction": "Identify official current domain, verify direct venture activity and exact operating office."
+        },
+        {
+            "name": "Swiss Startup Capital",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "VC-map lead. Attempted swiss-startup-capital.ch fetch failed; current identity, office and relationship to other Swiss Startup entities unresolved.",
+            "sources": ["https://www.seca.ch/media/hsjhcf1u/vc-map-ssa-2024.pdf"],
+            "nextAction": "Identify canonical current primary site and manager identity; verify exact operating address."
+        },
+        {
+            "name": "Swiss Entrepreneurs Fund",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "Named VC-map lead only; no primary office or current manager/product distinction verified in collected evidence.",
+            "sources": ["https://www.seca.ch/media/hsjhcf1u/vc-map-ssa-2024.pdf"],
+            "nextAction": "Identify operating investment manager and verify its address; avoid creating a fund product as a duplicate organisation."
+        },
+        {
+            "name": "Bellevue Asset Management",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "Named VC-map lead only. No current primary evidence captured distinguishing relevant private technology investing from broader asset management, or proving an in-scope office.",
+            "sources": ["https://www.seca.ch/media/hsjhcf1u/vc-map-ssa-2024.pdf"],
+            "nextAction": "Verify active venture strategy, correct manager identity and Zurich/Zug operating office."
+        },
+        {
+            "name": "GP Bullhound",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "Current homepage emphasises technology M&A and growth-capital advisory. A current investment-management entity and Zurich/Zug office were not established.",
+            "sources": ["https://www.gpbullhound.com/", "https://www.gpbullhound.com/contact-us/"],
+            "nextAction": "Distinguish advisory brand from investment manager and verify actual in-scope investor office."
+        },
+        {
+            "name": "Proptech1",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "Named historical VC-map lead only; current brand, manager and Zurich/Zug operating office not verified.",
+            "sources": ["https://www.seca.ch/media/hsjhcf1u/vc-map-ssa-2024.pdf"],
+            "nextAction": "Resolve current branding and active investor entity before verifying local operating office."
+        },
+        {
+            "name": "Zühlke Ventures",
+            "cohort": "Zurich",
+            "disposition": "held",
+            "reason": "Registry already contains Zühlke at zuehlke.com. Distinct investor eligibility, current venture operations and identity separation from the parent are not established in collected evidence.",
+            "sources": ["https://www.seca.ch/media/hsjhcf1u/vc-map-ssa-2024.pdf"],
+            "nextAction": "Resolve parent/subsidiary deduplication against existing slug zuehlke before considering another record."
+        },
+        {
+            "name": "Swisscanto / Zürcher Kantonalbank venture investing",
+            "cohort": "Zurich",
+            "disposition": "held",
+            "reason": "Map names Swisscanto/ZKB. Official ZKB head-office evidence gives Bahnhofstrasse 9, 8001 Zürich, but this does not by itself identify the venture team or justify separate records for funds and parent bank.",
+            "sources": [
+                "https://www.seca.ch/media/hsjhcf1u/vc-map-ssa-2024.pdf",
+                "https://www.zkb.ch/de/standorte/gh-city.html"
+            ],
+            "nextAction": "Verify current venture-investment organisation, relevant team operating office and parent/fund deduplication."
+        },
+        {
+            "name": "b2venture",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "SECA member lead, including directory wording 'formerly btov partners'; no current primary Zurich/Zug office verification completed.",
+            "sources": ["https://www.seca.ch/en/find-members/b2venture-formerly-btov-partners/"],
+            "nextAction": "Verify current operating office within allowed cantons and primary-source former-name evidence."
+        },
+        {
+            "name": "Creathor Ventures",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "SECA member lead only; no primary current in-scope office or active local investing verification captured.",
+            "sources": ["https://www.seca.ch/en/find-members/creathor-ventures/"],
+            "nextAction": "Verify current investment activity and Zurich/Zug operating address."
+        },
+        {
+            "name": "ACE Ventures",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "SECA member lead only; no canonical primary site, current activity or in-scope operating address verified.",
+            "sources": ["https://www.seca.ch/en/find-members/ace-ventures/"],
+            "nextAction": "Resolve exact organisation identity and verify current primary office and investment activity."
+        },
+        {
+            "name": "Business Angels Switzerland",
+            "cohort": "Unresolved",
+            "disposition": "held",
+            "reason": "Official homepage lists Hauptstrasse 7, 3076 Worb. Zurich events or a member's Zurich employment do not prove a local operating office; no Zurich/Zug office verified.",
+            "sources": ["https://www.businessangels.ch/"],
+            "nextAction": "Only reconsider if an official Zurich/Zug operating office is identified; Worb address does not qualify."
+        },
+        {
+            "name": "Tomahawk.VC",
+            "disposition": "outside",
+            "reason": "Official footer gives c/o Tenderloin Ventures AG, Sonnenhof 18, CH-8808 Pfäffikon SZ. This is Canton Schwyz, not Pfäffikon ZH and not Zug.",
+            "sources": ["https://www.tomahawk.vc/"],
+            "nextAction": "Do not include on current evidence."
+        },
+        {
+            "name": "session.vc / session.ch",
+            "disposition": "outside",
+            "reason": "Official imprint gives Neue Jonastr. 44, 8640 Rapperswil, in Canton St. Gallen; no Zurich/Zug operating office verified.",
+            "sources": ["https://session.ch/impressum.html"],
+            "nextAction": "Do not include on current evidence."
+        },
+        {
+            "name": "Aravis",
+            "disposition": "outside",
+            "reason": "Current official contact gives ARAVIS SA, Postfach, CH-7032 Laax. Historical Zurich association is not current office proof.",
+            "sources": ["https://www.aravis.ch/"],
+            "nextAction": "Do not include on current evidence."
+        },
+        {
+            "name": "Kickfund",
+            "disposition": "outside",
+            "reason": "Official privacy/contact information gives St. Alban-Vorstadt 12, 4052 Basel plus Luxembourg, not an in-scope operating office.",
+            "sources": ["https://www.kickfund.ch/privacy"],
+            "nextAction": "Do not include on current evidence."
+        },
+        {
+            "name": "CV Labs as a separate investor",
+            "disposition": "outside",
+            "reason": "Official site identifies CV Labs as CV VC's ecosystem-building operation. CV VC is already imported; do not duplicate the accelerator/ecosystem brand as another investor.",
+            "sources": ["https://www.cvlabs.com/about/who-are-we"],
+            "nextAction": "Do not include on current evidence."
+        },
+        {
+            "name": "SECA",
+            "disposition": "outside",
+            "reason": "Industry association/directory source, not a venture investor or angel investment network for this cohort.",
+            "sources": ["https://www.seca.ch/our-activities/seca-chapters/venture-capital/"],
+            "nextAction": "Do not include on current evidence."
+        }
+    ],
+    "remainingCandidateQueue": [
+        {
+            "name": "EquityPitcher Ventures",
+            "disposition": "verified",
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "Backbone Ventures",
+            "disposition": "verified",
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "QBIT Capital",
+            "disposition": "verified",
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "Nextech Invest",
+            "disposition": "verified",
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "Winti Ventures",
+            "disposition": "verified",
+            "nextAction": "Geocode the exact official address, retrieve and visually review the logo candidate, then check live registry identity before import. No geocode or import performed in this disposition pass."
+        },
+        {
+            "name": "DART Ventures",
+            "disposition": "held",
+            "nextAction": "Obtain an official Zurich operating street address; retain the verified current DART Ventures brand."
+        },
+        {
+            "name": "Blue Horizon",
+            "disposition": "held",
+            "nextAction": "Resolve investment-manager transfer and current independently active investing before adding; address alone is insufficient."
+        },
+        {
+            "name": "SNGLR Capital",
+            "disposition": "held",
+            "nextAction": "Confirm investment-team operating address and relationship between SNGLR Capital and parent group."
+        },
+        {
+            "name": "Hammer Team",
+            "disposition": "held",
+            "nextAction": "Find an official full address for the Cham investment office; do not substitute an estate map centroid."
+        },
+        {
+            "name": "Marcau Partners",
+            "disposition": "held",
+            "nextAction": "Confirm operating-office use of Schiffbaustrasse 10 and visually verify the header logo asset."
+        },
+        {
+            "name": "Lakestar",
+            "disposition": "held",
+            "nextAction": "Confirm Zurich operating office; resolve current investment scope and official socials."
+        },
+        {
+            "name": "Serpentine Ventures",
+            "disposition": "held",
+            "nextAction": "Confirm operating-office use of Bahnhofplatz 1 and source a usable official logo; omit socials unless verified."
+        },
+        {
+            "name": "TX Ventures",
+            "disposition": "held",
+            "nextAction": "Verify the operating street postcode from a primary source; do not guess 8004 or reuse PO-box postcode for geocoding."
+        },
+        {
+            "name": "Momenta",
+            "disposition": "held",
+            "nextAction": "Find current investor office address in Zurich or Zug, not a portfolio-company address."
+        },
+        {
+            "name": "FiveT Fintech",
+            "disposition": "held",
+            "nextAction": "Verify current FiveT Fintech operating office and active investment identity when access is available; do not repeat requests in this audit."
+        },
+        {
+            "name": "L1 Digital",
+            "disposition": "held",
+            "nextAction": "Identify official current domain, verify direct venture activity and exact operating office."
+        },
+        {
+            "name": "Swiss Startup Capital",
+            "disposition": "held",
+            "nextAction": "Identify canonical current primary site and manager identity; verify exact operating address."
+        },
+        {
+            "name": "Swiss Entrepreneurs Fund",
+            "disposition": "held",
+            "nextAction": "Identify operating investment manager and verify its address; avoid creating a fund product as a duplicate organisation."
+        },
+        {
+            "name": "Bellevue Asset Management",
+            "disposition": "held",
+            "nextAction": "Verify active venture strategy, correct manager identity and Zurich/Zug operating office."
+        },
+        {
+            "name": "GP Bullhound",
+            "disposition": "held",
+            "nextAction": "Distinguish advisory brand from investment manager and verify actual in-scope investor office."
+        },
+        {
+            "name": "Proptech1",
+            "disposition": "held",
+            "nextAction": "Resolve current branding and active investor entity before verifying local operating office."
+        },
+        {
+            "name": "Zühlke Ventures",
+            "disposition": "held",
+            "nextAction": "Resolve parent/subsidiary deduplication against existing slug zuehlke before considering another record."
+        },
+        {
+            "name": "Swisscanto / Zürcher Kantonalbank venture investing",
+            "disposition": "held",
+            "nextAction": "Verify current venture-investment organisation, relevant team operating office and parent/fund deduplication."
+        },
+        {
+            "name": "b2venture",
+            "disposition": "held",
+            "nextAction": "Verify current operating office within allowed cantons and primary-source former-name evidence."
+        },
+        {
+            "name": "Creathor Ventures",
+            "disposition": "held",
+            "nextAction": "Verify current investment activity and Zurich/Zug operating address."
+        },
+        {
+            "name": "ACE Ventures",
+            "disposition": "held",
+            "nextAction": "Resolve exact organisation identity and verify current primary office and investment activity."
+        },
+        {
+            "name": "Business Angels Switzerland",
+            "disposition": "held",
+            "nextAction": "Only reconsider if an official Zurich/Zug operating office is identified; Worb address does not qualify."
+        }
+    ],
+    "additionalVerified": [
+        {
+            "name": "EquityPitcher Ventures",
+            "slug": "equitypitcher-ventures",
+            "kind": "investor",
+            "headline": "Invests in B2B technology companies.",
+            "description": "Venture capital investor backing technology entrepreneurs across industries and stages, with an industry network supporting portfolio sales.",
+            "website": "https://www.equitypitcher.com/",
+            "location": "Zurich",
+            "address": {
+                "line1": "Räffelstrasse 24",
+                "postalCode": "8045",
+                "locality": "Zürich",
+                "countryCode": "CH"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/equitypitcher.com/"
+            },
+            "logoCandidates": [
+                {
+                    "url": "https://www.equitypitcher.com/favicon.svg",
+                    "source": "https://www.equitypitcher.com/"
+                }
+            ],
+            "sources": ["https://www.equitypitcher.com/"],
+            "aliases": []
+        },
+        {
+            "name": "Backbone Ventures",
+            "slug": "backbone-ventures",
+            "kind": "investor",
+            "headline": "Invests in pre-seed technology founders.",
+            "description": "Early-stage venture capital firm based in Zurich and Frankfurt, with a fund focused on pre-seed companies in Switzerland and Germany.",
+            "website": "https://www.backbone.vc/",
+            "location": "Zurich",
+            "address": {
+                "line1": "Stockerstrasse 14",
+                "postalCode": "8002",
+                "locality": "Zürich",
+                "countryCode": "CH"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/backbone-ventures/"
+            },
+            "logoCandidates": [
+                {
+                    "url": "https://static.wixstatic.com/media/9b90d6_de536cf688c144048c50100ea49b27bf~mv2.png/v1/crop/x_765,y_1107,w_3778,h_940/fill/w_49,h_12,al_c,q_85,usm_0.66_1.00_0.01,blur_2,enc_avif,quality_auto/Logo%20with%20dark%20blue.png",
+                    "source": "https://www.backbone.vc/"
+                }
+            ],
+            "sources": ["https://www.backbone.vc/"],
+            "aliases": []
+        },
+        {
+            "name": "QBIT Capital",
+            "slug": "qbit-capital",
+            "kind": "investor",
+            "headline": "Invests in early-stage Swiss technology companies.",
+            "description": "Venture capital firm supporting early-stage technology companies from its headquarters at Technopark Zurich.",
+            "website": "https://qbitcapital.xyz/",
+            "location": "Zurich",
+            "address": {
+                "line1": "Technoparkstrasse 1",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH"
+            },
+            "socials": {},
+            "logoCandidates": [
+                {
+                    "url": "https://qbitcapital.xyz/wp-content/themes/qbit/static/img/logo.svg",
+                    "source": "https://qbitcapital.xyz/"
+                }
+            ],
+            "sources": ["https://qbitcapital.xyz/", "https://qbitcapital.xyz/contact-us/"],
+            "aliases": []
+        },
+        {
+            "name": "Nextech Invest",
+            "slug": "nextech-invest",
+            "kind": "investor",
+            "headline": "Invests in precision medicine and biotechnology.",
+            "description": "Healthcare venture investor backing emerging biotechnology companies and transformative cancer medicines from its Zurich base.",
+            "website": "https://www.nextechinvest.com/",
+            "location": "Zurich",
+            "address": {
+                "line1": "Bahnhofstrasse 18",
+                "postalCode": "8001",
+                "locality": "Zürich",
+                "countryCode": "CH"
+            },
+            "socials": {},
+            "logoCandidates": [
+                {
+                    "url": "https://www.nextechinvest.com/wp-content/themes/nextechinvest2019/assets/images/favicon.png",
+                    "source": "https://www.nextechinvest.com/"
+                }
+            ],
+            "sources": ["https://www.nextechinvest.com/", "https://www.nextechinvest.com/contact/"],
+            "aliases": []
+        },
+        {
+            "name": "Winti Ventures",
+            "slug": "winti-ventures",
+            "kind": "investor",
+            "headline": "Connects startups with investors in Winterthur.",
+            "description": "Winterthur investor network organising startup pitches and introductions that support early-stage financing rounds; it is a network rather than a pooled venture fund.",
+            "website": "https://winti-ventures.ch/",
+            "location": "Winterthur",
+            "address": {
+                "line1": "Stadthausstrasse 14",
+                "postalCode": "8400",
+                "locality": "Winterthur",
+                "countryCode": "CH"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/91632123/"
+            },
+            "logoCandidates": [
+                {
+                    "url": "https://winti-ventures.ch/wp-content/uploads/2026/05/cropped-WV-Logo-NEU.png",
+                    "source": "https://winti-ventures.ch/"
+                }
+            ],
+            "sources": ["https://winti-ventures.ch/"],
+            "aliases": []
+        }
+    ],
+    "originalFourHeld": ["DART Ventures", "Blue Horizon", "SNGLR Capital", "Hammer Team"],
+    "brandingNotes": "Additional logo URLs were extracted from previously fetched official websites. They are candidates, not newly downloaded or visually approved assets. Backbone's captured rendition is low resolution; EquityPitcher and Nextech candidates are favicons. Unknown social profiles are omitted, never inferred.",
+    "productionWrites": false
+}

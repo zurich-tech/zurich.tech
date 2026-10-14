@@ -1,0 +1,14 @@
+{
+    "rules": [
+        {
+            "allowed": {
+                "origins": [
+                    "https://zurich.tech",
+                    "https://www.zurich.tech",
+                    "http://localhost:3000"
+                ],
+                "methods": ["GET", "HEAD"]
+            }
+        }
+    ]
+}

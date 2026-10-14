@@ -103,6 +103,7 @@ import type * as news_imports from "../news/imports.js";
 import type * as news_mutations from "../news/mutations.js";
 import type * as news_queries from "../news/queries.js";
 import type * as news_validation from "../news/validation.js";
+import type * as organisations_imports from "../organisations/imports.js";
 import type * as organisations_kinds from "../organisations/kinds.js";
 import type * as organisations_mutations from "../organisations/mutations.js";
 import type * as organisations_queries from "../organisations/queries.js";
@@ -121,6 +122,7 @@ import type * as statistics_history from "../statistics/history.js";
 import type * as statistics_queries from "../statistics/queries.js";
 import type * as statistics_referrals from "../statistics/referrals.js";
 import type * as topics_queries from "../topics/queries.js";
+import type * as topics_removal from "../topics/removal.js";
 
 import type {
   ApiFromModules,
@@ -224,6 +226,7 @@ declare const fullApi: ApiFromModules<{
   "news/mutations": typeof news_mutations;
   "news/queries": typeof news_queries;
   "news/validation": typeof news_validation;
+  "organisations/imports": typeof organisations_imports;
   "organisations/kinds": typeof organisations_kinds;
   "organisations/mutations": typeof organisations_mutations;
   "organisations/queries": typeof organisations_queries;
@@ -242,6 +245,7 @@ declare const fullApi: ApiFromModules<{
   "statistics/queries": typeof statistics_queries;
   "statistics/referrals": typeof statistics_referrals;
   "topics/queries": typeof topics_queries;
+  "topics/removal": typeof topics_removal;
 }>;
 
 /**

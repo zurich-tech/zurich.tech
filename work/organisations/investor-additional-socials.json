@@ -1,0 +1,67 @@
+{
+    "schemaVersion": 1,
+    "checkedOn": "2026-10-14",
+    "apply": false,
+    "productionWrites": false,
+    "scope": "QBIT Capital and Nextech Invest only; official footer/contact links",
+    "counts": {
+        "organisations": 2,
+        "officialPagesChecked": 4,
+        "verifiedLinks": 0,
+        "organisationsWithoutVerifiedLinks": 2
+    },
+    "organisations": [
+        {
+            "slug": "qbit-capital",
+            "website": "https://qbitcapital.xyz/",
+            "socials": {},
+            "sources": ["https://qbitcapital.xyz/", "https://qbitcapital.xyz/contact-us/"],
+            "status": "no-verified-links-in-scoped-pages",
+            "evidence": [
+                {
+                    "source": "https://qbitcapital.xyz/",
+                    "savedPage": "/tmp/zurich-registry-review/qbit-social-official.html",
+                    "sha256": "76c1671c0e8b2175d6a07b2471dc79c63cd4db6caf1fb347a4f1278833f27e2f",
+                    "anchorCount": 31,
+                    "socialAnchors": [],
+                    "result": "No LinkedIn, X/Twitter or GitHub account anchor in fetched official HTML."
+                },
+                {
+                    "source": "https://qbitcapital.xyz/contact-us/",
+                    "savedPage": "/tmp/zurich-registry-review/qbit-social-contact.html",
+                    "sha256": "08bcc22e14a201a570a1a1f86aeb117628c0ca0b9f640f0a21cf3821aae3e6e7",
+                    "anchorCount": 13,
+                    "socialAnchors": [],
+                    "result": "No LinkedIn, X/Twitter or GitHub account anchor in fetched official HTML."
+                }
+            ],
+            "limitation": "Scoped to official homepage/footer and contact HTML; not proof no accounts exist. No staff accounts, guessed handles, search-directory matches or unused social-icon definitions accepted."
+        },
+        {
+            "slug": "nextech-invest",
+            "website": "https://www.nextechinvest.com/",
+            "socials": {},
+            "sources": ["https://www.nextechinvest.com/", "https://www.nextechinvest.com/contact/"],
+            "status": "no-verified-links-in-scoped-pages",
+            "evidence": [
+                {
+                    "source": "https://www.nextechinvest.com/",
+                    "savedPage": "/tmp/zurich-registry-review/nextech-social-official.html",
+                    "sha256": "396874aa6c31bd85186c94e09147660396815666dad7537db6f0a018e86f847a",
+                    "anchorCount": 19,
+                    "socialAnchors": [],
+                    "result": "No LinkedIn, X/Twitter or GitHub account anchor in fetched official HTML."
+                },
+                {
+                    "source": "https://www.nextechinvest.com/contact/",
+                    "savedPage": "/tmp/zurich-registry-review/nextech-social-contact.html",
+                    "sha256": "c3b39586825a4737efe8825e6c081290a39275bcf6328e92d94b28b8296562f0",
+                    "anchorCount": 18,
+                    "socialAnchors": [],
+                    "result": "No LinkedIn, X/Twitter or GitHub account anchor in fetched official HTML."
+                }
+            ],
+            "limitation": "Scoped to official homepage/footer and contact HTML; not proof no accounts exist. No staff accounts, guessed handles, search-directory matches or unused social-icon definitions accepted."
+        }
+    ]
+}

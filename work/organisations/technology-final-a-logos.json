@@ -1,0 +1,879 @@
+[
+    {
+        "slug": "cartorga",
+        "website": "https://www.cartorga.com/?lang=de",
+        "source": "https://www.cartorga.com/favicon.svg",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/cartorga.png",
+        "provenance": {
+            "page": "https://www.cartorga.com/?lang=de",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/cartorga-1.asset",
+            "resolvedUrl": "https://www.cartorga.com/favicon.svg",
+            "sha256": "f4bbdbcdc1c4c98bc74afb994d7a304d9736590e284127df1efcdf093e53176f",
+            "originalWidth": 32,
+            "originalHeight": 32,
+            "originalFormat": "svg",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/cartorga.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "instaheat",
+        "website": "https://www.instaheat.ch/",
+        "source": "https://static.wixstatic.com/media/0184d6_8bc950d3b6374179be5e1d8e70f48906%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/0184d6_8bc950d3b6374179be5e1d8e70f48906%7Emv2.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/instaheat.png",
+        "provenance": {
+            "page": "https://www.instaheat.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/instaheat-0.asset",
+            "resolvedUrl": "https://static.wixstatic.com/media/0184d6_8bc950d3b6374179be5e1d8e70f48906%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/0184d6_8bc950d3b6374179be5e1d8e70f48906%7Emv2.png",
+            "sha256": "b84b32fedbe7e47263c58a8589ee79848805fb72c74890921b50bc8cd917433d",
+            "originalWidth": 192,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a 192px square with official site background #000000.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/instaheat.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants.",
+            "background": {
+                "color": "#000000",
+                "source": "https://www.instaheat.ch/",
+                "evidencePath": "/tmp/zurich-registry-review/instaheat-home.html",
+                "rule": "#comp-lj44jthn{--bg-overlay-color:rgb(var(--color_15))}",
+                "variable": "--color_15:0,0,0"
+            }
+        }
+    },
+    {
+        "slug": "laceup",
+        "website": "https://laceup.ch/",
+        "source": "https://laceup.ch/assets/img/favicon.svg",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/laceup.png",
+        "provenance": {
+            "page": "https://laceup.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/laceup-0.asset",
+            "resolvedUrl": "https://laceup.ch/assets/img/favicon.svg",
+            "sha256": "076dea95c97bedf21f71ba441d90642c4305668116b8cb0dabf5303b08eb7c7a",
+            "originalWidth": 32,
+            "originalHeight": 32,
+            "originalFormat": "svg",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/laceup.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "pq-technologies",
+        "website": "https://pqt.ch/",
+        "source": "https://pqt.ch/img/pqt-icon-512.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/pq-technologies.png",
+        "provenance": {
+            "page": "https://pqt.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/pq-technologies-1.asset",
+            "resolvedUrl": "https://pqt.ch/img/pqt-icon-512.png",
+            "sha256": "cac99e8fe7fc5e6c7dc002426a97c8cc4dc466ac566341b884044210c2c45aef",
+            "originalWidth": 512,
+            "originalHeight": 512,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/pqtechnologies.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "kuafu",
+        "website": "https://kuafu.ch/de/",
+        "source": "https://kuafu.ch/wp-content/uploads/2025/06/cropped-favicon-192x192.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/kuafu.png",
+        "provenance": {
+            "page": "https://kuafu.ch/de/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/kuafu-1.asset",
+            "resolvedUrl": "https://kuafu.ch/wp-content/uploads/2025/06/cropped-favicon-192x192.png",
+            "sha256": "4ea079545c5e7fcfa0168d3dcf616dd6a350428ba326a3fe7e5a9ba746fe14e1",
+            "originalWidth": 192,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/kuafu.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "nerai-bioscience",
+        "website": "https://www.nerai.bio/",
+        "source": "https://www.nerai.bio/favicon.svg",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/nerai-bioscience.png",
+        "provenance": {
+            "page": "https://www.nerai.bio/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/nerai-bioscience-2.asset",
+            "resolvedUrl": "https://www.nerai.bio/favicon.svg",
+            "sha256": "486c97d4db0323ea315cc3f1d6c8fc6c0171f0a03da76791b2d3c45e04b6e80d",
+            "originalWidth": 260,
+            "originalHeight": 260,
+            "originalFormat": "svg",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/neraibioscience.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "talpa-inspection",
+        "website": "https://www.talpa-inspection.ch/",
+        "source": "https://www.talpa-inspection.ch/assets/apple-touch-icon.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/talpa-inspection.png",
+        "provenance": {
+            "page": "https://www.talpa-inspection.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/talpa-inspection-2.asset",
+            "resolvedUrl": "https://www.talpa-inspection.ch/assets/apple-touch-icon.png",
+            "sha256": "fa3fd5daa1dfda5ea4d41514b7d92616b0ce768e4a6cc7569b88b43affb77016",
+            "originalWidth": 180,
+            "originalHeight": 180,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/talpainspection.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "neochemurgy",
+        "website": "https://www.neochemurgy.ch",
+        "source": "https://www.neochemurgy.ch/.cm4all/sysdb/favicon/icon-196x196_402870d.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/neochemurgy.png",
+        "provenance": {
+            "page": "https://www.neochemurgy.ch",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/neochemurgy-1.asset",
+            "resolvedUrl": "https://www.neochemurgy.ch/.cm4all/sysdb/favicon/icon-196x196_402870d.png",
+            "sha256": "3581f2ff81bf3942f0fb55e2ef130f4f5cb073f36da68c85157c789188304b77",
+            "originalWidth": 196,
+            "originalHeight": 196,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/neochemurgy.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "swiss-engineering-partners",
+        "website": "https://www.swiss-ep.com/",
+        "source": "https://framerusercontent.com/images/TzC7Za0uWx2yCs0VqK1PO1kk.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/swiss-engineering-partners.png",
+        "provenance": {
+            "page": "https://www.swiss-ep.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/swiss-engineering-partners-1.asset",
+            "resolvedUrl": "https://framerusercontent.com/images/TzC7Za0uWx2yCs0VqK1PO1kk.png",
+            "sha256": "5e4964aec6adee13342575e554b08f2a40fe4ca59b3c67373b50abda772e613b",
+            "originalWidth": 180,
+            "originalHeight": 180,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/swissengineeringpartners.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "house-of-charts",
+        "website": "https://houseofcharts.com/",
+        "source": "https://houseofcharts.com/images/favicon.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/house-of-charts.png",
+        "provenance": {
+            "page": "https://houseofcharts.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/house-of-charts-0.asset",
+            "resolvedUrl": "https://houseofcharts.com/images/favicon.png",
+            "sha256": "1b601b8f1fe67847febc0939182c6eb8c24c94cb27810323faf363515e6419ed",
+            "originalWidth": 230,
+            "originalHeight": 230,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/houseofcharts.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "tandem-therapeutics",
+        "website": "https://tandem-tx.com/",
+        "source": "https://tandem-tx.com/#logo",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/tandem-therapeutics.png",
+        "provenance": {
+            "page": "https://tandem-tx.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/tandem-inline.svg",
+            "resolvedUrl": "https://tandem-tx.com/#logo",
+            "sha256": "a2386c07301f2836e12efe2147b79fdbff48b58d256bcdf308d34c1b4a4f0320",
+            "originalWidth": 332,
+            "originalHeight": 108,
+            "originalFormat": "svg",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/tandem-home.html",
+            "evidenceFile": "/tmp/zurich-registry-review/tandem-home.html",
+            "requiresUpscaling": false,
+            "reviewNote": "Exact inline svg#logo from official homepage, preserving its explicit fill attributes; supplied favicon returned HTTP 404.",
+            "extraction": "Parsed official HTML with parse5 and serialized svg.pg__h-logo-i; source URL fragment identifies inline artwork, not a standalone image endpoint."
+        }
+    },
+    {
+        "slug": "nihito",
+        "website": "https://nihito.io/",
+        "source": "https://nihito.io/nihito-logo-full-black.svg",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/nihito.png",
+        "provenance": {
+            "page": "https://nihito.io/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/nihito-0.asset",
+            "resolvedUrl": "https://nihito.io/nihito-logo-full-black.svg",
+            "sha256": "61ec39521f93b301e5ab90c088bf58d59c9d8023bbb42d3935979f3df14c2c5a",
+            "originalWidth": 364,
+            "originalHeight": 86,
+            "originalFormat": "svg",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/nihito.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "solabs-nanotechnology",
+        "website": "https://www.solabs-nanotechnology.com/",
+        "source": "https://www.solabs-nanotechnology.com/wp-content/uploads/2026/04/favicon-512-1-300x300.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/solabs-nanotechnology.png",
+        "provenance": {
+            "page": "https://www.solabs-nanotechnology.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/solabs-nanotechnology-1.asset",
+            "resolvedUrl": "https://www.solabs-nanotechnology.com/wp-content/uploads/2026/04/favicon-512-1-300x300.png",
+            "sha256": "cb6b8d5dd49f20b55594ee43c6089d6dadfbf5d8193527bc5c3674cdc20485ad",
+            "originalWidth": 300,
+            "originalHeight": 300,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/solabsnanotechnology.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "sallea",
+        "website": "https://sallea.ch/",
+        "source": "https://sallea.ch/wp-content/themes/sallea/theme/img/favicon.ico",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/sallea.png",
+        "provenance": {
+            "page": "https://sallea.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/sallea-0.asset",
+            "resolvedUrl": "https://sallea.ch/wp-content/themes/sallea/theme/img/favicon.ico",
+            "sha256": "d02ef4664bd1a98bcea21c5563b405fe92d898d832ae8e66fa90a2465bb561e8",
+            "originalWidth": 256,
+            "originalHeight": 256,
+            "originalFormat": "ico",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/sallea.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "etavalve",
+        "website": "https://www.etavalve.com/en",
+        "source": "https://www.etavalve.com/favicon.ico",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/etavalve.png",
+        "provenance": {
+            "page": "https://www.etavalve.com/en",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/etavalve-0.asset",
+            "resolvedUrl": "https://www.etavalve.com/favicon.ico",
+            "sha256": "4b648892d7f5b720fa8981d056f21786cf235919dae598cf26543830f13ffe3c",
+            "originalWidth": 200,
+            "originalHeight": 200,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/etavalve.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "qcella",
+        "website": "https://qcella.com/",
+        "source": "https://qcella.com/wp-content/uploads/2023/09/cropped-Icon_Std_TransBG_v04-192x192.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/qcella.png",
+        "provenance": {
+            "page": "https://qcella.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/qcella-1.asset",
+            "resolvedUrl": "https://qcella.com/wp-content/uploads/2023/09/cropped-Icon_Std_TransBG_v04-192x192.png",
+            "sha256": "a2d983b2230bcc1799ad629226879443d0d5bc866b1587aa05dafefcf0f88e3c",
+            "originalWidth": 192,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/qcella.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "upleap",
+        "website": "https://www.upleap.me/",
+        "source": "https://static.wixstatic.com/media/45c9d6_4ed0fd9d1b1a4b248bb3b971809bfe15%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/45c9d6_4ed0fd9d1b1a4b248bb3b971809bfe15%7Emv2.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/upleap.png",
+        "provenance": {
+            "page": "https://www.upleap.me/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/upleap-0.asset",
+            "resolvedUrl": "https://static.wixstatic.com/media/45c9d6_4ed0fd9d1b1a4b248bb3b971809bfe15%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/45c9d6_4ed0fd9d1b1a4b248bb3b971809bfe15%7Emv2.png",
+            "sha256": "36aa32cea622a1e712cf498dd4be503629852be963ed0db3a50e0e064296a456",
+            "originalWidth": 192,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/breathemedical.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "vaulted",
+        "website": "https://vaulted.swiss/",
+        "source": "https://vaulted.swiss/favicon.ico",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/vaulted.png",
+        "provenance": {
+            "page": "https://vaulted.swiss/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/vaulted-0.asset",
+            "resolvedUrl": "https://vaulted.swiss/favicon.ico",
+            "sha256": "6ecc71f3c0a8c9fba9dd25179c773149d9bc8241dd9f4ea18cc59cf987325f5c",
+            "originalWidth": 48,
+            "originalHeight": 48,
+            "originalFormat": "ico",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/vaulted.json",
+            "requiresUpscaling": true,
+            "reviewNote": "Supplied compact mark is below output resolution; enlarged without reconstructing details."
+        }
+    },
+    {
+        "slug": "inkvivo-technologies",
+        "website": "https://www.inkvivo.tech/",
+        "source": "https://www.inkvivo.tech/wp-content/uploads/2023/06/logo_inkvivo_2026-05.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/inkvivo-technologies.png",
+        "provenance": {
+            "page": "https://www.inkvivo.tech/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/inkvivo-technologies-1.asset",
+            "resolvedUrl": "https://www.inkvivo.tech/wp-content/uploads/2023/06/logo_inkvivo_2026-05.png",
+            "sha256": "37699de58cc2f71e6a792756e75c9c01a95b40bee3c572e4ae69d5fa3c046757",
+            "originalWidth": 758,
+            "originalHeight": 709,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/inkvivotechnologiessa.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "citus",
+        "website": "https://www.citus-ag.com/",
+        "source": "https://static.wixstatic.com/media/9ac736_49594b4e2b5847169aa4e3fb67cd7d42%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/9ac736_49594b4e2b5847169aa4e3fb67cd7d42%7Emv2.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/citus.png",
+        "provenance": {
+            "page": "https://www.citus-ag.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/citus-0.asset",
+            "resolvedUrl": "https://static.wixstatic.com/media/9ac736_49594b4e2b5847169aa4e3fb67cd7d42%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/9ac736_49594b4e2b5847169aa4e3fb67cd7d42%7Emv2.png",
+            "sha256": "e3bb83a949769409cc59952bea4ee9e6d0a57e48ffd9eae3f5995bac22e204e3",
+            "originalWidth": 192,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/citus.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "suri-biotech",
+        "website": "https://www.suribiotech.com/",
+        "source": "https://www-static.suribiotech.com/wp-content/uploads/Favicon.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/suri-biotech.png",
+        "provenance": {
+            "page": "https://www.suribiotech.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/suri-biotech-0.asset",
+            "resolvedUrl": "https://www-static.suribiotech.com/wp-content/uploads/Favicon.png",
+            "sha256": "b79519e649087eb034f67a9ae9b20c8a56364d4092a19c668e6413e350552b5d",
+            "originalWidth": 41,
+            "originalHeight": 41,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/suribiotech.json",
+            "requiresUpscaling": true,
+            "reviewNote": "Supplied compact mark is below output resolution; enlarged without reconstructing details."
+        }
+    },
+    {
+        "slug": "nexmr",
+        "website": "https://nexmr.com/",
+        "source": "https://nexmr.com/images/brand/logo.svg",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/nexmr.png",
+        "provenance": {
+            "page": "https://nexmr.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/nexmr-0.asset",
+            "resolvedUrl": "https://nexmr.com/images/brand/logo.svg",
+            "sha256": "2af71c6cdd69f11b8407e43bf28920d855f0e1e8f7b51f60fb7fb5358466f776",
+            "originalWidth": 480,
+            "originalHeight": 108,
+            "originalFormat": "svg",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/nexmr.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "univerbal",
+        "website": "https://www.univerbal.app",
+        "source": "https://framerusercontent.com/images/zpcUsih1jdKBZF7bMmjgDmrqcw.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/univerbal.png",
+        "provenance": {
+            "page": "https://www.univerbal.app",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/univerbal-1.asset",
+            "resolvedUrl": "https://framerusercontent.com/images/zpcUsih1jdKBZF7bMmjgDmrqcw.png",
+            "sha256": "ef237dd1f793a65a6b609ad9599c99f8d904b4e5e4e81c37b102636920657950",
+            "originalWidth": 512,
+            "originalHeight": 512,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/univerbal.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "mindmetrix",
+        "website": "https://www.mindmetrix.ch/",
+        "source": "https://static.wixstatic.com/media/9f1d03_0a671cc57de4447d8c333deaf36fc16c%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/9f1d03_0a671cc57de4447d8c333deaf36fc16c%7Emv2.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/mindmetrix.png",
+        "provenance": {
+            "page": "https://www.mindmetrix.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/mindmetrix-0.asset",
+            "resolvedUrl": "https://static.wixstatic.com/media/9f1d03_0a671cc57de4447d8c333deaf36fc16c%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/9f1d03_0a671cc57de4447d8c333deaf36fc16c%7Emv2.png",
+            "sha256": "6a64c9a5ced6d95896d100a6ec617368c5424a73cbc40d5af86599dba9444dda",
+            "originalWidth": 192,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/mindmetrix.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "scandens",
+        "website": "https://www.scandens.ch",
+        "source": "https://www.scandens.ch/apple-touch-icon.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/scandens.png",
+        "provenance": {
+            "page": "https://www.scandens.ch",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/scandens-1.asset",
+            "resolvedUrl": "https://www.scandens.ch/apple-touch-icon.png",
+            "sha256": "d17ae103ba5e2ea3e910d207896a9ef9646de9d5832e5dba4326c6463cbf1719",
+            "originalWidth": 300,
+            "originalHeight": 300,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/scandens.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "simplexdna",
+        "website": "https://www.simplexdna.com/",
+        "source": "https://static.wixstatic.com/media/a0b52e_f336074abb7f4277813c66c2d273bc45%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/a0b52e_f336074abb7f4277813c66c2d273bc45%7Emv2.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/simplexdna.png",
+        "provenance": {
+            "page": "https://www.simplexdna.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/simplexdna-0.asset",
+            "resolvedUrl": "https://static.wixstatic.com/media/a0b52e_f336074abb7f4277813c66c2d273bc45%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/a0b52e_f336074abb7f4277813c66c2d273bc45%7Emv2.png",
+            "sha256": "47e8e42f7d00e472c96a305b53868e80a8afe18d4b8956ecb5bc6af47fe740c8",
+            "originalWidth": 192,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/simplexdna.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "tosoo",
+        "website": "https://www.tosoo.ch/",
+        "source": "https://cdn.prod.website-files.com/69201bfe8200588e6c2736d2/6a0deb16c933574c743222d9_favicon.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/tosoo.png",
+        "provenance": {
+            "page": "https://www.tosoo.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/tosoo-4.asset",
+            "resolvedUrl": "https://cdn.prod.website-files.com/69201bfe8200588e6c2736d2/6a0deb16c933574c743222d9_favicon.png",
+            "sha256": "27f0064b4c1650b562d704c06f5ded786ad5fe3a821b7e5899efa416de723697",
+            "originalWidth": 512,
+            "originalHeight": 512,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/tosoo.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "ai-retailer-systems",
+        "website": "https://airetailersystems.com/",
+        "source": "https://airetailersystems.com/wp-content/themes/ai-retailer/resources/assets/images/favicon.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/ai-retailer-systems.png",
+        "provenance": {
+            "page": "https://airetailersystems.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/ai-retailer-systems-0.asset",
+            "resolvedUrl": "https://airetailersystems.com/wp-content/themes/ai-retailer/resources/assets/images/favicon.png",
+            "sha256": "cc273270a49c63d376f3b25e7c1a60db178f463777d50e78a353d830d7f4d353",
+            "originalWidth": 164,
+            "originalHeight": 164,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/airetailersystems.json",
+            "requiresUpscaling": true,
+            "reviewNote": "Supplied compact mark is below output resolution; enlarged without reconstructing details."
+        }
+    },
+    {
+        "slug": "sleepiz",
+        "website": "https://sleepiz.com/home-de/",
+        "source": "https://sleepiz.com/wp-content/uploads/2021/10/border-wave-blue-300x300.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/sleepiz.png",
+        "provenance": {
+            "page": "https://sleepiz.com/home-de/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/sleepiz-1.asset",
+            "resolvedUrl": "https://sleepiz.com/wp-content/uploads/2021/10/border-wave-blue-300x300.png",
+            "sha256": "2a0f5cd98b2c49e3b1277b44d4141eb64b9694076fc106ee893629cc18adf2d9",
+            "originalWidth": 300,
+            "originalHeight": 300,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/sleepiz.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "urbandatalab",
+        "website": "https://urbandatalab.ch/",
+        "source": "https://static.tildacdn.one/tild3765-3363-4330-b164-666461373463/logo_udl_black_notex.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/urbandatalab.png",
+        "provenance": {
+            "page": "https://urbandatalab.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/urbandatalab-1.asset",
+            "resolvedUrl": "https://static.tildacdn.one/tild3765-3363-4330-b164-666461373463/logo_udl_black_notex.png",
+            "sha256": "8c60cf40b078bd8158e0b10027f2cfc09e7dbb69d18c5293a6367a05320de7c9",
+            "originalWidth": 152,
+            "originalHeight": 152,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/urbandatalab.json",
+            "requiresUpscaling": true,
+            "reviewNote": "Supplied compact mark is below output resolution; enlarged without reconstructing details."
+        }
+    },
+    {
+        "slug": "lino-biotech",
+        "website": "https://www.lino-biotech.com/",
+        "source": "https://www.lino-biotech.com/hubfs/cropped-lino-fav-icon-1-1.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/lino-biotech.png",
+        "provenance": {
+            "page": "https://www.lino-biotech.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/lino-biotech-0.asset",
+            "resolvedUrl": "https://www.lino-biotech.com/hubfs/cropped-lino-fav-icon-1-1.png",
+            "sha256": "eaa7fafa84886007af8d49e1f6f3aae326dee8ed9c03064dc2b1d67ba0cb5d9e",
+            "originalWidth": 512,
+            "originalHeight": 512,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/linobiotech.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "pharmabiome",
+        "website": "https://www.pharmabiome.com:443/",
+        "source": "https://images.squarespace-cdn.com/content/v1/5fecee1ce1367528108ae270/1611151387744-69EZFGJ9Q9V61785UAGJ/favicon.ico?format=100w",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/pharmabiome.png",
+        "provenance": {
+            "page": "https://www.pharmabiome.com:443/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/pharmabiome-0.asset",
+            "resolvedUrl": "https://images.squarespace-cdn.com/content/v1/5fecee1ce1367528108ae270/1611151387744-69EZFGJ9Q9V61785UAGJ/favicon.ico?format=100w",
+            "sha256": "f0bba30ddf5ad7f8395b141ff56ae8665962886c60f0b7d3f4ef0b306b9e1dc3",
+            "originalWidth": 100,
+            "originalHeight": 100,
+            "originalFormat": "webp",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/pharmabiome.json",
+            "requiresUpscaling": true,
+            "reviewNote": "Supplied compact mark is below output resolution; enlarged without reconstructing details."
+        }
+    },
+    {
+        "slug": "zurimed",
+        "website": "https://zurimed.com",
+        "source": "https://zurimed.com/wp-content/uploads/2026/03/cropped-zurimed_logo-300x300.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/zurimed.png",
+        "provenance": {
+            "page": "https://zurimed.com",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/zurimed-1.asset",
+            "resolvedUrl": "https://zurimed.com/wp-content/uploads/2026/03/cropped-zurimed_logo-300x300.png",
+            "sha256": "b74f9fca52c4151aff0d3da0a9236ed8e5344be59a3ff28658e4f9e54c9dfd2a",
+            "originalWidth": 300,
+            "originalHeight": 300,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a 192px square with official site background #1f4b75.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/zurimedtechnologies.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants.",
+            "background": {
+                "color": "#1f4b75",
+                "source": "https://zurimed.com/wp-content/themes/wp-zurimed/assets/css/header.css?ver=1.1.2",
+                "evidencePath": "/tmp/zurich-registry-review/zurimed-header.css",
+                "variableSource": "https://zurimed.com/",
+                "variableEvidencePath": "/tmp/zurich-registry-review/zurimed-home.html",
+                "rule": ".site-header{background-color:var(--wp--preset--color--primary)}",
+                "variable": "--wp--preset--color--primary: #1f4b75"
+            }
+        }
+    },
+    {
+        "slug": "skope",
+        "website": "https://skope.swiss/",
+        "source": "https://skope.swiss/wp-content/uploads/2024/07/Group-1261153621.jpg",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/skope.png",
+        "provenance": {
+            "page": "https://skope.swiss/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/skope-1.asset",
+            "resolvedUrl": "https://skope.swiss/wp-content/uploads/2024/07/Group-1261153621.jpg",
+            "sha256": "06692843ec27ca7a6e702c91b38b05b35db5b0e56f67062b18184d7b72734f3c",
+            "originalWidth": 200,
+            "originalHeight": 200,
+            "originalFormat": "jpeg",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/skopemagneticresonancetechnologies.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "luciole-medical",
+        "website": "https://www.luciolemedical.com/",
+        "source": "https://www.luciolemedical.com/apple-touch-icon.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/luciole-medical.png",
+        "provenance": {
+            "page": "https://www.luciolemedical.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/luciole-medical-1.asset",
+            "resolvedUrl": "https://www.luciolemedical.com/apple-touch-icon.png",
+            "sha256": "e7b73da9be6d84d3beec93fab79a76163bd0ff57f79ade28be8948eddfb351b1",
+            "originalWidth": 180,
+            "originalHeight": 180,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/luciolemedical.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "virtamed",
+        "website": "https://www.virtamed.com/en",
+        "source": "https://www.virtamed.com/icon.svg?icon.3_lczb2tvenox.svg",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/virtamed.png",
+        "provenance": {
+            "page": "https://www.virtamed.com/en",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/virtamed-1.asset",
+            "resolvedUrl": "https://www.virtamed.com/icon.svg?icon.3_lczb2tvenox.svg",
+            "sha256": "1fbd2152f607337a417d5c4d93def052554a87521bd92688624b68c5af376657",
+            "originalWidth": 90,
+            "originalHeight": 90,
+            "originalFormat": "svg",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/virtamed.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "kuros-biosciences",
+        "website": "https://kurosbio.com/",
+        "source": "https://kurosbio.b-cdn.net/wp-content/themes/fa-kuros-2024/favicon/apple-touch-icon.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/kuros-biosciences.png",
+        "provenance": {
+            "page": "https://kurosbio.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/kuros-biosciences-0.asset",
+            "resolvedUrl": "https://kurosbio.b-cdn.net/wp-content/themes/fa-kuros-2024/favicon/apple-touch-icon.png",
+            "sha256": "41fefbc5fe78e988cda25442bf7a63b6fb38ea968766707af2643ae4708a3bce",
+            "originalWidth": 144,
+            "originalHeight": 144,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/kurosbiosciences.json",
+            "requiresUpscaling": true,
+            "reviewNote": "Supplied compact mark is below output resolution; enlarged without reconstructing details."
+        }
+    },
+    {
+        "slug": "artonis",
+        "website": "https://artonis.ch/",
+        "source": "https://artonis.ch/wp-content/uploads/2025/09/Artonis_Favicon-300x300.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/artonis.png",
+        "provenance": {
+            "page": "https://artonis.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/artonis-1.asset",
+            "resolvedUrl": "https://artonis.ch/wp-content/uploads/2025/09/Artonis_Favicon-300x300.png",
+            "sha256": "f6a108ead4970d60d9557702c85bde287e0fa1f87fbc054bc8f9181271384c36",
+            "originalWidth": 300,
+            "originalHeight": 300,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/artonis.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "neurodaignostics",
+        "website": "https://neurodaignostics.com/",
+        "source": "https://neurodaignostics.com/wp-content/uploads/favicon-192-07.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/neurodaignostics.png",
+        "provenance": {
+            "page": "https://neurodaignostics.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/neurodaignostics-0.asset",
+            "resolvedUrl": "https://neurodaignostics.com/wp-content/uploads/favicon-192-07.png",
+            "sha256": "5128ee4a8de0e66a5f32b9a92cf9da8368e3216d1af629c08bf5abfa8168cb62",
+            "originalWidth": 193,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/neurodaignostics.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "eviive",
+        "website": "https://eviive.ch/",
+        "source": "https://framerusercontent.com/images/hPm2motYH46Iqbm2CT6pRBqgdxg.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/eviive.png",
+        "provenance": {
+            "page": "https://eviive.ch/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/eviive-2.asset",
+            "resolvedUrl": "https://framerusercontent.com/images/hPm2motYH46Iqbm2CT6pRBqgdxg.png",
+            "sha256": "a70ad6a06b23f2714a1caf232317d483b96d1377dec8f3f9e8c58a7977535a3c",
+            "originalWidth": 180,
+            "originalHeight": 180,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/eviive.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "ontrack-biomedical",
+        "website": "https://www.ontrackbiomedical.com/",
+        "source": "https://static.wixstatic.com/media/d67499_316d523c47c24e6a86d8d11c437eb7c2%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/d67499_316d523c47c24e6a86d8d11c437eb7c2%7Emv2.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/ontrack-biomedical.png",
+        "provenance": {
+            "page": "https://www.ontrackbiomedical.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/ontrack-biomedical-0.asset",
+            "resolvedUrl": "https://static.wixstatic.com/media/d67499_316d523c47c24e6a86d8d11c437eb7c2%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/d67499_316d523c47c24e6a86d8d11c437eb7c2%7Emv2.png",
+            "sha256": "5cd5d136f8e948558b4971b4e6e6f5a61b99bc955b449a756dcf38665a6216bf",
+            "originalWidth": 192,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/ontrackbiomedical.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "augmedi",
+        "website": "https://www.augmedi.com/",
+        "source": "https://augmedi.app/apple-touch-icon.71770497.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/augmedi.png",
+        "provenance": {
+            "page": "https://www.augmedi.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/augmedi-0.asset",
+            "resolvedUrl": "https://augmedi.app/apple-touch-icon.71770497.png",
+            "sha256": "8116bdf715af52b4ab3a8dfc98b1177814023df92d143b54fad047b6db3bc132",
+            "originalWidth": 180,
+            "originalHeight": 180,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/augmedi.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    },
+    {
+        "slug": "transheps",
+        "website": "https://www.transheps.com/",
+        "source": "https://static.wixstatic.com/media/93983b_0e8ddd1b6fa54f97ad4ff80fb11e015b%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/93983b_0e8ddd1b6fa54f97ad4ff80fb11e015b%7Emv2.png",
+        "path": "/tmp/zurich-registry-review/technology-final-a-icons/transheps.png",
+        "provenance": {
+            "page": "https://www.transheps.com/",
+            "originalPath": "/tmp/zurich-registry-review/technology-final-a-icons/originals/transheps-0.asset",
+            "resolvedUrl": "https://static.wixstatic.com/media/93983b_0e8ddd1b6fa54f97ad4ff80fb11e015b%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/93983b_0e8ddd1b6fa54f97ad4ff80fb11e015b%7Emv2.png",
+            "sha256": "7effd9833d6f2945ee003f1099d614b274db4238ee9f10c86f4712b5e02bbd9a",
+            "originalWidth": 192,
+            "originalHeight": 192,
+            "originalFormat": "png",
+            "transformation": "Original artwork contained without cropping or recoloring on a transparent 192px square.",
+            "candidateFile": "/tmp/zurich-registry-review/remaining-candidates.json",
+            "evidenceFile": "/tmp/zurich-registry-review/technology-evidence/transheps.json",
+            "requiresUpscaling": false,
+            "reviewNote": "Official supplied mark; review light and dark contact-sheet variants."
+        }
+    }
+]

@@ -93,7 +93,7 @@ export const archiveEvents: ArchiveEvent[] = [
             { name: "Zeerak Talat" },
         ],
         startsAt: "2023-06-27T18:00:00+02:00",
-        tags: ["zurichnlp", "nlp", "ai-policy", "ai-ethics"],
+        tags: ["zurichnlp", "nlp", "ai-policy"],
         title: "ZurichNLP #3",
         sourceUrl: "https://zurich-nlp.ch/event/zurich-nlp-meetup-3/",
         venue: "eth-ai-center-19",

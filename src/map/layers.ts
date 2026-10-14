@@ -4,22 +4,19 @@ import type {
     Map as GeographicMap,
     SymbolLayerSpecification,
 } from "maplibre-gl";
-import { honeycomb } from "./placement";
 import { logoBackground } from "./colour";
+import { placeName } from "./places";
 import type { MapLocation } from "./queries";
 
 /** Badge diameter in CSS pixels at full scale. */
 const badgeSize = 32;
 
-/** Pixel distance between badges of organisations sharing a building at full scale. */
-const badgeSpacing = 36;
-
-/** Zoom, badge scale and shared-address spacing from city overview to street level. */
+/** Zoom and badge scale from city overview to street level. */
 const badgeScales = [
-    [10, 0.5, 0],
-    [12, 0.7, 0],
-    [13, 0.82, badgeSpacing],
-    [14.5, 1, badgeSpacing],
+    [10, 0.5],
+    [12, 0.7],
+    [13, 0.82],
+    [14.5, 1],
 ] as const;
 
 /** Space kept clear of labels under each host or sponsor logo, in CSS pixels. */
@@ -111,7 +108,7 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
         source: "organisations",
         filter: ["literal", false],
         layout: {
-            "icon-image": "ring-active",
+            "icon-image": ["case", [">", ["get", "count"], 1], "logo-space", "ring-active"],
             "icon-size": [
                 "interpolate",
                 ["linear"],
@@ -124,7 +121,8 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
             "text-font": ["Noto Sans Regular"],
             "text-size": labelSize,
             "text-anchor": "left",
-            "text-allow-overlap": true,
+            "text-allow-overlap": false,
+            "text-optional": true,
         },
         paint: { "text-color": "#174ed8", "text-halo-color": "#ffffff", "text-halo-width": 2 },
     });
@@ -157,102 +155,64 @@ export async function addBadges(
     );
 }
 
-/** Show these places, with logos at their centre and every other organisation fanned out around them. */
+/** Show one marker per address without displacing any member of a shared address. */
 export function showOrganisations(
     map: GeographicMap,
     places: MapLocation[],
     isHighlighted: (organisation: Organisation, place: MapLocation) => boolean,
 ) {
-    // lay out logos at the centre and every other organisation around them
-    const entries = places.flatMap((place) => {
-        const logos = place.organisations.filter((person) => isHighlighted(person, place));
-        const others = place.organisations.filter((person) => !isHighlighted(person, place));
-        return [
-            ...logos.map((person) => ({ place, person, isLogo: true, cell: 0 })),
-            ...others.map((person, index) => ({
-                place,
-                person,
-                isLogo: false,
-                cell: index + Number(logos.length > 0),
-            })),
-        ];
-    });
-
     // replace the source data
     const source = map.getSource<GeoJSONSource>("organisations");
     source?.setData({
         type: "FeatureCollection",
-        features: entries.map(({ place, person, isLogo, cell }) => ({
+        features: places.map((place) => ({
             type: "Feature",
             geometry: { type: "Point", coordinates: [place.longitude, place.latitude] },
             properties: {
-                id: person.id,
+                id: place.organisations.length > 1 ? place.id : place.organisations[0].id,
                 place: place.id,
-                name: person.name,
-                badge: badgeId(person),
-                isLogo,
-                cell,
+                name:
+                    place.organisations.length > 1 ? placeName(place) : place.organisations[0].name,
+                badge: badgeId(place.organisations[0]),
+                count: place.organisations.length,
+                isLogo:
+                    place.organisations.length > 1 || isHighlighted(place.organisations[0], place),
             },
         })),
     });
 
-    // cover every honeycomb cell in use; icon offsets scale with the icon, labels follow each scale
-    const cells = Math.max(1, ...entries.map((entry) => entry.cell + 1));
-    const iconOffset = [
-        "interpolate",
-        ["linear"],
-        ["zoom"],
-        ...badgeScales.flatMap(([zoom, , spacing]) => [zoom, cellOffsets(cells, spacing, 0)]),
-    ] as unknown as ExpressionSpecification;
+    // keep labels beside their anchored badges at every zoom
     const labelOffset = [
         "interpolate",
         ["linear"],
         ["zoom"],
-        ...badgeScales.flatMap(([zoom, scale, spacing]) => [
+        ...badgeScales.flatMap(([zoom, scale]) => [
             zoom,
-            cellOffsets(
-                cells,
-                (spacing * scale) / labelSize,
-                ((badgeSize * scale) / 2 + 4) / labelSize,
-            ),
+            ["literal", [((badgeSize * scale) / 2 + 4) / labelSize, 0]],
         ]),
     ] as unknown as ExpressionSpecification;
-    map.setLayoutProperty("organisations", "icon-offset", iconOffset);
-    if (map.getLayer("organisation-dots"))
-        map.setLayoutProperty("organisation-dots", "icon-offset", iconOffset);
-    map.setLayoutProperty("organisations-active", "icon-offset", iconOffset);
     map.setLayoutProperty("organisations", "text-offset", labelOffset);
     map.setLayoutProperty("organisations-active", "text-offset", labelOffset);
 }
 
 /** Mark these organisations as hovered or selected. */
-export function highlightOrganisations(map: GeographicMap, ids: string[]) {
+export function highlightOrganisations(map: GeographicMap, places: MapLocation[], ids: string[]) {
+    // resolve organisation selection to its address, including members of shared markers
+    const active = new Set(ids);
+    const addresses = places
+        .filter((place) => place.organisations.some((person) => active.has(person.id)))
+        .map((place) => place.id);
+
     map.setFilter("organisations-active", [
         "all",
-        ["!", ["get", "isLogo"]],
-        ["in", ["get", "id"], ["literal", ids]],
+        ["any", ["!", ["get", "isLogo"]], [">", ["get", "count"], 1]],
+        ["in", ["get", "place"], ["literal", addresses]],
     ]);
 }
 
 /** Return the image id of an organisation's badge. */
 function badgeId(organisation: Organisation) {
     return `badge:${organisation.id}`;
-}
-
-/** Map each honeycomb cell to its offset, shifted right for labels. */
-function cellOffsets(count: number, spacing: number, shift: number): ExpressionSpecification {
-    const cases = Array.from({ length: count }, (_, cell) => {
-        const [x, y] = honeycomb(cell, spacing);
-        return [cell, ["literal", [x + shift, y]]];
-    });
-
-    // NOTE: the style types cannot describe a match with a computed number of cases
-    return [
-        "match",
-        ["get", "cell"],
-        ...cases.flat(),
-        ["literal", [shift, 0]],
-    ] as unknown as ExpressionSpecification;
 }
 
 /** Draw an open ring marking an active badge. */

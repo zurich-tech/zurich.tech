@@ -4,6 +4,7 @@ import { v } from "convex/values";
 export const organisationKinds = {
     startup: "Startup",
     company: "Company",
+    investor: "Investor",
     university: "University",
     lab: "Lab",
     community: "Community",
@@ -15,6 +16,7 @@ export type OrganisationKind = keyof typeof organisationKinds;
 export const organisationKind = v.union(
     v.literal("startup"),
     v.literal("company"),
+    v.literal("investor"),
     v.literal("university"),
     v.literal("lab"),
     v.literal("community"),

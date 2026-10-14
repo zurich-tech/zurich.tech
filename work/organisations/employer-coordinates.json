@@ -1,0 +1,974 @@
+[
+    {
+        "slug": "vshn",
+        "expected": {
+            "line1": "Neugasse 10",
+            "postalCode": "8005",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Neugasse+10+8005+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "neugasse 10 8005 zuerich 261 zuerich ch zh",
+                    "featureId": "9001678_0",
+                    "geom_quadindex": "030003122200010203222",
+                    "geom_st_box2d": "BOX(682562.5646380361 248415.71119629993,682562.5646380361 248415.71119629993)",
+                    "label": "Neugasse 10 <b>8005 Zürich</b>",
+                    "lat": 47.38140106201172,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101200336",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/9001678_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.531987190246582,
+                    "num": 10,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 248415.71875,
+                    "y": 682562.5625,
+                    "zoomlevel": 10
+                },
+                "id": 2291570,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "ti-m",
+        "expected": {
+            "line1": "Buckhauserstrasse 24",
+            "postalCode": "8048",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Buckhauserstrasse+24+8048+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "buckhauserstrasse 24 8048 zuerich 261 zuerich ch zh",
+                    "featureId": "2365443_0",
+                    "geom_quadindex": "030003032031231100012",
+                    "geom_st_box2d": "BOX(679556.8363199446 248729.6876362086,679556.8363199446 248729.6876362086)",
+                    "label": "Buckhauserstrasse 24 <b>8048 Zürich</b>",
+                    "lat": 47.38459396362305,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101168794",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2365443_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.492243766784668,
+                    "num": 24,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 248729.6875,
+                    "y": 679556.8125,
+                    "zoomlevel": 10
+                },
+                "id": 2529297,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "elca",
+        "expected": {
+            "line1": "Flurstrasse 62",
+            "postalCode": "8048",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Flurstrasse+62+8048+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "flurstrasse 62 8048 zuerich 261 zuerich ch zh",
+                    "featureId": "9083832_0",
+                    "geom_quadindex": "030003032033113301122",
+                    "geom_st_box2d": "BOX(679678.613060677 248626.42918083403,679678.613060677 248626.42918083403)",
+                    "label": "Flurstrasse 62 <b>8048 Zürich</b>",
+                    "lat": 47.38364791870117,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101362487",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/9083832_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.4938383102417,
+                    "num": 62,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 248626.421875,
+                    "y": 679678.625,
+                    "zoomlevel": 10
+                },
+                "id": 1985475,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "erni",
+        "expected": {
+            "line1": "Löwenstrasse 11",
+            "postalCode": "8001",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=L%C3%B6wenstrasse+11+8001+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "loewenstrasse 11 8001 zuerich 261 zuerich ch zh",
+                    "featureId": "9011718_0",
+                    "geom_quadindex": "030003122223221113003",
+                    "geom_st_box2d": "BOX(682790.2299892162 247554.0993829251,682790.2299892162 247554.0993829251)",
+                    "label": "Löwenstrasse 11 <b>8001 Zürich</b>",
+                    "lat": 47.37362289428711,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101215499",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/9011718_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.534842491149902,
+                    "num": 11,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 247554.09375,
+                    "y": 682790.25,
+                    "zoomlevel": 10
+                },
+                "id": 2835118,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "dfinity",
+        "expected": {
+            "line1": "Genferstrasse 11",
+            "postalCode": "8002",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Genferstrasse+11+8002+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "genferstrasse 11 8002 zuerich 261 zuerich ch zh",
+                    "featureId": "2366732_0",
+                    "geom_quadindex": "030003300201003033212",
+                    "geom_st_box2d": "BOX(682775.7886352447 246519.7747746975,682775.7886352447 246519.7747746975)",
+                    "label": "Genferstrasse 11 <b>8002 Zürich</b>",
+                    "lat": 47.364322662353516,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101149838",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2366732_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.534460067749023,
+                    "num": 11,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 246519.78125,
+                    "y": 682775.8125,
+                    "zoomlevel": 10
+                },
+                "id": 2866969,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "eawag",
+        "expected": {
+            "line1": "Überlandstrasse 133",
+            "postalCode": "8600",
+            "locality": "Dübendorf",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=%C3%9Cberlandstrasse+133+8600+D%C3%BCbendorf&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "ueberlandstrasse 133 8600 duebendorf 191 duebendorf ch zh",
+                    "featureId": "201022695_0",
+                    "geom_quadindex": "030003131003001300213",
+                    "geom_st_box2d": "BOX(688404.9145528236 250998.3608094384,688404.9145528236 250998.3608094384)",
+                    "label": "Ueberlandstrasse 133 <b>8600 Dübendorf</b>",
+                    "lat": 47.403865814208984,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101477644",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/201022695_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.609854698181152,
+                    "num": 133,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 250998.359375,
+                    "y": 688404.9375,
+                    "zoomlevel": 10
+                },
+                "id": 1976746,
+                "weight": 100
+            },
+            {
+                "attrs": {
+                    "detail": "ueberlandstrasse 133.1 8600 duebendorf 191 duebendorf ch zh",
+                    "featureId": "210285865_0",
+                    "geom_quadindex": "030003131003002303030",
+                    "geom_st_box2d": "BOX(688379.0166237481 250966.75172522006,688379.0166237481 250966.75172522006)",
+                    "label": "Ueberlandstrasse 133.1 <b>8600 Dübendorf</b>",
+                    "lat": 47.403587341308594,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102569329",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210285865_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.609505653381348,
+                    "num": 1331,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 250966.75,
+                    "y": 688379,
+                    "zoomlevel": 10
+                },
+                "id": 2414070,
+                "weight": 4
+            },
+            {
+                "attrs": {
+                    "detail": "ueberlandstrasse 133.2 8600 duebendorf 191 duebendorf ch zh",
+                    "featureId": "210285558_0",
+                    "geom_quadindex": "030003131001222101233",
+                    "geom_st_box2d": "BOX(688379.3112350383 251041.69400596584,688379.3112350383 251041.69400596584)",
+                    "label": "Ueberlandstrasse 133.2 <b>8600 Dübendorf</b>",
+                    "lat": 47.404258728027344,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102569425",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210285558_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.609524726867676,
+                    "num": 1332,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 251041.6875,
+                    "y": 688379.3125,
+                    "zoomlevel": 10
+                },
+                "id": 2112318,
+                "weight": 4
+            }
+        ]
+    },
+    {
+        "slug": "itis",
+        "expected": {
+            "line1": "Zeughausstrasse 43",
+            "postalCode": "8004",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Zeughausstrasse+43+8004+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "zeughausstrasse 43 8004 zuerich 261 zuerich ch zh",
+                    "featureId": "2365942_0",
+                    "geom_quadindex": "030003033331320132213",
+                    "geom_st_box2d": "BOX(682406.6148656411 247779.23439331597,682406.6148656411 247779.23439331597)",
+                    "label": "Zeughausstrasse 43 <b>8004 Zürich</b>",
+                    "lat": 47.375694274902344,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101146527",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2365942_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.529805183410645,
+                    "num": 43,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 247779.234375,
+                    "y": 682406.625,
+                    "zoomlevel": 10
+                },
+                "id": 1901769,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "unit8",
+        "expected": {
+            "line1": "Beethovenstrasse 49",
+            "postalCode": "8002",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Beethovenstrasse+49+8002+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "beethovenstrasse 49 8002 zuerich 261 zuerich ch zh",
+                    "featureId": "144371_0",
+                    "geom_quadindex": "030003300021012003131",
+                    "geom_st_box2d": "BOX(682799.9893370223 246996.9597234788,682799.9893370223 246996.9597234788)",
+                    "label": "Beethovenstrasse 49 <b>8002 Zürich</b>",
+                    "lat": 47.36861038208008,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100123459",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/144371_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.534868240356445,
+                    "num": 49,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 246996.953125,
+                    "y": 682800,
+                    "zoomlevel": 10
+                },
+                "id": 2556148,
+                "weight": 100
+            },
+            {
+                "attrs": {
+                    "detail": "beethovenstrasse 49a 8002 zuerich 261 zuerich ch zh",
+                    "featureId": "302047125_0",
+                    "geom_quadindex": "030003300021012200033",
+                    "geom_st_box2d": "BOX(682794.7334240595 246985.6777216518,682794.7334240595 246985.6777216518)",
+                    "label": "Beethovenstrasse 49a <b>8002 Zürich</b>",
+                    "lat": 47.368507385253906,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101730265",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302047125_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.534796714782715,
+                    "num": 49,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 246985.671875,
+                    "y": 682794.75,
+                    "zoomlevel": 10
+                },
+                "id": 2442231,
+                "weight": 4
+            }
+        ]
+    },
+    {
+        "slug": "noser-engineering",
+        "expected": {
+            "line1": "Rudolf-Diesel-Strasse 3",
+            "postalCode": "8404",
+            "locality": "Winterthur",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Rudolf-Diesel-Strasse+3+8404+Winterthur&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "rudolf-diesel-strasse 3 8404 winterthur 230 winterthur ch zh",
+                    "featureId": "210185480_0",
+                    "geom_quadindex": "030010300310331332221",
+                    "geom_st_box2d": "BOX(699134.0579001612 261357.98781460742,699134.0579001612 261357.98781460742)",
+                    "label": "Rudolf-Diesel-Strasse 3 <b>8404 Winterthur</b>",
+                    "lat": 47.49550247192383,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101793842",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210185480_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.754274368286133,
+                    "num": 3,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 261357.984375,
+                    "y": 699134.0625,
+                    "zoomlevel": 10
+                },
+                "id": 2600158,
+                "weight": 100
+            },
+            {
+                "attrs": {
+                    "detail": "rudolf-diesel-strasse 30 8404 winterthur 230 winterthur ch zh",
+                    "featureId": "1154802_0",
+                    "geom_quadindex": "030010301202330331202",
+                    "geom_st_box2d": "BOX(699576.6719864086 261127.79449897536,699576.6719864086 261127.79449897536)",
+                    "label": "Rudolf-Diesel-Strasse 30 <b>8404 Winterthur</b>",
+                    "lat": 47.49336242675781,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100806115",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/1154802_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.760095596313477,
+                    "num": 30,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 261127.796875,
+                    "y": 699576.6875,
+                    "zoomlevel": 10
+                },
+                "id": 2778201,
+                "weight": 4
+            },
+            {
+                "attrs": {
+                    "detail": "rudolf-diesel-strasse 3.1 8404 winterthur 230 winterthur ch zh",
+                    "featureId": "210230608_0",
+                    "geom_quadindex": "030010300311202223213",
+                    "geom_st_box2d": "BOX(699145.8749514673 261387.7630582866,699145.8749514673 261387.7630582866)",
+                    "label": "Rudolf-Diesel-Strasse 3.1 <b>8404 Winterthur</b>",
+                    "lat": 47.495765686035156,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102465539",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210230608_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.754438400268555,
+                    "num": 31,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 261387.765625,
+                    "y": 699145.875,
+                    "zoomlevel": 10
+                },
+                "id": 2876682,
+                "weight": 4
+            }
+        ]
+    },
+    {
+        "slug": "crealogix",
+        "expected": {
+            "line1": "Maneggstrasse 17",
+            "postalCode": "8041",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Maneggstrasse+17+8041+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "maneggstrasse 17 8041 zuerich 261 zuerich ch zh",
+                    "featureId": "302062296_1",
+                    "geom_quadindex": "030003213320312232031",
+                    "geom_st_box2d": "BOX(681747.3685545395 244045.2752595369,681747.3685545395 244045.2752595369)",
+                    "label": "Maneggstrasse 17 <b>8041 Zürich</b>",
+                    "lat": 47.34219741821289,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102156910",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302062296_1",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.520395278930664,
+                    "num": 17,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 244045.28125,
+                    "y": 681747.375,
+                    "zoomlevel": 10
+                },
+                "id": 2521817,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "adfinis",
+        "expected": {
+            "line1": "Stampfenbachstrasse 40",
+            "postalCode": "8006",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Stampfenbachstrasse+40+8006+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "stampfenbachstrasse 40 8006 zuerich 261 zuerich ch zh",
+                    "featureId": "2370603_0",
+                    "geom_quadindex": "030003122211313212332",
+                    "geom_st_box2d": "BOX(683418.385183151 248269.36793816744,683418.385183151 248269.36793816744)",
+                    "label": "Stampfenbachstrasse 40 <b>8006 Zürich</b>",
+                    "lat": 47.379974365234375,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101089589",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2370603_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.543292045593262,
+                    "num": 40,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 248269.375,
+                    "y": 683418.375,
+                    "zoomlevel": 10
+                },
+                "id": 2870477,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "sonova",
+        "expected": {
+            "line1": "Laubisrütistrasse 28",
+            "postalCode": "8712",
+            "locality": "Stäfa",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Laubisr%C3%BCtistrasse+28+8712+St%C3%A4fa&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "laubisruetistrasse 28 8712 staefa 158 staefa ch zh",
+                    "featureId": "77796_0",
+                    "geom_quadindex": "030030122321301323220",
+                    "geom_st_box2d": "BOX(698837.0301527173 232822.74571781344,698837.0301527173 232822.74571781344)",
+                    "label": "Laubisrütistrasse 28 <b>8712 Stäfa</b>",
+                    "lat": 47.238929748535156,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100070450",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/77796_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.74403190612793,
+                    "num": 28,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 232822.75,
+                    "y": 698837,
+                    "zoomlevel": 10
+                },
+                "id": 2150908,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "adcubum",
+        "expected": {
+            "line1": "Bahnhofplatz 1A",
+            "postalCode": "8304",
+            "locality": "Wallisellen",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Bahnhofplatz+1A+8304+Wallisellen&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "bahnhofplatz 1a 8304 wallisellen 69 wallisellen ch zh",
+                    "featureId": "210182956_0",
+                    "geom_quadindex": "030003112211221323130",
+                    "geom_st_box2d": "BOX(687003.9058631763 251985.12045664783,687003.9058631763 251985.12045664783)",
+                    "label": "Bahnhofplatz 1a <b>8304 Wallisellen</b>",
+                    "lat": 47.41292953491211,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101802385",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210182956_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.5914888381958,
+                    "num": 1,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 251985.125,
+                    "y": 687003.875,
+                    "zoomlevel": 10
+                },
+                "id": 1904893,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "mettler-toledo",
+        "expected": {
+            "line1": "Im Langacher 44",
+            "postalCode": "8606",
+            "locality": "Greifensee",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Im+Langacher+44+8606+Greifensee&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "im langacher 44 8606 greifensee 194 greifensee ch zh",
+                    "featureId": "9083552_0",
+                    "geom_quadindex": "030012210021302121101",
+                    "geom_st_box2d": "BOX(694122.415064075 246877.36350365134,694122.415064075 246877.36350365134)",
+                    "label": "Im Langacher 44 <b>8606 Greifensee</b>",
+                    "lat": 47.36601257324219,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101360980",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/9083552_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.684722900390625,
+                    "num": 44,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 246877.359375,
+                    "y": 694122.4375,
+                    "zoomlevel": 10
+                },
+                "id": 2737748,
+                "weight": 100
+            },
+            {
+                "attrs": {
+                    "detail": "im langacher 44.1 8606 greifensee 194 greifensee ch zh",
+                    "featureId": "210287926_0",
+                    "geom_quadindex": "030012210021310203121",
+                    "geom_st_box2d": "BOX(694166.4708481831 246894.6259594708,694166.4708481831 246894.6259594708)",
+                    "label": "Im Langacher 44.1 <b>8606 Greifensee</b>",
+                    "lat": 47.36616516113281,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102589818",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210287926_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.685309410095215,
+                    "num": 441,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 246894.625,
+                    "y": 694166.5,
+                    "zoomlevel": 10
+                },
+                "id": 2871408,
+                "weight": 4
+            },
+            {
+                "attrs": {
+                    "detail": "im langacher 44.2 8606 greifensee 194 greifensee ch zh",
+                    "featureId": "210287922_0",
+                    "geom_quadindex": "030012210021311220132",
+                    "geom_st_box2d": "BOX(694192.2878450127 246890.6273554148,694192.2878450127 246890.6273554148)",
+                    "label": "Im Langacher 44.2 <b>8606 Greifensee</b>",
+                    "lat": 47.36612319946289,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102589812",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210287922_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.685650825500488,
+                    "num": 442,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 246890.625,
+                    "y": 694192.3125,
+                    "zoomlevel": 10
+                },
+                "id": 2576641,
+                "weight": 4
+            }
+        ]
+    },
+    {
+        "slug": "zmt",
+        "expected": {
+            "line1": "Zeughausstrasse 43",
+            "postalCode": "8004",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Zeughausstrasse+43+8004+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "zeughausstrasse 43 8004 zuerich 261 zuerich ch zh",
+                    "featureId": "2365942_0",
+                    "geom_quadindex": "030003033331320132213",
+                    "geom_st_box2d": "BOX(682406.6148656411 247779.23439331597,682406.6148656411 247779.23439331597)",
+                    "label": "Zeughausstrasse 43 <b>8004 Zürich</b>",
+                    "lat": 47.375694274902344,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101146527",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2365942_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.529805183410645,
+                    "num": 43,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 247779.234375,
+                    "y": 682406.625,
+                    "zoomlevel": 10
+                },
+                "id": 1901769,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "ergon",
+        "expected": {
+            "line1": "Merkurstrasse 43",
+            "postalCode": "8032",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Merkurstrasse+43+8032+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "merkurstrasse 43 8032 zuerich 261 zuerich ch zh",
+                    "featureId": "9011727_0",
+                    "geom_quadindex": "030003300131302121120",
+                    "geom_st_box2d": "BOX(684278.1426368535 246876.27167092427,684278.1426368535 246876.27167092427)",
+                    "label": "Merkurstrasse 43 <b>8032 Zürich</b>",
+                    "lat": 47.36733627319336,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101215508",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/9011727_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.554412841796875,
+                    "num": 43,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 246876.265625,
+                    "y": 684278.125,
+                    "zoomlevel": 10
+                },
+                "id": 2756023,
+                "weight": 100
+            }
+        ]
+    },
+    {
+        "slug": "speag",
+        "expected": {
+            "line1": "Zeughausstrasse 43",
+            "postalCode": "8004",
+            "locality": "Zürich",
+            "countryCode": "CH"
+        },
+        "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Zeughausstrasse+43+8004+Z%C3%BCrich&limit=3&type=locations&origins=address",
+        "features": [
+            {
+                "attrs": {
+                    "detail": "zeughausstrasse 43 8004 zuerich 261 zuerich ch zh",
+                    "featureId": "2365942_0",
+                    "geom_quadindex": "030003033331320132213",
+                    "geom_st_box2d": "BOX(682406.6148656411 247779.23439331597,682406.6148656411 247779.23439331597)",
+                    "label": "Zeughausstrasse 43 <b>8004 Zürich</b>",
+                    "lat": 47.375694274902344,
+                    "links": [
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101146527",
+                            "rel": "related",
+                            "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                        },
+                        {
+                            "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2365942_0",
+                            "rel": "related",
+                            "title": "ch.bfs.gebaeude_wohnungs_register"
+                        }
+                    ],
+                    "lon": 8.529805183410645,
+                    "num": 43,
+                    "objectclass": "",
+                    "origin": "address",
+                    "rank": 7,
+                    "x": 247779.234375,
+                    "y": 682406.625,
+                    "zoomlevel": 10
+                },
+                "id": 1901769,
+                "weight": 100
+            }
+        ]
+    }
+]

@@ -1,13 +1,3 @@
-/** Unit steps towards the six corners of a hexagonal ring, clockwise from the right. */
-const corners = [
-    [1, 0],
-    [0.5, Math.sqrt(3) / 2],
-    [-0.5, Math.sqrt(3) / 2],
-    [-1, 0],
-    [-0.5, -Math.sqrt(3) / 2],
-    [0.5, -Math.sqrt(3) / 2],
-] as const;
-
 /** A logo anchored to a geographic location, with its rendered diameter. */
 export interface MapLogo {
     id: string;
@@ -20,16 +10,27 @@ export interface MapLogo {
 export function arrangeLogos<T extends MapLogo>(
     logos: T[],
     viewport: { width: number; height: number },
+    anchors: MapLogo[] = [],
 ) {
     const placed: (T & { offset: [number, number] })[] = [];
     const crowded: T[] = [];
     if (!logos.length) return { placed, crowded };
 
     // a cell accommodates the largest logo; neighbouring buckets suffice for collision checks
-    const cell = Math.max(...logos.map((logo) => logo.size)) + 3;
+    const cell =
+        Math.max(...logos.map((logo) => logo.size), ...anchors.map((logo) => logo.size)) + 3;
     const columns = Math.floor(viewport.width / cell);
     const rows = Math.floor(viewport.height / cell);
     const buckets = new Map<number, { x: number; y: number; size: number }[]>();
+
+    // reserve shared addresses before placing any movable standalone logo
+    for (const anchor of anchors) {
+        const key = Math.floor(anchor.y / cell) * (columns + 2) + Math.floor(anchor.x / cell);
+        const bucket = buckets.get(key) ?? [];
+        bucket.push(anchor);
+        buckets.set(key, bucket);
+    }
+
     for (const logo of logos) {
         // offscreen addresses remain in the directory without pulling their logos onto the edge
         if (logo.x < 0 || logo.y < 0 || logo.x > viewport.width || logo.y > viewport.height)
@@ -96,29 +97,4 @@ function fits(
         }
     }
     return true;
-}
-
-/** Return the pixel offset of one cell in a honeycomb spiralling out from its centre. */
-export function honeycomb(index: number, spacing: number): [number, number] {
-    if (index === 0) return [0, 0];
-
-    // find the ring holding this index and the position along it
-    let ring = 1;
-    let first = 1;
-    while (index >= first + 6 * ring) {
-        first += 6 * ring;
-        ring++;
-    }
-    const step = index - first;
-    const side = Math.floor(step / ring);
-    const along = step % ring;
-
-    // walk from this side's corner towards the next one
-    const [cornerX, cornerY] = corners[side];
-    const [directionX, directionY] = corners[(side + 2) % 6];
-
-    return [
-        (cornerX * ring + directionX * along) * spacing,
-        (cornerY * ring + directionY * along) * spacing,
-    ];
 }

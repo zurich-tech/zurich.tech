@@ -1,0 +1,2166 @@
+{
+    "apply": false,
+    "organisations": [
+        {
+            "name": "Cartorga",
+            "slug": "cartorga",
+            "kind": "startup",
+            "headline": "AI-assisted primary research",
+            "description": "Develops software for automating primary research and structured organizational assessments.",
+            "website": "https://www.cartorga.com/?lang=de",
+            "location": "Zürich",
+            "office": "Cartorga",
+            "sources": [
+                "https://www.cartorga.com/?lang=de",
+                "https://www.cartorga.com/impressum",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.cartorga.com/favicon.svg"
+            ],
+            "address": {
+                "line1": "Hardturmstrasse 161",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.39333724975586,
+                "longitude": 8.511878967285156,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Hardturmstrasse+161+8005+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/cartorga"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/cartorga/66b6045b8fc99e7a38a75f04d5b8bb023f3981ead86e10e53756c4e5ce744ca8.png"
+        },
+        {
+            "name": "InstaHeat",
+            "slug": "instaheat",
+            "kind": "startup",
+            "headline": "Liquid-heating technology",
+            "description": "Develops liquid-heating devices and technology for industrial applications.",
+            "website": "https://www.instaheat.ch/",
+            "location": "Zürich",
+            "office": "InstaHeat",
+            "sources": [
+                "https://www.instaheat.ch/",
+                "https://www.instaheat.ch/contact",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.zhaw.ch/de/engineering/entrepreneurship/unsere-start-ups",
+                "https://static.wixstatic.com/media/0184d6_8bc950d3b6374179be5e1d8e70f48906%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/0184d6_8bc950d3b6374179be5e1d8e70f48906%7Emv2.png"
+            ],
+            "address": {
+                "line1": "Grebelackerstrasse 4",
+                "postalCode": "8057",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.400455474853516,
+                "longitude": 8.536908149719238,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Grebelackerstrasse+4+8057+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/instaheat"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/instaheat/1cef296ea3be96ccbfa2bb9a1fdfe108fab8c8a3a3b4d9ede0155ba461e3ce91.png"
+        },
+        {
+            "name": "LaceUp",
+            "slug": "laceup",
+            "kind": "startup",
+            "headline": "GPS-based outdoor event software",
+            "description": "Develops software for outdoor challenges and events using GPS timing without fixed event infrastructure.",
+            "website": "https://laceup.ch/",
+            "location": "Zürich",
+            "office": "LaceUp",
+            "sources": [
+                "https://laceup.ch/",
+                "https://laceup.ch/kontakt",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://laceup.ch/assets/img/favicon.svg"
+            ],
+            "address": {
+                "line1": "Eyhof 34",
+                "postalCode": "8047",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.37192153930664,
+                "longitude": 8.488853454589844,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Eyhof+34+8047+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/laceup/bd2eb4b8538e4f190fb4e530a7450425a076b45608512f0299185f43c9e133d5.png"
+        },
+        {
+            "name": "PQ Technologies",
+            "slug": "pq-technologies",
+            "kind": "startup",
+            "headline": "AI compliance and risk automation",
+            "description": "Develops Nucleus, software for automating regulatory compliance and risk-management workflows.",
+            "website": "https://pqt.ch/",
+            "location": "Zürich",
+            "office": "PQ Technologies",
+            "sources": [
+                "https://pqt.ch/",
+                "https://pqt.ch/impressum/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://pqt.ch/img/pqt-icon-512.png"
+            ],
+            "address": {
+                "line1": "Konradstrasse 12",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38022232055664,
+                "longitude": 8.536815643310547,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Konradstrasse+12+8005+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/pq-technologies/afbc2c583f74df251134a36978fb6beee69b11eb36e8f1947e7ede025f1920c5.png"
+        },
+        {
+            "name": "kuafu",
+            "slug": "kuafu",
+            "kind": "startup",
+            "headline": "Intelligent energy-management software",
+            "description": "Develops an energy-management platform for coordinating and optimizing energy systems.",
+            "website": "https://kuafu.ch/de/",
+            "location": "Dübendorf",
+            "office": "kuafu",
+            "sources": [
+                "https://kuafu.ch/de/",
+                "https://kuafu.ch/de/kontakt/",
+                "https://kuafu.ch/en/contact-us/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://kuafu.ch/wp-content/uploads/2025/06/cropped-favicon-192x192.png"
+            ],
+            "address": {
+                "line1": "Überlandstrasse 129",
+                "postalCode": "8600",
+                "locality": "Dübendorf",
+                "countryCode": "CH",
+                "latitude": 47.40225601196289,
+                "longitude": 8.611513137817383,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=%C3%9Cberlandstrasse+129+8600+D%C3%BCbendorf&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/kuafu"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/kuafu/128c9422bde404e320754bbee306be279a9c3d941f94ba41f8106f8c5c1bf73e.png"
+        },
+        {
+            "name": "Nerai Bioscience",
+            "slug": "nerai-bioscience",
+            "kind": "startup",
+            "headline": "Precision genome editing",
+            "description": "Develops genome-editing technology and therapeutic research programs.",
+            "website": "https://www.nerai.bio/",
+            "location": "Zürich",
+            "office": "Nerai Bioscience",
+            "sources": [
+                "https://www.nerai.bio/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.nerai.bio/favicon.svg"
+            ],
+            "address": {
+                "line1": "Dorfstrasse 51",
+                "postalCode": "8037",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.394649505615234,
+                "longitude": 8.52114486694336,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Dorfstrasse+51+8037+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/nerai-bio/",
+                "x": "https://x.com/neraibio"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/nerai-bioscience/dbf952ea9982961ac2af67a8d15a3fcfa6bd229d342e936a3fdcc45340ddc274.png"
+        },
+        {
+            "name": "Swiss Engineering Partners",
+            "slug": "swiss-engineering-partners",
+            "kind": "startup",
+            "headline": "Robotics and automation engineering",
+            "description": "Develops robotics and physical-AI automation systems.",
+            "website": "https://www.swiss-ep.com/",
+            "location": "Dübendorf",
+            "office": "Swiss Engineering Partners",
+            "sources": [
+                "https://www.swiss-ep.com/",
+                "https://www.swiss-ep.com/contact",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://framerusercontent.com/images/TzC7Za0uWx2yCs0VqK1PO1kk.png"
+            ],
+            "address": {
+                "line1": "Wangenstrasse 72",
+                "postalCode": "8600",
+                "locality": "Dübendorf",
+                "countryCode": "CH",
+                "latitude": 47.406044006347656,
+                "longitude": 8.631637573242188,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wangenstrasse+72+8600+D%C3%BCbendorf&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/swiss-engineering-partners-ag"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/swiss-engineering-partners/dc78cc8313affe3f169f58594245c5b6c349a4f4f107bda48d81c6e3db41954e.png"
+        },
+        {
+            "name": "House of Charts",
+            "slug": "house-of-charts",
+            "kind": "startup",
+            "headline": "AI medical documentation",
+            "description": "Develops artificial-intelligence software that reduces medical documentation and administrative work for clinicians.",
+            "website": "https://houseofcharts.com/",
+            "location": "Zürich",
+            "office": "House of Charts",
+            "sources": [
+                "https://houseofcharts.com/",
+                "https://houseofcharts.com/contact",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://houseofcharts.com/images/favicon.png"
+            ],
+            "address": {
+                "line1": "Dufourstrasse 96",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.359230041503906,
+                "longitude": 8.551088333129883,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Dufourstrasse+96+8008+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/houseofcharts/",
+                "github": "https://github.com/houseofcharts"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/house-of-charts/4a85e5cc70d220740395c90295e2af315bb6eafc29753a87bb9649b40e2047b8.png"
+        },
+        {
+            "name": "Tandem Therapeutics",
+            "slug": "tandem-therapeutics",
+            "kind": "startup",
+            "headline": "Matrix-targeting therapeutics",
+            "description": "Develops extracellular-matrix-targeting peptide technologies for treating fibrotic diseases.",
+            "website": "https://tandem-tx.com/",
+            "location": "Schlieren",
+            "office": "Tandem Therapeutics",
+            "sources": [
+                "https://tandem-tx.com/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://tandem-tx.com/#logo"
+            ],
+            "address": {
+                "line1": "Südstrasse 1, D92.2",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.40009689331055,
+                "longitude": 8.464466094970703,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=S%C3%BCdstrasse+1+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/tandem-therapeutics/68d0453a31e1d9579faa0371a15e762efa80ba926d8012be88185784cda9fa60.png"
+        },
+        {
+            "name": "nihito",
+            "slug": "nihito",
+            "kind": "startup",
+            "headline": "Electric-truck depot optimization",
+            "description": "Develops planning and orchestration software for electric-truck depots and charging operations.",
+            "website": "https://nihito.io/",
+            "location": "Zürich",
+            "office": "nihito",
+            "sources": [
+                "https://nihito.io/",
+                "https://nihito.io/imprint",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://be-baukultur.ethz.ch/gebaeude/ml",
+                "https://nihito.io/nihito-logo-full-black.svg"
+            ],
+            "address": {
+                "line1": "Sonneggstrasse 3, ML H42.1",
+                "postalCode": "8006",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.37799072265625,
+                "longitude": 8.547734260559082,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Sonneggstrasse+3+8006+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/nihito/2bc8100b4f9bba3ee6a8c06f75c303c1de602fff96b6947df76bf9723a159ff0.png"
+        },
+        {
+            "name": "Solabs Nanotechnology",
+            "slug": "solabs-nanotechnology",
+            "kind": "startup",
+            "headline": "Permanent optical defogging technology",
+            "description": "Develops nanotechnology-based defogging surfaces for eyewear and other optical applications.",
+            "website": "https://www.solabs-nanotechnology.com/",
+            "location": "Zürich",
+            "office": "Solabs Nanotechnology",
+            "sources": [
+                "https://www.solabs-nanotechnology.com/",
+                "https://www.solabs-nanotechnology.com/imprint/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://be-baukultur.ethz.ch/gebaeude/ml",
+                "https://www.solabs-nanotechnology.com/wp-content/uploads/2026/04/favicon-512-1-300x300.png"
+            ],
+            "address": {
+                "line1": "Sonneggstrasse 3",
+                "postalCode": "8006",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.37799072265625,
+                "longitude": 8.547734260559082,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Sonneggstrasse+3+8006+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/solabs-nanotechnology/7155c1cb5095ffea6b07a8c82d6c776d77fb12740d9ce356cae75e33b267c6d5.png"
+        },
+        {
+            "name": "etavalve",
+            "slug": "etavalve",
+            "kind": "startup",
+            "headline": "Industrial waste-heat power generation",
+            "description": "Develops engine technology that converts industrial waste heat into electrical energy.",
+            "website": "https://www.etavalve.com/en",
+            "location": "Zürich",
+            "office": "etavalve",
+            "sources": [
+                "https://www.etavalve.com/en",
+                "https://www.etavalve.com/en/contact",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://be-baukultur.ethz.ch/gebaeude/ml",
+                "https://www.etavalve.com/favicon.ico"
+            ],
+            "address": {
+                "line1": "Sonneggstrasse 3",
+                "postalCode": "8006",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.37799072265625,
+                "longitude": 8.547734260559082,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Sonneggstrasse+3+8006+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://linkedin.com/company/etavalve"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/etavalve/2d4b291bb369dbbe3597669488dafdd585dedc333e82c1184e6d6acb315e5938.png"
+        },
+        {
+            "name": "qCella",
+            "slug": "qcella",
+            "kind": "startup",
+            "headline": "Cellulose-based heating materials",
+            "description": "Develops copper-functionalized cellulose materials and flexible heating mats for efficient surface heating.",
+            "website": "https://qcella.com/",
+            "location": "Zürich",
+            "office": "qCella",
+            "sources": [
+                "https://qcella.com/",
+                "https://qcella.com/contact/",
+                "https://qcella.com/impressum/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.research-collection.ethz.ch/server/api/core/bitstreams/865bcf83-d262-46bc-8629-c96754dc27a9/content",
+                "https://qcella.com/wp-content/uploads/2023/09/cropped-Icon_Std_TransBG_v04-192x192.png"
+            ],
+            "address": {
+                "line1": "Vladimir-Prelog-Weg 5, HCI F503",
+                "postalCode": "8049",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.40663528442383,
+                "longitude": 8.509973526000977,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Vladimir-Prelog-Weg+5+8049+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/qcella"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/qcella/3d2fd3976032f075cb97c1959b76493480b64d9a1ec327f86afa7a756fb90a24.png"
+        },
+        {
+            "name": "UpLeap",
+            "slug": "upleap",
+            "kind": "startup",
+            "headline": "AI-generated clinical training",
+            "description": "Develops software that converts hospitals' clinical protocols into short training scenarios and measures staff learning.",
+            "website": "https://www.upleap.me/",
+            "location": "Zürich",
+            "office": "UpLeap",
+            "sources": [
+                "https://www.upleap.me/",
+                "https://www.upleap.me/contact",
+                "https://www.upleap.me/legal",
+                "https://www.upleap.me/imprint",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://static.wixstatic.com/media/45c9d6_4ed0fd9d1b1a4b248bb3b971809bfe15%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/45c9d6_4ed0fd9d1b1a4b248bb3b971809bfe15%7Emv2.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 1",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38977813720703,
+                "longitude": 8.516196250915527,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+1+8005+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/upleap-medical-training/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/upleap/e8a612d05685bd14cc2ec2a20c5d48170a8840b240aff843c5426ca2711bf401.png"
+        },
+        {
+            "name": "VAULTED",
+            "slug": "vaulted",
+            "kind": "startup",
+            "headline": "Material-efficient structural floor systems",
+            "description": "Develops low-carbon structural floor systems using computational design and efficient geometry.",
+            "website": "https://vaulted.swiss/",
+            "location": "Dübendorf",
+            "office": "VAULTED",
+            "sources": [
+                "https://vaulted.swiss/",
+                "https://vaulted.swiss/contact/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://vaulted.swiss/favicon.ico"
+            ],
+            "address": {
+                "line1": "Überlandstrasse 129",
+                "postalCode": "8600",
+                "locality": "Dübendorf",
+                "countryCode": "CH",
+                "latitude": 47.40225601196289,
+                "longitude": 8.611513137817383,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=%C3%9Cberlandstrasse+129+8600+D%C3%BCbendorf&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/vaulted-floors"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/vaulted/e5fc505d1d816d65d54f291305bce9dabd1fd341799b0ccf9a7f0dda2c965cea.png"
+        },
+        {
+            "name": "InkVivo Technologies",
+            "slug": "inkvivo-technologies",
+            "kind": "startup",
+            "headline": "Engineered drug-delivery materials",
+            "description": "Develops drug-delivery technologies and materials for controlled therapeutic release.",
+            "website": "https://www.inkvivo.tech/",
+            "location": "Zürich",
+            "office": "InkVivo Technologies",
+            "sources": [
+                "https://www.inkvivo.tech/",
+                "https://www.inkvivo.tech/contact/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.inkvivo.tech/wp-content/uploads/2023/06/logo_inkvivo_2026-05.png"
+            ],
+            "address": {
+                "line1": "Sonneggstrasse 3",
+                "postalCode": "8006",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.37799072265625,
+                "longitude": 8.547734260559082,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Sonneggstrasse+3+8006+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/inkvivo-technologies/eeee3c09252b137cf0a04ba3ee6fc34d67a5434b72a2d7891ea61e76a8f0ffbc.png"
+        },
+        {
+            "name": "Citus",
+            "slug": "citus",
+            "kind": "startup",
+            "headline": "Skin diagnostic technology",
+            "description": "Develops measurement technology for quantitative assessment of skin health and personalized skin care.",
+            "website": "https://www.citus-ag.com/",
+            "location": "Dübendorf",
+            "office": "Citus",
+            "sources": [
+                "https://www.citus-ag.com/",
+                "https://www.citus-ag.com/contact",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://static.wixstatic.com/media/9ac736_49594b4e2b5847169aa4e3fb67cd7d42%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/9ac736_49594b4e2b5847169aa4e3fb67cd7d42%7Emv2.png"
+            ],
+            "address": {
+                "line1": "Überlandstrasse 129",
+                "postalCode": "8600",
+                "locality": "Dübendorf",
+                "countryCode": "CH",
+                "latitude": 47.40225601196289,
+                "longitude": 8.611513137817383,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=%C3%9Cberlandstrasse+129+8600+D%C3%BCbendorf&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/citus-ag/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/citus/0baabc84d3d9b226ca503870c13b28ae453b4ab116514c4568fd61e0211b8a40.png"
+        },
+        {
+            "name": "SURI BioTech",
+            "slug": "suri-biotech",
+            "kind": "startup",
+            "headline": "Targeted probiotic strain development",
+            "description": "Develops probiotic strains and formulations for infant health and athletic recovery, supported by microbiome research.",
+            "website": "https://www.suribiotech.com/",
+            "location": "Schlieren",
+            "office": "SURI BioTech",
+            "sources": [
+                "https://www.suribiotech.com/",
+                "https://www.suribiotech.com/contact/",
+                "https://www.suribiotech.com/legal-notice/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www-static.suribiotech.com/wp-content/uploads/Favicon.png"
+            ],
+            "address": {
+                "line1": "Wagistrasse 18",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.39897155761719,
+                "longitude": 8.458402633666992,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wagistrasse+18+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/suribiotech/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/suri-biotech/997138efb9ca438f80389805a356be9250d9ff322e78c6d30e14c38636511a32.png"
+        },
+        {
+            "name": "NexMR",
+            "slug": "nexmr",
+            "kind": "startup",
+            "headline": "Light-coupled NMR technology",
+            "description": "Develops light-coupled NMR technologies for molecular screening and affinity measurements.",
+            "website": "https://nexmr.com/",
+            "location": "Schlieren",
+            "office": "NexMR",
+            "sources": [
+                "https://nexmr.com/",
+                "https://nexmr.com/imprint",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://nexmr.com/images/brand/logo.svg"
+            ],
+            "address": {
+                "line1": "Wiesenstrasse 10A",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.39990997314453,
+                "longitude": 8.443604469299316,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wiesenstrasse+10A+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/nexmr/e15f1511d07f8671b861bdd01746bc2f7b51d854e8cce592dbdea88caaad440a.png"
+        },
+        {
+            "name": "Univerbal",
+            "slug": "univerbal",
+            "kind": "startup",
+            "headline": "AI language tutoring",
+            "description": "Develops a language-learning application that uses AI conversation practice and personalized tutoring.",
+            "website": "https://www.univerbal.app",
+            "location": "Zürich",
+            "office": "Univerbal",
+            "sources": [
+                "https://www.univerbal.app",
+                "https://www.univerbal.app/contact",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://framerusercontent.com/images/zpcUsih1jdKBZF7bMmjgDmrqcw.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 1",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38977813720703,
+                "longitude": 8.516196250915527,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+1+8005+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/univerbalapp"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/univerbal/69b702c09582cc1f8678b789a093d7b320d941bbef58b31e37b0388887874622.png"
+        },
+        {
+            "name": "SimplexDNA",
+            "slug": "simplexdna",
+            "kind": "startup",
+            "headline": "Environmental DNA biodiversity analysis",
+            "description": "Develops environmental-DNA sampling and analysis workflows for biodiversity monitoring, including aquatic monitoring products.",
+            "website": "https://www.simplexdna.com/",
+            "location": "Winterthur",
+            "office": "SimplexDNA",
+            "sources": [
+                "https://www.simplexdna.com/",
+                "https://www.simplexdna.com/contact",
+                "https://www.simplexdna.com/imprint",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://static.wixstatic.com/media/a0b52e_f336074abb7f4277813c66c2d273bc45%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/a0b52e_f336074abb7f4277813c66c2d273bc45%7Emv2.png"
+            ],
+            "address": {
+                "line1": "Else-Züblin-Strasse 11",
+                "postalCode": "8404",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.500587463378906,
+                "longitude": 8.763287544250488,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Else-Z%C3%BCblin-Strasse+11+8404+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/simplexdna/",
+                "x": "https://twitter.com/simplexdna"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/simplexdna/cc7dd93627188031aac8ebfa86279cdccab757d5e570e1f8ee2add1c3166aed5.png"
+        },
+        {
+            "name": "TOSOO",
+            "slug": "tosoo",
+            "kind": "startup",
+            "headline": "Sleep EEG and neuromodulation technology",
+            "description": "Develops an investigational platform combining home EEG monitoring with closed-loop auditory stimulation for sleep research and clinical studies.",
+            "website": "https://www.tosoo.ch/",
+            "location": "Zürich",
+            "office": "TOSOO",
+            "sources": [
+                "https://www.tosoo.ch/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://cdn.prod.website-files.com/69201bfe8200588e6c2736d2/6a0deb16c933574c743222d9_favicon.png"
+            ],
+            "address": {
+                "line1": "Alte Feldeggstrasse 14",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.359596252441406,
+                "longitude": 8.550121307373047,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Alte+Feldeggstrasse+14+8008+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/tosoo/275e4f0bf9795f0509907de47d74f9b7703a596fd284e0a574c73312fda1e6ff.png"
+        },
+        {
+            "name": "Sleepiz",
+            "slug": "sleepiz",
+            "kind": "startup",
+            "headline": "Contactless sleep-monitoring devices",
+            "description": "Develops medical devices and software for contactless sleep monitoring.",
+            "website": "https://sleepiz.com/home-de/",
+            "location": "Zürich",
+            "office": "Sleepiz",
+            "sources": [
+                "https://sleepiz.com/home-de/",
+                "https://sleepiz.com/impressum/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://sleepiz.com/wp-content/uploads/2021/10/border-wave-blue-300x300.png"
+            ],
+            "address": {
+                "line1": "Hornbachstrasse 23",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.35470199584961,
+                "longitude": 8.553243637084961,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Hornbachstrasse+23+8008+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/sleepiz/13a31eabc0ad741ff9f862c5638f196fa27d97c5f069ba6931dbc27ab5158afd.png"
+        },
+        {
+            "name": "UrbanDataLab",
+            "slug": "urbandatalab",
+            "kind": "company",
+            "headline": "Geospatial analytics and APIs",
+            "description": "Develops geospatial data products, predictive models and APIs for location-related decisions.",
+            "website": "https://urbandatalab.ch/",
+            "location": "Adliswil",
+            "office": "UrbanDataLab",
+            "sources": [
+                "https://urbandatalab.ch/",
+                "https://urbandatalab.ch/imprint",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AZ%C3%BCrich&lang=en",
+                "https://static.tildacdn.one/tild3765-3363-4330-b164-666461373463/logo_udl_black_notex.png"
+            ],
+            "address": {
+                "line1": "Bünistrasse 6",
+                "postalCode": "8134",
+                "locality": "Adliswil",
+                "countryCode": "CH",
+                "latitude": 47.31090545654297,
+                "longitude": 8.530956268310547,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=B%C3%BCnistrasse+6+8134+Adliswil&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/urbandatalab/3218dcd898f551e6686904cf2229b259f38b1d340566182711df06da06d863ac.png"
+        },
+        {
+            "name": "lino Biotech",
+            "slug": "lino-biotech",
+            "kind": "company",
+            "headline": "Focal-molography biosensing instruments",
+            "description": "Develops instruments, sensor chips and assays for measuring biomolecular interactions using focal molography.",
+            "website": "https://www.lino-biotech.com/",
+            "location": "Adliswil",
+            "office": "lino Biotech",
+            "sources": [
+                "https://www.lino-biotech.com/",
+                "https://www.lino-biotech.com/legal-disclosure",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.lino-biotech.com/hubfs/cropped-lino-fav-icon-1-1.png"
+            ],
+            "address": {
+                "line1": "Soodstrasse 52",
+                "postalCode": "8134",
+                "locality": "Adliswil",
+                "countryCode": "CH",
+                "latitude": 47.3201904296875,
+                "longitude": 8.522040367126465,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Soodstrasse+52+8134+Adliswil&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://linkedin.com/company/lino-biotech-ag"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/lino-biotech/651e6fe95b59ab9ba462c537dfe8e2311dddd2dd224edeb46077a34769a5529e.png"
+        },
+        {
+            "name": "PharmaBiome",
+            "slug": "pharmabiome",
+            "kind": "startup",
+            "headline": "Engineered microbiome therapeutics",
+            "description": "Develops defined microbial consortia and microbiome-based therapeutic technologies.",
+            "website": "https://www.pharmabiome.com:443/",
+            "location": "Schlieren",
+            "office": "PharmaBiome",
+            "sources": [
+                "https://www.pharmabiome.com:443/",
+                "https://www.pharmabiome.com:443/contact",
+                "https://www.pharmabiome.com:443/impressum",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://images.squarespace-cdn.com/content/v1/5fecee1ce1367528108ae270/1611151387744-69EZFGJ9Q9V61785UAGJ/favicon.ico?format=100w"
+            ],
+            "address": {
+                "line1": "Wagistrasse 27",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.399173736572266,
+                "longitude": 8.46005630493164,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wagistrasse+27+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/pharmabiome/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/pharmabiome/2f61780f0945d96e202d91504283aee676011a5ad3a65674daa8d72affed1e39.png"
+        },
+        {
+            "name": "ZuriMED",
+            "slug": "zurimed",
+            "kind": "company",
+            "headline": "Soft-tissue repair devices",
+            "description": "Develops surgical devices and technologies for soft-tissue repair, including the FiberLocker system.",
+            "website": "https://zurimed.com",
+            "location": "Zürich",
+            "office": "ZuriMED",
+            "sources": [
+                "https://zurimed.com",
+                "https://zurimed.com/contact/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://zurimed.com/wp-content/uploads/2026/03/cropped-zurimed_logo-300x300.png"
+            ],
+            "address": {
+                "line1": "Lengghalde 5",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.352413177490234,
+                "longitude": 8.574193954467773,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Lengghalde+5+8008+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/zurimed/8e24891bc6bcdde12503cf8e03c48f8b33a2a03b16a7901571e4bfe709a1ff49.png"
+        },
+        {
+            "name": "Skope",
+            "slug": "skope",
+            "kind": "company",
+            "headline": "Magnetic-resonance measurement instruments",
+            "description": "Develops field cameras, neuroscience imaging systems and software for magnetic-resonance research.",
+            "website": "https://skope.swiss/",
+            "location": "Zürich",
+            "office": "Skope",
+            "sources": [
+                "https://skope.swiss/",
+                "https://skope.swiss/contact-us/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://skope.swiss/wp-content/uploads/2024/07/Group-1261153621.jpg"
+            ],
+            "address": {
+                "line1": "Thurgauerstrasse 39",
+                "postalCode": "8050",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.41460418701172,
+                "longitude": 8.5507173538208,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Thurgauerstrasse+39+8050+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/skope-mri/",
+                "x": "https://x.com/Skope_MRI"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/skope/51ed1eb2950939ba5590697ce10e6b467cdea268626653f9bdf7281fb613424a.png"
+        },
+        {
+            "name": "Luciole Medical",
+            "slug": "luciole-medical",
+            "kind": "company",
+            "headline": "Brain monitoring technology",
+            "description": "Develops medical monitoring platforms, probes and sensors for assessing cerebral physiology.",
+            "website": "https://www.luciolemedical.com/",
+            "location": "Zürich",
+            "office": "Luciole Medical",
+            "sources": [
+                "https://www.luciolemedical.com/",
+                "https://www.luciolemedical.com/contact",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://www.luciolemedical.com/apple-touch-icon.png"
+            ],
+            "address": {
+                "line1": "Baslerstrasse 30",
+                "postalCode": "8048",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38497543334961,
+                "longitude": 8.503264427185059,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Baslerstrasse+30+8048+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/luciole-medical/717a5538e5c1272eb1f3fe0cbe057471ec3e9efebc9f9f71979c7d382b6372df.png"
+        },
+        {
+            "name": "VirtaMed",
+            "slug": "virtamed",
+            "kind": "company",
+            "headline": "Medical training simulators",
+            "description": "Develops medical simulators and associated software for procedural training and clinical education.",
+            "website": "https://www.virtamed.com/en",
+            "location": "Schlieren",
+            "office": "VirtaMed",
+            "sources": [
+                "https://www.virtamed.com/en",
+                "https://www.virtamed.com/en/about-us/contact-us",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.zhaw.ch/de/engineering/entrepreneurship/unsere-start-ups",
+                "https://www.virtamed.com/icon.svg?icon.3_lczb2tvenox.svg"
+            ],
+            "address": {
+                "line1": "Rütistrasse 12",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.40060043334961,
+                "longitude": 8.450074195861816,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=R%C3%BCtistrasse+12+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/virtamed",
+                "x": "https://twitter.com/VirtaMed"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/virtamed/849dfbfba2aa97b00953cf40a8cfcb00eda0f24c430f596e4c607215dd28ee4a.png"
+        },
+        {
+            "name": "Kuros Biosciences",
+            "slug": "kuros-biosciences",
+            "kind": "company",
+            "headline": "Bone-graft biomaterials",
+            "description": "Develops bone-graft materials including MagnetOs for orthopedic and spinal applications.",
+            "website": "https://kurosbio.com/",
+            "location": "Schlieren",
+            "office": "Kuros Biosciences",
+            "sources": [
+                "https://kurosbio.com/",
+                "https://kurosbio.com/contact/",
+                "https://entrepreneurship.ethz.ch/startup-stories/explore-startup-portraits-and-success-stories/uebersicht-eth-spin-offs.html",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://kurosbio.b-cdn.net/wp-content/themes/fa-kuros-2024/favicon/apple-touch-icon.png"
+            ],
+            "address": {
+                "line1": "Wagistrasse 25",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.399288177490234,
+                "longitude": 8.459613800048828,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wagistrasse+25+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/kurosbiosciences"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/kuros-biosciences/714fa5c581e1628b13b479aebc8d42e807e71ca883518cae24beb9ec275ae75d.png"
+        },
+        {
+            "name": "Artonis",
+            "slug": "artonis",
+            "kind": "startup",
+            "headline": "Biomedical materials for orthopedic surgery",
+            "description": "Develops biomedical-material technologies for surgical hemostasis, spinal-disc repair and cartilage regeneration.",
+            "website": "https://artonis.ch/",
+            "location": "Zürich",
+            "office": "Artonis",
+            "sources": [
+                "https://artonis.ch/",
+                "https://artonis.ch/imprint/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://artonis.ch/wp-content/uploads/2025/09/Artonis_Favicon-300x300.png"
+            ],
+            "address": {
+                "line1": "Forchstrasse 340",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.35299301147461,
+                "longitude": 8.575407981872559,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Forchstrasse+340+8008+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/artonis/40dff8ad0d78b1dcd6f43d09b26f0592fce0e54e4f2f9d91cd96be45b14c5580.png"
+        },
+        {
+            "name": "neurodAIgnostics",
+            "slug": "neurodaignostics",
+            "kind": "startup",
+            "headline": "AI cognitive-assessment software",
+            "description": "Develops artificial-intelligence software to simplify cognitive assessments.",
+            "website": "https://neurodaignostics.com/",
+            "location": "Zürich",
+            "office": "neurodAIgnostics",
+            "sources": [
+                "https://neurodaignostics.com/",
+                "https://neurodaignostics.com/imprint/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://neurodaignostics.com/wp-content/uploads/favicon-192-07.png"
+            ],
+            "address": {
+                "line1": "Dorfstrasse 29",
+                "postalCode": "8037",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.39427185058594,
+                "longitude": 8.522562026977539,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Dorfstrasse+29+8037+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/neurodaignostics"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/neurodaignostics/77cec908561d6d463d4cbbea907aae556912606d31d37a577fc147fce2149fd5.png"
+        },
+        {
+            "name": "EVIIVE",
+            "slug": "eviive",
+            "kind": "startup",
+            "headline": "Extracellular-vesicle diagnostics",
+            "description": "Develops biomarker platforms that analyze extracellular vesicles to support precision immunotherapy and treatment selection.",
+            "website": "https://eviive.ch/",
+            "location": "Zürich",
+            "office": "EVIIVE",
+            "sources": [
+                "https://eviive.ch/",
+                "https://eviive.ch/contact",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://framerusercontent.com/images/hPm2motYH46Iqbm2CT6pRBqgdxg.png"
+            ],
+            "address": {
+                "line1": "Winterthurerstrasse 190, Irchel Y23K74",
+                "postalCode": "8057",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.39695358276367,
+                "longitude": 8.54875659942627,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Winterthurerstrasse+190+8057+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/eviive/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/eviive/c1cdefda5144a2be3f0c214ba488fe659c21be73980c8f91ba2d4a1e2a5a610b.png"
+        },
+        {
+            "name": "ONtrack Biomedical",
+            "slug": "ontrack-biomedical",
+            "kind": "startup",
+            "headline": "In-vitro diagnostic technology",
+            "description": "Develops in-vitro diagnostic technologies.",
+            "website": "https://www.ontrackbiomedical.com/",
+            "location": "Schlieren",
+            "office": "ONtrack Biomedical",
+            "sources": [
+                "https://www.ontrackbiomedical.com/",
+                "https://www.ontrackbiomedical.com/contact",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://static.wixstatic.com/media/d67499_316d523c47c24e6a86d8d11c437eb7c2%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/d67499_316d523c47c24e6a86d8d11c437eb7c2%7Emv2.png"
+            ],
+            "address": {
+                "line1": "Wagistrasse 21",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.39936065673828,
+                "longitude": 8.458274841308594,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wagistrasse+21+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/ontrack-biomedical/56abf6cdb9d665cd3056a1751c99afeeb37fb765f685b39d2e38b197d22e83fb.png"
+        },
+        {
+            "name": "Augmedi",
+            "slug": "augmedi",
+            "kind": "startup",
+            "headline": "Interactive medical learning software",
+            "description": "Develops a digital learning platform combining interactive anatomy, medical content and examination preparation.",
+            "website": "https://www.augmedi.com/",
+            "location": "Zollikon",
+            "office": "Augmedi",
+            "sources": [
+                "https://www.augmedi.com/",
+                "https://www.augmedi.com/legal-notice",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://augmedi.app/apple-touch-icon.71770497.png"
+            ],
+            "address": {
+                "line1": "Alte Landstrasse 70",
+                "postalCode": "8702",
+                "locality": "Zollikon",
+                "countryCode": "CH",
+                "latitude": 47.33873748779297,
+                "longitude": 8.574037551879883,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Alte+Landstrasse+70+8702+Zollikon&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/augmedi/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/augmedi/a7946bcfe014ca88532a726d345b1edbbdd76a86e371d7419981d5d584165071.png"
+        },
+        {
+            "name": "TransHeps",
+            "slug": "transheps",
+            "kind": "startup",
+            "headline": "Drug-induced liver injury testing",
+            "description": "Develops and operates laboratory technology for investigating drug-induced liver injury in clinical development.",
+            "website": "https://www.transheps.com/",
+            "location": "Weiningen",
+            "office": "TransHeps",
+            "sources": [
+                "https://www.transheps.com/",
+                "https://www.transheps.com/contact",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://static.wixstatic.com/media/93983b_0e8ddd1b6fa54f97ad4ff80fb11e015b%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/93983b_0e8ddd1b6fa54f97ad4ff80fb11e015b%7Emv2.png"
+            ],
+            "address": {
+                "line1": "Badenerstrasse 48",
+                "postalCode": "8104",
+                "locality": "Weiningen",
+                "countryCode": "CH",
+                "latitude": 47.41887283325195,
+                "longitude": 8.42741870880127,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Badenerstrasse+48+8104+Weiningen&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/transheps/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/transheps/2d737e1f520a76a6a3f978b3528e8fd8977747313b16b63b1eb42351457f4c40.png"
+        },
+        {
+            "name": "X23D",
+            "slug": "x23d",
+            "kind": "startup",
+            "headline": "AI surgical navigation software",
+            "description": "Develops AI software that converts intraoperative imaging into real-time guidance for surgical navigation and robotics.",
+            "website": "https://x23d.com/",
+            "location": "Zürich",
+            "office": "X23D",
+            "sources": [
+                "https://x23d.com/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://x23d.com/assets/images/x23d-favicon.png"
+            ],
+            "address": {
+                "line1": "Lengghalde 5",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.352413177490234,
+                "longitude": 8.574193954467773,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Lengghalde+5+8008+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/x23d-ag/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/x23d/0f3124502df0357f38ff4de57dbd3329bc1e5c79058dcf1f6da944ce195de737.png"
+        },
+        {
+            "name": "Moving Spine",
+            "slug": "moving-spine",
+            "kind": "startup",
+            "headline": "Spine-health medical technology",
+            "description": "Develops medical technologies arising from clinical spine research.",
+            "website": "https://movingspine.ch",
+            "location": "Zürich",
+            "office": "Moving Spine",
+            "sources": [
+                "https://movingspine.ch",
+                "https://movingspine.ch/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://movingspine.ch/wp-content/uploads/2023/11/cropped-favicon-192x192.jpg"
+            ],
+            "address": {
+                "line1": "Eisengasse 16",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.3626823425293,
+                "longitude": 8.551985740661621,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Eisengasse+16+8008+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://ch.linkedin.com/company/moving-spine"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/moving-spine/7f5e461cdfed7bad037f2cf54426f364ddc95dab40702822be3d96f629c0bd26.png"
+        },
+        {
+            "name": "Scan2Screen",
+            "slug": "scan2screen",
+            "kind": "startup",
+            "headline": "Multispectral film digitization",
+            "description": "Develops multispectral scanning technology and workflows for digitizing historical color films and photographs.",
+            "website": "https://scan2screen.com/",
+            "location": "Zürich",
+            "office": "Scan2Screen",
+            "sources": [
+                "https://scan2screen.com/",
+                "https://scan2screen.com/contact/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://scan2screen.com/wp-content/uploads/2023/12/logo_scan2screen_bw.jpg"
+            ],
+            "address": {
+                "line1": "Saatlenstrasse 261",
+                "postalCode": "8050",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.41109848022461,
+                "longitude": 8.562963485717773,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Saatlenstrasse+261+8050+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/scan2screen/0b51891a50e1f7a9f7f831842dbcbaaecf753064827b283323a439d3bf11eed5.png"
+        },
+        {
+            "name": "DeepMed",
+            "slug": "deepmed",
+            "kind": "startup",
+            "headline": "AI clinical documentation",
+            "description": "Develops clinical AI software that converts consultations into medical documentation and supports secure clinical workflows.",
+            "website": "https://deepmed.ch/en/",
+            "location": "Zürich",
+            "office": "DeepMed",
+            "sources": [
+                "https://deepmed.ch/en/",
+                "https://deepmed.ch/en/impressum/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://deepmed.ch/logos/deepmed-logo-blue.svg"
+            ],
+            "address": {
+                "line1": "Toblerstrasse 80",
+                "postalCode": "8044",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.37846374511719,
+                "longitude": 8.56015396118164,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Toblerstrasse+80+8044+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/deepmed-zurich-ag/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/deepmed/c2acd1d7a9ec1d6043c7328b4f63e553e13ce562a7846b86951e85f2680d1f4a.png"
+        },
+        {
+            "name": "Prometheus Life Technologies",
+            "slug": "prometheus-life-technologies",
+            "kind": "startup",
+            "headline": "Space-grown organoid technology",
+            "description": "Develops organoid products and life-science technologies using microgravity research.",
+            "website": "https://plt.bio/",
+            "location": "Dübendorf",
+            "office": "Prometheus Life Technologies",
+            "sources": [
+                "https://plt.bio/",
+                "https://plt.bio/contact/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://plt.bio/wp-content/uploads/2023/02/favicon-1.png"
+            ],
+            "address": {
+                "line1": "Wangenstrasse 68",
+                "postalCode": "8600",
+                "locality": "Dübendorf",
+                "countryCode": "CH",
+                "latitude": 47.40489959716797,
+                "longitude": 8.629646301269531,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wangenstrasse+68+8600+D%C3%BCbendorf&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/prometheus-life-technologies/bb461cf802fdb19c4fa31eddfca7f64c0cf7c25c23a199cacb29db15dc305b53.png"
+        },
+        {
+            "name": "Navignostics",
+            "slug": "navignostics",
+            "kind": "startup",
+            "headline": "Spatial tumor profiling",
+            "description": "Develops tumor-analysis and diagnostic technology to characterize cancers and support treatment selection.",
+            "website": "https://www.navignostics.com/",
+            "location": "Horgen",
+            "office": "Navignostics",
+            "sources": [
+                "https://www.navignostics.com/",
+                "https://www.navignostics.com/home/imprint/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://www.navignostics.com/wp-content/uploads/Navignostics_icon.svg"
+            ],
+            "address": {
+                "line1": "Tödistrasse 46a",
+                "postalCode": "8810",
+                "locality": "Horgen",
+                "countryCode": "CH",
+                "latitude": 47.2603874206543,
+                "longitude": 8.584222793579102,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=T%C3%B6distrasse+46a+8810+Horgen&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/navignostics/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/navignostics/d11634e89d4a84451e3f7bb97acaee1b1dbd654d3f8dfe6bc482cc52cb4c76d0.png"
+        },
+        {
+            "name": "Reconnect Labs",
+            "slug": "reconnect-labs",
+            "kind": "startup",
+            "headline": "Therapeutics for brain and metabolic health",
+            "description": "Develops biopharmaceutical therapies for brain and metabolic disorders.",
+            "website": "https://reconnect-labs.com/",
+            "location": "Winterthur",
+            "office": "Reconnect Labs",
+            "sources": [
+                "https://reconnect-labs.com/",
+                "https://reconnect-labs.com/legal/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://reconnect-labs.com/assets/brand/reconnect-logo.png"
+            ],
+            "address": {
+                "line1": "Oberer Graben 12",
+                "postalCode": "8400",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49882888793945,
+                "longitude": 8.731316566467285,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Oberer+Graben+12+8400+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/reconnect-labs"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/reconnect-labs/f29ca414b2d550fdc963b60e8e04507dde33fdc535a30cfdcc0830b72488afe7.png"
+        },
+        {
+            "name": "Readney",
+            "slug": "readney",
+            "kind": "startup",
+            "headline": "Children's digital reading platform",
+            "description": "Develops a reading app and discovery platform for children's books.",
+            "website": "https://readney.com/",
+            "location": "Zürich",
+            "office": "Readney",
+            "sources": [
+                "https://readney.com/",
+                "https://readney.com/impressum/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://readney.com/wp-content/uploads/2022/01/cropped-Design-ohne-Titel-5.png"
+            ],
+            "address": {
+                "line1": "Toblerstrasse 14",
+                "postalCode": "8044",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.381893157958984,
+                "longitude": 8.55343246459961,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Toblerstrasse+14+8044+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/readney/6974f5e284718af4291041189ddf3c0e11171ef1bc25a1c805c95962a9a34896.png"
+        },
+        {
+            "name": "MGME Neurotech",
+            "slug": "mgme-neurotech",
+            "kind": "startup",
+            "headline": "Computational decision-behavior assessment",
+            "description": "Develops the EyeQ assessment platform using behavioral modelling and computational neurobiology to measure decision-making.",
+            "website": "https://mgme-neurotech.com/",
+            "location": "Zürich",
+            "office": "MGME Neurotech",
+            "sources": [
+                "https://mgme-neurotech.com/",
+                "https://mgme-neurotech.com/contact-us/",
+                "https://mgme-neurotech.com/legal-notice/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://mgme-neurotech.com/wp-content/uploads/2024/10/favicon.png"
+            ],
+            "address": {
+                "line1": "Freilagerstrasse 99",
+                "postalCode": "8047",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38003921508789,
+                "longitude": 8.487403869628906,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Freilagerstrasse+99+8047+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/mgme-neurotech/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/mgme-neurotech/25b4a8b1a6af304f9ce2ff06c9f5cce6218dd093f8b8e416435b7d3f0de6156a.png"
+        },
+        {
+            "name": "MUVON Therapeutics",
+            "slug": "muvon-therapeutics",
+            "kind": "startup",
+            "headline": "Muscle-regeneration cell therapies",
+            "description": "Develops cell therapies for skeletal-muscle regeneration, initially targeting stress urinary incontinence.",
+            "website": "https://www.muvon-therapeutics.com/",
+            "location": "Schlieren",
+            "office": "MUVON Therapeutics",
+            "sources": [
+                "https://www.muvon-therapeutics.com/",
+                "https://www.muvon-therapeutics.com/contact",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://static.wixstatic.com/media/2943bf_fa365fd980594cfb852bfbf00dc20374%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/2943bf_fa365fd980594cfb852bfbf00dc20374%7Emv2.png"
+            ],
+            "address": {
+                "line1": "Zürcherstrasse 39D",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.3990592956543,
+                "longitude": 8.452425956726074,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Z%C3%BCrcherstrasse+39D+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/muvon-therapeutics-ag"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/muvon-therapeutics/de9ec3abd6d6afb9ea4a1ff78b148062a8b1fb5bfc624ad287d9d9dd18cb36ab.png"
+        },
+        {
+            "name": "Leg&airy",
+            "slug": "leg-and-airy",
+            "kind": "startup",
+            "headline": "Sensor-equipped orthopedic devices",
+            "description": "Develops pressure-sensing orthopedic devices and software for measuring fit and supporting personalized orthotic care.",
+            "website": "https://legandairy.com/",
+            "location": "Zürich",
+            "office": "Leg&airy",
+            "sources": [
+                "https://legandairy.com/",
+                "https://legandairy.com/contact",
+                "https://legandairy.com/imprint",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://framerusercontent.com/images/Pw5wJICvB0Ic0gOfVMbs2jLCcc.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 1",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38977813720703,
+                "longitude": 8.516196250915527,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+1+8005+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/leg-and-airy/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/leg-and-airy/a79688f182ca7ac7daf52c57ac051c69fbd2d68cf3b945c1a53ffaed1d492b24.png"
+        },
+        {
+            "name": "OxyPrem",
+            "slug": "oxyprem",
+            "kind": "startup",
+            "headline": "Non-invasive tissue oxygen monitoring",
+            "description": "Develops optical devices for measuring tissue oxygenation, including newborn brain monitoring.",
+            "website": "https://www.oxyprem.com/",
+            "location": "Schlieren",
+            "office": "OxyPrem",
+            "sources": [
+                "https://www.oxyprem.com/",
+                "https://www.oxyprem.com/contact",
+                "https://www.oxyprem.com/imprint",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://static.wixstatic.com/media/1a6e95_7f79fa46de73457d88daa913012a81f0%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/1a6e95_7f79fa46de73457d88daa913012a81f0%7Emv2.png"
+            ],
+            "address": {
+                "line1": "Wiesenstrasse 10A",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.39990997314453,
+                "longitude": 8.443604469299316,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wiesenstrasse+10A+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://ch.linkedin.com/company/oxyprem"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/oxyprem/460cd787b773c0f5e3c0e59497be3e2d589ed52722b4ba2f2c5d09bd9e141e38.png"
+        },
+        {
+            "name": "Oncobit",
+            "slug": "oncobit",
+            "kind": "startup",
+            "headline": "Molecular cancer monitoring",
+            "description": "Develops molecular diagnostic and monitoring technologies for cancer care.",
+            "website": "https://oncobit.com/en/",
+            "location": "Schlieren",
+            "office": "Oncobit",
+            "sources": [
+                "https://oncobit.com/en/",
+                "https://oncobit.com/en/contact/",
+                "https://oncobit.com/en/imprint/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://oncobit.com/app/themes/oncobit/public/build/assets/apple-touch-icon-C59kqhEg.png"
+            ],
+            "address": {
+                "line1": "Rütistrasse 16",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.4006462097168,
+                "longitude": 8.451078414916992,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=R%C3%BCtistrasse+16+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/oncobit/efa998ecef987377b7570edab6f506b045a003f2a35066e6d5e44a9bad0edd4f.png"
+        },
+        {
+            "name": "ExoLabs",
+            "slug": "exolabs",
+            "kind": "company",
+            "headline": "Earth-observation analytics",
+            "description": "Develops satellite-data products and analytical tools, including snow-monitoring information through COSMOS.",
+            "website": "http://exolabs.ch",
+            "location": "Zürich",
+            "office": "ExoLabs",
+            "sources": [
+                "http://exolabs.ch",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "http://exolabs.ch/favicon.png?v=20261002"
+            ],
+            "address": {
+                "line1": "Schwandenholzstrasse 272",
+                "postalCode": "8046",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.424644470214844,
+                "longitude": 8.52043342590332,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Schwandenholzstrasse+272+8046+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/exolabs/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/exolabs/db55ee27b79c26b030f461b58cd9c21579b0b58b966d67d6bc833c1058bcbac6.png"
+        },
+        {
+            "name": "Vigilitech",
+            "slug": "vigilitech",
+            "kind": "company",
+            "headline": "Laboratory vital-sign monitoring",
+            "description": "Develops MARTA monitoring systems, sensors and software for preclinical research.",
+            "website": "https://www.vigilitech.com/",
+            "location": "Winterthur",
+            "office": "Vigilitech",
+            "sources": [
+                "https://www.vigilitech.com/",
+                "https://www.vigilitech.com/contact-us",
+                "https://www.vigilitech.com/legal-notice",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://static.wixstatic.com/media/2252f7_a7ea0ddbbf1e4586b3d2e5b6924a4c6b~mv2.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/vigilitech/23ca076792ebc200d7f7096ebd704a50a663c22626b1d968eb48ab897cf1abdb.png"
+        },
+        {
+            "name": "QuantActions",
+            "slug": "quantactions",
+            "kind": "company",
+            "headline": "Smartphone-based cognitive measurement",
+            "description": "Develops software that measures smartphone interaction behavior to derive cognitive-performance indicators.",
+            "website": "https://www.quantactions.com/",
+            "location": "Zürich",
+            "office": "QuantActions",
+            "sources": [
+                "https://www.quantactions.com/",
+                "https://www.quantactions.com/contact",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://cdn.prod.website-files.com/6610083a680732599bb1db44/66190b1d7c1d6cab3ba025dc_basic_logo_QA_round_256.png"
+            ],
+            "address": {
+                "line1": "Laternengasse 4",
+                "postalCode": "8001",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.36962127685547,
+                "longitude": 8.543838500976562,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Laternengasse+4+8001+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/quantactions/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/quantactions/952bec88b43ef8c277d691b9198a9ff20303e11f44958951c74ab1d6403cd796.png"
+        },
+        {
+            "name": "Mabylon",
+            "slug": "mabylon",
+            "kind": "company",
+            "headline": "Human-antibody therapeutics",
+            "description": "Develops human-antibody therapeutics for allergies and other diseases.",
+            "website": "https://www.mabylon.com/",
+            "location": "Schlieren",
+            "office": "Mabylon",
+            "sources": [
+                "https://www.mabylon.com/",
+                "https://www.mabylon.com/en/Contact.htm",
+                "https://www.mabylon.com/en/Legal-notice.htm",
+                "https://www.mabylon.com/Contact.htm",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://www.mabylon.com/view/mabylon.com/images/module/Design/logoNew.png?width=250&height=77.935694315005&transform=resize&background=ffffffff&imageTimestamp=1596704590&is_published=false&sec_srv=d284a838"
+            ],
+            "address": {
+                "line1": "Wagistrasse 14",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.39858627319336,
+                "longitude": 8.45822811126709,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wagistrasse+14+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/mabylon/921208e5d97d27562a682685fe1ad76794269c1aaa3e3915d2404d0bd98b1337.png"
+        },
+        {
+            "name": "Kugelmeiers",
+            "slug": "kugelmeiers",
+            "kind": "company",
+            "headline": "Cell-culture and cell-therapy technologies",
+            "description": "Develops technologies and laboratory products for cell aggregation, three-dimensional culture and cell-therapy workflows.",
+            "website": "https://www.kugelmeiers.com/",
+            "location": "Erlenbach",
+            "office": "Kugelmeiers",
+            "sources": [
+                "https://www.kugelmeiers.com/",
+                "https://www.kugelmeiers.com/contact/",
+                "https://www.kugelmeiers.com/?impressum=impressum",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://www.kugelmeiers.com/cm/wp-content/uploads/cropped-favicon-400x400.png"
+            ],
+            "address": {
+                "line1": "Bahnhofstrasse 40",
+                "postalCode": "8703",
+                "locality": "Erlenbach",
+                "countryCode": "CH",
+                "latitude": 47.30686569213867,
+                "longitude": 8.59044075012207,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Bahnhofstrasse+40+8703+Erlenbach&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://ch.linkedin.com/company/kugelmeiers"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/kugelmeiers/fd2240b0f7ca126182e7a86e84630fbf1510ac289ab2d3be2e36dcc4b8b22ca5.png"
+        },
+        {
+            "name": "mobile Health",
+            "slug": "mobile-health",
+            "kind": "company",
+            "headline": "Digital patient-reported outcome software",
+            "description": "Develops medidux, software for recording symptoms, wellbeing, vital signs and medication during cancer and chronic-disease care.",
+            "website": "https://mobilehealth.ch/",
+            "location": "Zürich",
+            "office": "mobile Health",
+            "sources": [
+                "https://mobilehealth.ch/",
+                "https://mobilehealth.ch/impressum/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://cdn-flmea.nitrocdn.com/vHGMEaxrvFbhAwWdJlsvSTJIgpmDXhGJ/assets/images/optimized/rev-efde22f/mobilehealth.ch/wp-content/uploads/2021/03/favicon-1.png"
+            ],
+            "address": {
+                "line1": "Mühlebachstrasse 43",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.36388397216797,
+                "longitude": 8.551895141601562,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=M%C3%BChlebachstrasse+43+8008+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://ch.linkedin.com/company/mobile-health-ag"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/mobile-health/baa211f53b4f696d3913081524645bfd3c65415650a4271210d9c69a6c71b1d7.png"
+        },
+        {
+            "name": "Supertext",
+            "slug": "supertext",
+            "kind": "company",
+            "headline": "Adaptive AI translation",
+            "description": "Develops adaptive AI translation technology and combines it with professional language services.",
+            "website": "https://www.supertext.com/de-CH",
+            "location": "Zürich",
+            "office": "Supertext",
+            "sources": [
+                "https://www.supertext.com/de-CH",
+                "https://www.supertext.com/de-CH/kontakt",
+                "https://www.supertext.com/de-CH/impressum",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://www.supertext.com/favicon.svg"
+            ],
+            "address": {
+                "line1": "Hardturmstrasse 253",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.3935546875,
+                "longitude": 8.508553504943848,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Hardturmstrasse+253+8005+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/supertext-group"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/supertext/79ab95ea02e4854f8595950759b5483ae925167700145e71b22d051212b77a28.png"
+        },
+        {
+            "name": "Virometix",
+            "slug": "virometix",
+            "kind": "company",
+            "headline": "Synthetic vaccine technology",
+            "description": "Develops synthetic vaccine technology and vaccine candidates.",
+            "website": "https://virometix.com/",
+            "location": "Schlieren",
+            "office": "Virometix",
+            "sources": [
+                "https://virometix.com/",
+                "https://virometix.com/contact/",
+                "https://virometix.com/impressum/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://virometix.com/wp-content/uploads/2024/01/Virometix-logo-color-positive_1.png"
+            ],
+            "address": {
+                "line1": "Wagistrasse 14",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.39858627319336,
+                "longitude": 8.45822811126709,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wagistrasse+14+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/virometix"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/virometix/cf4a42b5417d7ec75cad3eb651ec392e84dc31fd067069032d68f7e627c2721c.png"
+        },
+        {
+            "name": "Neurimmune",
+            "slug": "neurimmune",
+            "kind": "company",
+            "headline": "Human-antibody drug discovery",
+            "description": "Develops antibody therapeutics using reverse translational medicine and human immune-system research.",
+            "website": "https://neurimmune.com/",
+            "location": "Schlieren",
+            "office": "Neurimmune",
+            "sources": [
+                "https://neurimmune.com/",
+                "https://neurimmune.com/contact",
+                "https://neurimmune.com/legal-notice",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://neurimmune.com/#inline-header-logo"
+            ],
+            "address": {
+                "line1": "Wagistrasse 18",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.39897155761719,
+                "longitude": 8.458402633666992,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wagistrasse+18+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/neurimmune/",
+                "x": "https://twitter.com/neurimmune"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/neurimmune/5fb6cbe19d9b5eae31c5e4e6891ae18b8751d32856a804c70ad05bcfee81514d.png"
+        },
+        {
+            "name": "Molecular Partners",
+            "slug": "molecular-partners",
+            "kind": "company",
+            "headline": "Engineered DARPin therapeutics",
+            "description": "Develops protein therapeutics using its designed ankyrin repeat protein platform.",
+            "website": "https://www.molecularpartners.com/",
+            "location": "Schlieren",
+            "office": "Molecular Partners",
+            "sources": [
+                "https://www.molecularpartners.com/",
+                "https://www.molecularpartners.com/contact-us/",
+                "https://www.innovation.uzh.ch/de/stories/uzh-spinoffs-startups.html",
+                "https://www.molecularpartners.com/wp-content/uploads/cropped-Molecular_Partners_logo_point_512-192x192.png"
+            ],
+            "address": {
+                "line1": "Wagistrasse 14",
+                "postalCode": "8952",
+                "locality": "Schlieren",
+                "countryCode": "CH",
+                "latitude": 47.39858627319336,
+                "longitude": 8.45822811126709,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Wagistrasse+14+8952+Schlieren&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/molecular-partners-ag-zurich-switzerland/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/molecular-partners/4a754f7621f334bd9b97c6fce364115239f1745cead9654c913c82837f940a0b.png"
+        },
+        {
+            "name": "Enzian Pharmaceutics",
+            "slug": "enzian-pharmaceutics",
+            "kind": "startup",
+            "headline": "Engineered oral drug-delivery systems",
+            "description": "Develops gastroretentive oral dosage forms and a 3D-printing process for manufacturing controlled-release drug-delivery systems.",
+            "website": "https://enzianpharma.com/",
+            "location": "Zürich",
+            "office": "Enzian Pharmaceutics",
+            "sources": [
+                "https://enzianpharma.com/",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AZ%C3%BCrich&lang=en",
+                "https://enzianpharma.com/wp-content/uploads/2023/05/EnzianLogo.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 1",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38977813720703,
+                "longitude": 8.516196250915527,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+1+8005+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/enzian-pharmaceutics/6bd5c4ffc96aea1c681b1fce5c2df892f7dea82d9c26651036f03f8cbec2a7e7.png"
+        },
+        {
+            "name": "PHOENIQS",
+            "slug": "phoeniqs",
+            "kind": "company",
+            "headline": "Sovereign AI and cloud infrastructure",
+            "description": "Develops sovereign cloud and AI infrastructure.",
+            "website": "https://phoeniqs.com/en",
+            "location": "Zürich",
+            "office": "PHOENIQS",
+            "sources": [
+                "https://phoeniqs.com/en",
+                "https://phoeniqs.com/en/company/about-phoeniqs/contact",
+                "https://phoeniqs.com/en/imprint",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AZ%C3%BCrich&lang=en",
+                "https://phoeniqs.com/img/Phoeniqs_You_Tube_714415b815.png?q=eyJyZXNpemUiOnsid2lkdGgiOjE4MCwiaGVpZ2h0IjoxODAsImZpdCI6ImNvbnRhaW4ifX0="
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 1",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38977813720703,
+                "longitude": 8.516196250915527,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+1+8005+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/phoeniqs/a9e63ce463900678dbecc3ce0f2484952b24cdac63edda8c9f1179a4ad88c1ab.png"
+        },
+        {
+            "name": "SANDSIV",
+            "slug": "sandsiv",
+            "kind": "company",
+            "headline": "AI customer-feedback analytics",
+            "description": "Develops sandsiv+, software for collecting, analyzing and acting on customer feedback using AI.",
+            "website": "https://sandsiv.com/",
+            "location": "Zürich",
+            "office": "SANDSIV",
+            "sources": [
+                "https://sandsiv.com/",
+                "https://sandsiv.com/contact",
+                "https://sandsiv.com/impressum",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AZ%C3%BCrich&lang=en",
+                "https://sandsiv.com/favicon.svg"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 1",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38977813720703,
+                "longitude": 8.516196250915527,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+1+8005+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/sandsiv/",
+                "x": "https://x.com/sandsiv"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/sandsiv/b2ff26de3fb40749fc4b02bc2111c18585f9494fec0d9d37d3958f653b661043.png"
+        },
+        {
+            "name": "Steasy",
+            "slug": "steasy",
+            "kind": "startup",
+            "headline": "App-controlled portable steamers",
+            "description": "Develops Steasy, a portable food steamer with app-based control, engineered in Winterthur.",
+            "website": "https://steasy.ch/",
+            "location": "Winterthur",
+            "office": "Steasy",
+            "sources": [
+                "https://steasy.ch/",
+                "https://steasy.ch/pages/contact",
+                "https://steasy.ch/policies/legal-notice",
+                "https://www.zhaw.ch/de/engineering/entrepreneurship/unsere-start-ups",
+                "https://steasy.ch/cdn/shop/files/steasy_black_CMYK.png?v=1678118062&width=3543"
+            ],
+            "address": {
+                "line1": "Klosterstrasse 34",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.48701095581055,
+                "longitude": 8.706944465637207,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Klosterstrasse+34+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/nexenic"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/steasy/03084f44c637c1c3253003e30552bfd12a3aac0e4b5581ce8057b17c01406b62.png"
+        },
+        {
+            "name": "Earlybyte",
+            "slug": "earlybyte",
+            "kind": "company",
+            "headline": "Business automation software",
+            "description": "Develops business-process automation and software products including mReport, mScan and mTime.",
+            "website": "https://earlybyte.ch/",
+            "location": "Winterthur",
+            "office": "Earlybyte",
+            "sources": [
+                "https://earlybyte.ch/",
+                "https://earlybyte.ch/kontakt/",
+                "https://earlybyte.ch/impressum/",
+                "https://www.zhaw.ch/de/engineering/entrepreneurship/unsere-start-ups",
+                "https://earlybyte.ch/assets/favicons/apple-touch-icon.png"
+            ],
+            "address": {
+                "line1": "Tössuferweg 25",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.492313385009766,
+                "longitude": 8.703269958496094,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=T%C3%B6ssuferweg+25+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/earlybyte/3d0ccb6804d4977c7937c7bcb0c472e0a8553bac933415465cfebdf666e3587b.png"
+        },
+        {
+            "name": "KINASTIC",
+            "slug": "kinastic",
+            "kind": "company",
+            "headline": "Digital employee-health platform",
+            "description": "Develops a digital platform for workplace health programs and employee wellbeing.",
+            "website": "https://www.kinastic.com/",
+            "location": "Zürich",
+            "office": "KINASTIC",
+            "sources": [
+                "https://www.kinastic.com/",
+                "https://www.kinastic.com/kontakt",
+                "https://www.kinastic.com/kontakt-demo",
+                "https://www.zhaw.ch/de/engineering/entrepreneurship/unsere-start-ups",
+                "https://cdn.prod.website-files.com/63e5bfc244043007ddd1a85e/63f6fc3c01cd2e77702387fd_ICO%402x.png"
+            ],
+            "address": {
+                "line1": "Badenerstrasse 47",
+                "postalCode": "8004",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.37317657470703,
+                "longitude": 8.528548240661621,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Badenerstrasse+47+8004+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/kinastic/792e56bf153ba2c3bb0a6ab643503db03947e116df6e79319ce668a0bd46d94b.png"
+        },
+        {
+            "name": "Joylab",
+            "slug": "joylab",
+            "kind": "company",
+            "headline": "Electronics, firmware and robotics engineering",
+            "description": "Engineers electronics, firmware and mechanical systems for robotics, sensing and medical devices, from development through industrialization.",
+            "website": "https://www.joylab.ch/",
+            "location": "Zürich",
+            "office": "Joylab",
+            "sources": [
+                "https://www.joylab.ch/",
+                "https://www.joylab.ch/en/impressum",
+                "https://www.zhaw.ch/de/engineering/entrepreneurship/unsere-start-ups",
+                "https://static.wixstatic.com/media/cbfd5c_4efb248b5e28415793b10e2fce731615%7Emv2.jpg/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/cbfd5c_4efb248b5e28415793b10e2fce731615%7Emv2.jpg"
+            ],
+            "address": {
+                "line1": "Flüelastrasse 30",
+                "postalCode": "8047",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38208770751953,
+                "longitude": 8.494531631469727,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Fl%C3%BCelastrasse+30+8047+Z%C3%BCrich&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://ch.linkedin.com/company/joylab-ag"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/joylab/cb77ebb4d7a105f45a858869c963f5d953fdbd120bfecdc6d27c5665239c3427.png"
+        },
+        {
+            "name": "cross-works",
+            "slug": "cross-works",
+            "kind": "company",
+            "headline": "Business and document-management software",
+            "description": "Develops business applications and document-management solutions for SMEs, schools and public administrations.",
+            "website": "https://cross-works.net/",
+            "location": "Winterthur",
+            "office": "cross-works",
+            "sources": [
+                "https://cross-works.net/",
+                "https://cross-works.net/kontakt-cw/",
+                "https://cross-works.net/impressum/",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AWinterthur&rows=1000",
+                "https://cross-works.net/wp-content/uploads/2016/01/cropped-4x4-Icon144-white-192x192.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/cross-works-ag/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/cross-works/f79e381cbf40326b12eb2a3130e780d20bf04cab5d9cb0477ad5002da4a1d7a8.png"
+        },
+        {
+            "name": "Crosswind",
+            "slug": "crosswind",
+            "kind": "company",
+            "headline": "Geospatial data integration and analytics",
+            "description": "Develops geocoding, geographic-data integration and location-analysis software, including its Geobase platform.",
+            "website": "https://crosswind.ch/",
+            "location": "Winterthur",
+            "office": "Crosswind",
+            "sources": [
+                "https://crosswind.ch/",
+                "https://crosswind.ch/kontakt/",
+                "https://crosswind.ch/impressum/",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AWinterthur&rows=1000",
+                "https://crosswind.ch/wp-content/uploads/2023/07/Xwd_Globe_Color_100dpi-1.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/crosswind-gmbh/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/crosswind/d1091d3e6e4648657dfecc3c69c8e08a83f69c8d775e62beff0f80bb2f5e2448.png"
+        },
+        {
+            "name": "LIBAL Schweiz",
+            "slug": "libal-schweiz",
+            "kind": "company",
+            "headline": "Building-information management software",
+            "description": "Develops software for organizing and using building knowledge and documentation throughout property operations.",
+            "website": "http://www.libal-tech.ch",
+            "location": "Winterthur",
+            "office": "LIBAL Schweiz",
+            "sources": [
+                "http://www.libal-tech.ch",
+                "http://www.libal-tech.ch/kontakt.html",
+                "http://www.libal-tech.ch/impressum.html",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AWinterthur&rows=1000",
+                "http://www.libal-tech.ch/assets/img/favicon.svg"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/libal-schweiz/2f45c8b4bdbb8616a5e2d02bbe9a5ac304d9f6da16d4198c880c3bf60ffbb9bb.png"
+        },
+        {
+            "name": "Promix Solutions",
+            "slug": "promix-solutions",
+            "kind": "company",
+            "headline": "Industrial mixing and foam-extrusion systems",
+            "description": "Develops mixing, gas-dosing, foam-extrusion and melt-cooling systems for industrial processing.",
+            "website": "https://www.promix-solutions.com/de/",
+            "location": "Winterthur",
+            "office": "Promix Solutions",
+            "sources": [
+                "https://www.promix-solutions.com/de/",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AWinterthur&rows=1000",
+                "https://www.promix-solutions.com/files/data/graphics/favicon/apple-touch-icon.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/promix-solutions-ag/"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/promix-solutions/a5b05015ff7dc2489e93895b357dd3a9a875e402ddd14159394c1fafed35d275.png"
+        },
+        {
+            "name": "reamis",
+            "slug": "reamis",
+            "kind": "company",
+            "headline": "Real-estate asset-management software",
+            "description": "Develops software for real-estate asset and portfolio management, with its development team in Winterthur.",
+            "website": "https://www.reamis.com/",
+            "location": "Winterthur",
+            "office": "reamis",
+            "sources": [
+                "https://www.reamis.com/",
+                "https://www.reamis.com/impressum",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AWinterthur&rows=1000",
+                "https://cdn.prod.website-files.com/61f16c754ecf26eab92441eb/620cbf2b0102bcddc6b0b319_favicon-gross.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://ch.linkedin.com/company/reamis-ag"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/reamis/a10ec88d50de8fd4027d2af716b1029f7872163c0d0dcf33fe35b85ce560530d.png"
+        },
+        {
+            "name": "RSB Mechatronik",
+            "slug": "rsb-mechatronik",
+            "kind": "company",
+            "headline": "Mechatronic machines and control software",
+            "description": "Develops prototypes, production machines, industrial equipment and reusable control-software components.",
+            "website": "https://www.rsb-mechatronik.ch/",
+            "location": "Winterthur",
+            "office": "RSB Mechatronik",
+            "sources": [
+                "https://www.rsb-mechatronik.ch/",
+                "https://www.rsb-mechatronik.ch/kontakt/",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AWinterthur&rows=1000",
+                "https://www.rsb-mechatronik.ch/wordpress/wp-content/uploads/2018/01/RSB_Logo_Header_Homepage_82px.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/rsb-mechatronik/b5cea7a9dc3c296a36b142433c33641ef3733c33dc9140f091e20ad83872e83d.png"
+        },
+        {
+            "name": "smoca",
+            "slug": "smoca",
+            "kind": "company",
+            "headline": "Mobile, embedded and sensor software",
+            "description": "Develops mobile applications, backend systems and embedded software, alongside sensor and scanning products.",
+            "website": "https://www.smoca.ch/",
+            "location": "Winterthur",
+            "office": "smoca",
+            "sources": [
+                "https://www.smoca.ch/",
+                "https://www.smoca.ch/kontakt",
+                "https://www.smoca.ch/impressum",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AWinterthur&rows=1000",
+                "https://www.smoca.ch/apple-touch-icon.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/smoca-ag"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/smoca/fa191ecdb421017f9699d7fa66e7471f9ab6dd5a2bf3e4f5df8869870f32feee.png"
+        },
+        {
+            "name": "Sotronik",
+            "slug": "sotronik",
+            "kind": "company",
+            "headline": "Industrial test systems and embedded software",
+            "description": "Develops test stands, measurement systems, electronics and firmware using technologies including LabVIEW and embedded control.",
+            "website": "https://www.sotronik.ch/",
+            "location": "Winterthur",
+            "office": "Sotronik",
+            "sources": [
+                "https://www.sotronik.ch/",
+                "https://www.sotronik.ch/kontakt.html",
+                "https://www.sotronik.ch/impressum.html",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AWinterthur&rows=1000",
+                "https://www.sotronik.ch/files/assets/favicons/apple-touch-icon.png"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/sotronik/e6160de5a12d5c25d7df257cf36a61f862a3ef5fdf091fee09221d700a420a1b.png"
+        },
+        {
+            "name": "TOELT",
+            "slug": "toelt",
+            "kind": "company",
+            "headline": "Scientific machine learning and computer vision",
+            "description": "Develops AI technologies for scientific modelling, computer vision, photonics, food and medical applications.",
+            "website": "https://www.toelt-ailab.com/",
+            "location": "Winterthur",
+            "office": "TOELT",
+            "sources": [
+                "https://www.toelt-ailab.com/",
+                "https://www.toelt-ailab.com/contact",
+                "https://search.technopark-allianz.ch/companies?f.technopark=technopark%3AWinterthur&rows=1000",
+                "https://images.squarespace-cdn.com/content/v1/65586a28d0d9246e85df8d8b/4a692f5d-c41c-4a69-9d03-2d01d21a5f8b/logo_combined.png?format=1500w"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 2",
+                "postalCode": "8406",
+                "locality": "Winterthur",
+                "countryCode": "CH",
+                "latitude": 47.49467468261719,
+                "longitude": 8.716793060302734,
+                "source": "https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=Technoparkstrasse+2+8406+Winterthur&limit=3&type=locations&origins=address"
+            },
+            "mapLogoUrl": "https://media.zurich.tech/organisations/toelt/f7aee60ee3bff5a3be01ca5dc33ee782fd5c002f074c4cd3db482b35fd659e65.png"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "apply": false,
+    "organisations": [
+        {
+            "slug": "redalpine",
+            "website": "https://www.redalpine.com/",
+            "source": "https://static.wixstatic.com/media/e621ba_d3c8b78726564d2eb036b2d2b7996c4a%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/e621ba_d3c8b78726564d2eb036b2d2b7996c4a%7Emv2.png",
+            "mapLogoUrl": "https://media.zurich.tech/organisations/redalpine/25ab35cf6d20c8a88314ca75d0bf662ed30664589363eda5c69f461b94fdf493.png"
+        }
+    ]
+}
