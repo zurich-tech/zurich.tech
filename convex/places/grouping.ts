@@ -1,4 +1,5 @@
 import type { OrganisationKind } from "../organisations/kinds";
+import type { readProfiles } from "../members/links";
 
 /** Public organisation identity at a geographic address. */
 export interface LocatedOrganisation {
@@ -6,6 +7,10 @@ export interface LocatedOrganisation {
     name: string;
     kind: OrganisationKind;
     slug: string;
+    /** The organisation's public website. */
+    website?: string;
+    /** Public social profiles shared by every location of the organisation. */
+    socials?: Awaited<ReturnType<typeof readProfiles>>["socials"];
     location: string;
     logoUrl?: string;
     logoDarkUrl?: string;

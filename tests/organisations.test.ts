@@ -18,6 +18,8 @@ test("test_read_one_organisation_with_only_public_locations", async () => {
             line1: "Public street",
             locality: "Zurich",
             countryCode: "CH",
+            latitude: 47.37,
+            longitude: 8.54,
             createdAt: 1,
             updatedAt: 1,
         });
@@ -33,12 +35,38 @@ test("test_read_one_organisation_with_only_public_locations", async () => {
             name: "Private office",
             visibility: "private",
         });
+        for (const visibility of ["public", "private"] as const) {
+            await ctx.db.insert("links", {
+                ownerId: organisation,
+                kind: visibility === "public" ? "github" : "linkedin",
+                url:
+                    visibility === "public"
+                        ? "https://github.com/example"
+                        : "https://linkedin.com/company/private",
+                visibility,
+                position: 0,
+                createdAt: 1,
+                updatedAt: 1,
+            });
+        }
     });
     const directory = await backend.query(api.organisations.queries.directory, {});
     const organisation = await backend.query(api.organisations.queries.detail, { slug: "example" });
     expect(organisation).toEqual(directory.organisations[0]);
     expect(organisation!.locations.map((location) => location.name)).toEqual(["Office"]);
     expect(await backend.query(api.organisations.queries.detail, { slug: "missing" })).toBeNull();
+
+    // publish only public destinations and locations on the map
+    const markers = await backend.query(api.places.map.map, {});
+    expect(
+        markers.map(({ website, socials, location }) => ({ website, socials, location })),
+    ).toEqual([
+        {
+            website: "https://example.org",
+            socials: { github: "https://github.com/example" },
+            location: "Office",
+        },
+    ]);
 });
 
 test("test_read_public_series_without_organisation_records", async () => {

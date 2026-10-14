@@ -423,6 +423,67 @@
     object-fit: contain;
 }
 
+/* hover previews */
+.community-map .map-preview {
+    z-index: 5;
+    width: 320px;
+    font: var(--text-sm) / 1.5 var(--font-text);
+    color: var(--color-ink);
+}
+
+.map-preview .maplibregl-popup-content {
+    padding: 0;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    background: var(--color-paper);
+    box-shadow: 0 4px 20px #172b4926;
+    overflow: auto;
+    max-height: min(360px, calc(100dvh - 140px));
+}
+
+.map-preview:is(
+        .maplibregl-popup-anchor-bottom,
+        .maplibregl-popup-anchor-bottom-left,
+        .maplibregl-popup-anchor-bottom-right
+    )
+    .maplibregl-popup-tip {
+    border-top-color: var(--color-paper);
+}
+
+.map-preview:is(
+        .maplibregl-popup-anchor-top,
+        .maplibregl-popup-anchor-top-left,
+        .maplibregl-popup-anchor-top-right
+    )
+    .maplibregl-popup-tip {
+    border-bottom-color: var(--color-paper);
+}
+
+.map-preview.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+    border-right-color: var(--color-paper);
+}
+
+.map-preview.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+    border-left-color: var(--color-paper);
+}
+
+.map-preview .map-place {
+    padding: 0 16px;
+}
+
+.map-preview .map-place__address {
+    margin: 12px 0;
+    font-size: var(--text-xs);
+}
+
+.map-preview .map-person {
+    padding: 12px 0;
+}
+
+.map-preview .map-person strong {
+    font-weight: 600;
+}
+
 /* selected place details */
 .map-back {
     margin: var(--space-2) var(--space-5);
@@ -441,23 +502,35 @@
 }
 
 .map-person {
+    border-top: var(--rule) solid var(--color-line);
+    padding: var(--space-4) 0;
+}
+
+.map-person__link {
     display: flex;
     align-items: flex-start;
     gap: var(--space-3);
-    border-top: var(--rule) solid var(--color-line);
-    padding: var(--space-4) 0;
     transition: color var(--fast) var(--ease);
 }
 
-.map-person:hover {
+.map-person__link:hover {
     color: var(--color-accent);
 }
 
-.map-person > span:nth-child(2) {
+.map-person__link > span:nth-child(2) {
     display: grid;
     min-width: 0;
     flex: 1;
     gap: var(--space-1);
+}
+
+.map-person__link > svg {
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.map-person .social-links {
+    margin: var(--space-1) 0 0 calc(32px + var(--space-3) - 8px);
 }
 
 .map-person small {

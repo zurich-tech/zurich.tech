@@ -4,7 +4,33 @@ import { groupLocations, type LocatedOrganisation } from "../convex/places/group
 import { arrangeLogos, honeycomb } from "../src/map/placement";
 import { addBadges, showOrganisations } from "../src/map/layers";
 import { cornerColour } from "../src/map/colour";
+import { isPreviewPath } from "../src/map/hover";
 import type { Map as GeographicMap } from "maplibre-gl";
+
+test("test_protect_diagonal_preview_approaches_in_every_direction", () => {
+    const card = { left: 100, right: 300, top: 100, bottom: 200 };
+    for (const origin of [
+        { x: 200, y: 250 },
+        { x: 200, y: 50 },
+        { x: 50, y: 150 },
+        { x: 350, y: 150 },
+    ]) {
+        for (const destination of [
+            { x: 100, y: 100 },
+            { x: 300, y: 200 },
+        ]) {
+            for (let step = 0; step <= 10; step++) {
+                const point = {
+                    x: origin.x + ((destination.x - origin.x) * step) / 10,
+                    y: origin.y + ((destination.y - origin.y) * step) / 10,
+                };
+                expect(isPreviewPath(point, origin, card)).toBe(true);
+            }
+        }
+        expect(isPreviewPath({ x: 0, y: 0 }, origin, card)).toBe(false);
+        expect(isPreviewPath({ x: 400, y: 300 }, origin, card)).toBe(false);
+    }
+});
 
 test("test_match_solid_logo_backgrounds_without_recolouring_transparent_or_varied_artwork", () => {
     const sample = (colours: number[][]) =>

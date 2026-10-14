@@ -4,6 +4,8 @@ import {
     X,
     Plus,
     ArrowLeft,
+    ArrowUpRight,
+    ArrowRight,
     ChevronDown,
     ZoomIn,
     ZoomOut,
@@ -12,16 +14,18 @@ import {
 import { organisationKinds } from "../../convex/organisations/kinds";
 import { createEffect, createMemo, createSignal, onMount, onCleanup, Show, For } from "solid-js";
 import { Dynamic, render } from "solid-js/web";
-import type { Map as GeographicMap, Marker, StyleSpecification } from "maplibre-gl";
+import type { Map as GeographicMap, Marker, Popup, StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { getMap, type MapLocation } from "./queries";
 import { Image } from "../components/image";
+import { SocialLinks } from "../components/social";
 import { useSearch } from "../search/local";
 import { filterLocations } from "./filter";
 import { Highlight } from "../components/highlight";
 import { arrangeLogos } from "./placement";
 import { logoBackground } from "./colour";
+import { isPreviewPath, type Point } from "./hover";
 import {
     addBadges,
     addOrganisationLayers,
@@ -110,7 +114,11 @@ export function CommunityMap(props: {
     isDecorative?: boolean;
 }) {
     const organisations = getMap.use(() => (props.isDecorative ? undefined : []));
-    const [instance, setInstance] = createSignal<{ map: GeographicMap; Marker: typeof Marker }>();
+    const [instance, setInstance] = createSignal<{
+        map: GeographicMap;
+        Marker: typeof Marker;
+        Popup: typeof Popup;
+    }>();
     const [zoom, setZoom] = createSignal(12);
     const [error, setError] = createSignal(false);
     const { query: search, setQuery: setSearch, terms } = useSearch();
@@ -166,6 +174,137 @@ export function CommunityMap(props: {
     let container!: HTMLDivElement;
     let isDisposed = false;
     let backButton: HTMLButtonElement | undefined;
+    let preview: Popup | undefined;
+    let disposePreview: (() => void) | undefined;
+    let previewTimer: ReturnType<typeof setTimeout> | undefined;
+    let previewKey: string | undefined;
+    let previewOrigin: Point | undefined;
+    let pointer: Point | undefined;
+
+    /** Protect slow and diagonal movement from the marker to the card. */
+    function isApproachingPreview() {
+        const card = preview?.getElement().querySelector(".maplibregl-popup-content");
+
+        return Boolean(
+            card &&
+            pointer &&
+            previewOrigin &&
+            isPreviewPath(pointer, previewOrigin, card.getBoundingClientRect()),
+        );
+    }
+
+    /** Cancel a pending preview transition. */
+    function keepPreview() {
+        clearTimeout(previewTimer);
+    }
+
+    /** Remove the preview and its mounted content together. */
+    function closePreview() {
+        keepPreview();
+        preview?.remove();
+        disposePreview?.();
+        preview = undefined;
+        disposePreview = undefined;
+        previewKey = undefined;
+        previewOrigin = undefined;
+        setHovered([]);
+    }
+
+    /** Allow the pointer to cross the gap between a marker and its preview. */
+    function leavePreview() {
+        if (!preview) closePreview();
+        else {
+            keepPreview();
+            previewTimer = setTimeout(() => {
+                const element = preview?.getElement();
+                if (
+                    isApproachingPreview() ||
+                    element?.matches(":hover") ||
+                    element?.contains(document.activeElement)
+                )
+                    return;
+                closePreview();
+            }, 250);
+        }
+    }
+
+    /** Preview a marker without selecting it or moving keyboard focus. */
+    function showPreview(places: MapLocation[], point: [number, number], isKeyboard = false) {
+        const current = instance();
+        if (props.isHero || !current || current.map.isMoving()) return;
+        const key = places
+            .map((place) => `${place.id}:${place.organisations.map((item) => item.id).join(",")}`)
+            .join(";");
+        if (key === previewKey) {
+            if (preview) keepPreview();
+            return;
+        }
+        if (!isKeyboard && isApproachingPreview()) return;
+        closePreview();
+        previewKey = key;
+        const bounds = container.getBoundingClientRect();
+        previewOrigin = { x: bounds.left + point[0], y: bounds.top + point[1] };
+        setHovered([places[0].organisations[0].id]);
+
+        // anchor to the displayed marker, including displaced logos and shared-address badges
+        const position = current.map.unproject(point);
+        previewTimer = setTimeout(
+            () => {
+                const element = document.createElement("div");
+                disposePreview = render(
+                    () => (
+                        <div
+                            role="region"
+                            aria-label="Organisation preview"
+                            onPointerEnter={keepPreview}
+                            onPointerLeave={leavePreview}
+                            onFocusIn={keepPreview}
+                            onFocusOut={(event) => {
+                                if (
+                                    !event.currentTarget.contains(
+                                        event.relatedTarget as Node | null,
+                                    )
+                                )
+                                    leavePreview();
+                            }}
+                        >
+                            <PlaceDetails places={places} />
+                        </div>
+                    ),
+                    element,
+                );
+                preview = new current.Popup({
+                    closeButton: false,
+                    closeOnClick: false,
+                    focusAfterOpen: false,
+                    offset: 18,
+                    maxWidth: "min(320px, calc(100vw - 32px))",
+                    className: "map-preview",
+                })
+                    .setLngLat(position)
+                    .setDOMContent(element)
+                    .addTo(current.map);
+            },
+            isKeyboard ? 0 : 180,
+        );
+    }
+
+    /** Locate a keyboard or pointer-targeted logo within the map viewport. */
+    function previewLogo(places: MapLocation[], element: HTMLElement, isKeyboard = false) {
+        const marker = element.getBoundingClientRect();
+        const map = container.getBoundingClientRect();
+        showPreview(
+            places,
+            [marker.x + marker.width / 2 - map.x, marker.y + marker.height / 2 - map.y],
+            isKeyboard,
+        );
+    }
+
+    // discard previews whose contents no longer match the active filters
+    createEffect(() => {
+        filtered();
+        closePreview();
+    });
 
     /** Return keyboard focus to the map after dismissing location details. */
     function closeDetails() {
@@ -190,6 +329,7 @@ export function CommunityMap(props: {
 
     /** Keep selection shared between the markers and the directory. */
     function select(places: MapLocation[]) {
+        closePreview();
         setPanelOpen(true);
         setSelectedOrganisation(
             places.length === 1 && places[0].organisations.length === 1
@@ -235,7 +375,35 @@ export function CommunityMap(props: {
     // Load WebGL only in the browser and dispose it when navigating away.
     onMount(() => {
         let map: GeographicMap | undefined;
+        // dismiss mouse previews even when keyboard focus is outside the map
+        const dismissPreview = (event: KeyboardEvent) => {
+            if (event.key !== "Escape" || !previewKey) return;
+            event.stopPropagation();
+            if (preview?.getElement().contains(document.activeElement)) {
+                map?.getCanvas().focus({ preventScroll: true });
+            }
+            closePreview();
+        };
+        window.addEventListener("keydown", dismissPreview, true);
+        // capture movement before markers can replace a preview along the approach
+        const trackPointer = (event: PointerEvent) => {
+            if (event.pointerType !== "mouse") return;
+            pointer = { x: event.clientX, y: event.clientY };
+            if (!preview) return;
+            if (isApproachingPreview()) keepPreview();
+            else leavePreview();
+        };
+        window.addEventListener("pointermove", trackPointer, true);
+        // discard stale coordinates when the pointer leaves the browser window
+        const leaveWindow = (event: PointerEvent) => {
+            if (event.relatedTarget !== null) return;
+            pointer = undefined;
+            leavePreview();
+        };
+        window.addEventListener("pointerout", leaveWindow);
+        window.addEventListener("blur", closePreview);
         const observer = new ResizeObserver(() => {
+            closePreview();
             map?.resize();
             if (props.isHero) frame();
             else if (selectedPlaces()[0]) focusLocation(selectedPlaces()[0], 0);
@@ -244,6 +412,11 @@ export function CommunityMap(props: {
         observer.observe(container);
         onCleanup(() => {
             isDisposed = true;
+            window.removeEventListener("keydown", dismissPreview, true);
+            window.removeEventListener("pointermove", trackPointer, true);
+            window.removeEventListener("pointerout", leaveWindow);
+            window.removeEventListener("blur", closePreview);
+            closePreview();
             observer.disconnect();
             map?.remove();
         });
@@ -270,6 +443,7 @@ export function CommunityMap(props: {
                 map.getCanvas().setAttribute("aria-label", "Zurich map");
                 if (props.isHero) map.getCanvas().tabIndex = -1;
                 map.on("moveend", () => setView((value) => value + 1));
+                map.on("movestart", closePreview);
                 map.on("zoom", () => setZoom(map!.getZoom()));
                 map.on("error", () => setError(true));
                 map.on("idle", () => {
@@ -277,7 +451,7 @@ export function CommunityMap(props: {
                 });
                 map.on("load", () => {
                     addOrganisationLayers(map!, !props.isHero);
-                    setInstance({ map: map!, Marker: library.Marker });
+                    setInstance({ map: map!, Marker: library.Marker, Popup: library.Popup });
                     frame();
                 });
                 if (!props.isHero) {
@@ -292,12 +466,29 @@ export function CommunityMap(props: {
                         if (place && person) select([place]);
                     });
                     map.on("mousemove", ["organisations", "organisation-dots"], (event) => {
+                        if (!window.matchMedia("(any-hover: hover)").matches || map!.isMoving())
+                            return;
                         map!.getCanvas().style.cursor = "pointer";
-                        setHovered([event.features?.[0]?.properties.id]);
+                        const feature = event.features?.[0];
+                        const place = filtered().find(
+                            (entry) => entry.id === feature?.properties.place,
+                        );
+                        if (place) {
+                            const people =
+                                map!.getZoom() <= 12
+                                    ? place.organisations
+                                    : place.organisations.filter(
+                                          (person) => person.id === feature?.properties.id,
+                                      );
+                            showPreview(
+                                [{ ...place, organisations: people }],
+                                [event.point.x, event.point.y],
+                            );
+                        }
                     });
                     map.on("mouseleave", ["organisations", "organisation-dots"], () => {
                         map!.getCanvas().style.cursor = "";
-                        setHovered([]);
+                        leavePreview();
                     });
                 }
             })
@@ -351,17 +542,25 @@ export function CommunityMap(props: {
                             "--map-logo-size": `${size - 4}px`,
                         }}
                         aria-label={`${first.name} — ${anchor.address}`}
-                        title={first.name}
+                        title={props.isHero ? first.name : undefined}
                         aria-pressed={
                             props.isHero
                                 ? undefined
                                 : places.some((place) => selected().includes(place.id)) &&
                                   (!selectedOrganisation() || selectedOrganisation() === first.id)
                         }
-                        onPointerEnter={() => setHovered([first.id])}
-                        onPointerLeave={() => setHovered([])}
-                        onFocus={() => setHovered([first.id])}
-                        onBlur={() => setHovered([])}
+                        onPointerEnter={(event: PointerEvent & { currentTarget: HTMLElement }) => {
+                            if (props.isHero) setHovered([first.id]);
+                            else if (event.pointerType === "mouse")
+                                previewLogo(places, event.currentTarget);
+                        }}
+                        onPointerLeave={leavePreview}
+                        onFocus={(event: FocusEvent & { currentTarget: HTMLElement }) => {
+                            if (props.isHero) setHovered([first.id]);
+                            else if (event.currentTarget.matches(":focus-visible"))
+                                previewLogo(places, event.currentTarget, true);
+                        }}
+                        onBlur={leavePreview}
                         onClick={() => {
                             if (!props.isHero) select(places);
                         }}
@@ -774,33 +973,60 @@ function PlaceDetails(detail: { places: MapLocation[] }) {
                     <p class="map-place__address">{place.address}</p>
                     <For each={place.organisations}>
                         {(organisation) => (
-                            <a class="map-person" href={`/organisations/${organisation.slug}`}>
-                                <span class="map-person__logo">
-                                    <Show
-                                        when={organisation.mapLogoUrl ?? organisation.logoUrl}
-                                        fallback={organisation.name.slice(0, 1)}
-                                    >
-                                        {(source) => (
-                                            <Image
-                                                src={source()}
-                                                darkSrc={organisation.mapLogoDarkUrl}
-                                                alt=""
-                                            />
-                                        )}
-                                    </Show>
-                                </span>
-                                <span>
-                                    <strong>{organisation.name}</strong>
-                                    <small>{organisationKinds[organisation.kind]}</small>
-                                    <Show when={organisation.recognition}>
-                                        <small>{organisation.recognition}</small>
-                                    </Show>
-                                    <Show when={organisation.headline}>
-                                        <span>{organisation.headline}</span>
-                                    </Show>
-                                </span>
-                                <span aria-hidden="true">↗</span>
-                            </a>
+                            <div class="map-person">
+                                <a
+                                    class="map-person__link"
+                                    href={
+                                        organisation.website ||
+                                        `/organisations/${organisation.slug}`
+                                    }
+                                    target={organisation.website ? "_blank" : undefined}
+                                    rel={organisation.website ? "noopener noreferrer" : undefined}
+                                    title={
+                                        organisation.website
+                                            ? "Visit website (opens in a new tab)"
+                                            : "View organisation"
+                                    }
+                                >
+                                    <span class="map-person__logo">
+                                        <Show
+                                            when={organisation.mapLogoUrl ?? organisation.logoUrl}
+                                            fallback={organisation.name.slice(0, 1)}
+                                        >
+                                            {(source) => (
+                                                <Image
+                                                    src={source()}
+                                                    darkSrc={organisation.mapLogoDarkUrl}
+                                                    alt=""
+                                                />
+                                            )}
+                                        </Show>
+                                    </span>
+                                    <span>
+                                        <strong>{organisation.name}</strong>
+                                        <small>{organisationKinds[organisation.kind]}</small>
+                                        <Show when={organisation.recognition}>
+                                            <small>{organisation.recognition}</small>
+                                        </Show>
+                                        <Show when={organisation.headline}>
+                                            <span>{organisation.headline}</span>
+                                        </Show>
+                                    </span>
+                                    <Dynamic
+                                        component={organisation.website ? ArrowUpRight : ArrowRight}
+                                        size={16}
+                                        aria-hidden="true"
+                                    />
+                                </a>
+                                <Show when={organisation.socials}>
+                                    {(socials) => (
+                                        <SocialLinks
+                                            name={organisation.name}
+                                            profiles={socials()}
+                                        />
+                                    )}
+                                </Show>
+                            </div>
                         )}
                     </For>
                 </section>

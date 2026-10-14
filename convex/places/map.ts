@@ -1,6 +1,7 @@
 import { query } from "../_generated/server";
 
 import { activeSponsors } from "../sponsorships/organisations";
+import { readProfiles } from "../members/links";
 
 /** Every public organisation location, with hosts and current sponsors highlighted. */
 export const map = query({
@@ -24,6 +25,8 @@ export const map = query({
                     address.longitude === undefined
                 )
                     return null;
+                const { socials } = await readProfiles(ctx, organisation._id);
+
                 return {
                     id: organisation._id,
                     address: {
@@ -36,6 +39,8 @@ export const map = query({
                     kind: organisation.kind,
                     location: location.name,
                     slug: organisation.slug,
+                    website: organisation.website,
+                    socials,
                     logoUrl: organisation.logoUrl,
                     logoDarkUrl: organisation.logoDarkUrl,
                     mapLogoUrl: organisation.mapLogoUrl,
