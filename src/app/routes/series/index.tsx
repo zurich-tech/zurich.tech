@@ -40,6 +40,7 @@ export default function Route() {
 
         return (series() ?? [])
             .map((item) => ({ item, activity: activity.get(item._id) }))
+            .filter(({ item, activity }) => item.status !== "archived" || activity !== undefined)
             .sort(
                 (left, right) =>
                     (left.activity?.next?.startsAt ?? Infinity) -
