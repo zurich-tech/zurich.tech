@@ -1,5 +1,9 @@
 {
     "date": "2026-10-14",
+    "historicalSnapshot": true,
+    "snapshotNote": "Preserved 508-organisation historical checkpoint, not current production counts. See work/organisations/closeout.json for the final timestamped bounded-batch audit; no exhaustive ecosystem completion is claimed.",
+    "currentCheckpoint": "work/organisations/closeout.json",
+    "finalCountsPending": false,
     "production": {
         "organisations": 508,
         "mapped": 506,

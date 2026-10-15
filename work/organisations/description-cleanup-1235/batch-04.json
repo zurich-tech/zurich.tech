@@ -1,0 +1,605 @@
+{
+  "apply": false,
+  "organisations": [
+    {
+      "id": "p174zweartf4bvygjc2d4tvyk98g9cez",
+      "slug": "abrantix",
+      "expectedDescription": "Develops payment platforms, transaction reconciliation software and automated payment-terminal testing technology.",
+      "description": "Develops payment platforms, transaction reconciliation software and automated payment-terminal testing technology"
+    },
+    {
+      "id": "p17cs8ffy1hrrbfhmhc81521x98g9sxp",
+      "slug": "fleco-power",
+      "expectedDescription": "Aggregates distributed generators, batteries and heat pumps into a virtual power plant that participates in Swiss electricity and balancing-energy markets.",
+      "description": "Aggregates distributed generators, batteries and heat pumps into a virtual power plant that participates in Swiss electricity and balancing-energy markets"
+    },
+    {
+      "id": "p177n3v8841mq33kxrbeyh9mnx8g8vfc",
+      "slug": "swiss-robotics-advanced-technologies",
+      "expectedDescription": "Develops and integrates robotic inspection solutions for industrial assets, combining autonomous robots with customised sensing and inspection workflows.",
+      "description": "Develops and integrates robotic inspection solutions for industrial assets, combining autonomous robots with customised sensing and inspection workflows"
+    },
+    {
+      "id": "p17b1nnpwj44yztn1yxvt80a1h8g9pzd",
+      "slug": "cloudbroker",
+      "expectedDescription": "Develops CloudBroker Platform and AppCenter to deploy and run scientific and technical applications across cloud and high-performance computing infrastructure.",
+      "description": "Develops CloudBroker Platform and AppCenter to deploy and run scientific and technical applications across cloud and high-performance computing infrastructure"
+    },
+    {
+      "id": "p17605397382zaesdttd9hnyyx8g8pg5",
+      "slug": "delta-labs",
+      "expectedDescription": "Develops Elaiia, a customer simulation platform combining behavioural research and machine learning to model responses to products, pricing and campaigns.",
+      "description": "Develops Elaiia, a customer simulation platform combining behavioural research and machine learning to model responses to products, pricing and campaigns"
+    },
+    {
+      "id": "p17czxzga52kqegb9mmehbbgk58g9ch2",
+      "slug": "mondaic",
+      "expectedDescription": "Develops Salvus software for wave propagation modelling, waveform inversion and physics-based digital twins, with applications in engineering inspection and geophysical research.",
+      "description": "Develops Salvus software for wave propagation modelling, waveform inversion and physics-based digital twins, with applications in engineering inspection and geophysical research"
+    },
+    {
+      "id": "p17390bh2tt07be7zgjw2wst9s8g95rv",
+      "slug": "dimpora",
+      "expectedDescription": "Develops polymer membranes for waterproof, breathable textiles without PFAS or toxic solvents.",
+      "description": "Develops polymer membranes for waterproof, breathable textiles without PFAS or toxic solvents"
+    },
+    {
+      "id": "p17eva7z3s0hran0yqtdn372wx8g8h21",
+      "slug": "consys",
+      "expectedDescription": "Provides a configurable quality-management platform covering document control, corrective actions, audits, risks, training and electronic approvals for regulated organisations.",
+      "description": "Provides a configurable quality-management platform covering document control, corrective actions, audits, risks, training and electronic approvals for regulated organisations"
+    },
+    {
+      "id": "p176eh766r1dwzsrmhm0s84hh58g90y1",
+      "slug": "timetoact-group-schweiz",
+      "expectedDescription": "Develops and integrates enterprise software, cloud platforms, data systems and identity-management solutions for Swiss organisations.",
+      "description": "Develops and integrates enterprise software, cloud platforms, data systems and identity-management solutions for Swiss organisations"
+    },
+    {
+      "id": "p171jp39eav34dkj1b31yk761h8g8q7c",
+      "slug": "lend",
+      "expectedDescription": "Operates a Swiss crowdlending platform connecting borrowers and investors for personal loans, business loans and mortgages. The platform is operated by Switzerlend AG.",
+      "description": "Operates a Swiss crowdlending platform connecting borrowers and investors for personal loans, business loans and mortgages. The platform is operated by Switzerlend AG"
+    },
+    {
+      "id": "p17ft74dczdyt26z2z8zt66tkd8g90a1",
+      "slug": "kluvo",
+      "expectedDescription": "Develops a portable RGB dental camera that uses computer vision to reconstruct three-dimensional dental scans. Klüvo is the product brand of Zaamigo AG.",
+      "description": "Develops a portable RGB dental camera that uses computer vision to reconstruct three-dimensional dental scans. Klüvo is the product brand of Zaamigo AG"
+    },
+    {
+      "id": "p17a76sark4jzr449tq5hc34058g8h6k",
+      "slug": "thelkin",
+      "expectedDescription": "Develops and supplies electromechanical test systems for static, dynamic and multiaxial testing of materials and components, with control software, fixtures and testing services.",
+      "description": "Develops and supplies electromechanical test systems for static, dynamic and multiaxial testing of materials and components, with control software, fixtures and testing services"
+    },
+    {
+      "id": "p17dg53ay1mkxc6qpczq8p02zh8g90wy",
+      "slug": "linkster-therapeutics",
+      "expectedDescription": "Develops antibody-discovery and profiling platforms, including Flycode and Sybody, to identify and engineer antibodies for targeted therapeutic development.",
+      "description": "Develops antibody-discovery and profiling platforms, including Flycode and Sybody, to identify and engineer antibodies for targeted therapeutic development"
+    },
+    {
+      "id": "p17481ts640025kmzkj48ffars8g9h0j",
+      "slug": "cellvie",
+      "expectedDescription": "Develops cell-derived medicines based on therapeutic mitochondria transplantation and mitochondria-enabled gene delivery, targeting cellular injury and genetic diseases.",
+      "description": "Develops cell-derived medicines based on therapeutic mitochondria transplantation and mitochondria-enabled gene delivery, targeting cellular injury and genetic diseases"
+    },
+    {
+      "id": "p177vdpcgxmwcrzvmh6qh1r5px8g84nq",
+      "slug": "lucid-concepts",
+      "expectedDescription": "Develops XamFlow, software for reproducible analysis of large scientific imaging datasets, with configurable processing workflows, collaborative data management and machine-learning integration.",
+      "description": "Develops XamFlow, software for reproducible analysis of large scientific imaging datasets, with configurable processing workflows, collaborative data management and machine-learning integration"
+    },
+    {
+      "id": "p179xvrdkr5qdgkw2f076y7te18g8wkh",
+      "slug": "cyfex",
+      "expectedDescription": "Develops the Secret Ear System for digital design and production of custom earmolds, alongside scanning integrations, workflow automation and software development services.",
+      "description": "Develops the Secret Ear System for digital design and production of custom earmolds, alongside scanning integrations, workflow automation and software development services"
+    },
+    {
+      "id": "p17e56avw34phfcxvfe11fj59x8g9bb3",
+      "slug": "am-tec-switzerland",
+      "expectedDescription": "Develops and operates OPAL for asset management and MEMO for performance indicators, combining organisational data with modelling, analysis and decision-support tools.",
+      "description": "Develops and operates OPAL for asset management and MEMO for performance indicators, combining organisational data with modelling, analysis and decision-support tools"
+    },
+    {
+      "id": "p178zqy9c5epxashk80v1ak28s8g8bt0",
+      "slug": "spineplanner",
+      "expectedDescription": "Develops CT-based simulation software for evaluating spinal instrumentation configurations and screw stability. The platform is provided for research and evaluation only, not clinical use.",
+      "description": "Develops CT-based simulation software for evaluating spinal instrumentation configurations and screw stability. The platform is provided for research and evaluation only, not clinical use"
+    },
+    {
+      "id": "p177rgw983rencnbp2f0v4r1vd8g9q3r",
+      "slug": "careerfairy",
+      "expectedDescription": "Develops a recruiting platform for employer videos and live-streamed company events, connecting students and early-career candidates with prospective employers.",
+      "description": "Develops a recruiting platform for employer videos and live-streamed company events, connecting students and early-career candidates with prospective employers"
+    },
+    {
+      "id": "p17b9r515mybq1yte0pxnw2jy58g9drp",
+      "slug": "aaaccell",
+      "expectedDescription": "Develops HedgePilot, a software platform that applies machine learning to currency-market analysis and provides configurable foreign-exchange hedging recommendations for companies and financial institutions.",
+      "description": "Develops HedgePilot, a software platform that applies machine learning to currency-market analysis and provides configurable foreign-exchange hedging recommendations for companies and financial institutions"
+    },
+    {
+      "id": "p17daemk8san8s4vegq3kdxyg18g9cxr",
+      "slug": "ergonomics",
+      "expectedDescription": "Develops custom business software and its EAS authentication server, alongside security engineering and integration.",
+      "description": "Develops custom business software and its EAS authentication server, alongside security engineering and integration"
+    },
+    {
+      "id": "p179tq4qs065p5xh1wq3n5kesn8g88md",
+      "slug": "mp-technology",
+      "expectedDescription": "Develops custom enterprise and mobile applications, including connected-device and machine-learning software.",
+      "description": "Develops custom enterprise and mobile applications, including connected-device and machine-learning software"
+    },
+    {
+      "id": "p171hwc1bm3xm76xq3dphgyw7s8g9v2f",
+      "slug": "ecoparts",
+      "expectedDescription": "Develops and produces metal components using additive manufacturing, precision machining and finishing.",
+      "description": "Develops and produces metal components using additive manufacturing, precision machining and finishing"
+    },
+    {
+      "id": "p17a2k6zc53q9cqmnvxc288p1h8g93cw",
+      "slug": "innotix",
+      "expectedDescription": "Develops public transport software, including digital driver workstations, passenger information and operational applications.",
+      "description": "Develops public transport software, including digital driver workstations, passenger information and operational applications"
+    },
+    {
+      "id": "p173rdtjqp5xr5fncdc6v6wxjs8g8f7m",
+      "slug": "kaiko-ai",
+      "expectedDescription": "Develops AI models and clinical workflows for healthcare and medical research, with a team in Zurich and Amsterdam.",
+      "description": "Develops AI models and clinical workflows for healthcare and medical research, with a team in Zurich and Amsterdam"
+    },
+    {
+      "id": "p17fqjh1mxzyfjpp401vmeh5gs8g9a07",
+      "slug": "unchained-commerce",
+      "expectedDescription": "Develops the open-source Unchained Engine, a headless commerce platform with a GraphQL API.",
+      "description": "Develops the open-source Unchained Engine, a headless commerce platform with a GraphQL API"
+    },
+    {
+      "id": "p174cfc9j83taqpbekgzh7yebd8g9pt4",
+      "slug": "the-i-engineers",
+      "expectedDescription": "Develops health-engine, a clinical data repository and interoperability platform for hospital workflows.",
+      "description": "Develops health-engine, a clinical data repository and interoperability platform for hospital workflows"
+    },
+    {
+      "id": "p171w4m2rjkdw8paa6h6jhaedx8g95sw",
+      "slug": "akrodyn",
+      "expectedDescription": "Develops embedded electronics, firmware, servo drives and robotic motion-control systems.",
+      "description": "Develops embedded electronics, firmware, servo drives and robotic motion-control systems"
+    },
+    {
+      "id": "p175yxrfezw6vjt3tnv343b8p18g9h4h",
+      "slug": "triboni",
+      "expectedDescription": "Develops enterprise document management, workflow and archiving software, including SAP-integrated document services.",
+      "description": "Develops enterprise document management, workflow and archiving software, including SAP-integrated document services"
+    },
+    {
+      "id": "p17c7qgc2krk759fgx8f7fkdc18g8mdc",
+      "slug": "kyburz-switzerland",
+      "expectedDescription": "Develops and produces electric delivery and utility vehicles, with fleet management and battery recycling technology.",
+      "description": "Develops and produces electric delivery and utility vehicles, with fleet management and battery recycling technology"
+    },
+    {
+      "id": "p17f19get7qe0mtx35m8eneegn8g9xpm",
+      "slug": "novita-engineering",
+      "expectedDescription": "Develops machines, products and industrial systems, from concept and mechanical design through prototypes and implementation.",
+      "description": "Develops machines, products and industrial systems, from concept and mechanical design through prototypes and implementation"
+    },
+    {
+      "id": "p170y2j76443bhxfak9zsew3j58g92b0",
+      "slug": "imt-masken-und-teilungen",
+      "expectedDescription": "Develops and manufactures customer-specific optical coatings, microstructures and microfluidic components on glass.",
+      "description": "Develops and manufactures customer-specific optical coatings, microstructures and microfluidic components on glass"
+    },
+    {
+      "id": "p17dpy1hm36493twvkan4575558g95rt",
+      "slug": "restor",
+      "expectedDescription": "Operates a nonprofit platform that connects nature restoration projects with ecological datasets, monitoring tools and funding opportunities, helping organisations assess and report ecosystem impacts.",
+      "description": "Operates a nonprofit platform that connects nature restoration projects with ecological datasets, monitoring tools and funding opportunities, helping organisations assess and report ecosystem impacts"
+    },
+    {
+      "id": "p17722tjgxgt1r8zye755j87px8g80s1",
+      "slug": "openversum",
+      "expectedDescription": "Develops membrane-based drinking-water filters and a microfranchising platform that supports local entrepreneurs assembling, distributing and maintaining filtration systems.",
+      "description": "Develops membrane-based drinking-water filters and a microfranchising platform that supports local entrepreneurs assembling, distributing and maintaining filtration systems"
+    },
+    {
+      "id": "p17b06e2pya8eqxh0m2jxk5ran8g9mbr",
+      "slug": "secure-switzerland",
+      "expectedDescription": "Develops the Adaptricity software suite for simulation, monitoring and planning of electricity distribution grids, alongside grid engineering and data analysis services.",
+      "description": "Develops the Adaptricity software suite for simulation, monitoring and planning of electricity distribution grids, alongside grid engineering and data analysis services"
+    },
+    {
+      "id": "p1773fsacynr60fxv45yxspkbd8g89gm",
+      "slug": "bonsai-systems",
+      "expectedDescription": "Develops modular low-power sensor hardware, embedded software and connected applications for motion capture, force measurement and industrial data logging.",
+      "description": "Develops modular low-power sensor hardware, embedded software and connected applications for motion capture, force measurement and industrial data logging"
+    },
+    {
+      "id": "p177jhp3e4s3kprgbv2rcz4bxs8g8eg7",
+      "slug": "chainsecurity",
+      "expectedDescription": "Audits smart contracts and blockchain applications for security vulnerabilities, combining code review, testing and security research. Operated by Decentralized Security AG.",
+      "description": "Audits smart contracts and blockchain applications for security vulnerabilities, combining code review, testing and security research. Operated by Decentralized Security AG"
+    },
+    {
+      "id": "p17et10y5ay93vwb4y191p5jkn8g9ct7",
+      "slug": "memo-therapeutics",
+      "expectedDescription": "Develops therapeutic antibodies, including potravitug targeting BK virus infections in kidney transplant recipients. The Schlieren-based company is part of Ipsen.",
+      "description": "Develops therapeutic antibodies, including potravitug targeting BK virus infections in kidney transplant recipients. The Schlieren-based company is part of Ipsen"
+    },
+    {
+      "id": "p174mhqx659cwr55x12fqmqbn58g9gsz",
+      "slug": "teralytics",
+      "expectedDescription": "Develops mobility analytics software that combines movement data and machine learning to support transport planning, service evaluation and ridership analysis.",
+      "description": "Develops mobility analytics software that combines movement data and machine learning to support transport planning, service evaluation and ridership analysis"
+    },
+    {
+      "id": "p172aeb51z1s96fnk6a5wtkma58g9h0r",
+      "slug": "inspacion",
+      "expectedDescription": "Develops software for planning functional buildings and workplaces in virtual reality, helping teams assess layouts and work processes before construction.",
+      "description": "Develops software for planning functional buildings and workplaces in virtual reality, helping teams assess layouts and work processes before construction"
+    },
+    {
+      "id": "p17bvjj2fpt4v2vsstx475ynms8g8ywe",
+      "slug": "fablab-winti",
+      "expectedDescription": "Operates a member-supported public workshop with 3D printers, laser cutters, milling equipment and electronics workstations, alongside practical fabrication courses.",
+      "description": "Operates a member-supported public workshop with 3D printers, laser cutters, milling equipment and electronics workstations, alongside practical fabrication courses"
+    },
+    {
+      "id": "p170qwbkvrcvhvkz6nm82vn1a18g8pwa",
+      "slug": "plat4mation",
+      "expectedDescription": "Develops and implements ServiceNow applications, integrations and digital workflows, with managed services and a local engineering presence in Winterthur.",
+      "description": "Develops and implements ServiceNow applications, integrations and digital workflows, with managed services and a local engineering presence in Winterthur"
+    },
+    {
+      "id": "p17e3mseq2726h0032dd71tb3x8g8p32",
+      "slug": "56k-cloud",
+      "expectedDescription": "Engineers cloud infrastructure, AWS migrations and edge-to-cloud platforms that connect industrial assets with operational data and enterprise systems.",
+      "description": "Engineers cloud infrastructure, AWS migrations and edge-to-cloud platforms that connect industrial assets with operational data and enterprise systems"
+    },
+    {
+      "id": "p17e1z5gg52mf7v1h0pk5swrn58g9ywj",
+      "slug": "cellx-biosolutions",
+      "expectedDescription": "Develops bacterial cultures and bioremediation processes for breaking down PFAS and other pollutants in industrial wastewater, soil and groundwater.",
+      "description": "Develops bacterial cultures and bioremediation processes for breaking down PFAS and other pollutants in industrial wastewater, soil and groundwater"
+    },
+    {
+      "id": "p178mf870dwj02f0hpjqsnsdm98g9ypp",
+      "slug": "cyclowatt",
+      "expectedDescription": "Develops cleat-mounted electronic power meters that measure cycling effort and transmit readings to compatible cycling computers and applications over Bluetooth and ANT+.",
+      "description": "Develops cleat-mounted electronic power meters that measure cycling effort and transmit readings to compatible cycling computers and applications over Bluetooth and ANT+"
+    },
+    {
+      "id": "p17bk0ap79er3tbp4dvr1q1ccs8g9rn7",
+      "slug": "calmea",
+      "expectedDescription": "Develops contactless physiological sensing and adaptive sleep-environment technology embedded in beds.",
+      "description": "Develops contactless physiological sensing and adaptive sleep-environment technology embedded in beds"
+    },
+    {
+      "id": "p170j9gbdtat3z16fqqjcn3k558g9nc3",
+      "slug": "helbling-technik",
+      "expectedDescription": "Engineering company developing mechatronic systems, robotics and industrial products.",
+      "description": "Engineering company developing mechatronic systems, robotics and industrial products"
+    },
+    {
+      "id": "p17f3fpxtrqzaxjv3x3ec6yqwh8g9jxs",
+      "slug": "indie-technologies-switzerland",
+      "expectedDescription": "Swiss photonics operation associated with the former EXALOS business, producing superluminescent light sources and integrated optical modules.",
+      "description": "Swiss photonics operation associated with the former EXALOS business, producing superluminescent light sources and integrated optical modules"
+    },
+    {
+      "id": "p1777b9xd63c795pde2c1wx6958g8kaf",
+      "slug": "huber-suhner",
+      "expectedDescription": "Develops and manufactures electrical and optical connectivity products, with a Pfäffikon ZH production and development presence.",
+      "description": "Develops and manufactures electrical and optical connectivity products, with a Pfäffikon ZH production and development presence"
+    },
+    {
+      "id": "p17dmrsvsprma0tpt1c86w8jx18g9zet",
+      "slug": "huawei-zurich-research-center",
+      "expectedDescription": "Huawei research centre conducting exploratory technology research and proof-of-concept validation.",
+      "description": "Huawei research centre conducting exploratory technology research and proof-of-concept validation"
+    },
+    {
+      "id": "p1721qgfbm3gjbvng0y755exhx8g9865",
+      "slug": "benetics",
+      "expectedDescription": "Develops multilingual voice documentation and AI-assisted reporting software for construction trades.",
+      "description": "Develops multilingual voice documentation and AI-assisted reporting software for construction trades"
+    },
+    {
+      "id": "p17an77qm1fanrpbtd13gtp7rs8g8abx",
+      "slug": "rarog",
+      "expectedDescription": "Develops portable search-and-rescue detectors for radio signals from personal electronics.",
+      "description": "Develops portable search-and-rescue detectors for radio signals from personal electronics"
+    },
+    {
+      "id": "p17d2t9vgg20kn8p3ry5qrjjps8g9rwe",
+      "slug": "vale-biolabs",
+      "expectedDescription": "Develops human brain organoid assays and predictive models for preclinical drug research.",
+      "description": "Develops human brain organoid assays and predictive models for preclinical drug research"
+    },
+    {
+      "id": "p176g505s3sz5b2sxk4terax6h8g9n5f",
+      "slug": "treeless",
+      "expectedDescription": "ETH Zurich spin-off founded in 2024 developing biofabricated materials and formulations, with offices, laboratories, engineering and production in Schlieren.",
+      "description": "ETH Zurich spin-off founded in 2024 developing biofabricated materials and formulations, with offices, laboratories, engineering and production in Schlieren"
+    },
+    {
+      "id": "p1767g8t3j2ywpvt2s9aw438vh8g8qtz",
+      "slug": "haelixa",
+      "expectedDescription": "Develops DNA-based markers and verification methods for tracing materials and authenticating products. Its Kemptthal laboratory analyses markers used in fibres, raw materials and finished goods.",
+      "description": "Develops DNA-based markers and verification methods for tracing materials and authenticating products. Its Kemptthal laboratory analyses markers used in fibres, raw materials and finished goods"
+    },
+    {
+      "id": "p178gh3hr38btfqy7r61gzqttd8g9hm2",
+      "slug": "anronaut",
+      "expectedDescription": "Develops autonomous mobile transport systems for intralogistics, including navigation technology and integration into production infrastructure. Acquired by Linde Material Handling in 2024 and now operated within KION Intralogistic Solutions Switzerland AG.",
+      "description": "Develops autonomous mobile transport systems for intralogistics, including navigation technology and integration into production infrastructure. Acquired by Linde Material Handling in 2024 and now operated within KION Intralogistic Solutions Switzerland AG"
+    },
+    {
+      "id": "p1758rc982c7b3wz1kntm028298g81tm",
+      "slug": "femtotools",
+      "expectedDescription": "Develops nanoindentation and micromechanical testing instruments for measuring local material properties. Operates as part of Oxford Instruments.",
+      "description": "Develops nanoindentation and micromechanical testing instruments for measuring local material properties. Operates as part of Oxford Instruments"
+    },
+    {
+      "id": "p17b0f1zwa1z7ktzhgympt2f618g9zt7",
+      "slug": "comerge",
+      "expectedDescription": "Engineers mobile, web, mixed-reality and virtual-reality applications, with an in-house software development and interaction-design team in Zurich.",
+      "description": "Engineers mobile, web, mixed-reality and virtual-reality applications, with an in-house software development and interaction-design team in Zurich"
+    },
+    {
+      "id": "p17bd5gfeky5pzb33c13084dqx8g84j1",
+      "slug": "de-cavis",
+      "expectedDescription": "Develops and manufactures porous mineral materials, ceramic buoyancy components and high-purity magnesium using proprietary material-processing technology.",
+      "description": "Develops and manufactures porous mineral materials, ceramic buoyancy components and high-purity magnesium using proprietary material-processing technology"
+    },
+    {
+      "id": "p1745csy1hkwrfp12rnxms34rd8g8tk4",
+      "slug": "streamwise",
+      "expectedDescription": "Develops ProCap sensor-tracking velocimetry systems combining measurement probes, camera-based probe tracking and GPU-rendered flow-field visualization for wind-tunnel and aerodynamic testing.",
+      "description": "Develops ProCap sensor-tracking velocimetry systems combining measurement probes, camera-based probe tracking and GPU-rendered flow-field visualization for wind-tunnel and aerodynamic testing"
+    },
+    {
+      "id": "p177hkz3v9nab8ybqhbrbd9rq98g84yq",
+      "slug": "novamem",
+      "expectedDescription": "Develops patented processes and porous polymer membranes for liquid filtration, venting and separation applications.",
+      "description": "Develops patented processes and porous polymer membranes for liquid filtration, venting and separation applications"
+    },
+    {
+      "id": "p179n5kkgcyjhqncr3f3hwxebx8g8fph",
+      "slug": "sigmatools",
+      "expectedDescription": "Develops patented multichannel data-acquisition systems and industrial connectivity solutions using OPC UA, umati and MTconnect, with measurement and analysis for production equipment.",
+      "description": "Develops patented multichannel data-acquisition systems and industrial connectivity solutions using OPC UA, umati and MTconnect, with measurement and analysis for production equipment"
+    },
+    {
+      "id": "p17dhnsyrtr6fspa5bba4qmw1d8g8x6z",
+      "slug": "pregnolia",
+      "expectedDescription": "Develops a medical measurement system for assessing cervical stiffness during pregnancy to support clinical evaluation and research into preterm birth.",
+      "description": "Develops a medical measurement system for assessing cervical stiffness during pregnancy to support clinical evaluation and research into preterm birth"
+    },
+    {
+      "id": "p17cr7s1jczr8rw7vh11kmjjss8g9j2q",
+      "slug": "bluact-technologies",
+      "expectedDescription": "Develops water-purification membranes and granular media combining food-protein amyloid fibrils and activated carbon to capture heavy metals and other contaminants.",
+      "description": "Develops water-purification membranes and granular media combining food-protein amyloid fibrils and activated carbon to capture heavy metals and other contaminants"
+    },
+    {
+      "id": "p17aehnn7spkprtsg3he3vn6zh8g8tgm",
+      "slug": "maxwell-biosystems",
+      "expectedDescription": "Develops high-density microelectrode-array instruments and analysis software for recording cellular electrical activity in neuroscience and drug research.",
+      "description": "Develops high-density microelectrode-array instruments and analysis software for recording cellular electrical activity in neuroscience and drug research"
+    },
+    {
+      "id": "p1757zmdx1jkwmtjm5h52arn8x8g8f76",
+      "slug": "idun-technologies",
+      "expectedDescription": "Develops in-ear EEG devices with motion sensing, neural-signal processing, real-time classifiers and developer APIs for brain-computer interfaces.",
+      "description": "Develops in-ear EEG devices with motion sensing, neural-signal processing, real-time classifiers and developer APIs for brain-computer interfaces"
+    },
+    {
+      "id": "p17ap7fd9d1hfbwa57d50jqjfh8g9wfs",
+      "slug": "pallon",
+      "expectedDescription": "Develops computer-vision software that detects and codes defects in sewer and manhole inspection footage for infrastructure maintenance planning.",
+      "description": "Develops computer-vision software that detects and codes defects in sewer and manhole inspection footage for infrastructure maintenance planning"
+    },
+    {
+      "id": "p1796t2hsg4q6f3rxz40h26dk58g8j7t",
+      "slug": "oxara",
+      "expectedDescription": "Develops mineral-salt binders and admixtures that turn excavation and demolition waste into cement-free construction materials.",
+      "description": "Develops mineral-salt binders and admixtures that turn excavation and demolition waste into cement-free construction materials"
+    },
+    {
+      "id": "p178wpwe5n0e28rg76gmt3vh058g9wry",
+      "slug": "aisot",
+      "expectedDescription": "Develops software for investment strategy testing, portfolio optimization, rebalancing and monitoring, with agentic workflows for asset managers.",
+      "description": "Develops software for investment strategy testing, portfolio optimization, rebalancing and monitoring, with agentic workflows for asset managers"
+    },
+    {
+      "id": "p177z03hyjpgge6yt2xfhewbsd8g85a2",
+      "slug": "customsurg",
+      "expectedDescription": "Develops OrthoPlanner software that converts CT scans into personalized three-dimensional surgical plans for complex fractures.",
+      "description": "Develops OrthoPlanner software that converts CT scans into personalized three-dimensional surgical plans for complex fractures"
+    },
+    {
+      "id": "p1774j1eyrhrkrjmft4cwng5vn8g87xj",
+      "slug": "aperion-xr",
+      "expectedDescription": "Develops Viseum, a museum application and content-management platform, alongside augmented- and virtual-reality software for cultural and educational institutions.",
+      "description": "Develops Viseum, a museum application and content-management platform, alongside augmented- and virtual-reality software for cultural and educational institutions"
+    },
+    {
+      "id": "p173995zq5anmzrnbkzn5hd7b58g8p5s",
+      "slug": "tomfit",
+      "expectedDescription": "Develops a nine-in-one strength-training machine with automated settings and an accompanying booking and progress-tracking application.",
+      "description": "Develops a nine-in-one strength-training machine with automated settings and an accompanying booking and progress-tracking application"
+    },
+    {
+      "id": "p17afrxcfsdy1py8ftgx26mfx18g8sqc",
+      "slug": "byldr",
+      "expectedDescription": "Develops a no-code platform for creating mobile health studies and applications, with participant apps, surveys, wearables integration and project-management tools.",
+      "description": "Develops a no-code platform for creating mobile health studies and applications, with participant apps, surveys, wearables integration and project-management tools"
+    },
+    {
+      "id": "p174cbs9dy6sxbq7qavqq6wrnd8g9tn2",
+      "slug": "imai-medtech",
+      "expectedDescription": "Develops accelerated tissue staining and clearing, three-dimensional microscopy workflows and image-analysis software for tissue diagnosis and research.",
+      "description": "Develops accelerated tissue staining and clearing, three-dimensional microscopy workflows and image-analysis software for tissue diagnosis and research"
+    },
+    {
+      "id": "p17a51tgmv0twww90m0j9vgdeh8g8xgx",
+      "slug": "immitra-bio",
+      "expectedDescription": "Develops an in-vivo gene-editing platform for genetic disorders, aiming to replace ex-vivo stem-cell procedures with an off-the-shelf injection.",
+      "description": "Develops an in-vivo gene-editing platform for genetic disorders, aiming to replace ex-vivo stem-cell procedures with an off-the-shelf injection"
+    },
+    {
+      "id": "p17dsxkshbfercfr6t1v8n3mnx8g9zsa",
+      "slug": "snglr-capital",
+      "expectedDescription": "Invests in early-stage technology companies focused on longevity, vitality, smart mobility and smart cities. SNGLR Capital AG is an affiliate of SNGLR Holding AG. The Zug pin uses Holding AG's registered address, published as the group contact address in Capital's privacy policy.",
+      "description": "Invests in early-stage technology companies focused on longevity, vitality, smart mobility and smart cities. SNGLR Capital AG is an affiliate of SNGLR Holding AG. The Zug pin uses Holding AG's registered address, published as the group contact address in Capital's privacy policy"
+    },
+    {
+      "id": "p1754wjcf0ta2n4t47tdkkwa958g8bh7",
+      "slug": "lakestar",
+      "expectedDescription": "Invests in European technology companies from early venture through growth stages. The Zurich pin identifies the registered address of Lakestar Advisors GmbH.",
+      "description": "Invests in European technology companies from early venture through growth stages. The Zurich pin identifies the registered address of Lakestar Advisors GmbH"
+    },
+    {
+      "id": "p17cksp8ymb6efdeh69mjkh1h98g919z",
+      "slug": "interax-biotech",
+      "expectedDescription": "Develops drug-discovery models combining experimental cellular biology and machine learning to design and assess GPCR drug candidates.",
+      "description": "Develops drug-discovery models combining experimental cellular biology and machine learning to design and assess GPCR drug candidates"
+    },
+    {
+      "id": "p1753x3nrbvyfndway1z8ffhr18g9yks",
+      "slug": "evolyze",
+      "expectedDescription": "Develops custom software, data integrations and automated data flows for businesses and public organisations.",
+      "description": "Develops custom software, data integrations and automated data flows for businesses and public organisations"
+    },
+    {
+      "id": "p17et1h8rnk77z1qkrfmtkq3398g9506",
+      "slug": "aionic-labs",
+      "expectedDescription": "Develops time-series language models that combine sensor signals and text to explain, forecast and reason about changing physical systems. Its research builds on the open-source OpenTSLM framework.",
+      "description": "Develops time-series language models that combine sensor signals and text to explain, forecast and reason about changing physical systems. Its research builds on the open-source OpenTSLM framework"
+    },
+    {
+      "id": "p178q0zwjc33a72fg97ttcyhf58g949k",
+      "slug": "tx-ventures",
+      "expectedDescription": "Invests from seed through Series A in European fintech, insurtech, cybersecurity and digital-asset businesses.",
+      "description": "Invests from seed through Series A in European fintech, insurtech, cybersecurity and digital-asset businesses"
+    },
+    {
+      "id": "p17erdffcykejtkfe1zrgtxkhn8g8n75",
+      "slug": "42matters",
+      "expectedDescription": "Develops app intelligence software, APIs and datasets covering mobile and connected-TV applications, publishers and SDKs. Part of Similarweb following its 2024 acquisition.",
+      "description": "Develops app intelligence software, APIs and datasets covering mobile and connected-TV applications, publishers and SDKs. Part of Similarweb following its 2024 acquisition"
+    },
+    {
+      "id": "p17cyfx55te40t5fmth5qwprf58g83dx",
+      "slug": "rainbow-photonics",
+      "expectedDescription": "Develops and manufactures terahertz imaging and spectroscopy systems, generators, detectors and nonlinear optical crystals.",
+      "description": "Develops and manufactures terahertz imaging and spectroscopy systems, generators, detectors and nonlinear optical crystals"
+    },
+    {
+      "id": "p17few3xp74aj2wy4jpgf4cw858g8j5k",
+      "slug": "scandens",
+      "expectedDescription": "Develops software for analysing building condition, simulating renovation strategies and optimising property-portfolio investment and emissions plans.",
+      "description": "Develops software for analysing building condition, simulating renovation strategies and optimising property-portfolio investment and emissions plans"
+    },
+    {
+      "id": "p176decq2z4dfkk6ktpebkhmgs8g9am1",
+      "slug": "femtog",
+      "expectedDescription": "Develops particle analysers for measuring mass, density and structure of fine powders, including the PowMaster and picoG instrument families.",
+      "description": "Develops particle analysers for measuring mass, density and structure of fine powders, including the PowMaster and picoG instrument families"
+    },
+    {
+      "id": "p17fyh8pzz1qm028qkpvtacx1s8g8tvm",
+      "slug": "walder-trueb-engineering",
+      "expectedDescription": "Develops and integrates software for structural analysis, building information modelling, facility management and engineering simulations.",
+      "description": "Develops and integrates software for structural analysis, building information modelling, facility management and engineering simulations"
+    },
+    {
+      "id": "p17ejy76c3arfb3jhf4pgdw9m58g9494",
+      "slug": "sgk",
+      "expectedDescription": "Conducts measurements, engineering, research and development in corrosion protection for materials, infrastructure, equipment and industrial systems.",
+      "description": "Conducts measurements, engineering, research and development in corrosion protection for materials, infrastructure, equipment and industrial systems"
+    },
+    {
+      "id": "p17e7detjkea1jvf62brkadg9n8g819z",
+      "slug": "trias-pharma",
+      "expectedDescription": "Develops drug-delivery systems and pharmaceutical dosage forms, including tablets, softgel capsules and formulations for oral, pulmonary and local applications.",
+      "description": "Develops drug-delivery systems and pharmaceutical dosage forms, including tablets, softgel capsules and formulations for oral, pulmonary and local applications"
+    },
+    {
+      "id": "p1789ayznf3z3356pzb677kja98g8j0f",
+      "slug": "ergtech-research",
+      "expectedDescription": "Researches and develops technologies for security, energy, automotive systems, smart cities and industrial digitalisation.",
+      "description": "Researches and develops technologies for security, energy, automotive systems, smart cities and industrial digitalisation"
+    },
+    {
+      "id": "p177j2wbs4shwvkmz2a46nryn98g8k6d",
+      "slug": "creathor-ventures",
+      "expectedDescription": "Invests in technology and healthcare businesses, including machine intelligence, industrial automation, diagnostics and drug development.",
+      "description": "Invests in technology and healthcare businesses, including machine intelligence, industrial automation, diagnostics and drug development"
+    },
+    {
+      "id": "p177x5rawaza8vsdgjfmdq8yx98g983p",
+      "slug": "zkb",
+      "expectedDescription": "Zurich cantonal bank providing equity and convertible-loan financing to innovative Swiss startups and scaleups.",
+      "description": "Zurich cantonal bank providing equity and convertible-loan financing to innovative Swiss startups and scaleups"
+    },
+    {
+      "id": "p176exzkcsp7mdez888fhebbp18g98qn",
+      "slug": "bellevue",
+      "expectedDescription": "Specialist asset manager investing in biotechnology, medical technology and digital healthcare, alongside entrepreneurial-company and private-equity strategies.",
+      "description": "Specialist asset manager investing in biotechnology, medical technology and digital healthcare, alongside entrepreneurial-company and private-equity strategies"
+    },
+    {
+      "id": "p176xfht268g1c2tss2qt5gff18g94k8",
+      "slug": "groundshift",
+      "expectedDescription": "Invests in European B2B financial-technology businesses through primary rounds, secondaries and carve-outs.",
+      "description": "Invests in European B2B financial-technology businesses through primary rounds, secondaries and carve-outs"
+    },
+    {
+      "id": "p173s5hfzddkn8bj4h62krte5s8g9vvr",
+      "slug": "serpentine-ventures",
+      "expectedDescription": "Manages venture investments in early-stage technology companies and supports founders through financing and growth.",
+      "description": "Manages venture investments in early-stage technology companies and supports founders through financing and growth"
+    },
+    {
+      "id": "p171q89688h02b784gxvhtjdwh8g9r63",
+      "slug": "tailorfast",
+      "expectedDescription": "Develops customer portals, apps and integrations to automate order processing and business workflows.",
+      "description": "Develops customer portals, apps and integrations to automate order processing and business workflows"
+    },
+    {
+      "id": "p179hx9sqby12867y1dvyawq1s8g989x",
+      "slug": "konoma",
+      "expectedDescription": "Develops custom software and digital products and provides user-experience design, prototyping and technical reviews.",
+      "description": "Develops custom software and digital products and provides user-experience design, prototyping and technical reviews"
+    },
+    {
+      "id": "p17d6twb92tycbp4xrhgfewamx8g9xac",
+      "slug": "creative-matters",
+      "expectedDescription": "Provides industrial product design, user-interface design, prototyping and design-for-manufacturing services.",
+      "description": "Provides industrial product design, user-interface design, prototyping and design-for-manufacturing services"
+    },
+    {
+      "id": "p1779h27bm8qv9cbsd7rvyw0rs8g9n8k",
+      "slug": "swiss-infosec",
+      "expectedDescription": "Provides information security, cybersecurity, privacy and risk-management consulting, audits and training, with an official Zurich office.",
+      "description": "Provides information security, cybersecurity, privacy and risk-management consulting, audits and training, with an official Zurich office"
+    },
+    {
+      "id": "p174dc4rrh4qhrp0vg302s76xs8g88xp",
+      "slug": "dacs",
+      "expectedDescription": "Develops PlainPPM project portfolio software and implements workflow automation and business intelligence solutions.",
+      "description": "Develops PlainPPM project portfolio software and implements workflow automation and business intelligence solutions"
+    },
+    {
+      "id": "p17dqbsj8f7tmstjgxp0xhvmsx8g93yj",
+      "slug": "rrreefs",
+      "expectedDescription": "Develops and deploys interlocking, 3D-printed clay structures designed to support coral growth and marine biodiversity.",
+      "description": "Develops and deploys interlocking, 3D-printed clay structures designed to support coral growth and marine biodiversity"
+    }
+  ]
+}

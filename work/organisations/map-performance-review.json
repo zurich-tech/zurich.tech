@@ -1,0 +1,74 @@
+{
+    "reviewedAt": "2026-10-15",
+    "scope": "Bounded local map performance follow-up; no research, production writes, deployment or commit",
+    "criterionAcknowledgment": "UMB and icentic remain uncertain under the own-technology criterion; client-only consultancy/implementation does not automatically qualify. Main owns that reconciliation.",
+    "changes": [
+        "src/map/map.tsx: Solid createSelector limits hover-dependent row effects to changed organisation identities, including shared-office copies",
+        "src/map/filter.ts and map.tsx: memoize the normalized search terms that actually occur in each name, retaining the previous array when only address/headline terms change",
+        "tests/map-rows.test.ts: exact highlight equivalence, stable array identity, and real Solid browser reactivity over 1000 row subscriptions"
+    ],
+    "criticalPath": {
+        "method": "Temporary fixture-only timing around marker effects, name highlighting, native DOM operations and layout accessors; removed profiling wrappers for paired final timings",
+        "observations": [
+            "Warm original 936-to-165 run: 88ms task; name highlighting approximately 2ms, markers 1.4ms, badge and marker-highlight updates each approximately 0.1ms",
+            "Separate original 1027-to-165 run: 1036 native removals took 13.4ms, 120 replacements 3ms; remaining time includes reactive reconciliation, disposal and browser rendering, not conclusively separated by these probes",
+            "Name-highlight computation count fell from 165 to 47: 46 newly mounted results and one retained name whose visible highlighting changed",
+            "No evidence justified a more complicated virtualized list; all matching rows remain present and accessible"
+        ],
+        "limitation": "Phase timings are instrumentation, not a sampled CPU flamegraph; they do not assign every millisecond to a function"
+    },
+    "pairedMeasurements": {
+        "environment": "Same local development Solid/WebGL fixture, Chrome desktop process at 320x640, 1164 mapped identities/1166 location records, Bun 1.3.3",
+        "transition": "Empty query to Technopark, 1027 mounted viewport rows to 165 filtered rows, 119 existing row nodes retained in every measured run",
+        "originalResultFrameMs": [235.3, 259.4, 276],
+        "optimizedResultFrameMs": [193.9, 202.8, 223.7],
+        "originalDebouncedUpdateLongTasksMs": [81, 104, 121],
+        "optimizedDebouncedUpdateLongTasksMs": [null, null, 69],
+        "nullMeaning": "No task at least 50ms recorded during that update; not zero work",
+        "originalMedianResultMs": 259.4,
+        "optimizedMedianResultMs": 202.8,
+        "medianReductionMs": 56.6,
+        "medianReductionPercent": 21.8,
+        "debounceMs": 150,
+        "interpretation": "Measured local improvement, not a guarantee of sub-50ms updates. One optimized run still recorded 69ms. Tiny nonrandomized samples and development-mode runtime limit statistical conclusions.",
+        "comparisonToPriorReview": "Same query/scenario but not exact previous 945-row viewport population; the controlled paired runs both started with 1027 rows. Do not present the prior 126ms and this run's minima as a direct paired comparison.",
+        "evidence": [
+            "/tmp/zurich-registry-review/map-performance-before.json",
+            "/tmp/zurich-registry-review/map-performance-before-clean.json",
+            "/tmp/zurich-registry-review/map-performance-after-clean.json"
+        ]
+    },
+    "correctness": {
+        "320x640": "Keyboard Akina detail preserves Technopark query; 352px compact sheet; actual pointer drag expands to 574px; ArrowDown and Back restore row focus and scrollTop 361",
+        "390x844": "Robotics selection yields 11 results; Borobotics detail keeps query/filter; settled selected marker remains above overlay",
+        "740x390": "Filtered list reaches bottom: scrollTop 997.5, clientHeight 167, scrollHeight 1165; no document horizontal overflow",
+        "1280x800": "Akina query highlights exactly Akina, yields one row; Enter/detail/Back restores exact row focus and hover; no horizontal overflow",
+        "unchanged": [
+            "No dedicated handle row",
+            "No pagination or result cap",
+            "Stable row identity",
+            "Query/deferred selection/navigation logic",
+            "Full-list keyboard accessibility"
+        ],
+        "console": "No warning/error entries in final implementation QA tab log",
+        "physicalPhone": "Not tested; desktop viewport and mouse drag checks do not prove native touch momentum, soft keyboard, IME, safe area or thermal performance"
+    },
+    "verification": {
+        "bun": "/Users/florian/.bun/install/cache/@oven/bun-darwin-aarch64@1.3.3@@@1/bin/bun",
+        "focusedTests": "64 passed, 0 failed, 8175 assertions across map, map-navigation, map-sheet, map-topics and map-rows; row subscription test additionally spawns browser-conditions Solid runtime",
+        "typecheck": "Passed",
+        "fullSuiteMainReview": "338 passed, 0 failed, 10860 assertions across 41 files. The local HTTP-server test initially failed to listen inside the sandbox; the unchanged full suite passed with local network permission. Existing convex-test timer overflow warnings remain.",
+        "format": "Targeted Prettier completed"
+    },
+    "screenshots": [
+        "/tmp/zurich-registry-review/map-performance-390-detail.jpg",
+        "/tmp/zurich-registry-review/map-performance-desktop.jpg"
+    ],
+    "cleanup": {
+        "profilingWrappersRemovedFromFixture": true,
+        "finalMapSourceRestoredInFixture": true,
+        "ownTabClosed": true,
+        "viewportReset": true,
+        "ownServerStopped": true
+    }
+}

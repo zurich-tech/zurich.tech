@@ -1,0 +1,40 @@
+{
+    "revisedArtworkReview": {
+        "date": "2026-10-15",
+        "source": "/tmp/zurich-registry-review/membership-community-artwork-v2.png",
+        "finding": "Main inspected64px and32px light/dark examples. SFTL official compact gold globe and SLTA official touch icon approved. Supported unchanged asset uploads authorised; fresh identity and hosted-asset checks remain before organisation publication.",
+        "topicCorrection": "SLTA uses canonical software-engineering, not software"
+    },
+    "date": "2026-10-15",
+    "status": "unpublished-artwork-review-pending",
+    "productionWrites": 0,
+    "packet": "/tmp/zurich-registry-review/membership-community-prepared.json",
+    "reviews": [
+        {
+            "slug": "swissfintechladies",
+            "sources": [
+                "https://swissfintechladies.ch/",
+                "https://swissfintechladies.ch/impressum/"
+            ],
+            "evidence": "Main independently read current imprint and saved successful primary homepage capture 44a1e5fdf64d07cfb4ca.json after reader timeout. Coding-course access, fintech/blockchain education and recurring ecosystem events support technical-community eligibility, not generic advocacy alone. Imprint and footer explicitly identify Cham office Alte Steinhauserstrasse 1, c/o Eccos Impact. Office label supported; Zurich event venue must not replace office address.",
+            "classification": "Nonprofit with Fintech topic is supported",
+            "artwork": "Main inspected contact sheet: complete official logo is too small and pale at32px; compact official alternative requested, no fabricated crop. Not approved for upload."
+        },
+        {
+            "slug": "swiss-legaltech-association",
+            "sources": [
+                "https://www.swisslegaltech.ch/en/projects/2023/Digitallibraries.php",
+                "https://www.swisslegaltech.ch/en/imprint/index.php"
+            ],
+            "evidence": "Main independently read current imprint and saved successful primary Digital Libraries capture f2d6563c777bce308fb4.json. Project evaluates intelligent annotation/search of digitized legal literature; it does not claim a completed owned algorithm. Technical research/community activity qualifies. Raffelstrasse10,8045Zurich explicitly confirmed by imprint; retain Contact address.",
+            "classification": "Nonprofit with Software topic is supported",
+            "artwork": "Main inspected contact sheet: official block mark disappears on white background; requested original contrasting backing or verified alternative. Not approved for upload."
+        }
+    ],
+    "remaining": [
+        "Inspect corrected official artwork at marker size in light and dark contexts",
+        "Fresh complete identity, alias and shared-address checks before publication",
+        "Check final social-link provenance and full prepared fields",
+        "Supported preview/apply followed by independent production verification"
+    ]
+}

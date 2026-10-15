@@ -1,0 +1,174 @@
+{
+    "date": "2026-10-15",
+    "status": "in-progress",
+    "verifiedCoverageGapBatch": {
+        "checkedAt": "2026-10-15T02:51:41.466Z",
+        "organisations": [
+            "cross-ing",
+            "smile-solutions",
+            "gnl",
+            "halion-fusion-group",
+            "eth-gramazio-kohler"
+        ],
+        "linksAdded": 6,
+        "batch": "/tmp/zurich-registry-review/primary-56c0-social-coverage-gap-ready.json",
+        "verification": "/tmp/zurich-registry-review/primary-56c0-social-coverage-gap-ready-verification.json",
+        "state": "published-independently-verified-frozen",
+        "review": "Main independently matched the corporate LinkedIn destinations to company websites and identities. Smile Solutions was confirmed through its indexed corporate profile and official Obfelden contact page after the direct reader was rate limited. Gramazio Kohler's GitHub organisation links both its ETH research website and the same LinkedIn account. Exact supported preview found six additions and zero existing links; one apply added six, followed by independent complete-table verification of all six. No existing links or other profile fields were replaced."
+    },
+    "verifiedInstituteFollowupBatch": {
+        "checkedAt": "2026-10-15T02:28:15.109Z",
+        "organisations": ["eth-cvl", "eth-lec", "rarog"],
+        "linksAdded": 3,
+        "batch": "/tmp/zurich-registry-review/primary-56c0-social-unresolved-ready.json",
+        "verification": "/tmp/zurich-registry-review/primary-56c0-social-unresolved-ready-verification.json",
+        "state": "published-independently-verified-frozen",
+        "review": "Main confirmed the CVL official public-relations page links the canonical computer-vision-lab account, independently reviewed LEC and RAROG identity bridges, then previewed/applied once and verified all three. Do not reapply. Preserve earlier unresolved decisions as historical evidence.",
+        "canonicalSource": "https://vision.ee.ethz.ch/the-institute/public-relations.html"
+    },
+    "verifiedCleanBatch": {
+        "checkedAt": "2026-10-15T02:10:57.240Z",
+        "organisationsVerified": 45,
+        "linksAdded": 49,
+        "batch": "/tmp/zurich-registry-review/primary-56c0-social-clean-ready.json",
+        "evidence": "/tmp/zurich-registry-review/primary-56c0-social-clean-review.json",
+        "verification": "/tmp/zurich-registry-review/primary-56c0-social-clean-ready-verification.json",
+        "state": "published-independently-verified-frozen",
+        "review": "Main reviewed all 49 cleaned per-link proofs, ran supported preview/apply once and independently verified all 49 links across 45 organisations. No reapply. Earlier audit entries remain historical, not a current unresolved queue. This batch resolves Thoratec/Abbott and the reviewed institute-specific accounts; it does not silently assign generic university accounts.",
+        "remainingScope": "Separate follow-up of 15 genuinely unresolved identities from the four bounded batches, plus Rehaptix and compliant concept location evidence."
+    },
+    "verifiedProfileBatch": {
+        "checkedAt": "2026-10-15T01:41:24.351Z",
+        "organisations": [
+            "sitrox",
+            "ase",
+            "slg-broadcast",
+            "swiss-medical-record",
+            "localsearch",
+            "technokrat",
+            "vlot",
+            "vonesco-control",
+            "playnvoice",
+            "switch"
+        ],
+        "linksAdded": 11,
+        "evidence": "/tmp/zurich-registry-review/social-profile-ten-reviewed-verification.json",
+        "review": "Main independently read company-authored profiles and matched their declared official websites and identities; Switch's GitHub profile also identifies the same Swiss foundation and site. Exact supported preview/apply and fresh verification passed. This social check does not replace the separate eligibility review."
+    },
+    "snapshotOrganisations": 935,
+    "homepageInspections": 128,
+    "method": "Inspect official homepage anchors, rel=me declarations and identity-matched structured data for organisations without recorded social links; review account identity before applying through supported enrichment controls.",
+    "latestVerifiedBatch": {
+        "checkedAt": "2026-10-15T01:32:17.321Z",
+        "organisations": ["eaternity", "trenda", "einzly", "esurance"],
+        "linksAdded": 7,
+        "evidence": "/tmp/zurich-registry-review/social-current-four-reviewed-verification.json",
+        "review": "Main independently read current official rel=me and Organization/LocalBusiness sameAs declarations. The separate IFJ partner account in einzly markup was excluded. Supported preview/apply added seven links without replacement; fresh production reads verified exact public destinations."
+    },
+    "verifiedCorporateBatch": {
+        "checkedAt": "2026-10-15T01:33:49.440Z",
+        "organisations": [
+            "beekeeper",
+            "bitplane-imaris",
+            "dacs",
+            "4qt",
+            "secure-switzerland",
+            "infineon-switzerland"
+        ],
+        "linksAdded": 8,
+        "evidence": "/tmp/zurich-registry-review/social-current-six-reviewed-verification.json",
+        "review": "Main independently read live official pages and corporate structured declarations. Beekeeper explicitly belongs to LumApps, Imaris links Oxford Instruments, and Infineon's Swiss page links its global corporate account. Secure Switzerland's contact page links the continuing Adaptricity account. DACS founder profiles were excluded in favour of its Organization sameAs. 4QT's company jobs link establishes its company profile. Supported preview/apply and fresh independent verification passed; no existing links replaced."
+    },
+    "evidence": "/tmp/zurich-registry-review/current-social-check.json",
+    "limitations": [
+        "Homepage inspection does not prove that an organisation has no social accounts; JavaScript-rendered links and other official pages can require follow-up.",
+        "The evidence report's withRecordedSocials aggregate included non-organisation owners and must not be used as a coverage statistic.",
+        "Account-shaped URLs are candidates, not verified organisation accounts.",
+        "This pass does not certify all existing social links."
+    ],
+    "verifiedApplied": [
+        {
+            "slug": "antavi",
+            "source": "https://www.antavi.ch/en/",
+            "linkedin": "https://www.linkedin.com/company/antavi"
+        },
+        {
+            "slug": "frontdam-buddyns",
+            "source": "https://www.buddyns.com/",
+            "x": "https://x.com/BuddyNS"
+        },
+        {
+            "slug": "thelkin",
+            "source": "https://www.thelkin.com/de/",
+            "linkedin": "https://www.linkedin.com/company/thelkin-ag"
+        },
+        {
+            "slug": "twincap-first",
+            "source": "https://twincapfirst.ch/",
+            "linkedin": "https://www.linkedin.com/company/twincap-first-ag/"
+        },
+        {
+            "slug": "cellerys",
+            "source": "https://www.linkedin.com/company/cellerys-ag",
+            "linkedin": "https://www.linkedin.com/company/cellerys-ag",
+            "identityEvidence": "Corporate profile links cellerys.com, identifies the Zurich university spin-out and its Schlieren location; distinct from the unrelated Cellery account."
+        },
+        {
+            "slug": "trafag",
+            "source": "https://www.linkedin.com/company/trafag",
+            "linkedin": "https://www.linkedin.com/company/trafag",
+            "identityEvidence": "Corporate profile links trafag.com and identifies the sensor manufacturer and Bubikon headquarters."
+        }
+    ],
+    "boundedNoAccountFound": [
+        {
+            "slug": "shape-biopharmaceuticals",
+            "date": "2026-10-15",
+            "checks": ["Official homepage", "Exact company-name LinkedIn search"],
+            "result": "Founder and employee profiles found, but no verified corporate account. Shape Therapeutics is a different company and was rejected.",
+            "state": "checked-none-found"
+        },
+        {
+            "slug": "lipal-biochemicals",
+            "date": "2026-10-15",
+            "checks": ["Official homepage", "Exact company-name LinkedIn search"],
+            "result": "Only official company pages and directory evidence found; no verified corporate account.",
+            "state": "checked-none-found"
+        },
+        {
+            "slug": "welmedis",
+            "date": "2026-10-15",
+            "checks": ["Official homepage", "Exact company-name LinkedIn search"],
+            "result": "Employee profiles found, but no verified corporate account. Personal accounts were not added.",
+            "state": "checked-none-found"
+        }
+    ],
+    "verification": "First three supported enrichments independently verified at 2026-10-14T23:05:55.182Z; TwinCap First's official sameAs account independently verified at 2026-10-14T23:19:38.304Z; Cellerys and Trafag independently verified at 2026-10-14T23:36:22.951Z. Do not reapply.",
+    "rejectedCandidates": [
+        "step-x: Wix platform accounts",
+        "bluact: developer's personal GitHub account",
+        "qubrix: generic Twitter account placeholder"
+    ],
+    "unresolvedParentAccounts": [
+        "Beekeeper / LumApps",
+        "Bitplane Imaris / Oxford Instruments",
+        "Adaptricity / Secure Meters",
+        "Thoratec / Abbott",
+        "ZHAW labs / Engineering ZHAW",
+        "Microsoft Spatial AI / Microsoft Research",
+        "Infineon Switzerland / Infineon"
+    ],
+    "unsupportedAccountTypesToReview": [
+        "ETH Gramazio Kohler: Instagram",
+        "GNL: Instagram",
+        "Halion: Instagram",
+        "Scanvision: Instagram and YouTube",
+        "Readney: Instagram",
+        "FabLab Zurich: Instagram and YouTube",
+        "crossING: Instagram and YouTube"
+    ],
+    "nextChecks": [
+        "Reconcile homepage candidates with research workers' existing evidence",
+        "Classify remaining organisations as verified accounts, no account found after bounded checks, or unresolved; do not invent handles"
+    ]
+}

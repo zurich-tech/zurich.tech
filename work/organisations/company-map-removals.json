@@ -1,0 +1,323 @@
+{
+    "criteria": "work/organisations/inclusion-criteria.json",
+    "apply": false,
+    "requiresMainReview": true,
+    "snapshotAt": "2026-10-15T00:36:59.065Z",
+    "uiHandoff": {
+        "status": "historical-not-live",
+        "note": "No current browser confirmation or approval is represented by this file. Use the authoritative manifest and a fresh supported action-time review."
+    },
+    "preservation": "Delete only approved locations through places/locations:remove; preserve organisations, addresses and relationships.",
+    "operations": [
+        {
+            "slug": "consys",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px7dmabk23kqxzv662kfrfx0xh8g8hre"
+            },
+            "preconditions": {
+                "ownerId": "p17eva7z3s0hran0yqtdn372wx8g8h21",
+                "addressId": "j971yze0djvk1v9caqyrkfjgjx8f4ths",
+                "visibility": "public",
+                "name": "Consys"
+            },
+            "reason": "Main independently reviewed the official history and software pages: AAC Infotray supplies the chosen Limsophy product; Consys describes distribution, customer services and implementation. Exclusion recommendation approved on affirmative service/distributor evidence, not missing patents. Disabled map-only proposal; preserve organisation, address and relationships. Revalidate location at action time.",
+            "evidence": [
+                {
+                    "url": "https://consys.ch/geschichte/"
+                },
+                {
+                    "url": "https://consys.ch/software/"
+                },
+                {
+                    "url": "https://consys.ch/news-blogs/news/fusion-adressanderung/"
+                }
+            ],
+            "approvalStatus": "Main-reviewed recommendation only; production execution disabled."
+        },
+        {
+            "slug": "webunique",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px75zsh7cmrgbq4wjkmppywqhs8g8rf4"
+            },
+            "preconditions": {
+                "ownerId": "p174hgnh052sch9vhg3rwwef4s8g9w88",
+                "addressId": "j977x10he9m6mpz41batdxafw98g8xgy",
+                "visibility": "public",
+                "name": "Published contact address"
+            },
+            "reason": "Official agency and delivery workflow describe custom websites/apps for clients, customer acceptance and project handover. Named Camply/Dalia projects are customer references, not demonstrated own products. Proposed map-only exclusion for main review, not an assertion that the company never develops technology.",
+            "evidence": [
+                {
+                    "url": "https://webunique.ch/"
+                },
+                {
+                    "url": "https://webunique.ch/agentur/"
+                }
+            ]
+        },
+        {
+            "slug": "walkingtoweb",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px71t7ghzjdgph80fvshkdsays8g9vnn"
+            },
+            "preconditions": {
+                "ownerId": "p17cyb9vka0q1tepxx3tbavntn8g9920",
+                "addressId": "j97fbb624jjsmwb1ngk8t443jx8g8nqj",
+                "visibility": "public",
+                "name": "Postal address"
+            },
+            "reason": "Official company page establishes hosting/operation of Dell/Apple infrastructure and third-party FileMaker/Nextcloud/Kerio. It explicitly attributes blue.project software development to separate walkingtoyou GmbH; do not transfer sister-company product ownership. Proposed map-only exclusion for main review.",
+            "evidence": [
+                {
+                    "url": "https://www.walkingtoweb.com/de/walkingtoweb"
+                },
+                {
+                    "url": "https://www.walkingtoweb.com/de/cloudloesungen/blue-project-cloud"
+                }
+            ]
+        },
+        {
+            "slug": "beebase",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px70t4cqaw6rtsw3mf86b3k8zn8g9dfx"
+            },
+            "preconditions": {
+                "ownerId": "p177ve51peb4724s5s2163v6y98g9gp2",
+                "addressId": "j97825hvh94myamp7t7y8fzst58g98sc",
+                "visibility": "public",
+                "name": "Contact address"
+            },
+            "reason": "Reviewed both published service branches: outsourced IT operation/support and customer-specific AI setup/training. The apparently product-like AI operating system is explicitly third-party Langdock, on which BeeBase configures agents and workflows. Proposed map-only exclusion under revised client-only integration criterion; not applied.",
+            "evidence": [
+                {
+                    "url": "https://www.beebase.ch/"
+                },
+                {
+                    "url": "https://www.beebase.ch/ki-kompetenz"
+                }
+            ]
+        },
+        {
+            "slug": "digitalmaterial",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px75xpv32ep78qse63d83zvads8g864h"
+            },
+            "preconditions": {
+                "ownerId": "p17ecewqcdws202nrp5d0sfdr58g9zzm",
+                "addressId": "j978a2p6y1sbf3q6sz0dkznwh58g9gh8",
+                "visibility": "public",
+                "name": "Contact address"
+            },
+            "reason": "Official service catalogue is infrastructure/support/Microsoft 365. Its automation page explicitly identifies Microsoft Endpoint Manager, Intune, Entra ID and Defender as the technology used to provision client equipment, rather than a developed own product. Proposed map-only exclusion based on published technical offering; not applied.",
+            "evidence": [
+                {
+                    "url": "https://digitalmaterial.ch/"
+                },
+                {
+                    "url": "https://digitalmaterial.ch/it-services/automatisierung"
+                }
+            ]
+        },
+        {
+            "slug": "citrus",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px7988f5b81jd9ae029z3a5q458g8vh1"
+            },
+            "preconditions": {
+                "ownerId": "p171z3gvm9fbe7kk579aq2v4pn8g9b8m",
+                "addressId": "j973sk82skt58n762tk488wpxs8g8db0",
+                "visibility": "public",
+                "name": "Zurich office"
+            },
+            "reason": "Official company history explicitly describes its full focus since 2014 as rollout, maintenance and support of Google Workspace/Cloud and a small set of third-party tools. Homepage services are migration, integration and training. Proposed map-only exclusion based on this published company remit, not similarly named software companies elsewhere.",
+            "evidence": [
+                {
+                    "url": "https://citrus.ch/"
+                },
+                {
+                    "url": "https://citrus.ch/en/about-citrus/"
+                }
+            ]
+        },
+        {
+            "slug": "creative-matters",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px7c21jj81ngz7eyjvmjzdb2h58g9xj6"
+            },
+            "preconditions": {
+                "ownerId": "p17d6twb92tycbp4xrhgfewamx8g9xac",
+                "addressId": "j971yze0djvk1v9caqyrkfjgjx8f4ths",
+                "visibility": "public",
+                "name": "creative matters, Winterthur"
+            },
+            "reason": "Official service catalogue describes a client product-design and design-strategy agency. Its flagship 9T Labs printer is explicitly the customer's product, with design work credited to prior employment at Meyer-Hayoz. The agency's own relevant technology is not evidenced; this client-design business does not meet the amended company criterion. Proposed map-only exclusion requires main review.",
+            "evidence": [
+                {
+                    "url": "https://creativematters.ch/"
+                },
+                {
+                    "url": "https://creativematters.ch/project/red-series-build/"
+                }
+            ]
+        },
+        {
+            "slug": "dream-production",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px721tsm5zabqwtafq7pnk3byd8g8x2h"
+            },
+            "preconditions": {
+                "ownerId": "p17ab7egx1xs5epy8qt0kb6e018g9bms",
+                "addressId": "j97cwmc7mp2asp5k3f2t97jy4d8g9qpk",
+                "visibility": "public",
+                "name": "Office"
+            },
+            "reason": "Official company and service pages explicitly describe a web agency delivering client websites/apps using WordPress, Drupal and Shopify; the named MyTennis platform belongs to Swiss Tennis. The published business is client-only agency delivery, not its own technology product. Proposed map-only exclusion requires main review.",
+            "evidence": [
+                {
+                    "url": "https://dreamproduction.com/unternehmen/"
+                },
+                {
+                    "url": "https://dreamproduction.com/project/mytennis-zentrale-online-plattform/"
+                }
+            ]
+        },
+        {
+            "slug": "intecso",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px78bqv4m5jfw64caahre5smqh8g8k6m"
+            },
+            "preconditions": {
+                "ownerId": "p170qqmav2b28k99am4fkwtmmd8g83gz",
+                "addressId": "j97evt47xrqws6h8rv7y4602q98g91sf",
+                "visibility": "public",
+                "name": "Office"
+            },
+            "reason": "Recommend map-only exclusion under the explicit own-technology criterion. Current full catalogue, team and careers describe managed Azure/M365/Copilot, backup, security, monitoring, migration and customer support. These positively establish generic managed ICT implementation/operation, not merely a missing product search result. Main independently re-read the homepage and approved this exclusion recommendation. Preserve organisation, relationships and profile; the exact public-location proposal remains disabled pending supported action.",
+            "evidence": [
+                {
+                    "url": "https://www.intecso.ch/"
+                },
+                {
+                    "url": "https://www.intecso.ch/ueber-uns/"
+                }
+            ]
+        },
+        {
+            "slug": "zurichnetgroup",
+            "function": "places/locations:remove",
+            "args": {
+                "id": "px76cjzdn52s5y1y4wgdny5c318g92v6"
+            },
+            "preconditions": {
+                "ownerId": "p17f6k23mre9v2z05c233nj77h8g8p75",
+                "addressId": "j978xpn51ce7ykvjzy2vnrzkbs8g86vw",
+                "visibility": "public",
+                "name": "Office"
+            },
+            "reason": "Recommend map-only exclusion: the current catalogue explicitly supplies Microsoft/Swisscom vendor integrations, and the Senior IT System Engineer role specifies installation, migration and expansion of customer infrastructure. This is affirmative generic managed-ICT evidence across catalogue and actual work duties. Main independently read these primary pages and approved the recommendation. Preserve organisation, relationships and profile; the exact public-location proposal remains disabled pending supported action.",
+            "evidence": [
+                {
+                    "url": "https://www.zurichnetgroup.ch/"
+                },
+                {
+                    "url": "https://www.zurichnetgroup.ch/jobs/senior-it-engineer"
+                }
+            ]
+        }
+    ],
+    "uncertainties": [
+        "accenture-switzerland",
+        "automate",
+        "beriflapp",
+        "blackpoints",
+        "cross-works",
+        "ecoparts",
+        "etavis",
+        "evolyze",
+        "forte-digital",
+        "icentic",
+        "joylab",
+        "koch-it",
+        "linked-engineering",
+        "mathys-partner",
+        "mecas",
+        "microbe-investigations",
+        "novita-engineering",
+        "novu",
+        "onmit",
+        "plat4mation",
+        "quantum-digital",
+        "qubrix",
+        "reasoning-labs",
+        "scanvision",
+        "scheuss-partner",
+        "sotronik",
+        "step-x",
+        "swiss-engineering-partners",
+        "swiss-robotics-advanced-technologies",
+        "tailorfast",
+        "tekkminds",
+        "umb",
+        "voviva",
+        "won-data"
+    ],
+    "historicalSnapshot": true,
+    "supersededBy": "company-eligibility-exclusions.json",
+    "currentDecisionAuthority": "company-eligibility-audit.json",
+    "notExecutable": true,
+    "supersessionNotice": "Historical research only. Counts, open questions and recommendations may be stale. Use the current exclusions manifest and audit; do not execute historical operations.",
+    "withdrawnExclusionOverrides": [
+        {
+            "slug": "stutz-medien",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "cyberlink",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "trias-pharma",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "cross-works",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "unimission",
+            "decision": "uncertain",
+            "status": "withdrawn-unresolved",
+            "apply": false
+        },
+        {
+            "slug": "blackpoints",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "dream-production",
+            "decision": "uncertain",
+            "status": "withdrawn-unresolved",
+            "apply": false
+        }
+    ],
+    "latestCatalogueChallenge": "company-eligibility-removal-review.json"
+}

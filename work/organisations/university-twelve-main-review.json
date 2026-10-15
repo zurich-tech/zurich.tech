@@ -1,0 +1,77 @@
+{
+    "reviewedOn": "2026-10-15",
+    "status": "Ten published once and independently verified; two artwork holds remain",
+    "publishedManifest": "/tmp/zurich-registry-review/primary-db05-closure-ten-hosted-ready.json",
+    "verifiedProductionCount": 1245,
+    "verification": "Fresh 1235-record exact identity and product/operator alias checks found no duplicates. Existing Dammstrasse 16 address reused for MB Cyber Security. All ten hosted images matched approved hashes, decoded at 192px and allowed CORS. Supported preview returned ten without writes, apply returned ten, independent complete readback verified ten profiles, topics, locations and social links.",
+    "handoff": "/tmp/zurich-registry-review/primary-db05-closure-handoff.json",
+    "reviewedAgainstProductionCount": 1235,
+    "approved": [
+        "swijin",
+        "vir2sense",
+        "sensiqol",
+        "diramics",
+        "llmify",
+        "mb-cyber-security",
+        "compagos",
+        "vesifact",
+        "shl-medical",
+        "spinningbytes"
+    ],
+    "artworkHolds": ["aerotain", "systaim"],
+    "artworkFinding": "Main viewed all twelve at preview and marker sizes. Aerotain and Systaim full wordmarks are too small at marker size; seek an official compact mark, not an invented crop. sensiQoL and MB are low-resolution but recognizable official symbols; no recovered-detail claim.",
+    "mainPrimaryReview": [
+        {
+            "slug": "swijin",
+            "source": "https://swijin.com/pages/about-us",
+            "finding": "Explicit co-development of technical fabric with Empa scientists and engineers, not ordinary clothing resale. Registered Thalwil address distinguished from older Zurich imprint."
+        },
+        {
+            "slug": "sensiqol",
+            "source": "https://www.sensiqol.ch/ueber-uns/",
+            "finding": "Own assessment products grew from joint university projects; original digital assessment platform qualifies separately from consulting. Published Baar contact address confirmed."
+        },
+        {
+            "slug": "diramics",
+            "source": "https://diramics.com/about/",
+            "finding": "Own semiconductor technology with epitaxial design, fabrication and modelling, not resale. Official contact confirms Steinhausen."
+        },
+        {
+            "slug": "llmify",
+            "source": "https://llmify.ch/",
+            "finding": "Kontexus is presented as its own agent product. Do not repeat performance or data-sovereignty guarantees."
+        },
+        {
+            "slug": "mb-cyber-security",
+            "source": "https://mbcybersecurity.com/",
+            "finding": "Own security appliance and dashboard described; neutral description omits patent and protection guarantees. Imprint explicitly identifies registered Zug entity."
+        },
+        {
+            "slug": "compagos",
+            "source": "https://www.compagos.ch/contact",
+            "finding": "Office explicitly labelled at Rigistrasse 15c c/o MAS Solutions. Bon3OID is investigational; description preserves research status and does not imply clinical availability."
+        },
+        {
+            "slug": "vir2sense",
+            "source": "https://www.vir2sense.com/",
+            "finding": "Own virtual-sensor technology combines physical models and machine learning; description omits reliability superlatives."
+        },
+        {
+            "slug": "vesifact",
+            "source": "https://www.vesifact.ch/",
+            "finding": "Original formulation and delivery technology; no medical efficacy claim."
+        },
+        {
+            "slug": "shl-medical",
+            "source": "https://www.shl-medical.com/careers/locations/switzerland",
+            "finding": "Zug headquarters explicitly has design and process-development capability. Do not imply that its announced future manufacturing facility is already operating."
+        },
+        {
+            "slug": "spinningbytes",
+            "source": "https://spinningbytes.com/more/resources/",
+            "finding": "Attributed original NLP technology and joint research corpora distinguish it from client-only implementation. Current homepage identifies maintained NLP work and local university collaboration; historical award dates are not evidence of recent awards."
+        }
+    ],
+    "limitations": "Corporate claims establish directory relevance, not independent validation of product performance. Missing social links mean no verified supported account was found, not that none exists.",
+    "productionWrites": 10
+}

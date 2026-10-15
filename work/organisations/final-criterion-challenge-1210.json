@@ -1,0 +1,73 @@
+{
+    "reviewedAt": "2026-10-15T06:25:31.018Z",
+    "criteria": "inclusion-criteria.json",
+    "correction": "eligibility-criterion-correction.json",
+    "apply": false,
+    "productionWrites": 0,
+    "rows": [
+        {
+            "slug": "umb",
+            "decision": "held",
+            "reason": "VBZ prototype and Belimo integration establish customer engineering, not by themselves maintained technology of UMB itself. The provisional keep incorrectly treated all commissioned engineering as qualifying.",
+            "missingFact": "Identify maintained original technology attributable to UMB beyond client-only implementation.",
+            "sources": [
+                "https://www.umb.ch/kunden/projekt/detail/fragen-an-die-vbz-der-ki-butler-hilft-dem-kundendienst-bei-der-beantwortung"
+            ],
+            "reference": "eligibility-criterion-correction.json"
+        },
+        {
+            "slug": "icentic",
+            "decision": "held",
+            "reason": "Staffing, turnkey development and historical beppo incubation do not establish current own-technology development by icentic. The provisional keep is withdrawn, not converted into an exclusion.",
+            "missingFact": "Current attribution of a substantive maintained icentic technology or continued contribution to beppo.",
+            "sources": [
+                "https://www.icentic.com/",
+                "https://www.icentic.com/software-development-for-sme/"
+            ],
+            "reference": "eligibility-criterion-correction.json"
+        },
+        {
+            "slug": "mecas",
+            "decision": "keep",
+            "reason": "Retain generously as a young technical research/system-development company on its attributed physical-AI, vision and sensor/robotics work. This is not an assertion of a released proprietary product and not a blanket exception for client-only development.",
+            "sources": ["https://www.mecas.ai/", "https://www.mecas.ai/legal"],
+            "reference": "eligibility-criterion-correction.json",
+            "qualification": "Research attribution and young-company treatment; no independent product-release certification"
+        },
+        {
+            "slug": "tekkminds",
+            "decision": "held",
+            "reason": "Fresh official simulation-platform case identifies a maintained five-year customer platform for an automotive manufacturer. Concrete engineering is established, but the cited case does not establish a retained company technology distinct from client-only delivery.",
+            "missingFact": "Attributable own maintained component/platform beyond the customer-specific system; no exclusive-IP paperwork required.",
+            "sources": ["https://tekkminds.com/work/simulation-platform/"],
+            "reference": "final-criterion-challenge-1210.json"
+        },
+        {
+            "slug": "quantum-digital",
+            "decision": "held",
+            "reason": "Fresh bws trackmaster case attributes joint development but places the solution within Debrunner Acifer services and existing E-Business platform. This does not settle retained Quantum technology versus client-only development.",
+            "missingFact": "A maintained original Quantum component or jointly operated product, distinct from implementation of the customer offering.",
+            "sources": [
+                "https://www.q-digital.ch/bwstrackmaster/",
+                "https://www.q-digital.ch/unternehmen/partner-produkte/"
+            ],
+            "reference": "final-criterion-challenge-1210.json"
+        },
+        {
+            "slug": "beriflapp",
+            "decision": "held",
+            "reason": "Fresh homepage confirms original SaaS engineering, but Weder customer testimony describes its own route-planning software. Multi-client use of the customer product does not alone establish technology attributable to Beriflapp beyond commissioned delivery.",
+            "missingFact": "Retained original Beriflapp platform/component or explicit ongoing joint-product attribution, rather than development services alone.",
+            "sources": ["https://www.beriflapp.com/"],
+            "reference": "final-criterion-challenge-1210.json"
+        },
+        {
+            "slug": "scanvision",
+            "decision": "keep",
+            "reason": "Fresh official About section attributes ongoing surveying-method, workflow and sensor-interface development to the ETH spin-off. Retain for that continuing technical method/interface work, not merely the customer Town Hall visualisation.",
+            "sources": ["https://scanvision.ch/"],
+            "reference": "final-criterion-challenge-1210.json"
+        }
+    ],
+    "meaning": "Three additional held recommendations are criterion reconciliation, not proof of ineligibility or authorization to remove. UMB/icentic correction is authoritative. Mecas research basis retained with qualification. Historical evidence remains unchanged."
+}

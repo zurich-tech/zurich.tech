@@ -1,0 +1,395 @@
+{
+    "checkedAt": "2026-10-15T03:36:33.208Z",
+    "productionWrites": 0,
+    "visualReview": "Inspected all four official icons at32px and96px. Zenline black mark/light-blue background, TOM cyan/purple symbol, SimpleTrain cyan symbol/light-blue background and GET LOCAL grey key-circle are readable. GET LOCAL icon is declared by its parent application, not inferred from a service illustration. Original colours/compositions unchanged.",
+    "records": [
+        {
+            "slug": "zenline",
+            "name": "Zenline AI",
+            "website": "https://www.tryzenline.ai/",
+            "line1": "Klausstrasse 19",
+            "postalCode": "8008",
+            "locality": "Zürich",
+            "office": "Registered address",
+            "headline": "AI assortment intelligence for retailers",
+            "description": "Develops AI software for retail assortment decisions, combining product data, pricing analysis and agents that clean and enrich category information",
+            "topics": ["agents", "analytics"],
+            "uid": "194375790",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/zenline-ag/"
+            },
+            "source": "https://cdn.prod.website-files.com/6862cb9fe5a201375a6d99c7/686c007f1f967824409e414a_fav-256.png",
+            "sources": [
+                "https://www.tryzenline.ai/",
+                "https://www.tryzenline.ai/about",
+                "https://www.tryzenline.ai/imprint",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE194375790"
+            ],
+            "rationale": "Own assortment software and engineering explicitly described on current About. Current imprint and active UID agree Klausstrasse19; old terms retain Pfingstweidstrasse106e and are superseded for location. Not a generic retail consultancy.",
+            "socialEvidence": "Official footer directly links zenline-ag LinkedIn. No GitHub/X linked in reviewed pages or verified by exact-name search.",
+            "address": {
+                "line1": "Klausstrasse 19",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.35910415649414,
+                "longitude": 8.549992561340332,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2369532_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "klausstrasse 19 8008 zuerich 261 zuerich ch zh",
+                            "featureId": "2369532_0",
+                            "geom_quadindex": "030003300330201303311",
+                            "geom_st_box2d": "BOX(8.549981 47.359106,8.549981 47.359106)",
+                            "label": "Klausstrasse 19 <b>8008 Zürich</b>",
+                            "lat": 47.35910415649414,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101086552",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2369532_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.549992561340332,
+                            "num": 19,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.549992561340332,
+                            "y": 47.35910415649414,
+                            "zoomlevel": 10
+                        },
+                        "id": 2433521,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-zenline.png",
+                "source": "https://cdn.prod.website-files.com/6862cb9fe5a201375a6d99c7/686c007f1f967824409e414a_fav-256.png",
+                "width": 256,
+                "height": 256,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "tom-medications",
+            "name": "TOM Medications",
+            "website": "https://www.tommedications.com/",
+            "line1": "Pfäffikerstrasse 109",
+            "postalCode": "8615",
+            "locality": "Wermatswil",
+            "office": "Registered address",
+            "headline": "Medication management and adherence software",
+            "description": "Develops the TOM medication-management app with reminders, medicine inventory, health measurements and therapy-adherence reporting",
+            "topics": ["medtech"],
+            "uid": "263807653",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/tommedications/"
+            },
+            "source": "https://www.tommedications.com/wp-content/uploads/2022/04/fav_icon.svg",
+            "sources": [
+                "https://www.tommedications.com/",
+                "https://tommedications.com/impressum/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE263807653"
+            ],
+            "rationale": "Own current medication application and operator Innovation6AG explicit. Active UID agrees current legal address; parent/operator absent from snapshot as well as TOM brand. One profile for product company, not duplicate Innovation6 record. No clinical efficacy or regulated-device approval claim.",
+            "socialEvidence": "Official footer directly links TOM Medications corporate LinkedIn; no verified official X/GitHub linked.",
+            "address": {
+                "line1": "Pfäffikerstrasse 109",
+                "postalCode": "8615",
+                "locality": "Wermatswil",
+                "countryCode": "CH",
+                "latitude": 47.36208724975586,
+                "longitude": 8.74139404296875,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/201030386_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "pfaeffikerstrasse 109 8615 wermatswil 198 uster ch zh",
+                            "featureId": "201030386_0",
+                            "geom_quadindex": "030012300211113220031",
+                            "geom_st_box2d": "BOX(8.741382 47.362088,8.741382 47.362088)",
+                            "label": "Pfäffikerstrasse 109 <b>8615 Wermatswil</b>",
+                            "lat": 47.36208724975586,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101679446",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/201030386_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.74139404296875,
+                            "num": 109,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.74139404296875,
+                            "y": 47.36208724975586,
+                            "zoomlevel": 10
+                        },
+                        "id": 1898136,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-tom-medications.png",
+                "source": "https://www.tommedications.com/wp-content/uploads/2022/04/fav_icon.svg",
+                "width": 60,
+                "height": 60,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "simpletrain",
+            "name": "SimpleTrain",
+            "website": "https://simpletrain.ch/",
+            "line1": "Neue Winterthurerstrasse 99",
+            "postalCode": "8304",
+            "locality": "Wallisellen",
+            "office": "Registered address",
+            "headline": "European rail booking software",
+            "description": "Develops and operates a rail-booking platform that searches international connections, compares fares and combines automated booking with specialist trip planning",
+            "topics": ["software-engineering"],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/simpletrain/"
+            },
+            "source": "https://simpletrain.ch/web-app-manifest-192x192.png",
+            "sources": [
+                "https://simpletrain.ch/",
+                "https://simpletrain.ch/blog/neue-buchungsplattform",
+                "https://simpletrain.ch/ueber-uns",
+                "https://simpletrain.ch/impressum"
+            ],
+            "rationale": "Official2024launch describes two years of original platform development; currentAbout names nxtEngineering as platform-development partner and continuing automation/UX roles. Original jointly developed maintained product qualifies; no exclusive internal-engineering requirement imposed. Map exact current Firmensitz in imprint, not mixed Zurich job location or Schlieren postal-office claim.",
+            "socialEvidence": "Official homepage links SimpleTrain company LinkedIn posts; normalized to corporate account. No official X/GitHub verified; Facebook/Instagram outside importer fields.",
+            "address": {
+                "line1": "Neue Winterthurerstrasse 99",
+                "postalCode": "8304",
+                "locality": "Wallisellen",
+                "countryCode": "CH",
+                "latitude": 47.40901565551758,
+                "longitude": 8.595538139343262,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2267364_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "neue winterthurerstrasse 99 8304 wallisellen 69 wallisellen ch zh",
+                            "featureId": "2267364_0",
+                            "geom_quadindex": "030003112320302211220",
+                            "geom_st_box2d": "BOX(8.595526 47.409017,8.595526 47.409017)",
+                            "label": "Neue Winterthurerstrasse 99 <b>8304 Wallisellen</b>",
+                            "lat": 47.40901565551758,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101007333",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2267364_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.595538139343262,
+                            "num": 99,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.595538139343262,
+                            "y": 47.40901565551758,
+                            "zoomlevel": 10
+                        },
+                        "id": 2225802,
+                        "weight": 100
+                    },
+                    {
+                        "attrs": {
+                            "detail": "neue winterthurerstrasse 99a 8304 wallisellen 69 wallisellen ch zh",
+                            "featureId": "210187258_0",
+                            "geom_quadindex": "030003112323011130202",
+                            "geom_st_box2d": "BOX(8.598372 47.408266,8.598372 47.408266)",
+                            "label": "Neue Winterthurerstrasse 99a <b>8304 Wallisellen</b>",
+                            "lat": 47.40826416015625,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101808374",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210187258_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.598383903503418,
+                            "num": 99,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.598383903503418,
+                            "y": 47.40826416015625,
+                            "zoomlevel": 10
+                        },
+                        "id": 2193885,
+                        "weight": 4
+                    },
+                    {
+                        "attrs": {
+                            "detail": "neue winterthurerstrasse 99b 8304 wallisellen 69 wallisellen ch zh",
+                            "featureId": "210268615_0",
+                            "geom_quadindex": "030003112321230012301",
+                            "geom_st_box2d": "BOX(8.597837 47.408838,8.597837 47.408838)",
+                            "label": "Neue Winterthurerstrasse 99b <b>8304 Wallisellen</b>",
+                            "lat": 47.408836364746094,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102539307",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210268615_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.597848892211914,
+                            "num": 99,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.597848892211914,
+                            "y": 47.408836364746094,
+                            "zoomlevel": 10
+                        },
+                        "id": 2720895,
+                        "weight": 4
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-simpletrain.png",
+                "source": "https://simpletrain.ch/web-app-manifest-192x192.png",
+                "width": 192,
+                "height": 192,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "get-local",
+            "name": "GET LOCAL",
+            "website": "https://getlocal.ch/",
+            "line1": "Balz-Zimmermann-Strasse 7.1",
+            "postalCode": "8152",
+            "locality": "Glattbrugg",
+            "office": "Registered address",
+            "headline": "Digital concierge and transfer-booking platforms",
+            "description": "Develops digital concierge software for hotels and transfer-booking platforms for airlines, connecting local services through shared booking infrastructure",
+            "topics": ["software-engineering"],
+            "uid": "225032796",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/get-local-ag/"
+            },
+            "source": "https://www.get-local.com/logo192.png",
+            "sources": [
+                "https://getlocal.ch/",
+                "https://getlocal.ch/ueber-uns",
+                "https://getlocal.ch/impressum",
+                "https://www.get-local.com/",
+                "https://ch.linkedin.com/company/get-local-ag",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE225032796"
+            ],
+            "rationale": "OfficialAbout explicitly places IT development in parent GET LOCAL AG and identifies GET LOCAL SCHWEIZ AG as Swiss licensee. Represent parent product company once, not separate reseller. Current parent UID supplies exact7.1 registered address; public contact rounds building to7. Corporate LinkedIn links samebrand site and own maintained transfer product; old Grabligasse address not used.",
+            "socialEvidence": "Corporate GET LOCAL AG LinkedIn directly links getlocal.ch and same products/leadership. Official site only links personal leadership profiles, not imported. Declared parent-app icon is original grey key symbol, not platform default; retained for main visual approval.",
+            "address": {
+                "line1": "Balz-Zimmermann-Strasse 7.1",
+                "postalCode": "8152",
+                "locality": "Glattbrugg",
+                "countryCode": "CH",
+                "latitude": 47.43904495239258,
+                "longitude": 8.571066856384277,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210248618_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "balz-zimmermann-strasse 7.1 8152 glattbrugg 66 opfikon ch zh",
+                            "featureId": "210248618_0",
+                            "geom_quadindex": "030003101100211301300",
+                            "geom_st_box2d": "BOX(8.571054 47.439048,8.571054 47.439048)",
+                            "label": "Balz-Zimmermann-Strasse 7.1 <b>8152 Glattbrugg</b>",
+                            "lat": 47.43904495239258,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102490279",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210248618_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.571066856384277,
+                            "num": 71,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.571066856384277,
+                            "y": 47.43904495239258,
+                            "zoomlevel": 10
+                        },
+                        "id": 2471381,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-get-local.png",
+                "source": "https://www.get-local.com/logo192.png",
+                "width": 192,
+                "height": 192,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        }
+    ]
+}

@@ -1,0 +1,118 @@
+{
+    "date": "2026-10-15",
+    "status": "in-progress",
+    "publication": "Talpa Inspection, NeoChemurgy and Riverkin published once and independently full-field/location/social verified at1093. All other proposals remain unpublished from this review.",
+    "campusPublication": {
+        "packet": "/tmp/zurich-registry-review/campus-three-reviewed-ready.json",
+        "identityCheck": "Fresh complete production tables at1090, 03:22 UTC: no exact candidate identities or existing public HIF building; current and former names reviewed separately",
+        "assets": "Three visually approved official assets independently downloaded, SHA256 checked, fully pixel decoded and CORS verified at03:23 UTC",
+        "address": "All three share the verified ETH HIF building; Riverkin retains explicit registered-address label",
+        "verification": "Supported dryrun then apply exactly once, independent complete production table readback passed; do not reapply",
+        "withheld": "4Quant needs current registered/operating address reconciliation: old Technopark website versus newer Birmensdorf registry indication; no inactivity inference"
+    },
+    "batch": "/tmp/zurich-registry-review/primary-db05-positive-next-five-batch.json",
+    "reviews": [
+        {
+            "slug": "covalx",
+            "sources": ["https://covalx.com/products/hm5/", "https://covalx.com/about-us/"],
+            "finding": "Official HM5 page explicitly describes own fifth-generation high-mass detector development and integrated control software. Official Zurich headquarters at Muhlebachstrasse 14 confirmed; not admitted merely for contract analytical services.",
+            "logo": "Complete official wordmark recognizable but small at 32px; ask for genuine compact variant if available, no fabricated crop"
+        },
+        {
+            "slug": "limmat-scientific",
+            "sources": [
+                "https://www.limmatscientific.ch/",
+                "https://www.limmatscientific.ch/contact-us/"
+            ],
+            "finding": "Official ongoing probe R&D and product catalogue support eligibility. Headquarters Muhlegasse 18 Baar and separate Zurich service office are explicit; prepared headquarters is justified.",
+            "logo": "Official compact mark visually approved at 32px"
+        },
+        {
+            "slug": "incolab",
+            "sources": ["https://sketchtool.ch/", "https://incolab.ch/?page=contact"],
+            "finding": "Main independently read Sketchtool's classical landscape and AI collage applications, with direct incolab attribution. Main subsequently opened the current contact page in user Chrome and directly verified incolab GmbH, Hardturmstrasse 261,8005Zurich and outbound corporate LinkedIn. Own software development supports admission, not planning consultancy alone.",
+            "logo": "Official compact mark visually approved at 32px"
+        },
+        {
+            "slug": "qiio",
+            "sources": ["https://www.qiio.com/", "https://www.qiio.com/contact.html"],
+            "finding": "Main read saved primary HTTP captures: own Sphere Studio software and Swiss/German-designed hardware, current contact qiio Switzerland AG Chamerstrasse 42a, Hunenberg. Older Zurich LinkedIn location does not override direct current contact. Normalize social key from twitter to x.",
+            "logo": "Official complete mark visually approved at 32px"
+        },
+        {
+            "slug": "gastric-imaging-analysis",
+            "sources": ["https://www.gastric.ch/"],
+            "finding": "Main independently read official own Medical Questionnaires and Symptom Tracker applications. Main subsequently inspected the saved successful official UID response CHE431262986: active entity, Wasserschopfi25,8055Zurich, EGID302030880. Retain Registered address, not an inferred staffed office. Contact page itself supplies no street address.",
+            "logo": "Complete official mark is recognizable on white, but poor contrast on dark; request consistent white backing or verified alternative before approval"
+        }
+    ],
+    "additionalReviews": [
+        {
+            "slug": "quantis",
+            "sources": [
+                "https://quantis.com/services-solutions/digital-services/",
+                "https://quantis.com/about/locations/zurich/",
+                "https://quantis.com/insights/twenty-years-of-impact-quantis-and-the-making-of-sustainable-business/",
+                "https://quantis.com/case-studies/remy-cointreau/"
+            ],
+            "finding": "Own eQosphere and SPICE development and proprietary eQosphere application supported by official material. Zurich office Bleicherweg 62 confirmed. Swiss team listing may include Lausanne; do not infer every named technical lead works in Zurich. Requested bounded local technical-activity corroboration before release.",
+            "logo": "Official compact pink mark visually approved at 32px"
+        },
+        {
+            "slug": "raquest",
+            "sources": [
+                "https://raquest.tax/about-us/",
+                "https://raquest.tax/contact/",
+                "https://raquest.tax/career/"
+            ],
+            "finding": "Own withholding-tax software development and Swiss public office Borsenstrasse 18 confirmed. Named Swiss managing director alone does not establish local technical team. Requested targeted local technical-activity check before admission; company is not rejected."
+        }
+    ],
+    "campusReview": {
+        "sources": [
+            "https://www.talpa-inspection.ch/contact.html",
+            "https://www.talpa-inspection.ch/technology.html",
+            "https://ifb.ethz.ch/the-institute/how-to-find-us.html",
+            "https://www.riverkin.com/about",
+            "https://4quant.com/"
+        ],
+        "buildingPoint": { "latitude": 47.409777, "longitude": 8.506191 },
+        "buildingProof": "ETH official HIF page gives Laura-Hezner-Weg 7 and links directly to the recorded coordinates. Main checked current page and captured outbound link. Approved as a university building point, not a company entrance; fresh shared-building check remains.",
+        "eligibility": "Talpa own electrochemical sensing and processing; Riverkin named core-system inventor, firmware and software engineers; 4Quant explicit in-house BIDAP/HICCAP software. NeoChemurgy product source still needs main inspection.",
+        "logos": "All four contact-sheet assets visually approved at 32px, including complete 4Quant wordmark",
+        "remaining": "Check current activity for older 4Quant, company versus startup classification and fresh public address identity",
+        "neochemurgy": "Main read official PRODUCTS capture: own Phyter, Schraps and EZ-LIG materials and process development support eligibility independently of consulting services"
+    },
+    "instrumentReview": {
+        "sources": ["https://qendra.tech/", "https://tutor.new/impressum-agb.html"],
+        "eligibility": "Qendra explicitly develops quantum experiment controls. Sophia Edu Labs legal terms explicitly attribute ongoing tutor.new development and identify registered Scharenmoosstrasse 76 Zurich address.",
+        "logos": "Qendra, Sunamp, EMOTT and Sophia official assets visually approved at 32px. Sony white wordmark is invisible on white: not approved; request official dark version or original backing.",
+        "remaining": "Sunamp local technical activity, Sony alias/current identity, startup classification and final addresses",
+        "emott": "Main read official home and contact captures: explicitly develops and manufactures cooling/heating stages for electron microscopy; In Grosswiesen 14 Gockhausen confirmed"
+    },
+    "otherPacketChecks": [
+        "Sunamp Switzerland needs local technical activity, not only Swiss office plus global technology",
+        "Sony Advanced Visual Sensing requires current and predecessor identity checks before admission",
+        "Qendra is also in Parfit's Startupticker research; coordinated shared review, no duplicate preparation or publication",
+        "Remove ancestor topic duplication according to actual taxonomy, not ad hoc topic reduction",
+        "Stable climate-tech key means Energy, not generic environmental activity; recheck environmental analytics and materials profiles accordingly",
+        "RAQUEST held: own software is proven but Swiss office technical activity is not; developer vacancy points to Raubling/remote"
+    ],
+    "nextEightPrimaryReview": {
+        "storra": {
+            "source": "https://www.storra.ch/",
+            "finding": "Main independently read own monitoring-design platform, named CTO leading computational workflows, current Scharenmoosstrasse77 contact and early venture-stage milestones. Explicit geothermal and BioEnergy work supports Energy tag; unrelated template filler is not evidence of biotech activity. Final identity, assets and classification checks remain."
+        },
+        "gasometrix": {
+            "source": "https://gasometrix.com/products/",
+            "finding": "Main independently read miniRUEDI technical specifications, custom-built instruments and control software. Official page attributes continuing development to Eawag. Agent asked to reconcile Gasometrix's development/manufacturing role and avoid implying sole product development."
+        },
+        "repertoire": "Main subsequently inspected saved successful official homepage and contact captures: proprietary DECODE experimental/computational development and Wagistrasse27 Schlieren office confirmed. Tepthera successor identity must be checked before publication.",
+        "apersys": "Main subsequently inspected current About page directly in user Chrome: own multi-day perfusion platform, named engineering and device-software team,2024incorporation and2026prototype. Explicit Headquarters atTheGallery3rdFloor,Thurgauerstrasse119,8152Glattbrugg-Opfikon confirms prepared current address. Startup classification supported.",
+        "navisBio": "Main inspected current homepage and privacy page directly in user Chrome. Own engineered extraction-agent system, regression benchmarks, continuous evidence pipeline and client analytics applications support original software development independently of consulting delivery. Legal controller NavisBioGmbH,CHE373608305,Sonnenrain56,8700Kusnacht verified; retain Registered address. Namedfounders and2026technicalreports support current activity. Review more specific Agents/NLP topics against software functionality.",
+        "uepaa": "Main current official contact read explicitly confirms Zurich headquarters, software development and Sonnhaldenstrasse17. Own mobile safety application remains basis of admission.",
+        "jurata": "Main current enterprise page explicitly describes Swiss-developed Legal Agent web application and Word add-in. Current imprint confirms Stampfenbachstrasse151,8006Zurich,CHE198780333. More precise AI subtopics require review, not inference from brand name alone.",
+        "peakdata": "Main inspected saved UID record CHE384994426: active, Baarerstrasse43,6300Zug,EGID321199. Separately inspected corporate LinkedIn profile: same street explicitly listed as Primary location, own peakdata.com link, founded2017 and51-200employees. This corroborates prepared headquarters address beyond the city-only legal notice.",
+        "artwork": "Main inspected positive-eight contact sheet at32px: Storra, Repertoire, PeakData, Uepaa, Apersys, Navis Bio and Gasometrix official artwork approved. Jurata complete wordmark too small; request genuine compact official asset. Artwork approval does not establish publication readiness."
+    }
+}

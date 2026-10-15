@@ -1,0 +1,605 @@
+{
+  "apply": false,
+  "organisations": [
+    {
+      "id": "p174wgqa771t0h4ddnehnyc5ts8g8wj6",
+      "slug": "orange-business",
+      "expectedDescription": "Engineers cloud infrastructure and data platforms and implements analytics systems for Swiss customers, with a published Zurich office.",
+      "description": "Engineers cloud infrastructure and data platforms and implements analytics systems for Swiss customers, with a published Zurich office"
+    },
+    {
+      "id": "p17d5kddezytn5k093y8vm04258g8t83",
+      "slug": "migros-genossenschafts-bund",
+      "expectedDescription": "The federation's Operations and Technology teams develop custom software and digital services for the Migros group, including accounts, payments and retail systems.",
+      "description": "The federation's Operations and Technology teams develop custom software and digital services for the Migros group, including accounts, payments and retail systems"
+    },
+    {
+      "id": "p1761ng12b324zxc81z7aq93xx8g8meg",
+      "slug": "swisscom",
+      "expectedDescription": "Swisscom Schweiz develops telecommunications services and its own cloud platforms. Its Identification Services unit publishes a contact address in Zürich.",
+      "description": "Swisscom Schweiz develops telecommunications services and its own cloud platforms. Its Identification Services unit publishes a contact address in Zürich"
+    },
+    {
+      "id": "p1754qr5qbssvge2veyv39q48d8g9v6w",
+      "slug": "aveniq",
+      "expectedDescription": "Builds and operates Swiss private-cloud and public-cloud infrastructure, including automated Linux and container platforms, with a Dübendorf office.",
+      "description": "Builds and operates Swiss private-cloud and public-cloud infrastructure, including automated Linux and container platforms, with a Dübendorf office"
+    },
+    {
+      "id": "p17a4v926sgmxexwkmtjacjyh18g9vv4",
+      "slug": "umb",
+      "expectedDescription": "Builds and operates private and public cloud infrastructure and a cyber defence centre, with headquarters in Cham.",
+      "description": "Builds and operates private and public cloud infrastructure and a cyber defence centre, with headquarters in Cham"
+    },
+    {
+      "id": "p17frxxxwwez0sf7t3bqcb7x258g86q3",
+      "slug": "helvetic-it-solution",
+      "expectedDescription": "Helvetic IT Solution GmbH develops websites, applications and internal tools and operates IT infrastructure, with engineers in Zug and Dübendorf.",
+      "description": "Helvetic IT Solution GmbH develops websites, applications and internal tools and operates IT infrastructure, with engineers in Zug and Dübendorf"
+    },
+    {
+      "id": "p174c1nw0nvx8ngn1g3a84v3dx8g9cet",
+      "slug": "eth-lec",
+      "expectedDescription": "The ETH Laboratory for Energy Conversion researches energy-conversion systems, efficient resource use and renewable energy within the Institute of Energy and Process Engineering.",
+      "description": "The ETH Laboratory for Energy Conversion researches energy-conversion systems, efficient resource use and renewable energy within the Institute of Energy and Process Engineering"
+    },
+    {
+      "id": "p176qw4k3ygarvd6qbcnt8g5qx8g95bn",
+      "slug": "eth-iwf",
+      "expectedDescription": "The ETH Institute for Machine Tools and Manufacturing researches advanced manufacturing, virtual reality and product development through its constituent research groups.",
+      "description": "The ETH Institute for Machine Tools and Manufacturing researches advanced manufacturing, virtual reality and product development through its constituent research groups"
+    },
+    {
+      "id": "p173e5a01gtqj3ce1th1k89qhx8g8s2c",
+      "slug": "etix-ventures",
+      "expectedDescription": "ETIX Ventures develops load-management software that schedules EV charging against grid capacity, renewable availability and tariffs, alongside venture advisory services.",
+      "description": "ETIX Ventures develops load-management software that schedules EV charging against grid capacity, renewable availability and tariffs, alongside venture advisory services"
+    },
+    {
+      "id": "p17189k4rydnqb3cda3ygesszx8g84kb",
+      "slug": "avantama",
+      "expectedDescription": "Avantama develops nanoparticles, suspensions and formulations for electronic and optical applications, with laboratories and production facilities in Stäfa.",
+      "description": "Avantama develops nanoparticles, suspensions and formulations for electronic and optical applications, with laboratories and production facilities in Stäfa"
+    },
+    {
+      "id": "p17805yyr8b1ep7pejc32xq0td8g8tyv",
+      "slug": "silentcreation",
+      "expectedDescription": "Develops business software and automation tools, including VerlagsSoftware for publishing workflows. Delivered applications connect subscriptions, advertising, billing and reporting in a shared system.",
+      "description": "Develops business software and automation tools, including VerlagsSoftware for publishing workflows. Delivered applications connect subscriptions, advertising, billing and reporting in a shared system"
+    },
+    {
+      "id": "p178r89gjcqy7a3ervv3syhw5h8g8h85",
+      "slug": "skoor",
+      "expectedDescription": "Develops software for real-time analysis, KPI dashboards and operational monitoring. Its Wallisellen team builds tools that consolidate business information into reporting and decision-support workflows.",
+      "description": "Develops software for real-time analysis, KPI dashboards and operational monitoring. Its Wallisellen team builds tools that consolidate business information into reporting and decision-support workflows"
+    },
+    {
+      "id": "p173e2ybev5nw4c676ttx7qk5d8g9vm1",
+      "slug": "slg-broadcast",
+      "expectedDescription": "Develops the SLG Broadcast Suite, modular software for central control and integration of broadcast-system components. The company also engineers and commissions systems for radio and television organisations.",
+      "description": "Develops the SLG Broadcast Suite, modular software for central control and integration of broadcast-system components. The company also engineers and commissions systems for radio and television organisations"
+    },
+    {
+      "id": "p17djp9tq3q6zy8nx8a6fhkx158g94rp",
+      "slug": "sly",
+      "expectedDescription": "Develops commerce applications and its own software products, including VELOX and Sly Connect. Its software-engineering team builds integrations and tools for digital business workflows.",
+      "description": "Develops commerce applications and its own software products, including VELOX and Sly Connect. Its software-engineering team builds integrations and tools for digital business workflows"
+    },
+    {
+      "id": "p174cqnejmjvqq3z61wgxkr1g18g8z5h",
+      "slug": "smile-solutions",
+      "expectedDescription": "Develops mobile applications and interfaces for business systems, including smileApp and integrations with Proffix. Its software supports document creation, inventory workflows and connections between business applications.",
+      "description": "Develops mobile applications and interfaces for business systems, including smileApp and integrations with Proffix. Its software supports document creation, inventory workflows and connections between business applications"
+    },
+    {
+      "id": "p174cm0wbp4p9svsq3xa9k8j6h8g866q",
+      "slug": "snoe",
+      "expectedDescription": "Develops custom web applications and business software, from architecture and implementation to operation. Delivered projects include a casting-management application with project workflows, access controls and structured data migration.",
+      "description": "Develops custom web applications and business software, from architecture and implementation to operation. Delivered projects include a casting-management application with project workflows, access controls and structured data migration"
+    },
+    {
+      "id": "p17e4k6dthrnban13tdg9qt2rx8g9p7z",
+      "slug": "sobrado",
+      "expectedDescription": "Develops a platform connecting insurance brokers and providers for quotation requests, comparisons and related workflows. Its product and engineering team builds and maintains the transaction software and integrations.",
+      "description": "Develops a platform connecting insurance brokers and providers for quotation requests, comparisons and related workflows. Its product and engineering team builds and maintains the transaction software and integrations"
+    },
+    {
+      "id": "p17cwmg5qpmhkn0p9tpb90jc258g8vgq",
+      "slug": "softart",
+      "expectedDescription": "Develops software for industrial design, manufacturing automation and offline robot programming. Its engineering work includes CAD automation and applications for specialised technical workflows.",
+      "description": "Develops software for industrial design, manufacturing automation and offline robot programming. Its engineering work includes CAD automation and applications for specialised technical workflows"
+    },
+    {
+      "id": "p177ag0nzdff9r1spfm5y7sx2s8g9vy9",
+      "slug": "spektrum-lab",
+      "expectedDescription": "Develops and operates software tools for spatial planning, document analysis and meeting documentation. The Zurich lab of SPEKTRUM Partner GmbH builds products including MINU-AI and tools for analysing planning requirements and legal sources.",
+      "description": "Develops and operates software tools for spatial planning, document analysis and meeting documentation. The Zurich lab of SPEKTRUM Partner GmbH builds products including MINU-AI and tools for analysing planning requirements and legal sources"
+    },
+    {
+      "id": "p172cq8hbzpmzm0x3kkxjq4jtx8g842e",
+      "slug": "inplan",
+      "expectedDescription": "Develops workforce-planning software for healthcare organisations, including scheduling, staff availability and planning workflows. Operated by Staffgenius GmbH, its product team includes software engineers working on the platform.",
+      "description": "Develops workforce-planning software for healthcare organisations, including scheduling, staff availability and planning workflows. Operated by Staffgenius GmbH, its product team includes software engineers working on the platform"
+    },
+    {
+      "id": "p1795t20w7p0cqnep2a9x4je1s8g9f3h",
+      "slug": "semivi",
+      "expectedDescription": "SemiVi GmbH develops simulation tools for semiconductor and optical devices, including optical propagation, drift-diffusion, fabrication-process and circuit solvers.",
+      "description": "SemiVi GmbH develops simulation tools for semiconductor and optical devices, including optical propagation, drift-diffusion, fabrication-process and circuit solvers"
+    },
+    {
+      "id": "p1793k25pfdggrrp7rj942znbh8g8n6c",
+      "slug": "beemind",
+      "expectedDescription": "Beemind GmbH develops Sanboard, software for deployment planning, member and inventory administration, and patient documentation for first-aid organisations.",
+      "description": "Beemind GmbH develops Sanboard, software for deployment planning, member and inventory administration, and patient documentation for first-aid organisations"
+    },
+    {
+      "id": "p1740w185e6ajetvnnsmk129xs8g8h9w",
+      "slug": "dialectic",
+      "expectedDescription": "Dialectic combines digital-asset investment with an in-house quantitative and engineering team developing data pipelines, automated strategies and blockchain execution software.",
+      "description": "Dialectic combines digital-asset investment with an in-house quantitative and engineering team developing data pipelines, automated strategies and blockchain execution software"
+    },
+    {
+      "id": "p179vta6myw9ryntg94vzb63598g8w8b",
+      "slug": "expersoft",
+      "expectedDescription": "Expersoft Systems AG develops wealth and asset management software and financial-system integrations from its headquarters in Steinhausen.",
+      "description": "Expersoft Systems AG develops wealth and asset management software and financial-system integrations from its headquarters in Steinhausen"
+    },
+    {
+      "id": "p17fdp7m221rspwqa8xne9r2hs8g8g8n",
+      "slug": "tekkminds",
+      "expectedDescription": "Develops software, cloud integrations and connected-system solutions, with a company-published Swiss location in Cham.",
+      "description": "Develops software, cloud integrations and connected-system solutions, with a company-published Swiss location in Cham"
+    },
+    {
+      "id": "p175dhc8crzy71tybrsc38ey498g8nex",
+      "slug": "maison-du-software",
+      "expectedDescription": "Techgroup Schweiz AG develops custom logistics and commerce software under the Maison du Software brand, with its development centre in Zurich.",
+      "description": "Techgroup Schweiz AG develops custom logistics and commerce software under the Maison du Software brand, with its development centre in Zurich"
+    },
+    {
+      "id": "p17e1h5rsv9xnz00nvcm8k5t7d8g8cjw",
+      "slug": "audienzz",
+      "expectedDescription": "Develops advertising technology including campaign management, native advertising and monitoring platforms.",
+      "description": "Develops advertising technology including campaign management, native advertising and monitoring platforms"
+    },
+    {
+      "id": "p17755jytzy01ffpadb8d6v5ed8g9r8f",
+      "slug": "convotis-schweiz",
+      "expectedDescription": "CONVOTIS Schweiz AG develops enterprise software and commerce systems, and engineers cloud and security infrastructure. Its official office directory lists Zurich.",
+      "description": "CONVOTIS Schweiz AG develops enterprise software and commerce systems, and engineers cloud and security infrastructure. Its official office directory lists Zurich"
+    },
+    {
+      "id": "p17cjqftfyc5ajfmw14gzwynn58g9hfj",
+      "slug": "traconiq",
+      "expectedDescription": "Develops fleet-management software, vehicle integrations and telematics applications with its own software and hardware engineering team.",
+      "description": "Develops fleet-management software, vehicle integrations and telematics applications with its own software and hardware engineering team"
+    },
+    {
+      "id": "p177mv4nky8v2hy3j8t28s3zen8g9ywc",
+      "slug": "novu",
+      "expectedDescription": "Develops web applications, mobile applications and commerce software, with user-experience design and a Zurich office.",
+      "description": "Develops web applications, mobile applications and commerce software, with user-experience design and a Zurich office"
+    },
+    {
+      "id": "p17bfztbe082q7kd1qyejpbr4s8g9wya",
+      "slug": "isolutions",
+      "expectedDescription": "Develops custom business applications and implements Microsoft cloud, data and collaboration systems, with an office at The Circle at Zurich Airport.",
+      "description": "Develops custom business applications and implements Microsoft cloud, data and collaboration systems, with an office at The Circle at Zurich Airport"
+    },
+    {
+      "id": "p173cgsvvkemtky5ys4z9zyw4n8g8n6p",
+      "slug": "sitrox",
+      "expectedDescription": "Develops process digitalisation and e-government software and provides private-cloud infrastructure.",
+      "description": "Develops process digitalisation and e-government software and provides private-cloud infrastructure"
+    },
+    {
+      "id": "p176bcxa1hqbxj30820909dxj18g8dx8",
+      "slug": "scait",
+      "expectedDescription": "MindMode GmbH operates SCAIT, an AI platform for analysing construction tenders, contracts and project documents, with a published Rotkreuz contact location.",
+      "description": "MindMode GmbH operates SCAIT, an AI platform for analysing construction tenders, contracts and project documents, with a published Rotkreuz contact location"
+    },
+    {
+      "id": "p172fv93a1x8b6nrdztw30kken8g9epj",
+      "slug": "paretolabs",
+      "expectedDescription": "Digital Solution Partners GmbH develops the ParetoLabs platform, with business assistants, knowledge access and configurable AI workflows.",
+      "description": "Digital Solution Partners GmbH develops the ParetoLabs platform, with business assistants, knowledge access and configurable AI workflows"
+    },
+    {
+      "id": "p175nxj2txcgwaenbz3hypem8n8g9p51",
+      "slug": "zawin",
+      "expectedDescription": "Martin Engineering AG develops ZaWin, software for dental practice operations and workflows.",
+      "description": "Martin Engineering AG develops ZaWin, software for dental practice operations and workflows"
+    },
+    {
+      "id": "p171k2y6cvecs8k6c72saen6098g8w4j",
+      "slug": "konova",
+      "expectedDescription": "Develops E-Mitwirkung and related software for public consultations, participation and structured feedback analysis.",
+      "description": "Develops E-Mitwirkung and related software for public consultations, participation and structured feedback analysis"
+    },
+    {
+      "id": "p171hgk42e57w3sc8m5gkgp3v98g97wm",
+      "slug": "ipt",
+      "expectedDescription": "Innovation Process Technology AG develops enterprise software, integrations and data platforms, with a Zurich office.",
+      "description": "Innovation Process Technology AG develops enterprise software, integrations and data platforms, with a Zurich office"
+    },
+    {
+      "id": "p171cpez8t4x0d7rdrctfzqps98g8p6w",
+      "slug": "infosystem",
+      "expectedDescription": "Develops business software including ERP, resource planning and industry-specific operational applications, with a published Opfikon location.",
+      "description": "Develops business software including ERP, resource planning and industry-specific operational applications, with a published Opfikon location"
+    },
+    {
+      "id": "p17a2sns8b3c0zqv18nb3p7yf18g91sh",
+      "slug": "e-guma",
+      "expectedDescription": "Idea Creation GmbH develops e-guma, software for selling, managing and redeeming vouchers, admission tickets and event tickets.",
+      "description": "Idea Creation GmbH develops e-guma, software for selling, managing and redeeming vouchers, admission tickets and event tickets"
+    },
+    {
+      "id": "p17fb9kbr3bbxt4k1tztfynvqd8g836q",
+      "slug": "data-purpose",
+      "expectedDescription": "Builds data and analytics solutions with SAP and Microsoft technologies, including AI-assisted analytics.",
+      "description": "Builds data and analytics solutions with SAP and Microsoft technologies, including AI-assisted analytics"
+    },
+    {
+      "id": "p174wk7hg846mbsz5tkd015m2d8g9bt2",
+      "slug": "arctive",
+      "expectedDescription": "Develops and implements custom business applications and automated workflows on ServiceNow.",
+      "description": "Develops and implements custom business applications and automated workflows on ServiceNow"
+    },
+    {
+      "id": "p1774s7xk5m7hjxwe4bsvmf6gx8g92bp",
+      "slug": "ase",
+      "expectedDescription": "Develops sensor-connected data platforms, crowd monitoring and simulation software for transport, buildings and public spaces.",
+      "description": "Develops sensor-connected data platforms, crowd monitoring and simulation software for transport, buildings and public spaces"
+    },
+    {
+      "id": "p17a2hk85mqkgm8r2m107rvw998g8rqt",
+      "slug": "swiss-activities",
+      "expectedDescription": "Develops and operates an online platform for discovering and booking activities in Switzerland. Its product team includes frontend and backend software engineers building the booking experience.",
+      "description": "Develops and operates an online platform for discovering and booking activities in Switzerland. Its product team includes frontend and backend software engineers building the booking experience"
+    },
+    {
+      "id": "p1769vkbfxmm6fw9pv9vfxcpp98g905x",
+      "slug": "swiss-medical-record",
+      "expectedDescription": "Develops cloud-based medical-record and practice-management software. Its interdisciplinary team combines clinical knowledge and software development to support documentation and workflows in medical practices.",
+      "description": "Develops cloud-based medical-record and practice-management software. Its interdisciplinary team combines clinical knowledge and software development to support documentation and workflows in medical practices"
+    },
+    {
+      "id": "p1736ze0az7k8ra3mcj9mhrzj58g86fs",
+      "slug": "aiaibot",
+      "expectedDescription": "Develops a platform for AI agents, chatbots and automated workflows. Operated by swiss moonshot AG, its engineering team builds conversational applications and integrations with business systems.",
+      "description": "Develops a platform for AI agents, chatbots and automated workflows. Operated by swiss moonshot AG, its engineering team builds conversational applications and integrations with business systems"
+    },
+    {
+      "id": "p174638pnjdmf441ah56kgxvkx8g8z25",
+      "slug": "localsearch",
+      "expectedDescription": "Develops and operates digital platforms including local.ch and search.ch. Swisscom Directories AG combines its own data, technology and product-engineering teams with services for Swiss businesses.",
+      "description": "Develops and operates digital platforms including local.ch and search.ch. Swisscom Directories AG combines its own data, technology and product-engineering teams with services for Swiss businesses"
+    },
+    {
+      "id": "p17661f088gy93t7w1hc80h02d8g9wxz",
+      "slug": "symbiocommerce",
+      "expectedDescription": "Develops a B2B and B2G commerce platform connecting procurement, ordering and business systems. Operated by symbionet AG, the company maintains its own software-engineering and product team.",
+      "description": "Develops a B2B and B2G commerce platform connecting procurement, ordering and business systems. Operated by symbionet AG, the company maintains its own software-engineering and product team"
+    },
+    {
+      "id": "p173fnc6p9953f4qyjqn6h3jbx8g960b",
+      "slug": "synerma",
+      "expectedDescription": "Develops custom applications and workflow-automation software. Its Zurich software-engineering team builds, tests and maintains solutions tailored to business processes.",
+      "description": "Develops custom applications and workflow-automation software. Its Zurich software-engineering team builds, tests and maintains solutions tailored to business processes"
+    },
+    {
+      "id": "p17468jjb8q40v5jj1yd0a0axh8g9tja",
+      "slug": "technokrat",
+      "expectedDescription": "Develops electronic circuits, printed circuit boards and embedded software, including firmware and embedded Linux systems. Its Schlieren office and laboratory support projects from prototypes through hardware and software integration.",
+      "description": "Develops electronic circuits, printed circuit boards and embedded software, including firmware and embedded Linux systems. Its Schlieren office and laboratory support projects from prototypes through hardware and software integration"
+    },
+    {
+      "id": "p176nxfa74zdvnb0xybfh7f5hn8g9cd7",
+      "slug": "thop",
+      "expectedDescription": "Develops THOPinspect systems for automated visual inspection in industrial production. The company builds its own inspection software and interfaces in Wetzikon and integrates cameras, lighting and controls.",
+      "description": "Develops THOPinspect systems for automated visual inspection in industrial production. The company builds its own inspection software and interfaces in Wetzikon and integrates cameras, lighting and controls"
+    },
+    {
+      "id": "p173ra5py5vy8fg4njt6s0vv0n8g9jpb",
+      "slug": "threecode",
+      "expectedDescription": "Develops business applications including ThreeNet, ThreePlan, VehiControl and ThreeRun. Its team combines cloud, web and mobile engineering for intranets, event planning, access control and tracking.",
+      "description": "Develops business applications including ThreeNet, ThreePlan, VehiControl and ThreeRun. Its team combines cloud, web and mobile engineering for intranets, event planning, access control and tracking"
+    },
+    {
+      "id": "p17bck5p5aq4pkxr6nqd2w761d8g82m6",
+      "slug": "traxess",
+      "expectedDescription": "Develops the Sentinel platform for travel-risk monitoring, security alerts and organisational resilience. Its team builds configurable software and digital solutions for business customers.",
+      "description": "Develops the Sentinel platform for travel-risk monitoring, security alerts and organisational resilience. Its team builds configurable software and digital solutions for business customers"
+    },
+    {
+      "id": "p17dv22b2tw5nc4ntq6xexfwr58g86wr",
+      "slug": "growth-directors",
+      "expectedDescription": "Growth Equity Directors GmbH builds agentic workflow and risk products with an in-house engineering team and named development partners. Its own products are distinct from third-party Lyzr software it represents.",
+      "description": "Growth Equity Directors GmbH builds agentic workflow and risk products with an in-house engineering team and named development partners. Its own products are distinct from third-party Lyzr software it represents"
+    },
+    {
+      "id": "p177e56805x18rq7exr69xqqr18g8xjy",
+      "slug": "learniverse-world",
+      "expectedDescription": "BeEdu AG operates Learniverse World, a learning platform with conversational assistants, speech practice, interview simulations and personalised learning plans.",
+      "description": "BeEdu AG operates Learniverse World, a learning platform with conversational assistants, speech practice, interview simulations and personalised learning plans"
+    },
+    {
+      "id": "p172fm7z5axeg5zj953vmnxmyd8g8sqh",
+      "slug": "yourasset",
+      "expectedDescription": "Yourasset develops a platform for luxury-goods discovery, collection management and financing integrations with banking and retail partners. Its own team includes a technology lead and technology development staff.",
+      "description": "Yourasset develops a platform for luxury-goods discovery, collection management and financing integrations with banking and retail partners. Its own team includes a technology lead and technology development staff"
+    },
+    {
+      "id": "p17b2n9c2dags5n477pdp42wb58g9y77",
+      "slug": "relai",
+      "expectedDescription": "Relai AG develops a mobile Bitcoin application with self-custody wallet functionality and recurring purchases.",
+      "description": "Relai AG develops a mobile Bitcoin application with self-custody wallet functionality and recurring purchases"
+    },
+    {
+      "id": "p171ayvbc3xqrt48hksetc4x2h8g8rcf",
+      "slug": "adopt-it",
+      "expectedDescription": "adopt IT develops digital assistants, agent orchestration and workflow integrations for hospitals, practices and other healthcare organisations.",
+      "description": "adopt IT develops digital assistants, agent orchestration and workflow integrations for hospitals, practices and other healthcare organisations"
+    },
+    {
+      "id": "p174qhnd7cyphapq333qg20wed8g8r3c",
+      "slug": "vizera-ai",
+      "expectedDescription": "AI & Co GmbH develops Vizera.ai, a platform that turns sketches, plans and 3D models into architectural visualizations using third-party generative models.",
+      "description": "AI & Co GmbH develops Vizera.ai, a platform that turns sketches, plans and 3D models into architectural visualizations using third-party generative models"
+    },
+    {
+      "id": "p1769tvvr7x43wn86p6qsv3r0n8g8pmn",
+      "slug": "trenda",
+      "expectedDescription": "Develops a market-intelligence platform for Swiss retail banks and consultancies. Its team combines software engineering and research to provide searchable market insights, competitor information and collaborative monitoring tools.",
+      "description": "Develops a market-intelligence platform for Swiss retail banks and consultancies. Its team combines software engineering and research to provide searchable market insights, competitor information and collaborative monitoring tools"
+    },
+    {
+      "id": "p17b292bm3zzhkmp3cyg8bd1xh8g912c",
+      "slug": "tresio",
+      "expectedDescription": "Develops software for cash-flow forecasting, liquidity planning and consolidated financial reporting. Its platform connects bank accounts and business systems, with development carried out by its own product and engineering team.",
+      "description": "Develops software for cash-flow forecasting, liquidity planning and consolidated financial reporting. Its platform connects bank accounts and business systems, with development carried out by its own product and engineering team"
+    },
+    {
+      "id": "p171mgh8yck97njzbw6yk6bsz18g85wq",
+      "slug": "twincap-first",
+      "expectedDescription": "Develops the Easy family of Microsoft Teams applications, including directory, calling and contact-management products. Its Wallisellen team also engineers integrations between business systems and Microsoft cloud services.",
+      "description": "Develops the Easy family of Microsoft Teams applications, including directory, calling and contact-management products. Its Wallisellen team also engineers integrations between business systems and Microsoft cloud services"
+    },
+    {
+      "id": "p17fefssv3ssbjzzx04jzvmsah8g9sxt",
+      "slug": "unic",
+      "expectedDescription": "Develops digital platforms, custom applications and commerce systems. Its Zurich office brings together technical experts and other specialists working on digital solutions for business customers.",
+      "description": "Develops digital platforms, custom applications and commerce systems. Its Zurich office brings together technical experts and other specialists working on digital solutions for business customers"
+    },
+    {
+      "id": "p171e21mqx13hty9r0bg0aqba58g9m3r",
+      "slug": "unitek-engineering",
+      "expectedDescription": "Develops data architectures, integration software and the MDSphere data-management platform. Its engineering work connects external data providers and business systems with traceable processing and quality controls.",
+      "description": "Develops data architectures, integration software and the MDSphere data-management platform. Its engineering work connects external data providers and business systems with traceable processing and quality controls"
+    },
+    {
+      "id": "p17csecksym456e75fxm2dd1vh8g97f3",
+      "slug": "unomed",
+      "expectedDescription": "Develops software that connects clinical systems and automates workflows for medical practices. Its Zurich team builds a medical API, cloud PACS, communication tools and integrations with existing practice software.",
+      "description": "Develops software that connects clinical systems and automates workflows for medical practices. Its Zurich team builds a medical API, cloud PACS, communication tools and integrations with existing practice software"
+    },
+    {
+      "id": "p17da181ar2yj9t3vxy6jm89rh8g9fhj",
+      "slug": "vayron",
+      "expectedDescription": "Engineers security systems for operational technology and connected products. Its Vayron Vector service combines software-component inventories, vulnerability intelligence, policy checks and reporting in a managed security pipeline built on open standards.",
+      "description": "Engineers security systems for operational technology and connected products. Its Vayron Vector service combines software-component inventories, vulnerability intelligence, policy checks and reporting in a managed security pipeline built on open standards"
+    },
+    {
+      "id": "p174jtdy0pry21s6p981maw6y98g8hj4",
+      "slug": "cannavigia",
+      "expectedDescription": "Develops software for tracking cultivation, production and distribution workflows in the cannabis industry. Operated by Vigia AG, the company combines a Zurich headquarters with an international product and engineering team.",
+      "description": "Develops software for tracking cultivation, production and distribution workflows in the cannabis industry. Operated by Vigia AG, the company combines a Zurich headquarters with an international product and engineering team"
+    },
+    {
+      "id": "p173t6ngw01rtzc0f0k8t1gbwh8g9ssd",
+      "slug": "viu",
+      "expectedDescription": "Develops digital applications and the viuMi framework for consistent Microsoft 365-based software. Its Zurich team builds reusable components, portals and custom business services.",
+      "description": "Develops digital applications and the viuMi framework for consistent Microsoft 365-based software. Its Zurich team builds reusable components, portals and custom business services"
+    },
+    {
+      "id": "p17ct608dgbbdjhf5as789v8kd8g9tyq",
+      "slug": "vlot",
+      "expectedDescription": "Develops a modular financial-wellbeing platform for risk and retirement analysis. Its software team builds tools that insurers, pension providers and banks integrate into their advisory services.",
+      "description": "Develops a modular financial-wellbeing platform for risk and retirement analysis. Its software team builds tools that insurers, pension providers and banks integrate into their advisory services"
+    },
+    {
+      "id": "p174wb76pxe4aj27pfrcyw2wgn8g8qae",
+      "slug": "voicepoint",
+      "expectedDescription": "Develops software for speech-driven clinical documentation and automated report creation, including Voicepoint Xenon. Its product-development team includes software engineers working alongside its Wetzikon operations.",
+      "description": "Develops software for speech-driven clinical documentation and automated report creation, including Voicepoint Xenon. Its product-development team includes software engineers working alongside its Wetzikon operations"
+    },
+    {
+      "id": "p171zq6vyztvkbb2pd4xtj5fh98g8dxq",
+      "slug": "vonesco-control",
+      "expectedDescription": "Develops industrial control hardware and software in Steinmaur. Its products include the TQR3000 control system, production-workflow software and analytics, alongside PLC and application engineering.",
+      "description": "Develops industrial control hardware and software in Steinmaur. Its products include the TQR3000 control system, production-workflow software and analytics, alongside PLC and application engineering"
+    },
+    {
+      "id": "p17ef6mkt80sfk7bsrrswce3dd8g916z",
+      "slug": "fahrenheit",
+      "expectedDescription": "Develops PHP web applications, REST interfaces and custom plugins from Oetwil an der Limmat. Its engineering work includes complete development of the STMZ, Gartenbau-Verzeichnis and Fahrlehrer-Suche platforms.",
+      "description": "Develops PHP web applications, REST interfaces and custom plugins from Oetwil an der Limmat. Its engineering work includes complete development of the STMZ, Gartenbau-Verzeichnis and Fahrlehrer-Suche platforms"
+    },
+    {
+      "id": "p177w21wmyn16thc8dy1113wrd8g98bh",
+      "slug": "wetalkwithyou",
+      "expectedDescription": "Develops custom web applications and digital-commerce systems with its own software-engineering team in Schlieren. Projects include a booking platform for Bucherer with capacity management, real-time updates and an administrative backend.",
+      "description": "Develops custom web applications and digital-commerce systems with its own software-engineering team in Schlieren. Projects include a booking platform for Bucherer with capacity management, real-time updates and an administrative backend"
+    },
+    {
+      "id": "p1786ne6bhxjw3vmrppmb5agsx8g9s2y",
+      "slug": "workbooster",
+      "expectedDescription": "Develops custom web, desktop and mobile applications and business-system integrations. Its work includes InterfaceBooster and a tablet web application connecting retail workflows to enterprise software.",
+      "description": "Develops custom web, desktop and mobile applications and business-system integrations. Its work includes InterfaceBooster and a tablet web application connecting retail workflows to enterprise software"
+    },
+    {
+      "id": "p175qqjxzpd0vv2gph4y342hbx8g9sxt",
+      "slug": "yoordi",
+      "expectedDescription": "Develops an integrated point-of-sale, ordering and payment platform for hospitality businesses. Its software is built and supported in Zurich Oerlikon.",
+      "description": "Develops an integrated point-of-sale, ordering and payment platform for hospitality businesses. Its software is built and supported in Zurich Oerlikon"
+    },
+    {
+      "id": "p17em3kc063gvt7r1mzzz3jzdd8g9kz4",
+      "slug": "zazoon",
+      "expectedDescription": "Develops MyGRC and MyStaff software for governance, risk, compliance and staff workflows. Founded by IT specialists in Zurich, the company develops its platform from its Zurich headquarters.",
+      "description": "Develops MyGRC and MyStaff software for governance, risk, compliance and staff workflows. Founded by IT specialists in Zurich, the company develops its platform from its Zurich headquarters"
+    },
+    {
+      "id": "p17c83bvf5012x9642x0ymf3h58g9aq5",
+      "slug": "zinsli",
+      "expectedDescription": "Develops a platform for digital rental-deposit workflows connecting tenants, landlords and banks. Its Zurich-based team includes software architects and developers building the product.",
+      "description": "Develops a platform for digital rental-deposit workflows connecting tenants, landlords and banks. Its Zurich-based team includes software architects and developers building the product"
+    },
+    {
+      "id": "p17f3gm79eqcybgeq6hk5j9tt18g9wpr",
+      "slug": "unimission",
+      "expectedDescription": "Engineers and operates cloud, workplace and security infrastructure for businesses, including its uNimbus cloud service, from Rümlang.",
+      "description": "Engineers and operates cloud, workplace and security infrastructure for businesses, including its uNimbus cloud service, from Rümlang"
+    },
+    {
+      "id": "p17ba7g0sybgype7xwkvwy2c8x8g96jn",
+      "slug": "halion-fusion-group",
+      "expectedDescription": "Develops the Aimee conversational shopping assistant and customer-chat analytics, with a publicly listed Zug office in Baar.",
+      "description": "Develops the Aimee conversational shopping assistant and customer-chat analytics, with a publicly listed Zug office in Baar"
+    },
+    {
+      "id": "p179djfqtsk7c6rdtnrr8etza58g8e45",
+      "slug": "einzly",
+      "expectedDescription": "Develops invoicing, bookkeeping and VAT software for Swiss sole proprietors, a product of Braintainment GmbH with a published Zurich contact address.",
+      "description": "Develops invoicing, bookkeeping and VAT software for Swiss sole proprietors, a product of Braintainment GmbH with a published Zurich contact address"
+    },
+    {
+      "id": "p1712r520w1gbpx0nmh3e2x66s8g9qdn",
+      "slug": "fairwalter",
+      "expectedDescription": "Develops software for property administration, rental workflows and accounting, with its headquarters in the Space Invaders office community in Zurich.",
+      "description": "Develops software for property administration, rental workflows and accounting, with its headquarters in the Space Invaders office community in Zurich"
+    },
+    {
+      "id": "p17ekwfyh8xq13bcfhmx46s88x8g96jj",
+      "slug": "enshift",
+      "expectedDescription": "Develops energy modelling and management software alongside renewable-energy engineering and implementation, with a public office in Baar.",
+      "description": "Develops energy modelling and management software alongside renewable-energy engineering and implementation, with a public office in Baar"
+    },
+    {
+      "id": "p176qbpp1eswv879c6nx9yfpns8g9mv9",
+      "slug": "playnvoice",
+      "expectedDescription": "Develops software that transcribes clinical conversations and generates structured documentation, operated by Playn Solutions AG with a published Zurich contact address.",
+      "description": "Develops software that transcribes clinical conversations and generates structured documentation, operated by Playn Solutions AG with a published Zurich contact address"
+    },
+    {
+      "id": "p1739pkpx7vp8n3j5awq29vy558g80z8",
+      "slug": "hotdok",
+      "expectedDescription": "Develops a document-management and approval-workflow platform through Artis itech GmbH, with a published Zurich contact address.",
+      "description": "Develops a document-management and approval-workflow platform through Artis itech GmbH, with a published Zurich contact address"
+    },
+    {
+      "id": "p17646wc421sqbkz95d97p4fq18g870d",
+      "slug": "renuo",
+      "expectedDescription": "Develops custom web and mobile applications, with a software engineering team in Wallisellen and contributions to open-source projects.",
+      "description": "Develops custom web and mobile applications, with a software engineering team in Wallisellen and contributions to open-source projects"
+    },
+    {
+      "id": "p173vj3xqprkjtn3j5mkvbwk1x8g84c2",
+      "slug": "soxes",
+      "expectedDescription": "Develops and modernises business software, with named AI and cloud engineers in Bubikon alongside international delivery teams.",
+      "description": "Develops and modernises business software, with named AI and cloud engineers in Bubikon alongside international delivery teams"
+    },
+    {
+      "id": "p173gasffyzjh77qkn7k6a2qgn8g80d7",
+      "slug": "huerlimann-informatik",
+      "expectedDescription": "Develops municipal and administrative software and operates cloud infrastructure, with software developers and systems engineers in Obfelden.",
+      "description": "Develops municipal and administrative software and operates cloud infrastructure, with software developers and systems engineers in Obfelden"
+    },
+    {
+      "id": "p171s9rs0bsn18esdjref2spad8g818p",
+      "slug": "onmit",
+      "expectedDescription": "Develops individual web applications and delivers business IT systems, with development and design specialists in Wallisellen.",
+      "description": "Develops individual web applications and delivers business IT systems, with development and design specialists in Wallisellen"
+    },
+    {
+      "id": "p171faq79ghzdhgkm210e210618g9en5",
+      "slug": "incendia",
+      "expectedDescription": "Develops SAP extensions, interfaces and custom applications, including Fiori and BTP solutions, from its Kloten office.",
+      "description": "Develops SAP extensions, interfaces and custom applications, including Fiori and BTP solutions, from its Kloten office"
+    },
+    {
+      "id": "p170wyjqfntzzaj47w8fsx9n258g95ze",
+      "slug": "reishauer",
+      "expectedDescription": "Develops and builds precision gear-grinding machinery, automation and digital process-monitoring systems, with R&D and machine production in Wallisellen.",
+      "description": "Develops and builds precision gear-grinding machinery, automation and digital process-monitoring systems, with R&D and machine production in Wallisellen"
+    },
+    {
+      "id": "p171erwt6v0my650pa9v3cf4bs8g8kkp",
+      "slug": "koch-it",
+      "expectedDescription": "Develops software and technical systems for business and industrial customers, with its engineering workplace in Winterthur.",
+      "description": "Develops software and technical systems for business and industrial customers, with its engineering workplace in Winterthur"
+    },
+    {
+      "id": "p170qqmav2b28k99am4fkwtmmd8g83gz",
+      "slug": "intecso",
+      "expectedDescription": "Builds and operates Azure, workplace, backup and security infrastructure for businesses, with named cloud engineers at its Glattbrugg base.",
+      "description": "Builds and operates Azure, workplace, backup and security infrastructure for businesses, with named cloud engineers at its Glattbrugg base"
+    },
+    {
+      "id": "p172zcx6n2ntneen09h7gh0ech8g9y4c",
+      "slug": "logobject",
+      "expectedDescription": "Develops software for field-service operations, public safety and emergency dispatch, with software-development roles at its Zurich-area headquarters in Opfikon.",
+      "description": "Develops software for field-service operations, public safety and emergency dispatch, with software-development roles at its Zurich-area headquarters in Opfikon"
+    },
+    {
+      "id": "p178rt0zhq8xdg9cmtqz4xvpp18g8tyv",
+      "slug": "nomasis",
+      "expectedDescription": "Engineers and operates enterprise mobile-device and security platforms, with a public Zurich-area office in Langnau am Albis.",
+      "description": "Engineers and operates enterprise mobile-device and security platforms, with a public Zurich-area office in Langnau am Albis"
+    },
+    {
+      "id": "p1771n0nwhknesegmh791sw4b58g9jbd",
+      "slug": "polynorm",
+      "expectedDescription": "Develops and integrates ERP, commerce, point-of-sale and business-information software, delivering its services centrally from Glattbrugg.",
+      "description": "Develops and integrates ERP, commerce, point-of-sale and business-information software, delivering its services centrally from Glattbrugg"
+    },
+    {
+      "id": "p176m4ymegk6wqxndzcgs404ps8g8qnk",
+      "slug": "cudos",
+      "expectedDescription": "Engineers software and system solutions for industrial and technology companies, with technical teams in Fahrweid and Chur.",
+      "description": "Engineers software and system solutions for industrial and technology companies, with technical teams in Fahrweid and Chur"
+    },
+    {
+      "id": "p174yapjfwc09qfrvtmtbcp9fh8g8cde",
+      "slug": "quantum-digital",
+      "expectedDescription": "Develops custom applications, integrations and digital communication systems, with a development team and public headquarters in Dietlikon.",
+      "description": "Develops custom applications, integrations and digital communication systems, with a development team and public headquarters in Dietlikon"
+    },
+    {
+      "id": "p1775wszz35sbe5q4aqcac6y758g96n8",
+      "slug": "datalizard",
+      "expectedDescription": "Develops a platform for data integration, master-data management and financial workflows from its Dietikon office.",
+      "description": "Develops a platform for data integration, master-data management and financial workflows from its Dietikon office"
+    },
+    {
+      "id": "p170ad756dmgzvt8vsxr77jvvd8g80we",
+      "slug": "itopia",
+      "expectedDescription": "Develops iSynth, a model-based platform for generating consistent synthetic data for software testing and DevOps. Also provides technology strategy and implementation services.",
+      "description": "Develops iSynth, a model-based platform for generating consistent synthetic data for software testing and DevOps. Also provides technology strategy and implementation services"
+    },
+    {
+      "id": "p17b1grs5m7yjxewtawfdxzyp58g8yw7",
+      "slug": "q-sys-switzerland",
+      "expectedDescription": "Q-SYS's Swiss operation, listed as Seervision GmbH, supports intelligent audiovisual systems. Seervision's camera-automation technology is part of Q-SYS VisionSuite, including computer-vision presenter tracking and automated camera framing.",
+      "description": "Q-SYS's Swiss operation, listed as Seervision GmbH, supports intelligent audiovisual systems. Seervision's camera-automation technology is part of Q-SYS VisionSuite, including computer-vision presenter tracking and automated camera framing"
+    },
+    {
+      "id": "p176e72qprgdygkdmprxyg0wad8g8xd8",
+      "slug": "olmero",
+      "expectedDescription": "Provides software for construction tendering, contractor selection, estimating and project collaboration. Olmero is operated by Hubexo Switzerland AG, with its Zurich-area office in Glattbrugg.",
+      "description": "Provides software for construction tendering, contractor selection, estimating and project collaboration. Olmero is operated by Hubexo Switzerland AG, with its Zurich-area office in Glattbrugg"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+    "date": "2026-10-15",
+    "status": "published-and-independently-verified-frozen",
+    "reviews": [
+        {
+            "slug": "swibeco",
+            "sources": ["https://www.swibeco.ch/en/about/", "https://www.swibeco.ch/de/kontakt/"],
+            "finding": "Main read own About page naming CTO and product leadership, expressly describing ongoing SaaS development by its IT department, and explaining the move to Stockerstrasse 14 Zurich. This is an office, not Lausanne headquarters. Review MIVO Swiss assets and BenefitsForYou merger aliases; AXA investment is not itself an identity merger."
+        },
+        {
+            "slug": "naoo",
+            "sources": ["https://naoo.com/team", "https://naoo.com/contact"],
+            "finding": "Main read current own team with AI and data-science roles and recommendation-system work, and company contact at Baarerstrasse 21 Zug. Do not misrepresent the Zug contact pin as a specifically located Zurich engineering office."
+        },
+        {
+            "slug": "ontinue",
+            "sources": [
+                "https://www.ontinue.com/corporate-information/",
+                "https://www.ontinue.com/quorum-cyber-announces-intent-to-acquire-ontinue/"
+            ],
+            "finding": "Main read current Ontinue AG CHE-403.134.768 and European headquarters at Grubenstrasse 54 Zurich. Own September 16 2026 acquisition announcement says the transaction remains subject to closing and the companies operate independently until then. Do not treat intent as a completed merger. Its own security platform qualifies beyond Microsoft tool integration alone."
+        }
+    ],
+    "artwork": "Main visually approved all three genuine complete marks in commercial-three-sheet.png for unchanged-byte supported upload",
+    "remaining": [],
+    "verification": {
+        "manifest": "/tmp/zurich-registry-review/primary-parfit-startupticker-commercial-three-hosted-ready.json",
+        "identityPopulation": 1133,
+        "hostedArtwork": "Main verified all three decoded assets, hashes and CORS",
+        "publication": "Supported dry run and single apply of three entries; independent full-field, public-address and social-link readback passed",
+        "productionPopulationAfter": 1136,
+        "relatedIdentity": "Open Systems remains a separate Swiss Post-owned SASE company; its older directory description mentioning detection and response needs a later copy review"
+    },
+    "organisationWrites": 3
+}

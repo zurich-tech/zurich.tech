@@ -1,0 +1,225 @@
+{
+    "checkedAt": "2026-10-15",
+    "organisationWrites": 0,
+    "scope": "Continuation of existing pages1-23 source names only; no broader discovery. Primary outcomes remain distinct from unresolved screening names.",
+    "records": [
+        {
+            "name": "PolaSight",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Own imprint identifies PolaSight SA CHE241097423, Avenue Charles Ferdinand Ramuz113b,1009Pully. Genuine investigational imaging technology; university origin and award do not establish Zurich/Zug presence.",
+            "sources": ["https://www.polasight.com/imprint"]
+        },
+        {
+            "name": "Aurora's Grid",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Own current homepage identifies EPFL Innovation Park Lausanne address and original battery energy software/team. Partnership with Zug-based ILB Helios does not relocate Aurora's Grid.",
+            "sources": [
+                "https://www.aurorasgrid.com/",
+                "https://in.linkedin.com/company/aurora-s-grid"
+            ]
+        },
+        {
+            "name": "Lumvin",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own contact explicitly separates office/production Brown Boveri Strasse16Baden and postal Fabrikstrasse9Baden. Original LED engineering not disputed. No local site inferred from customers or founder award.",
+            "sources": ["https://www.lumvin.ch/kontakt", "https://ch.linkedin.com/company/lumvin"]
+        },
+        {
+            "name": "ILB Helios",
+            "decision": "hold-current-operator-and-original-technology",
+            "reason": "Old own AG imprint identifies Chamerstrasse175Zug and Jinergy partner role; own historical manuals also carry ILB-branded modules. A newer Holding AG domain publishes2024terms. Do not exclude from reseller wording alone or infer original technology from a branded warranty. Need reconcile current Holding/AG identity and current engineering scope, including Aurora partnership, before classification.",
+            "sources": [
+                "https://www.ilb-helios.com/impressum.en.php",
+                "https://www.ilb-helios.com/about-us.en.php",
+                "https://ilb-helios-group.com/daten/installation.manual.en.pdf",
+                "https://www.ilb-helios-solar.com/wp-content/uploads/2024/04/BBB-2020-AGB-ILB-Helios-Holding-AG-en.pdf"
+            ]
+        },
+        {
+            "name": "Cedric",
+            "aliases": ["Underheard", "Cedreon", "SFF S26 AG"],
+            "decision": "prepared-single-operator",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-cedric-one-ready.json",
+            "reason": "Three maintained agent products share SFF S26 AG. Own privacy expressly publishes Zurich Hardturm office, distinct from St Gallen registered address. Prepare one organisation, not three brands.",
+            "sources": [
+                "https://meet-cedric.com/privacy",
+                "https://meet-cedric.com/terms",
+                "https://underheard.ai/en/imprint",
+                "https://cedreon.com/privacy"
+            ]
+        },
+        {
+            "name": "NRGY One",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own About identifies Bern founders and current Stadtplatz46,3270Aarberg address. Genuine Stromkonto software does not establish a Zurich/Zug location.",
+            "sources": ["https://www.nrgyone.ch/uber-uns"]
+        },
+        {
+            "name": "Phylax Intelligence",
+            "decision": "prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-primary-next-three-ready.json",
+            "reason": "Own About identifies original PHLX.AI decision-support platform and Swiss operator Phylax AG CHE343720736 Suurstoffi18bRotkreuz, separate from Greek entity. Active UID, exact federal coordinates and corporate LinkedIn checked. Original declared phi favicon prepared, no upload. Do not claim facial identification or certification from compliance marketing.",
+            "sources": [
+                "https://phylax-intelligence.com/de/about/",
+                "https://phylax-intelligence.com/privacy-policy/",
+                "https://phylax-intelligence.com/de/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE343720736"
+            ]
+        },
+        {
+            "name": "FOOD FOUNDERS Studio",
+            "decision": "primary-venture-studio-preparation-open",
+            "reason": "Own site describes co-founding and financing science-based food ventures, with Zeughaustrasse31Zurich contact. Venture-builder eligibility is separate from ordinary operating-company product rule. Legal identity and investor taxonomy still require preparation.",
+            "sources": ["https://foodfounders.studio/", "https://foodfounders.studio/Ventures"]
+        },
+        {
+            "name": "SentiaNova",
+            "decision": "prepared-address-resolved",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-primary-next-three-ready.json",
+            "reason": "Indexed first-party homepage explicitly publishes its own SentiaNova AG office Zeughaustrasse31Zurich, not merely studio address. Active UID CHE486597077 and exact federal address use canonical Zeughausstrasse spelling. Original licensed protein-processing technology, Startup. Corporate LinkedIn and declared favicon verified; main visual review pending. CLI body is client-rendered; address evidence is primary web-reader content plus UID.",
+            "sources": [
+                "https://foodfounders.studio/Ventures",
+                "https://sentianova.com/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE486597077"
+            ]
+        },
+        {
+            "name": "Iris Labs",
+            "aliases": ["vaib"],
+            "decision": "prepared-product-operator-resolved",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-primary-next-three-ready.json",
+            "reason": "vaib About expressly identifies developer Iris Labs AG and founders; Play developer address matches active UID CHE175163158 Schifflande26Zurich. Registered address, not invented office. Own jobs supports Zurich technical activity despite stale stealth homepage. No verified supported corporate social found. Official declared favicon low-resolution and requires main visual approval.",
+            "sources": [
+                "https://vaib.co/about",
+                "https://www.irislabs.ch/jobs.html",
+                "https://play.google.com/store/apps/details?hl=en&id=co.vaib.app",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE175163158"
+            ]
+        },
+        {
+            "name": "Malaica",
+            "decision": "technical-team-confirmed-operator-attribution-open",
+            "reason": "Own About names CTO, product leadership and software systems engineers, correcting the earlier clinic-only scope uncertainty. Kenyan official trademark journal identifies Malaica AG Kalkbreitestrasse6Zurich as brand owner. Current Swiss operating role and maintained technical product attribution still need checking; trademark ownership alone does not settle local company scope.",
+            "sources": [
+                "https://malaica.com/about-us/",
+                "https://www.kipi.go.ke/sites/default/files/2024-04/March%202024%20Journal.pdf"
+            ]
+        },
+        {
+            "name": "Swibeco",
+            "decision": "prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-commercial-three-ready.json",
+            "reason": "Own About expressly attributes continuing SaaS development to IT team; current Zurich office matches. Established Company, not blanket startup.",
+            "sources": ["https://www.swibeco.ch/en/about/", "https://www.swibeco.ch/de/kontakt/"]
+        },
+        {
+            "name": "naoo",
+            "decision": "prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-commercial-three-ready.json",
+            "reason": "Own named AI/product team, current app and corporate engineering updates support original technology. Contact and UID agree Baarerstrasse21Zug; old imprint address not used.",
+            "sources": [
+                "https://naoo.com/team",
+                "https://naoo.com/contact",
+                "https://www.linkedin.com/company/naoo",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE113041552"
+            ]
+        },
+        {
+            "name": "Ontinue",
+            "decision": "prepared-main-parent-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-commercial-three-ready.json",
+            "reason": "Current separate legal identity and original ION platform, European HQ Grubenstrasse54. Main should review historic Open Systems MDR origin against current Swiss Post-owned SASE business; September2026 Quorum acquisition is announced, not assumed closed.",
+            "sources": [
+                "https://www.ontinue.com/corporate-information/",
+                "https://www.ontinue.com/quorum-cyber-announces-intent-to-acquire-ontinue/",
+                "https://www.open-systems.com/blog/press-release/swiss-post-acquires-open-systems-accelerating-innovation-in-managed-sase-services/"
+            ]
+        },
+        {
+            "name": "Readily3D",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own contact explicitly distinguishes delivery site Route de la Corniche4,1066Epalinges and registered EPFL InnovationPark buildingA Lausanne. No local site asserted.",
+            "sources": ["https://readily3d.com/contact/"]
+        },
+        {
+            "name": "Neurosterix",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Current company About and patient pages publish Geneva and Boston addresses. Positive drug-development scope does not supply a ZH/ZG site.",
+            "sources": ["https://neurosterix.com/about-us/", "https://neurosterix.com/patients/"]
+        },
+        {
+            "name": "Planik",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own current contact gives Zinggstrasse1,3007Bern. Scheduling software is genuine; no Zurich/Zug office verified.",
+            "sources": ["https://about.planik.ch/kontakt/"]
+        },
+        {
+            "name": "ClearSpace",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Current official office list gives Swiss office Rue de Lausanne64,1020Renens and foreign offices. No ZH/ZG site in that current list.",
+            "sources": ["https://clearspace.today/contactclearspace"]
+        },
+        {
+            "name": "Energy Vault",
+            "decision": "outside-region-current-primary-legal-site",
+            "reason": "Official applicant privacy notice names Swiss operator Energy Vault SA, Via Cantonale19,6900Lugano. Own storage technology not disputed; no ZH/ZG location inferred.",
+            "sources": [
+                "https://www.energyvault.com/hubfs/Energy%20Vault%20-%20Privacy%20Notice%20for%20Applicants%20%28October%202025%29%20.pdf"
+            ]
+        },
+        {
+            "name": "Bakery Bakery",
+            "decision": "exclude-ordinary-bakery-retail-scope",
+            "reason": "Own About describes vegan bakery chain, community ownership, distribution centre and central purchasing. This is affirmative ordinary food production/retail scope, not evidence of original relevant technical systems. Do not tag biotech merely because products are vegan. New specific technical evidence could reopen.",
+            "sources": ["https://www.bakerybakery.ch/about"]
+        },
+        {
+            "name": "BODDY",
+            "decision": "prepared-operator-identity-resolved",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-platform-next-two-ready.json",
+            "reason": "Current boddy.life terms/privacy name active Pindor Group AG CHE234516076 Tessinerplatz7; exact UID agrees. Distinct BODDY AG CHE495653993 is inactive/deleted and must not be used. Own platform/API and named technical/product leadership support technology.",
+            "sources": [
+                "https://boddy.life/",
+                "https://boddy.life/terms",
+                "https://boddy.life/privacy",
+                "https://www.boddy.tech/aboutUs",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE234516076",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE495653993"
+            ]
+        },
+        {
+            "name": "ExpertVision",
+            "decision": "prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-platform-next-two-ready.json",
+            "reason": "Original real-time retail computer vision and current published applications. App-store developer identity and official UID match ExpertVision Ai AG, c/oDomizilagentur Baarerstrasse43Zug. Registered address, not invented Zurich engineering office.",
+            "sources": [
+                "https://www.expertvision.ai/",
+                "https://ch.linkedin.com/company/expertvision-ai",
+                "https://play.google.com/store/apps/details?id=app.expertvision.ai",
+                "https://www.uid.admin.ch/Detail.aspx?lang=fr&uid_id=CHE281249834"
+            ]
+        },
+        {
+            "name": "Tivano",
+            "decision": "main-scope-review-technical-carbon-process",
+            "reason": "Own Approach attributes sensor-monitored oxygen-deprived biomass vaults; own project gallery shows construction and MRV installation. Own privacy policy and active UID establish Tivano AG Seestrasse12Mannedorf. Do not exclude as ordinary consultancy based on registry industry label. Main decision needed whether current primary attribution establishes original developed technical process sufficiently; no patent/exclusivity requirement. Geographic question resolved, not a missing-address hold.",
+            "sources": [
+                "https://www.tivano-carbon.com/approach",
+                "https://www.tivano-carbon.com/about",
+                "https://www.tivano-carbon.com/privacy-policy",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE344183947"
+            ]
+        },
+        {
+            "name": "Infomaniak",
+            "decision": "hold-exact-local-site-primary-confirmation",
+            "reason": "Own About explicitly confirms local Zurich branch/team and own cloud development. Secondary directory gives Limmatstrasse183 but exact street not yet primary confirmed. Do not use Technoparkstrasse1 from ISO certificate: that is certifier SGS, not Infomaniak. Further primary street check remains warranted.",
+            "sources": [
+                "https://www.infomaniak.com/en/about",
+                "https://www.infomaniak.com/documents/iso/14001_1FR.pdf"
+            ],
+            "secondaryLead": "https://search.ch/tel/zuerich/limmatstrasse-183/infomaniak-network-sa"
+        }
+    ],
+    "remaining": "Source-name queue remains open. Fresh public snapshot contains1119. Nine newly prepared profiles Swibeco,naoo,Ontinue,BODDY,ExpertVision,Cedric,Phylax,IrisLabs,SentiaNova have no current name/slug/domain match. Main-published eleven are frozen and never requeued; remaining source strings are not claimed reviewed merely by enumeration."
+}

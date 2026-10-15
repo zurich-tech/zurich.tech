@@ -1,0 +1,136 @@
+{
+    "reviewedOn": "2026-10-15",
+    "status": "Published once and independently verified against the exact reviewed manifest",
+    "publishedManifest": "/tmp/zurich-registry-review/primary-56c0-publication-approved25-hosted-ready.json",
+    "verifiedProductionCount": 1235,
+    "handoff": "/tmp/zurich-registry-review/primary-56c0-publication-current-handoff.json",
+    "reviewedPopulation": 1210,
+    "approvedArtworkCount": 25,
+    "artworkReview": "Main inspected all three contact sheets at both preview and marker sizes. Original LORIOT 16px source is recognizable but low resolution; no claim of recovered detail. CARE, Fabas and nestermind short wordmarks remain recognizable. All marks retain original proportions and colours.",
+    "artworkHolds": [
+        "ankasys",
+        "getyourlawyer",
+        "girlscodetoo",
+        "pharvaris",
+        "spearhead",
+        "calingo-insurance"
+    ],
+    "artworkHoldReason": "Seek official compact artwork because complete wordmarks become too small at marker scale; do not invent crops or initials",
+    "previousHoldsPreserved": ["oculis", "flint"],
+    "mainPrimaryReview": [
+        {
+            "slug": "amesco",
+            "source": "https://itsamesco.com/de-ch/pages/offene-stellen",
+            "finding": "Own filtration process and Kemptpark 33 production site explicitly published. Inclusion is not based on selling wine."
+        },
+        {
+            "slug": "care",
+            "source": "https://care.health/ch-en/about-care/",
+            "finding": "Current CTO description explicitly identifies engineering of the app, clinical dashboards and booking platform. Do not classify ordinary clinical services or staff academic work as company biotechnology."
+        },
+        {
+            "slug": "recoveris",
+            "source": "https://recoveris.io/blockchain-investigation-management-system/",
+            "finding": "BIMS explicitly built by Recoveris, with product leadership, domain-specific agents and case workflows. Still waitlisted; do not imply general availability or repeat claims of exclusive access."
+        },
+        {
+            "slug": "yumame-foods",
+            "source": "https://www.grstiftung.ch/en/funding/portfolio~grs-080-23~.html",
+            "finding": "Project report identifies development and optimization of fermentation production methods with EHL scientists. More than food retail or sustainability branding."
+        },
+        {
+            "slug": "loriot",
+            "source": "https://loriot.io/contact.html",
+            "finding": "Own distributed LoRaWAN/mioty software and explicit Langnau am Albis head office."
+        },
+        {
+            "slug": "microqubic",
+            "source": "https://www.microqubic.com/contact",
+            "finding": "Feldpark 29 office and Feldpark 3 workshop explicitly distinguished; current packet maps the office only."
+        },
+        {
+            "slug": "synature",
+            "source": "https://synature.ai/contact",
+            "finding": "Company explicitly invites visits to Bahnhofstrasse 26 Wallisellen. Do not substitute Lausanne registration for the working office."
+        },
+        {
+            "slug": "corflow",
+            "source": "https://corflow.com/contact-us",
+            "finding": "Company explicitly labels Neuhofstrasse 5A as office. Device remains investigational; no clinical efficacy or commercial approval claim."
+        },
+        {
+            "slug": "cyberdise",
+            "source": "https://cyberdise.io/de/impressum/",
+            "finding": "Main Chrome confirms Cyberdise AG Poststrasse 26 Zug. Separately displayed Noevu web agency address is not Cyberdise's address."
+        },
+        {
+            "slug": "liquid-markets-solutions",
+            "source": "https://lms.io/",
+            "finding": "Own programmable network adapters and FPGA IP suite explicitly documented, beyond hardware resale. Partner chips do not negate original development."
+        },
+        {
+            "slug": "vicap",
+            "source": "https://vicapsystems.eu/en/about",
+            "finding": "Current own development history, 2025 acquisition, 2026 activity and retained ViCAP Global AG identity/address. Product description excludes unverified superiority or effectiveness assertions."
+        },
+        {
+            "slug": "upgrid",
+            "source": "https://upgrid.ch/de/about-us",
+            "finding": "Own electricity-community platform identifies allocation, metering and billing, and Soodring 13 Adliswil address. Do not repeat savings or compliance guarantees."
+        },
+        {
+            "slug": "vertx-iq",
+            "source": "https://vertx-iq.com/ueber-uns/team",
+            "finding": "Own software team and CTO explicitly published. Contact address is not asserted to be a registered office."
+        },
+        {
+            "slug": "beyond-tickets",
+            "source": "https://beyond-tickets.com/about",
+            "finding": "Own platform development and product launch timeline explicitly published; not merely an event promoter."
+        },
+        {
+            "slug": "fabas",
+            "source": "https://www.fabas.ch/",
+            "finding": "Functional ingredient development and food-science product team; description avoids nutrition or environmental performance promises."
+        },
+        {
+            "slug": "solarstream",
+            "source": "https://www.solarstream.ch/de",
+            "finding": "Own planning, quoting and field-service software, not a solar installation business. Software tag reflects the actual product."
+        }
+    ],
+    "otherPreparedProfiles": "Agent evidence for every proposed record was reviewed, including official identity, exact address, original technology, taxonomy and checked social sources. Main additionally opened current Pingen contact, isimed imprint, imofix company, nestermind team, Nevermined product, Rekord company, TRI and Validation Cloud product pages, and Trip Boutique homepage.",
+    "completedGates": [
+        "Fresh 1210-record production duplicate and operator alias checks found no matches",
+        "Six exact shared address IDs reused",
+        "All 25 hosted assets decoded, matched approved hashes and allowed CORS",
+        "Supported import preview returned exactly 25 records with applied false",
+        "Single apply returned exactly 25 records with applied true",
+        "Independent complete readback verified all 25 profiles, topics, addresses and social links; total 1235"
+    ],
+    "productionWrites": 25,
+    "publicationOverlays": [
+        {
+            "recordedOn": "2026-10-15",
+            "status": "published-once-independently-verified-frozen",
+            "reportedBy": "Main agent via user message; not independently reapplied by researcher",
+            "manifest": "/tmp/zurich-registry-review/primary-56c0-finite10-hosted-ready.json",
+            "manifestSha256": "5b69d27fd234157a75d084073e0fea6778c5e9e9209740f2503376d42eb365c7",
+            "productionBefore": 1273,
+            "productionAfter": 1283,
+            "publishedCount": 10,
+            "verifiedCount": 10,
+            "gates": [
+                "Fresh exact identity and aliases including SEBA: no matches",
+                "Two existing address IDs preserved",
+                "Ten hosted assets passed hash, decode and CORS checks at 07:03",
+                "Supported dry run: applied false, ten records",
+                "Supported apply once: applied true, ten records",
+                "Independent full verification: ten records",
+                "Main primary review cleared Localfish homepage and Inrate issue01"
+            ],
+            "researcherOrganisationWrites": 0,
+            "reapply": false
+        }
+    ]
+}

@@ -1,0 +1,54 @@
+{
+    "checkedAt": "2026-10-15",
+    "population": 1159,
+    "productionWrites": 0,
+    "uploads": 0,
+    "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-finance-flight-two-ready.json",
+    "logos": "/tmp/zurich-registry-review/primary-parfit-startupticker-finance-flight-two-logos.json",
+    "records": [
+        {
+            "name": "Aderis",
+            "kind": "startup",
+            "ownTechnology": "Own about and platform pages describe a maintained original multi-ledger ERP. Investor 3VC describes product demo, early customers and backing after stealth. Not a generic ERP implementation consultancy.",
+            "location": "Headquarters explicitly published at Seestrasse 139, Kilchberg; matched federal exact 139, not adjacent 139a.",
+            "sources": [
+                "https://aderis.com/en/about",
+                "https://aderis.com/de/kontakt",
+                "https://three.vc/blog/why-we-invested-in-aderis/"
+            ],
+            "socialReview": "Own homepage and about link exact aderisag corporate LinkedIn URL recorded in packet; numeric company link also present. No GitHub/X outbound in homepage. Do not publish staff profiles.",
+            "asset": "Own declared 192px icon downloaded unchanged and visually inspected. Main approval pending."
+        },
+        {
+            "name": "Zerolook",
+            "kind": "startup",
+            "ownTechnology": "Own service details describe ML-predicted flight search API. Corporate LinkedIn and founder posts confirm Navifare pivot and 2026 pre-seed engineering expansion.",
+            "location": "Registered address from directly fetched active federal UID record: Suurstoffi 37, Rotkreuz. Corporate post mentions new Zurich office within walking distance of HB but no street, so do not invent a Zurich marker or call Rotkreuz engineering office.",
+            "sources": [
+                "https://www.zerolook.ai/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE222465331",
+                "https://www.linkedin.com/company/zerolook-ai/",
+                "https://ch.linkedin.com/in/simonelini"
+            ],
+            "socialReview": "Corporate LinkedIn matches exact own website, founders and product. Homepage has no social outbound. Navifare GitHub repositories found with matching domain references, but no reverse current own-domain link established; not added to payload. No verified X found.",
+            "githubLead": "https://github.com/navifare",
+            "asset": "Declared official compact Z downloaded and proportionally resized without changing pixels' colours. Main artwork approval pending."
+        }
+    ],
+    "dedup": {
+        "snapshot": 1159,
+        "aliases": [
+            "Aderis",
+            "aderis.com",
+            "Zerolook",
+            "zerolook.ai",
+            "zerolook.com",
+            "Navifare",
+            "navifare.com"
+        ],
+        "exactRegistryMatches": 0,
+        "pendingReadyBatchMatches": 0,
+        "existingExactAddressMatches": 0,
+        "limitation": "Fresh preview required immediately before any main publication; this file authorises no writes."
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "date": "2026-10-15",
+    "status": "reviewed-with-specific-prepublication-checks",
+    "packet": "/tmp/zurich-registry-review/primary-56c0-positive-six-ready.json",
+    "organisationWrites": 2,
+    "publication": {
+        "slugs": ["work-id", "bonebridge"],
+        "packet": "/tmp/zurich-registry-review/primary-56c0-approved-two-hosted-ready.json",
+        "identityCheck": "Main fresh complete production check at 05:18:18.952Z, 1155 records, no matching identities or shared addresses",
+        "assetCheck": "Main approved original compact marks downloaded, pixel decoded, hash and CORS verified at 05:18:21.344Z",
+        "result": "Supported preview passed; exact pair applied once; independent full-field, location and social readback passed at 1157 records",
+        "instruction": "Work-ID and Bonebridge are frozen as published; their remaining-check notes below are historical. Other four candidates remain unpublished from this packet."
+    },
+    "reviews": [
+        {
+            "slug": "work-id",
+            "sources": [
+                "https://work-id.ch/de/services/swiss-made-software/",
+                "https://work-id.ch/de/legal/impressum/"
+            ],
+            "finding": "Own technical page explicitly describes software co-development with Noser Engineering and a tool-using support-agent architecture; do not imply exclusively in-house coding. Imprint confirms Work-ID AG, Seestrasse 40, Thalwil.",
+            "artwork": "Main visually approved complete official compact ID mark at map size",
+            "remaining": "Hosted exact asset, final alias and shared-address checks, supported preview/apply and independent verification"
+        },
+        {
+            "slug": "bonebridge",
+            "sources": ["https://bonebridge.ch/", "https://bonebridge.ch/imprint"],
+            "finding": "Own current site explicitly identifies design, development and manufacture of trauma implants, founded 2018. Imprint confirms Bahnhofstrasse 11, Zug.",
+            "artwork": "Main visually approved complete official compact mark at map size",
+            "remaining": "Hosted exact asset, final alias and shared-address checks, supported preview/apply and independent verification"
+        },
+        {
+            "slug": "pharvaris",
+            "sources": ["https://pharvaris.com/contact-us/"],
+            "finding": "Own current contact explicitly identifies corporate headquarters at Grafenauweg 8, Zug, CHE-462.641.977. No inferred Swiss laboratory claim.",
+            "artwork": "Complete wordmark is too small at map size; request genuine compact variant",
+            "remaining": "Compact artwork and final publication checks"
+        },
+        {
+            "slug": "oculis",
+            "sources": ["https://oculis.com/contact-us/"],
+            "finding": "Own current contact separates Oculis Holding AG at Bahnhofstrasse 20, Zug from Oculis Operations and Neurocol Operations in Lausanne. Holding address alone does not prove local technical activity.",
+            "artwork": "Main visually approved intact official illustrated favicon",
+            "remaining": "Corroborate substantive local activity before publication; do not imply Lausanne operations are in Zug"
+        },
+        {
+            "slug": "loriot",
+            "sources": ["https://loriot.io/contact.html"],
+            "finding": "Own site confirms distributed LoRaWAN/mioty network software and head office at Schwyzertobelstrasse 7, Langnau am Albis.",
+            "artwork": "Complete white wordmark is visible on original dark backing but too small at map size; request genuine compact variant",
+            "remaining": "Compact artwork and final publication checks"
+        },
+        {
+            "slug": "vertx-iq",
+            "sources": ["https://vertx-iq.com/ueber-uns/team"],
+            "finding": "Own team page describes software development and identifies CTO and product owners; supports original technology rather than generic financial consulting.",
+            "artwork": "Complete wordmark is too small at map size; request genuine compact variant",
+            "remaining": "Compact artwork, final address and identity checks"
+        }
+    ]
+}

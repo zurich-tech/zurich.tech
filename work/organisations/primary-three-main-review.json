@@ -1,0 +1,29 @@
+{
+    "date": "2026-10-15",
+    "status": "published-independently-verified",
+    "manifest": "/tmp/zurich-registry-review/primary-parfit-startupticker-primary-next-three-hosted-ready.json",
+    "productionCountAfter": 1194,
+    "artwork": "Main inspected all three marks in the contact sheet and their official source manifest. Exact marks approved for hosting; no redraw or invented crop. Iris's small original favicon is visibly low resolution at enlarged preview size.",
+    "rows": [
+        {
+            "slug": "phylax-intelligence",
+            "evidence": "Official company page attributes PHLX.AI development to the company and identifies Phylax AG at Suurstoffi18b,6343Rotkreuz. The registered-address label is retained; do not imply a specific local laboratory.",
+            "source": "https://phylax-intelligence.com/de/about/"
+        },
+        {
+            "slug": "iris-labs",
+            "evidence": "Official jobs page describes AI product engineering in Zurich. The developer's live Google Play listing identifies Iris Labs AG as vaib's publisher, describes conversational-AI social matching, and gives its c/o business address at Schifflaende26,8001Zurich. Registered-address label retained; no physical office inferred.",
+            "sources": [
+                "https://www.irislabs.ch/jobs.html",
+                "https://play.google.com/store/apps/details?hl=en&id=co.vaib.app"
+            ]
+        },
+        {
+            "slug": "sentianova",
+            "evidence": "Main Chrome rendered the official page after the web reader returned no body. It describes pulse-protein off-flavour processing before concentration/isolation and equipment fitted into partner facilities. Its office is explicitly Zeughausstrasse31,8004Zurich. Do not place partner manufacturing at the office or imply independent verification of performance/patents.",
+            "source": "https://sentianova.com/"
+        }
+    ],
+    "publication": "Fresh complete production identity and Phylax/PHLX, Iris/vaib and SentiaNova alias checks found no matches at1191. All three existing public building addresses were reused explicitly. Hosted logo hashes, full-pixel decoding and CORS passed. Supported preview3 passed, apply3 executed once, independent complete organisation/location/address/social verification passed at1194. Freeze this manifest; do not reapply.",
+    "limitations": "This verifies the three additions, not whole-directory completion. Iris has no supported corporate social account verified in the prepared evidence; no handle was invented."
+}

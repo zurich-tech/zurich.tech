@@ -1,0 +1,74 @@
+{
+    "reviewedOn": "2026-10-15",
+    "status": "21 approved organisations published once and independently verified; six artwork holds remain",
+    "handoff": "/tmp/zurich-registry-review/primary-30c4-swissmem27-handoff.json",
+    "approvedCount": 21,
+    "approved": [
+        "autoneum",
+        "baitella",
+        "cymax",
+        "ernst-grob",
+        "falu",
+        "loepfe",
+        "gebrueder-maag",
+        "highstep-systems",
+        "imaging-solutions",
+        "kissling",
+        "meister-abrasives",
+        "nova-swiss",
+        "recoal",
+        "rotor-tool",
+        "ut99",
+        "wyler",
+        "medmix",
+        "schlumpf",
+        "ssz-camouflage",
+        "baltec",
+        "abnox"
+    ],
+    "holds": [
+        { "slug": "g-elements", "reason": "Complex full wordmark too small at marker size" },
+        { "slug": "luwa", "reason": "Thin full wordmark too small at marker size" },
+        { "slug": "packsys-global", "reason": "Full wordmark too small at marker size" },
+        { "slug": "rex-royal", "reason": "Complex full artwork too small at marker size" },
+        {
+            "slug": "swisschuck",
+            "reason": "Original preview is very blurry; seek a higher-resolution official original"
+        },
+        {
+            "slug": "triag-international",
+            "reason": "Presented artwork says swiss MODULAR by HENNING; verify current brand or parent relationship explicitly before approval"
+        }
+    ],
+    "method": "Main inspected all four contact sheets at preview and 32px marker sizes. Approval covers exact supplied bytes only, not any later crop or replacement. Agent may host approved assets, but may not publish organisations.",
+    "primaryReviewProgress": {
+        "reviewedOn": "2026-10-15",
+        "status": "Complete for approved 21; main inspected own product and contact captures, attribution and alias evidence",
+        "checked": [
+            "medmix own company history confirms independent 2021 Sulzer spin-off; requested office label Headquarters",
+            "Gebrueder Maag own company history distinguishes its 1875 textile business from Max Maag's 1913 pump business",
+            "Swiss CamouTech own site links SSZ operating brands; prepare SSZ only pending related-company review",
+            "Meister Abrasives own site describes original abrasive bonds and development at Andelfingen",
+            "Nova Swiss own site identifies Nova Werke AG and Effretikon headquarters",
+            "Recoal own site describes biomass carbonisation and expressly identifies its Westhive Zurich office",
+            "Rotor Tool own site attributes development and production of clamping and centring products",
+            "UT99 own site attributes oil-mist separator development and production; Storskogen membership noted",
+            "Schlumpf own site identifies original winding components alongside distribution of complementary products"
+        ],
+        "remaining": "Six held artworks are excluded from the published packet"
+    },
+    "publication": {
+        "manifest": "/tmp/zurich-registry-review/primary-30c4-swissmem21-ready.json",
+        "freshIdentityCheckCount": 1252,
+        "aliasReview": "/tmp/zurich-registry-review/primary-30c4-swissmem21-alias-adjudication.json",
+        "assetChecks": "All 21 exact hosted assets passed main hash, pixel decode and CORS checks",
+        "sharedAddresses": "Imaging Solutions and Recoal reuse existing public address IDs unchanged",
+        "officeLabels": "Autoneum, Nova Swiss, medmix, BalTec and ABNOX use primary-supported Headquarters labels",
+        "dryRunCount": 21,
+        "applyCount": 21,
+        "independentlyVerifiedCount": 21,
+        "verifiedProductionCount": 1273,
+        "verification": "Fresh organisations, locations, addresses and links compared to reviewed profiles, classifications, office labels, exact pins and socials"
+    },
+    "productionWrites": 21
+}

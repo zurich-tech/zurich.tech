@@ -1,0 +1,2081 @@
+{
+    "checkedAt": "2026-10-15T04:09:14.875Z",
+    "scope": "Only frozen membership104 appearances /103 identities; no discovery expansion",
+    "organisationWrites": 0,
+    "assetUploadsThisPass": 0,
+    "frozenFilesUnchanged": true,
+    "publication": {
+        "authoritative": "/Users/florian/symbol/zurich.tech/work/organisations/four-publication-review.json",
+        "verifiedProductionTotal": 1108,
+        "frozenSlugs": ["artifact", "swissfintechladies", "swiss-legaltech-association"],
+        "reapply": false,
+        "note": "OTTER outside this membership cohort"
+    },
+    "snapshotCaveat": "Available current-public-organisations.json remains1093; no fresh1108 dedupe claimed. Main fresh identity/address checks required before any apply.",
+    "counts": {
+        "originalDistinctIdentities": 103,
+        "frozenPublishedFrom19": 3,
+        "remainingPreparedFrom19": 16,
+        "newlyEligibleButIncomplete": 3,
+        "excluded": 24,
+        "unresolvedEvidenceHolds": 56,
+        "otherOwnerSAP": 1,
+        "notAssessed": 0
+    },
+    "countCaveat": "61 previously labelled held includes60 evidence holds and1 SAP handoff. Three eligibility resolutions and one locality exclusion leave56 evidence holds. Not all56 re-researched this pass.",
+    "sharedRemainingChecks": [
+        "Main visual artwork approval and exact-byte supported upload for any unapproved asset",
+        "Fresh full identity/alias and exact public address reuse review before apply",
+        "No replacement of public postal/registered/contact labels with inferred offices"
+    ],
+    "prepared": [
+        {
+            "slug": "swissict",
+            "name": "swissICT",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Confirm specialist-group peer learning and Secretariat label; do not use personal speaker social accounts",
+            "sources": [
+                "https://www.swissict.ch/",
+                "https://www.swissict.ch/kontakt/",
+                "https://www.swissict.ch/agile-breakfast/",
+                "https://www.swissict.ch/impressum/"
+            ],
+            "address": {
+                "line1": "Vulkanstrasse 120",
+                "postalCode": "8048",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.394109,
+                "longitude": 8.481594,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100144178?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Secretariat",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/swissict/"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "swissict",
+                "sourceURL": "https://www.swissict.ch/app/uploads/2019/05/cropped-favicon-192x192.png",
+                "sourcePage": "https://www.swissict.ch/",
+                "originalPath": "/tmp/zurich-registry-review/membership-swissict-original.png",
+                "originalSha256": "dbc6a2cdd1ccb7153eb7f5bc72ac825b9f1ae0513387220dbab98b4d5c2702dc",
+                "path": "/tmp/zurich-registry-review/membership-swissict.png",
+                "preparedSha256": "330d4667c5f389c1a0bda65ea5c0b6b341e84e3823093e083c77854d1ce44267",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "swico",
+            "name": "Swico",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Confirm Swico is co-organiser of Swiss Web Security Day, not merely calendar host; Secretariat label",
+            "sources": [
+                "https://www.swico.ch/de/",
+                "https://www.swico.ch/de/kontakt/",
+                "https://www.swico.ch/fr/calendrier-des-manifestations/"
+            ],
+            "address": {
+                "line1": "Lagerstrasse 33",
+                "postalCode": "8004",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.377483,
+                "longitude": 8.532917,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101146548?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Secretariat",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/swico_ict/"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "swico",
+                "sourceURL": "https://www.swico.ch/static/ico/apple-touch-icon.5712a000ef6c.png",
+                "sourcePage": "https://www.swico.ch/de/",
+                "originalPath": "/tmp/zurich-registry-review/membership-swico-original.png",
+                "originalSha256": "bc6b321d553e809f96ec81eb7339ba2bcf7c9ec17448bab78b6a395f88f65c33",
+                "path": "/tmp/zurich-registry-review/membership-swico.png",
+                "preparedSha256": "bef12b8028415ecee63bac77ad1ead4d5379faae08c78951169fd3912314baa1",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "fiat24",
+            "name": "Fiat24",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review SR Saphirstein AG alias as one Fiat24 identity and developer contracts; registered address, not inferred engineering office",
+            "sources": ["https://www.fiat24.com/", "https://docs.fiat24.com/legal"],
+            "address": {
+                "line1": "Bellerivestrasse 245",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.350627,
+                "longitude": 8.560838,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101718853?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/fiat24/",
+                "x": "https://x.com/Fiat24Official"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "fiat24",
+                "sourceURL": "https://www.fiat24.com/img/apple-touch-icon.png",
+                "sourcePage": "https://www.fiat24.com/",
+                "originalPath": "/tmp/zurich-registry-review/membership-fiat24-original.png",
+                "originalSha256": "f8b9d159838074801d7f1895f9a9d49822c7d18aba77f54f4610b7f74646849b",
+                "path": "/tmp/zurich-registry-review/membership-fiat24.png",
+                "preparedSha256": "51813bc11e83ae7a7317b66e5c15a085ceff52fad86c4190c20fbdbc1dae3ae9",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "swiss-fintech-innovations",
+            "name": "Swiss Fintech Innovations",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Read Common API specifications and privacy street address rather than separate postal-box postcode",
+            "sources": [
+                "https://swissfintechinnovations.ch/",
+                "https://swissfintechinnovations.ch/contact/",
+                "https://swissfintechinnovations.ch/privacy-policy/"
+            ],
+            "address": {
+                "line1": "Rämistrasse 5",
+                "postalCode": "8001",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.367855,
+                "longitude": 8.545781,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100117525?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Contact address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/swiss-fintech-innovations/"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "swiss-fintech-innovations",
+                "sourceURL": "https://swissfintechinnovations.ch/wp-content/uploads/2017/12/cropped-favicon_512px_transparent-192x192.png",
+                "sourcePage": "https://swissfintechinnovations.ch/",
+                "originalPath": "/tmp/zurich-registry-review/membership-swiss-fintech-innovations-original.png",
+                "originalSha256": "adf9b957652e681bbe4f528201d1d0b29478bef4a9f456684aa95383f498fe02",
+                "path": "/tmp/zurich-registry-review/membership-swiss-fintech-innovations.png",
+                "preparedSha256": "3ab148de549cebf334f9a869510b2048e4b63b34b02f754198bddc1efcaf19cc",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "k2g",
+            "name": "K2G",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review former kasko2go alias and current K2G risk-system development; use current Baar address, not historical Zug",
+            "sources": ["https://k2g.ai/", "https://k2g.ai/company/privacy-policy/"],
+            "address": {
+                "line1": "Blegistrasse 9",
+                "postalCode": "6340",
+                "locality": "Baar",
+                "countryCode": "CH",
+                "latitude": 47.215979,
+                "longitude": 8.57089,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101188931?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Contact address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/k2g-ai/"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "k2g",
+                "sourceURL": "https://k2g.ai/i2/logo-header.svg",
+                "sourcePage": "https://k2g.ai/",
+                "originalPath": "/tmp/zurich-registry-review/membership-k2g-original.svg",
+                "originalSha256": "ccd74b39438689f30d2f04a1676f8b8979e9ea5f84d0d09321695739cdeb4fb4",
+                "path": "/tmp/zurich-registry-review/membership-k2g.png",
+                "preparedSha256": "bab5643a6228e3912cd82c657a5ba94963b55cda03ad441757976abb34512475",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "brick-towers",
+            "name": "Brick Towers",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review urble attribution and current served privacy contact; February2025 heading/2023 effective notice must not be represented as issued2026",
+            "sources": [
+                "https://urble.io/en/",
+                "https://urble.io/de/terms-of-use/",
+                "https://bricktowers.io/",
+                "https://bricktowers.io/privacy-policy/",
+                "https://bricktowers.io/terms-and-conditions/"
+            ],
+            "address": {
+                "line1": "Baarerstrasse 12",
+                "postalCode": "6300",
+                "locality": "Zug",
+                "countryCode": "CH",
+                "latitude": 47.171642,
+                "longitude": 8.516585,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100308198?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Contact address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/brick-towers/",
+                "github": "https://github.com/bricktowers",
+                "x": "https://x.com/bricktowers"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "brick-towers",
+                "sourceURL": "https://bricktowers.io/wp-content/uploads/2025/06/cropped-favicon-192x192.png",
+                "sourcePage": "https://bricktowers.io/",
+                "originalPath": "/tmp/zurich-registry-review/membership-brick-towers-original.png",
+                "originalSha256": "e6d7456af2180211bb9150ac1afd5d17764dd30d86ba9f88100ce8bae9e3ec82",
+                "path": "/tmp/zurich-registry-review/membership-brick-towers.png",
+                "preparedSha256": "d2a198008d6d1c36c0765e93d33cefd7a4bca30cb8ded8411ffd1ae2cae3b243",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "finchtrade",
+            "name": "FinchTrade",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Read named engineering/product team and current legal Grafenauweg8; older LinkedIn Baarerstrasse77 is not location evidence",
+            "sources": [
+                "https://finchtrade.com/",
+                "https://finchtrade.com/about-us.html",
+                "https://finchtrade.com/legal.html",
+                "https://www.linkedin.com/company/finchtrade"
+            ],
+            "address": {
+                "addressId": "j978va0kr7vgyj6gmdftybzxc98f525c"
+            },
+            "office": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/finchtrade"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "finchtrade",
+                "sourceURL": "https://finchtrade.com/assets/img/favicon.png",
+                "sourcePage": "https://finchtrade.com/",
+                "originalPath": "/tmp/zurich-registry-review/membership-finchtrade-original.png",
+                "originalSha256": "4fde609b8669d33ba837c44d3e0e9b15a2ad23d9eb088bfc2c7256400222f06f",
+                "path": "/tmp/zurich-registry-review/membership-finchtrade.png",
+                "preparedSha256": "8933d0a14fe8ba41b2a417c191d99ac57bb3c1cf7b65956af2e0c3b097d4957f",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "go4balance",
+            "name": "Go4Balance",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review SNK bespoke development; licensed Clarity AI inputs are not own models. Current imprint Tessinerplatz7 supersedes older contact",
+            "sources": [
+                "https://go4balance.com/",
+                "https://go4balance.com/imprint",
+                "https://go4balance.com/static/our-team",
+                "https://www.snk.de/en/projects/go4balance/",
+                "https://www.linkedin.com/company/go4balance-ag/"
+            ],
+            "address": {
+                "addressId": "j972m9qe0fh7w1q4p1ayqjdhcx8f4zm6"
+            },
+            "office": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/go4balance-ag/"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "go4balance",
+                "sourceURL": "https://go4balance.com/apple-touch-icon.png",
+                "sourcePage": "https://go4balance.com/",
+                "originalPath": "/tmp/zurich-registry-review/membership-go4balance-original.png",
+                "originalSha256": "be3063781db1765ec3667c0f65df7114621281e1bad61ca2eb14833a6ad5b5eb",
+                "path": "/tmp/zurich-registry-review/membership-go4balance.png",
+                "preparedSha256": "6b45d74a9f773cf2fc85d457b313f8cc93702c00489a4252f905192efe7cbd16",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "crowd4cash",
+            "name": "Crowd4Cash",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Read CrowdEasy explicit development by Crowd Solutions AG; retain one identity for both products. Corporate socials not found on inspected pages",
+            "sources": [
+                "https://crowd4cash.ch/en/",
+                "https://crowd4cash.ch/de/nutzungsbestimmungen-fur-kreditnehmer",
+                "https://crowdeasy.ch/en/about-us",
+                "https://crowd4cash.ch/contact"
+            ],
+            "address": {
+                "line1": "Bellevueweg 42",
+                "postalCode": "6300",
+                "locality": "Zug",
+                "countryCode": "CH",
+                "latitude": 47.151947,
+                "longitude": 8.519213,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101984679?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Contact address",
+            "socials": {},
+            "socialState": "no verified corporate social supplied; not an assertion that none exists",
+            "asset": {
+                "slug": "crowd4cash",
+                "sourceURL": "https://crowd4cash.ch/favicon.png",
+                "sourcePage": "https://crowd4cash.ch/contact",
+                "originalPath": "/tmp/zurich-registry-review/membership-crowd4cash-original.png",
+                "originalSha256": "1d7b1a48a2e60183653993d31d4a9d11867579a3d6d4903591817267e0fc3119",
+                "path": "/tmp/zurich-registry-review/membership-crowd4cash.png",
+                "preparedSha256": "4309af3adb385ce96932f08b6cec8a8a33f8d459712743f65cd85494aa1b7304",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "arf",
+            "name": "Arf",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review continuing Swiss Arf identity after Huma merger; no duplicate Huma profile or claim entire distributed engineering team is local",
+            "sources": [
+                "https://arf.one/",
+                "https://arf.one/about-us/",
+                "https://arf.one/huma-finance-and-arf-merge-to-transform-global-finance-through-real-world-asset-tokenization/"
+            ],
+            "address": {
+                "addressId": "j9786v9macn56zye7cayaxdcyx8g9gry"
+            },
+            "office": "Headquarters",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/arf-one",
+                "x": "https://x.com/arf_one"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "arf",
+                "sourceURL": "https://arf.one/wp-content/uploads/2023/09/cropped-cropped-favicon512x512-192x192.png",
+                "sourcePage": "https://arf.one/",
+                "originalPath": "/tmp/zurich-registry-review/membership-arf-original.png",
+                "originalSha256": "568a20c6296e9157d3889a341d1a8cbf9da2895457dc349877775bccf3dc8565",
+                "path": "/tmp/zurich-registry-review/membership-arf.png",
+                "preparedSha256": "499a4e2a77563bd933587fde4a4e3ee73cb854a32f9b26eafb41a07f1a4e397d",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "wemakeit",
+            "name": "wemakeit",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review current developer team plus historic own software attribution and current coworking contact; account for separate OOMNIUM relationship",
+            "sources": [
+                "https://wemakeit.com/pages/imprint",
+                "https://wemakeit.com/pages/contact",
+                "https://wemakeit.com/pages/team?locale=de",
+                "https://downloads.wemakeit.com/140903-wmkt-PressRelease_CH.pdf"
+            ],
+            "address": {
+                "line1": "Reinhardstrasse 19",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.363183,
+                "longitude": 8.551831,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101252539?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Contact address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/wemakeit-com"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "wemakeit",
+                "sourceURL": "https://assets.wemakeit.com/assets/touchicon-342f161f345d41f75fc267a8e8e63d376750495e18525f2001d9abdcad13d400.png",
+                "sourcePage": "https://wemakeit.com/pages/imprint",
+                "originalPath": "/tmp/zurich-registry-review/membership-wemakeit-original.png",
+                "originalSha256": "13a4614a1db39ce9c01150ebaa13944080c880eccd41ebe1d43e284750dc6dda",
+                "path": "/tmp/zurich-registry-review/membership-wemakeit.png",
+                "preparedSha256": "8d4dd35d31999acb4a194944d660ce75b68f3dc8871c27fe956987b6f2c233ea",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "board-owl",
+            "name": "Board Owl",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review rendered matching-algorithm statement and explicit Postal address label; do not infer operating office. Whole mark requires visual approval",
+            "sources": ["https://boardowl.com/", "https://boardowl.com/impressum"],
+            "address": {
+                "line1": "Scheuchzerstrasse 83",
+                "postalCode": "8006",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.387432,
+                "longitude": 8.54418,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100143769?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Postal address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/board-owl/"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "board-owl",
+                "sourceURL": "https://boardowl.com/assets/Board-Owl_logo-rev-3c966c85.svg",
+                "sourcePage": "https://boardowl.com/",
+                "originalPath": "/tmp/zurich-registry-review/membership-board-owl-original.svg",
+                "originalSha256": "3c966c85a79bf6c80335086eaecee73ad953547ada7d609c693efcb0e9981897",
+                "path": "/tmp/zurich-registry-review/membership-board-owl.png",
+                "preparedSha256": "42542e74c78d7f9d5c90b458b6500c2250a3938d949fe6d52daddbbfae2b5a77",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "tradeqraft",
+            "name": "TradeQraft",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review Enigio partner statement: original platform integrating upstream document technology, not ownership of Enigio. Swiss AG distinct from Dutch BV",
+            "sources": [
+                "https://tradeqraft.com/about-us/",
+                "https://tradeqraft.com/",
+                "https://enigio.com/news/tradeqraft-builds-on-enigios-traceoriginal-to-digitise-trade-finance-instruments/"
+            ],
+            "address": {
+                "line1": "Churerstrasse 54",
+                "postalCode": "8808",
+                "locality": "Pfäffikon SZ",
+                "countryCode": "CH",
+                "latitude": 47.201291,
+                "longitude": 8.780728,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102144640?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Headquarters",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/tradeqraft/"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "tradeqraft",
+                "sourceURL": "https://tradeqraft.com/TQ_icon01.png",
+                "sourcePage": "https://tradeqraft.com/",
+                "originalPath": "/tmp/zurich-registry-review/membership-tradeqraft-original.png",
+                "originalSha256": "3271d6bd9edead6b5dec46d8de63fefb5e8a0d79e39eaf891d9caab8cf22779b",
+                "path": "/tmp/zurich-registry-review/membership-tradeqraft.png",
+                "preparedSha256": "9e34f20f4e9c1d2eb0032b485e95930123379cfca2f94180ad850f6f6e4bab38",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "descartes-finance",
+            "name": "Descartes Finance",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Read bespoke development partner account; preserve with software partners. Correct Swiss domain, not unrelated Descartes software company. Official D-dot requires visual review",
+            "sources": [
+                "https://descartes.swiss/de-ch/",
+                "https://descartes.swiss/de-ch/datenschutz/",
+                "https://devs-group.ch/projekte/descartes-finance"
+            ],
+            "address": {
+                "line1": "Stockerstrasse 54",
+                "postalCode": "8002",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.368783,
+                "longitude": 8.534371,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101722711?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Registered address",
+            "socials": {},
+            "socialState": "no verified corporate social supplied; not an assertion that none exists",
+            "asset": {
+                "slug": "descartes-finance",
+                "sourceURL": "https://descartes.swiss/static/favicon/android-icon-192x192.9648a860130a.png",
+                "sourcePage": "https://descartes.swiss/de-ch/",
+                "originalPath": "/tmp/zurich-registry-review/membership-descartes-finance-original.png",
+                "originalSha256": "c4de4cab6126c490c1efeaf51f6fae8676fe12004323a0e76161ae127da0af34",
+                "path": "/tmp/zurich-registry-review/membership-descartes-finance.png",
+                "preparedSha256": "7768d74aa8748cd26d4ca467ca28e567e6e0ebbca153594349ee702f304ccb4e",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "zhdk",
+            "name": "Zürcher Hochschule der Künste",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review primary immersive research as university scope; one institution, not redundant internal-lab profiles. Parent socials unverified, no lab-administrator substitution",
+            "sources": [
+                "https://www.zhdk.ch/",
+                "https://www.zhdk.ch/immersive-arts-space",
+                "https://www.zhdk.ch/immersive-arts-space/kontakt-10993",
+                "https://blog.zhdk.ch/immersivearts/info/",
+                "https://blog.zhdk.ch/immersivearts/category/current/"
+            ],
+            "address": {
+                "line1": "Pfingstweidstrasse 96",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.390658,
+                "longitude": 8.511383,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101689928?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Campus",
+            "socials": {},
+            "socialState": "no verified corporate social supplied; not an assertion that none exists",
+            "asset": {
+                "slug": "zhdk",
+                "sourceURL": "https://www.zhdk.ch/static/dist/apple-touch-icon.png?v=2.5.11",
+                "sourcePage": "https://www.zhdk.ch/",
+                "originalPath": "/tmp/zurich-registry-review/membership-zhdk-original.png",
+                "originalSha256": "885586760611d7685177e34006ed070e651d942f3efe2953a6fca99427cc44ad",
+                "path": "/tmp/zurich-registry-review/membership-zhdk.png",
+                "preparedSha256": "c3bf69b686ada416a73aa8f5be0e9eb4c3b346b5df2ea66aa9a6095f5e67881b",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        },
+        {
+            "slug": "didas",
+            "name": "DIDAS",
+            "status": "prepared-awaiting-main-review",
+            "primaryChecksStillNeededByMain": "Review verifiable-credential working groups and CampusZugRotkreuz contact; correct Surstoffi typo via host campus plan. Do not claim forthcoming Launchpad released",
+            "sources": [
+                "https://www.didas.swiss/de/",
+                "https://www.hslu.ch/-/media/campus/common/files/dokumente/i/plaene-suurstoffi/lageplan-campus-zug-rotkreuz-suurstoffi.pdf/?la=de-ch"
+            ],
+            "address": {
+                "line1": "Suurstoffi 1",
+                "postalCode": "6343",
+                "locality": "Rotkreuz",
+                "countryCode": "CH",
+                "latitude": 47.143415,
+                "longitude": 8.432992,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102367816?sr=4326&geometryFormat=geojson"
+            },
+            "office": "Contact address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/didas/",
+                "x": "https://x.com/didas_swiss"
+            },
+            "socialState": "supplied official-link provenance retained in source packet; main final review pending",
+            "asset": {
+                "slug": "didas",
+                "sourceURL": "https://www.didas.swiss/wp-content/uploads/2021/02/favicon_iphone@2x.png",
+                "sourcePage": "https://www.didas.swiss/de/",
+                "originalPath": "/tmp/zurich-registry-review/membership-didas-original.png",
+                "originalSha256": "de680439863fc3a69471d5ba95f96f71bb1873dc60bebbc3f959592dc7e7d8ee",
+                "path": "/tmp/zurich-registry-review/membership-didas.png",
+                "preparedSha256": "6e68fc020836612d007357f49c15833c8e78a874c7bc73b466cf5eb85bd10349",
+                "width": 192,
+                "height": 192,
+                "transformation": "Whole original contained in transparent 192px square; no crop, redraw or recolouring",
+                "approved": false,
+                "uploaded": false
+            },
+            "approval": "No upload authorised by this report"
+        }
+    ],
+    "holds": [
+        {
+            "source": "digital",
+            "sourceId": "Alibaba Cloud",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Alibaba Cloud",
+            "canonicalName": "Alibaba Cloud",
+            "identityKey": "alibabacloud",
+            "disposition": "held-local-office-and-team",
+            "finding": "Own global cloud technology is established. Official infrastructure locations do not establish a Zurich business or engineering office; Swiss customer coverage is not local presence. No exact local pin supported.",
+            "sources": ["https://www.alibabacloud.com/en/global-locations?_p_lc=1"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-local-office-and-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Alibaba Cloud",
+                    "url": "https://www.alibabacloud.com/en/global-locations?_p_lc=1",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/0b456ce7d99a36359721.json",
+                    "status": 200,
+                    "textLength": 9389
+                }
+            ],
+            "remaining": "Own global cloud technology is established. Official infrastructure locations do not establish a Zurich business or engineering office; Swiss customer coverage is not local presence. No exact local pin supported."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Cloudflare",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Cloudflare",
+            "canonicalName": "Cloudflare",
+            "identityKey": "cloudflare",
+            "disposition": "held-local-office-and-team",
+            "finding": "Current Zurich event found but no own office established. Gotthardstrasse 5 in event listing is not accepted as an office.",
+            "sources": [
+                "https://fieldmarketing.www.cloudflare.com/immerse-zurich-2026?lang=en",
+                "https://www.cloudflare.com/en-gb/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-local-office-and-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current Zurich event found but no own office established. Gotthardstrasse 5 in event listing is not accepted as an office."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Dassault Systems",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Dassault Systems",
+            "canonicalName": "Dassault Systems",
+            "identityKey": "dassaultsystems",
+            "disposition": "held-local-technical-team",
+            "finding": "Official location page confirms Balz-Zimmermannstrasse 7, 8302 Kloten. Current listed Kloten role is sales; ZHAW partner lab or customer sites cannot be relabelled Dassault engineering offices.",
+            "sources": ["https://www.3ds.com/about/company/office-locations/switzerland"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-local-technical-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Dassault Systems",
+                    "url": "https://www.3ds.com/about/company/office-locations/switzerland",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/e5d259634496f5520fb8.json",
+                    "status": 200,
+                    "textLength": 1718
+                }
+            ],
+            "remaining": "Official location page confirms Balz-Zimmermannstrasse 7, 8302 Kloten. Current listed Kloten role is sales; ZHAW partner lab or customer sites cannot be relabelled Dassault engineering offices."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Digital Winterthur",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Digital Winterthur",
+            "canonicalName": "Digital Winterthur",
+            "identityKey": "digitalwinterthur",
+            "disposition": "held-exact-public-address",
+            "finding": "Current association/team/projects readable and technical ecosystem scope plausible. Inspected pages do not disclose exact public street. Partner organisations and event venues are not office evidence. No private board-member address or inferred map pin.",
+            "sources": [
+                "https://www.digital-winterthur.ch/ueber-uns",
+                "https://digital-winterthur.ch/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-terminal-decisions.json",
+            "priorDisposition": "held-exact-public-address",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current association/team/projects readable and technical ecosystem scope plausible. Inspected pages do not disclose exact public street. Partner organisations and event venues are not office evidence. No private board-member address or inferred map pin."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Ernst & Young",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Ernst & Young",
+            "canonicalName": "Ernst & Young",
+            "identityKey": "ernstyoung",
+            "disposition": "held-local-product-development",
+            "finding": "Own blockchain product exists globally. Swiss wavespace primary describes Basel client co-creation, not an exact local Zurich product-development team. Preserve a specific local attribution hold, not assertion that EY has no IP.",
+            "sources": [
+                "https://www.ey.com/en_ch/wavespace",
+                "https://blockchain.ey.com/products/privacy-sandbox"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-local-product-development",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Ernst & Young",
+                    "url": "https://www.ey.com/en_ch/wavespace",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/067af04f3253f38b6a23.json",
+                    "status": 200,
+                    "textLength": 15012
+                },
+                {
+                    "name": "Ernst & Young",
+                    "url": "https://blockchain.ey.com/products/privacy-sandbox",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/5f4afb613e0ace1c7fa7.json",
+                    "status": 200,
+                    "textLength": 7738
+                }
+            ],
+            "remaining": "Own blockchain product exists globally. Swiss wavespace primary describes Basel client co-creation, not an exact local Zurich product-development team. Preserve a specific local attribution hold, not assertion that EY has no IP."
+        },
+        {
+            "source": "digital",
+            "sourceId": "HultEF",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "HultEF",
+            "canonicalName": "HultEF",
+            "identityKey": "hultef",
+            "disposition": "held-parent-and-local-development",
+            "finding": "Source now resolves EF Corporate Learning and its own EFEKTA/Hyperclass technology. Local operating identity, exact office and local technical team need corroboration; language-school service alone is not the basis.",
+            "sources": [
+                "https://corporatelearning.ef.com/de/",
+                "https://corporatelearning.ef.com/de/kontakt/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-parent-and-local-development",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Source now resolves EF Corporate Learning and its own EFEKTA/Hyperclass technology. Local operating identity, exact office and local technical team need corroboration; language-school service alone is not the basis."
+        },
+        {
+            "source": "digital",
+            "sourceId": "JEMS-Group",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "JEMS-Group",
+            "canonicalName": "JEMS-Group",
+            "identityKey": "jemsgroup",
+            "disposition": "held-own-product-and-locality",
+            "finding": "Recovered ordinary primary pages describe data/AI implementation and Levallois-Perret contact. Productised DataPlatform label does not yet establish owned reusable technology or an exact local office. Access failure is resolved, evidence gap remains.",
+            "sources": ["https://www.jems-group.com/fr/", "https://www.jems-group.com/fr/contact/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-own-product-and-locality",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Recovered ordinary primary pages describe data/AI implementation and Levallois-Perret contact. Productised DataPlatform label does not yet establish owned reusable technology or an exact local office. Access failure is resolved, evidence gap remains."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Nova Intelligence",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Nova Intelligence",
+            "canonicalName": "Nova Intelligence",
+            "identityKey": "novaintelligence",
+            "disposition": "held-exact-local-address",
+            "finding": "Own enterprise-agent product evident. Contact page supplies email/form, not a local street; conferences and Swiss association membership are not office proof.",
+            "sources": [
+                "https://www.novaintelligence.com/",
+                "https://www.novaintelligence.com/contact"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-exact-local-address",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Own enterprise-agent product evident. Contact page supplies email/form, not a local street; conferences and Swiss association membership are not office proof."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Palantir",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Palantir",
+            "canonicalName": "Palantir",
+            "identityKey": "palantir",
+            "disposition": "held-exact-local-address",
+            "finding": "Official contact explicitly lists Zurich office and own platform documentation supports technical scope. No street is disclosed on inspected office page. Hold exact public office; do not substitute an employee or customer site.",
+            "sources": [
+                "https://www.palantir.com/contact/",
+                "https://www.palantir.com/docs/foundry/architecture-center/overview"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-exact-local-address",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Palantir",
+                    "url": "https://www.palantir.com/contact/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/2799981c6de982924ec5.json",
+                    "status": 200,
+                    "textLength": 34
+                },
+                {
+                    "name": "Palantir",
+                    "url": "https://www.palantir.com/docs/foundry/architecture-center/overview",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/b472f662a0591a7d0559.json",
+                    "status": 200,
+                    "textLength": 6369
+                }
+            ],
+            "remaining": "Official contact explicitly lists Zurich office and own platform documentation supports technical scope. No street is disclosed on inspected office page. Hold exact public office; do not substitute an employee or customer site."
+        },
+        {
+            "source": "digital",
+            "sourceId": "SwissCognitive",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "SwissCognitive",
+            "canonicalName": "SwissCognitive",
+            "identityKey": "swisscognitive",
+            "disposition": "held-technical-community-scope",
+            "finding": "WhyWait Ltd contact Alpenstrasse 15, 6300 Zug supported. Reviewed current programme is board strategy, governance and leadership; concrete technical instruction beyond executive advisory is not yet demonstrated. Do not add generic AI topic on name alone.",
+            "sources": [
+                "https://swisscognitive.com/de/services/ai-board-excellence-program",
+                "https://swisscognitive.com/contact"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-technical-community-scope",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "WhyWait Ltd contact Alpenstrasse 15, 6300 Zug supported. Reviewed current programme is board strategy, governance and leadership; concrete technical instruction beyond executive advisory is not yet demonstrated. Do not add generic AI topic on name alone."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Tamedia / TX Group",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Tamedia / TX Group",
+            "canonicalName": "Tamedia / TX Group",
+            "identityKey": "tamediatxgroup",
+            "disposition": "held-parent-overlap",
+            "finding": "Primary annual report separates group portfolio from JobCloud/SMG and TX Ventures holdings; these cannot be counted again as parent products. Group data engineering exists, but exact distinct maintained parent technology and identity require review. Not excluded merely as media.",
+            "sources": [
+                "https://report.tx.group/2025/ar/en/members-of-the-executive-team",
+                "https://www.tx.ventures/team"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-parent-overlap",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Tamedia / TX Group",
+                    "url": "https://report.tx.group/2025/ar/en/members-of-the-executive-team",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/c543a9b62c3e6de18ce2.json",
+                    "status": 200,
+                    "textLength": 4872
+                },
+                {
+                    "name": "Tamedia / TX Group",
+                    "url": "https://www.tx.ventures/team",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/8370f3192ce8340a45e9.json",
+                    "status": 200,
+                    "textLength": 13851
+                }
+            ],
+            "remaining": "Primary annual report separates group portfolio from JobCloud/SMG and TX Ventures holdings; these cannot be counted again as parent products. Group data engineering exists, but exact distinct maintained parent technology and identity require review. Not excluded merely as media."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Uber",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Uber",
+            "canonicalName": "Uber",
+            "identityKey": "uber",
+            "disposition": "held-local-technical-team",
+            "finding": "Global own engineering confirmed. June 2026 Zurich robotaxi partnership is an operating-service deployment using WeRide autonomy, not proof of local Uber development office. No exact local technical office supported.",
+            "sources": [
+                "https://eng.uber.com/",
+                "https://investor.uber.com/news-events/news/press-release-details/2026/WeRide-and-Uber-Plan-to-Launch-Commercial-Robotaxi-Service-in-Zurich-Expanding-European-Partnership-2026-lbSmf_S3R_/default.aspx"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-local-technical-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Uber",
+                    "url": "https://eng.uber.com/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/1fdab550328d9f0143a6.json",
+                    "status": 200,
+                    "textLength": 23393
+                },
+                {
+                    "name": "Uber",
+                    "url": "https://investor.uber.com/news-events/news/press-release-details/2026/WeRide-and-Uber-Plan-to-Launch-Commercial-Robotaxi-Service-in-Zurich-Expanding-European-Partnership-2026-lbSmf_S3R_/default.aspx",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/8e579f0479b4b8cf4e72.json",
+                    "status": 403,
+                    "textLength": 16
+                }
+            ],
+            "remaining": "Global own engineering confirmed. June 2026 Zurich robotaxi partnership is an operating-service deployment using WeRide autonomy, not proof of local Uber development office. No exact local technical office supported."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Atos",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Atos",
+            "canonicalName": "Atos",
+            "identityKey": "atos",
+            "disposition": "held-current-product-entity",
+            "finding": "Current group differentiates Atos services, Eviden products and Bull advanced computing. Swiss mission-critical activity is real, but directory parent cannot simply inherit all product brands. Need exact local operating product entity and independent parent/unit review before preparing a broad Atos duplicate.",
+            "sources": [
+                "https://atos.net/en/lp/digital-sovereignty-for-switzerland",
+                "https://atos.net/de/newsroom",
+                "https://eviden.com/fr/actualites-analyses/actualites-communiques-presse/eviden-remporte-la-maintenance-du-systeme"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-current-product-entity",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Atos",
+                    "url": "https://atos.net/en/lp/digital-sovereignty-for-switzerland",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/23b2d7e26468bef423fb.json",
+                    "status": 200,
+                    "textLength": 9450
+                },
+                {
+                    "name": "Atos",
+                    "url": "https://atos.net/de/newsroom",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/6f3faece1e530258f17a.json",
+                    "status": 200,
+                    "textLength": 8297
+                }
+            ],
+            "remaining": "Current group differentiates Atos services, Eviden products and Bull advanced computing. Swiss mission-critical activity is real, but directory parent cannot simply inherit all product brands. Need exact local operating product entity and independent parent/unit review before preparing a broad Atos duplicate."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Balgrist Universitätsklink",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Balgrist Universitätsklink",
+            "canonicalName": "Balgrist Universitätsklink",
+            "identityKey": "balgristuniversitatsklink",
+            "disposition": "held-institution-identity-review",
+            "finding": "Original technical research is verified: Ingenuity Lab develops medical materials and devices, not merely clinical use of vendor technology. Forchstrasse 340, 8008 Zurich is the published hospital contact. Hold profile granularity/classification: directory member is the university hospital, while eligible work is attributed to specific labs. Do not label the whole hospital a university or create several labs that overlap the separately assigned institution queue. Main can approve one distinct research identity; not excluded for lack of development.",
+            "sources": [
+                "https://research-innovation.balgrist.ch/scientific-report-2024/scientific-work-in-progress/transforming-healthcare-through-innovative-medical-materials/",
+                "https://www.balgrist.ch/kontakt/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-terminal-decisions.json",
+            "priorDisposition": "held-institution-identity-review",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Original technical research is verified: Ingenuity Lab develops medical materials and devices, not merely clinical use of vendor technology. Forchstrasse 340, 8008 Zurich is the published hospital contact. Hold profile granularity/classification: directory member is the university hospital, while eligible work is attributed to specific labs. Do not label the whole hospital a university or create several labs that overlap the separately assigned institution queue. Main can approve one distinct research identity; not excluded for lack of development."
+        },
+        {
+            "source": "digital",
+            "sourceId": "ChainIQ",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "ChainIQ",
+            "canonicalName": "ChainIQ",
+            "identityKey": "chainiq",
+            "disposition": "held-owned-platform-attribution",
+            "finding": "Current primary markets Smart Connect while saying it integrates ecosystem partners' technology. Historical sustainability report describes proprietary innovation but no current attributable product. Exact Baar HQ Neuhofstrasse 24 and Zurich branch Vulkanstrasse 106 supported. Hold ownership/current development, not locality.",
+            "sources": [
+                "https://chainiq.com/",
+                "https://chainiq.com/contact-us/",
+                "https://chainiq.com/wp-content/uploads/2022/05/Chain-IQ-Sustainability-Report-2021.pdf"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-owned-platform-attribution",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current primary markets Smart Connect while saying it integrates ecosystem partners' technology. Historical sustainability report describes proprietary innovation but no current attributable product. Exact Baar HQ Neuhofstrasse 24 and Zurich branch Vulkanstrasse 106 supported. Hold ownership/current development, not locality."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Cognizant",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Cognizant",
+            "canonicalName": "Cognizant",
+            "identityKey": "cognizant",
+            "disposition": "held-local-product-development",
+            "finding": "Neuro AI is named own branded technology and Swiss insurance offering is current. No evidence tying product engineering to local Swiss team in reviewed pages. Do not blanket-exclude as consultancy or infer local R&D from country sales leadership.",
+            "sources": [
+                "https://www.cognizant.com/ch/en/services/ai/generative-ai",
+                "https://www.cognizant.com/ch/en/cmp/ai-builder-insurance"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-local-product-development",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Cognizant",
+                    "url": "https://www.cognizant.com/ch/en/services/ai/generative-ai",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/79782f8e1071642265c7.json",
+                    "status": 200,
+                    "textLength": 39378
+                },
+                {
+                    "name": "Cognizant",
+                    "url": "https://www.cognizant.com/ch/en/cmp/ai-builder-insurance",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/b50b4130c8e8f35b0338.json",
+                    "status": 200,
+                    "textLength": 4926
+                }
+            ],
+            "remaining": "Neuro AI is named own branded technology and Swiss insurance offering is current. No evidence tying product engineering to local Swiss team in reviewed pages. Do not blanket-exclude as consultancy or infer local R&D from country sales leadership."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Dataiku",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Dataiku",
+            "canonicalName": "Dataiku",
+            "identityKey": "dataiku",
+            "disposition": "held-local-office-and-team",
+            "finding": "Zurich summit and historical Microsoft-hosted roundtable found. These event venues do not substantiate Dataiku office or local technical team; do not pin Microsoft's address.",
+            "sources": [
+                "https://www.dataiku.com/company/events/the-dataiku-summit-events",
+                "https://pages.dataiku.com/roundtable-zurich-2019"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-local-office-and-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Dataiku",
+                    "url": "https://www.dataiku.com/company/events/the-dataiku-summit-events",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/94f0a5d1a67b1ce140bc.json",
+                    "status": 200,
+                    "textLength": 2951
+                },
+                {
+                    "name": "Dataiku",
+                    "url": "https://pages.dataiku.com/roundtable-zurich-2019",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/e1b61ee3b925ef4c87b9.json",
+                    "status": 200,
+                    "textLength": 2105
+                }
+            ],
+            "remaining": "Zurich summit and historical Microsoft-hosted roundtable found. These event venues do not substantiate Dataiku office or local technical team; do not pin Microsoft's address."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Dynatrace",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Dynatrace",
+            "canonicalName": "Dynatrace",
+            "identityKey": "dynatrace",
+            "disposition": "held-local-technical-team",
+            "finding": "Official office list resolves Stockerstrasse 33, 8002 Zürich. Retrieved actual engineering vacancy is explicitly Lucerne hybrid, not Zurich. Swiss cloud availability is not Zurich engineering evidence.",
+            "sources": [
+                "https://www.dynatrace.com/company/locations/",
+                "https://www.dynatrace.com/careers/jobs/1432032600/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-local-technical-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Dynatrace",
+                    "url": "https://www.dynatrace.com/company/locations/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/4a3bcd2e44c62bbbf735.json",
+                    "error": "TypeError: fetch failed"
+                },
+                {
+                    "name": "Dynatrace",
+                    "url": "https://www.dynatrace.com/careers/jobs/1432032600/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/2234b1ad0b2200c713dd.json",
+                    "status": 200,
+                    "textLength": 5310
+                }
+            ],
+            "remaining": "Official office list resolves Stockerstrasse 33, 8002 Zürich. Retrieved actual engineering vacancy is explicitly Lucerne hybrid, not Zurich. Swiss cloud availability is not Zurich engineering evidence."
+        },
+        {
+            "source": "digital",
+            "sourceId": "HWZ",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "HWZ",
+            "canonicalName": "HWZ",
+            "identityKey": "hwz",
+            "disposition": "held-technical-research-scope",
+            "finding": "Own contact resolves physical entrance Lagerstrasse 5, 8004 Zürich distinct from 8021 mailing postcode. Business school and management education do not automatically establish a distinct qualifying technology lab; no additional department inferred.",
+            "sources": ["https://fh-hwz.ch/de", "https://fh-hwz.ch/de/kontakt"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-technical-research-scope",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Own contact resolves physical entrance Lagerstrasse 5, 8004 Zürich distinct from 8021 mailing postcode. Business school and management education do not automatically establish a distinct qualifying technology lab; no additional department inferred."
+        },
+        {
+            "source": "digital",
+            "sourceId": "LeverX",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "LeverX",
+            "canonicalName": "LeverX",
+            "identityKey": "leverx",
+            "disposition": "held-local-product-development",
+            "finding": "BMAX and IPS are explicit branded reusable tools, so generic client-services exclusion would be wrong. Current primary establishes worldwide development and SAP integration; exact local product-development team remains unsubstantiated.",
+            "sources": ["https://leverx.com/", "https://leverx.com/products/bmax"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-local-product-development",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "BMAX and IPS are explicit branded reusable tools, so generic client-services exclusion would be wrong. Current primary establishes worldwide development and SAP integration; exact local product-development team remains unsubstantiated."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Swiss IT Leadership Forum",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Swiss IT Leadership Forum",
+            "canonicalName": "Swiss IT Leadership Forum",
+            "identityKey": "swissitleadershipforum",
+            "disposition": "held-technical-programme-scope",
+            "finding": "Annual invitation-only senior IT leadership seminar and local secretariat are current. Programme described as strategy/management and experience exchange; specific technical educational content still needed for community exception.",
+            "sources": [
+                "https://www.swiss-it-leadership-forum.ch/",
+                "https://www.swiss-it-leadership-forum.ch/de/kontakt"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-technical-programme-scope",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Annual invitation-only senior IT leadership seminar and local secretariat are current. Programme described as strategy/management and experience exchange; specific technical educational content still needed for community exception."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Tiktok",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Tiktok",
+            "canonicalName": "Tiktok",
+            "identityKey": "tiktok",
+            "disposition": "held-local-office-and-team",
+            "finding": "Directory link yields a JavaScript/app surface with no local employer contact. No exact local technical office substantiated in the bounded primary review; global application availability is not local presence. No guessed ByteDance parent substitution.",
+            "sources": ["https://www.tiktok.com/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-local-office-and-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Tiktok",
+                    "url": "https://www.tiktok.com/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/9362956c86b724ae05a3.json",
+                    "status": 200,
+                    "textLength": 22
+                }
+            ],
+            "remaining": "Directory link yields a JavaScript/app surface with no local employer contact. No exact local technical office substantiated in the bounded primary review; global application availability is not local presence. No guessed ByteDance parent substitution."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Audemars Piguet",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Audemars Piguet",
+            "canonicalName": "Audemars Piguet",
+            "identityKey": "audemarspiguet",
+            "disposition": "held-local-technical-site",
+            "finding": "Watchmaking technology is genuine, but Zurich retail activity does not establish local development or production. No reviewed primary local manufacturing/research address; do not pin a boutique as engineering.",
+            "sources": ["https://www.audemarspiguet.com/com/en/home.html"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-local-technical-site",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Watchmaking technology is genuine, but Zurich retail activity does not establish local development or production. No reviewed primary local manufacturing/research address; do not pin a boutique as engineering."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Cisco",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Cisco",
+            "canonicalName": "Cisco",
+            "identityKey": "cisco",
+            "disposition": "held-local-technical-team",
+            "finding": "Current official directory explicitly confirms Wallisellen office Richtistrasse 7, 8304. Global original networking technology is clear. Inspected local evidence establishes office and solution/customer engineering, not substantive local product development; same locality/team standard as Samsung and Genesys. Do not treat office listing as proof of R&D.",
+            "sources": [
+                "https://www.cisco.com/site/us/en/about/contact-cisco/global-office-locations.html"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-terminal-decisions.json",
+            "priorDisposition": "held-local-technical-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Cisco",
+                    "url": "https://www.cisco.com/site/us/en/about/contact-cisco/global-office-locations.html",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/ded1f5626a737217a0ca.json",
+                    "status": 200,
+                    "textLength": 14522
+                }
+            ],
+            "remaining": "Current official directory explicitly confirms Wallisellen office Richtistrasse 7, 8304. Global original networking technology is clear. Inspected local evidence establishes office and solution/customer engineering, not substantive local product development; same locality/team standard as Samsung and Genesys. Do not treat office listing as proof of R&D."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Equinix",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Equinix",
+            "canonicalName": "Equinix",
+            "identityKey": "equinix",
+            "disposition": "held-infrastructure-scope-and-team",
+            "finding": "Own primary verifies operational ZH4 at Josefstrasse 225, 8005 Zurich, with Equinix Fabric digital services. It proves a local data centre, not local development of Fabric. Need explicit interpretation of owned maintained infrastructure versus colocation; not a locality/access hold.",
+            "sources": [
+                "https://www.equinix.com/data-centers/europe-colocation/switzerland-colocation/zurich-data-centers/zh4",
+                "https://www.equinix.com/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-infrastructure-scope-and-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Equinix",
+                    "url": "https://www.equinix.com/data-centers/europe-colocation/switzerland-colocation/zurich-data-centers/zh4",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/753d80bf805cf1b6ec4a.json",
+                    "status": 200,
+                    "textLength": 6241
+                },
+                {
+                    "name": "Equinix",
+                    "url": "https://www.equinix.com/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/6b76c20cdf2ae5afdab1.json",
+                    "status": 200,
+                    "textLength": 6287
+                }
+            ],
+            "remaining": "Own primary verifies operational ZH4 at Josefstrasse 225, 8005 Zurich, with Equinix Fabric digital services. It proves a local data centre, not local development of Fabric. Need explicit interpretation of owned maintained infrastructure versus colocation; not a locality/access hold."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Green Datacanter",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Green Datacanter",
+            "canonicalName": "Green",
+            "identityKey": "greendatacanter",
+            "disposition": "held-infrastructure-scope",
+            "finding": "Actual identity Green, offering data-centre capacity, cloud, connectivity and hosting. Current catalogue alone does not establish development of original relevant technology versus operating vendor infrastructure. Do not invent separate Green Datacanter entity from source typo.",
+            "sources": ["https://www.green.ch/de/", "https://www.green.ch/de/kontakt"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-infrastructure-scope",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Actual identity Green, offering data-centre capacity, cloud, connectivity and hosting. Current catalogue alone does not establish development of original relevant technology versus operating vendor infrastructure. Do not invent separate Green Datacanter entity from source typo."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Locarno Film Festival",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Locarno Film Festival",
+            "canonicalName": "Locarno Film Festival",
+            "identityKey": "locarnofilmfestival",
+            "disposition": "excluded-locality-unproven",
+            "finding": "Current official root returns HTTP 403. No bypass attempted. Source identity is festival; no primary local technical organisation established. Hold explicit access/locality limit, not a claim of inactivity.",
+            "sources": ["https://www.locarnofestival.ch/home.html"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-access-and-locality",
+            "evidence": "Normal Chrome successfully rendered current2026 festival, resolving reader403. Official footer ViaFranchinoRusca1,6600Locarno; no local technical organisation established. Not an inactivity claim.",
+            "remaining": null,
+            "reassessment": "specific new evidence reviewed; see evidence field",
+            "additionalCaptures": []
+        },
+        {
+            "source": "digital",
+            "sourceId": "openAI",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "openAI",
+            "canonicalName": "openAI",
+            "identityKey": "openai",
+            "disposition": "held-exact-public-office",
+            "finding": "Official careers results explicitly list research roles in Zurich. This resolves local technical scope, not exact public street address. Do not infer building from press or employee profiles.",
+            "sources": [
+                "https://openai.com/careers/search/?c=alignment%2Chuman-data%2Cplatform%2Cpost-training%2Cpreparedness%2Csafety-systems%2Csora%2Cresearch"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-exact-public-office",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "openAI",
+                    "url": "https://openai.com/careers/search/?c=alignment%2Chuman-data%2Cplatform%2Cpost-training%2Cpreparedness%2Csafety-systems%2Csora%2Cresearch",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/f1e0a31cc4bd9e3bb84d.json",
+                    "status": 403,
+                    "textLength": 0
+                }
+            ],
+            "remaining": "Official careers results explicitly list research roles in Zurich. This resolves local technical scope, not exact public street address. Do not infer building from press or employee profiles."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Rinascai",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Rinascai",
+            "canonicalName": "Rinascai",
+            "identityKey": "rinascai",
+            "disposition": "held-owned-suite-local-attribution",
+            "finding": "Current own site describes Rinascai Suite and September 2026 OPCORE/Pryvet combination. Zurich branch Bahnhofplatz 1 and holding registered Hinterbergstrasse 16 are distinct. Verify ownership/development of suite and Swiss technical activity before treating partner technology as own.",
+            "sources": ["https://www.rinascai.com/", "https://www.rinascai.com/impressum"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-owned-suite-local-attribution",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current own site describes Rinascai Suite and September 2026 OPCORE/Pryvet combination. Zurich branch Bahnhofplatz 1 and holding registered Hinterbergstrasse 16 are distinct. Verify ownership/development of suite and Swiss technical activity before treating partner technology as own."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Trifork",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Trifork",
+            "canonicalName": "Trifork",
+            "identityKey": "trifork",
+            "disposition": "held-local-product-entity",
+            "finding": "Group Health Platform development and Zurich contact confirmed. Products/services separation and multiple acquired businesses mean current Swiss product-development attribution and overlap remain unresolved. Hold specific Swiss identity; do not infer all group technology belongs to the Zurich service office or create duplicates of acquired businesses.",
+            "sources": [
+                "https://trifork.com/work/digital-health/trifork-health-platform/",
+                "https://trifork.com/contact/",
+                "https://investor.trifork.com/2026/02/24/11-2026%E3%83%BBtrifork-group-change-of-reporting-segmentation/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-terminal-decisions.json",
+            "priorDisposition": "held-local-product-entity",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Group Health Platform development and Zurich contact confirmed. Products/services separation and multiple acquired businesses mean current Swiss product-development attribution and overlap remain unresolved. Hold specific Swiss identity; do not infer all group technology belongs to the Zurich service office or create duplicates of acquired businesses."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp6666f4890e1d033ba701cea2",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/6666f4890e1d033ba701cea2",
+            "name": "Digital Realty",
+            "canonicalName": "Digital Realty",
+            "identityKey": "digitalrealty",
+            "disposition": "held-infrastructure-scope-and-team",
+            "finding": "Own Zurich data-centre roster confirms local infrastructure; PlatformDIGITAL and ServiceFabric are global own products. Reviewed evidence does not establish local product development distinct from colocation. One identity across both source appearances, not two missing organisations.",
+            "sources": [
+                "https://www.digitalrealty.com/data-centers/emea/zurich",
+                "https://www.digitalrealty.com/de/about"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-infrastructure-scope-and-team",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Own Zurich data-centre roster confirms local infrastructure; PlatformDIGITAL and ServiceFabric are global own products. Reviewed evidence does not establish local product development distinct from colocation. One identity across both source appearances, not two missing organisations."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Fellow Digitals",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Fellow Digitals",
+            "canonicalName": "Fellow Digitals",
+            "identityKey": "fellowdigitals",
+            "disposition": "held-current-local-office-conflict",
+            "finding": "Current official contact lists Cologne, Tegernsee, Amsterdam, Dhaka and Singapore but no Zurich street; another official-language footer retains Zurich telephone and company LinkedIn lists Bahnhofplatz 1. Own LMS/intranet development is confirmed. Do not promote potentially stale LinkedIn branch to current engineering office without corroboration.",
+            "sources": [
+                "https://www.fellowdigitals.com/de/kontakt/",
+                "https://www.fellowdigitals.com/nl/imprint/",
+                "https://ch.linkedin.com/company/fellowdigitals"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-current-local-office-conflict",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current official contact lists Cologne, Tegernsee, Amsterdam, Dhaka and Singapore but no Zurich street; another official-language footer retains Zurich telephone and company LinkedIn lists Bahnhofplatz 1. Own LMS/intranet development is confirmed. Do not promote potentially stale LinkedIn branch to current engineering office without corroboration."
+        },
+        {
+            "source": "digital",
+            "sourceId": "gst.ch",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "gst.ch",
+            "canonicalName": "gst.ch",
+            "identityKey": "gstch",
+            "disposition": "held-exact-public-address",
+            "finding": "Current technical educational programme includes November 2026 engineering visit; imprint names editorial responsibility and email but no physical business address. Do not pin private officer contact or excursion venue.",
+            "sources": ["https://www.gst.ch/", "https://www.gst.ch/about/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-exact-public-address",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current technical educational programme includes November 2026 engineering visit; imprint names editorial responsibility and email but no physical business address. Do not pin private officer contact or excursion venue."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Louis Dreyfus Company",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Louis Dreyfus Company",
+            "canonicalName": "Louis Dreyfus Company",
+            "identityKey": "louisdreyfuscompany",
+            "disposition": "held-own-technology-and-locality",
+            "finding": "Official contact page recovered and describes commodities/commercial inquiries; linked location directory returns 403. No attributable local own-technology identity substantiated. Ordinary trading or global product use alone insufficient.",
+            "sources": [
+                "https://www.ldc.com/contact-us/",
+                "https://www.ldc.com/who-we-are/locations/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-own-technology-and-locality",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Official contact page recovered and describes commodities/commercial inquiries; linked location directory returns 403. No attributable local own-technology identity substantiated. Ordinary trading or global product use alone insufficient."
+        },
+        {
+            "source": "digital",
+            "sourceId": "NetComm Suisse",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "NetComm Suisse",
+            "canonicalName": "NetComm Suisse",
+            "identityKey": "netcommsuisse",
+            "disposition": "unresolved-primary-access",
+            "finding": "Directory HTTP link and normal HTTPS attempt fail; no bypass. Distinct current technical-community programme and local public address remain unverified. Do not mark defunct from retrieval failure.",
+            "sources": ["https://www.netcommsuisse.ch/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-primary-access",
+            "evidence": "Normal Chrome returned ERR_NAME_NOT_RESOLVED / DNS_PROBE_FINISHED_NXDOMAIN. No bypass; current technical programme and public local address remain unverified. No inference of dissolution.",
+            "remaining": "Accessible current official identity, programme and public local business contact",
+            "reassessment": "specific new evidence reviewed; see evidence field",
+            "additionalCaptures": []
+        },
+        {
+            "source": "digital",
+            "sourceId": "Orell Füssli",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Orell Füssli",
+            "canonicalName": "Orell Füssli",
+            "identityKey": "orellfussli",
+            "disposition": "held-specific-technical-identity",
+            "finding": "Current group has security printing/serialisation and digital credentials, not merely retail. Distinguish operating security/digital subsidiary from broad group and postal address 8036; do not exclude as bookseller or duplicate units automatically.",
+            "sources": ["https://orellfuessli.com/en/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-specific-technical-identity",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current group has security printing/serialisation and digital credentials, not merely retail. Distinguish operating security/digital subsidiary from broad group and postal address 8036; do not exclude as bookseller or duplicate units automatically."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Ringier",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Ringier",
+            "canonicalName": "Ringier",
+            "identityKey": "ringier",
+            "disposition": "held-parent-overlap-and-own-tech",
+            "finding": "Current group page attributes flagship marketplaces to JobCloud and SMG, both already represented. Group address alone is insufficient to add an umbrella duplicate; independent parent-owned technical product/team remains unproven in reviewed page.",
+            "sources": ["https://www.ringier.com/de/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-parent-overlap-and-own-tech",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current group page attributes flagship marketplaces to JobCloud and SMG, both already represented. Group address alone is insufficient to add an umbrella duplicate; independent parent-owned technical product/team remains unproven in reviewed page."
+        },
+        {
+            "source": "digital",
+            "sourceId": "SAP Software Solutions",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "SAP Software Solutions",
+            "canonicalName": "SAP Software Solutions",
+            "identityKey": "sapsoftwaresolutions",
+            "disposition": "other-review-overlap",
+            "finding": "Existing primary-30c4-sap-address.json owns SAP office evidence The Circle 66, 8058 Zurich. Preserve handoff rather than independently prepare another SAP identity; final main reconciliation required.",
+            "sources": ["https://www.sap.com/index.html"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "other-review-overlap",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Existing primary-30c4-sap-address.json owns SAP office evidence The Circle 66, 8058 Zurich. Preserve handoff rather than independently prepare another SAP identity; final main reconciliation required."
+        },
+        {
+            "source": "digital",
+            "sourceId": "Swiss Cyber Institute",
+            "sourceURL": "https://www.digitalswitzerland.com/about/membership",
+            "name": "Swiss Cyber Institute",
+            "canonicalName": "Swiss Cyber Institute",
+            "identityKey": "swisscyberinstitute",
+            "disposition": "held-classification-boundary",
+            "finding": "Primary establishes substantial technical cybersecurity teaching and Talacker 50, 8001 Zurich. Commercial education provider is not automatically a university/nonprofit, and no separately owned technology demonstrated. Preserve category decision for main; do not misclassify it to bypass company rule.",
+            "sources": [
+                "https://swisscyberinstitute.com/",
+                "https://swisscyberinstitute.com/contact-us/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-classification-boundary",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Primary establishes substantial technical cybersecurity teaching and Talacker 50, 8001 Zurich. Commercial education provider is not automatically a university/nonprofit, and no separately owned technology demonstrated. Preserve category decision for main; do not misclassify it to bypass company rule."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp636a4c54e0fe1f62b23bf506",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/636a4c54e0fe1f62b23bf506",
+            "name": "Arcton",
+            "canonicalName": "Arcton",
+            "identityKey": "arcton",
+            "disposition": "held-current-pivot",
+            "finding": "Current primary sells prospect research, CRM cleaning and outreach rather than directory's historic tokenisation platform. No evidenced continuity of current owned technology; do not import historical product description.",
+            "sources": ["https://arcton.com/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-current-pivot",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current primary sells prospect research, CRM cleaning and outreach rather than directory's historic tokenisation platform. No evidenced continuity of current owned technology; do not import historical product description."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp5a0f3d389865a1e402f5509a",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/5a0f3d389865a1e402f5509a",
+            "name": "Bitcoin Association Switzerland",
+            "canonicalName": "Bitcoin Association Switzerland",
+            "identityKey": "bitcoinassociationswitzerland",
+            "disposition": "held-current-public-address",
+            "finding": "Technical community and activity remain supported, but current public business street not established. Do not reuse historical officer residential/care-of details from old regulatory letters.",
+            "sources": [
+                "https://bitcoinassociation.ch/",
+                "https://bitcoinassociation.ch/events",
+                "https://bitcoinassociation.ch/board"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-current-public-address",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Bitcoin Association Switzerland",
+                    "url": "https://bitcoinassociation.ch/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/4f67a16e2488ae02c775.json",
+                    "status": 200,
+                    "textLength": 1499
+                },
+                {
+                    "name": "Bitcoin Association Switzerland",
+                    "url": "https://bitcoinassociation.ch/events",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/c2fa022db0582d06b9d2.json",
+                    "status": 200,
+                    "textLength": 1808
+                }
+            ],
+            "remaining": "Technical community and activity remain supported, but current public business street not established. Do not reuse historical officer residential/care-of details from old regulatory letters."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp67efd59c26f03af3c60110cc",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/67efd59c26f03af3c60110cc",
+            "name": "Bussola AI AG",
+            "canonicalName": "Bussola AI AG",
+            "identityKey": "bussolaaiag",
+            "disposition": "held-identity-conflict",
+            "finding": "Guessed matching domain resolves to Portuguese-language Brazilian consumer scam detection, not the member's hedge-fund fundamental-analysis company. Do not attribute this product/artwork/address to the Swiss member. Exact member domain and company identity remain unresolved.",
+            "sources": ["https://www.bussola.ai/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-identity-conflict",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Guessed matching domain resolves to Portuguese-language Brazilian consumer scam detection, not the member's hedge-fund fundamental-analysis company. Do not attribute this product/artwork/address to the Swiss member. Exact member domain and company identity remain unresolved."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp6767fe6b5fef950182017235",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/6767fe6b5fef950182017235",
+            "name": "Conda.ch GmbH",
+            "canonicalName": "Conda.ch GmbH",
+            "identityKey": "condachgmbh",
+            "disposition": "unresolved-swiss-development-attribution",
+            "finding": "Swiss Horgen operation and crowdinvesting activity confirmed. Site offers CONDA white-label infrastructure and separately links Vienna CONDA Capital GmbH. Exact Swiss ownership/development versus licensed group platform remains unproven; no automatic global-to-Swiss attribution.",
+            "sources": [
+                "https://www.conda.ch/",
+                "https://www.conda.ch/en/kampagne/conda-ch-switzerlands-no-1-crowd-investing-platform-2nd-round/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-platform-ownership",
+            "evidence": "Current official homepage now publishes Bachweid20,6340Baar; supersedes prior Horgen locality note. Current own campaign describes joint venture with Vienna CONDA. Swiss platform operation and white-label offer alone do not attribute substantive Swiss development; no inference from portfolio projects.",
+            "remaining": "Swiss attributable development versus licensed parent platform; exact building only after scope resolution",
+            "reassessment": "specific new evidence reviewed; see evidence field",
+            "additionalCaptures": [
+                {
+                    "name": "Conda.ch GmbH",
+                    "url": "https://www.conda.ch/en/homepage_en/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/d8acd05e822a4548b24b.json",
+                    "status": 200,
+                    "textLength": 10953
+                },
+                {
+                    "name": "Conda.ch GmbH",
+                    "url": "https://www.conda.ch/en/kampagne/conda-ch-switzerlands-no-1-crowd-investing-platform-2nd-round/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/a613a65a38a371385f9c.json",
+                    "status": 200,
+                    "textLength": 15023
+                }
+            ]
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp6767fe6c5fef950182017243",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/6767fe6c5fef950182017243",
+            "name": "datalevel AG",
+            "canonicalName": "datalevel AG",
+            "identityKey": "datalevelag",
+            "disposition": "held-exact-building",
+            "finding": "Own address Risistrasse 32, 8903 Birmensdorf conflicts with official address results 32a/32b and 32.1/32.2/32.3. Existing exact-building review preserved. No inferred entrance choice or averaging coordinates.",
+            "sources": ["https://datalevel.ch/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-exact-building",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "datalevel AG",
+                    "url": "https://datalevel.ch/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/689433b9273074312c1c.json",
+                    "status": 200,
+                    "textLength": 4619
+                }
+            ],
+            "remaining": "Own address Risistrasse 32, 8903 Birmensdorf conflicts with official address results 32a/32b and 32.1/32.2/32.3. Existing exact-building review preserved. No inferred entrance choice or averaging coordinates."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp64a870ffc6680403522f8764",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/64a870ffc6680403522f8764",
+            "name": "DEC Institute",
+            "canonicalName": "DEC Institute",
+            "identityKey": "decinstitute",
+            "disposition": "held-artwork-quality",
+            "finding": "Address check resolved: own public contact Suurstoffi1,6343Rotkreuz and exact official EGID191653293 point47.143415,8.432992. One association/institute brand, not duplicated commercial arm. Draft retained. Remaining hold only genuine readable artwork: full white wordmark tiny at32px, not approved. No production changes or guessed compact initial.",
+            "sources": [
+                "https://decinstitute.org/about-us",
+                "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102367816?sr=4326&geometryFormat=geojson"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-terminal-decisions.json",
+            "packet": "/tmp/zurich-registry-review/membership-dec-prepared.json",
+            "priorDisposition": "held-artwork-quality",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Address check resolved: own public contact Suurstoffi1,6343Rotkreuz and exact official EGID191653293 point47.143415,8.432992. One association/institute brand, not duplicated commercial arm. Draft retained. Remaining hold only genuine readable artwork: full white wordmark tiny at32px, not approved. No production changes or guessed compact initial."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp58a465bd9865a1b16d7b23c6",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/58a465bd9865a1b16d7b23c6",
+            "name": "EM Exchange Market GmbH",
+            "canonicalName": "EM Exchange Market GmbH",
+            "identityKey": "emexchangemarketgmbh",
+            "disposition": "held-own-development-other-review",
+            "finding": "Primary contact supports Technoparkstrasse 1 and exchange platform. Existing campus review owns candidate; no additional concrete attributable development evidence established here. Do not duplicate preparation or infer software engineering from exchange operation.",
+            "sources": ["https://exchangemarket.ch/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-own-development-other-review",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Primary contact supports Technoparkstrasse 1 and exchange platform. Existing campus review owns candidate; no additional concrete attributable development evidence established here. Do not duplicate preparation or infer software engineering from exchange operation."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp67a85e2f928e3b18c5091905",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/67a85e2f928e3b18c5091905",
+            "name": "Expleo Group",
+            "canonicalName": "Expleo Group",
+            "identityKey": "expleogroup",
+            "disposition": "held-attributable-own-technology",
+            "finding": "Engineering/testing and Swiss client delivery are supported, but no substantive specific maintained own technology attributable to this local group identity established by inspected catalogue. Client-only services are insufficient; not a claim it has no IP globally.",
+            "sources": [
+                "https://expleo.com/global/de/uber-expleo/standorte/",
+                "https://expleo.com/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-attributable-own-technology",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Expleo Group",
+                    "url": "https://expleo.com/global/de/uber-expleo/standorte/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/315480098cccba4935bd.json",
+                    "status": 200,
+                    "textLength": 11520
+                },
+                {
+                    "name": "Expleo Group",
+                    "url": "https://expleo.com/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/d92c8df8f5c4df71fbeb.json",
+                    "status": 200,
+                    "textLength": 12034
+                }
+            ],
+            "remaining": "Engineering/testing and Swiss client delivery are supported, but no substantive specific maintained own technology attributable to this local group identity established by inspected catalogue. Client-only services are insufficient; not a claim it has no IP globally."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp643c31adc232ea021b1f730c",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/643c31adc232ea021b1f730c",
+            "name": "FIMED GROUP",
+            "canonicalName": "FIMED GROUP",
+            "identityKey": "fimedgroup",
+            "disposition": "unresolved-current-identity",
+            "finding": "Member card is insufficient primary corporate evidence. Focused search surfaced secondary liquidation notices for CHE-275.035.029; authoritative registry confirmation not obtained. Do not state dissolution as verified or prepare a current company profile.",
+            "sources": ["https://www.fimedgroup.com/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-primary-identity-and-activity",
+            "evidence": "Normal Chrome at fimedgroup.com returned Wix domain-not-connected page. Secondary liquidation suggestion is not treated as primary registry proof. Do not substitute unrelated Dominican medical business.",
+            "remaining": "Current primary corporate activity/domain or official registry status; no publication",
+            "reassessment": "specific new evidence reviewed; see evidence field",
+            "additionalCaptures": []
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp62f257cebba38c415e5b9976",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/62f257cebba38c415e5b9976",
+            "name": "FinTech Connector",
+            "canonicalName": "FinTech Connector",
+            "identityKey": "fintechconnector",
+            "disposition": "held-exact-local-office",
+            "finding": "Own public community page connects fintech professionals and firms; Zurich community members/networking event do not identify a permanent business office. No event boat or member address used as a pin.",
+            "sources": [
+                "https://members.fintechconnector.com/public/organizations/fintech-connector"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-exact-local-office",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Own public community page connects fintech professionals and firms; Zurich community members/networking event do not identify a permanent business office. No event boat or member address used as a pin."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp67bf47e7ec20e4df620f27d8",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/67bf47e7ec20e4df620f27d8",
+            "name": "Innovation Zurich",
+            "canonicalName": "Innovation Zurich",
+            "identityKey": "innovationzurich",
+            "disposition": "held-programme-parent-identity",
+            "finding": "Cantonal primary identifies Innovation Zurich Digital as a coordinated network, with AWI Standortforderung contact Walchestrasse 19, mailing postcode 8090. Community programme is real; resolve whether roster identity means this network or wider cantonal portal and exact physical postcode before distinct profile. Not a missing standalone technology company.",
+            "sources": [
+                "https://www.zh.ch/de/wirtschaft-arbeit/wirtschaftsstandort/ict/innovation-zurich-digital.html"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-programme-parent-identity",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Innovation Zurich",
+                    "url": "https://www.zh.ch/de/wirtschaft-arbeit/wirtschaftsstandort/ict/innovation-zurich-digital.html",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/9dc037c6184e3a970753.json",
+                    "status": 200,
+                    "textLength": 8780
+                }
+            ],
+            "remaining": "Cantonal primary identifies Innovation Zurich Digital as a coordinated network, with AWI Standortforderung contact Walchestrasse 19, mailing postcode 8090. Community programme is real; resolve whether roster identity means this network or wider cantonal portal and exact physical postcode before distinct profile. Not a missing standalone technology company."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp596da67707ac807b52b09f42",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/596da67707ac807b52b09f42",
+            "name": "Institute for Financial Services Zug IFZ",
+            "canonicalName": "Institute for Financial Services Zug IFZ",
+            "identityKey": "instituteforfinancialserviceszugifz",
+            "disposition": "held-technical-research-boundary",
+            "finding": "Distinct institute and exact campus Suurstoffi 1, 6343 Rotkreuz are primary-confirmed. Current research includes finance/market surveys and joint blockchain initiative. Need concrete technical development beyond finance assessment and avoid duplicating HSLU computer-science blockchain units. Address hold resolved, scope review remains.",
+            "sources": [
+                "https://www.hslu.ch/de-ch/wirtschaft/ueber-uns/standorte-und-kontakt/",
+                "https://news.hslu.ch/blockchain-zug/",
+                "https://hub.hslu.ch/ifz/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-technical-research-boundary",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Institute for Financial Services Zug IFZ",
+                    "url": "https://www.hslu.ch/de-ch/wirtschaft/ueber-uns/standorte-und-kontakt/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/eac0a6715d1ebb0a795a.json",
+                    "status": 200,
+                    "textLength": 3114
+                },
+                {
+                    "name": "Institute for Financial Services Zug IFZ",
+                    "url": "https://news.hslu.ch/blockchain-zug/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/9094930d85a02494ea97.json",
+                    "status": 200,
+                    "textLength": 12212
+                }
+            ],
+            "remaining": "Distinct institute and exact campus Suurstoffi 1, 6343 Rotkreuz are primary-confirmed. Current research includes finance/market surveys and joint blockchain initiative. Need concrete technical development beyond finance assessment and avoid duplicating HSLU computer-science blockchain units. Address hold resolved, scope review remains."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp67864ddf7f94dcbe6b036036",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/67864ddf7f94dcbe6b036036",
+            "name": "Legata",
+            "canonicalName": "Legata",
+            "identityKey": "legata",
+            "disposition": "held-identity-conflict",
+            "finding": "Current matching-domain product is US estate planning, while company LinkedIn describes digital/financial strategy advice. No demonstrated bridge to Swiss directory identity. Do not borrow US product, logo or address for a similarly named Swiss member.",
+            "sources": ["https://legata.com/", "https://www.linkedin.com/company/legata"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-identity-conflict",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current matching-domain product is US estate planning, while company LinkedIn describes digital/financial strategy advice. No demonstrated bridge to Swiss directory identity. Do not borrow US product, logo or address for a similarly named Swiss member."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp656a2282f51c9a6a3409dbc5",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/656a2282f51c9a6a3409dbc5",
+            "name": "Marmot Finance",
+            "canonicalName": "Marmot Finance",
+            "identityKey": "marmotfinance",
+            "disposition": "held-own-development",
+            "finding": "Current activity is regulated portfolio management and financial advice. Digital platform use is explicit, but attributable technical development is not established on the reviewed company/contact pages. Do not infer own development from an app link.",
+            "sources": [
+                "https://www.marmot.finance/",
+                "https://www.marmot.finance/company/contact-support"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-own-development",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [
+                {
+                    "name": "Marmot Finance",
+                    "url": "https://www.marmot.finance/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/018eafc5d3a4e4f35482.json",
+                    "status": 200,
+                    "textLength": 29015
+                },
+                {
+                    "name": "Marmot Finance",
+                    "url": "https://www.marmot.finance/company/contact-support",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/aaded159ecc7c63df9e8.json",
+                    "status": 200,
+                    "textLength": 2556
+                }
+            ],
+            "remaining": "Current activity is regulated portfolio management and financial advice. Digital platform use is explicit, but attributable technical development is not established on the reviewed company/contact pages. Do not infer own development from an app link."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp6767fe6b5fef950182017234",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/6767fe6b5fef950182017234",
+            "name": "OOMNIUM AG",
+            "canonicalName": "OOMNIUM AG",
+            "identityKey": "oomniumag",
+            "disposition": "eligible-profile-incomplete",
+            "finding": "Current founder/team and c/o ASE, Gartenhofstrasse 17, 8004 Zurich are explicit. Partnerships list Liip/Aktionariat. Partner development is allowed under criteria, but reviewed primary does not yet attribute substantive technical development to OOMNIUM rather than use of partner software. No exclusive-IP or in-house-only requirement imposed.",
+            "sources": [
+                "https://www.liip.ch/en/blog/best-of-swiss-web-2024",
+                "https://oomnium.com/de/impressum",
+                "https://oomnium.com/de/ueber-uns"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-attributable-development",
+            "evidence": "Liip directly describes the OOMNIUM implementation with separate frontend/backend, Vendure and Kubernetes. Partner development qualifies; no claim to own upstream software. Current imprint names OOMNIUM AG c/o ASE, Gartenhofstrasse17,8004Zurich. Current team includes a wemakeit representative; preserve distinct company/product relationship for dedupe.",
+            "remaining": "Exact federal building/public address reuse, corporate socials, official artwork and main parent-overlap review; not importer-ready",
+            "reassessment": "specific new evidence reviewed; see evidence field",
+            "additionalCaptures": [
+                {
+                    "name": "OOMNIUM AG",
+                    "url": "https://oomnium.com/de/impressum",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/5ea7ea7da86a65845885.json",
+                    "status": 200,
+                    "textLength": 372
+                },
+                {
+                    "name": "OOMNIUM AG",
+                    "url": "https://oomnium.com/de/ueber-uns",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/001a8c71295b4fd8e8d9.json",
+                    "status": 200,
+                    "textLength": 1816
+                },
+                {
+                    "name": "OOMNIUM AG",
+                    "url": "https://www.liip.ch/en/blog/best-of-swiss-web-2024",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/81b6125814b8ba6a6991.json",
+                    "status": 200,
+                    "textLength": 5861
+                }
+            ]
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp68f8ec2bfccac03a0c04de5e",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/68f8ec2bfccac03a0c04de5e",
+            "name": "SKAAH Group AG",
+            "canonicalName": "SKAAH Group AG",
+            "identityKey": "skaahgroupag",
+            "disposition": "held-substantive-owned-product",
+            "finding": "Primary gives Opfikon head office and a technology/hospitality/pharma conglomerate; named capabilities span IoT/AI and pharma but no specific demonstrable owned product or separate qualifying venture remit. Do not infer broad topic set from sector boilerplate.",
+            "sources": ["https://skaah.com/", "https://skaah.com/contact/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-substantive-owned-product",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Primary gives Opfikon head office and a technology/hospitality/pharma conglomerate; named capabilities span IoT/AI and pharma but no specific demonstrable owned product or separate qualifying venture remit. Do not infer broad topic set from sector boilerplate."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp6285e040de6f450b94703e19",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/6285e040de6f450b94703e19",
+            "name": "Splint Invest",
+            "canonicalName": "Splint Invest",
+            "identityKey": "splintinvest",
+            "disposition": "eligible-profile-incomplete",
+            "finding": "MARK Investment Holding AG identity and Unter Altstadt 30, 6300 Zug confirmed. Current team page describes investment and compliance leadership plus generic technology responsibility, but does not substantiate own software development. Do not equate platform operation with engineering.",
+            "sources": [
+                "https://www.cornercasetech.com/case-studies/splint-invest",
+                "https://www.splintinvest.com/en/legal-info/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-own-development",
+            "evidence": "Corner Case Technologies describes investor app and supplier platform MVP plus subsequent wallet/loyalty development. Splint supplied architecture requirements and code reviews; partner supplied engineering. Current legal entity MARK Investment Holding AG, Unter Altstadt30,6300Zug. Vendor Onfido verification is not own AI.",
+            "remaining": "Exact federal building/public address reuse, stage classification, official artwork and corporate socials; not importer-ready",
+            "reassessment": "specific new evidence reviewed; see evidence field",
+            "additionalCaptures": [
+                {
+                    "name": "Splint Invest",
+                    "url": "https://www.splintinvest.com/en/legal-info/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/40beeec84bb2b62d2cf0.json",
+                    "status": 200,
+                    "textLength": 1360
+                },
+                {
+                    "name": "Splint Invest",
+                    "url": "https://www.splintinvest.com/en/about/meet-the-team/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/e9fd8d89cfd47c1ffb63.json",
+                    "status": 200,
+                    "textLength": 3753
+                },
+                {
+                    "name": "Splint Invest",
+                    "url": "https://www.cornercasetech.com/case-studies/splint-invest",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/03e13defe9b13d78fd26.json",
+                    "status": 200,
+                    "textLength": 5133
+                }
+            ]
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp6a02f7fe779bca6cc404506a",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/6a02f7fe779bca6cc404506a",
+            "name": "SUITEKK GmbH",
+            "canonicalName": "SUITEKK GmbH",
+            "identityKey": "suitekkgmbh",
+            "disposition": "held-artwork-and-product-maturity",
+            "finding": "Current page expressly attributes an Intelligence Platform, Engine and operational3D twin to SUITEKK; no in-house-only or exclusive-IP test applied. Imprint gives Splugenstrasse10,8002Zurich. Remaining limit: page supplies only text branding and invalid tiny data favicon, and no inspected implementation/demo establishes current maturity beyond product claims. Do not fabricate an initial icon or claim a released mature system. Eligible direction, not apply-ready.",
+            "sources": ["https://suitekk.com/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-terminal-decisions.json",
+            "priorDisposition": "held-artwork-and-product-maturity",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Current page expressly attributes an Intelligence Platform, Engine and operational3D twin to SUITEKK; no in-house-only or exclusive-IP test applied. Imprint gives Splugenstrasse10,8002Zurich. Remaining limit: page supplies only text branding and invalid tiny data favicon, and no inspected implementation/demo establishes current maturity beyond product claims. Do not fabricate an initial icon or claim a released mature system. Eligible direction, not apply-ready."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp64e73e63bbaf8057060fd736",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/64e73e63bbaf8057060fd736",
+            "name": "Swiss InsurTech Hub",
+            "canonicalName": "Swiss InsurTech Hub",
+            "identityKey": "swissinsurtechhub",
+            "disposition": "held-exact-public-address",
+            "finding": "Own nonprofit identity and hands-on workshops support technical community scope. Both current contact surfaces state Zurich only, with no public street. Do not use summit venue or member address.",
+            "sources": [
+                "https://swissinsurtech.com/",
+                "https://summit.swissinsurtech.com/contact-us/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-decisions.json",
+            "priorDisposition": "held-exact-public-address",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Own nonprofit identity and hands-on workshops support technical community scope. Both current contact surfaces state Zurich only, with no public street. Do not use summit venue or member address."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp6aa593e4d201bb12020b5285",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/6aa593e4d201bb12020b5285",
+            "name": "TAIA GmbH",
+            "canonicalName": "TAIA GmbH",
+            "identityKey": "taiagmbh",
+            "disposition": "held-development-stage",
+            "finding": "Fresh primary explicitly labels conceptual diagrams, synthetic examples, September 2026 design study, Advisor in development and unannounced Folio public distribution. Early technology development can qualify, but actual implementation versus concept is not yet substantiated. Do not describe released software.",
+            "sources": ["https://www.taia.ch/"],
+            "reviewFile": "/tmp/zurich-registry-review/membership-resolution-decisions.json",
+            "priorDisposition": "held-development-stage",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Fresh primary explicitly labels conceptual diagrams, synthetic examples, September 2026 design study, Advisor in development and unannounced Folio public distribution. Early technology development can qualify, but actual implementation versus concept is not yet substantiated. Do not describe released software."
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp694f6dc98c44d6a5a605cf19",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/694f6dc98c44d6a5a605cf19",
+            "name": "TrustLinq CH AG",
+            "canonicalName": "TrustLinq CH AG",
+            "identityKey": "trustlinqchag",
+            "disposition": "eligible-profile-incomplete",
+            "finding": "Current primary describes noncustodial smart-contract payment vaults, crypto-to-fiat service and Sennweidstrasse 45, Steinhausen. It does not establish who develops maintained vault/payment technology. Hold attribution, not financial regulation; forthcoming card is not described as released.",
+            "sources": [
+                "https://trustlinq.com/about/",
+                "https://trustlinq.com/crypto-payment-infrastructure/",
+                "https://trustlinq.com/contact-us/"
+            ],
+            "reviewFile": "/tmp/zurich-registry-review/membership-closure-holds.json",
+            "priorDisposition": "held-attributable-development",
+            "evidence": "Current About page expressly attributes building the platform and technical architecture to its cofounder. Own smart-contract vault and fiat-settlement platform supports original technical development, not merely generic payment processing. Published corporate contact Sennweidstrasse45,6312Steinhausen. September2026 article places developer API and white-label programme in2027, not currently released.",
+            "remaining": "Exact federal building/public address reuse, classification, official artwork and corporate social link verification; not importer-ready",
+            "reassessment": "specific new evidence reviewed; see evidence field",
+            "additionalCaptures": [
+                {
+                    "name": "TrustLinq CH AG",
+                    "url": "https://trustlinq.com/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/6b4fa760148a6ddc460b.json",
+                    "status": 200,
+                    "textLength": 6814
+                },
+                {
+                    "name": "TrustLinq CH AG",
+                    "url": "https://trustlinq.com/contact-us/",
+                    "path": "/tmp/zurich-registry-review/membership-holds-evidence/6190e78af65d06bad3c0.json",
+                    "status": 200,
+                    "textLength": 1663
+                }
+            ]
+        },
+        {
+            "source": "fintech",
+            "sourceId": "SFylp647056f74a20d6416555a93a",
+            "sourceURL": "https://swissfinte.ch/about/our-members/#!biz/id/647056f74a20d6416555a93a",
+            "name": "very early Ventures",
+            "canonicalName": "veryearly Ventures",
+            "identityKey": "veryearlyventures",
+            "disposition": "held-exact-local-address",
+            "finding": "Own site supports Web3 investment activity. Legal notice identifies very early I (G.P.) Limited in Grand Cayman, not a Zurich office. City-level Zurich signals do not resolve an exact local public address. No guessed map pin.",
+            "sources": [
+                "https://www.veryearly.xyz/",
+                "https://www.veryearly.xyz/impressum-legal-notice"
+            ],
+            "reviewFile": "/Users/florian/symbol/zurich.tech/work/organisations/membership-continuation-review.json",
+            "priorDisposition": "held-exact-local-address",
+            "reassessment": "prior reason retained; capture availability alone does not imply substantive resolution",
+            "additionalCaptures": [],
+            "remaining": "Own site supports Web3 investment activity. Legal notice identifies very early I (G.P.) Limited in Grand Cayman, not a Zurich office. City-level Zurich signals do not resolve an exact local public address. No guessed map pin."
+        }
+    ],
+    "additionalUnresolved": {
+        "datalevel": "Current About confirms own Data Refinery Box and engineering roles; does not resolve Risistrasse32 versus federal32a/32b/32.x building conflict. Preserve exact-building hold.",
+        "marmot": "Current homepage/contact describes financial advice and digital tools, not sufficiently specific attributable development. App operation alone does not close hold.",
+        "bussola": "Public association identity is hedge-fund fundamental analysis; similarly named Brazilian consumer-fraud domain is wrong. No guessed attribution."
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "date": "2026-10-15",
+    "status": "published-independently-verified",
+    "manifest": "/tmp/zurich-registry-review/main-reviewed-four-1104.json",
+    "slugs": ["artifact", "swissfintechladies", "swiss-legaltech-association", "otter-bike"],
+    "primaryReview": "Main independently reviewed original technical products or technical-community activity, current official addresses, corporate social links and genuine compact artwork. Registered, contact and office labels preserve the evidence rather than implying engineering offices.",
+    "identityCheck": "Fresh complete production organisations, locations and addresses at 2026-10-15T04:06:09.966Z: 1104 organisations, no exact normalized name or website-host matches. Artifact reuses verified public Elias-Canetti-Strasse 2 address j97a0bjnw4mbgystmp9sce5fah8f5h7a. Exact matching does not by itself prove absence of aliases; identity review also used the primary sources.",
+    "assetCheck": "Main verified all four approved hosted assets at 2026-10-15T04:06:15.625Z: expected SHA256, complete pixel decoding and CORS all passed.",
+    "publication": "Supported organisations/imports:apply preview returned four, then one apply returned the same four. Do not reapply source packets.",
+    "readback": { "verified": 4, "totalOrganisations": 1108 },
+    "verificationScope": "Independent complete-table comparison of every prepared profile field, website, public location and social link",
+    "goalComplete": false
+}

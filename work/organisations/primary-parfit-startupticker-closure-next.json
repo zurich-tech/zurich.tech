@@ -1,0 +1,345 @@
+{
+    "checkedAt": "2026-10-15",
+    "scope": "Existing pages 1-23 names only; no new discovery. Decisions distinguish primary-confirmed geography from exact local-address gaps.",
+    "registryPopulation": 1148,
+    "organisationWrites": 0,
+    "records": [
+        {
+            "name": "Objectis",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current contact gives Objectis SA, Avenue des Decouvertes 12, 1400 Yverdon-les-Bains and describes visiting those premises. Own legal notice corroborates. No target-region company location established; initial www-reader failure resolved through canonical non-www pages.",
+            "sources": [
+                "https://objectis.com/contact/",
+                "https://objectis.com/en/legal-informations/"
+            ]
+        },
+        {
+            "name": "Saporo",
+            "decision": "outside-region-primary-city-level",
+            "reason": "Own current company page explicitly identifies Lausanne cybersecurity software developer. Privacy notice still gives Rue du Port-Franc 22 Lausanne; secondary registry lead suggests later Prilly relocation, so do not assert that street is current. Both indicated cities lie outside region; no target-region office established. Correct own domain is saporo.io.",
+            "sources": [
+                "https://www.saporo.io/about/company",
+                "https://www.saporo.io/legal/privacy"
+            ]
+        },
+        {
+            "name": "Limula",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Previously failed homepage lookup resolved through own indexed contact. Explicit operating contact Route de la Corniche 5, 1066 Epalinges and registered address Avenue du Clos-d'Aubonne 19, 1814 La Tour-de-Peilz. Own cell/gene-therapy manufacturing technology and engineering team supported; no target-region company site established.",
+            "sources": ["https://limula.ch/contact/"]
+        },
+        {
+            "name": "DPhi Space",
+            "decision": "outside-region-primary-city-level",
+            "reason": "Own current engineering vacancies all identify Lausanne; April 2026 own release describes original Clustergate-2 orbital compute platform from Lausanne. Technology is substantive, but no target-region company location evidenced. Do not confuse similarly named domains.",
+            "sources": [
+                "https://www.dphispace.com/careers",
+                "https://www.dphispace.com/news/clustergate-2-llm-on-orbit"
+            ]
+        },
+        {
+            "name": "AB2 Bio",
+            "decision": "outside-region-current-primary-partner",
+            "reason": "Own site and federal UID reader failed, not evidence of inactivity. Direct commercial partner Nippon Shinyaku's July 30 2026 release explicitly locates AB2 Bio at EPFL Innovation Park Lausanne and confirms continuing clinical development and US rights transaction. No target-region company location established.",
+            "sources": ["https://www.nippon-shinyaku.co.jp/english/news/news.php?id=3778"]
+        },
+        {
+            "name": "Besso",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own imprint identifies Besso AG CHE317889051 at Haspelgasse 26, 3006 Bern. Own trade-compliance SaaS supported; no target-region workplace established. Distinguish unrelated insurance and cosmetics namesakes.",
+            "sources": [
+                "https://www.besso.com/imprint",
+                "https://www.besso.com/privacy-policy",
+                "https://www.besso.com/"
+            ]
+        },
+        {
+            "name": "SalesPort",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own accessible legal notice identifies SalesPort Technologies GmbH, Bahnhofstrasse 3, 6003 Luzern. Notice is dated 2023; current homepage continues the AI sales platform. No target-region site established; do not confuse German sales-port agency.",
+            "sources": ["https://www.salesport.io/de/legal-notice", "https://www.salesport.io/"]
+        },
+        {
+            "name": "Umbera",
+            "decision": "hold-technical-attribution",
+            "reason": "Own imprint identifies Umbera AG CHE244380134, Solothurn headquarters and an explicit regional contact at General-Wille-Strasse 19, 8002 Zurich. Homepage describes video inventory recognition, volume estimation and matching software, but original development versus supplied third-party technology remains unclear. Do not exclude because headquarters is Solothurn or label regional contact an engineering office.",
+            "question": "Does Umbera substantively develop or jointly maintain the video-inventory/matching technology rather than only operate a supplied moving-service tool?",
+            "sources": ["https://www.umbera.ch/impressum/", "https://www.umbera.ch/"]
+        },
+        {
+            "name": "Kwiiz",
+            "decision": "outside-region-primary-city-level",
+            "reason": "Own quiz platform explicitly says developed in Bienne. Lausanne/Zurich/Lugano text describes the Apertus model ecosystem, not company offices; Geneva hosting also is not its office. Exact company street not verified.",
+            "sources": ["https://kwiiz.ch/"]
+        },
+        {
+            "name": "NovoViz",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact page identifies SPAD developer in Neuchatel. Body gives Rue de la Maladiere 71b and footer Rue Pierre-a-Mazel 39, both c/o Microcity in Neuchatel. Preserve street ambiguity; neither establishes a target-region office.",
+            "sources": ["https://novoviz.com/contact/"]
+        },
+        {
+            "name": "NINABOT",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own legal notice identifies Ninabot Sarl CHE287575522 c/o Openest coworking SA, Chemin Riantbosson 19, 1217 Meyrin. Own company page supports in-house infrastructure and software products. No target-region location established.",
+            "sources": ["https://ninabot.ch/mentions-legales/", "https://ninabot.ch/societe/"]
+        },
+        {
+            "name": "Melodia Therapeutics",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact gives c/o Walder Wyss, Aeschenvorstadt 48, 4051 Basel. Own clinical development supported; licensed starting compound does not negate development. Ignore unrelated clinic pricing template/telephone as local-office evidence; c/o address is not a laboratory claim.",
+            "sources": ["https://www.melodiatx.com/contact", "https://www.melodiatx.com/"]
+        },
+        {
+            "name": "Qambria",
+            "decision": "hold-exact-local-workplace",
+            "reason": "Own quantum/HPC technology and privacy notice identify Hubstrasse 12, 8266 Steckborn and CHE196417749. Founder Dominik Ulmer, named in own legal notice, explicitly describes development in Steckborn and Zurich in an indexed public post. Direct LinkedIn retrieval failed; do not dismiss Zurich solely because registered headquarters is Thurgau.",
+            "question": "What stable published Zurich workplace or branch address corresponds to the founder's stated Zurich development?",
+            "sources": [
+                "https://www.qambria.com/",
+                "https://www.qambria.com/privacy-notice",
+                "https://www.qambria.com/legal-notice",
+                "https://www.qambria.com/careers",
+                "https://ch.linkedin.com/in/dulmer"
+            ]
+        },
+        {
+            "name": "Riva Labs",
+            "decision": "outside-region-acquired-technical-team",
+            "reason": "Exact corporate LinkedIn identifies Lugano and riva.xyz. Acquirer Project Eleven's September 29 2026 release confirms completed acquisition and continuing original post-quantum software/hardware engineering team. Acquisition is not disappearance; no Zurich/Zug company site established.",
+            "sources": [
+                "https://ch.linkedin.com/company/rivalabs",
+                "https://www.projecteleven.com/blog/project-eleven-acquires-riva-labs-to-expand-post-quantum-research-and-engineering"
+            ]
+        },
+        {
+            "name": "Bee People",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own terms and privacy identify Plazza da Scoula 12, 7500 St Moritz. Supplement development/production claims do not by themselves establish eligible technical development, which remains unassessed because confirmed geography is already outside the target region.",
+            "sources": [
+                "https://beepeople.com/en/policies/terms-of-service",
+                "https://beepeople.com/en/pages/privacy-policy",
+                "https://beepeople.com/pages/contact"
+            ]
+        },
+        {
+            "name": "Spineart",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Current own locations catalogue lists Plan-les-Ouates Swiss office, French manufacturing and overseas sites. Swiss address is Chemin du Pre-Fleuri 3, 1228 Plan-les-Ouates; hospitals and distributors are not company offices.",
+            "sources": [
+                "https://www.spineart.com/contact/",
+                "https://www.spineart.com/legal-disclaimer/"
+            ]
+        },
+        {
+            "name": "LS Instruments",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own global-presence page identifies instrument developer at Bluefactory, Passage du Cardinal 1, 1700 Fribourg and North American subsidiary; other listed contacts are explicitly distribution partners, not a Zurich office.",
+            "sources": [
+                "https://www.lsinstruments.ch/en/info/contact",
+                "https://www.lsinstruments.ch/en"
+            ]
+        },
+        {
+            "name": "Vaderis Therapeutics",
+            "decision": "outside-region-current-primary-register",
+            "reason": "Current federal UID CHE464916458 identifies active company at Lichtstrasse 35, WSJ-350, 4056 Basel, last validated August 2026. Own homepage/contact reader failed; official hosted development release is accessible. Do not use old Baeumleingasse address or call failed fetch inactivity.",
+            "sources": [
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE-464.916.458",
+                "https://vaderis.com/wp-content/uploads/2024/10/20240827_VADERIS-Press-Release_Clinical-PoC-Results.pdf"
+            ]
+        },
+        {
+            "name": "Bioscibex",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current SW1NGO bioreactor-incubator development confirmed. Company footer gives Route de l'Ile-au-Bois 1A, 1870 Monthey. No target-region company location evidenced.",
+            "sources": ["https://www.bioscibex.com/"]
+        },
+        {
+            "name": "NIRLAB",
+            "decision": "outside-region-acquired-technical-team",
+            "reason": "Own old domain redirects to continuing 908 Devices NIRLab product. Acquirer's May 2026 completed-acquisition release explicitly locates NIRLAB in Lausanne and describes its retained device/cloud technology and team. Acquisition is not disappearance; no Zurich/Zug site established.",
+            "sources": [
+                "https://www.nirlab.com/",
+                "https://908devices.com/products/nirlab/",
+                "https://ir.908devices.com/news/news-details/2026/908-Devices-Acquires-NIRLAB-AG-Expanding-Its-Narcotics-Detection-Portfolio/default.aspx"
+            ]
+        },
+        {
+            "name": "BioCopy",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Current own imprint identifies BioCopy AG CHE363379669, Stuecki Park, Hochbergerstrasse 60F, 4057 Basel. Own AI/wet-lab discovery platform is substantive, but no target-region location established.",
+            "sources": ["https://www.biocopy.com/", "https://www.biocopy.com/legal-notice/"]
+        },
+        {
+            "name": "Sensopro",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own April 2026 membership terms identify Sensopro AG CHE104649217 at Suedstrasse 4, 3110 Muensingen; official shop and equipment manual corroborate manufacturer address. Customer physiotherapy practices in Zurich are not company offices.",
+            "sources": [
+                "https://hub.sensopro.swiss/nl/agb",
+                "https://shop.sensopro.swiss/",
+                "https://sensopro.swiss/assets/Downloads/Gebrauchsanweisungen/250602-Operating-instructions-Luna-Physio-DE-WEB.pdf"
+            ]
+        },
+        {
+            "name": "Smixin",
+            "decision": "outside-region-current-successor-brand",
+            "reason": "Current own About explicitly says Biel origin and now a Fullydo brand; current footer identifies Fullydo Technology Suzhou. Continued handwashing-device/dashboard development supported, not inactivity. No current Zurich/Zug location evidenced; do not reuse historical Swiss roots as exact office evidence.",
+            "sources": ["https://www.smixin.com/", "https://www.smixin.com/about-us/"]
+        },
+        {
+            "name": "Spirecut",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact identifies Spirecut AG CHE209831310, Hofackerstrasse 40B, 4132 Muttenz. Own Sono-Instrument development confirmed. Surgeon locator entries are explicitly trained customers and must not become company locations.",
+            "sources": ["https://spirecut.com/contact/", "https://spirecut.com/problem-solution/"]
+        },
+        {
+            "name": "CompPair",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own original repairable composite development confirmed. Current site contains EPFL Innovation Park Building C Lausanne offices/lab plus Rue de Lausanne 64 Renens footer. Both outside region; preserve address ambiguity instead of declaring one exact current headquarters. SBB partnership does not establish local office.",
+            "sources": ["https://www.comppair.ch/", "https://www.comppair.ch/about-us"]
+        },
+        {
+            "name": "Polares Medical",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact and August 2026 privacy statement list Swiss office Chemin de Mornex 6, 1003 Lausanne and Palo Alto US office. Original mitral-device development supported; no target-region workplace established.",
+            "sources": [
+                "https://www.polaresmedical.com/contact/",
+                "https://www.polaresmedical.com/privacy-policy/"
+            ]
+        },
+        {
+            "name": "FoRx Therapeutics",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Current own investor page explicitly locates clinical-stage developer in Basel. Own hosted 2025 research poster identifies Lichtstrasse 35, 4056 Basel. Clinical programme is investigational, not approved treatment; no Zurich/Zug site evidenced.",
+            "sources": [
+                "https://www.forxtherapeutics.com/investors-media/investors/",
+                "https://www.forxtherapeutics.com/wp-content/uploads/2026/02/EORTC_NCI_AACR-2025-poster_FORX-428_final_10072025.pdf"
+            ]
+        },
+        {
+            "name": "MOMM Diagnostics",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current contact identifies MOMM Diagnostics GmbH, Hochbergerstrasse 60C, 4057 Basel. Own eFlow platform development supported; Empa partnership does not locate company at an Empa site.",
+            "sources": [
+                "https://www.mommdiagnostics.com/contact",
+                "https://www.mommdiagnostics.com/partnerships"
+            ]
+        },
+        {
+            "name": "Proton",
+            "decision": "primary-eligible-registered-branch-confirmed",
+            "reason": "Own team and careers pages explicitly list a Zurich office, not merely a datacentre. Federal UID confirms active branch CHE363321658, Engelstrasse 6, 8004 Zurich, linked to Geneva parent CHE354686492. Own maintained privacy software clear. Use Registered branch address until direct evidence ties workplace to building; exact geocode, full alias check and publication preparation still needed. Do not exclude on Geneva headquarters.",
+            "sources": [
+                "https://proton.me/about/team",
+                "https://proton.me/careers",
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE363321658",
+                "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-354.686.492",
+                "https://www.linkedin.com/company/protonprivacy"
+            ]
+        },
+        {
+            "name": "NewBiologix",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current contact identifies Route de la Corniche 6-8, Serine building, 1066 Epalinges. September 2026 own news describes continuing rAAV manufacturing development; no target-region company site evidenced.",
+            "sources": ["https://www.newbiologix.com/contact", "https://www.newbiologix.com/"]
+        },
+        {
+            "name": "FluoSphera",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own July 2026 privacy policy identifies FluoSphera SA c/o FONGIT, Route de la Galaise 34, 1228 Plan-les-Ouates. Own products concern microphysiological testing, not a Zurich company inferred from collaborators.",
+            "sources": [
+                "https://www.fluosphera.com/privacy-policy",
+                "https://www.fluosphera.com/old-home"
+            ]
+        },
+        {
+            "name": "Voltiris",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current contact gives Chemin des Croisettes 26, 1066 Epalinges. No target-region office established by this company evidence; do not substitute installations or investors as company locations.",
+            "sources": ["https://voltiris.com/contact"]
+        },
+        {
+            "name": "Addex Therapeutics",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact distinguishes Geneva operating office Chemin des Mines 9, Plan-les-Ouates registered office Chemin des Aulx 12, and US mailing address. Current 2026 development news confirms activity; investor events in Zurich are not offices.",
+            "sources": [
+                "https://www.addextherapeutics.com/en/about-us/contact/",
+                "https://www.addextherapeutics.com/en/?ccm_paging_p_b1687=1"
+            ]
+        },
+        {
+            "name": "Vandria",
+            "decision": "outside-region-primary-city-level",
+            "reason": "Own 13 July 2026 development release explicitly locates the team at Biopole campus Lausanne. Original VNA-318 clinical development is supported, but no Zurich/Zug site is evidenced. This is city-level geography, not verification of a precise building or treatment efficacy.",
+            "sources": [
+                "https://vandria.com/",
+                "https://vandria.com/new-phase-1-data-show-vna-318-mechanism-of-action-translates-to-humans-supporting-potential-to-address-medical-needs-of-people-with-neurodegenerative-diseases/"
+            ]
+        },
+        {
+            "name": "Sun-Ways",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own removable rail-mounted photovoltaic technology described on current site; footer gives Chemin de la Plantaz 25, 1024 Ecublens. Pilots and partners are not company addresses.",
+            "sources": ["https://www.sun-ways.ch/"]
+        },
+        {
+            "name": "Logmind",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own maintained AIOps software is described on current homepage; footer identifies Logmind SA, EPFL Innovation Park, 1015 Lausanne. No target-region company workplace established.",
+            "sources": ["https://www.logmind.com/"]
+        },
+        {
+            "name": "Atinary Technologies",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current contact lists Swiss office Atinary Technologies Sarl, Batiment Leucine, Route de la Corniche 11, Epalinges and US offices in Menlo Park and Boston. Own SDLabs software supported; no Zurich/Zug office stated.",
+            "sources": ["https://atinary.com/contacts/", "https://atinary.com/"]
+        },
+        {
+            "name": "Centiel",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current contact and September 2026 issuer announcement identify UPS technology developer at Via alla Stampa 15, 6965 Cadro, Lugano. Distribution network and SIX listing do not establish a target-region office.",
+            "sources": [
+                "https://www.centiel.com/contact/",
+                "https://www.centiel.com/eqs-news/c272fe14-f662-40b6-af3d-752904a512fb/en/"
+            ]
+        },
+        {
+            "name": "PeriVision",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact lists Swiss office Route de la Corniche 3, Biopole Phenyl Building, 1066 Epalinges and Cambridge Massachusetts, not target region.",
+            "sources": ["https://www.perivision.com/contact"]
+        },
+        {
+            "name": "Noriware",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current site attributes original norifresh seaweed-film development and identifies noriware AG, Industriestrasse 19, 5242 Lupfig. Volg pilot customers and ETH connections are not local company offices.",
+            "sources": ["https://noriware.com/"]
+        },
+        {
+            "name": "AMiquam",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Official amiquam.net redirects to amiquam.ch. Current office page gives Route de Cite-Ouest 2, 1196 Gland; 2026 product and consortium news support ongoing additive-manufacturing monitoring technology. Initial www variant failure resolved through official redirect.",
+            "sources": ["https://amiquam.net/", "https://amiquam.ch/about/"]
+        },
+        {
+            "name": "Urbio",
+            "decision": "hold-exact-local-workplace",
+            "reason": "Own maintained district-heating design software confirmed. Legal address is Rue de l'Industrie 23, Sion, but own operations role explicitly mentions recurring Zurich/Lausanne coworking. Current careers confirms hybrid coworking access without exact local building. Do not exclude solely for Sion headquarters or invent a Zurich office address.",
+            "question": "Is there a stable published Zurich/Zug workplace address rather than general coworking access?",
+            "sources": [
+                "https://www.urb.io/",
+                "https://www.urb.io/operations-manager",
+                "https://www.urb.io/careers",
+                "https://www.urb.io/fr/impressum-and-privacy-notice"
+            ]
+        },
+        {
+            "name": "Pharvaris",
+            "decision": "other-owner-prepared-awaiting-main-review",
+            "reason": "Main confirms Franklin prepared the candidate; no duplicate preparation or asset work. Earlier own-tech/local-address evidence remains valid. Main owns publication review.",
+            "packet": "/tmp/zurich-registry-review/primary-56c0-positive-six-ready.json",
+            "sources": ["https://pharvaris.com/contact-us/", "https://pharvaris.com/science/"]
+        }
+    ]
+}

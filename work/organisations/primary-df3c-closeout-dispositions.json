@@ -1,0 +1,3021 @@
+{
+    "checkedAt": "2026-10-15T01:06:22.087Z",
+    "scope": "Original15 + finalBIO3 + vVARDIS only. No new discovery.",
+    "registrySnapshotCount": 1004,
+    "latestMainVerifiedTotal": 1026,
+    "counts": {
+        "total": 19,
+        "importedVerifiedFrozen": 11,
+        "eligiblePreparedAwaitMainReview": 1,
+        "explicitHolds": 7
+    },
+    "productionWrites": 0,
+    "uploads": 0,
+    "frozenOriginalFilesUnchanged": true,
+    "readyBatch": "/tmp/zurich-registry-review/primary-df3c-closeout-wiw3-profiles.json",
+    "readyLogos": "/tmp/zurich-registry-review/primary-df3c-closeout-wiw3-logos.json",
+    "contactSheets": [
+        "/tmp/zurich-registry-review/primary-df3c-supported-six-contact-sheet.png",
+        "/tmp/zurich-registry-review/primary-df3c-supported-campus-contact-sheet.png",
+        "/tmp/zurich-registry-review/primary-df3c-pending-icons-contact-sheet.png"
+    ],
+    "onchainProposedReplacement": {
+        "headline": "Foundation supporting blockchain applications",
+        "description": "Onchain Foundation supports blockchain-based applications and the Lisk project. Lisk now focuses on business finance software for accounts, payments and approvals.",
+        "kind": "nonprofit",
+        "topics": ["fintech"],
+        "status": "held-for-main-current-activity-review; not in ready batch"
+    },
+    "restrictions": [
+        "No frozen batch mutation.",
+        "Main owns approval, publication and imports.",
+        "No generated initials, cropping or repainting.",
+        "Existing address evidence retained; refresh exact public address reuse before import if needed.",
+        "WE SHAPE TECH icon approval does not resolve eligibility hold.",
+        "Historical originals embedded for traceability are not current executable recommendations."
+    ],
+    "entries": [
+        {
+            "slug": "incephalo",
+            "name": "InCephalo",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified; do not requeue or reapply.",
+            "snapshotMatches": [
+                {
+                    "_id": "p17axamyyzgcapwfexqrzt2nw18garjx",
+                    "slug": "incephalo",
+                    "website": "https://www.incephalo.com/"
+                }
+            ],
+            "verificationBasis": "Main verification messages; snapshot IDs where available. Latest Main reported total1011.",
+            "profile": {
+                "slug": "incephalo",
+                "name": "InCephalo",
+                "website": "https://www.incephalo.com/",
+                "headline": "Compartment-locked biologics for brain diseases",
+                "description": "InCephalo develops compartment-locked biologics for local treatment of brain diseases. Its C-Lock platform engineers therapeutic proteins for retention in the central nervous system and rapid clearance from systemic circulation.",
+                "topics": ["biotech"],
+                "office": "Office and Laboratory",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/incephalo/"
+                },
+                "kind": "company",
+                "location": "Schlieren",
+                "sources": ["https://www.incephalo.com/"],
+                "addressId": "j972yaz9p5mssdx41k8ftz1rg98f51ce"
+            },
+            "originalAsset": {
+                "slug": "incephalo",
+                "website": "https://www.incephalo.com/",
+                "source": "https://framerusercontent.com/images/wf7YaC9cWQqXBdmt5mrpZb2MZwA.png",
+                "sourceURL": "https://framerusercontent.com/images/wf7YaC9cWQqXBdmt5mrpZb2MZwA.png",
+                "sourcePage": "https://www.incephalo.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-incephalo-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-incephalo-192.png",
+                "originalSha256": "3341099744137d0fb3f5e90d2faac9869fc74918ac37ec612bfec1bf7357469b",
+                "preparedSha256": "d7f6af60a3a4eff53b89314755b34a656fc94c444da2fa20a9d83b71d84d6cb0",
+                "sha256": "d7f6af60a3a4eff53b89314755b34a656fc94c444da2fa20a9d83b71d84d6cb0",
+                "originalWidth": 192,
+                "originalHeight": 192,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "incephalo",
+                "website": "https://www.incephalo.com/",
+                "source": "https://framerusercontent.com/images/wf7YaC9cWQqXBdmt5mrpZb2MZwA.png",
+                "sourceURL": "https://framerusercontent.com/images/wf7YaC9cWQqXBdmt5mrpZb2MZwA.png",
+                "sourcePage": "https://www.incephalo.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-incephalo-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-incephalo-192.png",
+                "originalSha256": "3341099744137d0fb3f5e90d2faac9869fc74918ac37ec612bfec1bf7357469b",
+                "preparedSha256": "d7f6af60a3a4eff53b89314755b34a656fc94c444da2fa20a9d83b71d84d6cb0",
+                "sha256": "d7f6af60a3a4eff53b89314755b34a656fc94c444da2fa20a9d83b71d84d6cb0",
+                "originalWidth": 192,
+                "originalHeight": 192,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": null,
+                "uploaded": null
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "incephalo",
+                    "ownTechnology": "InCephalo develops compartment-locked biologics for local treatment of brain diseases. Its C-Lock platform engineers therapeutic proteins for retention in the central nervous system and rapid clearance from systemic circulation.",
+                    "note": "Official site links personal team LinkedIn pages and generic linkedin.com only; no corporate account verified. Prior Allschwil-only exclusion contradicted by explicit Schlieren Office and Laboratory.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["biotech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://incephalo.com/",
+                        "resolvedURL": "https://www.incephalo.com/",
+                        "sha256": "67789ff9fc0f2508d20f438636901be5c3bca5caead8209c9e4b5462f248491c",
+                        "checkedAt": "2026-10-14T23:31:25.855Z"
+                    },
+                    "socialReview": {
+                        "state": "no-corporate-profile-verified",
+                        "profiles": {},
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://www.incephalo.com/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Wagistrasse%2021%208952%20Schlieren",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101152543,
+                            "bbox": [8.458275, 47.399359, 8.458275, 47.399359],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101152543,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.458275, 47.399359]
+                            },
+                            "properties": {
+                                "adr_egaid": 101152543,
+                                "bdg_egid": 2330139,
+                                "adr_edid": 0,
+                                "str_esid": 10006756,
+                                "stn_label": "Wagistrasse",
+                                "adr_number": "21",
+                                "zip_label": "8952 Schlieren",
+                                "com_fosnr": 247,
+                                "com_name": "Schlieren",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "partly_residential",
+                                "adr_modified": "20241115",
+                                "label": 101152543
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101152543?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [
+                            {
+                                "id": "j972yaz9p5mssdx41k8ftz1rg98f51ce",
+                                "latitude": 47.39936,
+                                "longitude": 8.45827
+                            }
+                        ],
+                        "reuseDecision": null,
+                        "existingPublicAddress": {
+                            "_creationTime": 1790455769222.3083,
+                            "_id": "j972yaz9p5mssdx41k8ftz1rg98f51ce",
+                            "countryCode": "CH",
+                            "createdAt": 1790455769222,
+                            "latitude": 47.39936,
+                            "line1": "Wagistrasse 21",
+                            "locality": "Schlieren",
+                            "longitude": 8.45827,
+                            "postalCode": "8952",
+                            "updatedAt": 1790455769222
+                        },
+                        "publicReferences": [
+                            {
+                                "locationId": "px72g6gbvxm8bhah7gfm6dv4dd8g8bfp",
+                                "organisationId": "p17f3fpxtrqzaxjv3x3ec6yqwh8g9jxs"
+                            },
+                            {
+                                "locationId": "px72wpz63xhxhv8npwt7mk2vv58g82kc",
+                                "organisationId": "p17fx5nkx1q9rh33mhh2x4kbkh8g805b"
+                            },
+                            {
+                                "locationId": "px7fd2vq1xpzg4qc6z65dy75098f5tfe",
+                                "organisationId": "p17e3p7e76nvymjqpyga3r5qqx8f50cm"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "agile-wind-power",
+            "name": "Agile Wind Power",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified; do not requeue or reapply.",
+            "snapshotMatches": [
+                {
+                    "_id": "p177a0q5p11ajg4cw5cjr3613x8g8t7v",
+                    "slug": "agile-wind-power",
+                    "website": "https://agilewindpower.com/"
+                }
+            ],
+            "verificationBasis": "Main verification messages; snapshot IDs where available. Latest Main reported total1011.",
+            "profile": {
+                "slug": "agile-wind-power",
+                "name": "Agile Wind Power",
+                "website": "https://agilewindpower.com/",
+                "headline": "Vertical-axis wind turbines",
+                "description": "Agile Wind Power develops vertical-axis wind turbines for distributed electricity generation. Its Vertical Sky technology uses active blade-pitch control to manage aerodynamic loads and turbine efficiency.",
+                "topics": ["climate-tech"],
+                "office": "Published business address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/agile-wind-power/"
+                },
+                "kind": "company",
+                "location": "Dübendorf",
+                "sources": ["https://agilewindpower.com/"],
+                "addressId": "j97e0665aem7rr3239p5acstv18f4e00"
+            },
+            "originalAsset": {
+                "slug": "agile-wind-power",
+                "website": "https://agilewindpower.com/",
+                "source": "https://agilewindpower.com/wp-content/uploads/2026/01/favicon-1.svg",
+                "sourceURL": "https://agilewindpower.com/wp-content/uploads/2026/01/favicon-1.svg",
+                "sourcePage": "https://agilewindpower.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-agile-wind-power-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-agile-wind-power-192.png",
+                "originalSha256": "d02dff4cc8a29b8eabe5c49ea0ebaa9566cf3f44103241618110793bcd9ea470",
+                "preparedSha256": "ccbb649be21cbe7894db7c1e15fcaf814ea70b2b7511fe2f80703ad7953dd9cb",
+                "sha256": "ccbb649be21cbe7894db7c1e15fcaf814ea70b2b7511fe2f80703ad7953dd9cb",
+                "originalWidth": 57,
+                "originalHeight": 59,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "agile-wind-power",
+                "website": "https://agilewindpower.com/",
+                "source": "https://agilewindpower.com/wp-content/uploads/2026/01/favicon-1.svg",
+                "sourceURL": "https://agilewindpower.com/wp-content/uploads/2026/01/favicon-1.svg",
+                "sourcePage": "https://agilewindpower.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-agile-wind-power-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-agile-wind-power-192.png",
+                "originalSha256": "d02dff4cc8a29b8eabe5c49ea0ebaa9566cf3f44103241618110793bcd9ea470",
+                "preparedSha256": "ccbb649be21cbe7894db7c1e15fcaf814ea70b2b7511fe2f80703ad7953dd9cb",
+                "sha256": "ccbb649be21cbe7894db7c1e15fcaf814ea70b2b7511fe2f80703ad7953dd9cb",
+                "originalWidth": 57,
+                "originalHeight": 59,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": null,
+                "uploaded": null
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "agile-wind-power",
+                    "ownTechnology": "Agile Wind Power develops vertical-axis wind turbines for distributed electricity generation. Its Vertical Sky technology uses active blade-pitch control to manage aerodynamic loads and turbine efficiency.",
+                    "note": "Use current published Sonnentalstrasse office, not historical campus address. Own turbine technology, not reseller.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["climate-tech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://www.agilewindpower.com/",
+                        "resolvedURL": "https://agilewindpower.com/",
+                        "sha256": "c2f8855f109d859525d49f698f645f12866aeb300664e61238b06bf1c5413d30",
+                        "checkedAt": "2026-10-14T23:31:34.571Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/agile-wind-power/"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://agilewindpower.com/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Sonnentalstrasse%208%208600%20D%C3%BCbendorf",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 100084264,
+                            "bbox": [8.602269, 47.397622, 8.602269, 47.397622],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 100084264,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.602269, 47.397622]
+                            },
+                            "properties": {
+                                "adr_egaid": 100084264,
+                                "bdg_egid": 91458,
+                                "adr_edid": 0,
+                                "str_esid": 10117590,
+                                "stn_label": "Sonnentalstrasse",
+                                "adr_number": "8",
+                                "zip_label": "8600 Dübendorf",
+                                "com_fosnr": 191,
+                                "com_name": "Dübendorf",
+                                "adr_status": "1",
+                                "adr_official": false,
+                                "bdg_category": "partly_residential",
+                                "adr_modified": "20241115",
+                                "label": 100084264
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100084264?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [
+                            {
+                                "id": "j97e0665aem7rr3239p5acstv18f4e00",
+                                "latitude": 47.39762,
+                                "longitude": 8.60227
+                            },
+                            {
+                                "id": "j974jn30ys93z4j9yt878c6pe98f5wr6",
+                                "latitude": 47.39762,
+                                "longitude": 8.60227
+                            },
+                            {
+                                "id": "j979pdwmscba7h9pga8a8rv6zn8f50tb",
+                                "latitude": 47.39762,
+                                "longitude": 8.60227
+                            }
+                        ],
+                        "reuseDecision": "Three exact public street/address records have identical coordinates. Explicit reviewed ID reused without coordinate/text mutation; no records merged. Federal difference is rounding only.",
+                        "existingPublicAddress": {
+                            "_creationTime": 1790455769222.309,
+                            "_id": "j97e0665aem7rr3239p5acstv18f4e00",
+                            "countryCode": "CH",
+                            "createdAt": 1790455769222,
+                            "latitude": 47.39762,
+                            "line1": "Sonnentalstrasse 8",
+                            "locality": "Dübendorf",
+                            "longitude": 8.60227,
+                            "postalCode": "8600",
+                            "updatedAt": 1790455769222
+                        },
+                        "publicReferences": [
+                            {
+                                "locationId": "px76e3mtr2pt1y4qhpy4n66t558f481a",
+                                "organisationId": "p17b2n70xw931pxdje32kgfxb18f4dg3"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "vestr",
+            "name": "vestr",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified; do not requeue or reapply.",
+            "snapshotMatches": [
+                {
+                    "_id": "p1704kpdq6d3rwfemff9g273918gbatw",
+                    "slug": "vestr",
+                    "website": "https://www.vestr.com/"
+                }
+            ],
+            "verificationBasis": "Main verification messages; snapshot IDs where available. Latest Main reported total1011.",
+            "profile": {
+                "slug": "vestr",
+                "name": "vestr",
+                "website": "https://www.vestr.com/",
+                "headline": "Software for actively managed investment products",
+                "description": "vestr develops software for banks and special-purpose vehicle issuers to manage actively managed investment products. Its platform supports portfolio rebalancing, valuation, fee calculations, reporting and compliance workflows.",
+                "topics": ["fintech"],
+                "office": "Published contact address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/vestr-ag/"
+                },
+                "kind": "company",
+                "location": "Zug",
+                "sources": ["https://www.vestr.com/", "https://www.vestr.com/legal-notice"],
+                "address": {
+                    "line1": "Gubelstrasse 11",
+                    "postalCode": "6300",
+                    "locality": "Zug",
+                    "countryCode": "CH",
+                    "latitude": 47.174283,
+                    "longitude": 8.517773,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100294593?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "vestr",
+                "website": "https://www.vestr.com/",
+                "source": "https://cdn.prod.website-files.com/64537a5ab8766833afcd13e1/68bad7f0b8a7642bf9ead830_vestr%20logo.svg",
+                "sourceURL": "https://cdn.prod.website-files.com/64537a5ab8766833afcd13e1/68bad7f0b8a7642bf9ead830_vestr%20logo.svg",
+                "sourcePage": "https://www.vestr.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-vestr-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-vestr-192.png",
+                "originalSha256": "b12f9e9ee0e98b3f7055ce7004e4536c3d76459390c4d9867794e8686b8e1eff",
+                "preparedSha256": "8050f835f4e013412736b6a0ed9bc2cc5a25d19f2e16c4d0892fce0131996c56",
+                "sha256": "8050f835f4e013412736b6a0ed9bc2cc5a25d19f2e16c4d0892fce0131996c56",
+                "originalWidth": 9925,
+                "originalHeight": 2013,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "vestr",
+                "website": "https://www.vestr.com/",
+                "source": "https://cdn.prod.website-files.com/64537a5ab8766833afcd13e1/68bad7f0b8a7642bf9ead830_vestr%20logo.svg",
+                "sourceURL": "https://cdn.prod.website-files.com/64537a5ab8766833afcd13e1/68bad7f0b8a7642bf9ead830_vestr%20logo.svg",
+                "sourcePage": "https://www.vestr.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-vestr-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-vestr-192.png",
+                "originalSha256": "b12f9e9ee0e98b3f7055ce7004e4536c3d76459390c4d9867794e8686b8e1eff",
+                "preparedSha256": "8050f835f4e013412736b6a0ed9bc2cc5a25d19f2e16c4d0892fce0131996c56",
+                "sha256": "8050f835f4e013412736b6a0ed9bc2cc5a25d19f2e16c4d0892fce0131996c56",
+                "originalWidth": 9925,
+                "originalHeight": 2013,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": null,
+                "uploaded": null
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "vestr",
+                    "ownTechnology": "vestr develops software for banks and special-purpose vehicle issuers to manage actively managed investment products. Its platform supports portfolio rebalancing, valuation, fee calculations, reporting and compliance workflows.",
+                    "note": "Official site explicitly distinguishes software provider from issuer; no investment-manager inference.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["fintech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://vestr.com/",
+                        "resolvedURL": "https://www.vestr.com/",
+                        "sha256": "96f00a0d2dcbfdc81c2b0dac43a2ff5e9865c6b113ee4539de196096753f48c2",
+                        "checkedAt": "2026-10-14T23:31:39.816Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/vestr-ag/"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://www.vestr.com/legal-notice",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Gubelstrasse%2011%206300%20Zug",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 100294593,
+                            "bbox": [8.517773, 47.174283, 8.517773, 47.174283],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 100294593,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.517773, 47.174283]
+                            },
+                            "properties": {
+                                "adr_egaid": 100294593,
+                                "bdg_egid": 321192,
+                                "adr_edid": 0,
+                                "str_esid": 10016170,
+                                "stn_label": "Gubelstrasse",
+                                "adr_number": "11",
+                                "zip_label": "6300 Zug",
+                                "com_fosnr": 1711,
+                                "com_name": "Zug",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "other_residential",
+                                "adr_modified": "20241115",
+                                "label": 100294593
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100294593?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [],
+                        "reuseDecision": null,
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "transferchain",
+            "name": "TransferChain",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified; do not requeue or reapply.",
+            "snapshotMatches": [
+                {
+                    "_id": "p1705qz3vfxycx4pjaz0ert7nd8gb2jv",
+                    "slug": "transferchain",
+                    "website": "https://transferchain.io/"
+                }
+            ],
+            "verificationBasis": "Main verification messages; snapshot IDs where available. Latest Main reported total1011.",
+            "profile": {
+                "slug": "transferchain",
+                "name": "TransferChain",
+                "website": "https://transferchain.io/",
+                "headline": "Encrypted distributed cloud storage",
+                "description": "TransferChain develops encrypted cloud storage, file-transfer and password-management software. Its platform combines client-side and end-to-end encryption with distributed cloud storage and blockchain-based authorization.",
+                "topics": ["cloud", "cryptography"],
+                "office": "Published principal address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/transferchain/",
+                    "github": "https://github.com/TransferChain",
+                    "x": "https://x.com/TransferChain_"
+                },
+                "kind": "company",
+                "location": "Baar",
+                "sources": ["https://transferchain.io/", "https://transferchain.io/termsofuse"],
+                "addressId": "j97e7tex88j5zkfz6t4qcg0m9s8g8hpa"
+            },
+            "originalAsset": {
+                "slug": "transferchain",
+                "website": "https://transferchain.io/",
+                "source": "https://transferchain.io/icons/android-chrome-512x512.png",
+                "sourceURL": "https://transferchain.io/icons/android-chrome-512x512.png",
+                "sourcePage": "https://transferchain.io/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-transferchain-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-transferchain-192.png",
+                "originalSha256": "84df2591f862de401da8b175f2a4a92d1a3ff3a16ed01c6d58a3a6e803c71003",
+                "preparedSha256": "338f4bdbb09c93ebf9c10d79f03c4de4aeff2a06f3a11e2e1822a8d1e0150688",
+                "sha256": "338f4bdbb09c93ebf9c10d79f03c4de4aeff2a06f3a11e2e1822a8d1e0150688",
+                "originalWidth": 512,
+                "originalHeight": 512,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "transferchain",
+                "website": "https://transferchain.io/",
+                "source": "https://transferchain.io/icons/android-chrome-512x512.png",
+                "sourceURL": "https://transferchain.io/icons/android-chrome-512x512.png",
+                "sourcePage": "https://transferchain.io/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-transferchain-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-transferchain-192.png",
+                "originalSha256": "84df2591f862de401da8b175f2a4a92d1a3ff3a16ed01c6d58a3a6e803c71003",
+                "preparedSha256": "338f4bdbb09c93ebf9c10d79f03c4de4aeff2a06f3a11e2e1822a8d1e0150688",
+                "sha256": "338f4bdbb09c93ebf9c10d79f03c4de4aeff2a06f3a11e2e1822a8d1e0150688",
+                "originalWidth": 512,
+                "originalHeight": 512,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": null,
+                "uploaded": null
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "transferchain",
+                    "ownTechnology": "TransferChain develops encrypted cloud storage, file-transfer and password-management software. Its platform combines client-side and end-to-end encryption with distributed cloud storage and blockchain-based authorization.",
+                    "note": "Exact principal address in current official terms; page revision2023 retained. Swiss business evidence supersedes Tenity Estonia label.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["cloud", "cryptography"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://transferchain.io/",
+                        "resolvedURL": "https://transferchain.io/",
+                        "sha256": "8289d96d396eacb704adf13c3825518eda8cf12a38aadd5114e9ba53959b0d9b",
+                        "checkedAt": "2026-10-14T23:31:40.103Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/transferchain/",
+                            "github": "https://github.com/TransferChain",
+                            "x": "https://x.com/TransferChain_"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://transferchain.io/termsofuse",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=L%C3%A4ttichstrasse%206%206340%20Baar",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 100174212,
+                            "bbox": [8.538441, 47.199861, 8.538441, 47.199861],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 100174212,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.538441, 47.199861]
+                            },
+                            "properties": {
+                                "adr_egaid": 100174212,
+                                "bdg_egid": 311163,
+                                "adr_edid": 0,
+                                "str_esid": 10121513,
+                                "stn_label": "Lättichstrasse",
+                                "adr_number": "6",
+                                "zip_label": "6340 Baar",
+                                "com_fosnr": 1701,
+                                "com_name": "Baar",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "partly_residential",
+                                "adr_modified": "20241115",
+                                "label": 100174212
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100174212?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [
+                            {
+                                "id": "j97e7tex88j5zkfz6t4qcg0m9s8g8hpa",
+                                "latitude": 47.199859619140625,
+                                "longitude": 8.53844165802002
+                            }
+                        ],
+                        "reuseDecision": null,
+                        "existingPublicAddress": {
+                            "_creationTime": 1792009663319.62,
+                            "_id": "j97e7tex88j5zkfz6t4qcg0m9s8g8hpa",
+                            "countryCode": "CH",
+                            "createdAt": 1792009663319,
+                            "latitude": 47.199859619140625,
+                            "line1": "Lättichstrasse 6",
+                            "locality": "Baar",
+                            "longitude": 8.53844165802002,
+                            "postalCode": "6340",
+                            "updatedAt": 1792009663319
+                        },
+                        "publicReferences": [
+                            {
+                                "locationId": "px75er9xnar570jy4bnnbgt9mx8g9waz",
+                                "organisationId": "p174qhnd7cyphapq333qg20wed8g8r3c"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "midata",
+            "name": "MIDATA",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified; do not requeue or reapply.",
+            "snapshotMatches": [
+                {
+                    "_id": "p176rs1039rq7g2148xcanw72h8ganhr",
+                    "slug": "midata",
+                    "website": "https://www.midata.coop/"
+                }
+            ],
+            "verificationBasis": "Main verification messages; snapshot IDs where available. Latest Main reported total1011.",
+            "profile": {
+                "slug": "midata",
+                "name": "MIDATA",
+                "website": "https://www.midata.coop/",
+                "kind": "nonprofit",
+                "headline": "Open-source platform for citizen-controlled health data",
+                "description": "MIDATA operates an open-source health-data platform that lets individuals control access to their data and contribute to research projects. The cooperative develops and maintains infrastructure for consent-based data collection and use.",
+                "topics": ["data-engineering", "medtech"],
+                "office": "c/o EvalueScience AG",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/midata-coop"
+                },
+                "location": "Zürich",
+                "sources": ["https://www.midata.coop/"],
+                "address": {
+                    "line1": "Pfingstweidstrasse 16",
+                    "postalCode": "8005",
+                    "locality": "Zürich",
+                    "countryCode": "CH",
+                    "latitude": 47.388237,
+                    "longitude": 8.517704,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101873831?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "midata",
+                "website": "https://www.midata.coop/",
+                "source": "https://www.midata.coop/wp-content/themes/Midata/img/logo.png",
+                "sourceURL": "https://www.midata.coop/wp-content/themes/Midata/img/logo.png",
+                "sourcePage": "https://www.midata.coop/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-midata-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-midata-192.png",
+                "originalSha256": "86bb4ea9e58dca550b83d3b45d383522a347c0734ea5769ffce417d66d2b5795",
+                "preparedSha256": "54f35fd8c1c784303ac00db89d371db7caa2c0e928cae7762d4e015f07d5b629",
+                "sha256": "54f35fd8c1c784303ac00db89d371db7caa2c0e928cae7762d4e015f07d5b629",
+                "originalWidth": 322,
+                "originalHeight": 50,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "midata",
+                "website": "https://www.midata.coop/",
+                "source": "https://www.midata.coop/wp-content/themes/Midata/img/logo.png",
+                "sourceURL": "https://www.midata.coop/wp-content/themes/Midata/img/logo.png",
+                "sourcePage": "https://www.midata.coop/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-midata-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-midata-192.png",
+                "originalSha256": "86bb4ea9e58dca550b83d3b45d383522a347c0734ea5769ffce417d66d2b5795",
+                "preparedSha256": "54f35fd8c1c784303ac00db89d371db7caa2c0e928cae7762d4e015f07d5b629",
+                "sha256": "54f35fd8c1c784303ac00db89d371db7caa2c0e928cae7762d4e015f07d5b629",
+                "originalWidth": 322,
+                "originalHeight": 50,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": null,
+                "uploaded": null
+            },
+            "alternatives": [
+                {
+                    "slug": "midata",
+                    "website": "https://www.midata.coop/",
+                    "source": "https://www.midata.coop/wp-content/uploads/2018/12/cropped-favicon-192x192.png",
+                    "sourceURL": "https://www.midata.coop/wp-content/uploads/2018/12/cropped-favicon-192x192.png",
+                    "sourcePage": "https://www.midata.coop/",
+                    "originalPath": "/tmp/zurich-registry-review/primary-df3c-pending-midata-official-icon.png",
+                    "path": "/tmp/zurich-registry-review/primary-df3c-pending-midata-192.png",
+                    "originalSha256": "0531855fd2ef7af50ae7b726b9fe8ea04d7fef6cde2ee8472876cb4ac6e04f57",
+                    "preparedSha256": "dc0ea3b7bb63ca77673c347e9e09862909a2489aa7cb6a901eb0dbb9858e077f",
+                    "originalDimensions": [192, 192],
+                    "width": 192,
+                    "height": 192,
+                    "transformation": "Contain complete official icon in transparent 192px square; no cropping, repainting, recolouring or redrawing.",
+                    "approved": false,
+                    "uploaded": false
+                }
+            ],
+            "evidence": [
+                {
+                    "slug": "midata",
+                    "ownTechnology": "MIDATA operates an open-source health-data platform that lets individuals control access to their data and contribute to research projects. The cooperative develops and maintains infrastructure for consent-based data collection and use.",
+                    "note": "Separate technical nonprofit criterion: open-source MIDATA platform explicitly established. No corporate social account linked on reviewed homepage; personal identities excluded. Preserve c/o EvalueScience AG label in review.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["data-engineering", "medtech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://www.midata.coop/",
+                        "resolvedURL": "https://www.midata.coop/",
+                        "sha256": "9efc759d0e48f3e0a94cb0396dc40a0bab81578d33ad788a749985853b57ea1b",
+                        "checkedAt": "2026-10-14T23:31:26.797Z"
+                    },
+                    "socialReview": {
+                        "state": "no-corporate-profile-verified",
+                        "profiles": {},
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://www.midata.coop/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Pfingstweidstrasse%2016%208005%20Z%C3%BCrich",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101873831,
+                            "bbox": [8.517704, 47.388237, 8.517704, 47.388237],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101873831,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.517704, 47.388237]
+                            },
+                            "properties": {
+                                "adr_egaid": 101873831,
+                                "bdg_egid": 302061460,
+                                "adr_edid": 0,
+                                "str_esid": 10081623,
+                                "stn_label": "Pfingstweidstrasse",
+                                "adr_number": "16",
+                                "zip_label": "8005 Zürich",
+                                "com_fosnr": 261,
+                                "com_name": "Zürich",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "non_residential",
+                                "adr_modified": "20241115",
+                                "label": 101873831
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101873831?sr=4326&geometryFormat=geojson",
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "vivtex",
+            "name": "Vivtex",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified; do not requeue or reapply.",
+            "snapshotMatches": [
+                {
+                    "_id": "p17cd4eshrbnrt8yt02s8af9nh8gacz8",
+                    "slug": "vivtex",
+                    "website": "https://vivtex.com/"
+                }
+            ],
+            "verificationBasis": "Main verification messages; snapshot IDs where available. Latest Main reported total1011.",
+            "profile": {
+                "slug": "vivtex",
+                "name": "Vivtex",
+                "website": "https://vivtex.com/",
+                "headline": "Gastrointestinal screening technology for oral medicines",
+                "description": "Vivtex develops gastrointestinal screening technology to assess drug absorption and support the development of oral medicines. Its platform combines laboratory testing and computational analysis to evaluate drug formulations.",
+                "topics": ["biotech"],
+                "office": "Swiss Office",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/vivtex"
+                },
+                "kind": "company",
+                "location": "Schlieren",
+                "sources": ["https://vivtex.com/", "https://vivtex.com/contact"],
+                "addressId": "j972w8k6q4sam0aq00zcev32d58f40en"
+            },
+            "originalAsset": {
+                "slug": "vivtex",
+                "website": "https://vivtex.com/",
+                "source": "https://vivtex.com/_next/image?url=%2Fimages%2Flogo.png&w=384&q=75",
+                "sourceURL": "https://vivtex.com/_next/image?url=%2Fimages%2Flogo.png&w=384&q=75",
+                "sourcePage": "https://vivtex.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-vivtex-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-vivtex-192.png",
+                "originalSha256": "c3ea57f906c2945bb4c43599e94db220ebcba584df962d190a43a85570daa326",
+                "preparedSha256": "36d0178dfb96bca9c319ce808ca7d69ab125c64afcf40d02a31c18456e0d3bfa",
+                "sha256": "36d0178dfb96bca9c319ce808ca7d69ab125c64afcf40d02a31c18456e0d3bfa",
+                "originalWidth": 384,
+                "originalHeight": 115,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "vivtex",
+                "website": "https://vivtex.com/",
+                "source": "https://vivtex.com/_next/image?url=%2Fimages%2Flogo.png&w=384&q=75",
+                "sourceURL": "https://vivtex.com/_next/image?url=%2Fimages%2Flogo.png&w=384&q=75",
+                "sourcePage": "https://vivtex.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-vivtex-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-vivtex-192.png",
+                "originalSha256": "c3ea57f906c2945bb4c43599e94db220ebcba584df962d190a43a85570daa326",
+                "preparedSha256": "36d0178dfb96bca9c319ce808ca7d69ab125c64afcf40d02a31c18456e0d3bfa",
+                "sha256": "36d0178dfb96bca9c319ce808ca7d69ab125c64afcf40d02a31c18456e0d3bfa",
+                "originalWidth": 384,
+                "originalHeight": 115,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": null,
+                "uploaded": null
+            },
+            "alternatives": [
+                {
+                    "slug": "vivtex",
+                    "website": "https://vivtex.com/",
+                    "source": "https://vivtex.com/favicon.ico?favicon.a77979af.ico",
+                    "sourceURL": "https://vivtex.com/favicon.ico?favicon.a77979af.ico",
+                    "sourcePage": "https://vivtex.com/",
+                    "originalPath": "/tmp/zurich-registry-review/primary-df3c-pending-vivtex-official-icon.ico",
+                    "path": "/tmp/zurich-registry-review/primary-df3c-pending-vivtex-192.png",
+                    "originalSha256": "65f84d9384a4b9009225947955744fd0966dad45612f89edff344ef8db4e3b75",
+                    "preparedSha256": "47d02a4f7a0be819d12fd0fc73f60922fdd53d5ee7aceac7f959a154e85e669a",
+                    "originalDimensions": [4287, 4270],
+                    "width": 192,
+                    "height": 192,
+                    "transformation": "Contain complete official icon in transparent 192px square; no cropping, repainting, recolouring or redrawing.",
+                    "approved": false,
+                    "uploaded": false
+                }
+            ],
+            "evidence": [
+                {
+                    "slug": "vivtex",
+                    "ownTechnology": "Vivtex develops gastrointestinal screening technology to assess drug absorption and support the development of oral medicines. Its platform combines laboratory testing and computational analysis to evaluate drug formulations.",
+                    "note": "Official contact gives exact Wagistrasse13 and8952 with generic Zurich locality. Federal exact street/number/postal label establishes Schlieren; preserve original published text in review, no guessed relocation. No exact corporate social URL found on reviewed official site.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["biotech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://vivtex.com/",
+                        "resolvedURL": "https://vivtex.com/",
+                        "sha256": "6859ad4ea5c875419ee3134495cb9042f88a8f4e25e43d7a76746b2f3e108c20",
+                        "checkedAt": "2026-10-14T23:31:27.413Z"
+                    },
+                    "socialReview": {
+                        "state": "no-corporate-profile-verified",
+                        "profiles": {},
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://vivtex.com/contact",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Wagistrasse%2013%208952%20Schlieren",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101152544,
+                            "bbox": [8.457579, 47.39929, 8.457579, 47.39929],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101152544,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.457579, 47.39929]
+                            },
+                            "properties": {
+                                "adr_egaid": 101152544,
+                                "bdg_egid": 2330140,
+                                "adr_edid": 0,
+                                "str_esid": 10006756,
+                                "stn_label": "Wagistrasse",
+                                "adr_number": "13",
+                                "zip_label": "8952 Schlieren",
+                                "com_fosnr": 247,
+                                "com_name": "Schlieren",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "partly_residential",
+                                "adr_modified": "20241115",
+                                "label": 101152544
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101152544?sr=4326&geometryFormat=geojson",
+                        "existingPublicAddress": {
+                            "_creationTime": 1790455766814.7385,
+                            "_id": "j972w8k6q4sam0aq00zcev32d58f40en",
+                            "countryCode": "CH",
+                            "createdAt": 1790455766814,
+                            "latitude": 47.39929,
+                            "line1": "Wagistrasse 13",
+                            "locality": "Schlieren",
+                            "longitude": 8.45758,
+                            "postalCode": "8952",
+                            "updatedAt": 1790455766814
+                        },
+                        "publicReferences": [
+                            {
+                                "locationId": "px7cr86fvdcyakdbb23y04tv6d8g91q0",
+                                "organisationId": "p17950bsdf9bqay7ht0k1ep4398g884n"
+                            },
+                            {
+                                "locationId": "px745741f9hqt93fd4fw05kxe58g9wpy",
+                                "organisationId": "p174sk2rqe15q1rh7q8x8zj9158g99b3"
+                            },
+                            {
+                                "locationId": "px7cctm1484e5sfe3fqfg5c1hx8f5zd6",
+                                "organisationId": "p17bft343wtabv4aav6cn54y5s8f5zdj"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "newgreentec",
+            "name": "NewGreenTec",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified; do not requeue or reapply.",
+            "snapshotMatches": [],
+            "verificationBasis": "Main verification messages; snapshot IDs where available. Latest Main reported total1011.",
+            "profile": {
+                "slug": "newgreentec",
+                "name": "NewGreenTec",
+                "website": "https://newgreentec.com/",
+                "headline": "Hybrid wind and solar power systems",
+                "description": "NewGreenTec develops hybrid wind-solar power systems for decentralized electricity generation. Its PowerPyramid product combines vertical-axis wind turbines, photovoltaic modules and power electronics in a compact system.",
+                "topics": ["climate-tech"],
+                "office": "Published business address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/newgreentec/"
+                },
+                "kind": "company",
+                "location": "Kloten",
+                "sources": [
+                    "https://newgreentec.com/",
+                    "https://newgreentec.com/powerpyramid/",
+                    "https://newgreentec.com/unternehmen/"
+                ],
+                "address": {
+                    "line1": "Lindenstrasse 25",
+                    "postalCode": "8302",
+                    "locality": "Kloten",
+                    "countryCode": "CH",
+                    "latitude": 47.449722,
+                    "longitude": 8.585601,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101552224?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "newgreentec",
+                "website": "https://newgreentec.com/",
+                "source": "https://newgreentec.com/wp-content/uploads/2024/07/NewGreenTec-logo-2560x2560-1-150x150.png",
+                "sourceURL": "https://newgreentec.com/wp-content/uploads/2024/07/NewGreenTec-logo-2560x2560-1-150x150.png",
+                "sourcePage": "https://newgreentec.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-newgreentec-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-newgreentec-192.png",
+                "originalSha256": "c75ec2eca9891495c6e790b1267662365192dad7c80748b4b1dc59358ade337f",
+                "preparedSha256": "81333d8bb77b28ac7df2c22ceed3b7b4b50fd1375eac1083d7dfbbb2d8a733ac",
+                "sha256": "81333d8bb77b28ac7df2c22ceed3b7b4b50fd1375eac1083d7dfbbb2d8a733ac",
+                "originalWidth": 150,
+                "originalHeight": 150,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "newgreentec",
+                "website": "https://newgreentec.com/",
+                "source": "https://newgreentec.com/wp-content/uploads/2024/07/NewGreenTec-logo-2560x2560-1-150x150.png",
+                "sourceURL": "https://newgreentec.com/wp-content/uploads/2024/07/NewGreenTec-logo-2560x2560-1-150x150.png",
+                "sourcePage": "https://newgreentec.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-newgreentec-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-newgreentec-192.png",
+                "originalSha256": "c75ec2eca9891495c6e790b1267662365192dad7c80748b4b1dc59358ade337f",
+                "preparedSha256": "81333d8bb77b28ac7df2c22ceed3b7b4b50fd1375eac1083d7dfbbb2d8a733ac",
+                "sha256": "81333d8bb77b28ac7df2c22ceed3b7b4b50fd1375eac1083d7dfbbb2d8a733ac",
+                "originalWidth": 150,
+                "originalHeight": 150,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": null,
+                "uploaded": null
+            },
+            "alternatives": [
+                {
+                    "slug": "newgreentec",
+                    "source": "https://newgreentec.com/wp-content/uploads/2025/02/ngt-fav.png",
+                    "sourceURL": "https://newgreentec.com/wp-content/uploads/2025/02/ngt-fav.png",
+                    "sourcePage": "https://newgreentec.com/",
+                    "sourcePagePath": "/tmp/zurich-registry-review/primary-df3c-remaining-newgreentec.html",
+                    "checkedAt": "2026-10-15T00:34:20.019Z",
+                    "sourcePageSha256": "4f6b3f0df199c2141b968cc2b5326512ba1a68264e801c925fc288f663aea1df",
+                    "originalPath": "/tmp/zurich-registry-review/primary-df3c-remaining-newgreentec-original",
+                    "path": "/tmp/zurich-registry-review/primary-df3c-remaining-newgreentec-192.png",
+                    "originalDimensions": [512, 440],
+                    "originalSha256": "f2a8c04e7521eb1edf2f8bcf533af99c9c142101815be7b1bc289df26564a8b2",
+                    "preparedSha256": "a0f268d597c3a07041857874008cf56fbfb607c6cc4c82500e3691938749a8af",
+                    "transformation": "Contain complete official site linked image in transparent192 square. No cropping/redraw/recolouring.",
+                    "approved": false,
+                    "uploaded": false
+                }
+            ],
+            "evidence": [
+                {
+                    "slug": "newgreentec",
+                    "ownTechnology": "NewGreenTec develops hybrid wind-solar power systems for decentralized electricity generation. Its PowerPyramid product combines vertical-axis wind turbines, photovoltaic modules and power electronics in a compact system.",
+                    "note": "Current site explicitly identifies developer of hybrid wind-solar systems and describes own PowerPyramid architecture; also resells third-party turbines, which is not itself eligibility evidence. Do not use former campus address.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["climate-tech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://newgreentec.com/",
+                        "resolvedURL": "https://newgreentec.com/",
+                        "sha256": "4f6b3f0df199c2141b968cc2b5326512ba1a68264e801c925fc288f663aea1df",
+                        "checkedAt": "2026-10-14T23:31:36.895Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/newgreentec/"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://newgreentec.com/powerpyramid/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Lindenstrasse%2025%208302%20Kloten",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101552224,
+                            "bbox": [8.585601, 47.449722, 8.585601, 47.449722],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101552224,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.585601, 47.449722]
+                            },
+                            "properties": {
+                                "adr_egaid": 101552224,
+                                "bdg_egid": 201024585,
+                                "adr_edid": 0,
+                                "str_esid": 10083591,
+                                "stn_label": "Lindenstrasse",
+                                "adr_number": "25",
+                                "zip_label": "8302 Kloten",
+                                "com_fosnr": 62,
+                                "com_name": "Kloten",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "partly_residential",
+                                "adr_modified": "20241115",
+                                "label": 101552224
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101552224?sr=4326&geometryFormat=geojson",
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    }
+                }
+            ],
+            "additionalEvidence": [
+                {
+                    "url": "https://newgreentec.com/unternehmen/",
+                    "finding": "Main independently verified import uses Contact address. Frozen at reported registry total1011."
+                }
+            ]
+        },
+        {
+            "slug": "we-shape-tech",
+            "name": "WE SHAPE TECH",
+            "disposition": "held-explicit",
+            "rationale": "Main eligibility hold retained. Current2026 AI implementation event exists, but WST describes its role as networking partner, not technical programme operator. Artwork approved separately; do not infer software-engineering topic or lift hold automatically.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "we-shape-tech",
+                "name": "WE SHAPE TECH",
+                "website": "https://weshape.tech/",
+                "kind": "community",
+                "headline": "Diversity community for technology professionals",
+                "description": "WE SHAPE TECH is a community promoting diversity and inclusion in technology. It organizes professional events, peer exchange and networking for people working in the technology sector.",
+                "topics": ["software-engineering"],
+                "office": "c/o Impact Hub",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/we-shape-tech",
+                    "x": "https://x.com/weshapetech"
+                },
+                "location": "Zürich",
+                "sources": ["https://weshape.tech/", "https://weshape.tech/?page_id=527"],
+                "address": {
+                    "line1": "Sihlquai 131",
+                    "postalCode": "8005",
+                    "locality": "Zürich",
+                    "countryCode": "CH",
+                    "latitude": 47.384886,
+                    "longitude": 8.533806,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101146812?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "we-shape-tech",
+                "website": "https://weshape.tech/",
+                "source": "https://weshape.tech/wp-content/uploads/WST_logo_red-100x40.png",
+                "sourceURL": "https://weshape.tech/wp-content/uploads/WST_logo_red-100x40.png",
+                "sourcePage": "https://weshape.tech/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-we-shape-tech-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-we-shape-tech-192.png",
+                "originalSha256": "35913d6a452b2ffbfbb45aa464970164cae5381c81b72df669248229f977ba52",
+                "preparedSha256": "93ee9370b2f35f63ddbdecaa9d4ffa948165163257c14293fd1d4855e216b1d8",
+                "sha256": "93ee9370b2f35f63ddbdecaa9d4ffa948165163257c14293fd1d4855e216b1d8",
+                "originalWidth": 100,
+                "originalHeight": 40,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "we-shape-tech",
+                "website": "https://weshape.tech/",
+                "source": "https://weshape.tech/wp-content/uploads/WST_logo_red-100x40.png",
+                "sourceURL": "https://weshape.tech/wp-content/uploads/WST_logo_red-100x40.png",
+                "sourcePage": "https://weshape.tech/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-we-shape-tech-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-we-shape-tech-192.png",
+                "originalSha256": "35913d6a452b2ffbfbb45aa464970164cae5381c81b72df669248229f977ba52",
+                "preparedSha256": "93ee9370b2f35f63ddbdecaa9d4ffa948165163257c14293fd1d4855e216b1d8",
+                "sha256": "93ee9370b2f35f63ddbdecaa9d4ffa948165163257c14293fd1d4855e216b1d8",
+                "originalWidth": 100,
+                "originalHeight": 40,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [
+                {
+                    "slug": "we-shape-tech",
+                    "source": "https://weshape.tech/wp-content/uploads/2020/12/cropped-cropped-siteicon-270x270-1-192x192.png",
+                    "sourceURL": "https://weshape.tech/wp-content/uploads/2020/12/cropped-cropped-siteicon-270x270-1-192x192.png",
+                    "sourcePage": "https://weshape.tech/",
+                    "sourcePagePath": "/tmp/zurich-registry-review/primary-df3c-remaining-we-shape-tech.html",
+                    "checkedAt": "2026-10-15T00:34:19.953Z",
+                    "sourcePageSha256": "289b939bed2466f60f173c1d1a7b70722f50c94e735b7c592ab138eb718fb250",
+                    "originalPath": "/tmp/zurich-registry-review/primary-df3c-remaining-we-shape-tech-original",
+                    "path": "/tmp/zurich-registry-review/primary-df3c-remaining-we-shape-tech-192.png",
+                    "originalDimensions": [192, 192],
+                    "originalSha256": "ce2bc5a7e9561159d681bda7033a29ad4083c719c4bea9e717dfaa41e13778da",
+                    "preparedSha256": "580339d7eebc1705a407c10978eaba97a930899f596d2eb18a9af8d652b2fd3e",
+                    "transformation": "Contain complete official site linked image in transparent192 square. No cropping/redraw/recolouring.",
+                    "approved": false,
+                    "uploaded": false
+                }
+            ],
+            "evidence": [
+                {
+                    "slug": "we-shape-tech",
+                    "ownTechnology": "WE SHAPE TECH is a community promoting diversity and inclusion in technology. It organizes professional events, peer exchange and networking for people working in the technology sector.",
+                    "note": "Separate community criteria, not own-product company. Official imprint c/oImpactHub business address; do not copy personal web-designer addresses from the imprint.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["software-engineering"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://weshape.tech/",
+                        "resolvedURL": "https://weshape.tech/",
+                        "sha256": "1931acd8fb798539e80272a860f4dbb6ee719f88e026b6542841287139747ce3",
+                        "checkedAt": "2026-10-14T23:31:38.846Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/we-shape-tech",
+                            "x": "https://x.com/weshapetech"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://weshape.tech/?page_id=527",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Sihlquai%20131%208005%20Z%C3%BCrich",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101146812,
+                            "bbox": [8.533806, 47.384886, 8.533806, 47.384886],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101146812,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.533806, 47.384886]
+                            },
+                            "properties": {
+                                "adr_egaid": 101146812,
+                                "bdg_egid": 2366380,
+                                "adr_edid": 0,
+                                "str_esid": 10058804,
+                                "stn_label": "Sihlquai",
+                                "adr_number": "131",
+                                "zip_label": "8005 Zürich",
+                                "com_fosnr": 261,
+                                "com_name": "Zürich",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "non_residential",
+                                "adr_modified": "20241115",
+                                "label": 101146812
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101146812?sr=4326&geometryFormat=geojson",
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    }
+                }
+            ],
+            "additionalEvidence": [
+                {
+                    "url": "https://weshape.tech/2026/05/17/take-aways-ai-retreat-founding-cohort-event/",
+                    "finding": "Official May17 recap: April30,2026 AI implementation retreat at ImpactHubZurich; WST networking partner. Practical workflows and document-grounded AI discussed. Current technical community connection evidenced, but operator attribution remains limited."
+                }
+            ]
+        },
+        {
+            "slug": "perk",
+            "name": "Perk",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified. Perk/BATT at1017, Superlab at1026. Do not requeue or reapply.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "perk",
+                "name": "Perk",
+                "website": "https://www.perk.com/",
+                "headline": "Business travel and spend-management software",
+                "description": "Perk develops software for business travel, expense management and company spending. Its platform combines booking, expense processing, payment workflows and reporting for business teams.",
+                "topics": ["fintech"],
+                "office": "Zurich Office",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/perk"
+                },
+                "kind": "company",
+                "location": "Zürich",
+                "sources": ["https://www.perk.com/", "https://www.perk.com/contact/"],
+                "address": {
+                    "line1": "Förrlibuckstrasse 181",
+                    "postalCode": "8005",
+                    "locality": "Zürich",
+                    "countryCode": "CH",
+                    "latitude": 47.391519,
+                    "longitude": 8.510905,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101721512?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "perk",
+                "website": "https://www.perk.com/",
+                "source": "https://www.perk.com/favicon-192x192.png",
+                "sourceURL": "https://www.perk.com/favicon-192x192.png",
+                "sourcePage": "https://www.perk.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-perk-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-perk-192.png",
+                "originalSha256": "cec0e7ae80e3c558ef26eea036e1a4d917eb7fd64d73b4c7020595a3e497a0fe",
+                "preparedSha256": "fd1f7ff2b175c8a68a5efdd871ed3cae443f6f96468101722b79b05e7a466b1a",
+                "sha256": "fd1f7ff2b175c8a68a5efdd871ed3cae443f6f96468101722b79b05e7a466b1a",
+                "originalWidth": 192,
+                "originalHeight": 192,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "perk",
+                "website": "https://www.perk.com/",
+                "source": "https://www.perk.com/favicon-192x192.png",
+                "sourceURL": "https://www.perk.com/favicon-192x192.png",
+                "sourcePage": "https://www.perk.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-perk-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-perk-192.png",
+                "originalSha256": "cec0e7ae80e3c558ef26eea036e1a4d917eb7fd64d73b4c7020595a3e497a0fe",
+                "preparedSha256": "fd1f7ff2b175c8a68a5efdd871ed3cae443f6f96468101722b79b05e7a466b1a",
+                "sha256": "fd1f7ff2b175c8a68a5efdd871ed3cae443f6f96468101722b79b05e7a466b1a",
+                "originalWidth": 192,
+                "originalHeight": 192,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "perk",
+                    "ownTechnology": "Perk develops software for business travel, expense management and company spending. Its platform combines booking, expense processing, payment workflows and reporting for business teams.",
+                    "note": "Yokoy redirects to Perk and its corporate account states full integration. Prepare one current Perk brand, never separate Yokoy or TravelPerk profiles. Source proves exact Zurich office.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["fintech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://www.yokoy.ai/",
+                        "resolvedURL": "https://www.perk.com/",
+                        "sha256": "f9c1c420fe965ae3b0889acc71354777a85e20a5d2b5e7428840b074da53003d",
+                        "checkedAt": "2026-10-14T23:31:39.361Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/perk"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://www.perk.com/contact/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=F%C3%B6rrlibuckstrasse%20181%208005%20Z%C3%BCrich",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101721512,
+                            "bbox": [8.510905, 47.391519, 8.510905, 47.391519],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101721512,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.510905, 47.391519]
+                            },
+                            "properties": {
+                                "adr_egaid": 101721512,
+                                "bdg_egid": 302019217,
+                                "adr_edid": 0,
+                                "str_esid": 10004209,
+                                "stn_label": "Förrlibuckstrasse",
+                                "adr_number": "181",
+                                "zip_label": "8005 Zürich",
+                                "com_fosnr": 261,
+                                "com_name": "Zürich",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "partly_residential",
+                                "adr_modified": "20241115",
+                                "label": 101721512
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101721512?sr=4326&geometryFormat=geojson",
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "swiss-bioscience",
+            "name": "Swiss Bioscience",
+            "disposition": "held-explicit",
+            "rationale": "Eligible own cell/vesicle research; genuine full wordmark lacks clear map-size lettering. Hold artwork, no fabricated initials. Reconfirm social account from saved evidence before any import.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "swiss-bioscience",
+                "name": "Swiss Bioscience",
+                "website": "https://www.swissbioscience.com/",
+                "headline": "Cell and extracellular-vesicle research",
+                "description": "Swiss Bioscience develops cell-based technologies and investigates extracellular vesicles for regenerative-medicine research. Its work includes stem-cell preparation, experimental cell models and development of therapeutic approaches.",
+                "topics": ["biotech"],
+                "office": "Published business address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/swiss-bioscience/"
+                },
+                "kind": "company",
+                "location": "Schlieren",
+                "sources": [
+                    "https://www.swissbioscience.com/",
+                    "https://www.swissbioscience.com/contact-us.php",
+                    "https://www.swissbioscience.com/research&development.html"
+                ],
+                "address": {
+                    "line1": "Wagistrasse 27a",
+                    "postalCode": "8952",
+                    "locality": "Schlieren",
+                    "countryCode": "CH",
+                    "latitude": 47.399084,
+                    "longitude": 8.46047,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101499128?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "swiss-bioscience",
+                "website": "https://www.swissbioscience.com/",
+                "source": "https://www.swissbioscience.com/img/logo-demo1.png",
+                "sourceURL": "https://www.swissbioscience.com/img/logo-demo1.png",
+                "sourcePage": "https://www.swissbioscience.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-swiss-bioscience-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-swiss-bioscience-192.png",
+                "originalSha256": "76c3e50531a864194e9070bc10028fc7d16b1e683da56481d7499838acbd5903",
+                "preparedSha256": "e8f5a4d6200950ff9175926e0aaf798c9f181aa3ff3c2a11aca0a059a536877e",
+                "sha256": "e8f5a4d6200950ff9175926e0aaf798c9f181aa3ff3c2a11aca0a059a536877e",
+                "originalWidth": 1300,
+                "originalHeight": 600,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "swiss-bioscience",
+                "website": "https://www.swissbioscience.com/",
+                "source": "https://www.swissbioscience.com/img/logo-demo1.png",
+                "sourceURL": "https://www.swissbioscience.com/img/logo-demo1.png",
+                "sourcePage": "https://www.swissbioscience.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-swiss-bioscience-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-swiss-bioscience-192.png",
+                "originalSha256": "76c3e50531a864194e9070bc10028fc7d16b1e683da56481d7499838acbd5903",
+                "preparedSha256": "e8f5a4d6200950ff9175926e0aaf798c9f181aa3ff3c2a11aca0a059a536877e",
+                "sha256": "e8f5a4d6200950ff9175926e0aaf798c9f181aa3ff3c2a11aca0a059a536877e",
+                "originalWidth": 1300,
+                "originalHeight": 600,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "swiss-bioscience",
+                    "ownTechnology": "Swiss Bioscience develops cell-based technologies and investigates extracellular vesicles for regenerative-medicine research. Its work includes stem-cell preparation, experimental cell models and development of therapeutic approaches.",
+                    "note": "Own experimental research established on official research&development page, beyond cell banking. Exact27a suffix must match federal building; never substitute27. No exact corporate social link found on reviewed pages; no efficacy claims.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["biotech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://www.swissbioscience.com/",
+                        "resolvedURL": "https://www.swissbioscience.com/",
+                        "sha256": "524a137ac6709a941fc227f42d4272c62f3d39dd9a987520c0a8ec56d394347d",
+                        "checkedAt": "2026-10-14T23:31:27.381Z"
+                    },
+                    "socialReview": {
+                        "state": "no-corporate-profile-verified",
+                        "profiles": {},
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://www.swissbioscience.com/contact-us.php",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Wagistrasse%2027a%208952%20Schlieren",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101499128,
+                            "bbox": [8.46047, 47.399084, 8.46047, 47.399084],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101499128,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.46047, 47.399084]
+                            },
+                            "properties": {
+                                "adr_egaid": 101499128,
+                                "bdg_egid": 210153778,
+                                "adr_edid": 0,
+                                "str_esid": 10006756,
+                                "stn_label": "Wagistrasse",
+                                "adr_number": "27a",
+                                "zip_label": "8952 Schlieren",
+                                "com_fosnr": 247,
+                                "com_name": "Schlieren",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "non_residential",
+                                "adr_modified": "20241115",
+                                "label": 101499128
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101499128?sr=4326&geometryFormat=geojson",
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "evax",
+            "name": "Evax",
+            "disposition": "held-explicit",
+            "rationale": "Eligible own vaccine development under Boehringer Ingelheim Animal Health; no marketed-vaccine approval claim. Homepage publishes Dufourstrasse49Zurich while current Contact/Impressum display Guntershausen. Exact current Zurich contact remains conflicting. Official compact equine linework is too faint at32px for unconditional approval; full original wordmark also tiny. No crop/redraw or endless polishing.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "evax",
+                "name": "Evax",
+                "website": "https://www.evax.ch/",
+                "headline": "Therapeutic vaccines for horses",
+                "description": "Evax develops therapeutic vaccines for equine diseases, including allergy-related conditions. Its research translates immunological approaches into veterinary treatments.",
+                "topics": ["biotech"],
+                "office": "Published business address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/evaxhorses/"
+                },
+                "kind": "company",
+                "location": "Zürich",
+                "sources": ["https://www.evax.ch/", "https://www.evax.ch/impressum/"],
+                "address": {
+                    "line1": "Dufourstrasse 49",
+                    "postalCode": "8008",
+                    "locality": "Zürich",
+                    "countryCode": "CH",
+                    "latitude": 47.36224,
+                    "longitude": 8.549213,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100196028?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "evax",
+                "website": "https://www.evax.ch/",
+                "source": "https://www.evax.ch/wp-content/uploads/2021/10/Evax-Logo_Slogan-1.png",
+                "sourceURL": "https://www.evax.ch/wp-content/uploads/2021/10/Evax-Logo_Slogan-1.png",
+                "sourcePage": "https://www.evax.ch/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-evax-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-evax-192.png",
+                "originalSha256": "baa2d7541c1466ad3ed67647b8014e1dca0b01cfeef89078ba1aa080be131ab5",
+                "preparedSha256": "7e077672c12b39a6f5b099688c6e82d72874a8fafead1240cacaa13b4f9ff5e6",
+                "sha256": "7e077672c12b39a6f5b099688c6e82d72874a8fafead1240cacaa13b4f9ff5e6",
+                "originalWidth": 729,
+                "originalHeight": 215,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "evax",
+                "website": "https://www.evax.ch/",
+                "source": "https://www.evax.ch/wp-content/uploads/2021/11/cropped-Favicon-192x192.png",
+                "sourceURL": "https://www.evax.ch/wp-content/uploads/2021/11/cropped-Favicon-192x192.png",
+                "sourcePage": "https://www.evax.ch/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-pending-evax-official-icon.png",
+                "path": "/tmp/zurich-registry-review/primary-df3c-pending-evax-192.png",
+                "originalSha256": "f002a357e29cb6dda8a69e0027ddb06ae6eb5761833a1cbdc27db53d21ccd976",
+                "preparedSha256": "6c7e5e416b1225ac452916b70cd3f003ae2f6609d1d4cdcf6992169d034a397f",
+                "originalDimensions": [192, 192],
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain complete official icon in transparent 192px square; no cropping, repainting, recolouring or redrawing.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [
+                {
+                    "slug": "evax",
+                    "website": "https://www.evax.ch/",
+                    "source": "https://www.evax.ch/wp-content/uploads/2021/11/cropped-Favicon-192x192.png",
+                    "sourceURL": "https://www.evax.ch/wp-content/uploads/2021/11/cropped-Favicon-192x192.png",
+                    "sourcePage": "https://www.evax.ch/",
+                    "originalPath": "/tmp/zurich-registry-review/primary-df3c-pending-evax-official-icon.png",
+                    "path": "/tmp/zurich-registry-review/primary-df3c-pending-evax-192.png",
+                    "originalSha256": "f002a357e29cb6dda8a69e0027ddb06ae6eb5761833a1cbdc27db53d21ccd976",
+                    "preparedSha256": "6c7e5e416b1225ac452916b70cd3f003ae2f6609d1d4cdcf6992169d034a397f",
+                    "originalDimensions": [192, 192],
+                    "width": 192,
+                    "height": 192,
+                    "transformation": "Contain complete official icon in transparent 192px square; no cropping, repainting, recolouring or redrawing.",
+                    "approved": false,
+                    "uploaded": false
+                }
+            ],
+            "evidence": [
+                {
+                    "slug": "evax",
+                    "ownTechnology": "Evax develops therapeutic vaccines for equine diseases, including allergy-related conditions. Its research translates immunological approaches into veterinary treatments.",
+                    "note": "Official current site identifies acquisition by Boehringer Ingelheim Animal Health, while retaining Evax brand/operator and Zurich address. No parent duplicate present in reviewed registry. Preserve acquired identity, not independent ownership claim.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["biotech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "http://evax.ch",
+                        "resolvedURL": "https://www.evax.ch/",
+                        "sha256": "701e6320801e518b980415e692bdc6e6f9f6d4c6cf9390ec369fbd2eb6f08358",
+                        "checkedAt": "2026-10-14T23:31:25.700Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/evaxhorses/"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://www.evax.ch/impressum/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Dufourstrasse%2049%208008%20Z%C3%BCrich",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 100196028,
+                            "bbox": [8.549213, 47.36224, 8.549213, 47.36224],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 100196028,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.549213, 47.36224]
+                            },
+                            "properties": {
+                                "adr_egaid": 100196028,
+                                "bdg_egid": 158795,
+                                "adr_edid": 0,
+                                "str_esid": 10007199,
+                                "stn_label": "Dufourstrasse",
+                                "adr_number": "49",
+                                "zip_label": "8008 Zürich",
+                                "com_fosnr": 261,
+                                "com_name": "Zürich",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "non_residential",
+                                "adr_modified": "20241115",
+                                "label": 100196028
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100196028?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [],
+                        "reuseDecision": null,
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    }
+                }
+            ],
+            "additionalEvidence": [
+                {
+                    "url": "https://www.evax.ch/",
+                    "finding": "Current homepage confirms acquisition, therapeutic vaccine development and Zurich footer."
+                },
+                {
+                    "url": "https://www.evax.ch/impressum/",
+                    "finding": "Different Guntershausen address; not evidence for Zurich headquarters."
+                },
+                {
+                    "url": "https://www.evax.ch/evax-kontakt-haben-sie-fragen/",
+                    "finding": "Contact footer also Guntershausen; FAQ says vaccines not yet market-authorised."
+                }
+            ]
+        },
+        {
+            "slug": "superlab-suisse",
+            "name": "Superlab Suisse",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified. Perk/BATT at1017, Superlab at1026. Do not requeue or reapply.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "superlab-suisse",
+                "name": "Superlab Suisse",
+                "website": "https://www.superlabsuisse.com/",
+                "kind": "space",
+                "headline": "Shared laboratories for life-sciences companies",
+                "description": "Superlab Suisse operates equipped laboratory spaces and shared technical infrastructure for life-sciences companies. Its Schlieren site provides research facilities and services for biotechnology teams.",
+                "topics": ["biotech", "startups"],
+                "office": "Schlieren laboratory location",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/superlab-suisse-ag/"
+                },
+                "location": "Schlieren",
+                "sources": ["https://www.superlabsuisse.com/"],
+                "addressId": "j9718bpzpx13h3ds4qa0bwtgbh8f4nrv"
+            },
+            "originalAsset": {
+                "slug": "superlab-suisse",
+                "website": "https://www.superlabsuisse.com/",
+                "source": "https://www.superlabsuisse.com/wp-content/uploads/2026/08/cropped-logo-192x192.png",
+                "sourceURL": "https://www.superlabsuisse.com/wp-content/uploads/2026/08/cropped-logo-192x192.png",
+                "sourcePage": "https://www.superlabsuisse.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-superlab-suisse-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-superlab-suisse-192.png",
+                "originalSha256": "6e41ed5d9b4c5a32ab90ca5cb70598e56d8b12b27d5d87d1d1a99b1541920366",
+                "preparedSha256": "e1822c1bda2dced76a8ce90ae9a92b5a7d1b233a3b760fbd542f4a09fe492b39",
+                "sha256": "e1822c1bda2dced76a8ce90ae9a92b5a7d1b233a3b760fbd542f4a09fe492b39",
+                "originalWidth": 192,
+                "originalHeight": 192,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "superlab-suisse",
+                "website": "https://www.superlabsuisse.com/",
+                "source": "https://www.superlabsuisse.com/wp-content/uploads/2026/08/cropped-logo-192x192.png",
+                "sourceURL": "https://www.superlabsuisse.com/wp-content/uploads/2026/08/cropped-logo-192x192.png",
+                "sourcePage": "https://www.superlabsuisse.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-superlab-suisse-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-superlab-suisse-192.png",
+                "originalSha256": "6e41ed5d9b4c5a32ab90ca5cb70598e56d8b12b27d5d87d1d1a99b1541920366",
+                "preparedSha256": "e1822c1bda2dced76a8ce90ae9a92b5a7d1b233a3b760fbd542f4a09fe492b39",
+                "sha256": "e1822c1bda2dced76a8ce90ae9a92b5a7d1b233a3b760fbd542f4a09fe492b39",
+                "originalWidth": 192,
+                "originalHeight": 192,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "superlab-suisse",
+                    "ownTechnology": "Superlab Suisse operates equipped laboratory spaces and shared technical infrastructure for life-sciences companies. Its Schlieren site provides research facilities and services for biotechnology teams.",
+                    "note": "Explicit Superlab Suisse Schlieren AG location with working hours on official site. One brand profile; no separate Basel/Geneva entries. Technical laboratory ecosystem, not asserted own-biotechnology company.",
+                    "classification": {
+                        "kind": "space",
+                        "topics": ["biotech", "startups"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://superlabsuisse.com/",
+                        "resolvedURL": "https://www.superlabsuisse.com/",
+                        "sha256": "bd092bee8a7c17b35cfef545d469c303f8aa01832bacc1f7235e11f2976421a2",
+                        "checkedAt": "2026-10-14T23:31:27.282Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/superlab-suisse-ag/"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://www.superlabsuisse.com/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Z%C3%BCrcherstrasse%2039D%208952%20Schlieren",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 103308899,
+                            "bbox": [8.452426, 47.399061, 8.452426, 47.399061],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 103308899,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.452426, 47.399061]
+                            },
+                            "properties": {
+                                "adr_egaid": 103308899,
+                                "bdg_egid": 191987999,
+                                "adr_edid": 0,
+                                "str_esid": 10006758,
+                                "stn_label": "Zürcherstrasse",
+                                "adr_number": "39d",
+                                "zip_label": "8952 Schlieren",
+                                "com_fosnr": 247,
+                                "com_name": "Schlieren",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "non_residential",
+                                "adr_modified": "20250723",
+                                "label": 103308899
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/103308899?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [
+                            {
+                                "id": "j9718bpzpx13h3ds4qa0bwtgbh8f4nrv",
+                                "latitude": 47.39906,
+                                "longitude": 8.45243
+                            },
+                            {
+                                "id": "j975vrevgwbnccdbpqkekr3x858f4b8a",
+                                "latitude": 47.39906,
+                                "longitude": 8.45243
+                            },
+                            {
+                                "id": "j978nn5fe1khwzxvcqn7kav1hn8f5fyz",
+                                "latitude": 47.39906,
+                                "longitude": 8.45243
+                            }
+                        ],
+                        "reuseDecision": "Three exact public street/address records have identical coordinates. Explicit reviewed ID reused without coordinate/text mutation; no records merged. Federal difference is rounding only.",
+                        "existingPublicAddress": {
+                            "_creationTime": 1790455772587.8904,
+                            "_id": "j9718bpzpx13h3ds4qa0bwtgbh8f4nrv",
+                            "countryCode": "CH",
+                            "createdAt": 1790455772587,
+                            "latitude": 47.39906,
+                            "line1": "Zürcherstrasse 39d",
+                            "locality": "Schlieren",
+                            "longitude": 8.45243,
+                            "postalCode": "8952",
+                            "updatedAt": 1790455772587
+                        },
+                        "publicReferences": [
+                            {
+                                "locationId": "px7ee4f6bkdenzannhhpmrgqwn8g908c",
+                                "organisationId": "p175fnr1knzchkytzrenm7j5018g9sg5"
+                            },
+                            {
+                                "locationId": "px75pbp6c3gtrzztbjgp7rs5198g909j",
+                                "organisationId": "p17d2t9vgg20kn8p3ry5qrjjps8g9rwe"
+                            },
+                            {
+                                "locationId": "px77mkesgxcr91pfxqwskt2hjd8g9zhv",
+                                "organisationId": "p17cksp8ymb6efdeh69mjkh1h98g919z"
+                            },
+                            {
+                                "locationId": "px7909ts07v6k50ctr36kfsx5h8g9nx8",
+                                "organisationId": "p174r93av31752hg5q6s0mc0ss8g8728"
+                            },
+                            {
+                                "locationId": "px786ekbagvbyrh0f429bkg47d8f4p9c",
+                                "organisationId": "p1754ha11zmf4t5v9zsjgde6gh8f439z"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "batt-suisse",
+            "name": "BATT Suisse",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified. Perk/BATT at1017, Superlab at1026. Do not requeue or reapply.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "batt-suisse",
+                "name": "BATT Suisse",
+                "website": "https://batt.aero/site/",
+                "headline": "Control systems for aviation infrastructure",
+                "description": "BATT Suisse develops control systems for heliports and aviation infrastructure alongside engineering services. Its systems support landing-site operation and weather-responsive surface de-icing.",
+                "topics": ["embedded"],
+                "office": "Published business address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/batt-suisse-gmbh/"
+                },
+                "kind": "company",
+                "location": "Dübendorf",
+                "sources": [
+                    "https://batt.aero/site/",
+                    "https://batt.aero/site/heliports-and-vertiports/"
+                ],
+                "addressId": "j97e0665aem7rr3239p5acstv18f4e00"
+            },
+            "originalAsset": {
+                "slug": "batt-suisse",
+                "website": "https://batt.aero/site/",
+                "source": "https://batt.aero/site/wp-content/uploads/2021/08/BATT_red_web.png",
+                "sourceURL": "https://batt.aero/site/wp-content/uploads/2021/08/BATT_red_web.png",
+                "sourcePage": "https://batt.aero/site/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-batt-suisse-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-batt-suisse-192.png",
+                "originalSha256": "c4299efe04ef6aaab11862b10a44fb6f11d35676c29a86caed00cbfbeeef25db",
+                "preparedSha256": "7ccea44f31016186a4444e5f1e0ebe643b7ed0e75762fe47b42358b95307829e",
+                "sha256": "7ccea44f31016186a4444e5f1e0ebe643b7ed0e75762fe47b42358b95307829e",
+                "originalWidth": 399,
+                "originalHeight": 197,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "batt-suisse",
+                "website": "https://batt.aero/site/",
+                "source": "https://batt.aero/site/wp-content/uploads/2021/08/BATT_red_web.png",
+                "sourceURL": "https://batt.aero/site/wp-content/uploads/2021/08/BATT_red_web.png",
+                "sourcePage": "https://batt.aero/site/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-batt-suisse-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-batt-suisse-192.png",
+                "originalSha256": "c4299efe04ef6aaab11862b10a44fb6f11d35676c29a86caed00cbfbeeef25db",
+                "preparedSha256": "7ccea44f31016186a4444e5f1e0ebe643b7ed0e75762fe47b42358b95307829e",
+                "sha256": "7ccea44f31016186a4444e5f1e0ebe643b7ed0e75762fe47b42358b95307829e",
+                "originalWidth": 399,
+                "originalHeight": 197,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "batt-suisse",
+                    "ownTechnology": "BATT Suisse develops control systems for heliports and aviation infrastructure alongside engineering services. Its systems support landing-site operation and weather-responsive surface de-icing.",
+                    "note": "Eligibility depends on concrete BATT Control System and own weather-responsive de-icing algorithm at https://batt.aero/site/heliports-and-vertiports/, not general planning/integration business. Main must review this narrow attribution.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["embedded"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://batt.aero/site/",
+                        "resolvedURL": "https://batt.aero/site/",
+                        "sha256": "84a63cf2a6ec9a306ccb367186bd27ab877a4d5b7f3df9187077034172c114ab",
+                        "checkedAt": "2026-10-14T23:31:36.704Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/batt-suisse-gmbh/"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://batt.aero/site/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Sonnentalstrasse%208%208600%20D%C3%BCbendorf",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 100084264,
+                            "bbox": [8.602269, 47.397622, 8.602269, 47.397622],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 100084264,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.602269, 47.397622]
+                            },
+                            "properties": {
+                                "adr_egaid": 100084264,
+                                "bdg_egid": 91458,
+                                "adr_edid": 0,
+                                "str_esid": 10117590,
+                                "stn_label": "Sonnentalstrasse",
+                                "adr_number": "8",
+                                "zip_label": "8600 Dübendorf",
+                                "com_fosnr": 191,
+                                "com_name": "Dübendorf",
+                                "adr_status": "1",
+                                "adr_official": false,
+                                "bdg_category": "partly_residential",
+                                "adr_modified": "20241115",
+                                "label": 100084264
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100084264?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [
+                            {
+                                "id": "j97e0665aem7rr3239p5acstv18f4e00",
+                                "latitude": 47.39762,
+                                "longitude": 8.60227
+                            },
+                            {
+                                "id": "j974jn30ys93z4j9yt878c6pe98f5wr6",
+                                "latitude": 47.39762,
+                                "longitude": 8.60227
+                            },
+                            {
+                                "id": "j979pdwmscba7h9pga8a8rv6zn8f50tb",
+                                "latitude": 47.39762,
+                                "longitude": 8.60227
+                            }
+                        ],
+                        "reuseDecision": "Three exact public street/address records have identical coordinates. Explicit reviewed ID reused without coordinate/text mutation; no records merged. Federal difference is rounding only.",
+                        "existingPublicAddress": {
+                            "_creationTime": 1790455769222.309,
+                            "_id": "j97e0665aem7rr3239p5acstv18f4e00",
+                            "countryCode": "CH",
+                            "createdAt": 1790455769222,
+                            "latitude": 47.39762,
+                            "line1": "Sonnentalstrasse 8",
+                            "locality": "Dübendorf",
+                            "longitude": 8.60227,
+                            "postalCode": "8600",
+                            "updatedAt": 1790455769222
+                        },
+                        "publicReferences": [
+                            {
+                                "locationId": "px76e3mtr2pt1y4qhpy4n66t558f481a",
+                                "organisationId": "p17b2n70xw931pxdje32kgfxb18f4dg3"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "additionalEvidence": [
+                {
+                    "url": "https://batt.aero/site/heliports-and-vertiports/",
+                    "finding": "Official product page names BATT Suisse Control System and own weather-responsive deicing algorithm; published Sonnentalstrasse8,Duebendorf. Eligibility rests on own systems, not generic integration."
+                }
+            ]
+        },
+        {
+            "slug": "women-in-web3-switzerland",
+            "name": "Women in Web3 Switzerland",
+            "disposition": "eligible-prepared-await-main-review",
+            "rationale": "Prepared primary-evidence profile and genuine official artwork; no publication/import authorization implied.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "women-in-web3-switzerland",
+                "name": "Women in Web3 Switzerland",
+                "website": "https://www.wiw3ch.com/",
+                "kind": "community",
+                "headline": "Community for women working in Web3",
+                "description": "Women in Web3 Switzerland connects women working in decentralized technologies through workshops, education, mentoring and professional events, with subjects including crypto and DeFi",
+                "topics": ["distributed-systems"],
+                "office": "Mailing address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/wiw3ch/"
+                },
+                "location": "Zürich",
+                "sources": ["https://www.wiw3ch.com/", "https://www.wiw3ch.com/solutions"],
+                "address": {
+                    "line1": "Rennweg 57",
+                    "postalCode": "8001",
+                    "locality": "Zürich",
+                    "countryCode": "CH",
+                    "latitude": 47.373663,
+                    "longitude": 8.53895,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101168904?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "women-in-web3-switzerland",
+                "website": "https://www.wiw3ch.com/",
+                "source": "https://static.wixstatic.com/media/f9a9a9_8757e14745bc4bd6a0bef68e7233c0b1%7Emv2.jpg/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/f9a9a9_8757e14745bc4bd6a0bef68e7233c0b1%7Emv2.jpg",
+                "sourceURL": "https://static.wixstatic.com/media/f9a9a9_8757e14745bc4bd6a0bef68e7233c0b1%7Emv2.jpg/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/f9a9a9_8757e14745bc4bd6a0bef68e7233c0b1%7Emv2.jpg",
+                "sourcePage": "https://www.wiw3ch.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-women-in-web3-switzerland-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-women-in-web3-switzerland-192.png",
+                "originalSha256": "1fec6541692871df3e1d21ed612178a05fd19dc24f70909ce5547751fec1bcb8",
+                "preparedSha256": "edaccaaccfe9b0c8223d7ed4b89f8785a6d0c2177e1488c1e1045deff655e554",
+                "sha256": "edaccaaccfe9b0c8223d7ed4b89f8785a6d0c2177e1488c1e1045deff655e554",
+                "originalWidth": 192,
+                "originalHeight": 192,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "women-in-web3-switzerland",
+                "website": "https://www.wiw3ch.com/",
+                "source": "https://static.wixstatic.com/media/f9a9a9_8757e14745bc4bd6a0bef68e7233c0b1%7Emv2.jpg/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/f9a9a9_8757e14745bc4bd6a0bef68e7233c0b1%7Emv2.jpg",
+                "sourceURL": "https://static.wixstatic.com/media/f9a9a9_8757e14745bc4bd6a0bef68e7233c0b1%7Emv2.jpg/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/f9a9a9_8757e14745bc4bd6a0bef68e7233c0b1%7Emv2.jpg",
+                "sourcePage": "https://www.wiw3ch.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-women-in-web3-switzerland-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-women-in-web3-switzerland-192.png",
+                "originalSha256": "1fec6541692871df3e1d21ed612178a05fd19dc24f70909ce5547751fec1bcb8",
+                "preparedSha256": "edaccaaccfe9b0c8223d7ed4b89f8785a6d0c2177e1488c1e1045deff655e554",
+                "sha256": "edaccaaccfe9b0c8223d7ed4b89f8785a6d0c2177e1488c1e1045deff655e554",
+                "originalWidth": 192,
+                "originalHeight": 192,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "women-in-web3-switzerland",
+                    "ownTechnology": "Women in Web3 Switzerland connects professionals working in blockchain and decentralized technologies. It organizes technical workshops, mentoring and professional events to support participation in the Web3 ecosystem.",
+                    "note": "Official imprint explicitly labels Mailing Address. Preserve that label and do not claim physical operating office. Separate technical community criteria.",
+                    "classification": {
+                        "kind": "community",
+                        "topics": ["distributed-systems"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://wiw3ch.com/",
+                        "resolvedURL": "https://www.wiw3ch.com/",
+                        "sha256": "66a8c278ad6eb7176852191fb2143bb2d0825fb32f440ebcae1470f771ac87ed",
+                        "checkedAt": "2026-10-14T23:31:37.390Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/wiw3ch/"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://www.wiw3ch.com/solutions",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Rennweg%2057%208001%20Z%C3%BCrich",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101168904,
+                            "bbox": [8.53895, 47.373663, 8.53895, 47.373663],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101168904,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.53895, 47.373663]
+                            },
+                            "properties": {
+                                "adr_egaid": 101168904,
+                                "bdg_egid": 2372730,
+                                "adr_edid": 0,
+                                "str_esid": 10006651,
+                                "stn_label": "Rennweg",
+                                "adr_number": "57",
+                                "zip_label": "8001 Zürich",
+                                "com_fosnr": 261,
+                                "com_name": "Zürich",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "non_residential",
+                                "adr_modified": "20251013",
+                                "label": 101168904
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101168904?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [],
+                        "reuseDecision": null,
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    }
+                }
+            ],
+            "additionalEvidence": [
+                {
+                    "url": "https://www.wiw3ch.com/",
+                    "finding": "Current homepage explicitly offers workshops/training in Crypto, DeFi and related Web3 subjects, and mentorship. Community eligibility; no coding-only claim."
+                },
+                {
+                    "url": "https://www.wiw3ch.com/solutions",
+                    "finding": "Explicit Mailing Address: Rennweg57,8001Zurich. Not represented as an operating office."
+                }
+            ]
+        },
+        {
+            "slug": "onchain-foundation",
+            "name": "Onchain Foundation",
+            "disposition": "held-explicit",
+            "rationale": "Hold current activity attribution for Main review. Current foundation site identifies Lisk as its project, now a business finance platform. Do not imply the foundation itself develops the software or maintains an ongoing L2 mission. No separate Lisk duplicate proposed.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "onchain-foundation",
+                "name": "Onchain Foundation",
+                "website": "https://onchain.org/",
+                "kind": "nonprofit",
+                "headline": "Foundation supporting blockchain applications",
+                "description": "Onchain Foundation supports the development and adoption of blockchain applications. Its work includes the Lisk project and technical ecosystem activities focused on practical uses of decentralized infrastructure.",
+                "topics": ["distributed-systems"],
+                "office": "Published foundation address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/onchain-foundation/",
+                    "x": "https://x.com/OnchainHQ"
+                },
+                "location": "Zug",
+                "sources": ["https://onchain.org/"],
+                "addressId": "j97ar59f6pqqkc34fcfcj02tcx8g9e8y"
+            },
+            "originalAsset": {
+                "slug": "onchain-foundation",
+                "website": "https://onchain.org/",
+                "source": "https://onchain.org/favicon/apple-touch-icone9c8.png",
+                "sourceURL": "https://onchain.org/favicon/apple-touch-icone9c8.png",
+                "sourcePage": "https://onchain.org/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-onchain-foundation-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-onchain-foundation-192.png",
+                "originalSha256": "72aa2475e4c35ec6b32e441fce462613414de40baf8b7dbdc97e62b6c7c51bcb",
+                "preparedSha256": "09acdab951db871356e93b9397bc79582a0aecb90497855c92e4a20a31e00c87",
+                "sha256": "09acdab951db871356e93b9397bc79582a0aecb90497855c92e4a20a31e00c87",
+                "originalWidth": 180,
+                "originalHeight": 180,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "onchain-foundation",
+                "website": "https://onchain.org/",
+                "source": "https://onchain.org/favicon/apple-touch-icone9c8.png",
+                "sourceURL": "https://onchain.org/favicon/apple-touch-icone9c8.png",
+                "sourcePage": "https://onchain.org/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-onchain-foundation-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-onchain-foundation-192.png",
+                "originalSha256": "72aa2475e4c35ec6b32e441fce462613414de40baf8b7dbdc97e62b6c7c51bcb",
+                "preparedSha256": "09acdab951db871356e93b9397bc79582a0aecb90497855c92e4a20a31e00c87",
+                "sha256": "09acdab951db871356e93b9397bc79582a0aecb90497855c92e4a20a31e00c87",
+                "originalWidth": 180,
+                "originalHeight": 180,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "onchain-foundation",
+                    "ownTechnology": "Onchain Foundation supports the development and adoption of blockchain applications. Its work includes the Lisk project and technical ecosystem activities focused on practical uses of decentralized infrastructure.",
+                    "note": "Official page identifies Lisk as its project; no existing Lisk or Onchain registry identity found. Propose foundation only, no additional Lisk profile. Separate technical nonprofit criteria.",
+                    "classification": {
+                        "kind": "nonprofit",
+                        "topics": ["distributed-systems"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://onchain.org/",
+                        "resolvedURL": "https://onchain.org/",
+                        "sha256": "da52829f7470ef20cfe13060c40d5da445d19a8b3e441aab777d4d5a0e04ad07",
+                        "checkedAt": "2026-10-14T23:31:37.438Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/onchain-foundation/",
+                            "x": "https://x.com/OnchainHQ"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://onchain.org/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Gotthardstrasse%2026%206300%20Zug",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101778830,
+                            "bbox": [8.512172, 47.172924, 8.512172, 47.172924],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101778830,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.512172, 47.172924]
+                            },
+                            "properties": {
+                                "adr_egaid": 101778830,
+                                "bdg_egid": 190557768,
+                                "adr_edid": 0,
+                                "str_esid": 10094863,
+                                "stn_label": "Gotthardstrasse",
+                                "adr_number": "26",
+                                "zip_label": "6300 Zug",
+                                "com_fosnr": 1711,
+                                "com_name": "Zug",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "non_residential",
+                                "adr_modified": "20241115",
+                                "label": 101778830
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101778830?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [
+                            {
+                                "id": "j97ar59f6pqqkc34fcfcj02tcx8g9e8y",
+                                "latitude": 47.172924,
+                                "longitude": 8.512172
+                            }
+                        ],
+                        "reuseDecision": null,
+                        "existingPublicAddress": {
+                            "_creationTime": 1792020501344.1648,
+                            "_id": "j97ar59f6pqqkc34fcfcj02tcx8g9e8y",
+                            "countryCode": "CH",
+                            "createdAt": 1792020501344,
+                            "latitude": 47.172924,
+                            "line1": "Gotthardstrasse 26",
+                            "locality": "Zug",
+                            "longitude": 8.512172,
+                            "postalCode": "6300",
+                            "updatedAt": 1792020501344
+                        },
+                        "publicReferences": [
+                            {
+                                "locationId": "px79r0k5j1bt1qbtw26w5a2g6n8g95ym",
+                                "organisationId": "p17bqjfytn3twf6nkq7ydjvrr18g818f"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "additionalEvidence": [
+                {
+                    "url": "https://onchain.org/",
+                    "finding": "Current nonprofit foundation site lists Lisk as its project, describes stablecoin business finance software, and publishes Gotthardstrasse26,6300Zug."
+                },
+                {
+                    "url": "https://lisk.com/blog/posts/introducing-the-new-lisk/",
+                    "finding": "August2026 pivot to business accounts/payments/approvals software. Chain shutdown scheduled October31,2026; operational until then. Historic L2 framing must not be used as continuing mission."
+                }
+            ]
+        },
+        {
+            "slug": "genetikzentrum-schlieren",
+            "name": "Genetikzentrum Schlieren",
+            "disposition": "held-explicit",
+            "rationale": "Eligible independent foundation-operated genetics research centre. Full banner unreadable at32px; genuine standalone favicon only16px remains unapproved. No further artwork manipulation.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "genetikzentrum-schlieren",
+                "name": "Genetikzentrum Schlieren",
+                "website": "https://www.genetikzentrum.ch/",
+                "kind": "nonprofit",
+                "headline": "Molecular genetics research and diagnostic methods",
+                "description": "Genetikzentrum Schlieren researches the genetic causes of aortic and related rare diseases and develops molecular genetic methods. Operated by the Foundation for People with Rare Diseases, it combines research, genetic diagnostics and scientific teaching.",
+                "topics": ["biotech"],
+                "office": "Research centre, c/o Stiftung für Menschen mit seltenen Krankheiten",
+                "socials": {},
+                "location": "Schlieren",
+                "sources": [
+                    "https://www.genetikzentrum.ch/",
+                    "https://www.genetikzentrum.ch/Kontakt.htm",
+                    "https://www.genetikzentrum.ch/Traegerschaft.htm",
+                    "https://www.genetikzentrum.ch/Projects.htm"
+                ],
+                "addressId": "j972ce5v4pvfxhset36drgef918g9v26"
+            },
+            "originalAsset": {
+                "slug": "genetikzentrum-schlieren",
+                "website": "https://www.genetikzentrum.ch/",
+                "source": "https://www.genetikzentrum.ch/view/1051/15204/images/responsiveAltBanner.jpg",
+                "sourceURL": "https://www.genetikzentrum.ch/view/1051/15204/images/responsiveAltBanner.jpg",
+                "sourcePage": "https://www.genetikzentrum.ch/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-genetikzentrum-schlieren-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-genetikzentrum-schlieren-192.png",
+                "originalSha256": "7240e058f2c31215e697560a1e1cdd5ab3fe97fb067860ffd6022edf6eaf4719",
+                "preparedSha256": "acb39a118848139a3f24bcb721b1a0b40641f75c64703c5f035ea10960d14de4",
+                "sha256": "acb39a118848139a3f24bcb721b1a0b40641f75c64703c5f035ea10960d14de4",
+                "originalWidth": 965,
+                "originalHeight": 131,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "genetikzentrum-schlieren",
+                "website": "https://www.genetikzentrum.ch/",
+                "source": "https://www.genetikzentrum.ch/view/1051/15204/images/responsiveAltBanner.jpg",
+                "sourceURL": "https://www.genetikzentrum.ch/view/1051/15204/images/responsiveAltBanner.jpg",
+                "sourcePage": "https://www.genetikzentrum.ch/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-genetikzentrum-schlieren-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-genetikzentrum-schlieren-192.png",
+                "originalSha256": "7240e058f2c31215e697560a1e1cdd5ab3fe97fb067860ffd6022edf6eaf4719",
+                "preparedSha256": "acb39a118848139a3f24bcb721b1a0b40641f75c64703c5f035ea10960d14de4",
+                "sha256": "acb39a118848139a3f24bcb721b1a0b40641f75c64703c5f035ea10960d14de4",
+                "originalWidth": 965,
+                "originalHeight": 131,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [],
+            "evidence": [
+                {
+                    "slug": "genetikzentrum-schlieren",
+                    "ownTechnology": "Genetikzentrum Schlieren researches the genetic causes of aortic and related rare diseases and develops molecular genetic methods. Operated by the Foundation for People with Rare Diseases, it combines research, genetic diagnostics and scientific teaching.",
+                    "note": "Official Traegerschaft identifies independent foundation operator, not ETH/UZH department. Official Projects page demonstrates own methods and2026 work. No separately proposed foundation identity. No corporate social link on official pages or exact corporate LinkedIn search; personal researcher profiles excluded. Entire original official banner, not cropped. Official standalone heart/DNA favicon also exists but only16px; artwork suitability requires Main review.",
+                    "classification": {
+                        "kind": "nonprofit",
+                        "topics": ["biotech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "http://www.genetikzentrum.ch/",
+                        "resolvedURL": "https://www.genetikzentrum.ch/",
+                        "sha256": "d9ed791c6ebcc579f61cc2b0efd15d4eaa5b654daf4b6ab4e5b1b0ded37a01e0",
+                        "checkedAt": "2026-10-14T23:31:27.583Z"
+                    },
+                    "socialReview": {
+                        "state": "not-found-after-official-page-and-exact-corporate-search",
+                        "profiles": {},
+                        "note": "Official homepage/contact and exact Genetikzentrum corporate LinkedIn search checked; no verified corporate account. Personal researchers excluded; no invented links."
+                    },
+                    "address": {
+                        "officialSource": "https://www.genetikzentrum.ch/Kontakt.htm",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Wagistrasse%2025%208952%20Schlieren",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101499127,
+                            "bbox": [8.459614, 47.399287, 8.459614, 47.399287],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101499127,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.459614, 47.399287]
+                            },
+                            "properties": {
+                                "adr_egaid": 101499127,
+                                "bdg_egid": 210153777,
+                                "adr_edid": 0,
+                                "str_esid": 10006756,
+                                "stn_label": "Wagistrasse",
+                                "adr_number": "25",
+                                "zip_label": "8952 Schlieren",
+                                "com_fosnr": 247,
+                                "com_name": "Schlieren",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "non_residential",
+                                "adr_modified": "20241115",
+                                "label": 101499127
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101499127?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [
+                            {
+                                "id": "j972ce5v4pvfxhset36drgef918g9v26",
+                                "latitude": 47.399288177490234,
+                                "longitude": 8.459613800048828
+                            }
+                        ],
+                        "reuseDecision": null,
+                        "existingPublicAddress": {
+                            "_creationTime": 1791985406346.146,
+                            "_id": "j972ce5v4pvfxhset36drgef918g9v26",
+                            "countryCode": "CH",
+                            "createdAt": 1791985406346,
+                            "latitude": 47.399288177490234,
+                            "line1": "Wagistrasse 25",
+                            "locality": "Schlieren",
+                            "longitude": 8.459613800048828,
+                            "postalCode": "8952",
+                            "updatedAt": 1791985406346
+                        },
+                        "publicReferences": [
+                            {
+                                "locationId": "px7f0nf5jsha44rzjrmvgxra4d8g8tsq",
+                                "organisationId": "p174bzqjhgntg7vdks6nyyh2fs8g9nxe"
+                            },
+                            {
+                                "locationId": "px7309z78t0749mrrdk667jt4n8g9dw6",
+                                "organisationId": "p17eamg3wwcb4y7wsy05m21rn18g8gwx"
+                            },
+                            {
+                                "locationId": "px7dezvbg4pfd82ndk4acpehes8g8bfr",
+                                "organisationId": "p1748x041zd1dq8c1g9qnmy3tn8g9yyy"
+                            },
+                            {
+                                "locationId": "px7dkv6w8y9t677zpmwb01tm5n8g9e7q",
+                                "organisationId": "p170sb84famgzy7jm3yq382hbd8g91ja"
+                            }
+                        ]
+                    },
+                    "reviewedSources": [
+                        "https://www.genetikzentrum.ch/",
+                        "https://www.genetikzentrum.ch/Kontakt.htm",
+                        "https://www.genetikzentrum.ch/Traegerschaft.htm",
+                        "https://www.genetikzentrum.ch/Projects.htm"
+                    ],
+                    "artworkDecision": "Hold: complete original banner unreadable at32px; standalone official16px heart/DNA favicon alternative requires Main approval, no crop/redraw."
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "evitria",
+            "name": "evitria",
+            "disposition": "held-explicit",
+            "rationale": "Eligible own eviCHO kit development/manufacture. Full official wordmark is faint at32px; bare letter-e favicon is not an acceptable replacement. Hold artwork explicitly.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "evitria",
+                "name": "evitria",
+                "website": "https://www.evitria.com/",
+                "headline": "CHO-cell expression systems for antibody research",
+                "description": "evitria develops and manufactures the eviCHO expression kit for producing recombinant proteins in CHO cells. It also operates a proprietary transient-expression platform for antibody engineering and research-scale production.",
+                "topics": ["biotech"],
+                "office": "Published Swiss headquarters",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/evitria-ag/"
+                },
+                "kind": "company",
+                "location": "Fahrweid",
+                "sources": [
+                    "https://www.evitria.com/",
+                    "https://www.evitria.com/contact/",
+                    "https://www.evitria.com/products/evicho-expression-kit/",
+                    "https://www.evitria.com/about-evitria/"
+                ],
+                "address": {
+                    "line1": "Brunaustrasse 185",
+                    "postalCode": "8951",
+                    "locality": "Fahrweid",
+                    "countryCode": "CH",
+                    "latitude": 47.41004,
+                    "longitude": 8.418008,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101767459?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "evitria",
+                "website": "https://www.evitria.com/",
+                "source": "https://www.evitria.com/app/uploads/2025/03/logo.svg",
+                "sourceURL": "https://www.evitria.com/app/uploads/2025/03/logo.svg",
+                "sourcePage": "https://www.evitria.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-evitria-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-evitria-192.png",
+                "originalSha256": "67f4066e823cd7c9c35a23ae6ce48674a097801867eb7415da2e363d293732d4",
+                "preparedSha256": "da053fb4b28ece25a53866b534ccb5fec2e16a09aef48badd75a3c9b447ebce4",
+                "sha256": "da053fb4b28ece25a53866b534ccb5fec2e16a09aef48badd75a3c9b447ebce4",
+                "originalWidth": 1659,
+                "originalHeight": 756,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "evitria",
+                "website": "https://www.evitria.com/",
+                "source": "https://www.evitria.com/app/uploads/2025/03/logo.svg",
+                "sourceURL": "https://www.evitria.com/app/uploads/2025/03/logo.svg",
+                "sourcePage": "https://www.evitria.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-evitria-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-evitria-192.png",
+                "originalSha256": "67f4066e823cd7c9c35a23ae6ce48674a097801867eb7415da2e363d293732d4",
+                "preparedSha256": "da053fb4b28ece25a53866b534ccb5fec2e16a09aef48badd75a3c9b447ebce4",
+                "sha256": "da053fb4b28ece25a53866b534ccb5fec2e16a09aef48badd75a3c9b447ebce4",
+                "originalWidth": 1659,
+                "originalHeight": 756,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [
+                {
+                    "slug": "evitria",
+                    "source": "https://www.evitria.com/app/uploads/2025/05/cropped-evitria_icon-2-192x192.png",
+                    "sourceURL": "https://www.evitria.com/app/uploads/2025/05/cropped-evitria_icon-2-192x192.png",
+                    "sourcePage": "https://www.evitria.com/",
+                    "sourcePagePath": "/tmp/zurich-registry-review/primary-df3c-remaining-evitria.html",
+                    "checkedAt": "2026-10-15T00:34:17.892Z",
+                    "sourcePageSha256": "42443501ed73258512215adcd0d9d1fc629d3f27e5c0f6f3359da71d35adaa25",
+                    "originalPath": "/tmp/zurich-registry-review/primary-df3c-remaining-evitria-original",
+                    "path": "/tmp/zurich-registry-review/primary-df3c-remaining-evitria-192.png",
+                    "originalDimensions": [192, 192],
+                    "originalSha256": "54b7277185af293e6ce0c0e64a1cb6e69ad310edc306ce9ff60c63b7410bbf7f",
+                    "preparedSha256": "35a1b3f1481e99c853cda68ea4bb30a09f48c0f0967fd091b03ac384a3eeaa26",
+                    "transformation": "Contain complete official site linked image in transparent192 square. No cropping/redraw/recolouring.",
+                    "approved": false,
+                    "uploaded": false
+                }
+            ],
+            "evidence": [
+                {
+                    "slug": "evitria",
+                    "ownTechnology": "evitria develops and manufactures the eviCHO expression kit for producing recombinant proteins in CHO cells. It also operates a proprietary transient-expression platform for antibody engineering and research-scale production.",
+                    "note": "Official contact says8951Zurich-Fahrweid; use exact federal8951Fahrweid only after building match, preserving original corporate locality in evidence. Own eviCHO kit explicitly developed/manufactured by evitria and distributed by Evonik. Do not attribute licensed AAX Opti-mAb, mAbsolve STR or ProBioGen GlymaxX to evitria. Part of Atlas Life Sciences Group/Patricia Industries; no duplicate parent profile. Use full official wordmark, not letter-e favicon.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["biotech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://www.evitria.com/products/evicho-expression-kit/",
+                        "resolvedURL": "https://www.evitria.com/products/evicho-expression-kit/",
+                        "sha256": "75429d77f3a3dd801749528008b2be1854c8c86a5ca9d6489dfe2d0e05c7df9f",
+                        "checkedAt": "2026-10-14T23:55:32.124Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/evitria-ag/"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://www.evitria.com/contact/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Brunaustrasse%20185%208951%20Fahrweid",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101767459,
+                            "bbox": [8.418008, 47.41004, 8.418008, 47.41004],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101767459,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.418008, 47.41004]
+                            },
+                            "properties": {
+                                "adr_egaid": 101767459,
+                                "bdg_egid": 201040029,
+                                "adr_edid": 0,
+                                "str_esid": 10005455,
+                                "stn_label": "Brunaustrasse",
+                                "adr_number": "185",
+                                "zip_label": "8951 Fahrweid",
+                                "com_fosnr": 251,
+                                "com_name": "Weiningen (ZH)",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "non_residential",
+                                "adr_modified": "20241115",
+                                "label": 101767459
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101767459?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [],
+                        "reuseDecision": null,
+                        "existingPublicAddress": null,
+                        "publicReferences": [],
+                        "originalCorporateLocality": "8951 Zurich-Fahrweid; federal address is8951Fahrweid, same exact Brunaustrasse185 building."
+                    },
+                    "reviewedSources": [
+                        "https://www.evitria.com/",
+                        "https://www.evitria.com/contact/",
+                        "https://www.evitria.com/products/evicho-expression-kit/",
+                        "https://www.evitria.com/about-evitria/"
+                    ],
+                    "artworkDecision": "Original full brand artwork prepared; Main visual approval required."
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "omnimedica",
+            "name": "Omnimedica",
+            "disposition": "held-explicit",
+            "rationale": "Eligible own OM24 process and laboratory development. Full logo and official apple-touch alternative are too small at32px; no supported compact replacement. Hold artwork explicitly.",
+            "snapshotMatches": [],
+            "verificationBasis": "Saved bounded primary-source review; no new candidates.",
+            "profile": {
+                "slug": "omnimedica",
+                "name": "Omnimedica",
+                "website": "https://omnimedica.com/",
+                "headline": "Plant-derived active ingredients and extraction technology",
+                "description": "Omnimedica develops plant-derived active ingredients and formulations using its OM24 extraction process. Its research and laboratory work support the development and production of cosmetic and nutritional products.",
+                "topics": ["biotech"],
+                "office": "Published business address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/omnimedica-group/"
+                },
+                "kind": "company",
+                "location": "Schlieren",
+                "sources": [
+                    "https://omnimedica.com/",
+                    "https://omnimedica.com/pages/impressum",
+                    "https://omnimedica.com/en/pages/ueber-uns",
+                    "https://omnimedica.com/en/pages/das-geheimnis-der-aktivformel-om24%C2%AE"
+                ],
+                "address": {
+                    "line1": "Lättenstrasse 27",
+                    "postalCode": "8952",
+                    "locality": "Schlieren",
+                    "countryCode": "CH",
+                    "latitude": 47.402778,
+                    "longitude": 8.443663,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101499131?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "omnimedica",
+                "website": "https://omnimedica.com/",
+                "source": "https://omnimedica.com/cdn/shop/files/omnimedica-logo.png?v=1743693784&width=360",
+                "sourceURL": "https://omnimedica.com/cdn/shop/files/omnimedica-logo.png?v=1743693784&width=360",
+                "sourcePage": "https://omnimedica.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-omnimedica-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-omnimedica-192.png",
+                "originalSha256": "33f736a3d2a3f7cd4c432d33e35073dd286a0d449d333173a755f36841fec7ae",
+                "preparedSha256": "7cf15e29a9cab0acedbbdbd8357d1eb87e7a14241cfd343f63d88983366dea43",
+                "sha256": "7cf15e29a9cab0acedbbdbd8357d1eb87e7a14241cfd343f63d88983366dea43",
+                "originalWidth": 360,
+                "originalHeight": 164,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "omnimedica",
+                "website": "https://omnimedica.com/",
+                "source": "https://omnimedica.com/cdn/shop/files/omnimedica-logo.png?v=1743693784&width=360",
+                "sourceURL": "https://omnimedica.com/cdn/shop/files/omnimedica-logo.png?v=1743693784&width=360",
+                "sourcePage": "https://omnimedica.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-omnimedica-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-omnimedica-192.png",
+                "originalSha256": "33f736a3d2a3f7cd4c432d33e35073dd286a0d449d333173a755f36841fec7ae",
+                "preparedSha256": "7cf15e29a9cab0acedbbdbd8357d1eb87e7a14241cfd343f63d88983366dea43",
+                "sha256": "7cf15e29a9cab0acedbbdbd8357d1eb87e7a14241cfd343f63d88983366dea43",
+                "originalWidth": 360,
+                "originalHeight": 164,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "alternatives": [
+                {
+                    "slug": "omnimedica",
+                    "source": "https://omnimedica.com/cdn/shop/files/logo-omnimedica-group-ag.jpg?v=1704471070&width=180",
+                    "sourceURL": "https://omnimedica.com/cdn/shop/files/logo-omnimedica-group-ag.jpg?v=1704471070&width=180",
+                    "sourcePage": "https://omnimedica.com/",
+                    "sourcePagePath": "/tmp/zurich-registry-review/primary-df3c-remaining-omnimedica.html",
+                    "checkedAt": "2026-10-15T00:34:18.527Z",
+                    "sourcePageSha256": "ee00275c3f25a30bf798f992d8cf4aef3f6e3afea4cfaf3bbc2a1ca854db9792",
+                    "originalPath": "/tmp/zurich-registry-review/primary-df3c-remaining-omnimedica-original",
+                    "path": "/tmp/zurich-registry-review/primary-df3c-remaining-omnimedica-192.png",
+                    "originalDimensions": [180, 72],
+                    "originalSha256": "115ea27673a52ea24a5584b26d8c09b524bc3d9cc3ecf2cda5565a57de2e5549",
+                    "preparedSha256": "867d4de1cef02efbf2f6257d8f1a5b0ff85f01eba3bad96e8759b3d58ce146a0",
+                    "transformation": "Contain complete official site linked image in transparent192 square. No cropping/redraw/recolouring.",
+                    "approved": false,
+                    "uploaded": false
+                }
+            ],
+            "evidence": [
+                {
+                    "slug": "omnimedica",
+                    "ownTechnology": "Omnimedica develops plant-derived active ingredients and formulations using its OM24 extraction process. Its research and laboratory work support the development and production of cosmetic and nutritional products.",
+                    "note": "Current official imprint visually verified in Chrome identifies OMNIMEDICA GroupAG,registerCH-020-3052364-8 at exactLättenstrasse27. About/OM24 pages attribute own process to operating brand; use one brand profile, not separate GroupAG/AG entries. Corporate LinkedIn matches official domain,Schlieren and GroupAG; reject unrelated Argentina OmnimedicaSA. No therapeutic efficacy, anti-ageing efficacy or regulatory-certification claims included. Logo exact currentSrc of official header observed in Chrome.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["biotech"]
+                    },
+                    "primaryEvidence": {
+                        "method": "Chrome-visible-page-and-DOM-read",
+                        "checkedAt": "2026-10-15T00:00:00.701Z",
+                        "imprint": "https://omnimedica.com/en/pages/impressum",
+                        "about": "https://omnimedica.com/en/pages/ueber-uns",
+                        "facts": [
+                            "Current publisher OMNIMEDICA Group AG, registerCH-020-3052364-8.",
+                            "Public business address Lättenstrasse27,8952Schlieren.",
+                            "Official About attributes own research/laboratory and product development to Omnimedica.",
+                            "Header image currentSrc exactly matches prepared logo source."
+                        ],
+                        "excludedClaims": "No clinical, anti-ageing efficacy or regulatory-certification claims adopted."
+                    },
+                    "socialReview": {
+                        "state": "exact-corporate-profile-verified",
+                        "sourceURL": "https://www.linkedin.com/company/omnimedica-group/",
+                        "identity": "GroupAG, official omnimedica.com domain and Schlieren match. Unrelated Argentina OmnimedicaSA rejected. No social links in official imprint/footer."
+                    },
+                    "address": {
+                        "officialSource": "https://omnimedica.com/pages/impressum",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=L%C3%A4ttenstrasse%2027%208952%20Schlieren",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101499131,
+                            "bbox": [8.443663, 47.402778, 8.443663, 47.402778],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101499131,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.443663, 47.402778]
+                            },
+                            "properties": {
+                                "adr_egaid": 101499131,
+                                "bdg_egid": 210153822,
+                                "adr_edid": 0,
+                                "str_esid": 10074825,
+                                "stn_label": "Lättenstrasse",
+                                "adr_number": "27",
+                                "zip_label": "8952 Schlieren",
+                                "com_fosnr": 247,
+                                "com_name": "Schlieren",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "other_residential",
+                                "adr_modified": "20241115",
+                                "label": 101499131
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101499131?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [],
+                        "reuseDecision": null,
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    },
+                    "reviewedSources": [
+                        "https://omnimedica.com/",
+                        "https://omnimedica.com/pages/impressum",
+                        "https://omnimedica.com/en/pages/ueber-uns",
+                        "https://omnimedica.com/en/pages/das-geheimnis-der-aktivformel-om24%C2%AE"
+                    ],
+                    "artworkDecision": "Original full brand artwork prepared; Main visual approval required.",
+                    "directFetch": {
+                        "url": "https://omnimedica.com/",
+                        "resolvedURL": "https://omnimedica.com/",
+                        "sha256": "fa2dd01ed96d38758e89e354653c39f366bc7a34e485772c8aa2174b53a465d3",
+                        "checkedAt": "2026-10-14T23:31:26.874Z"
+                    }
+                }
+            ],
+            "additionalEvidence": []
+        },
+        {
+            "slug": "vvardis",
+            "name": "vVARDIS",
+            "disposition": "imported-verified-frozen",
+            "rationale": "Main independently verified; do not requeue or reapply.",
+            "snapshotMatches": [],
+            "verificationBasis": "Main verification messages; snapshot IDs where available. Latest Main reported total1011.",
+            "profile": {
+                "slug": "vvardis",
+                "name": "vVARDIS",
+                "website": "https://www.vvardis.com/",
+                "headline": "Biomimetic materials for early tooth-decay treatment",
+                "description": "vVARDIS develops biomimetic dental technologies, including Curodont products for treating early-stage tooth decay. Its materials are designed to support mineral formation within enamel lesions.",
+                "topics": ["medtech"],
+                "office": "Published registered business address",
+                "socials": {
+                    "linkedin": "https://www.linkedin.com/company/vvardis/"
+                },
+                "kind": "company",
+                "location": "Zug",
+                "sources": [
+                    "https://www.vvardis.com/",
+                    "https://professional.vvardis.com/privacy-policy/"
+                ],
+                "address": {
+                    "line1": "Gubelstrasse 24",
+                    "postalCode": "6300",
+                    "locality": "Zug",
+                    "countryCode": "CH",
+                    "latitude": 47.174907,
+                    "longitude": 8.514041,
+                    "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101818873?sr=4326&geometryFormat=geojson"
+                }
+            },
+            "originalAsset": {
+                "slug": "vvardis",
+                "website": "https://www.vvardis.com/",
+                "source": "https://cdn.prod.website-files.com/69a5ad79f39606cd60d5a766/69a5c782752863a8f5374d80_vVardis_Logo.svg",
+                "sourceURL": "https://cdn.prod.website-files.com/69a5ad79f39606cd60d5a766/69a5c782752863a8f5374d80_vVardis_Logo.svg",
+                "sourcePage": "https://www.vvardis.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-vvardis-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-vvardis-192.png",
+                "originalSha256": "ba655cad1add39aef8f69be093e8d402d509437a6664dc3a73d84887d720cf5d",
+                "preparedSha256": "0cf72c351f77579a8559088eeb8ec88c301aaecd1ccec54f3b5bbfb0148cc257",
+                "sha256": "0cf72c351f77579a8559088eeb8ec88c301aaecd1ccec54f3b5bbfb0148cc257",
+                "originalWidth": 572,
+                "originalHeight": 274,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": false,
+                "uploaded": false
+            },
+            "recommendedAsset": {
+                "slug": "vvardis",
+                "website": "https://www.vvardis.com/",
+                "source": "https://cdn.prod.website-files.com/69a5ad79f39606cd60d5a766/69a5c782752863a8f5374d80_vVardis_Logo.svg",
+                "sourceURL": "https://cdn.prod.website-files.com/69a5ad79f39606cd60d5a766/69a5c782752863a8f5374d80_vVardis_Logo.svg",
+                "sourcePage": "https://www.vvardis.com/",
+                "originalPath": "/tmp/zurich-registry-review/primary-df3c-supported-vvardis-original",
+                "path": "/tmp/zurich-registry-review/primary-df3c-supported-vvardis-192.png",
+                "originalSha256": "ba655cad1add39aef8f69be093e8d402d509437a6664dc3a73d84887d720cf5d",
+                "preparedSha256": "0cf72c351f77579a8559088eeb8ec88c301aaecd1ccec54f3b5bbfb0148cc257",
+                "sha256": "0cf72c351f77579a8559088eeb8ec88c301aaecd1ccec54f3b5bbfb0148cc257",
+                "originalWidth": 572,
+                "originalHeight": 274,
+                "width": 192,
+                "height": 192,
+                "transformation": "Contain entire official artwork in192px transparent square; rasterization only, no crop or redraw.",
+                "approved": null,
+                "uploaded": null
+            },
+            "alternatives": [
+                {
+                    "slug": "vvardis",
+                    "source": "https://cdn.prod.website-files.com/69a5ad79f39606cd60d5a766/69b2c4a2a18460b0194ae4c7_favicon-192x192%201.png",
+                    "sourceURL": "https://cdn.prod.website-files.com/69a5ad79f39606cd60d5a766/69b2c4a2a18460b0194ae4c7_favicon-192x192%201.png",
+                    "sourcePage": "https://www.vvardis.com/en",
+                    "sourcePagePath": "/tmp/zurich-registry-review/primary-df3c-remaining-vvardis.html",
+                    "checkedAt": "2026-10-15T00:34:18.601Z",
+                    "sourcePageSha256": "e4e2d89561167083cce21c8d50d80e5caed556d2c9e15cd32e639eeaf66a597a",
+                    "originalPath": "/tmp/zurich-registry-review/primary-df3c-remaining-vvardis-original",
+                    "path": "/tmp/zurich-registry-review/primary-df3c-remaining-vvardis-192.png",
+                    "originalDimensions": [256, 256],
+                    "originalSha256": "e0c0ebeeefbf46d29672e7d0c52c04ac811cd674d86b535907d601318245de25",
+                    "preparedSha256": "2a0495b046fda70deb56e17bb6d2964dc27c6a8289c0247c3b2248fbad4d8aea",
+                    "transformation": "Contain complete official site linked image in transparent192 square. No cropping/redraw/recolouring.",
+                    "approved": false,
+                    "uploaded": false
+                }
+            ],
+            "evidence": [
+                {
+                    "slug": "vvardis",
+                    "ownTechnology": "vVARDIS develops biomimetic dental technologies, including Curodont products for treating early-stage tooth decay. Its materials are designed to support mineral formation within enamel lesions.",
+                    "note": "Current official September2026 privacy notice explicitly identifies vVARDIS AG,Gubelstrasse24,6300Zug. Preserve registered/business label; no guessedSchlieren campus office. Exact official LinkedIn observed on homepage; viewAsMember query removed only. Full official logo, no cropped or letter-only favicon. No clinical efficacy guarantees included.",
+                    "classification": {
+                        "kind": "company",
+                        "topics": ["medtech"]
+                    },
+                    "primaryEvidence": {
+                        "url": "https://eu.vvardis.com/",
+                        "resolvedURL": "https://www.vvardis.com/en",
+                        "sha256": "e4e2d89561167083cce21c8d50d80e5caed556d2c9e15cd32e639eeaf66a597a",
+                        "checkedAt": "2026-10-14T23:57:25.014Z"
+                    },
+                    "socialReview": {
+                        "state": "official-site-linked",
+                        "profiles": {
+                            "linkedin": "https://www.linkedin.com/company/vvardis/"
+                        },
+                        "personalProfilesExcluded": true
+                    },
+                    "address": {
+                        "officialSource": "https://professional.vvardis.com/privacy-policy/",
+                        "searchURL": "https://api3.geo.admin.ch/rest/services/api/SearchServer?type=locations&origins=address&sr=4326&searchText=Gubelstrasse%2024%206300%20Zug",
+                        "feature": {
+                            "type": "Feature",
+                            "featureId": 101818873,
+                            "bbox": [8.514041, 47.174907, 8.514041, 47.174907],
+                            "layerBodId": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis",
+                            "layerName": "Amtliches Gebäudeadressverzeichnis",
+                            "id": 101818873,
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [8.514041, 47.174907]
+                            },
+                            "properties": {
+                                "adr_egaid": 101818873,
+                                "bdg_egid": 190695249,
+                                "adr_edid": 0,
+                                "str_esid": 10016170,
+                                "stn_label": "Gubelstrasse",
+                                "adr_number": "24",
+                                "zip_label": "6300 Zug",
+                                "com_fosnr": 1711,
+                                "com_name": "Zug",
+                                "adr_status": "1",
+                                "adr_official": true,
+                                "bdg_category": "other_residential",
+                                "adr_modified": "20241115",
+                                "label": 101818873
+                            }
+                        },
+                        "federalURL": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101818873?sr=4326&geometryFormat=geojson",
+                        "sameAddressRecords": [],
+                        "reuseDecision": null,
+                        "existingPublicAddress": null,
+                        "publicReferences": []
+                    }
+                }
+            ],
+            "additionalEvidence": [
+                {
+                    "url": "https://professional.vvardis.com/impressum/",
+                    "finding": "Current imprint: vVardis AG, Gubelstrasse24,6300Zug, CHE-273.636.531. Main verified import uses Registered address."
+                }
+            ]
+        }
+    ]
+}

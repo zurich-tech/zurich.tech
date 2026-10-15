@@ -1,0 +1,1498 @@
+{
+    "updatedAt": "2026-10-15T00:40:00.621Z",
+    "snapshotAt": "2026-10-15T00:36:59.065Z",
+    "totalOrganisations": 1007,
+    "companyStartup": 893,
+    "auditCounts": {
+        "keep": 836,
+        "exclude": 23,
+        "uncertain": 34
+    },
+    "reviewed": 61,
+    "unreviewed": 0,
+    "method": "Finite reclassification of the 61 existing investigated holds, not a new discovery pass. Existing primary product/case-study/company evidence was cross-reviewed for every row; current targeted product, case-study, team/career and alias research is distinguished per record. New imports retain main-attributed primary review and independently reconciled production presence.",
+    "distinction": "Historical cohort, refreshed current dispositions. Completed bounded evidence review does not mean all eligibility questions are resolved.",
+    "counts": {
+        "keep": 12,
+        "exclude": 15,
+        "uncertain": 34,
+        "reviewed": 61,
+        "unreviewed": 0
+    },
+    "shortExceptions": {
+        "mainReviewedExclusions": ["intecso", "zurichnetgroup", "consys"],
+        "recommendationsAwaitingMainReview": [
+            "itivity",
+            "cyberlink",
+            "data-purpose",
+            "helvetic-it-solution",
+            "incendia",
+            "nomasis",
+            "pront",
+            "relyz",
+            "swiss-infosec",
+            "trias-pharma",
+            "unimission",
+            "wetalkwithyou"
+        ],
+        "remainingQuestions": "company-eligibility-final54.json"
+    },
+    "mutation": {
+        "apply": false,
+        "newRemovalOperations": 2,
+        "existingRemovalManifest": "company-map-removals.json",
+        "productionWrites": 0
+    },
+    "rows": [
+        {
+            "slug": "stutz-medien",
+            "name": "Stutz Medien AG",
+            "organisationId": "p17dq39vrw0wgncr2pyq7fb73h8g9y7g",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Followed the official Stutz link to Digital Unit and read the detailed Gaia architecture page. Gaia explicitly uses Sanity for content management; live preview, scheduling and collaborative editing therefore cannot be attributed to Stutz. Gaia Core is named in customer implementations and a common maintained architecture is offered across product tiers. Remaining decisive question: what original reusable platform code does Stutz develop beyond Sanity configuration, site templates and client-specific frontends? Do not treat all Gaia functionality as third-party, or all of it as Stutz's invention, without resolving that distinction.",
+            "decisiveQuestion": "Which original reusable Gaia Core functionality does Stutz develop beyond Sanity configuration and customer frontends?",
+            "evidence": [
+                {
+                    "url": "https://stutz-medien.ch/website-erstellen-lassen/"
+                },
+                {
+                    "url": "https://digitalunit.ch/website-erstellen-lassen/"
+                },
+                {
+                    "url": "https://stutz-medien.ch/arbeiten/einfach-fein-grandits/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Digital Unit, explicitly Stutz's offering, maintains Gaia Core as a common headless platform across several product tiers and implementations, with extension, intelligence and care modules. This is concrete reusable maintained software, not a requirement to invent the underlying CMS. Sanity remains the upstream CMS; its native collaboration features are not credited as Stutz inventions."
+        },
+        {
+            "slug": "accenture-switzerland",
+            "name": "Accenture Switzerland",
+            "organisationId": "p172tckhc7pqqnpw3m72nj6exd8g8x5h",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Cross-reviewed the primary-30c4 amendment: saved Zurich Liquid Studio/application-engineering evidence establishes client prototypes and integration, not local development of Accenture-owned technology. Global brand or product claims do not resolve that local gap. Investigate named own technology and Zurich team attribution; no removal proposal from missing evidence alone.",
+            "decisiveQuestion": "Which Accenture-owned technology does the represented Swiss operation develop, beyond client prototypes and integration?",
+            "evidence": [
+                {
+                    "url": "https://www.accenture.com/en"
+                },
+                {
+                    "url": "https://newsroom.accenture.com/news/2018/accenture-opens-innovation-hub-in-zurich-to-help-clients-with-their-digital-transformation-agendas"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Zurich Innovation Hub and Liquid Studio primary material establishes local prototype/application engineering; named global products do not identify the Swiss team's contribution. Remaining question: which maintained original technology or product-development programme belongs to this local operation? Neither generic consulting work nor the global brand settles that question."
+        },
+        {
+            "slug": "automate",
+            "name": "AutoMate Insurance AG",
+            "organisationId": "p17aaje06s5t3f8fftqbwa92h98g9bkt",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Chrome rendered the complete executive-solutions page, confirming branded white-label insurance software, calculators and digital processing, but without identifying its developer. Access is no longer the blocker. Decisive question: which reusable platform components does AutoMate itself develop rather than license from an external insurance-software provider? No exclusion inferred from insurer status or old copyright.",
+            "decisiveQuestion": "Who develops the white-label insurance platform and calculators, and which original components does AutoMate maintain?",
+            "evidence": [
+                {
+                    "url": "https://automate.ch/website/executive_solutions"
+                },
+                {
+                    "url": "https://automate.ch/website/about"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The fully rendered executive-solutions page establishes a concrete branded insurance platform, calculators and processing, not an access failure. Remaining question: does AutoMate develop this platform or distribute another software provider's system? Developer attribution, not patent ownership, would resolve this."
+        },
+        {
+            "slug": "beriflapp",
+            "name": "Beriflapp",
+            "organisationId": "p177md637razqn2as9jb5kf3ys8g9dqy",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Reviewed company and product-innovation pages plus the FinSat testimonial. Named CityL3ns technology explicitly belongs to FinSat; the other examples are client delivery. Ownership of any separate reusable technology remains unestablished, so do not attribute clients' products to Beriflapp or remove without resolving that question.",
+            "decisiveQuestion": "Does Beriflapp develop any retained reusable technology separate from FinSat/CityL3ns and other customer products?",
+            "evidence": [
+                {
+                    "url": "https://beriflapp.com/about/"
+                },
+                {
+                    "url": "https://beriflapp.com/product-innovation"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Product-innovation and FinSat evidence establishes original client delivery, but CityL3ns is explicitly FinSat's product. Remaining question: does Beriflapp maintain a reusable technology of its own beyond these commissioned deliveries? Do not assign FinSat's product to its contractor; no IP certificate is required."
+        },
+        {
+            "slug": "blackpoints",
+            "name": "Blackpoints",
+            "organisationId": "p17drjpbtamg7nmmeg0dqjbmpd8g8tt3",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Chrome recovered homepage and development catalogue. GIPE is explicitly an integration of CAMAC for Canton Ticino, not an own original platform; Inventsys and iGovPortal are named partners. This removes those examples as positive ownership evidence. Decisive question: does Blackpoints maintain its own reusable application or contribute substantive original platform code beyond client-specific forms/workflows? The remaining ambiguity is attribution, not access or engineering competence.",
+            "decisiveQuestion": "What original reusable application or substantive shared-platform contribution does Blackpoints maintain beyond CAMAC integration and partner products?",
+            "evidence": [
+                {
+                    "url": "https://blackpoints.ch/"
+                },
+                {
+                    "url": "https://blackpoints.ch/development"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The recovered catalogue attributes GIPE to CAMAC integration and identifies Inventsys/iGovPortal as partners. Remaining question: is there a named original maintained Blackpoints component or substantive upstream contribution beyond client forms and integration? The published named examples do not establish that attribution."
+        },
+        {
+            "slug": "comerge",
+            "name": "Comerge",
+            "organisationId": "p17b0f1zwa1z7ktzhgympt2f618g9zt7",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read specific CoffeeRace and Connect case studies. CoffeeRace explicitly originated with Comerge and includes its app development, while Connect identifies Comerge as development lead without ownership. CoffeeRace's independent website could not be retrieved, so current retention/operation remains unresolved. Decisive question: does Comerge still develop/retain CoffeeRace or another own reusable product, rather than solely maintaining client IP? Historical original development is now substantiated, not dismissed as generic agency work.",
+            "decisiveQuestion": "Does Comerge still develop CoffeeRace or another original retained application, rather than only customer-owned platforms?",
+            "evidence": [
+                {
+                    "url": "https://www.comerge.net/en/work/coffeerace"
+                },
+                {
+                    "url": "https://www.comerge.net/en/work/connect"
+                },
+                {
+                    "url": "https://www.coffeerace.ch/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The current official CoffeeRace case attributes the original idea, project management and software development to Comerge, establishing its own concrete application rather than borrowing a client brand. Failure to retrieve CoffeeRace's separate site is not evidence that Comerge stopped developing technology. Separate live-service availability has not been verified; Connect is not treated as Comerge-owned."
+        },
+        {
+            "slug": "consys",
+            "name": "Consys",
+            "organisationId": "p17eva7z3s0hran0yqtdn372wx8g8h21",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "exclusion-recommendation-awaiting-main-review",
+            "basis": "Recommend map-only exclusion for main review after bounded product and case-study checks. The company's history explicitly selects AAC Infotray's Limsophy BPM and describes distribution/customer support; the 2024 fusion expands regulatory consulting and implementation of Limsophy/hyperManager. Current catalogue, customer cases and monday.com page consistently sell QM/regulatory consulting, software introduction, configuration, integrations and support. 'Our software' and 'developing a quality-management system' describe the supplied/implemented system rather than substantiate original software development. This recommendation rests on affirmative distributor/implementation evidence, not missing patents or a failed fetch. Revisit if a concrete maintained original component is identified; preserve all records pending main review.",
+            "decisiveQuestion": null,
+            "evidence": [
+                {
+                    "url": "https://consys.ch/geschichte/"
+                },
+                {
+                    "url": "https://consys.ch/news-blogs/news/fusion-adressanderung/"
+                },
+                {
+                    "url": "https://consys.ch/software/"
+                },
+                {
+                    "url": "https://consys.ch/monday/"
+                },
+                {
+                    "url": "https://consys.ch/kundenstimmen-type/vom-langjahrigen-softwareeinsatz-zur-erweiterten-qualitatsmanagement-betreuung-nach-iso-9001/"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "finding": "Recommend map-only exclusion for main review after bounded product and case-study checks. The company's history explicitly selects AAC Infotray's Limsophy BPM and describes distribution/customer support; the 2024 fusion expands regulatory consulting and implementation of Limsophy/hyperManager. Current catalogue, customer cases and monday.com page consistently sell QM/regulatory consulting, software introduction, configuration, integrations and support. 'Our software' and 'developing a quality-management system' describe the supplied/implemented system rather than substantiate original software development. This recommendation rests on affirmative distributor/implementation evidence, not missing patents or a failed fetch. Revisit if a concrete maintained original component is identified; preserve all records pending main review.",
+            "followup": null,
+            "ownTechnology": "affirmative-service-only-recommendation",
+            "reason": "Recommend map-only exclusion for main review after bounded product and case-study checks. The company's history explicitly selects AAC Infotray's Limsophy BPM and describes distribution/customer support; the 2024 fusion expands regulatory consulting and implementation of Limsophy/hyperManager. Current catalogue, customer cases and monday.com page consistently sell QM/regulatory consulting, software introduction, configuration, integrations and support. 'Our software' and 'developing a quality-management system' describe the supplied/implemented system rather than substantiate original software development. This recommendation rests on affirmative distributor/implementation evidence, not missing patents or a failed fetch. Revisit if a concrete maintained original component is identified; preserve all records pending main review."
+        },
+        {
+            "slug": "cross-works",
+            "name": "cross-works",
+            "organisationId": "p177e0wcb6zgfrxm1a2gkrm2r98g9kaj",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Homepage and KIM CRM product page substantively reviewed. Product page claims creation but also says development is in Ravensburg while Cross-Works is the Swiss operator; conflicting Swiss/German hosting statements suggest reused supplier text. Need attribution of retained software development to this entity, not merely distribution/operation of KIM. Do not exclude or accept solely on this ambiguity.",
+            "decisiveQuestion": "Is Cross-Works a developer of KIM CRM or its Swiss operator/distributor for a Ravensburg developer?",
+            "evidence": [
+                {
+                    "url": "https://cross-works.net/"
+                },
+                {
+                    "url": "https://cross-works.net/kim-crm/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "KIM's product page contains conflicting developer/hosting attribution: Swiss operator language alongside development and servers in Ravensburg. Exact-name primary-page checks did not resolve the supplier identity. Remaining question: is CrossWorks the developer or the Swiss reseller/operator of KIM? Do not treat reused supplier text as proof of original development."
+        },
+        {
+            "slug": "cyberlink",
+            "name": "Cyberlink",
+            "organisationId": "p178jpcvg406dk40mxercbb5sx8g9vn5",
+            "decision": "keep",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read official OpenStack/cloudscale and VPC specifications: cloudscale supplies the former platform and VMware Cloud Director supplies the latter self-service layer. Own retained automation or platform engineering is not established; a stake/partnership does not establish exclusive development. Hold, not automatic exclusion of a cloud operator.",
+            "decisiveQuestion": "What original platform or automation does Cyberlink develop in addition to cloudscale and VMware infrastructure?",
+            "evidence": [
+                {
+                    "url": "https://www.cyberlink.ch/de/cloud/openstack-cloudscale"
+                },
+                {
+                    "url": "https://www.cyberlink.ch/de/cloud/virtual-private-cloud"
+                },
+                {
+                    "url": "https://www.cyberlink.ch/de/customer/ein-netz-statt-vieler-einzelverbindungen-der-weg-der-semax-ag-ins-ssun-690"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the detailed OpenStack and VPC offerings explicitly supply cloudscale and VMware platforms; the Semax case supplies connectivity rather than developing Semax technology. Across inspected products and case work the affirmative business is managed infrastructure/connectivity. This does not deny engineering competence or disqualify all OSS use; it distinguishes the documented vendor-service offering from original technology.",
+            "historicalDecision": "exclude",
+            "status": "superseded-not-a-removal-recommendation",
+            "currentDecision": "keep",
+            "supersededBy": "company-eligibility-exclusions.json",
+            "currentReason": "Withdraw the exclusion recommendation: the current official support page explicitly attributes a from-scratch rebuild of its customer portal, with live service management, tickets, requests and billing. Concrete original maintained software is supported. VMware, cloudscale and Anapaya remain upstream vendors; no invention of their technology is inferred."
+        },
+        {
+            "slug": "data-purpose",
+            "name": "Data Purpose",
+            "organisationId": "p17fb9kbr3bbxt4k1tztfynvqd8g836q",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read detailed service packages and founders' account: SAP/Microsoft architecture, proofs of concept, support and training are explicit; templates are mentioned but ownership and independently maintained software assets are not established. Requires attributable connector or framework evidence, not a keep from analytics keywords.",
+            "decisiveQuestion": "Which original maintained software assets underpin its templates/connectors, distinct from SAP/Microsoft implementation?",
+            "evidence": [
+                {
+                    "url": "https://www.data-purpose.com/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the full priced catalogue offers SAP/Microsoft architecture checks, roadmaps, proofs of concept, dashboard templates, coaching and support. The founders' account confirms implementation consultancy. Templates alone do not turn this positively documented client-service catalogue into an original maintained technology platform."
+        },
+        {
+            "slug": "deloitte-zurich",
+            "name": "Deloitte Zurich",
+            "organisationId": "p174d1r5dq02et807rf5s4ej298g83tg",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Global Deloitte documents proprietary GreenLight/CortexAI software, but the Swiss member-firm page does not establish attribution to this listed entity. Hold for local entity/group product relationship; generic consulting is insufficient and global software is not silently assigned to every member firm.",
+            "decisiveQuestion": "Does the represented Swiss member firm develop original Deloitte technology rather than only use global internal tools?",
+            "evidence": [
+                {
+                    "url": "https://www.deloitte.com/ch/en.html"
+                },
+                {
+                    "url": "https://www.deloitte.com/global/en/about/press-room/deloitte-greenlight-solution.html"
+                },
+                {
+                    "url": "https://www.deloitte.com/ch/en/about/people/blogs/ceo-quarterly.html"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Deloitte Switzerland's CEO explicitly describes in-house development of Solaria in the spring-2026 interview and internal platform development in autumn 2025. This resolves the earlier Swiss attribution gap with a maintained AI application platform, not a global-product assumption. It does not establish that Deloitte developed the underlying foundation models."
+        },
+        {
+            "slug": "digital-assets-technologies",
+            "name": "Digital Assets Technologies",
+            "organisationId": "p17f3dnabjw9fg67kecskefhq18g81d8",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Homepage looks like crypto compliance consultancy, but deeper balance-report service describes an automated system and NautBeacon snapshot integrity. Determine whether NautBeacon/report technology is developed by this company or supplied by a separate entity before proposing exclusion.",
+            "decisiveQuestion": "Does this entity develop NautBeacon or its automated balance-report system, and which original component is attributable to it?",
+            "evidence": [
+                {
+                    "url": "https://dat.ag/en/"
+                },
+                {
+                    "url": "https://dat.ag/en/services/balance-report/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The detailed Balance Report offering describes a concrete automated chain-snapshot/report pipeline with supply exclusions, immutable integrity records and PDF/JSON output. This branded maintained technical service is sufficient product evidence beyond generic crypto advice. NautBeacon is a named component, not separately claimed as the company's invention."
+        },
+        {
+            "slug": "ecoparts",
+            "name": "ECOPARTS",
+            "organisationId": "p171hwc1bm3xm76xq3dphgyw7s8g9v2f",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Current official tooling page resolves the origin of Centi/Deci/Hecto cooled sprue bushes: MoldMasters supplied production details after ceasing manufacture in 2012. Ecoparts now manufactures the cooling portion using laser sintering and offers dimensional adaptations. Thus current technical production is substantiated, but the standard design is not an Ecoparts invention. The remaining own-technology question is whether its changed manufacturing process or other documented designs comprise original retained process technology rather than standard additive manufacturing of licensed/customer designs. No removal proposed.",
+            "decisiveQuestion": "Does the modified sprue-bush manufacturing method comprise an original retained process beyond standard additive manufacture of the MoldMasters design?",
+            "evidence": [
+                {
+                    "url": "https://ecoparts.ch/dienstleistungen/3d-metall-druck/werkzeugbau/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The tooling page establishes manufacture and adaptation of cooled sprue bushes using laser sintering; the original standard designs came from MoldMasters. Remaining question: is the changed manufacturing process an original developed process or standard additive manufacture of supplied designs? Technical production is real; neither MoldMasters' invention nor a proprietary-process claim can be assumed."
+        },
+        {
+            "slug": "etavis",
+            "name": "ETAVIS",
+            "organisationId": "p1735a7q09gxz3h81wm72qbz198g9aqy",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Full official Safety Lock article proves original in-house design and repeat 3D-print manufacture of a reusable electrical-breaker lockout accessory, including customer sales. It is not merely resale. However, the identified development team is Basel and this is a simple mechanical safety accessory; whether it establishes the substantive local relevant-technology scope intended for this Zurich listing remains a boundary question. Do not claim absence of all own products or infer Zurich engineering from this article. Decisive question: what original relevant technology is developed by the local listed operation, or does main accept this group-level engineered accessory as sufficient?",
+            "decisiveQuestion": "Does the Zurich operation develop relevant original technology, or should the Basel-developed Safety Lock accessory qualify at group level?",
+            "evidence": [
+                {
+                    "url": "https://www.etavis.ch/news/innovative-eigenentwicklung-fuer-mehr-sicherheit/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The Safety Lock article proves in-house design and repeat manufacture, not resale. The remaining issue is scope: development is explicitly in Basel and the output is a simple mechanical lockout accessory. Main must decide whether that group-level product qualifies this Zurich listing, or identify a relevant local development programme. No further patent or ownership documentation is required."
+        },
+        {
+            "slug": "evolyze",
+            "name": "evolyze GmbH",
+            "organisationId": "p1753x3nrbvyfndway1z8ffhr18g9yks",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read current home and company pages: software/data engineering for named clients is explicit, including Vatorex's MVP. No attributable retained platform or own product is identified in those sources. Investigated ownership gap, not evidence of inactivity or an automatic exclusion.",
+            "decisiveQuestion": "What original reusable technology does Evolyze retain beyond commissioned client software such as Vatorex?",
+            "evidence": [
+                {
+                    "url": "https://evolyze.ch/"
+                },
+                {
+                    "url": "https://evolyze.ch/about"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The company and client material identifies genuine software/data engineering and Vatorex's MVP. Remaining question: what original technology does Evolyze maintain beyond customer-only delivery? Do not attribute the customer's product to Evolyze, but do not infer inactivity or lack of technical competence."
+        },
+        {
+            "slug": "fahrenheit",
+            "name": "fahrenheit",
+            "organisationId": "p17ef6mkt80sfk7bsrrswce3dd8g916z",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Detailed agency and programming pages establish client websites/plugins but also attribute the original STMZ platform idea and full development to Fahrenheit. Retained ownership and current development of STMZ need resolution before exclusion; the agency label is not sufficient.",
+            "decisiveQuestion": "Does Fahrenheit retain and continue developing the original STMZ platform or another own reusable system?",
+            "evidence": [
+                {
+                    "url": "https://www.fahrenheit.ch/webagentur"
+                },
+                {
+                    "url": "https://www.fahrenheit.ch/webapplikation-webentwicklung-programmierung"
+                },
+                {
+                    "url": "https://www.fahrenheit.ch/referenzen/stmz"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The STMZ case explicitly documents an original PHP platform maintained over many years and a REST API built from scratch for the newly released 2025 app. Together with the company's original platform concept, this is concrete maintained software, not generic site configuration. STMZ remains the customer and brand; no exclusive-rights or patent claim is made."
+        },
+        {
+            "slug": "forte-digital",
+            "name": "Forte Digital",
+            "organisationId": "p1757az3zwr1edw41ehr4db0dx8g8tbw",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Official home and company pages describe digital consultancy and client platforms. Own retained technology remains unestablished; the current office list also omits Switzerland, so local identity/presence needs reconciliation with the existing listing. Neither omission alone proves closure.",
+            "decisiveQuestion": "Is there a current Swiss technical operation, and what original technology does it develop beyond customer platforms?",
+            "evidence": [
+                {
+                    "url": "https://www.fortedigital.com/de"
+                },
+                {
+                    "url": "https://www.fortedigital.com/de/ueber-uns"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The current office list names locations outside Switzerland and the work examples are client platforms. Remaining questions: is the listed Swiss operation still present, and does it maintain an original platform rather than only deliver client projects? Office-list omission does not prove closure; reconcile identity before any map action."
+        },
+        {
+            "slug": "helvetic-it-solution",
+            "name": "Helvetic IT Solution",
+            "organisationId": "p17frxxxwwez0sf7t3bqcb7x258g86q3",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Official services describe support, vendor-based cloud/backup and commissioned software development. Marketing assessment calculators alone do not establish substantive own technology. Hold for a retained software product/framework rather than assuming commissioned applications remain company-owned.",
+            "decisiveQuestion": "Which substantive original software or framework does HITSO retain beyond vendor services and commissioned applications?",
+            "evidence": [
+                {
+                    "url": "https://www.hitso.ch/"
+                },
+                {
+                    "url": "https://www.hitso.ch/services/website-development"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the inspected service catalogue affirmatively sells support, vendor cloud/backup and commissioned websites/software. Its public marketing calculators are not a substantive technology product. This is a service-catalogue decision, not an exclusion for sparse publicity or a failed fetch."
+        },
+        {
+            "slug": "icentic",
+            "name": "icentic",
+            "organisationId": "p173b49q1c5av62z5v3kcbjrns8g8t1q",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Homepage and SME delivery pages explicitly supply client teams/products, while company history identifies an incubation role and founder also leading beppo. Founder overlap does not establish icentic's retained ownership of beppo technology. Clarify group/product ownership before deciding; client development alone is insufficient.",
+            "decisiveQuestion": "Is beppo or another incubated technology attributable to icentic itself, beyond a shared founder?",
+            "evidence": [
+                {
+                    "url": "https://www.icentic.com/about/"
+                },
+                {
+                    "url": "https://www.icentic.com/software-development-for-sme/"
+                },
+                {
+                    "url": "https://www.icentic.com/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Incubation and founder overlap with beppo are explicit, but neither establishes that the listed icentic entity develops the beppo platform. Remaining question: what is the actual product-development/entity relationship, or another named original maintained icentic technology? Do not silently transfer founder or sister-company products."
+        },
+        {
+            "slug": "incendia",
+            "name": "incendia",
+            "organisationId": "p171faq79ghzdhgkm210e210618g9en5",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Official services describe SAP standard extensions, interfaces and custom applications in client projects. Concrete development is established but an independently retained product or framework is not; hold for ownership evidence rather than counting SAP itself as own technology.",
+            "decisiveQuestion": "Which original reusable SAP extension or framework does Incendia maintain outside individual client implementations?",
+            "evidence": [
+                {
+                    "url": "https://incendia.ch/"
+                },
+                {
+                    "url": "https://incendia.ch/dienstleistungen"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the detailed catalogue expressly starts with SAP standard functionality and delivers customer extensions, interfaces, forms, applications and support. This is affirmative client-only implementation work. SAP is not Incendia's technology; no original separate product or maintained common component is claimed in the inspected offering."
+        },
+        {
+            "slug": "insite",
+            "name": "insite",
+            "organisationId": "p17f4g3fpgvfh8awgsjw8h297n8g8k5t",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain",
+            "basis": "Keep on substantive maintained application development, not an IP certificate. The company identifies its introduction of insiteWeb, current .NET application development and maintenance, and a common reusable model-based application structure. The live AK81/AK89 user manual documents the named application's payroll, documents and permissions workflows. Together these establish a maintained software system developed by the listed team across customers, beyond generic resale. The earlier demand for explicit ownership of every common component was too strict; framework authorship and exclusive rights are not claimed.",
+            "decisiveQuestion": null,
+            "evidence": [
+                {
+                    "url": "https://insite.ch/"
+                },
+                {
+                    "url": "https://www.ak81.ch/fileadmin/user_upload/AK81/Formulare/Benutzerhandbuch-insiteWEB-AK81.pdf"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "finding": "Keep on substantive maintained application development, not an IP certificate. The company identifies its introduction of insiteWeb, current .NET application development and maintenance, and a common reusable model-based application structure. The live AK81/AK89 user manual documents the named application's payroll, documents and permissions workflows. Together these establish a maintained software system developed by the listed team across customers, beyond generic resale. The earlier demand for explicit ownership of every common component was too strict; framework authorship and exclusive rights are not claimed.",
+            "followup": null,
+            "ownTechnology": "supported",
+            "reason": "Keep on substantive maintained application development, not an IP certificate. The company identifies its introduction of insiteWeb, current .NET application development and maintenance, and a common reusable model-based application structure. The live AK81/AK89 user manual documents the named application's payroll, documents and permissions workflows. Together these establish a maintained software system developed by the listed team across customers, beyond generic resale. The earlier demand for explicit ownership of every common component was too strict; framework authorship and exclusive rights are not claimed."
+        },
+        {
+            "slug": "intecso",
+            "name": "Intecso",
+            "organisationId": "p170qqmav2b28k99am4fkwtmmd8g83gz",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "main-reviewed-disabled-map-removal",
+            "basis": "Recommend map-only exclusion under the explicit own-technology criterion. Current full catalogue, team and careers describe managed Azure/M365/Copilot, backup, security, monitoring, migration and customer support. These positively establish generic managed ICT implementation/operation, not merely a missing product search result. Main independently re-read the homepage and approved this exclusion recommendation. Preserve organisation, relationships and profile; the exact public-location proposal remains disabled pending supported action.",
+            "decisiveQuestion": null,
+            "evidence": [
+                {
+                    "url": "https://www.intecso.ch/"
+                },
+                {
+                    "url": "https://www.intecso.ch/ueber-uns/"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "finding": "Recommend map-only exclusion under the explicit own-technology criterion. Current full catalogue, team and careers describe managed Azure/M365/Copilot, backup, security, monitoring, migration and customer support. These positively establish generic managed ICT implementation/operation, not merely a missing product search result. Main independently re-read the homepage and approved this exclusion recommendation. Preserve organisation, relationships and profile; the exact public-location proposal remains disabled pending supported action.",
+            "followup": null,
+            "ownTechnology": "affirmative-service-only-recommendation",
+            "reason": "Recommend map-only exclusion under the explicit own-technology criterion. Current full catalogue, team and careers describe managed Azure/M365/Copilot, backup, security, monitoring, migration and customer support. These positively establish generic managed ICT implementation/operation, not merely a missing product search result. Main independently re-read the homepage and approved this exclusion recommendation. Preserve organisation, relationships and profile; the exact public-location proposal remains disabled pending supported action."
+        },
+        {
+            "slug": "itivity",
+            "name": "ITIVITY",
+            "organisationId": "p17ddm7715s30qndq2y270ecks8g8629",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "exclusion-recommendation-awaiting-main-review",
+            "basis": "Recommend map-only exclusion for separate main review. Direct public HTTP retrieval succeeds despite the web-reader failure. The current catalogue expressly comprises managed cloud, security, Microsoft, backup and support; the company-authored Grob Kies case describes migration of customer infrastructure into a standard-technology datacentre and pay-per-use operation. These bounded catalogue and actual-delivery checks affirm generic managed ICT rather than an original product developer. Not a finding based on inaccessible pages or lack of IP documents. Keep the location untouched pending main's separate review and supported confirmation.",
+            "decisiveQuestion": null,
+            "evidence": [
+                {
+                    "url": "https://www.itivity.ch/services/"
+                },
+                {
+                    "url": "https://www.itivity.ch/fileadmin/user_upload/Successstories/Itivity_Success_Story_Referenzstory_Grob_Kies_AG_GzA.pdf"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "finding": "Recommend map-only exclusion for separate main review. Direct public HTTP retrieval succeeds despite the web-reader failure. The current catalogue expressly comprises managed cloud, security, Microsoft, backup and support; the company-authored Grob Kies case describes migration of customer infrastructure into a standard-technology datacentre and pay-per-use operation. These bounded catalogue and actual-delivery checks affirm generic managed ICT rather than an original product developer. Not a finding based on inaccessible pages or lack of IP documents. Keep the location untouched pending main's separate review and supported confirmation.",
+            "followup": null,
+            "ownTechnology": "affirmative-service-only-recommendation",
+            "reason": "Recommend map-only exclusion for separate main review. Direct public HTTP retrieval succeeds despite the web-reader failure. The current catalogue expressly comprises managed cloud, security, Microsoft, backup and support; the company-authored Grob Kies case describes migration of customer infrastructure into a standard-technology datacentre and pay-per-use operation. These bounded catalogue and actual-delivery checks affirm generic managed ICT rather than an original product developer. Not a finding based on inaccessible pages or lack of IP documents. Keep the location untouched pending main's separate review and supported confirmation."
+        },
+        {
+            "slug": "joylab",
+            "name": "Joylab",
+            "organisationId": "p178rzk25zk4byxnhpp3tg3aj98g8ys7",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Primary project review confirms substantial electronics/firmware engineering, but selected Pan/Tilt hardware is expressly commissioned by Seervision with BST Design mechanical work. Cannot attribute customers' technology as Joylab's own. Investigate retained reusable designs or own products before removal; engineering competence itself is not disputed.",
+            "decisiveQuestion": "What original retained design or platform does Joylab develop beyond customer-owned hardware such as the Seervision pan/tilt unit?",
+            "evidence": [
+                {
+                    "url": "https://www.joylab.ch/"
+                },
+                {
+                    "url": "https://www.joylab.ch/pan-tilt-unit"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Named projects demonstrate original electronics and firmware engineering, including commissioned Seervision hardware, not mere consulting slogans. Remaining question is whether an original Joylab technology persists beyond the customer's deliverable. Customer robotics products must not be reassigned to Joylab; exclusive IP paperwork is not required to establish an identifiable reusable design."
+        },
+        {
+            "slug": "kinastic",
+            "name": "KINASTIC",
+            "organisationId": "p171vsfqf0emp07vr558ve62hd8g9h0e",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain",
+            "basis": "Retain technology eligibility and separate the announced brand migration from a closure claim. Kinastic's current primary page explicitly says its digital offering continues, contacts remain and the offering will be developed further on Aepsy's platform over coming months. The named software service and technical continuity are sufficient; acquisition does not require proof of independent IP after integration. Main should normalize the Aepsy successor relationship and separately verify whether the existing location needs a label/update. No location move, removal or independent current-occupancy certification is implied.",
+            "decisiveQuestion": null,
+            "evidence": [
+                {
+                    "url": "https://www.kinastic.com/"
+                },
+                {
+                    "url": "https://business.aepsy.com/de/aepsy-uebernimmt-kinastic"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "finding": "Retain technology eligibility and separate the announced brand migration from a closure claim. Kinastic's current primary page explicitly says its digital offering continues, contacts remain and the offering will be developed further on Aepsy's platform over coming months. The named software service and technical continuity are sufficient; acquisition does not require proof of independent IP after integration. Main should normalize the Aepsy successor relationship and separately verify whether the existing location needs a label/update. No location move, removal or independent current-occupancy certification is implied.",
+            "followup": "Announced staged migration to Aepsy, not proven closure. Review successor naming and location separately.",
+            "ownTechnology": "supported",
+            "reason": "Retain technology eligibility and separate the announced brand migration from a closure claim. Kinastic's current primary page explicitly says its digital offering continues, contacts remain and the offering will be developed further on Aepsy's platform over coming months. The named software service and technical continuity are sufficient; acquisition does not require proof of independent IP after integration. Main should normalize the Aepsy successor relationship and separately verify whether the existing location needs a label/update. No location move, removal or independent current-occupancy certification is implied."
+        },
+        {
+            "slug": "koch-it",
+            "name": "KOCH IT",
+            "organisationId": "p171erwt6v0my650pa9v3cf4bs8g8kkp",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Identity research now resolves the acquisition stage: Adnovum's 20 May 2026 primary announcement explicitly confirms Koch IT was incorporated by absorption merger in April and is now part of its public-sector team. This is not a closure or technology failure. Main should reconcile the historical Koch IT profile and Winterthur location with the already-listed Adnovum identity, preserving relationships. Current Winterthur occupancy still needs confirmation before moving or removing any location; do not infer a closed office from the merger.",
+            "decisiveQuestion": "How should the absorbed Koch IT profile and current Winterthur location be represented under existing Adnovum?",
+            "evidence": [
+                {
+                    "url": "https://www.adnovum.com/blog/adnovum-strengthens-cybersecurity-and-realigns-solutions"
+                },
+                {
+                    "url": "https://www.adnovum.com/hubfs/FILES/04_Insights/Media%20Releases/2026/20260108_Media_Release_Adnovum_iSPIN_Koch_IT_en.pdf"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "finding": "Identity research now resolves the acquisition stage: Adnovum's 20 May 2026 primary announcement explicitly confirms Koch IT was incorporated by absorption merger in April and is now part of its public-sector team. This is not a closure or technology failure. Main should reconcile the historical Koch IT profile and Winterthur location with the already-listed Adnovum identity, preserving relationships. Current Winterthur occupancy still needs confirmation before moving or removing any location; do not infer a closed office from the merger.",
+            "followup": "Absorption merger confirmed April 2026. Reconcile existing Adnovum representation and verify Winterthur site; no automatic removal.",
+            "ownTechnology": "unresolved",
+            "reason": "Adnovum explicitly confirms the April-2026 absorption merger and incorporation into its public-sector team. Resolve the historical Koch identity and Winterthur occupancy against the existing Adnovum record. This is an identity/location question, not evidence of failed technology or a closed office."
+        },
+        {
+            "slug": "linked-engineering",
+            "name": "Linked Engineering",
+            "organisationId": "p172ezfczacp9c5pcnstjvj9558g98aq",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Official home, company and detailed offering describe client product development, engineering staffing and production to customer specifications. 'Eigens entwickelte Baugruppen' establishes design work but does not settle retained own technology versus client IP. Investigated ownership hold, not automatic exclusion.",
+            "decisiveQuestion": "Which designed assemblies or engineering tools remain its own reusable technology rather than customer-only deliverables?",
+            "evidence": [
+                {
+                    "url": "https://linked-engineering.ch/"
+                },
+                {
+                    "url": "https://linked-engineering.ch/angebot/"
+                },
+                {
+                    "url": "https://linked-engineering.ch/ueber-uns/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Detailed offering establishes original assembly design, contract engineering staff and production to customer specifications. Remaining question: which identifiable assembly/control technology does the company continue developing beyond customer-only design delivery? Do not require patents or exclude substantial engineering merely because it is commissioned."
+        },
+        {
+            "slug": "mathys-partner",
+            "name": "Mathys Partner",
+            "organisationId": "p1748qrrqhnpjpdnbj5n60gae18g8rk0",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read official home and detailed glare methodology. They establish specialist simulation services and methodological differences from point-sampling competitors, but do not identify who develops the underlying simulator. Specific internal software/model ownership remains unresolved; no removal based on consultancy label.",
+            "decisiveQuestion": "Does Mathys develop the original glare simulator/method implementation or operate externally developed software?",
+            "evidence": [
+                {
+                    "url": "https://simulation.solar/"
+                },
+                {
+                    "url": "https://simulation.solar/uebersicht-blendung/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The detailed glare methodology establishes specialist simulation methods, but does not identify the simulator developer. Remaining question: does Mathys develop the calculation engine or a substantive original method, or operate licensed tools? The method's specificity is a real exception to generic consulting, not a reason to presume ownership."
+        },
+        {
+            "slug": "mecas",
+            "name": "mecas",
+            "organisationId": "p179bhdyjbxxrk4bnqpvzy629n8g82rm",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Primary homepage describes physical-AI lab research with academic collaborators, while published terms specify custom staffing, consulting and software services. No attributable retained model/product or named research artifact established from these pages. Resolve research ownership rather than assuming either laboratory label qualifies or client work disqualifies.",
+            "decisiveQuestion": "Which original model, research artifact or platform does the physical-AI lab develop and retain?",
+            "evidence": [
+                {
+                    "url": "https://www.mecas.ai/"
+                },
+                {
+                    "url": "https://www.mecas.ai/terms-of-service"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Current primary site describes a physical-AI lab and research collaborators; terms describe customer staffing, consulting and software services. Remaining question: what specific original model, system or research output is developed by this entity? The targeted primary search still provides no attributable artifact; young/private research status is not exclusion evidence."
+        },
+        {
+            "slug": "microbe-investigations",
+            "name": "Microbe Investigations Switzerland",
+            "organisationId": "p178vprfwnyt0mnx2ymh4x8rws8g887z",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read current testing catalogue, detailed USP62 service and company history. These establish a CRO performing standard and tailored efficacy tests; fundamental-research claims do not identify a retained own platform, assay or product. Resolve research ownership before eligibility change; ETH origin alone is insufficient.",
+            "decisiveQuestion": "Which company-developed assay, process or platform is distinct from standard or customer-specific CRO testing?",
+            "evidence": [
+                {
+                    "url": "https://microbe-investigations.com/about/"
+                },
+                {
+                    "url": "https://microbe-investigations.com/cosmetic-testing/detection-test/usp-62-non-sterile-product-testing/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Testing catalogue and company history establish standard and tailored microbiological testing and a research background. Remaining question: is there an identifiable original assay, testing system or research method developed by MIS rather than standard-contract testing? Targeted research did not settle this; do not substitute founder history or a different similarly named laboratory."
+        },
+        {
+            "slug": "mp-technology",
+            "name": "mp technology",
+            "organisationId": "p179tq4qs065p5xh1wq3n5kesn8g88md",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Detailed official RAG article is explicitly a client project. Event suite has original scheduling engineering and reuse across festivals, but was commissioned by the Swiss band association and retained ownership is not stated. Hold for reusable platform rights, not a finding of no technical work.",
+            "decisiveQuestion": "Does MP technology retain and develop the common festival suite or another reusable technology beyond customer commissions?",
+            "evidence": [
+                {
+                    "url": "https://www.mptechnology.ch/uber-uns/news/semantic-rag-zwischenbericht/"
+                },
+                {
+                    "url": "https://www.mptechnology.ch/uber-uns/news/emf-26-neue-festsoftware-von-mp-technology-im-haertetest/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The May-2026 festival-suite account attributes the original application and scheduling engine to MP technology and documents expansion into a reusable modular suite across festivals since 2024. Concrete continuing platform engineering resolves the earlier overstrict contractual-rights hold. The band association remains the commissioning customer; no exclusive IP claim is made."
+        },
+        {
+            "slug": "nomasis",
+            "name": "Nomasis",
+            "organisationId": "p178rt0zhq8xdg9cmtqz4xvpp18g8tyv",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Engineering page and 5 October 2026 job describe customer mobility/security integrations, migrations and operations. The page also claims R&D and bespoke automation without an attributable original artifact. Therefore evidence positively supports a service business but does not settle the R&D exception.",
+            "decisiveQuestion": "What original reusable automation or product extension does Nomasis develop beyond third-party MDM/MTD operation?",
+            "evidence": [
+                {
+                    "url": "https://nomasis.ch/"
+                },
+                {
+                    "url": "https://nomasis.ch/unternehmen/"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the current catalogue/history and previously inspected engineering-role duties consistently describe vendor MDM/MTD configuration, rollout, customer security and operation. These affirmatively establish managed mobile-IT services; generic research claims do not identify a separate original product. Do not count vendor platforms as Nomasis inventions."
+        },
+        {
+            "slug": "novita-engineering",
+            "name": "Novita Engineering",
+            "organisationId": "p17f19get7qe0mtx35m8eneegn8g9xpm",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Engineering catalogue and detailed industrialization/production page establish customer-specific design, procurement and manufacturing coordination. Space/carbon-removal sectors do not prove owned technology; retained reusable machine designs or control software remain unresolved.",
+            "decisiveQuestion": "Which original machine design, process or control software remains a reusable Novita technology beyond customer-specific design?",
+            "evidence": [
+                {
+                    "url": "https://www.novita.ch/unser-angebot"
+                },
+                {
+                    "url": "https://www.novita.ch/unser-angebot/idea-to-industry/production"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The engineering and production pages substantiate industrial design, procurement and manufacturing coordination, including sophisticated sectors. Remaining question: which concrete original machine, control system or process is maintained by Novita beyond customer-specific design delivery? Sector names and technical capability alone do not settle that product question."
+        },
+        {
+            "slug": "novu",
+            "name": "novu",
+            "organisationId": "p177mv4nky8v2hy3j8t28s3zen8g9ywc",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read company and app-development pages: client apps including Working Bicycle and Roots are explicitly commissioned examples. Its internal distribution store may be third-party or own technology, and retained reusable IP is not established. UNION acquisition is noted, not treated as closure.",
+            "decisiveQuestion": "Does Novu develop its distribution store or other retained reusable software beyond commissioned apps?",
+            "evidence": [
+                {
+                    "url": "https://novu.ch/ueber-novu"
+                },
+                {
+                    "url": "https://novu.ch/angebote/apps"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The app catalogue identifies substantive Roots, Working Bicycle and hardware-interface development, but these are expressly client products. Remaining question: is Novu's internal app-distribution platform or another maintained component original Novu technology? Do not demand legal IP certificates, attribute the clients' businesses to Novu, or treat its acquisition as closure."
+        },
+        {
+            "slug": "onmit",
+            "name": "onmit",
+            "organisationId": "p171s9rs0bsn18esdjref2spad8g818p",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read company/service and software-development pages: Teacher Switch matching platform is explicitly developed for a separate startup, and Microsoft services are vendor products. This is substantive client engineering but ownership of reusable platform/code remains unproven. Hold for retained-IP clarification; do not attribute Teacher Switch to onmit automatically.",
+            "decisiveQuestion": "Which original retained technology does onmit develop beyond Teacher Switch for a separate startup and Microsoft services?",
+            "evidence": [
+                {
+                    "url": "https://onmit.ch/"
+                },
+                {
+                    "url": "https://onmit.ch/dienstleistungen/softwareentwicklung/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Teacher Switch is genuine developed matching software but explicitly belongs to a separate startup; other catalogue entries are Microsoft services. Remaining question: does onmit maintain an original common platform/component beyond customer-specific delivery? This is technical attribution, not a patent requirement."
+        },
+        {
+            "slug": "plat4mation",
+            "name": "Plat4mation",
+            "organisationId": "p170qwbkvrcvhvkz6nm82vn1a18g8pwa",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Additional official partner-app page names co-developed apps and current Move4U material shows ongoing development. However historical 4Facility/4Industry assets were sold to ServiceNow and described as a sister company. Decisive question: which current reusable app/IP is retained by the listed Plat4mation entity rather than a client or divested product company? Historical innovation alone does not resolve retained ownership.",
+            "decisiveQuestion": "Which current shared application does Plat4mation retain beyond divested 4Industry assets and client-owned Move4U?",
+            "evidence": [
+                {
+                    "url": "https://plat4mation.com/app/partner-applications/"
+                },
+                {
+                    "url": "https://plat4mation.com/workflow/creator-workflows/application-development/"
+                },
+                {
+                    "url": "https://plat4mation.com/news/sister-company-4industry-wins-the-2023-worldwide-built-on-servicenow-solution-partner-of-the-year-award/"
+                },
+                {
+                    "url": "https://www.servicenow.com/it/company/media/press-room/acquires-advania-quality-360.html"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Current Move4U and partner-app pages establish continuing co-development, while the former 4Industry/4Facility business was divested. Remaining question: which currently maintained original application belongs to the represented Plat4mation operation, rather than the customer or divested entity? Historical innovation and client delivery must not silently substitute for that identity check."
+        },
+        {
+            "slug": "pront",
+            "name": "Pront",
+            "organisationId": "p17dqr5qrk75sfa3e2s7k22s3n8g8k7a",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Homepage, team and contact substantively reviewed: client cloud-native builds, migrations and AI proofs of concept are explicit, but reusable owned software versus commissioned customer software remains unresolved. Need retained platform or open-source attribution.",
+            "decisiveQuestion": "Which original retained platform or substantive open-source artifact does Pront maintain beyond customer cloud/AI projects?",
+            "evidence": [
+                {
+                    "url": "https://www.pront.org/"
+                },
+                {
+                    "url": "https://www.pront.org/en/company/team"
+                },
+                {
+                    "url": "https://www.pront.org/en/company/projects"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the detailed current cases describe Interdiscount cloud migration/DevOps/security and Helsana strategy, architecture and operating model. Together with its explicit consulting-boutique catalogue these affirmatively establish customer consulting/integration, not development of Helsana's own health platform by Pront."
+        },
+        {
+            "slug": "quantum-digital",
+            "name": "Quantum Digital",
+            "organisationId": "p174yapjfwc09qfrvtmtbcp9fh8g8cde",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Substantively reviewed homepage, client-project descriptions, product-acceleration and partner/product pages. Named SelfService and MediaLink examples are customer projects, while PIM/DAM offerings rely on partners. Reusable own technology or retained rights are not established; investigate these named products before proposing exclusion. Current publishing activity does not answer ownership.",
+            "decisiveQuestion": "Are SelfService, MediaLink or other components retained Quantum Digital technology rather than customer/partner products?",
+            "evidence": [
+                {
+                    "url": "https://www.q-digital.ch/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/data-driven-leadership/product-acceleration/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/unternehmen/partner-produkte/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Named SelfService and MediaLink examples are customer projects; PIM/DAM offerings identify partners. Remaining question: what original maintained component is developed by Quantum Digital rather than supplied by those customers/vendors? The named technical exceptions warrant attribution, not an agency-label exclusion."
+        },
+        {
+            "slug": "qubrix",
+            "name": "Qubrix",
+            "organisationId": "p17c9xvhacpg1sv58dd56xkr6s8g8qth",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Official home and about pages describe custom solvers, reduced-order models, GPU/HPC engineering and licensing. This is substantive engineering, but the retained/licensable technology is not identified sufficiently to distinguish own technology from customer-owned development. Young company and sparse public detail are not dormancy evidence.",
+            "decisiveQuestion": "Which original solver, model or platform is maintained/licensed by Qubrix beyond custom customer development?",
+            "evidence": [
+                {
+                    "url": "https://www.qubrix.ch/"
+                },
+                {
+                    "url": "https://qubrix.ch/about-us"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Primary pages specifically describe solvers, reduced-order models, GPU/HPC development and licensing, but no identifiable current solver/model is attributed. Remaining question: name an original maintained or licensable technical artifact. Young-company sparse disclosure is not inactivity, and patents are unnecessary."
+        },
+        {
+            "slug": "reasoning-labs",
+            "name": "Reasoning Labs",
+            "organisationId": "p17emksnc16q6zf6yvd1m9dn5h8g4cgh",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Official site contains only a superintelligence aspiration and Reasoning Machines Inc copyright. Independent primary-page and public-script review found no specific research output or product and could not resolve the local entity relationship. Investigated identity/technology hold; young or quiet status alone is not exclusion evidence.",
+            "decisiveQuestion": "What original research or product exists, and how does Reasoning Machines Inc relate to the listed local identity?",
+            "evidence": [
+                {
+                    "url": "https://reasoninglabs.com/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Current official page still states only a superintelligence aspiration and Reasoning Machines Inc identity. Earlier primary script/page investigation and the fresh page read provide no named research output or local-entity link. Remaining questions are the entity relationship and a concrete technical programme; this is not an exclusion for a quiet startup."
+        },
+        {
+            "slug": "relyz",
+            "name": "relyz",
+            "organisationId": "p17535y7nqbqtp59s2wp00re9x8g8haz",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Engineering/service and current insights pages establish client platforms, AI agents and an AI Discovery Lab. The latter could develop reusable technical assets, but current evidence describes client strategy/delivery rather than an attributable own platform. Retained technology remains unresolved; no exclusion based only on the agency label or website activity.",
+            "decisiveQuestion": "Which original reusable technology has the AI Discovery Lab or engineering team developed beyond client strategy and delivery?",
+            "evidence": [
+                {
+                    "url": "https://www.relyz.ch/"
+                },
+                {
+                    "url": "https://www.relyz.ch/services/digital-technology-engineering/"
+                },
+                {
+                    "url": "https://www.relyz.ch/insights/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the full engineering page describes customer strategy, websites/shops, portals, language-model integration, marketing automation and launch services. Its selected case is an IWP content hub and CRM introduction. The AI Discovery Lab language does not change this affirmative client-agency offering into a documented own technology platform."
+        },
+        {
+            "slug": "scanvision",
+            "name": "SCANVISION",
+            "organisationId": "p170pgzk593ett69dme8q1ezz98g9526",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read complete project catalogue and founders' technical account, including sensor-based interfaces and interactive digital twins. Research-derived methods are credible but a retained renderer/interface technology is not distinguished from commissioned visualisations. Need original software or method attribution, not exclusion because work is project-based.",
+            "decisiveQuestion": "Which renderer, interface or computational method is retained original Scanvision technology rather than a commissioned visualization?",
+            "evidence": [
+                {
+                    "url": "https://scanvision.ch/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The project catalogue and founders' account substantiate original interactive spatial visualisations and sensor interfaces. Remaining question: what maintained original renderer/interface or scientific method persists beyond the commissioned visualisations? Concrete development is recognised; no exclusive ownership proof or patent is required."
+        },
+        {
+            "slug": "scheuss-partner",
+            "name": "Scheuss & Partner",
+            "organisationId": "p175j9q32k81qb893ff9gtgx598g9b76",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Followed the specific publicloud Marketplace product page and publicly linked landing page. The product is a SaaS licence-provisioning, reporting and billing portal, while the surrounding catalogue explicitly sells vendor infrastructure and managed services. The public landing page returns an application shell without developer attribution. This narrows the exception to an actual maintained portal rather than a hypothetical hidden product, but does not show whether Scheuss develops it or licenses it. No patent/IP paperwork is required: a primary developer or maintained-original-component attribution would settle this. No removal proposed.",
+            "decisiveQuestion": "Who develops the maintained Marketplace portal: Scheuss/publicloud or an external supplier?",
+            "evidence": [
+                {
+                    "url": "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud-marketplace/"
+                },
+                {
+                    "url": "https://marketplace.publicloud.ch/"
+                },
+                {
+                    "url": "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud/"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "finding": "Followed the specific publicloud Marketplace product page and publicly linked landing page. The product is a SaaS licence-provisioning, reporting and billing portal, while the surrounding catalogue explicitly sells vendor infrastructure and managed services. The public landing page returns an application shell without developer attribution. This narrows the exception to an actual maintained portal rather than a hypothetical hidden product, but does not show whether Scheuss develops it or licenses it. No patent/IP paperwork is required: a primary developer or maintained-original-component attribution would settle this. No removal proposed.",
+            "followup": null,
+            "ownTechnology": "unresolved",
+            "reason": "The marketplace is a real SaaS provisioning/reporting/billing portal, not an unfetched hypothetical product. Its public application shell and product description do not identify the developer. Remaining question: does Scheuss develop a maintained original part of this portal or operate licensed tooling? Keep this specific exception open rather than infer ownership from branding."
+        },
+        {
+            "slug": "sotronik",
+            "name": "Sotronik",
+            "organisationId": "p1726rwtn45ptw8g668kzr9y7n8g8wkc",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Targeted retrieval of the company-authored 2017 common-good report explicitly attributes SICOS PLC manufacture to Sulzer Electronics and describes Sotronik reselling replacement parts. The full report download returned HTTP 403; the indexed primary report section was readable. Current Sotronik project material shows substantial commissioned firmware and web-control work, including the Kueng/IQONICS sauna controller, but not retained own platform attribution. Decisive question: what original reusable controller/software does Sotronik itself retain and develop? SICOS hardware must not be credited as its own manufacture.",
+            "decisiveQuestion": "What original reusable controller/software does Sotronik maintain, excluding Sulzer Electronics SICOS resale?",
+            "evidence": [
+                {
+                    "url": "https://audit.econgood.org/frm_file/aWQ6MTEwOTJ8ZmlsZW5hbWU6MjAxOF9nd29lX2JpbGFuel9wZWVyX2tfNS4wX3NvdHJvbmlrLnBkZg%3D%3D"
+                },
+                {
+                    "url": "https://www.sotronik.ch/files/Inhalte/Projektbeispiele/PrjBsp_KuengSauna.pdf"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Primary material attributes SICOS hardware to Sulzer; the Kueng/IQONICS case establishes original commissioned controller firmware. Remaining question: does Sotronik maintain its own controller/software platform beyond this customer's design? Do not require patents or falsely credit SICOS manufacturing to Sotronik."
+        },
+        {
+            "slug": "step-x",
+            "name": "STEP-X",
+            "organisationId": "p1711tsch3q7v7h3a7hr4q5w218g837c",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Chrome rendered complete solutions catalogue; ENOVIA and Scribe remain attributed vendor products, while ZOE Professional has features but no developer attribution. Targeted exact-name search did not establish an original vendor. Decisive question: who develops and owns ZOE Professional, and what technology does Step-X retain? Do not use template Wix social links as company evidence.",
+            "decisiveQuestion": "Who develops ZOE Professional, and what original technology does Step-X retain beyond ENOVIA/Scribe distribution?",
+            "evidence": [
+                {
+                    "url": "https://www.stepxsoftware.com/solutions"
+                },
+                {
+                    "url": "https://www.stepxsoftware.com/about-us"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The rendered catalogue credits ENOVIA/Scribe to vendors but does not identify the developer of ZOE Professional. Exact-name checks did not settle the author. Remaining question: is ZOE developed by Step-X or distributed? A primary developer attribution suffices; no IP certificate is required."
+        },
+        {
+            "slug": "sunrise",
+            "name": "Sunrise",
+            "organisationId": "p17d2pex4fecd9svyw6v2xqj7d8g8pe3",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Cross-reviewed the primary-30c4 amendment: network operation and customer ICT implementation do not alone establish its own developed technology. Investigate an in-house platform or technical-development programme. Do not infer ineligibility solely from this evidence gap.",
+            "decisiveQuestion": "Which original technology does Sunrise develop beyond network operation and customer ICT implementation?",
+            "evidence": [
+                {
+                    "url": "https://www.sunrise.ch/"
+                },
+                {
+                    "url": "https://careers.sunrise.ch/de/de/it-technology"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The current official IT careers page identifies Wilmaa as Sunrise's OTT division and its software-engineering team as developing yallo TV, Wilmaa TV and MySports. This is direct maintained original product development, resolving the earlier network-operator-only uncertainty."
+        },
+        {
+            "slug": "swiss-engineering-partners",
+            "name": "Swiss Engineering Partners",
+            "organisationId": "p171a7f9tv1ykp93rv7qtf6prn8g9na9",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Company/team and project overview substantiate robotics and computer-vision development for Gategroup and Stadler. Own robotics stack or retained hardware design is not distinguished from client deliverables; investigate ownership rather than treat engineering services as automatically eligible.",
+            "decisiveQuestion": "Which original robotics stack or hardware design is retained beyond Gategroup/Stadler client deliverables?",
+            "evidence": [
+                {
+                    "url": "https://www.swiss-ep.com/"
+                },
+                {
+                    "url": "https://www.swiss-ep.com/about"
+                },
+                {
+                    "url": "https://www.swiss-ep.com/projects/make-and-pack"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The Make and Pack case proves original robotics/computer-vision engineering and a complete working prototype for Gategroup. Remaining question: is there a continuing company-developed robotics stack/platform beyond the commissioned system? Do not treat technical competence as missing, require patents, or rebrand Gategroup's system as an independently marketed SEP product."
+        },
+        {
+            "slug": "swiss-infosec",
+            "name": "Swiss Infosec",
+            "organisationId": "p1779h27bm8qv9cbsd7rvyw0rs8g9n8k",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "GRC Toolbox page expressly separates Swiss Infosec consulting/introduction from sister Swiss GRC software/operation. Resolve entity-level representation; do not credit the sister software automatically or remove a legitimate group technical location without checking.",
+            "decisiveQuestion": "Does the listed Swiss Infosec entity develop original technology distinct from sister company Swiss GRC software?",
+            "evidence": [
+                {
+                    "url": "https://www.infosec.ch/mandate/grc-toolbox/"
+                },
+                {
+                    "url": "https://www.infosec.ch/"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "reason": "Recommend exclusion of this consultancy listing, pending main review: its own GRC Toolbox page explicitly assigns software and operation to Swiss GRC, while Swiss Infosec supplies consulting and implementation. The sister-company relationship is real but cannot substitute for development by this listed entity. Preserve all records and do not automatically merge group identities."
+        },
+        {
+            "slug": "swiss-robotics-advanced-technologies",
+            "name": "Swiss Robotics & Advanced Technologies",
+            "organisationId": "p177n3v8841mq33kxrbeyh9mnx8g8vfc",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Read current home and solutions pages. Autonomous/aerial robot claims coexist with explicit integration/customisation services, without identifying an owned robot design or software platform. Need specific development attribution, not exclusion for sparse startup publicity.",
+            "decisiveQuestion": "Which original robot design or software platform does it develop beyond integration and customization?",
+            "evidence": [
+                {
+                    "url": "https://www.swiss-robotics.com/"
+                },
+                {
+                    "url": "https://www.swiss-robotics.com/solutions"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The inspected home and solutions pages combine autonomous/aerial-robot claims with integration/customisation services but identify no specific original robot or software system. Remaining question: what demonstrable technical design/programme does this entity develop? Sparse publicity is not a reason to classify it as inactive or generic-only."
+        },
+        {
+            "slug": "synerma",
+            "name": "Synerma",
+            "organisationId": "p173fnc6p9953f4qyjqn6h3jbx8g960b",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Detailed project catalogue, team and technology pages distinguish client SolarChain/Eventon/BTC projects. Multi-client COVID platform and an automation platform could be retained technology, but ownership is not explicit. Need product attribution; cannot infer own IP from number of deployments.",
+            "decisiveQuestion": "Is the multi-client COVID/automation platform retained Synerma technology rather than customer-owned development?",
+            "evidence": [
+                {
+                    "url": "https://www.synerma.ch/"
+                },
+                {
+                    "url": "https://www.synerma.ch/about"
+                },
+                {
+                    "url": "https://www.synerma.ch/technologies"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The detailed current company catalogue distinguishes its automation platform from software brokerage and individual client products, and describes an extensively deployed COVID software platform. This is attributable continuing platform development beyond simple resale. SolarChain/Eventon/BTC remain client examples, not claimed Synerma-owned brands."
+        },
+        {
+            "slug": "tailorfast",
+            "name": "tailorfast",
+            "organisationId": "p171q89688h02b784gxvhtjdwh8g9r63",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Homepage and founder history establish Prolutions rebrand and focused order-processing software engineering. No distinct reusable product or retained framework is established beyond customised client processes; need product ownership evidence, not exclude based on consultancy history.",
+            "decisiveQuestion": "Which original reusable order-processing product/framework exists beyond customized customer processes?",
+            "evidence": [
+                {
+                    "url": "https://www.tailorfast.com/"
+                },
+                {
+                    "url": "https://www.tailorfast.com/ueber-uns.html"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The current offering and founder history establish specialised order-processing software, integrations and several demonstrations. Remaining question: is there a common original maintained order-processing engine, rather than only separately commissioned workflows? Do not demand legal title documents; product architecture/developer attribution would suffice."
+        },
+        {
+            "slug": "tekkminds",
+            "name": "TekkMinds",
+            "organisationId": "p17fdp7m221rspwqa8xne9r2hs8g8g8n",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Detailed OTA update and QEMU vehicle-simulation case studies substantiate substantial engineering, but explicitly for an automotive manufacturer. Retained platform ownership outside the client contract remains unresolved; neither scale nor technical sophistication proves own IP.",
+            "decisiveQuestion": "Which original reusable technology is retained beyond the automotive customer simulation and OTA deliverables?",
+            "evidence": [
+                {
+                    "url": "https://tekkminds.com/"
+                },
+                {
+                    "url": "https://tekkminds.com/work/simulation-platform/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The detailed case proves substantial original simulation software and five years of maintenance, using QEMU for an automotive customer. Remaining question: is the simulator a continuing TekkMinds technology or solely the customer's commissioned platform? QEMU integration alone is not disqualifying; neither customer scale nor contract maintenance automatically establishes an own product."
+        },
+        {
+            "slug": "timetoact-group-schweiz",
+            "name": "TIMETOACT GROUP Schweiz",
+            "organisationId": "p176eh766r1dwzsrmhm0s84hh58g90y1",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Technology catalogue and Mendix test-automation page reviewed: the latter explicitly credits partner Menditect, not TIMETOACT development. Need specific group-owned product attributable to the represented identity; broad group software competency does not establish it.",
+            "decisiveQuestion": "What retained group technology is developed by the represented operation, excluding partner Menditect software?",
+            "evidence": [
+                {
+                    "url": "https://www.timetoact-group.ch/technologien"
+                },
+                {
+                    "url": "https://www.timetoact-group.ch/technologien/mendix/mendix-testautomation"
+                },
+                {
+                    "url": "https://www.timetoact-group.ch/loesungen/identity-governance-and-administration-mit-ibm-igi"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The Swiss site's detailed rapID page explicitly attributes development to TIMETOACT experts and describes a maintained standard identity-governance solution. IBM IGI is clearly the foundation, not claimed as its invention. A concrete maintained product built on vendor technology qualifies without requiring invention of every component."
+        },
+        {
+            "slug": "trias-pharma",
+            "name": "Trias Pharma",
+            "organisationId": "p17e7detjkea1jvf62brkadg9n8g819z",
+            "decision": "keep",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Official services and founder biographies establish client drug formulation/CMC development and patent-inventor experience. They do not attribute the patents or a current development platform to Trias rather than past employers/clients. Require company-specific own-technology evidence; do not equate founder patents with company IP.",
+            "decisiveQuestion": "Which assay, formulation/process platform or invention is attributable to Trias rather than founders past employers or clients?",
+            "evidence": [
+                {
+                    "url": "https://www.trias-pharma.com/"
+                },
+                {
+                    "url": "https://www.trias-pharma.com/about"
+                },
+                {
+                    "url": "https://www.trias-pharma.com/services"
+                },
+                {
+                    "url": "https://www.trias-pharma.com/tablets"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the service and tablet pages explicitly sell client CMC/formulation consultancy, CMO selection, on-site supervision and troubleshooting. Named cases are customer formulation projects; founder experience at prior employers is not a company-owned development platform. This is an affirmative scope recommendation, not a claim that formulation expertise lacks technical merit.",
+            "historicalDecision": "exclude",
+            "status": "superseded-not-a-removal-recommendation",
+            "currentDecision": "keep",
+            "supersededBy": "company-eligibility-exclusions.json",
+            "currentReason": "Withdraw the service-only exclusion: the specific medicinal-cannabis case says the company initiated development and successfully developed several stable marketed formulations. Original formulation/process development qualifies without patents or a standalone branded platform. The separate inhalation device remains a client collaboration, not credited as wholly Trias-owned."
+        },
+        {
+            "slug": "umb",
+            "name": "UMB",
+            "organisationId": "p17a4v926sgmxexwkmtjacjyh18g9vv4",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Investigated the apparent own-product lead from UMB's 2021 acquisition of ubitec and meshTec. The successor's primary 2022 announcement explicitly says UMB Solutions was excluded from the BKW sale, became independent mesoneer and retained the identification/signature/open-banking applications. Those products cannot establish current UMB eligibility. Current UMB platform-builder and AI offerings establish engineering but not specific original reusable technology. Decisive gap: identify technology developed and retained by present UMB rather than independent mesoneer or vendors. No removal proposed.",
+            "decisiveQuestion": "What original reusable technology does present UMB develop, excluding independent mesoneer and vendor platforms?",
+            "evidence": [
+                {
+                    "url": "https://www.umb.ch/en/blog/news/detail/umb-expands-its-technology-business-transformation-offerings"
+                },
+                {
+                    "url": "https://www.mesoneer.io/blog/umb-solutions-now-operates-as-mesoneer"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/platform-builder"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/ai-data-scientist"
+                },
+                {
+                    "url": "https://www.umb.ch/blog/news/detail/quick-and-easy-so-richten-sie-ihre-eigene-devops-umgebung-ein"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "The newly read 2019 DevOps page describes a UMB-built provisioning solution on its cloud, but does not establish current continuation after the documented mesoneer separation. Remaining question: which original platform component is maintained by present-day UMB? Do not credit the divested identification/signature products to UMB or reject OSS-based development."
+        },
+        {
+            "slug": "unimission",
+            "name": "Unimission",
+            "organisationId": "p17f3gm79eqcybgeq6hk5j9tt18g9wpr",
+            "decision": "uncertain",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "UniVision is explicitly preconfigured SolarWinds monitoring with hardware, weekly support and environmental contributions. Those features are not evidence of an original monitoring engine. Original automation or uNimbus platform extensions remain an unresolved exception, not an approved removal.",
+            "decisiveQuestion": "Which original reusable software/hardware does Unimission develop beyond SolarWinds and IBM-based cloud operation?",
+            "evidence": [
+                {
+                    "url": "https://www.unimission.ch/"
+                },
+                {
+                    "url": "https://www.unimission.ch/univision/"
+                },
+                {
+                    "url": "https://www.unimission.ch/unimbus-die-100-schweizer-cloud-fuer-kmus/"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the detailed named offerings positively identify UniVision as SolarWinds-based and uNimbus as IBM Power/Green-hosted private-cloud operation with governance/support. These are vendor services, not attributable original products. The decision is grounded in the named catalogue, not vendor use alone or a missing patent.",
+            "historicalDecision": "exclude",
+            "status": "superseded-not-a-removal-recommendation",
+            "currentDecision": "uncertain",
+            "supersededBy": "company-eligibility-exclusions.json",
+            "currentReason": "Official company history explicitly states that development of Swiss Private Cloud uNimbus began in 2025. Green hosting, IBM infrastructure and SolarWinds-powered UniVision do not disprove original uNimbus development. The catalogue does not identify an original control-plane/software component or technical process. Prior exclusion is unsafe until this branch is resolved."
+        },
+        {
+            "slug": "vayron",
+            "name": "Vayron",
+            "organisationId": "p17da181ar2yj9t3vxy6jm89rh8g9fhj",
+            "decision": "keep",
+            "classification": "original-technology-supported",
+            "recommendation": "retain",
+            "basis": "Keep on the concrete maintained Vector platform: its primary page describes a recurring SBOM ingestion, multi-source vulnerability correlation, policy/triage and regulatory-reporting pipeline, explicitly engineered in Switzerland and built on Dependency-Track. This establishes a substantive integrated technical system beyond generic security advice. Open-source foundations and delivery as a managed service do not disqualify original platform engineering. The earlier demand for separately documented proprietary extension rights was too strict. Do not attribute the upstream Dependency-Track engine itself to Vayron.",
+            "decisiveQuestion": null,
+            "evidence": [
+                {
+                    "url": "https://www.vayron.ch/en/"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "finding": "Keep on the concrete maintained Vector platform: its primary page describes a recurring SBOM ingestion, multi-source vulnerability correlation, policy/triage and regulatory-reporting pipeline, explicitly engineered in Switzerland and built on Dependency-Track. This establishes a substantive integrated technical system beyond generic security advice. Open-source foundations and delivery as a managed service do not disqualify original platform engineering. The earlier demand for separately documented proprietary extension rights was too strict. Do not attribute the upstream Dependency-Track engine itself to Vayron.",
+            "followup": null,
+            "ownTechnology": "supported",
+            "reason": "Keep on the concrete maintained Vector platform: its primary page describes a recurring SBOM ingestion, multi-source vulnerability correlation, policy/triage and regulatory-reporting pipeline, explicitly engineered in Switzerland and built on Dependency-Track. This establishes a substantive integrated technical system beyond generic security advice. Open-source foundations and delivery as a managed service do not disqualify original platform engineering. The earlier demand for separately documented proprietary extension rights was too strict. Do not attribute the upstream Dependency-Track engine itself to Vayron."
+        },
+        {
+            "slug": "voviva",
+            "name": "Voviva",
+            "organisationId": "p174zn30nyj5q0ky5w9vz0mqr18g8qkb",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Detailed Dextra case describes genuine jointly developed claims-intake software integrated with the client's records, currently in development. No retained reusable framework/product rights are stated. Hold for ownership attribution; neither a generic chatbot keyword keep nor an exclusion for startup age.",
+            "decisiveQuestion": "Does Voviva retain a reusable claims-intake framework beyond the joint Dextra customer project?",
+            "evidence": [
+                {
+                    "url": "https://voviva.ch/projekte/guided-claims-intake/"
+                },
+                {
+                    "url": "https://voviva.ch/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Dextra's case establishes genuine joint development of multilingual legal claims intake, still in development. Remaining question: does Voviva develop a common original system beyond this single client's workflow? Do not require commercial maturity or exclusive rights, but do not infer a reusable own product from a commissioned LLM integration."
+        },
+        {
+            "slug": "wetalkwithyou",
+            "name": "wetalkwithyou",
+            "organisationId": "p177w21wmyn16thc8dy1113wrd8g98bh",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Technology page explicitly prefers established frameworks over bespoke individual constructions; examples are customer shops, websites and booking systems. This supports an agency model, but framework use alone does not rule out original reusable modules. Keep outside the strongest three exclusion-review candidates.",
+            "decisiveQuestion": "Which original reusable module or application does it maintain beyond commissioned shops and established frameworks?",
+            "evidence": [
+                {
+                    "url": "https://wetalkwithyou.com/"
+                },
+                {
+                    "url": "https://wetalkwithyou.com/technology"
+                },
+                {
+                    "url": "https://wetalkwithyou.com/technology/ably"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "reason": "Recommend exclusion, pending main review: the technology strategy and Ably case explicitly offer commissioned shops/web applications on established frameworks. This is affirmative generic agency delivery in the inspected catalogue, not a rule against open-source software or an assertion that hidden own technology cannot exist."
+        },
+        {
+            "slug": "won-data",
+            "name": "WOn-Data",
+            "organisationId": "p17caxktpgqwwz07sm50ygdwxh8g82v4",
+            "decision": "uncertain",
+            "classification": "specific-unresolved-evidence-question",
+            "recommendation": "retain-pending-specific-evidence",
+            "basis": "Chrome recovered the full services page: colocation, standard redundant power/cooling, carrier links and monitoring are explicit, alongside a customer reporting portal. Access is no longer the blocker. Decisive question: is that portal or any monitoring/control system developed by WOn-Data, rather than standard datacentre tooling? Operating an engineered building alone is not sufficient, but no removal proposed without settling the specific software exception.",
+            "decisiveQuestion": "Does WOn-Data develop its reporting portal or monitoring/control software, rather than deploy standard datacentre tooling?",
+            "evidence": [
+                {
+                    "url": "https://won-data.ch/"
+                },
+                {
+                    "url": "https://won-data.ch/dienstleistungen/"
+                }
+            ],
+            "reviewMethod": "cross-review-of-existing-substantive-primary-assessment",
+            "apply": false,
+            "reason": "Recovered full service catalogue establishes colocation, carrier connectivity and standard power/cooling/monitoring plus an actual reporting portal. Remaining question: who develops that portal or another original control system? Access is resolved; operating the datacentre alone does not settle the specific software-development exception."
+        },
+        {
+            "slug": "zurichnetgroup",
+            "name": "zurichnetgroup",
+            "organisationId": "p17f6k23mre9v2z05c233nj77h8g8p75",
+            "decision": "exclude",
+            "classification": "affirmative-service-scope-recommendation",
+            "recommendation": "main-reviewed-disabled-map-removal",
+            "basis": "Recommend map-only exclusion: the current catalogue explicitly supplies Microsoft/Swisscom vendor integrations, and the Senior IT System Engineer role specifies installation, migration and expansion of customer infrastructure. This is affirmative generic managed-ICT evidence across catalogue and actual work duties. Main independently read these primary pages and approved the recommendation. Preserve organisation, relationships and profile; the exact public-location proposal remains disabled pending supported action.",
+            "decisiveQuestion": null,
+            "evidence": [
+                {
+                    "url": "https://www.zurichnetgroup.ch/"
+                },
+                {
+                    "url": "https://www.zurichnetgroup.ch/jobs/senior-it-engineer"
+                }
+            ],
+            "reviewMethod": "existing-assessment-plus-targeted-current-primary-read",
+            "apply": false,
+            "finding": "Recommend map-only exclusion: the current catalogue explicitly supplies Microsoft/Swisscom vendor integrations, and the Senior IT System Engineer role specifies installation, migration and expansion of customer infrastructure. This is affirmative generic managed-ICT evidence across catalogue and actual work duties. Main independently read these primary pages and approved the recommendation. Preserve organisation, relationships and profile; the exact public-location proposal remains disabled pending supported action.",
+            "followup": null,
+            "ownTechnology": "affirmative-service-only-recommendation",
+            "reason": "Recommend map-only exclusion: the current catalogue explicitly supplies Microsoft/Swisscom vendor integrations, and the Senior IT System Engineer role specifies installation, migration and expansion of customer infrastructure. This is affirmative generic managed-ICT evidence across catalogue and actual work duties. Main independently read these primary pages and approved the recommendation. Preserve organisation, relationships and profile; the exact public-location proposal remains disabled pending supported action."
+        }
+    ],
+    "currentDecisionCounts": {
+        "keep": 12,
+        "exclude": 15,
+        "uncertain": 34
+    },
+    "latestDecisions": "company-eligibility-final54.json",
+    "originalClassificationCounts": {
+        "named-technology-attribution-or-scope-gap": 22,
+        "entity-or-local-development-attribution": 9,
+        "client-engineering-or-research-attribution-gap": 22,
+        "affirmative-service-or-resale-offering": 8
+    },
+    "companiesAndStartups": 893,
+    "eligibilityResolved": false,
+    "sourceLimit": "Historical cohort re-evaluated through the final54 report; unresolved facts are not removal approvals. Current recommendations and approval state are in the linked latest report and disabled manifest.",
+    "historicalSnapshot": true,
+    "supersededBy": "company-eligibility-exclusions.json",
+    "currentDecisionAuthority": "company-eligibility-audit.json",
+    "apply": false,
+    "notExecutable": true,
+    "supersessionNotice": "Historical research only. Counts, open questions and recommendations may be stale. Use the current exclusions manifest and audit; do not execute historical operations.",
+    "withdrawnExclusionOverrides": [
+        {
+            "slug": "stutz-medien",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "cyberlink",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "trias-pharma",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "cross-works",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "unimission",
+            "decision": "uncertain",
+            "status": "withdrawn-unresolved",
+            "apply": false
+        },
+        {
+            "slug": "blackpoints",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "dream-production",
+            "decision": "uncertain",
+            "status": "withdrawn-unresolved",
+            "apply": false
+        }
+    ],
+    "correctedStaleExclusions": ["cyberlink", "trias-pharma", "unimission"],
+    "latestCatalogueChallenge": "company-eligibility-removal-review.json"
+}

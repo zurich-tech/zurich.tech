@@ -1,0 +1,183 @@
+{
+    "reviewedOn": "2026-10-15",
+    "scope": "Only five category/granularity and seven identity cases from the frozen55",
+    "organisationWrites": 0,
+    "productionCheckpoint": {
+        "mainReportedTotal": 1140,
+        "localSnapshotCount": 1133,
+        "localAliasMatches": [],
+        "requiresFreshCheckBeforePreparation": true
+    },
+    "frozenPublished": ["oomnium", "splint-invest", "trustlinq", "brick-towers"],
+    "publicationAuthority": "work/organisations/membership-last-main-review.json",
+    "counts": {
+        "reviewed": 12,
+        "recommendPreparation": 5,
+        "specificEvidenceHolds": 6,
+        "excludedCurrentCandidate": 1,
+        "otherFrozen55NotRevisited": 43,
+        "importReady": 0
+    },
+    "categoryAuthority": "work/organisations/membership-category-review.json",
+    "boundary": "Main's exact-five category decisions supersede the initial recommendations. Local data-centre operation and globally owned platforms do not establish original local technical development. No automatic company eligibility from infrastructure ownership. Training alone does not qualify a commercial company. Distinct research labs and technical ecosystems retain their separate criteria. Recommendations are not approved imports.",
+    "decisions": [
+        {
+            "identityKey": "balgristuniversitatsklink",
+            "recommendation": "prepare-distinct-lab",
+            "name": "Ingenuity Lab",
+            "kind": "lab",
+            "reason": "Balgrist explicitly established this named laboratory; its own current site identifies the same leader and original medical materials, sensors and devices. Prefer this distinct research identity, not the entire hospital mislabelled as a university. Do not create separate profiles for its internal projects or borrow spin-off products.",
+            "sources": [
+                "https://www.balgrist.ch/ueber-uns/medien/universitaetsklinik-balgrist-eroeffnet-ingenuity-lab-688/",
+                "https://ingenuitylabz.com/",
+                "https://www.linkedin.com/company/the-ingenuity-lab"
+            ],
+            "location": "Corporate lab LinkedIn specifies Lengghalde 5, 8008 Zurich; its website confirms Balgrist/ETH affiliations. Do not substitute hospital Forchstrasse 340 for the lab.",
+            "remaining": "Check institution-owner overlap, confirm exact lab building from institutional contact/federal evidence, then prepare assets/socials"
+        },
+        {
+            "identityKey": "equinix",
+            "recommendation": "hold-local-technical-development",
+            "name": "Equinix",
+            "kind": "company",
+            "reason": "Main rejected operation/availability of globally developed Fabric and Cloud Router as sufficient local-development evidence. Retain those facts as context, not import justification. This is not a permanent exclusion or claim that Equinix globally lacks original technology.",
+            "sources": [
+                "https://docs.equinix.com/fabric-cloud-router/",
+                "https://www.equinix.com/data-centers/europe-colocation/switzerland-colocation/zurich-data-centers/zh4"
+            ],
+            "location": "ZH4 data centre, Josefstrasse 225, 8005 Zurich",
+            "remaining": "Specific attributable local technical-development evidence; do not prepare from ZH4 operation or product availability alone"
+        },
+        {
+            "identityKey": "greendatacanter",
+            "recommendation": "hold-local-technical-development",
+            "name": "Green",
+            "kind": "company",
+            "reason": "Main requires specific original local technical-development evidence beyond data-centre engineering/operation. Reviewed reference-architecture and heat-recovery collaboration do not yet satisfy that decision. Preserve Green identity correction without promoting it to ready; not a permanent globally-nontech exclusion.",
+            "sources": [
+                "https://www.green.ch/de/ueber-green/so-handeln-wir/waermeverbund",
+                "https://www.green.ch/de/grosskunden/datacenter-standorte/green-schweiz/campus-zrh2-dielsdorf"
+            ],
+            "location": "Green Datacenter AG, Campus ZRH2, Niederhaslistrasse 4, 8157 Dielsdorf",
+            "remaining": "Specific original local technical-development evidence, not infrastructure ownership or partner technology; source typo Green Datacanter is not another entity"
+        },
+        {
+            "identityKey": "digitalrealty",
+            "recommendation": "hold-local-technical-development",
+            "name": "Digital Realty",
+            "kind": "company",
+            "reason": "Main rejected global ServiceFabric capability plus Zurich operations as sufficient original local technical-development evidence. Do not automatically attribute global platform development to these operational sites. This remains an evidence hold, not a permanent globally-nontech exclusion.",
+            "sources": [
+                "https://www.digitalrealty.com/platform-digital/connectivity/service-fabric/product-documentation",
+                "https://www.digitalrealty.com/data-centers/emea/zurich"
+            ],
+            "location": "ZUR1: Sägereistrasse 35, Glattbrugg 8152; other facilities are separate buildings, not duplicate identities",
+            "remaining": "Specific local technical-development evidence before preparation; retain Interxion alias for eventual deduplication"
+        },
+        {
+            "identityKey": "swisscyberinstitute",
+            "recommendation": "exclude-current-training-only-candidate",
+            "name": "Swiss Cyber Institute",
+            "reason": "Substantive technical teaching is real, but this commercial provider must not be relabelled university/nonprofit to bypass company criteria. A July2026 workshop explicitly demonstrates its technical skills assessment tool, improving the evidence, but does not identify original development versus licensed tooling. Its assessment page describes a customised hacking environment without resolving that attribution.",
+            "sources": [
+                "https://swisscyberinstitute.com/about-us/",
+                "https://swisscyberinstitute.com/security-skills-assessment/",
+                "https://swisscyberinstitute.com/resources/events/ai-capability-building-workshop-in-san-francisco/"
+            ],
+            "location": "Talacker 50, 8001 Zurich, official footer",
+            "remaining": "Reconsider only on independent technical-development evidence or separately evidenced qualifying research/community remit. Do not misclassify as university/nonprofit"
+        },
+        {
+            "identityKey": "atos",
+            "recommendation": "prepare-single-group-company",
+            "name": "Atos",
+            "kind": "company",
+            "reason": "Current October2026 Zurich engineering vacancy explicitly places original Java software development under Eviden, described by the employer as Atos Group's product brand. Swiss sovereign-systems page jointly identifies Atos and Eviden. Recommend one Atos identity mentioning Eviden, not two records for the same reviewed operation, and do not inherit disposed Bull activities.",
+            "sources": [
+                "https://jobs.atos.net/job/Zurich-Senior-Full-stack-Java-Software-Engineer-(mwd)/1392755933/",
+                "https://atos.net/en/lp/digital-sovereignty-for-switzerland",
+                "https://atos.net/en/worldwide-locations"
+            ],
+            "location": "Swiss head office Freilagerstrasse 28, 8047 Zurich",
+            "remaining": "Exact current local legal/branding attribution and alias review before importer preparation; no Polycom vendor-hardware ownership claim"
+        },
+        {
+            "identityKey": "tamediatxgroup",
+            "recommendation": "prepare-operating-company-not-parent",
+            "name": "Tamedia",
+            "kind": "company",
+            "reason": "Tamedia's own Zurich Design & Engineering vacancy explicitly attributes development and launch of its news apps/web products to its Digital Products team. Current TX report distinguishes Tamedia from JobCloud, SMG, Doodle and Zattoo. Prepare Tamedia once, not an additional TX umbrella using those subsidiaries' products.",
+            "sources": [
+                "https://jobs.tamedia.ch/jobs/7384336-product-manager-80-100",
+                "https://tx.group/news-events/detail/tx-group-positive-development-in-the-first-half-of-2026/"
+            ],
+            "remaining": "Current physical street, public address/federal building, genuine logo and corporate social; do not copy TX postal8021 as physical postcode without checking"
+        },
+        {
+            "identityKey": "orellfussli",
+            "recommendation": "prepare-security-printing-identity",
+            "name": "Orell Füssli",
+            "kind": "company",
+            "reason": "Corporate security-printing profile establishes Zurich manufacturing and design. Its own corporate post attributes Escher 3D intaglio methods to Orell Füssli. Prefer one company focused on its security-printing division; do not use bookstore products or attribute Procivis/Zeiser subsidiary technology without separate evidence.",
+            "sources": [
+                "https://www.linkedin.com/company/orellfusslisecurityprinting/",
+                "https://www.linkedin.com/posts/orellfusslisecurityprinting_highsecurityprinting-ofs-design-activity-7204191241306009600-Of0G",
+                "https://orell-fuessli-prod.fra1.cdn.digitaloceanspaces.com/images/corporate/pdf/investoren/OF_Annual_Report_2024.pdf"
+            ],
+            "accessLimit": "ofs.ch reader returned403; indexed corporate post supplies development evidence but direct post reader cache miss. Do not claim these pages were successfully read directly",
+            "location": "Corporate address Dietzingerstrasse 3, 8036 Zurich; physical postcode versus postal8036 remains to verify",
+            "remaining": "Direct corporate report/site corroboration, exact current operating entity, postcode/building and assets before ready packet"
+        },
+        {
+            "identityKey": "arcton",
+            "recommendation": "identity-resolved-hold-current-product-and-location",
+            "name": "Arcton",
+            "reason": "Historical own FAQ names MetaOne AG and Francesco Biviano; current site names Francesco and invoices MetaOne AG. This supports continuity rather than an unrelated-domain assumption. Current proposition is research/outreach with Rex, not the old tokenisation product. Examples are explicitly illustrative and legal terms call themselves an operational draft.",
+            "sources": [
+                "https://arcton.gitbook.io/documentation/fundamentals/faq/arcton",
+                "https://arcton.com/solutions/",
+                "https://arcton.com/terms.html"
+            ],
+            "remaining": "Verify current original Rex implementation and current public Zurich/Zug business address; do not requeue historical blockchain/fintech claims"
+        },
+        {
+            "identityKey": "bussolaaiag",
+            "recommendation": "hold-unresolved-primary-identity",
+            "name": "Bussola AI AG",
+            "reason": "Exact public member card was read in Chrome and names Eric Muxagata and hedge-fund fundamental analysis. It exposes no corporate website, legal identifier or address. Exact name/person searches did not supply a verified corporate bridge. Brazilian bussola.ai remains a rejected match, not an alternative identity.",
+            "sources": [
+                "https://swissfinte.ch/about/our-members/#!biz/id/67efd59c26f03af3c60110cc"
+            ],
+            "remaining": "Official company domain/legal identity and local public address; membership description alone insufficient. Public profile boundary respected, no login/bypass"
+        },
+        {
+            "identityKey": "legata",
+            "recommendation": "hold-unresolved-primary-identity",
+            "name": "Legata",
+            "reason": "Exact public member card was read in Chrome and exposes only the name. Current legata.com is US estate planning. The previously considered LinkedIn profile explicitly says Frankfurt and links legata.cc, not a Swiss company. Correct the prior Swiss-consultancy assumption; neither namesake establishes the membership identity.",
+            "sources": [
+                "https://swissfinte.ch/about/our-members/#!biz/id/67864ddf7f94dcbe6b036036",
+                "https://legata.com/about/",
+                "https://www.linkedin.com/company/legata"
+            ],
+            "accessLimit": "legata.cc not accessible in reader",
+            "remaining": "Authoritative bridge from member to company plus Zurich/Zug presence; no borrowed US product or German address"
+        },
+        {
+            "identityKey": "innovationzurich",
+            "recommendation": "prepare-one-ecosystem-community",
+            "name": "Innovation Zurich",
+            "kind": "community",
+            "reason": "Exact Chrome member card describes the neutral innovation platform, matching the City of Zurich's joint initiative of cantonal economic promotion, Greater Zurich Area and Innovation Park Zurich. Identity is the wider platform, not automatically the narrower #Digital programme. Technical ecosystem scope qualifies under the separate community rule; do not create a duplicate government agency/company.",
+            "sources": [
+                "https://swissfinte.ch/about/our-members/#!biz/id/67bf47e7ec20e4df620f27d8",
+                "https://www.stadt-zuerich.ch/de/stadtleben/wirtschaft-und-gewerbe/angebote-fuer-unternehmen.html",
+                "https://www.zh.ch/de/news-uebersicht/mitteilungen/2022/wirtschaft-arbeit/innovation-zurich.html",
+                "https://www.zh.ch/de/wirtschaft-arbeit/wirtschaftsstandort/ict/innovation-zurich-digital.html"
+            ],
+            "remaining": "Confirm platform contact attribution before using AWI Walchestrasse19;8090 is administrative mailing postcode. Prepare exact building, artwork and corporate socials; no standalone office inferred from partner offices"
+        }
+    ],
+    "accounting": "After main's exact-five decisions: five recommended for preparation, six specific evidence holds, one current training-only candidate excluded; zero ready imports. Other43 unchanged. This report supersedes only these12 decisions; main category review is authoritative for exact-five eligibility.",
+    "browser": "Own ephemeral Chrome tab used for three exact membership cards and closed; user/admin tabs untouched"
+}

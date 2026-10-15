@@ -1,0 +1,20 @@
+{
+    "date": "2026-10-15",
+    "status": "published-independently-verified",
+    "productionCountBefore": 1184,
+    "productionCountAfter": 1190,
+    "equipment": {
+        "names": ["MBV", "MMS Membrane Systems", "Nisco Engineering", "Buchiglas"],
+        "manifest": "/tmp/zurich-registry-review/primary-30c4-biotech-equipment-hosted-ready.json",
+        "primaryReview": "Main reviewed official product/development and contact evidence. MBV's Stafa base is not described as its outsourced manufacturing site. Buchiglas headquarters and development/manufacture are not conflated into a claim that all manufacturing occurs at the mapped office. Nisco's official contact page confirms Wehntalerstrasse 562."
+    },
+    "platforms": {
+        "names": ["Wemedoo", "Deep Breath Intelligence"],
+        "manifest": "/tmp/zurich-registry-review/primary-30c4-biotech-platforms-hosted-ready.json",
+        "primaryReview": "Main reviewed Wemedoo's oomnia platform and Steinhausen contact, and DBI's breath collection/injection instruments, EPIbreath software and Rotkreuz headquarters on official product/contact pages."
+    },
+    "deduplication": "Fresh complete production reads at1184 found no exact identity, domain or public-address match. Additional current name/slug/website checks for MBV, membrane, Nisco, Buchi/Buechi/Buchiglas, Wemedoo, DBI and Deep Breath found no matches.",
+    "artwork": "Main visually approved the six genuine marks before hosting. Fresh hosted checks verified expected hashes, full-pixel decoding, dimensions and CORS for every asset. No invented crop or placeholder was used.",
+    "publication": "Each frozen batch passed a supported dry run, was applied exactly once, and passed independent complete organisation-field, public-location, address and social-link verification. Both verification reads reported1190 total organisations. Do not reapply.",
+    "limitations": "These six are verified additions, not completion of the whole directory. Source reconciliation, pending exclusions and final map review remain in progress. No code was committed or deployed."
+}

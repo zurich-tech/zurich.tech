@@ -1,0 +1,605 @@
+{
+  "apply": false,
+  "organisations": [
+    {
+      "id": "p171a7f9tv1ykp93rv7qtf6prn8g9na9",
+      "slug": "swiss-engineering-partners",
+      "expectedDescription": "Develops robotics and physical-AI automation systems.",
+      "description": "Develops robotics and physical-AI automation systems"
+    },
+    {
+      "id": "p178v5fywp8a5tz8g612eadbbh8g9dtx",
+      "slug": "nerai-bioscience",
+      "expectedDescription": "Develops genome-editing technology and therapeutic research programs.",
+      "description": "Develops genome-editing technology and therapeutic research programs"
+    },
+    {
+      "id": "p17f48fpsynbkp9ve6baxrqqds8g97qr",
+      "slug": "kuafu",
+      "expectedDescription": "Develops an energy-management platform for coordinating and optimizing energy systems.",
+      "description": "Develops an energy-management platform for coordinating and optimizing energy systems"
+    },
+    {
+      "id": "p173b6v5tzy0htz2pts2cwyb818g8f7f",
+      "slug": "pq-technologies",
+      "expectedDescription": "Develops Nucleus, software for automating regulatory compliance and risk-management workflows.",
+      "description": "Develops Nucleus, software for automating regulatory compliance and risk-management workflows"
+    },
+    {
+      "id": "p1760smg0hd0ndfn7368pd8j0s8g95wg",
+      "slug": "laceup",
+      "expectedDescription": "Develops software for outdoor challenges and events using GPS timing without fixed event infrastructure.",
+      "description": "Develops software for outdoor challenges and events using GPS timing without fixed event infrastructure"
+    },
+    {
+      "id": "p17a4vf601948vh38zwz71wtkx8g8rhq",
+      "slug": "instaheat",
+      "expectedDescription": "Develops liquid-heating devices and technology for industrial applications.",
+      "description": "Develops liquid-heating devices and technology for industrial applications"
+    },
+    {
+      "id": "p17agv6hsbwqp9yexwbeh1pd698g9qav",
+      "slug": "cartorga",
+      "expectedDescription": "Develops software for automating primary research and structured organizational assessments.",
+      "description": "Develops software for automating primary research and structured organizational assessments"
+    },
+    {
+      "id": "p177was9w6qn1h886bhx60wtc98g9e9p",
+      "slug": "winti-ventures",
+      "expectedDescription": "Winterthur investor network organising startup pitches and introductions that support early-stage financing rounds; it is a network rather than a pooled venture fund.",
+      "description": "Winterthur investor network organising startup pitches and introductions that support early-stage financing rounds; it is a network rather than a pooled venture fund"
+    },
+    {
+      "id": "p17chaa4p175mjd868jthk238n8g9975",
+      "slug": "nextech-invest",
+      "expectedDescription": "Healthcare venture investor backing emerging biotechnology companies and transformative cancer medicines from its Zurich base.",
+      "description": "Healthcare venture investor backing emerging biotechnology companies and transformative cancer medicines from its Zurich base"
+    },
+    {
+      "id": "p17bf97dhdwdn68hy45e70w3p18g9dn1",
+      "slug": "qbit-capital",
+      "expectedDescription": "Venture capital firm supporting early-stage technology companies from its headquarters at Technopark Zurich.",
+      "description": "Venture capital firm supporting early-stage technology companies from its headquarters at Technopark Zurich"
+    },
+    {
+      "id": "p17e1737mnsmtxaczbj1j17mph8g9zze",
+      "slug": "backbone-ventures",
+      "expectedDescription": "Early-stage venture capital firm based in Zurich and Frankfurt, with a fund focused on pre-seed companies in Switzerland and Germany.",
+      "description": "Early-stage venture capital firm based in Zurich and Frankfurt, with a fund focused on pre-seed companies in Switzerland and Germany"
+    },
+    {
+      "id": "p17f1dysd89psmhtkd4kbyzhzh8g9jd7",
+      "slug": "equitypitcher-ventures",
+      "expectedDescription": "Venture capital investor backing technology entrepreneurs across industries and stages, with an industry network supporting portfolio sales.",
+      "description": "Venture capital investor backing technology entrepreneurs across industries and stages, with an industry network supporting portfolio sales"
+    },
+    {
+      "id": "p178xjgjxaakemezwd1v3a2mjn8g82wc",
+      "slug": "redalpine",
+      "expectedDescription": "Invests in technology companies at the intersection of software and science, with offices in Zug, Berlin and London.",
+      "description": "Invests in technology companies at the intersection of software and science, with offices in Zug, Berlin and London"
+    },
+    {
+      "id": "p1754xx9e9ppsk7nykt9k9qwzd8g9vxb",
+      "slug": "hbm-partners",
+      "expectedDescription": "Healthcare investment manager financing private biopharma, medical technology and diagnostics companies, as well as public healthcare investments.",
+      "description": "Healthcare investment manager financing private biopharma, medical technology and diagnostics companies, as well as public healthcare investments"
+    },
+    {
+      "id": "p17anz4z627pcx2ftasr5mpfkx8g9hyk",
+      "slug": "cv-vc",
+      "expectedDescription": "Invests in early-stage frontier technology companies and runs the CV Labs startup ecosystem.",
+      "description": "Invests in early-stage frontier technology companies and runs the CV Labs startup ecosystem"
+    },
+    {
+      "id": "p1738fq8h8aq5ehzw1m9xj0j9s8g9heb",
+      "slug": "spicehaus-partners",
+      "expectedDescription": "Swiss venture capital investor backing technology companies from first revenues through international expansion.",
+      "description": "Swiss venture capital investor backing technology companies from first revenues through international expansion"
+    },
+    {
+      "id": "p171hfefhvk3rvk0d1a1aqg2c58g81v2",
+      "slug": "evolution-equity-partners",
+      "expectedDescription": "Invests in cybersecurity and enterprise technology companies from seed through growth.",
+      "description": "Invests in cybersecurity and enterprise technology companies from seed through growth"
+    },
+    {
+      "id": "p17edqx9bn14te1pvwsdpf6pc58g8yhr",
+      "slug": "uebermorgen-ventures",
+      "expectedDescription": "Venture investor backing technologies for decarbonisation, carbon removal and climate adaptation, with offices in Zurich and London.",
+      "description": "Venture investor backing technologies for decarbonisation, carbon removal and climate adaptation, with offices in Zurich and London"
+    },
+    {
+      "id": "p17dwjbn7k8p1sg18630xbbwnh8g9v8s",
+      "slug": "collateral-good",
+      "expectedDescription": "Venture investment platform targeting food, packaging, textiles and other sustainability technologies from its Zurich office.",
+      "description": "Venture investment platform targeting food, packaging, textiles and other sustainability technologies from its Zurich office"
+    },
+    {
+      "id": "p179kmh45qhsjxw8zgjf3ga72x8g9en0",
+      "slug": "planven",
+      "expectedDescription": "Venture and growth investor with its Swiss headquarters in Zurich and additional offices in Israel and Italy.",
+      "description": "Venture and growth investor with its Swiss headquarters in Zurich and additional offices in Israel and Italy"
+    },
+    {
+      "id": "p17bxj10ppxhtyk55fmsw8bbrd8g8sgp",
+      "slug": "tenity",
+      "expectedDescription": "Venture investor and innovation platform with an operating Zurich hub in the SIX building complex.",
+      "description": "Venture investor and innovation platform with an operating Zurich hub in the SIX building complex"
+    },
+    {
+      "id": "p176xft54q9czz4t75qgtt3fvx8g933b",
+      "slug": "emerald-technology-ventures",
+      "expectedDescription": "Venture capital investor in industrial innovation, including energy, water, materials and industrial AI, with its European headquarters in Zurich.",
+      "description": "Venture capital investor in industrial innovation, including energy, water, materials and industrial AI, with its European headquarters in Zurich"
+    },
+    {
+      "id": "p176m9skywh32rtxqhwravesyn8g85qs",
+      "slug": "verve-ventures",
+      "expectedDescription": "Invests in European technology companies across energy and resources, computing, and healthcare.",
+      "description": "Invests in European technology companies across energy and resources, computing, and healthcare"
+    },
+    {
+      "id": "p17fp4pr188vpg516eahzqcv6x8g9189",
+      "slug": "sictic",
+      "expectedDescription": "Angel investor network facilitating investments in Swiss technology startups; its members invest directly rather than through a pooled SICTIC fund.",
+      "description": "Angel investor network facilitating investments in Swiss technology startups; its members invest directly rather than through a pooled SICTIC fund"
+    },
+    {
+      "id": "p175a3106cgr3gpp4c6x7zg7p18g9ya7",
+      "slug": "swisscom-ventures",
+      "expectedDescription": "Swisscom's venture investment organisation, investing for Swisscom and institutional investors from its Zurich office.",
+      "description": "Swisscom's venture investment organisation, investing for Swisscom and institutional investors from its Zurich office"
+    },
+    {
+      "id": "p170sb1e27b0372jnsmykhp0en8g82kr",
+      "slug": "founderful",
+      "expectedDescription": "Zurich venture capital investor backing early-stage Swiss technology founders.",
+      "description": "Zurich venture capital investor backing early-stage Swiss technology founders"
+    },
+    {
+      "id": "p1746n6zh6wqa7x6dwqqd7pk158g9msr",
+      "slug": "hi-d-imaging",
+      "expectedDescription": "Develops AI software for cardiovascular procedure planning and digital-twin services for medical-device development.",
+      "description": "Develops AI software for cardiovascular procedure planning and digital-twin services for medical-device development"
+    },
+    {
+      "id": "p17ec2qne5nd641awkq35wczps8g8tmh",
+      "slug": "reliyoo",
+      "expectedDescription": "Develops intelligent seating cushions with individually controlled air chambers and live monitoring for pressure relief.",
+      "description": "Develops intelligent seating cushions with individually controlled air chambers and live monitoring for pressure relief"
+    },
+    {
+      "id": "p1794jarehjybtkwkjwz7pvnc98g9924",
+      "slug": "marple-labs",
+      "expectedDescription": "Develops AI software including Trainer for education, Companion for websites and shops, and Toolbox for internal tasks.",
+      "description": "Develops AI software including Trainer for education, Companion for websites and shops, and Toolbox for internal tasks"
+    },
+    {
+      "id": "p1707b7722z41zpyge9qzbzqys8g814c",
+      "slug": "infogrips",
+      "expectedDescription": "Develops GeoShop, INTERLIS tools and automated geospatial-data validation services. Its site confirms its move to Winterthur in July 2025.",
+      "description": "Develops GeoShop, INTERLIS tools and automated geospatial-data validation services. Its site confirms its move to Winterthur in July 2025"
+    },
+    {
+      "id": "p17crwjx3b2901ekjfyg0pfctd8g9q3g",
+      "slug": "hivoduct",
+      "expectedDescription": "Develops compressed-air-insulated conductors for medium- and high-voltage power transmission.",
+      "description": "Develops compressed-air-insulated conductors for medium- and high-voltage power transmission"
+    },
+    {
+      "id": "p17925j5hzwexhx3mfjrt3ytw98g9zqm",
+      "slug": "heypatient",
+      "expectedDescription": "Develops patient apps, portals and APIs that integrate patient-facing workflows with existing healthcare systems.",
+      "description": "Develops patient apps, portals and APIs that integrate patient-facing workflows with existing healthcare systems"
+    },
+    {
+      "id": "p17dqa8j2aqbt1z9bp7gxeefxd8g9gse",
+      "slug": "helmedica",
+      "expectedDescription": "Develops Rockethealth, software for structured medical documentation and patient-information management.",
+      "description": "Develops Rockethealth, software for structured medical documentation and patient-information management"
+    },
+    {
+      "id": "p171am0vwqf3bz9ah0stdddv1s8g9mc2",
+      "slug": "gartenmann-software",
+      "expectedDescription": "Develops djooze software for school administration, course management and transport dispatch, alongside its application framework.",
+      "description": "Develops djooze software for school administration, course management and transport dispatch, alongside its application framework"
+    },
+    {
+      "id": "p175105jc2hcxbr51w6knjnsm58g9mxd",
+      "slug": "contexity",
+      "expectedDescription": "Develops Semanteer enterprise search and smartCC customer-service software using semantic search and natural-language technology.",
+      "description": "Develops Semanteer enterprise search and smartCC customer-service software using semantic search and natural-language technology"
+    },
+    {
+      "id": "p1744yd0sscq9rpjyv44f408pd8g8ket",
+      "slug": "cirqit",
+      "expectedDescription": "Develops a cloud platform for storing, updating and sharing electrical-cabinet plans and installation documentation.",
+      "description": "Develops a cloud platform for storing, updating and sharing electrical-cabinet plans and installation documentation"
+    },
+    {
+      "id": "p17d55yywemhjhejpze9q57m218g871d",
+      "slug": "terensis",
+      "expectedDescription": "Develops agronomic data and AI technology for analyzing commodity markets and supporting food-industry purchasing decisions.",
+      "description": "Develops agronomic data and AI technology for analyzing commodity markets and supporting food-industry purchasing decisions"
+    },
+    {
+      "id": "p17a1zjbzjwsps2x006yxc1thn8g9fvc",
+      "slug": "nuorail",
+      "expectedDescription": "Develops software architecture, optimization and control technology for railway operations.",
+      "description": "Develops software architecture, optimization and control technology for railway operations"
+    },
+    {
+      "id": "p179b4m3kse0dz3qcr80vv2azx8g8a4a",
+      "slug": "noimos",
+      "expectedDescription": "Develops AI systems that automate and assist motor-insurance claims workflows.",
+      "description": "Develops AI systems that automate and assist motor-insurance claims workflows"
+    },
+    {
+      "id": "p179jg7m6r1gxft9kxh1tk2gys8g87th",
+      "slug": "nematx",
+      "expectedDescription": "Develops industrial 3D printers, liquid-crystal-polymer materials and design algorithms for high-performance additive manufacturing.",
+      "description": "Develops industrial 3D printers, liquid-crystal-polymer materials and design algorithms for high-performance additive manufacturing"
+    },
+    {
+      "id": "p172sr1p3mgx00zt0r68n60rjn8g90dw",
+      "slug": "nanoflex-robotics",
+      "expectedDescription": "Develops magnetic navigation, flexible robotic devices and telerobotic systems for endovascular interventions.",
+      "description": "Develops magnetic navigation, flexible robotic devices and telerobotic systems for endovascular interventions"
+    },
+    {
+      "id": "p1725x2khf024zxjmzs30k9dnd8g8j0k",
+      "slug": "insphero",
+      "expectedDescription": "Develops 3D tissue models, spheroid and organoid technologies, and microplates for non-animal drug testing.",
+      "description": "Develops 3D tissue models, spheroid and organoid technologies, and microplates for non-animal drug testing"
+    },
+    {
+      "id": "p179trbkf5kdh86wrdjwpa4p7d8g9rww",
+      "slug": "incremed",
+      "expectedDescription": "Develops mixed-reality tools for surgical navigation, ultrasound visualization and operating-room monitoring.",
+      "description": "Develops mixed-reality tools for surgical navigation, ultrasound visualization and operating-room monitoring"
+    },
+    {
+      "id": "p17e1e96s1zm841xyj9dxkd0xs8g9a89",
+      "slug": "hocoma",
+      "expectedDescription": "Develops robotic and sensor-based rehabilitation systems including Lokomat, Armeo and Andago.",
+      "description": "Develops robotic and sensor-based rehabilitation systems including Lokomat, Armeo and Andago"
+    },
+    {
+      "id": "p179pyv7c2mt23mmzkrw6qd92n8g9szf",
+      "slug": "egonym",
+      "expectedDescription": "Develops image and video anonymization software that replaces facial identities while preserving useful visual information.",
+      "description": "Develops image and video anonymization software that replaces facial identities while preserving useful visual information"
+    },
+    {
+      "id": "p174k0rt9rjw6hphaaxsnfp97x8g9wz5",
+      "slug": "dnair",
+      "expectedDescription": "Develops airborne environmental-DNA sampling and analysis technology for biological monitoring.",
+      "description": "Develops airborne environmental-DNA sampling and analysis technology for biological monitoring"
+    },
+    {
+      "id": "p174sk2rqe15q1rh7q8x8zj9158g99b3",
+      "slug": "digit-soil",
+      "expectedDescription": "Develops instruments for measuring soil enzymatic activity for research, agriculture and product validation.",
+      "description": "Develops instruments for measuring soil enzymatic activity for research, agriculture and product validation"
+    },
+    {
+      "id": "p172056twfx9baxg5kyq9ptww98g9s1g",
+      "slug": "diaxxo",
+      "expectedDescription": "Develops compact PCR instruments and molecular-testing technology for rapid diagnostic workflows.",
+      "description": "Develops compact PCR instruments and molecular-testing technology for rapid diagnostic workflows"
+    },
+    {
+      "id": "p17bnmtdk115d94pf1wyqfqtkx8g9jn3",
+      "slug": "cutiss",
+      "expectedDescription": "Develops personalized engineered skin grafts and technology for manufacturing skin tissue. Its offices and laboratories are in Schlieren.",
+      "description": "Develops personalized engineered skin grafts and technology for manufacturing skin tissue. Its offices and laboratories are in Schlieren"
+    },
+    {
+      "id": "p1788vfapbx0mfbee05bqcd5w98g9z7a",
+      "slug": "chromacon",
+      "expectedDescription": "Develops multi-column chromatography systems for biopharmaceutical purification, with an office and application laboratory at Technopark Zurich.",
+      "description": "Develops multi-column chromatography systems for biopharmaceutical purification, with an office and application laboratory at Technopark Zurich"
+    },
+    {
+      "id": "p17d3rea7wqd1b095jmmyy7grd8g840d",
+      "slug": "chonova",
+      "expectedDescription": "Develops ultrasonic measurement technology and analytics for chocolate crystallization, contraction and demoulding.",
+      "description": "Develops ultrasonic measurement technology and analytics for chocolate crystallization, contraction and demoulding"
+    },
+    {
+      "id": "p177xnttb5h8gf7v6r70wr9y1n8g8yh3",
+      "slug": "antefil-composite-tech",
+      "expectedDescription": "Develops hybrid-fibre materials and processing technology for lightweight composite components.",
+      "description": "Develops hybrid-fibre materials and processing technology for lightweight composite components"
+    },
+    {
+      "id": "p17831yc55dpc9z18hv41gjt198g8ed9",
+      "slug": "anevo",
+      "expectedDescription": "Develops an ERP automation platform for real-estate accounts payable, financial controlling and reporting.",
+      "description": "Develops an ERP automation platform for real-estate accounts payable, financial controlling and reporting"
+    },
+    {
+      "id": "p17f8vtnha3p1wx3ypa6c4e5898g86ch",
+      "slug": "aiendoscopic",
+      "expectedDescription": "Develops artificial-intelligence guidance technology for endoscopy and airway-management procedures.",
+      "description": "Develops artificial-intelligence guidance technology for endoscopy and airway-management procedures"
+    },
+    {
+      "id": "p179g36500pcyxmcxmf1wq3vss8g91xv",
+      "slug": "acytronix",
+      "expectedDescription": "Develops microstructured electrochemical devices and cartridges for isolating and purifying extracellular vesicles from biological samples.",
+      "description": "Develops microstructured electrochemical devices and cartridges for isolating and purifying extracellular vesicles from biological samples"
+    },
+    {
+      "id": "p17ceghx2d3s1k691t03cdtk6d8g96c8",
+      "slug": "3wave-instruments",
+      "expectedDescription": "Develops second-harmonic-generation instruments for contactless, real-time characterization of functional thin films during deposition.",
+      "description": "Develops second-harmonic-generation instruments for contactless, real-time characterization of functional thin films during deposition"
+    },
+    {
+      "id": "p17cjyerv6p4mp7bhtawdzpkzx8g8e07",
+      "slug": "zmt",
+      "expectedDescription": "Develops Sim4Life multiphysics simulation software and measurement systems for evaluating medical devices and their interaction with the body. An established Zurich43 engineering company with its head office on Zeughausstrasse, distinct from alliance partners IT'IS and SPEAG.",
+      "description": "Develops Sim4Life multiphysics simulation software and measurement systems for evaluating medical devices and their interaction with the body. An established Zurich43 engineering company with its head office on Zeughausstrasse, distinct from alliance partners IT'IS and SPEAG"
+    },
+    {
+      "id": "p17fx32fjhbhf3c49vjfe7fhe18g9skg",
+      "slug": "mettler-toledo",
+      "expectedDescription": "Develops precision measurement instruments and laboratory software. Its Nänikon-Greifensee headquarters houses a software development centre working on instrument, robotics and enterprise-system integration.",
+      "description": "Develops precision measurement instruments and laboratory software. Its Nänikon-Greifensee headquarters houses a software development centre working on instrument, robotics and enterprise-system integration"
+    },
+    {
+      "id": "p17d324jny7fe8x1vvxfss54q58g8jt4",
+      "slug": "adcubum",
+      "expectedDescription": "Develops the Syrius insurance platform and container-based cloud software for health and accident insurers. Its Zurich-area office and academy are in Wallisellen.",
+      "description": "Develops the Syrius insurance platform and container-based cloud software for health and accident insurers. Its Zurich-area office and academy are in Wallisellen"
+    },
+    {
+      "id": "p17fx99d5p808gkhc5jjjqh0ph8g9e1a",
+      "slug": "sonova",
+      "expectedDescription": "Develops hearing aids and cochlear-implant technologies, including dedicated AI chips, software and signal-processing systems. The group, which includes the Phonak brand, is headquartered in Stäfa.",
+      "description": "Develops hearing aids and cochlear-implant technologies, including dedicated AI chips, software and signal-processing systems. The group, which includes the Phonak brand, is headquartered in Stäfa"
+    },
+    {
+      "id": "p178m11pzb2jz6n56ewtw0mqc58g9p0c",
+      "slug": "adfinis",
+      "expectedDescription": "Engineers cloud infrastructure, automation and open-source security systems, including its OpenBao-based Secretz Enterprise product. Its Zurich office is on Stampfenbachstrasse.",
+      "description": "Engineers cloud infrastructure, automation and open-source security systems, including its OpenBao-based Secretz Enterprise product. Its Zurich office is on Stampfenbachstrasse"
+    },
+    {
+      "id": "p17ctwc9qdg5p102xst3vxddrd8g96gk",
+      "slug": "crealogix",
+      "expectedDescription": "Builds digital banking, wealth-management, lending and payments software. The company remains active under the CREALOGIX name following its acquisition by Vencora and lists a Zurich address on Maneggstrasse.",
+      "description": "Builds digital banking, wealth-management, lending and payments software. The company remains active under the CREALOGIX name following its acquisition by Vencora and lists a Zurich address on Maneggstrasse"
+    },
+    {
+      "id": "p1742b1f6r63591m6cv107hsps8g9g98",
+      "slug": "noser-engineering",
+      "expectedDescription": "Engineers hardware, embedded software, mobile and desktop applications, and IoT systems. Its Winterthur office is at Rudolf-Diesel-Strasse 3.",
+      "description": "Engineers hardware, embedded software, mobile and desktop applications, and IoT systems. Its Winterthur office is at Rudolf-Diesel-Strasse 3"
+    },
+    {
+      "id": "p17d0zq5704dfgah7f0g4z7wn18g9kbk",
+      "slug": "unit8",
+      "expectedDescription": "Engineers custom AI and data systems and publishes open-source software. Its current company contact page identifies a Zurich office at Beethovenstrasse 49.",
+      "description": "Engineers custom AI and data systems and publishes open-source software. Its current company contact page identifies a Zurich office at Beethovenstrasse 49"
+    },
+    {
+      "id": "p17ecc5regmgwhmpcghz2v4vtn8g9z52",
+      "slug": "itis",
+      "expectedDescription": "An independent nonprofit research foundation developing electromagnetic sensors, computational human models and simulation methods for medical technologies. It operates at Zeughausstrasse 43 and is a distinct Zurich43 alliance partner alongside SPEAG and ZMT.",
+      "description": "An independent nonprofit research foundation developing electromagnetic sensors, computational human models and simulation methods for medical technologies. It operates at Zeughausstrasse 43 and is a distinct Zurich43 alliance partner alongside SPEAG and ZMT"
+    },
+    {
+      "id": "p17cwny6wdewbv3xqp18cdsqr18g97y1",
+      "slug": "eawag",
+      "expectedDescription": "The Swiss aquatic science and technology research institute develops treatment processes, reactors and methods for wastewater treatment, water reuse and resource recovery. Its main campus is in Dübendorf.",
+      "description": "The Swiss aquatic science and technology research institute develops treatment processes, reactors and methods for wastewater treatment, water reuse and resource recovery. Its main campus is in Dübendorf"
+    },
+    {
+      "id": "p171523hx7brwdj7nyayhs4kv98g99k1",
+      "slug": "dfinity",
+      "expectedDescription": "A nonprofit research and engineering foundation developing the Internet Computer, with work in cryptography, distributed systems and application infrastructure. DFINITY Stiftung is the foundation's legal name; its public Zurich address is Genferstrasse 11.",
+      "description": "A nonprofit research and engineering foundation developing the Internet Computer, with work in cryptography, distributed systems and application infrastructure. DFINITY Stiftung is the foundation's legal name; its public Zurich address is Genferstrasse 11"
+    },
+    {
+      "id": "p17e8z7kp0qxypzfa171a1p4ex8g98k3",
+      "slug": "erni",
+      "expectedDescription": "Develops software-intensive products, connected systems and regulated medical software, including laboratory automation and middleware. ERNI Schweiz AG has a Zurich office on Löwenstrasse.",
+      "description": "Develops software-intensive products, connected systems and regulated medical software, including laboratory automation and middleware. ERNI Schweiz AG has a Zurich office on Löwenstrasse"
+    },
+    {
+      "id": "p173e2zgyp0vvqdpt2yq1ph8a58g96sd",
+      "slug": "elca",
+      "expectedDescription": "Develops custom software and products for banking, public services, identity and information management. ELCA Informatik AG maintains a Zurich office on Flurstrasse.",
+      "description": "Develops custom software and products for banking, public services, identity and information management. ELCA Informatik AG maintains a Zurich office on Flurstrasse"
+    },
+    {
+      "id": "p17fwp53ks0h3gp394sqaqsjcx8g9an5",
+      "slug": "ti-m",
+      "expectedDescription": "Builds the ti&m Banking platform, identification and authentication products, and custom enterprise applications. Its Zurich office is on Buckhauserstrasse.",
+      "description": "Builds the ti&m Banking platform, identification and authentication products, and custom enterprise applications. Its Zurich office is on Buckhauserstrasse"
+    },
+    {
+      "id": "p171cg710c6gzvgkwqvbq7nkb58g9thj",
+      "slug": "vshn",
+      "expectedDescription": "Develops and operates cloud-native platforms including APPUiO and the Project Syn and K8up open-source projects. Its Zurich office is on Neugasse.",
+      "description": "Develops and operates cloud-native platforms including APPUiO and the Project Syn and K8up open-source projects. Its Zurich office is on Neugasse"
+    },
+    {
+      "id": "p17edtbz9pnh85krwy4y2rkg0x8g8s86",
+      "slug": "thoratec-switzerland",
+      "expectedDescription": "An Abbott subsidiary developing medical devices for circulatory support. Its Zurich office is at Technopark.",
+      "description": "An Abbott subsidiary developing medical devices for circulatory support. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p17b8fxya8tp7b3915jtwkbbgs8g8qdq",
+      "slug": "aseptuva",
+      "expectedDescription": "Develops ultraviolet technology for targeted disinfection around catheter entry sites. Its Zurich office is at Technopark.",
+      "description": "Develops ultraviolet technology for targeted disinfection around catheter entry sites. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p17fakea21gyrcdhktrycwgte98g9mes",
+      "slug": "qvanteq",
+      "expectedDescription": "Develops and manufactures bioactive vascular stents. Its Zurich office is at Technopark.",
+      "description": "Develops and manufactures bioactive vascular stents. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p17ar3kk7f32n3r7fwvcpjsx7h8g91ad",
+      "slug": "combustion-flow-solutions",
+      "expectedDescription": "Uses computational fluid dynamics to analyse and optimise flow, cooling and combustion processes for industrial applications. Its Zurich office is at Technopark.",
+      "description": "Uses computational fluid dynamics to analyse and optimise flow, cooling and combustion processes for industrial applications. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p17cqetmncxcdnctj22e66hhz58g90nn",
+      "slug": "marmota-engineering",
+      "expectedDescription": "Develops and integrates fibre-optic sensing systems for monitoring structures, tunnels and ground movement. Its Zurich office is at Technopark.",
+      "description": "Develops and integrates fibre-optic sensing systems for monitoring structures, tunnels and ground movement. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p17dwwadz0cj37ryb3xxay89hs8g85h2",
+      "slug": "resmonics",
+      "expectedDescription": "Develops AI-based sensor systems for monitoring health risks in hospital environments. Its Zurich office is at Technopark.",
+      "description": "Develops AI-based sensor systems for monitoring health risks in hospital environments. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p17exnhq6yqz78c62ra4tkf9kd8g95gg",
+      "slug": "incon-ai",
+      "expectedDescription": "Instructive Construction develops computer vision and AI tools to assist manual construction work. Its Zurich office is at Technopark.",
+      "description": "Instructive Construction develops computer vision and AI tools to assist manual construction work. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p178jssmpkvzt45cv0pspnbdth8g84ay",
+      "slug": "breezelabs",
+      "expectedDescription": "Develops technology for detecting and analysing breathing through standard headphones. Its Zurich office is at Technopark.",
+      "description": "Develops technology for detecting and analysing breathing through standard headphones. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p1787svhhg5pc2cb7q0qjz3c0n8g88wa",
+      "slug": "ansys-zurich",
+      "expectedDescription": "Develops and supports engineering simulation software covering structural mechanics, fluid dynamics, heat transfer and electromagnetics. Ansys is part of Synopsys. Its Zurich office is at Technopark.",
+      "description": "Develops and supports engineering simulation software covering structural mechanics, fluid dynamics, heat transfer and electromagnetics. Ansys is part of Synopsys. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p17f77an0n5ymf63h8w1a2b20s8g9eb0",
+      "slug": "yquantum",
+      "expectedDescription": "Develops quantum-computing hardware components, including cryogenic filters, bias tees and sample packaging. Its Zurich office is at Technopark.",
+      "description": "Develops quantum-computing hardware components, including cryogenic filters, bias tees and sample packaging. Its Zurich office is at Technopark"
+    },
+    {
+      "id": "p178rfnchrb3jpgcbpzgsta1a98g9c4f",
+      "slug": "swiss-terahertz",
+      "expectedDescription": "Develops terahertz components and imaging technology and supplies crystals and filters for laboratory research. Based at Technopark Zurich.",
+      "description": "Develops terahertz components and imaging technology and supplies crystals and filters for laboratory research. Based at Technopark Zurich"
+    },
+    {
+      "id": "p1711tsch3q7v7h3a7hr4q5w218g837c",
+      "slug": "step-x",
+      "expectedDescription": "Develops product data management and enterprise email search and archiving software. Based at Technopark Zurich.",
+      "description": "Develops product data management and enterprise email search and archiving software. Based at Technopark Zurich"
+    },
+    {
+      "id": "p173r3d5d3zpjaghw56pny6kr58g8w5z",
+      "slug": "siriotek",
+      "expectedDescription": "Provides structural simulation, virtual prototyping and mechanical and composite design for industrial products. Based at Technopark Zurich.",
+      "description": "Provides structural simulation, virtual prototyping and mechanical and composite design for industrial products. Based at Technopark Zurich"
+    },
+    {
+      "id": "p179231f6bxryb9r50rkxshv958g8g87",
+      "slug": "ritz-engineering",
+      "expectedDescription": "Develops enterprise software and connected devices, including sensors, microcontrollers and IoT systems. Based at Technopark Zurich.",
+      "description": "Develops enterprise software and connected devices, including sensors, microcontrollers and IoT systems. Based at Technopark Zurich"
+    },
+    {
+      "id": "p17c9xvhacpg1sv58dd56xkr6s8g8qth",
+      "slug": "qubrix",
+      "expectedDescription": "Develops industrial software and provides engineering services for manufacturing and materials processing. Based at Technopark Zurich.",
+      "description": "Develops industrial software and provides engineering services for manufacturing and materials processing. Based at Technopark Zurich"
+    },
+    {
+      "id": "p170q0ccvwrjj6xx7tsa8bcxeh8g8km7",
+      "slug": "pedeus-health",
+      "expectedDescription": "Develops clinical decision support software for medication use, including PEDeDose, MEDeHelp and PEDeMed. Based at Technopark Zurich.",
+      "description": "Develops clinical decision support software for medication use, including PEDeDose, MEDeHelp and PEDeMed. Based at Technopark Zurich"
+    },
+    {
+      "id": "p178q3qgd59t4z2mnk0q8qtqrx8g9t1w",
+      "slug": "paymash",
+      "expectedDescription": "Develops point-of-sale software with online shop, invoicing and quotation tools for small and medium-sized businesses. Based at Technopark Zurich.",
+      "description": "Develops point-of-sale software with online shop, invoicing and quotation tools for small and medium-sized businesses. Based at Technopark Zurich"
+    },
+    {
+      "id": "p176fhgp4dxw63d82h7bgycwjd8g8vk0",
+      "slug": "pastahr",
+      "expectedDescription": "Develops an AI-assisted recruitment platform for employers. Based at Technopark Zurich.",
+      "description": "Develops an AI-assisted recruitment platform for employers. Based at Technopark Zurich"
+    },
+    {
+      "id": "p17bt72v3yb1k2vcnf5ydy6z298g94ax",
+      "slug": "opusm",
+      "expectedDescription": "Implements software for digitising and automating industrial service and maintenance processes. Based at Technopark Zurich.",
+      "description": "Implements software for digitising and automating industrial service and maintenance processes. Based at Technopark Zurich"
+    },
+    {
+      "id": "p179mytaq3pa1fcs79nepfpggx8g8w33",
+      "slug": "olymp",
+      "expectedDescription": "Develops AI software for documentation, transcription, translation and meeting preparation in professional workflows. Based at Technopark Zurich.",
+      "description": "Develops AI software for documentation, transcription, translation and meeting preparation in professional workflows. Based at Technopark Zurich"
+    },
+    {
+      "id": "p178yyw1tvw935f7rpam6mrfh18g8g2h",
+      "slug": "nxgen",
+      "expectedDescription": "Develops cloud-based systems for physical security, safety and IoT applications. Based at Technopark Zurich.",
+      "description": "Develops cloud-based systems for physical security, safety and IoT applications. Based at Technopark Zurich"
+    },
+    {
+      "id": "p17d7feajpdt86847nwzc6yww18g888m",
+      "slug": "nureo",
+      "expectedDescription": "Develops software for automated industrial 3D design, including cable and pipe routing and design for additive manufacturing. Based at Technopark Zurich.",
+      "description": "Develops software for automated industrial 3D design, including cable and pipe routing and design for additive manufacturing. Based at Technopark Zurich"
+    },
+    {
+      "id": "p178zj997esmprp7pszhefvfp98g9rjr",
+      "slug": "novagear",
+      "expectedDescription": "Designs and develops gear systems for stationary and mobile drives, including optimisation of efficiency, reliability and noise. Based at Technopark Zurich.",
+      "description": "Designs and develops gear systems for stationary and mobile drives, including optimisation of efficiency, reliability and noise. Based at Technopark Zurich"
+    },
+    {
+      "id": "p177krd2smzy8qznkqfdj9p5v98g9b5v",
+      "slug": "ndd",
+      "expectedDescription": "Develops portable instruments and software for measuring lung function, including spirometry and diffusion capacity. Based at Technopark Zurich.",
+      "description": "Develops portable instruments and software for measuring lung function, including spirometry and diffusion capacity. Based at Technopark Zurich"
+    },
+    {
+      "id": "p177bs338x588x91pnah91b0c98g87vp",
+      "slug": "mesys",
+      "expectedDescription": "Develops software for bearing, shaft and shaft-system calculations, alongside custom engineering software. Based at Technopark Zurich.",
+      "description": "Develops software for bearing, shaft and shaft-system calculations, alongside custom engineering software. Based at Technopark Zurich"
+    },
+    {
+      "id": "p17926d6dgwhhht6me9wx9kjdn8g9xks",
+      "slug": "loopia",
+      "expectedDescription": "Thingsy develops Loopia, modular software for secondhand marketplaces, trade-in programmes and resale workflows. Based at Technopark Zurich.",
+      "description": "Thingsy develops Loopia, modular software for secondhand marketplaces, trade-in programmes and resale workflows. Based at Technopark Zurich"
+    },
+    {
+      "id": "p17cgtrf7kv5mej0gzv4g46bj18g9jwf",
+      "slug": "medicusdata",
+      "expectedDescription": "LLM Systems develops Medicusdata, speech-to-text software for clinicians and hospitals. Based at Technopark Zurich.",
+      "description": "LLM Systems develops Medicusdata, speech-to-text software for clinicians and hospitals. Based at Technopark Zurich"
+    },
+    {
+      "id": "p1741kw44ma3t1t8a397520srx8g99rp",
+      "slug": "intonate",
+      "expectedDescription": "Develops AI software for medical documentation and integrations with healthcare information systems. Based at Technopark Zurich.",
+      "description": "Develops AI software for medical documentation and integrations with healthcare information systems. Based at Technopark Zurich"
+    },
+    {
+      "id": "p173b49q1c5av62z5v3kcbjrns8g8t1q",
+      "slug": "icentic",
+      "expectedDescription": "Provides software engineering, IoT system design, development and operational support. Based at Technopark Zurich.",
+      "description": "Provides software engineering, IoT system design, development and operational support. Based at Technopark Zurich"
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+    "reviewedOn": "2026-10-15",
+    "scope": "Exact twelve technical-scope cases from the frozen55; no new discovery",
+    "organisationWrites": 0,
+    "uploads": 0,
+    "supersedes": "Only the technical-scope-or-development-evidence group in membership-unresolved-reasons.json",
+    "decisions": [
+        {
+            "identityKey": "jemsgroup",
+            "name": "JEMS Group",
+            "status": "hold-locality-and-specific-attribution",
+            "finding": "Current site offers implemented data/AI systems and concrete client case studies. Do not exclude bespoke original engineering merely because it serves clients. Current contact page supplies Levallois-Perret, not a Zurich/Zug business address; no specific local engineering identity was established in this pass.",
+            "sources": ["https://www.jems-group.com/fr/", "https://www.jems-group.com/fr/contact/"],
+            "captures": ["9825e5c8cfbdd891b527.json", "a333e067e04925e5f504.json"],
+            "nextRequirement": "Current public Zurich/Zug operation and specific original development attributable to that operation; not a generic member listing"
+        },
+        {
+            "identityKey": "swisscognitive",
+            "name": "SwissCognitive",
+            "status": "hold-qualifying-remit",
+            "finding": "After metadata-only fetches, ordinary Chrome rendered the official programme: board/executive AI strategy and governance workshops and keynotes, plus weekly leadership articles. Footer identifies WhyWait Ltd. The linked About page redirects to a mostly empty body. Inspected current content does not establish original technical development or a substantive technical community beyond advisory/training; not a permanent exclusion or a remaining programme access blocker.",
+            "sources": [
+                "https://swisscognitive.com/",
+                "https://swisscognitive.com/de/services/ai-board-excellence-program",
+                "https://swisscognitive.com/de/about"
+            ],
+            "captures": ["13865666ed7b74c170b3.json", "b6793553b079e80b31dd.json"],
+            "nextRequirement": "Substantive qualifying technical community/research or original development evidence with local address; do not conflate the separate CognitiveValley Foundation"
+        },
+        {
+            "identityKey": "chainiq",
+            "name": "Chain IQ",
+            "status": "scope-supported-prepare-after-local-attribution-review",
+            "finding": "Official2023 sustainability report explicitly attributes SmartConnect Portal and AI chatbots to its in-house innovation/digital lab. Current digitalization page describes a purpose-built procurement platform and first deployed agent waves, while marking full platform expansion as future. This resolves the vendor-integration-only assumption, but does not locate the engineering team in Zurich/Baar.",
+            "sources": [
+                "https://chainiq.com/wp-content/uploads/2024/10/Chain-IQ-Sustainability-Report-2023.pdf",
+                "https://chainiq.com/digitalization/",
+                "https://chainiq.com/contact/"
+            ],
+            "evidenceLocation": "Sustainability report PDF page5; current digitalization section A journey We are on together",
+            "nextRequirement": "Review local attribution, exact public HQ address, fresh aliases, official artwork and socials. Do not claim entire roadmap released or local engineering team without proof"
+        },
+        {
+            "identityKey": "swissitleadershipforum",
+            "name": "Swiss IT Leadership Forum",
+            "status": "scope-supported-prepare-community",
+            "finding": "Read full official2026 programme, not just event title: digital-sovereignty workshop, automation/open-source implementation examples, architecture management and technical-debt sessions establish substantive ICT education and professional community. Not a software developer or coding-only group.",
+            "sources": [
+                "https://www.swiss-it-leadership-forum.ch/de/programm",
+                "https://www.swiss-it-leadership-forum.ch/assets/files/programm-2026/SILF-Programm-2026_2026-06-27-133402_houe.pdf",
+                "https://www.swiss-it-leadership-forum.ch/de/kontakt"
+            ],
+            "capture": "/tmp/zurich-registry-review/membership-silf-programme-2026.pdf",
+            "evidenceLocation": "Programme pages5-6 and11-12; webreader failed but ordinary direct public PDF download and text extraction succeeded",
+            "nextRequirement": "Current association public contact/address review and official artwork/socials. Davos conference venue is not a Zurich office; do not use personal speaker addresses"
+        },
+        {
+            "identityKey": "louisdreyfuscompany",
+            "name": "Louis Dreyfus Company",
+            "status": "hold-locality-and-original-development",
+            "finding": "Official contact page describes agricultural merchant/processor activities and links an office directory. Directory request returned403. No specific Zurich/Zug technical-development operation established; neither commodity trading nor digitisation claims establish one.",
+            "sources": [
+                "https://www.ldc.com/contact-us/",
+                "https://www.ldc.com/who-we-are/locations/"
+            ],
+            "captures": ["e73e205fba323c159e70.json", "0e38721d828c30962046.json"],
+            "nextRequirement": "Primary local engineering/product evidence and exact public local business address; access limit is directory-specific, not entire corporate site"
+        },
+        {
+            "identityKey": "condachgmbh",
+            "name": "CONDA.ch",
+            "status": "hold-development-attribution",
+            "finding": "Current own funding campaign resolves Braingelist majority ownership and Austrian CONDA joint venture. It discusses technological groundwork and future AI-first platform plans but lists finance/operations/marketing roles, without attributing implementation to Swiss entity or commissioned original development. Funding projections are not delivered capabilities.",
+            "sources": [
+                "https://www.conda.ch/",
+                "https://www.conda.ch/en/kampagne/conda-ch-switzerlands-no-1-crowd-investing-platform-2nd-round/"
+            ],
+            "captures": ["edc2ced2d4853e078d72.json", "a613a65a38a371385f9c.json"],
+            "nextRequirement": "Specific Swiss-owned/co-developed platform evidence. If later eligible use current footer/legal Baar address over older campaign Horgen address; do not create separate parent and platform duplicates"
+        },
+        {
+            "identityKey": "expleogroup",
+            "name": "Expleo",
+            "status": "hold-locality-unproven",
+            "finding": "Readable current corporate locations roster lists Lausanne as Swiss office, not Zurich/Zug. General product-engineering/testing expertise does not establish a local qualifying operation. Do not claim permanently out of scope globally or infer Zurich from membership.",
+            "sources": ["https://expleo.com/global/de/uber-expleo/standorte/"],
+            "captures": ["315480098cccba4935bd.json"],
+            "nextRequirement": "Current Zurich/Zug public operation and concrete original engineering attribution"
+        },
+        {
+            "identityKey": "instituteforfinancialserviceszugifz",
+            "name": "Institute for Financial Services Zug IFZ",
+            "status": "scope-supported-prepare-distinct-institute",
+            "finding": "IFZ FinTech Study2025 chapter6 describes implemented LLM/rule-based investment-advice and SDG-analysis prototypes. Chapter authors include IFZ researchers and named external collaborators; HSLU's current Thomas Ankenbrand profile confirms IFZ affiliation and authorship of the underlying prototype studies. Attribute collaborative applied research, not exclusive authorship or released financial product. This is not borrowing HSLU Informatik's separate blockchain laboratory.",
+            "sources": [
+                "https://www.hslu.ch/-/media/campus/common/files/dokumente/h/blockchain/ifz-fintech-study-2025.pdf?sc_lang=de-ch",
+                "https://www.hslu.ch/en/lucerne-school-of-business/about-us/people-finder/person-detail-site/?pid=2906"
+            ],
+            "evidenceLocation": "Study pages57-58 and75; current institutional staff affiliation/publications",
+            "location": "Campus Zug-Rotkreuz, Suurstoffi1,6343Rotkreuz; institutional profile confirms",
+            "nextRequirement": "Fresh parent/same-host peer review, institute canonical website, exact existing addressId, approved exact existing parent branding or genuine institute artwork, corporate socials"
+        },
+        {
+            "identityKey": "marmotfinance",
+            "name": "Marmot Finance",
+            "status": "hold-development-attribution",
+            "finding": "Current own pages explain portfolio management, fund selection, custodian accounts and personalised financial advice. No attributable original software implementation established by these pages. An app link or digital investment journey alone is insufficient; not asserting technology cannot exist.",
+            "sources": [
+                "https://www.marmot.finance/",
+                "https://www.marmot.finance/company/contact-support"
+            ],
+            "captures": ["018eafc5d3a4e4f35482.json", "aaded159ecc7c63df9e8.json"],
+            "nextRequirement": "Specific developed or commissioned original software, technical team/project evidence"
+        },
+        {
+            "identityKey": "skaahgroupag",
+            "name": "SKAAH Group AG",
+            "status": "hold-technology-entity-attribution",
+            "finding": "Group page links separate SKAAH Tech. Direct public fetch of that site succeeded after webreader failure: it confirms Swiss headquarters and an international technology team, but offers generic software/cloud/mobile/IoT services without a concrete original project. Entity/locality are better supported; original-development attribution remains unresolved. Do not assign every listed technology as a topic.",
+            "sources": [
+                "https://skaah.com/skaah-tech/",
+                "https://www.skaah.tech/",
+                "https://skaah.com/contact/"
+            ],
+            "captures": [
+                "eb52bfd37361c42112f1.json",
+                "5954ac4000df21941b20.json",
+                "3d6c4153cdbe8195dbe8.json",
+                "56400fb6b29c0aee2a31.json"
+            ],
+            "nextRequirement": "Specific original product/engineering or explicit technology-investment remit tied to exact local group/subsidiary identity; not an access blocker after successful direct fetch"
+        },
+        {
+            "identityKey": "suitekkgmbh",
+            "name": "SUITEKK GmbH",
+            "status": "scope-plausible-held-implementation-and-artwork",
+            "finding": "Own current homepage expressly describes its Intelligence Platform, Engine and operational3D twins. Early development can qualify; a mature commercial launch is not required. No inspected implementation/team evidence yet strengthens those claims, and available branding is text with an invalid tiny favicon. Do not generate a substitute mark or describe demonstrated production deployments.",
+            "sources": ["https://suitekk.com/"],
+            "captures": ["dbbf3cbdf2e35959e6d2.json"],
+            "nextRequirement": "Original development corroboration and genuine usable artwork; current exact business contact already retained"
+        },
+        {
+            "identityKey": "taiagmbh",
+            "name": "TAIA GmbH",
+            "status": "hold-implementation-evidence",
+            "finding": "Current products page distinguishes restricted-access Atelier from proposed Tourbillon and unannounced Folio distribution. Ordinary Chrome rendered the linked Calibre API: explicitly Phase0 proposed target architecture, contract only, no deployed Calibre API or Soul Core runtime claimed;18 documented operations and generated synthetic examples. This resolves the reader gap but not implemented development. Do not describe restricted Atelier as definitively nonexistent; no account request or login attempted.",
+            "sources": [
+                "https://www.taia.ch/",
+                "https://www.taia.ch/solutions/",
+                "https://apidocs.taia.ch/"
+            ],
+            "captures": [
+                "3baecff1cf32078e21df.json",
+                "e15df3928695df138629.json",
+                "b85edb655a2fcabf5ba6.json"
+            ],
+            "accessLimit": "Resolved by ordinary Chrome public page read; no authentication or bypass. Proposed-contract disclaimer and18 operations visibly inspected",
+            "nextRequirement": "Inspect accessible implementation/API artefact or attributable development record; preserve pre-release boundaries and avoid claiming live public signup"
+        }
+    ],
+    "accounting": "Twelve cases received bounded primary checks. Three have new substantive scope support (Chain IQ still needs local attribution review); nine retain named evidence/access/artwork gaps. None is import-ready from this report. No new candidates were enumerated.",
+    "captureDirectory": "/tmp/zurich-registry-review/membership-evidence"
+}

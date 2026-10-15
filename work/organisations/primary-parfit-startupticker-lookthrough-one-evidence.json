@@ -1,0 +1,92 @@
+{
+    "checkedAt": "2026-10-15T04:53:26.122Z",
+    "productionWrites": 0,
+    "visualReview": "pending",
+    "records": [
+        {
+            "slug": "lookthrough",
+            "name": "Lookthrough",
+            "kind": "company",
+            "website": "https://lookthrough.io/",
+            "line1": "Brandschenkestrasse 38",
+            "postalCode": "8001",
+            "locality": "Zürich",
+            "office": "Representative office",
+            "headline": "Real-estate decarbonisation planning software",
+            "description": "Develops software for building emissions analysis, decarbonisation scenarios and investment planning across real-estate portfolios",
+            "topics": ["software-engineering"],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/lookthrough1/"
+            },
+            "declaredIcon": true,
+            "sources": [
+                "https://lookthrough.io/platform",
+                "https://lookthrough.io/contact",
+                "https://lookthrough.io/about-us",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE402480216",
+                "https://assets.zyrosite.com/Y4LJqPBb4rcj4j9r/imprint_privacy-policy-XOuGlnLtCLpZFhUT.pdf",
+                "https://buildingminds.com/blog/lookthrough-and-buildingminds-join-forces-to-build-the-leading-ai-platform-for-real-estate-decision-intelligence"
+            ],
+            "addressEvidence": "Own footer misspells Brandschenkenstrasse. Fresh official UID names active Lookthrough Schweiz AG CHE402480216 at Brandschenkestrasse38,8001Zurich. This establishes street spelling without inventing a location. Product operator imprint remains Lookthrough Ltd CHE135234711Herisau; use one brand profile and Representative office, not two parent/subsidiary duplicates.",
+            "rationale": "Current platform expressly states in-house code and licensed SaaS. Established2017 company and August2026 profitable-company transaction statement support Company rather than blanket Startup. Current footer explicitly labels Zurich Representative office, with Herisau separate. BuildingMinds remains Berlin-based; transaction announcement anticipates Q4 close subject to conditions, not proof of completed merger. No unsupported ML methods or local-only development claims. Independently read1140public directory has no name/domain/BuildingMinds match.",
+            "socialEvidence": "Own homepage and contact/platform footers directly link linkedin.com/company/lookthrough1. No GitHub/X found in these official captured pages.",
+            "source": "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=192,h=192,fit=crop,f=png/Y4LJqPBb4rcj4j9r/logo_lookthrough_oo_square-Yg29nJaejQtBalkX.png",
+            "address": {
+                "line1": "Brandschenkestrasse 38",
+                "postalCode": "8001",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.36870574951172,
+                "longitude": 8.530948638916016,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/3169189_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "brandschenkestrasse 38 8001 zuerich 261 zuerich ch zh",
+                            "featureId": "3169189_0",
+                            "geom_quadindex": "030003300020000223200",
+                            "geom_st_box2d": "BOX(8.530937 47.368707,8.530937 47.368707)",
+                            "label": "Brandschenkestrasse 38 <b>8001 Zürich</b>",
+                            "lat": 47.36870574951172,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101276295",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/3169189_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.530948638916016,
+                            "num": 38,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.530948638916016,
+                            "y": 47.36870574951172,
+                            "zoomlevel": 10
+                        },
+                        "id": 2869961,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1133,
+            "registryCheckedAt": "2026-10-15T04:39:32.614Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-lookthrough.png",
+                "source": "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=192,h=192,fit=crop,f=png/Y4LJqPBb4rcj4j9r/logo_lookthrough_oo_square-Yg29nJaejQtBalkX.png",
+                "width": 64,
+                "height": 64,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        }
+    ]
+}

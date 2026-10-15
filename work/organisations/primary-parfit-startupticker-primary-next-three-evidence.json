@@ -1,0 +1,412 @@
+{
+    "checkedAt": "2026-10-15T04:20:06.106Z",
+    "productionWrites": 0,
+    "visualReview": "pending",
+    "records": [
+        {
+            "slug": "phylax-intelligence",
+            "name": "Phylax Intelligence",
+            "kind": "startup",
+            "website": "https://phylax-intelligence.com/",
+            "line1": "Suurstoffi 18b",
+            "postalCode": "6343",
+            "locality": "Rotkreuz",
+            "office": "Registered address",
+            "headline": "AI decision support for critical infrastructure",
+            "description": "Develops PHLX.AI to combine sensor feeds, assess physical threats and support security and crisis teams, with cloud, on-premises and disconnected deployments",
+            "topics": ["machine-learning"],
+            "uid": "343720736",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/phylax-intelligence/"
+            },
+            "source": "https://phylax-intelligence.com/favicon.png?v=7",
+            "sources": [
+                "https://phylax-intelligence.com/de/about/",
+                "https://phylax-intelligence.com/de/legal-notice",
+                "https://phylax-intelligence.com/privacy-policy/",
+                "https://www.linkedin.com/company/phylax-intelligence",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE343720736"
+            ],
+            "rationale": "Own About attributes original maintained PHLX.AI to Phylax AG and its Greek sister entity; official legal notice and active UID agree Swiss registered address c/o Innovation Park. Startup established March2026, not inferred Company from LinkedIn Public Company label. Physical security product: do not automatically tag cybersecurity or infer facial recognition. No certification, customer performance or superintelligence claims reproduced.",
+            "socialEvidence": "Full homepage, About and legal footer scan contains no social links. Exact corporate LinkedIn independently read, matching official domain, founders and platform. No verified GitHub/X found; unrelated Phylax Python package excluded.",
+            "address": {
+                "line1": "Suurstoffi 18b",
+                "postalCode": "6343",
+                "locality": "Rotkreuz",
+                "countryCode": "CH",
+                "latitude": 47.144657135009766,
+                "longitude": 8.438321113586426,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/191661977_1?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "suurstoffi 18b 6343 rotkreuz 1707 risch ch zg",
+                            "featureId": "191661977_1",
+                            "geom_quadindex": "030023002211320021030",
+                            "geom_st_box2d": "BOX(8.438311 47.14466,8.438311 47.14466)",
+                            "label": "Suurstoffi 18b <b>6343 Rotkreuz</b>",
+                            "lat": 47.144657135009766,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/103280100",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/191661977_1",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.438321113586426,
+                            "num": 18,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.438321113586426,
+                            "y": 47.144657135009766,
+                            "zoomlevel": 10
+                        },
+                        "id": 3108324,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1119,
+            "registryCheckedAt": "2026-10-15T04:10:39.077Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-phylax-intelligence.png",
+                "source": "https://phylax-intelligence.com/favicon.png?v=7",
+                "width": 256,
+                "height": 256,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "iris-labs",
+            "name": "Iris Labs",
+            "kind": "startup",
+            "website": "https://www.irislabs.ch/",
+            "line1": "Schifflände 26",
+            "postalCode": "8001",
+            "locality": "Zürich",
+            "office": "Registered address",
+            "headline": "AI-assisted social discovery",
+            "description": "Develops vaib, an invitation-based app that uses conversational AI to connect people for shared activities, friendship and dating",
+            "topics": ["machine-learning"],
+            "uid": "175163158",
+            "socials": {},
+            "source": "https://www.irislabs.ch/assets/favicon-BWlvLfqP.ico",
+            "sources": [
+                "https://www.irislabs.ch/jobs.html",
+                "https://vaib.co/about",
+                "https://play.google.com/store/apps/details?hl=en&id=co.vaib.app",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE175163158"
+            ],
+            "rationale": "Product About explicitly names Iris Labs AG as developer and founders; current Play developer disclosure identifies registered Schifflande26Zurich and matching irislabs.ch emails. Own jobs confirms Zurich software development. Early company founded2025, current app launch, Startup. Do not confuse with older foreign Iris Labs entities or use old Herrliberg trademark address. Registered fiduciary address is not an asserted engineering office.",
+            "socialEvidence": "Corporate home/jobs and product About/footer scanned; no verified corporate LinkedIn/GitHub/X found. Do not substitute founder profiles or similar named foreign accounts.",
+            "address": {
+                "line1": "Schifflände 26",
+                "postalCode": "8001",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.3690299987793,
+                "longitude": 8.544243812561035,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2372442_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "schifflaende 26 8001 zuerich 261 zuerich ch zh",
+                            "featureId": "2372442_0",
+                            "geom_quadindex": "030003300102232013222",
+                            "geom_st_box2d": "BOX(8.544232 47.36903,8.544232 47.36903)",
+                            "label": "Schifflände 26 <b>8001 Zürich</b>",
+                            "lat": 47.3690299987793,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101165663",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2372442_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.544243812561035,
+                            "num": 26,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.544243812561035,
+                            "y": 47.3690299987793,
+                            "zoomlevel": 10
+                        },
+                        "id": 2114649,
+                        "weight": 100
+                    },
+                    {
+                        "attrs": {
+                            "detail": "schifflaende 5 8001 zuerich 261 zuerich ch zh",
+                            "featureId": "140447_0",
+                            "geom_quadindex": "030003300120010133300",
+                            "geom_st_box2d": "BOX(8.544443 47.368712,8.544443 47.368712)",
+                            "label": "Schifflände 5 <b>8001 Zürich</b>",
+                            "lat": 47.368709564208984,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100117529",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/140447_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.544454574584961,
+                            "num": 5,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.544454574584961,
+                            "y": 47.368709564208984,
+                            "zoomlevel": 10
+                        },
+                        "id": 2039726,
+                        "weight": 1
+                    },
+                    {
+                        "attrs": {
+                            "detail": "schifflaende 6 8001 zuerich 261 zuerich ch zh",
+                            "featureId": "140448_1",
+                            "geom_quadindex": "030003300120120102022",
+                            "geom_st_box2d": "BOX(8.54504 47.36825,8.54504 47.36825)",
+                            "label": "Schifflände 6 <b>8001 Zürich</b>",
+                            "lat": 47.368247985839844,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100117532",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/140448_1",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.545052528381348,
+                            "num": 6,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.545052528381348,
+                            "y": 47.368247985839844,
+                            "zoomlevel": 10
+                        },
+                        "id": 2670696,
+                        "weight": 1
+                    },
+                    {
+                        "attrs": {
+                            "detail": "schifflaende 7 8001 zuerich 261 zuerich ch zh",
+                            "featureId": "302040846_0",
+                            "geom_quadindex": "030003300102232230133",
+                            "geom_st_box2d": "BOX(8.54422 47.368884,8.54422 47.368884)",
+                            "label": "Schifflände 7 <b>8001 Zürich</b>",
+                            "lat": 47.36888122558594,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101732826",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302040846_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.544232368469238,
+                            "num": 7,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.544232368469238,
+                            "y": 47.36888122558594,
+                            "zoomlevel": 10
+                        },
+                        "id": 2245021,
+                        "weight": 1
+                    },
+                    {
+                        "attrs": {
+                            "detail": "schifflaende 8 8001 zuerich 261 zuerich ch zh",
+                            "featureId": "140407_0",
+                            "geom_quadindex": "030003300120102122222",
+                            "geom_st_box2d": "BOX(8.545043 47.36843,8.545043 47.36843)",
+                            "label": "Schifflände 8 <b>8001 Zürich</b>",
+                            "lat": 47.36842727661133,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100121131",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/140407_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.545055389404297,
+                            "num": 8,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.545055389404297,
+                            "y": 47.36842727661133,
+                            "zoomlevel": 10
+                        },
+                        "id": 2147957,
+                        "weight": 1
+                    }
+                ]
+            },
+            "registryCount": 1119,
+            "registryCheckedAt": "2026-10-15T04:10:39.077Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-iris-labs.png",
+                "source": "https://www.irislabs.ch/assets/favicon-BWlvLfqP.ico",
+                "width": 32,
+                "height": 32,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "sentianova",
+            "name": "SentiaNova",
+            "kind": "startup",
+            "website": "https://sentianova.com/",
+            "line1": "Zeughausstrasse 31",
+            "postalCode": "8004",
+            "locality": "Zürich",
+            "office": "Office",
+            "headline": "Plant-protein processing technology",
+            "description": "Develops processing technology to remove off-flavours from pulse proteins before concentration or isolation, with equipment designed for existing ingredient-production facilities",
+            "topics": ["biotech"],
+            "uid": "486597077",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/sentianova/"
+            },
+            "source": "https://sentianova.com/_assets/images/72945febc68a241109e458093158637f.png",
+            "sources": [
+                "https://sentianova.com/",
+                "https://foodfounders.studio/Ventures",
+                "https://www.linkedin.com/company/sentianova",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE486597077"
+            ],
+            "rationale": "Own homepage indexed primary reading explicitly labels SentiaNova AG office Zeughaustrasse31Zurich; use federal/UID canonical spelling Zeughausstrasse. Independent operator from FOOD FOUNDERS Studio, licensed university technology developed into own protein-processing product. Startup in2026 commercial ramp, not established Company. No claim that full-scale Q42026 commercial volumes are already delivered. Own homepage CLI is client-rendered; primary web-reader content, not raw CLI body, establishes office and product.",
+            "socialEvidence": "Studio Ventures links SentiaNova corporate LinkedIn, independently read with exact website and founding team. No verified X/GitHub identified.",
+            "address": {
+                "line1": "Zeughausstrasse 31",
+                "postalCode": "8004",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.375404357910156,
+                "longitude": 8.53066635131836,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2365982_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "zeughausstrasse 31 8004 zuerich 261 zuerich ch zh",
+                            "featureId": "2365982_0",
+                            "geom_quadindex": "030003033331333200030",
+                            "geom_st_box2d": "BOX(8.530654 47.375405,8.530654 47.375405)",
+                            "label": "Zeughausstrasse 31 <b>8004 Zürich</b>",
+                            "lat": 47.375404357910156,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101146541",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2365982_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.53066635131836,
+                            "num": 31,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.53066635131836,
+                            "y": 47.375404357910156,
+                            "zoomlevel": 10
+                        },
+                        "id": 2173618,
+                        "weight": 100
+                    },
+                    {
+                        "attrs": {
+                            "detail": "zeughausstrasse 31 8004 zuerich 261 zuerich ch zh",
+                            "featureId": "302068518_0",
+                            "geom_quadindex": "030003033331332330202",
+                            "geom_st_box2d": "BOX(8.530541 47.375329,8.530541 47.375329)",
+                            "label": "Zeughausstrasse 31 <b>8004 Zürich</b>",
+                            "lat": 47.375328063964844,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/103689607",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302068518_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.530552864074707,
+                            "num": 31,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.530552864074707,
+                            "y": 47.375328063964844,
+                            "zoomlevel": 10
+                        },
+                        "id": 3273316,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1119,
+            "registryCheckedAt": "2026-10-15T04:10:39.077Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-sentianova.png",
+                "source": "https://sentianova.com/_assets/images/72945febc68a241109e458093158637f.png",
+                "width": 192,
+                "height": 192,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        }
+    ]
+}

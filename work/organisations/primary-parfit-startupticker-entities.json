@@ -1,0 +1,5307 @@
+{
+    "checkedAt": "2026-10-15",
+    "meaning": "Screening index, not verified missing-company count. Parent/product and regional checks remain where not explicitly resolved.",
+    "entities": [
+        {
+            "name": "Tivano",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.1"],
+            "existingResearch": "work/organisations/holds.json",
+            "researchOwnership": "prior-hold-reuse-before-research"
+        },
+        {
+            "name": "Neurosterix",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.4", "18.29"]
+        },
+        {
+            "name": "Nuclidium",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.4", "9.31", "23.44"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "hooq",
+            "registrySlug": "hooq",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["1.7"]
+        },
+        {
+            "name": "Kwiiz",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.11"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Klarent",
+            "registrySlug": "klarent",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["1.12"]
+        },
+        {
+            "name": "Besso",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.16", "16.35"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Swibeco",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.17"]
+        },
+        {
+            "name": "Premium Brand Solutions",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.17"]
+        },
+        {
+            "name": "Symactiv",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.10", "23.6"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Visorway",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.20"],
+            "primaryDecision": "eligible-primary-evidence-resolves-prior-address-hold-main-review"
+        },
+        {
+            "name": "SalesPort",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.21"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Readily3D",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.25"]
+        },
+        {
+            "name": "Visium",
+            "registrySlug": "visium",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["1.25", "9.44"]
+        },
+        {
+            "name": "SensorX Solutions",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.35", "20.10"]
+        },
+        {
+            "name": "Umbera",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.36"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "4Fondue",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.37"]
+        },
+        {
+            "name": "Bakery Bakery",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.37", "2.33"]
+        },
+        {
+            "name": "ExpertVision",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.37"]
+        },
+        {
+            "name": "Infomaniak",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.39", "5.9", "10.8"]
+        },
+        {
+            "name": "NovoViz",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.40", "7.40", "15.45"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "PolaSight",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.41"]
+        },
+        {
+            "name": "Riva Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.44"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "FOOD FOUNDERS Studio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.45"]
+        },
+        {
+            "name": "SentiaNova",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.45"]
+        },
+        {
+            "name": "Aurora's Grid",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.48"]
+        },
+        {
+            "name": "ILB Helios",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.48"]
+        },
+        {
+            "name": "Bee People",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.50", "18.32"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Iris Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.2"]
+        },
+        {
+            "name": "Phylax Intelligence",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.6"]
+        },
+        {
+            "name": "CC Cardio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.8", "20.19"]
+        },
+        {
+            "name": "Lumvin",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.8", "11.24"]
+        },
+        {
+            "name": "VITO Energies",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.9"]
+        },
+        {
+            "name": "Helvetiqua",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.9"]
+        },
+        {
+            "name": "Swiss Activities",
+            "registrySlug": "swiss-activities",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["2.10", "21.39"]
+        },
+        {
+            "name": "Qambria",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.11"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "BODDY",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.15"]
+        },
+        {
+            "name": "Prevision Medicine",
+            "registrySlug": "prevision-medicine",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["2.17"]
+        },
+        {
+            "name": "NINABOT",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.18"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Planik",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.19"]
+        },
+        {
+            "name": "LogObject",
+            "registrySlug": "logobject",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["2.19"]
+        },
+        {
+            "name": "ClearSpace",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.20", "11.20"]
+        },
+        {
+            "name": "Opterio Health",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.21"]
+        },
+        {
+            "name": "AC Immune",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.21", "4.40", "8.40", "19.41"]
+        },
+        {
+            "name": "Energy Vault",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.22", "20.15"]
+        },
+        {
+            "name": "Albatross",
+            "registrySlug": "albatross",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["2.23", "16.2", "21.22"]
+        },
+        {
+            "name": "Sellva",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.24"]
+        },
+        {
+            "name": "smartNsales",
+            "registrySlug": null,
+            "status": "product-or-alias-not-separate-company",
+            "articleIds": ["2.24"],
+            "canonicalEntity": "Sellva"
+        },
+        {
+            "name": "c.technology",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.25", "22.47"],
+            "primaryDecision": "eligible-primary-evidence-main-review"
+        },
+        {
+            "name": "NRGY One",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.26"]
+        },
+        {
+            "name": "Birds&Co",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.27", "10.45", "20.17"]
+        },
+        {
+            "name": "Piccovélo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.27"]
+        },
+        {
+            "name": "Woofy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.27"]
+        },
+        {
+            "name": "Ontinue",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.29"]
+        },
+        {
+            "name": "Perovskia Solar",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.31"]
+        },
+        {
+            "name": "Energy Control",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.32"]
+        },
+        {
+            "name": "Precira",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.32"]
+        },
+        {
+            "name": "Nettle Circle",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.32"]
+        },
+        {
+            "name": "Kiyo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.32"]
+        },
+        {
+            "name": "Magic Heidi",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.33", "4.33"]
+        },
+        {
+            "name": "Mosanna Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.34"]
+        },
+        {
+            "name": "Melodia Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.34"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Aseptuva",
+            "registrySlug": "aseptuva",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["2.36"]
+        },
+        {
+            "name": "LittleCubes",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.39", "21.4"]
+        },
+        {
+            "name": "naoo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.40"]
+        },
+        {
+            "name": "Embodied AI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.41"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Proton",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.43", "12.28", "16.47"]
+        },
+        {
+            "name": "Kredo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.44", "14.40"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Planlabs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.45"]
+        },
+        {
+            "name": "Giotto.ai",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.46", "8.48", "11.38"]
+        },
+        {
+            "name": "Helvo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.48"]
+        },
+        {
+            "name": "storabble",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.1", "14.48"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "IRISgo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.3"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Etanox",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.4"]
+        },
+        {
+            "name": "Insolight",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.5"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Ferm Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.6"]
+        },
+        {
+            "name": "Flottando",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.7", "15.34"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "AEON",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.9", "22.7"]
+        },
+        {
+            "name": "Aware Health",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.9"]
+        },
+        {
+            "name": "Verretex",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.10", "8.49", "15.5", "22.4", "23.18"]
+        },
+        {
+            "name": "SurfAce Cleantech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.12", "10.4", "10.45", "21.47"]
+        },
+        {
+            "name": "Nullpunkt",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.14"],
+            "existingResearch": "/tmp/zurich-registry-review/primary-56c0-startupticker-primary.json",
+            "researchOwnership": "Franklin-currently-researching-do-not-duplicate"
+        },
+        {
+            "name": "Walnut Planet",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.14", "5.36"]
+        },
+        {
+            "name": "ONESTO",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.14"]
+        },
+        {
+            "name": "Windward Bio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.15", "11.4", "18.37"]
+        },
+        {
+            "name": "Pharvaris",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.15"]
+        },
+        {
+            "name": "Avrion Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.19"]
+        },
+        {
+            "name": "vyzn",
+            "registrySlug": "vyzn",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["3.17", "20.1"]
+        },
+        {
+            "name": "Dexterous Endoscopes",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.18", "14.1"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Precisia Care",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.18"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "siabit",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.19"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "ForstControl",
+            "registrySlug": null,
+            "status": "product-or-alias-not-separate-company",
+            "articleIds": ["3.19"],
+            "canonicalEntity": "siabit"
+        },
+        {
+            "name": "MobiPolter",
+            "registrySlug": null,
+            "status": "product-or-alias-not-separate-company",
+            "articleIds": ["3.19"],
+            "canonicalEntity": "siabit"
+        },
+        {
+            "name": "Lyght",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.21"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Gaia Tech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.22"]
+        },
+        {
+            "name": "TOM Medications",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.23"]
+        },
+        {
+            "name": "Fusionality",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.25"]
+        },
+        {
+            "name": "Studyond",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.26", "12.20"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Goodwall",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.28"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Roofless Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.28"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Infera Neuro",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.28"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "smarli",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.30"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Jaipur Robotics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.34", "20.23"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Cleverdist",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.33"]
+        },
+        {
+            "name": "Sensopro",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.37", "16.31"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "iqtax",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.39"]
+        },
+        {
+            "name": "KimboCare",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.41"]
+        },
+        {
+            "name": "NewBiologix",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.42"]
+        },
+        {
+            "name": "SnapCheck",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.43"]
+        },
+        {
+            "name": "Chorus Tre",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.44"]
+        },
+        {
+            "name": "HeteroSight",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.44"]
+        },
+        {
+            "name": "Sixtine AI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.44"]
+        },
+        {
+            "name": "Cookd Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.44"]
+        },
+        {
+            "name": "Endobotica",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.44"]
+        },
+        {
+            "name": "NovaGo Therapeutics",
+            "registrySlug": "novago-therapeutics",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["3.46"]
+        },
+        {
+            "name": "Santelle",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.47"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "FluoSphera",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.48", "18.20"]
+        },
+        {
+            "name": "Smixin",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.1"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Foldcast",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.6", "7.28"]
+        },
+        {
+            "name": "Voltiris",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.7", "9.50", "16.16"]
+        },
+        {
+            "name": "Isochronic",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.8"]
+        },
+        {
+            "name": "Bewe",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.9", "4.39"]
+        },
+        {
+            "name": "Viso.ai",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.11"]
+        },
+        {
+            "name": "Addex Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.15"]
+        },
+        {
+            "name": "WasteFlow",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.16", "10.45"]
+        },
+        {
+            "name": "DOCumenter",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.16", "11.6"]
+        },
+        {
+            "name": "Nextrainers",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.16", "21.47"]
+        },
+        {
+            "name": "RiveLock",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.16", "8.4"]
+        },
+        {
+            "name": "Adaptyv Biosystems",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.17"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Exentis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.18", "6.42"]
+        },
+        {
+            "name": "Opterion Health",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.19", "14.23"]
+        },
+        {
+            "name": "dgtis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.20"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Objectis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.20"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Sun-Ways",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.21"]
+        },
+        {
+            "name": "ipQuants",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.22"]
+        },
+        {
+            "name": "e-Alps",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.23"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Qthena",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.22"]
+        },
+        {
+            "name": "Lookthrough",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.24"]
+        },
+        {
+            "name": "SEPPmail",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.25"]
+        },
+        {
+            "name": "I-RIIDE",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.26"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Logmind",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.27"]
+        },
+        {
+            "name": "BitVault",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.28", "9.38"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "AMiquam",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.29"]
+        },
+        {
+            "name": "Gravity Pull Systems",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.29"]
+        },
+        {
+            "name": "Weight Space Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.29"]
+        },
+        {
+            "name": "ProSeed",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.29"]
+        },
+        {
+            "name": "MOLECL",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.32"]
+        },
+        {
+            "name": "Humaniche",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.32"]
+        },
+        {
+            "name": "Numezis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.33"]
+        },
+        {
+            "name": "UpGrid",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.34"]
+        },
+        {
+            "name": "Dyneo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.36"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "terralayr",
+            "registrySlug": "terralayr",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["4.37", "15.36", "17.18", "17.46"]
+        },
+        {
+            "name": "Vandria",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.40", "20.21"]
+        },
+        {
+            "name": "Zelsius",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.41"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Kinastic",
+            "registrySlug": "kinastic",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["4.42"]
+        },
+        {
+            "name": "Ascend Sport Technology",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.43"]
+        },
+        {
+            "name": "Spineart",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.45"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Distalmotion",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.45", "7.47", "18.15", "21.20"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "DEC Energy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.46", "6.43"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Indivi",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.47", "21.27"]
+        },
+        {
+            "name": "Atinary Technologies",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.48"]
+        },
+        {
+            "name": "SUIND",
+            "registrySlug": "suind",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["4.50"]
+        },
+        {
+            "name": "DriveLab",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.1"]
+        },
+        {
+            "name": "todrive.ch",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.1"]
+        },
+        {
+            "name": "Square Commodities",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.2"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Circet Schweiz",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.3"]
+        },
+        {
+            "name": "Technik Partner",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.3"]
+        },
+        {
+            "name": "Accure",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.5"]
+        },
+        {
+            "name": "PeriVision",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.6", "22.4"]
+        },
+        {
+            "name": "finpension",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.7"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Zerolook",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.8"]
+        },
+        {
+            "name": "Cutempa Medical",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.10"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Vaderis Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.11"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Aderis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.12"]
+        },
+        {
+            "name": "Cy Biopharma",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.13"]
+        },
+        {
+            "name": "Tier-Inserate",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.14"]
+        },
+        {
+            "name": "petfinder",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.14"]
+        },
+        {
+            "name": "Timeline",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.15", "13.8"]
+        },
+        {
+            "name": "AVEA",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.16"]
+        },
+        {
+            "name": "LS Instruments",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.17"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "SOPHiA GENETICS",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.19", "8.10", "18.13"]
+        },
+        {
+            "name": "Pilatus Biosciences",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.19", "6.6"]
+        },
+        {
+            "name": "Terra Quantum",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.20", "9.42", "10.41", "12.31"]
+        },
+        {
+            "name": "Hamerly",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.21"]
+        },
+        {
+            "name": "GoNina",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.22"],
+            "primaryDecision": "eligible-primary-evidence-main-review"
+        },
+        {
+            "name": "CAZ Cascara",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.23", "10.24"]
+        },
+        {
+            "name": "Noriware",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.24", "17.49"]
+        },
+        {
+            "name": "PrivacyBee",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.26"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "GoCalma",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.28", "7.49"]
+        },
+        {
+            "name": "AI Infrastructure Capital",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.29"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "nordfen",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.30"]
+        },
+        {
+            "name": "fonea",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.31"]
+        },
+        {
+            "name": "Connect AI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.31"]
+        },
+        {
+            "name": "botts.ai",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.31"]
+        },
+        {
+            "name": "intonate",
+            "registrySlug": "intonate",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["5.32"]
+        },
+        {
+            "name": "AB2 Bio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.34"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Subatron",
+            "registrySlug": "subatron",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["5.35", "7.28", "7.29"]
+        },
+        {
+            "name": "Sixteen44",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.36"]
+        },
+        {
+            "name": "AssetOS",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.37"]
+        },
+        {
+            "name": "Delta Capacity",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.38"]
+        },
+        {
+            "name": "Ahead Health",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.39", "18.17"]
+        },
+        {
+            "name": "valuemize",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.42"]
+        },
+        {
+            "name": "Fewotech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.44"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Arcoris bio",
+            "registrySlug": "arcoris-bio",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["5.45", "22.13"]
+        },
+        {
+            "name": "ABILITY Neurotech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.45", "8.32"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Matcha and Friends",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.46"]
+        },
+        {
+            "name": "Lion7",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.46"]
+        },
+        {
+            "name": "Tipiog",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.46"]
+        },
+        {
+            "name": "PLASH",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.46"]
+        },
+        {
+            "name": "HeroSupport",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.47", "14.28", "17.28", "23.11"]
+        },
+        {
+            "name": "Humboldt AI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.48"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Medyria",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.49"]
+        },
+        {
+            "name": "Maus Robotics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.1"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Logol",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.3"]
+        },
+        {
+            "name": "DiverSsiTy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.3", "13.43"]
+        },
+        {
+            "name": "UNBOOUND",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.43"]
+        },
+        {
+            "name": "Urbio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.3"]
+        },
+        {
+            "name": "42 Zürich",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.4"]
+        },
+        {
+            "name": "Centiel",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.5", "12.6", "12.15"]
+        },
+        {
+            "name": "SwimTech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.7", "20.17"]
+        },
+        {
+            "name": "IKARUS Cycling Factory",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.7"]
+        },
+        {
+            "name": "Empyrean",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.7"]
+        },
+        {
+            "name": "SeasON Energy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.8", "10.24"]
+        },
+        {
+            "name": "Kandou AI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.10", "13.34"]
+        },
+        {
+            "name": "Bitcoin Suisse",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.10", "7.44"]
+        },
+        {
+            "name": "ONELINE",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.10"]
+        },
+        {
+            "name": "Hilo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.12"]
+        },
+        {
+            "name": "Prodlane",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.13"]
+        },
+        {
+            "name": "VAULTED",
+            "registrySlug": "vaulted",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["6.14", "20.30"]
+        },
+        {
+            "name": "Helveteq",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.14"]
+        },
+        {
+            "name": "Immitra Bio",
+            "registrySlug": "immitra-bio",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["6.15", "8.29", "11.8"]
+        },
+        {
+            "name": "lawbuddy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.16"]
+        },
+        {
+            "name": "Aionic Labs",
+            "registrySlug": "aionic-labs",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["6.17"]
+        },
+        {
+            "name": "goNEON Agentic Systems",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.18"],
+            "primaryDecision": "eligible-primary-evidence-main-review"
+        },
+        {
+            "name": "Tortin",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.19"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "EnergieLink",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.20"]
+        },
+        {
+            "name": "AELER",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.21"]
+        },
+        {
+            "name": "NaturLoop",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.22"]
+        },
+        {
+            "name": "CDDS",
+            "registrySlug": "cdds",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["6.23"]
+        },
+        {
+            "name": "Counter Defense Drone Systems",
+            "registrySlug": "cdds",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["6.23"]
+        },
+        {
+            "name": "Recoveris",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.30"]
+        },
+        {
+            "name": "Nestermind",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.32", "13.33", "15.45"]
+        },
+        {
+            "name": "RAROG",
+            "registrySlug": "rarog",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["6.34"]
+        },
+        {
+            "name": "NexMR",
+            "registrySlug": "nexmr",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["6.36"]
+        },
+        {
+            "name": "MEMBRYX",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.40"]
+        },
+        {
+            "name": "Phantomleaf Textiles",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.40"]
+        },
+        {
+            "name": "Arrhenius",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.41"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Bearmind",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.44"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Efteor",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.47"]
+        },
+        {
+            "name": "Télôs Watch",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.47"]
+        },
+        {
+            "name": "WIZE",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.49"]
+        },
+        {
+            "name": "ReproNovo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.1"]
+        },
+        {
+            "name": "FloBiotech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.1"]
+        },
+        {
+            "name": "Hafnova",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.2", "13.36", "18.5"]
+        },
+        {
+            "name": "AgroSustain",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.3"]
+        },
+        {
+            "name": "OceanSafe",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.3"]
+        },
+        {
+            "name": "Meteomatics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.3", "23.24"]
+        },
+        {
+            "name": "Rhonexum",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.4", "13.45", "17.40"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Aylight",
+            "registrySlug": "aylight",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["7.6"]
+        },
+        {
+            "name": "ServiceHunter",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.11"]
+        },
+        {
+            "name": "Novac Solutions",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.11"]
+        },
+        {
+            "name": "Arviem",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.12"]
+        },
+        {
+            "name": "Carewell",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.14", "15.41"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Neur.on",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.15", "14.12"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "MB Cyber Security",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.16"]
+        },
+        {
+            "name": "Sonar",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.20", "17.25"]
+        },
+        {
+            "name": "Crion",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.21"]
+        },
+        {
+            "name": "CCRAFT",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.23", "10.27", "19.22"]
+        },
+        {
+            "name": "LOXO",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.24", "10.9", "21.11"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Frankencoin",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.25"]
+        },
+        {
+            "name": "Memorises Bio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.27"]
+        },
+        {
+            "name": "Kyra",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.28"]
+        },
+        {
+            "name": "infinity.swiss",
+            "registrySlug": "nextbusiness",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["7.31"]
+        },
+        {
+            "name": "Eldora",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.32"]
+        },
+        {
+            "name": "SecuSuisse",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.33"]
+        },
+        {
+            "name": "ABCDx",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.36"]
+        },
+        {
+            "name": "Isospec Analytics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.32", "7.37"]
+        },
+        {
+            "name": "MYSTONES",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.37"]
+        },
+        {
+            "name": "Skilder",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.37"]
+        },
+        {
+            "name": "Proxipel",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.39"]
+        },
+        {
+            "name": "Cassio-P",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.40"]
+        },
+        {
+            "name": "Solar Loop",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.40"]
+        },
+        {
+            "name": "Talentir",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.41"]
+        },
+        {
+            "name": "Swisstastic",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.42"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "MoleSense",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.50", "7.43", "12.45", "13.43", "16.36", "20.30", "22.43"]
+        },
+        {
+            "name": "LEM Surgical",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.47", "21.23"]
+        },
+        {
+            "name": "CustomSurg",
+            "registrySlug": "customsurg",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["7.47", "10.15"]
+        },
+        {
+            "name": "Porters",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.50", "16.11"],
+            "primaryDecision": "eligible-primary-evidence-main-review"
+        },
+        {
+            "name": "InkVivo",
+            "registrySlug": "inkvivo-technologies",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["8.1"]
+        },
+        {
+            "name": "RY3T",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.2"]
+        },
+        {
+            "name": "Hydromea",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.3"]
+        },
+        {
+            "name": "Backbone",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.6", "9.3", "14.36", "18.21", "19.11"]
+        },
+        {
+            "name": "Crìa Technologies",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.6"]
+        },
+        {
+            "name": "UrbanMetrix",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.7"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "HAIMAT",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.8"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Ex Nunc Intelligence",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.9", "18.21"]
+        },
+        {
+            "name": "Range",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": [
+                "1.2",
+                "7.18",
+                "8.12",
+                "10.36",
+                "12.14",
+                "12.40",
+                "14.16",
+                "14.44",
+                "15.1",
+                "16.28",
+                "17.5",
+                "17.8",
+                "18.42",
+                "19.50",
+                "21.29",
+                "22.9",
+                "22.35"
+            ]
+        },
+        {
+            "name": "ORYL Photonics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.13"]
+        },
+        {
+            "name": "Natzka",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.15"]
+        },
+        {
+            "name": "SmartHelio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.16"]
+        },
+        {
+            "name": "DETECTRA",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.17"]
+        },
+        {
+            "name": "TUUS Solutions",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.17"]
+        },
+        {
+            "name": "Anyway Systems",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.17"]
+        },
+        {
+            "name": "Equadis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.18"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Minysa",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.19"]
+        },
+        {
+            "name": "Rflect",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.20"]
+        },
+        {
+            "name": "Computer Vision",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.11", "4.11", "8.21"]
+        },
+        {
+            "name": "Emeralgo",
+            "registrySlug": null,
+            "status": "product-or-alias-not-separate-company",
+            "articleIds": ["8.21"],
+            "canonicalEntity": "Computer Vision"
+        },
+        {
+            "name": "Viesus",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.22"],
+            "primaryDecision": "parent-identity-and-current-address-held"
+        },
+        {
+            "name": "Rydera",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.23"]
+        },
+        {
+            "name": "Bioscibex",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.24", "10.42"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "FocusNow",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.26"]
+        },
+        {
+            "name": "LOKD",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.26"]
+        },
+        {
+            "name": "Noemon",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.27"]
+        },
+        {
+            "name": "Big Sack",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.28"]
+        },
+        {
+            "name": "ClearideBio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.30"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Transcendance",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.31"]
+        },
+        {
+            "name": "TVL Capital",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.33"]
+        },
+        {
+            "name": "TrialHer",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.37"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "FOOD2050",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.39"]
+        },
+        {
+            "name": "AveoliX",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.40"]
+        },
+        {
+            "name": "Combioxin",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.40"]
+        },
+        {
+            "name": "Pick Place",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.42"]
+        },
+        {
+            "name": "AlpineAI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.44", "12.19", "23.42"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "findependent",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.45", "15.7"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Apparition Geoservices",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.46"]
+        },
+        {
+            "name": "EM Path",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.49"]
+        },
+        {
+            "name": "REMA",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.49"]
+        },
+        {
+            "name": "Polytax",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.49"]
+        },
+        {
+            "name": "Idorsia",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.41", "7.19", "8.50", "22.36", "23.40"]
+        },
+        {
+            "name": "calmea",
+            "registrySlug": "calmea",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["9.1", "21.13"]
+        },
+        {
+            "name": "Sequence",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.3", "16.29"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "maison blanche",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.5"]
+        },
+        {
+            "name": "Temenos",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.7"]
+        },
+        {
+            "name": "additiv",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.7"]
+        },
+        {
+            "name": "Resilio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.11"]
+        },
+        {
+            "name": "Greenoco",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.11"]
+        },
+        {
+            "name": "Saporo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.12", "20.24"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "GR3N",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.14"]
+        },
+        {
+            "name": "Catchfree",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.15"]
+        },
+        {
+            "name": "Fortyfour",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.15"]
+        },
+        {
+            "name": "TheraPPI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.16"]
+        },
+        {
+            "name": "Zenline",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.18"]
+        },
+        {
+            "name": "Qnami",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.20", "16.44"]
+        },
+        {
+            "name": "motif",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.21"]
+        },
+        {
+            "name": "CENSE",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.22"]
+        },
+        {
+            "name": "Wecan",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.23", "23.18"]
+        },
+        {
+            "name": "Miraex",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.23", "13.25"]
+        },
+        {
+            "name": "Typewise",
+            "registrySlug": "typewise",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["9.25"]
+        },
+        {
+            "name": "HooRa",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.26"]
+        },
+        {
+            "name": "Coachbetter",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.27"]
+        },
+        {
+            "name": "Avientus",
+            "registrySlug": "avientus",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["9.30"]
+        },
+        {
+            "name": "SONIX",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.32"]
+        },
+        {
+            "name": "Züripets",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.33"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Lean Projects",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.34"]
+        },
+        {
+            "name": "VERAXA",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["8.36", "9.36"]
+        },
+        {
+            "name": "Curatis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.36"]
+        },
+        {
+            "name": "PeelPack",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.38", "19.8"]
+        },
+        {
+            "name": "Reilo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.38"]
+        },
+        {
+            "name": "smartconext",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.39"]
+        },
+        {
+            "name": "Localfish",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.39", "12.20"]
+        },
+        {
+            "name": "Bionomous",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.45"]
+        },
+        {
+            "name": "DePoly",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.49", "15.9"]
+        },
+        {
+            "name": "icotec",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.1"]
+        },
+        {
+            "name": "Flappie",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.5", "21.3"]
+        },
+        {
+            "name": "NeoCarbons",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.6"]
+        },
+        {
+            "name": "brutal güet",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.7"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Neurosoft Bioelectronics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.10", "10.34", "17.28", "18.34"]
+        },
+        {
+            "name": "AVIAN",
+            "registrySlug": "avian",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["10.12"]
+        },
+        {
+            "name": "nextesy",
+            "registrySlug": "nextesy",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["10.15"]
+        },
+        {
+            "name": "AMYRA Biotech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.15"]
+        },
+        {
+            "name": "Yuvoi",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.15", "12.23"]
+        },
+        {
+            "name": "Cigno",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.16"]
+        },
+        {
+            "name": "KA-EX",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.17", "12.10", "15.29", "23.7"]
+        },
+        {
+            "name": "Komeo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.17"]
+        },
+        {
+            "name": "Soully",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.17"]
+        },
+        {
+            "name": "Aiving",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.19", "18.11"]
+        },
+        {
+            "name": "curli",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.20"]
+        },
+        {
+            "name": "BE WTR",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.22", "22.37"]
+        },
+        {
+            "name": "Complemedia",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.23"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Tide Ocean",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.24"]
+        },
+        {
+            "name": "Mano Games",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.24"]
+        },
+        {
+            "name": "Work-ID",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.24"]
+        },
+        {
+            "name": "Nalgoova Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.28"]
+        },
+        {
+            "name": "Oxoia",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.29", "18.19"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Accessify",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.30"]
+        },
+        {
+            "name": "iRewind",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.30"]
+        },
+        {
+            "name": "AMP IT",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.31"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "44ai",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.33", "22.40"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Happy Pot",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.38"]
+        },
+        {
+            "name": "FruitfulAI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.39"]
+        },
+        {
+            "name": "NIRLAB",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.40"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "SQ Innovation",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.44", "16.10", "23.43"]
+        },
+        {
+            "name": "Rea Diagnostics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.45"]
+        },
+        {
+            "name": "AcceleratorX",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.47"]
+        },
+        {
+            "name": "Taurus",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.48", "17.40"]
+        },
+        {
+            "name": "GenTwo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.49"]
+        },
+        {
+            "name": "Moonlight AI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["10.50"]
+        },
+        {
+            "name": "NewcelX",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.1", "22.21"]
+        },
+        {
+            "name": "Biodelphis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.5"]
+        },
+        {
+            "name": "Skin Euphoria",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.7"]
+        },
+        {
+            "name": "Qendra",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.8", "11.25", "14.41", "16.34"],
+            "primaryDecision": "own-technology-verified-exact-primary-address-held"
+        },
+        {
+            "name": "SurgExplore",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.8"]
+        },
+        {
+            "name": "Mosaic SoC",
+            "registrySlug": "mosaic-soc",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["11.9"]
+        },
+        {
+            "name": "BioCopy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.11"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "PAZZI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.12"]
+        },
+        {
+            "name": "Resilens",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.15"]
+        },
+        {
+            "name": "ALLEGRIA Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.17", "19.36"]
+        },
+        {
+            "name": "FERROSA",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.19"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "DPhi Space",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.20"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Bug Bounty Switzerland",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.21"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Solar Manager",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.23"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "klaro Solutions",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.24"]
+        },
+        {
+            "name": "ERDIG Living Soils",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.24"]
+        },
+        {
+            "name": "Iron Energy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.26"]
+        },
+        {
+            "name": "Findmee",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.27", "22.26"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Smartflyer",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.29"]
+        },
+        {
+            "name": "H55",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.29", "16.29"]
+        },
+        {
+            "name": "Cancentus",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.30"]
+        },
+        {
+            "name": "WolkenVision",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.30"]
+        },
+        {
+            "name": "SOORT",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.30"]
+        },
+        {
+            "name": "noii",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.31"]
+        },
+        {
+            "name": "Bubble Robotics",
+            "registrySlug": "bubble-robotics",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["11.32"]
+        },
+        {
+            "name": "Polariton",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.33", "16.3"]
+        },
+        {
+            "name": "9T Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.34"]
+        },
+        {
+            "name": "NEOCARB",
+            "registrySlug": null,
+            "status": "product-or-alias-not-separate-company",
+            "articleIds": ["11.34"],
+            "canonicalEntity": "Biwi"
+        },
+        {
+            "name": "Altoo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.35"]
+        },
+        {
+            "name": "Santhera",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.35", "14.9", "18.4"]
+        },
+        {
+            "name": "Westhive",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.36"]
+        },
+        {
+            "name": "KEMARO",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.39", "19.48"]
+        },
+        {
+            "name": "Lawcodex",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.42"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Precise Intelligence",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.43"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Ystorian",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.43"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "DARE Campus",
+            "registrySlug": "dare-campus",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["11.44"]
+        },
+        {
+            "name": "rayne",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.46"]
+        },
+        {
+            "name": "Parkn'Sleep",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.47"]
+        },
+        {
+            "name": "Babylat",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.48", "17.44"]
+        },
+        {
+            "name": "Novigenix AI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.48", "14.30"]
+        },
+        {
+            "name": "Cosaic",
+            "registrySlug": "cosaic",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["11.50"]
+        },
+        {
+            "name": "Daphne Technology",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.1"]
+        },
+        {
+            "name": "ProteQ Health",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.2"]
+        },
+        {
+            "name": "Planetary",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.5"]
+        },
+        {
+            "name": "dispoEnergy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.7"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "MPower Ventures",
+            "registrySlug": "mpower-ventures",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["12.10"]
+        },
+        {
+            "name": "Baabuk",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.10", "16.6"]
+        },
+        {
+            "name": "Minima",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.10"]
+        },
+        {
+            "name": "ONWARD Medical",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.12", "16.10", "21.23", "22.49", "23.35"]
+        },
+        {
+            "name": "VidaSense",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.13"]
+        },
+        {
+            "name": "CONDA.ch",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.36", "12.17", "16.6"]
+        },
+        {
+            "name": "Acutronic",
+            "registrySlug": "acutronic",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["12.18"]
+        },
+        {
+            "name": "3D Nexum",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.20"]
+        },
+        {
+            "name": "Laine Neural Network",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.22"]
+        },
+        {
+            "name": "LightSeeds",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.24"]
+        },
+        {
+            "name": "PharmaSens",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.26"]
+        },
+        {
+            "name": "Insurteam",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.27"]
+        },
+        {
+            "name": "Bewy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.29", "22.45"]
+        },
+        {
+            "name": "Lemna Bio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.30", "19.22"]
+        },
+        {
+            "name": "Beech Biotech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.30"]
+        },
+        {
+            "name": "DigitalSupplAI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.32"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Sleap.io",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.33"]
+        },
+        {
+            "name": "Herbert Ventures",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.34"]
+        },
+        {
+            "name": "Youdera",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.35"]
+        },
+        {
+            "name": "NeurodAIgnostics",
+            "registrySlug": "neurodaignostics",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["12.36"]
+        },
+        {
+            "name": "Allthings",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.36"]
+        },
+        {
+            "name": "Mountly",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.37"]
+        },
+        {
+            "name": "Vivior",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.38"]
+        },
+        {
+            "name": "Connectome",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.39"]
+        },
+        {
+            "name": "Tiny Fish",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.41"]
+        },
+        {
+            "name": "Ark Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.42"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Delta Labs",
+            "registrySlug": "delta-labs",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["12.43"]
+        },
+        {
+            "name": "Artificialy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.44", "23.29"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "PreciMune",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.45"]
+        },
+        {
+            "name": "Impli",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.50", "12.45", "18.5"]
+        },
+        {
+            "name": "Cohaga",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.46"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "dEEGtal",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.48"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "iGravity",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.49"]
+        },
+        {
+            "name": "Lobby",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["12.50"]
+        },
+        {
+            "name": "DentalReport",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.1"]
+        },
+        {
+            "name": "H2REMA",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.1"]
+        },
+        {
+            "name": "Même Pas Peur",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.1"]
+        },
+        {
+            "name": "The Undiet Plan",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.1"]
+        },
+        {
+            "name": "OOMNIUM",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.37", "5.28", "7.49", "13.2", "16.20", "21.3", "21.37", "23.13"]
+        },
+        {
+            "name": "augo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.3"]
+        },
+        {
+            "name": "DeltaSpark",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.4"]
+        },
+        {
+            "name": "Starmind",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.6"]
+        },
+        {
+            "name": "YourStarter",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.9"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Gaisbock",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.10"]
+        },
+        {
+            "name": "miros",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.11"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "EyeFitU",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.12"]
+        },
+        {
+            "name": "Plair",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.13"]
+        },
+        {
+            "name": "Eturnity",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.14"]
+        },
+        {
+            "name": "Solar Monkey",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.14"]
+        },
+        {
+            "name": "Kielo Research",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.16"]
+        },
+        {
+            "name": "SolidWatts",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.20"]
+        },
+        {
+            "name": "Idéative",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.21"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Coteries",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.21"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "MESH",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.22", "21.23"]
+        },
+        {
+            "name": "WECHEER",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.23"]
+        },
+        {
+            "name": "PAVE Space",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.20", "10.45", "13.26"]
+        },
+        {
+            "name": "NanoZymeX",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.28", "14.41"]
+        },
+        {
+            "name": "Riverkin",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.29", "21.6"]
+        },
+        {
+            "name": "Orthosens",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.29"]
+        },
+        {
+            "name": "Tinamu",
+            "registrySlug": "tinamu-labs",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["13.29"]
+        },
+        {
+            "name": "Vitamin C",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.30"]
+        },
+        {
+            "name": "Soeder",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.7", "13.32"]
+        },
+        {
+            "name": "Umlaut.bio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.35"]
+        },
+        {
+            "name": "EVis Bioscience",
+            "registrySlug": "evis-bioscience",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["13.37"]
+        },
+        {
+            "name": "Marein",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.40"]
+        },
+        {
+            "name": "MouthGuard",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.43"]
+        },
+        {
+            "name": "Taste Match",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.44"]
+        },
+        {
+            "name": "Agora Care",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.49"]
+        },
+        {
+            "name": "circunis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.50"]
+        },
+        {
+            "name": "UAC Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.3"]
+        },
+        {
+            "name": "Bcomp",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.3"]
+        },
+        {
+            "name": "SwissBorg",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.5"]
+        },
+        {
+            "name": "docdok.health",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.6"]
+        },
+        {
+            "name": "Klepsydra",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.7"]
+        },
+        {
+            "name": "Nuventus",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.8"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Docjo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.9"]
+        },
+        {
+            "name": "MindMaze",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.9", "19.15"]
+        },
+        {
+            "name": "Ionic Wind",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.11", "19.31"]
+        },
+        {
+            "name": "BlueGreens",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.11"]
+        },
+        {
+            "name": "Axiym",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.15"]
+        },
+        {
+            "name": "Chain4Travel",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.19"]
+        },
+        {
+            "name": "Seprify",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.20", "15.23", "21.31"]
+        },
+        {
+            "name": "Divea",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.22", "15.19"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Qnomx",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.23"]
+        },
+        {
+            "name": "Blockstrom",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.24"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Occlutech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.25"]
+        },
+        {
+            "name": "Compass Financial Technologies",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.27"]
+        },
+        {
+            "name": "SaveSpace",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.31"]
+        },
+        {
+            "name": "Medimaps",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.33"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "IBA Virtual",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.36"]
+        },
+        {
+            "name": "Allasso",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.38"]
+        },
+        {
+            "name": "Polares Medical",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.39"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "CellKinetica",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.41"]
+        },
+        {
+            "name": "Enlightra",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.41", "19.12"]
+        },
+        {
+            "name": "Alithea Genomics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.42"]
+        },
+        {
+            "name": "IMPLANZ",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.45"]
+        },
+        {
+            "name": "TECregen",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.45", "18.23"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Vivent Biosignals",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.16", "21.9"]
+        },
+        {
+            "name": "GlobalM",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.45"]
+        },
+        {
+            "name": "Quarero Robotics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.46"]
+        },
+        {
+            "name": "on-storage",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.48"]
+        },
+        {
+            "name": "Xsensio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.49"]
+        },
+        {
+            "name": "Connected Health Development",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.50"]
+        },
+        {
+            "name": "Fainite",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.1"],
+            "primaryDecision": "own-technology-and-zurich-team-verified-address-inconsistency-held"
+        },
+        {
+            "name": "STS Digital",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.3"]
+        },
+        {
+            "name": "L.E.S.S.",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.4"]
+        },
+        {
+            "name": "Spirecut",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.6"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "InVirtuoLabs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.8", "16.9"]
+        },
+        {
+            "name": "Neutrality",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.9"]
+        },
+        {
+            "name": "Arcarius",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.10"]
+        },
+        {
+            "name": "Polaroid Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.12"]
+        },
+        {
+            "name": "Clee Medical",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.14"]
+        },
+        {
+            "name": "Swiss Rockets",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.16"]
+        },
+        {
+            "name": "CLIMATEX",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.18"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Enerdrape",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.44", "15.19", "17.28"]
+        },
+        {
+            "name": "Bioneris",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.19"]
+        },
+        {
+            "name": "nowon",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.21"]
+        },
+        {
+            "name": "STIMIT",
+            "registrySlug": "stimit",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["15.22"]
+        },
+        {
+            "name": "Kaspar&",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.24"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Quanthome",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.26"]
+        },
+        {
+            "name": "Scantrust",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.28"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "FimmCyte",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.32"]
+        },
+        {
+            "name": "Alpha Augmented Services",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.33"]
+        },
+        {
+            "name": "Scenario X",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.34"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Axy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.34", "20.46"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Nose Switzerland",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.34"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Avlana",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.35"]
+        },
+        {
+            "name": "ExerGo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.37"]
+        },
+        {
+            "name": "Axmed",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.39"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "CompPair",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.40"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "KnowThee",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.41"]
+        },
+        {
+            "name": "Alpi",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.41"]
+        },
+        {
+            "name": "Fume",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.45"]
+        },
+        {
+            "name": "Winduction",
+            "registrySlug": "winduction",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["12.3", "15.46"]
+        },
+        {
+            "name": "ScyAI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.47"],
+            "primaryDecision": "eligible-primary-evidence-main-review"
+        },
+        {
+            "name": "Hemora",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["15.50"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "OOVIE",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.1"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Berlin Heals",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.4", "23.36"]
+        },
+        {
+            "name": "AeroEx",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.5"]
+        },
+        {
+            "name": "Mitipi",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.6", "19.21"]
+        },
+        {
+            "name": "Chronic",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": [
+                "1.42",
+                "2.21",
+                "5.13",
+                "5.19",
+                "8.32",
+                "11.17",
+                "13.38",
+                "16.6",
+                "17.30",
+                "23.43"
+            ]
+        },
+        {
+            "name": "Argà MedTech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.10"]
+        },
+        {
+            "name": "KYLYS",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.10"]
+        },
+        {
+            "name": "Poulpigo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.12"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Algorized",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.14", "18.34"]
+        },
+        {
+            "name": "Umanitek",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.17"]
+        },
+        {
+            "name": "Swiss Cluster",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.9", "16.19"]
+        },
+        {
+            "name": "Limula",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.22"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Loxy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.30"]
+        },
+        {
+            "name": "tracker.ch",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.30"]
+        },
+        {
+            "name": "Vestir",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.31"]
+        },
+        {
+            "name": "Otter",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.31"],
+            "existingResearch": "/tmp/zurich-registry-review/primary-56c0-startupticker-primary.json",
+            "researchOwnership": "Franklin-currently-researching-do-not-duplicate"
+        },
+        {
+            "name": "Alys Pharmaceuticals",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.33"]
+        },
+        {
+            "name": "iOnctura",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.33", "20.2", "23.14"]
+        },
+        {
+            "name": "Visienco",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.34", "17.26"]
+        },
+        {
+            "name": "Mindset Technologies",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.34"]
+        },
+        {
+            "name": "FluidSolids",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.39"]
+        },
+        {
+            "name": "GuestReady",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.43"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "DiploTools",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.45", "18.5"]
+        },
+        {
+            "name": "Terapet",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.47"]
+        },
+        {
+            "name": "ORamaVR",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.48"]
+        },
+        {
+            "name": "Technis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.49"]
+        },
+        {
+            "name": "E-NNO",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.49"]
+        },
+        {
+            "name": "Xer Tech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.2"]
+        },
+        {
+            "name": "beUnity",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.6"]
+        },
+        {
+            "name": "SamanTree Medical",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.7"]
+        },
+        {
+            "name": "Virometix",
+            "registrySlug": "virometix",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["17.9", "21.40"]
+        },
+        {
+            "name": "InterAx Biotech",
+            "registrySlug": "interax-biotech",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["17.9"]
+        },
+        {
+            "name": "Scholé AI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.10"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Largo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.11"]
+        },
+        {
+            "name": "Aesyra",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.13"]
+        },
+        {
+            "name": "Comphya",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.13", "23.36"]
+        },
+        {
+            "name": "Under Industries",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.17"]
+        },
+        {
+            "name": "Credura",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.19"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Windsor.ai",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.23"]
+        },
+        {
+            "name": "Sparkli",
+            "registrySlug": "sparkli",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["17.24"]
+        },
+        {
+            "name": "Rhovica Neuroimaging",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.26"]
+        },
+        {
+            "name": "Tech5",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.27", "20.37"]
+        },
+        {
+            "name": "GraphEnergy Tech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.28"]
+        },
+        {
+            "name": "Audiospace",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.29"]
+        },
+        {
+            "name": "Oviva",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.30"]
+        },
+        {
+            "name": "FAIRTIQ",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.31"]
+        },
+        {
+            "name": "Smood",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.33"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Cloover",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.37"]
+        },
+        {
+            "name": "Frigg",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.38"]
+        },
+        {
+            "name": "Advertima",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.42"]
+        },
+        {
+            "name": "Undae",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.45"]
+        },
+        {
+            "name": "SIS Medical",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.48"]
+        },
+        {
+            "name": "GreenGT",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.50"]
+        },
+        {
+            "name": "Composite Recycling",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["17.50"]
+        },
+        {
+            "name": "MyBikePlan",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.1"]
+        },
+        {
+            "name": "Copresence",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.2"],
+            "primaryDecision": "do-not-add-official-wind-down"
+        },
+        {
+            "name": "AlphaLum",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.6"]
+        },
+        {
+            "name": "PLAKATIV",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.8"]
+        },
+        {
+            "name": "SayNode",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.9"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "FAB STUDIO",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.12"]
+        },
+        {
+            "name": "Future Holdings",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.16", "22.18"]
+        },
+        {
+            "name": "Holsain",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.7"]
+        },
+        {
+            "name": "MOMM Diagnostics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.22"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "AiMorphous",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.22"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "TOFWERK",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.24"]
+        },
+        {
+            "name": "Spacetek",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.25", "20.40"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Delos Analytica",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.26"]
+        },
+        {
+            "name": "Kainjoo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.27"]
+        },
+        {
+            "name": "Pupsic",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.27"]
+        },
+        {
+            "name": "ZenChain",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.28"]
+        },
+        {
+            "name": "Legacy Healthcare",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.29"]
+        },
+        {
+            "name": "OneTwenty",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.30"]
+        },
+        {
+            "name": "Ason Payroll Engine",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.31"]
+        },
+        {
+            "name": "CircleUp",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.31"]
+        },
+        {
+            "name": "Techponics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.33"]
+        },
+        {
+            "name": "Punkt",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.34"]
+        },
+        {
+            "name": "Nutrix",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.34"]
+        },
+        {
+            "name": "sun2wheel",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.35"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Revario",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.36"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Gapfruit",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.38"]
+        },
+        {
+            "name": "Micromate",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.40"]
+        },
+        {
+            "name": "Cancret",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.41"]
+        },
+        {
+            "name": "SpacePNT",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.43"]
+        },
+        {
+            "name": "DiNAQOR",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.49"]
+        },
+        {
+            "name": "DiNATEQ",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.49"]
+        },
+        {
+            "name": "YeastUp",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["18.50"]
+        },
+        {
+            "name": "Glice",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.1"]
+        },
+        {
+            "name": "SCALE Lasers",
+            "registrySlug": "scale-lasers",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["19.2"]
+        },
+        {
+            "name": "Dokspot",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.3"]
+        },
+        {
+            "name": "LumRisk",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.4"]
+        },
+        {
+            "name": "Xlife Sciences",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.6", "20.8"]
+        },
+        {
+            "name": "Liom",
+            "registrySlug": "liom",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["19.9"]
+        },
+        {
+            "name": "Volted.ai",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.11"]
+        },
+        {
+            "name": "Levitate Aerospace",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.13"]
+        },
+        {
+            "name": "Nomady",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.16"]
+        },
+        {
+            "name": "FoRx Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.18"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Genknowme",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.19"]
+        },
+        {
+            "name": "Siresca",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.20"],
+            "primaryDecision": "indexed-primary-product-and-address-evidence-direct-read-limited"
+        },
+        {
+            "name": "Oazo Homes",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.21"]
+        },
+        {
+            "name": "Lighthouse Tech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.21"]
+        },
+        {
+            "name": "Malaica",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.21"]
+        },
+        {
+            "name": "Databaum",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.22"]
+        },
+        {
+            "name": "HomeBuddy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.24"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "POSICS",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.26"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Vectopia",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.26"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Geneva Connection Technologies",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.26"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Soverli",
+            "registrySlug": "soverli",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["19.27"]
+        },
+        {
+            "name": "Scriveo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.28"]
+        },
+        {
+            "name": "PRODUCER",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.42", "19.29"]
+        },
+        {
+            "name": "Mantis Ropeway",
+            "registrySlug": "mantis-ropeway",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["19.30"]
+        },
+        {
+            "name": "Altiscreen",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.32"]
+        },
+        {
+            "name": "MindGuard",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.33"]
+        },
+        {
+            "name": "Swixx Biopharma",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.34"]
+        },
+        {
+            "name": "Artiria Medical",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.35", "23.36"]
+        },
+        {
+            "name": "Compremium",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.35"]
+        },
+        {
+            "name": "Testmate",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.38"]
+        },
+        {
+            "name": "EM Technologies",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.39"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "INERGIO",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.40"]
+        },
+        {
+            "name": "Aukera",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.42"]
+        },
+        {
+            "name": "zevvy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.44"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "ecomade",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.45"]
+        },
+        {
+            "name": "DigeHealth",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.46"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "AL-S Pharma",
+            "registrySlug": "al-s-pharma",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["20.2"]
+        },
+        {
+            "name": "Aurealis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.2"]
+        },
+        {
+            "name": "Olymp",
+            "registrySlug": "olymp",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["20.6"]
+        },
+        {
+            "name": "Ventostream",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.6"]
+        },
+        {
+            "name": "EvlaBio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.6"]
+        },
+        {
+            "name": "SwissHealth Ventures",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.16"]
+        },
+        {
+            "name": "StaffUp",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.17"]
+        },
+        {
+            "name": "EspeRare",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.18"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "MethylX",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.19"]
+        },
+        {
+            "name": "Reshape Systems",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.26"]
+        },
+        {
+            "name": "Medropharm",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.29"]
+        },
+        {
+            "name": "Pacrim",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.29"]
+        },
+        {
+            "name": "Novonexile",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.30"]
+        },
+        {
+            "name": "Arca24",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.31"]
+        },
+        {
+            "name": "Swisspod",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.32"]
+        },
+        {
+            "name": "Enshift",
+            "registrySlug": "enshift",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["9.9", "20.33"]
+        },
+        {
+            "name": "Humbrela",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.34"]
+        },
+        {
+            "name": "Xcert AI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.35"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Cycloo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.36"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "K2 Photonics",
+            "registrySlug": "k2-photonics",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["20.39"]
+        },
+        {
+            "name": "SWD",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.41"]
+        },
+        {
+            "name": "Online Recruiter",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.42"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Propfy",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.45"]
+        },
+        {
+            "name": "Octiive",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["20.49"]
+        },
+        {
+            "name": "Arcalignum",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.4"]
+        },
+        {
+            "name": "Badger",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.4"]
+        },
+        {
+            "name": "Flexion",
+            "registrySlug": "flexion",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["21.7"]
+        },
+        {
+            "name": "Pure-DEL",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.8"]
+        },
+        {
+            "name": "Solarify",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.10"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "NovaLight",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.12"]
+        },
+        {
+            "name": "Novaccess",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.12"]
+        },
+        {
+            "name": "Impact.build",
+            "registrySlug": "impact-build",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["21.13"]
+        },
+        {
+            "name": "Kolbev",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.13"]
+        },
+        {
+            "name": "YURO",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.13"]
+        },
+        {
+            "name": "Tasteomics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.19"]
+        },
+        {
+            "name": "SmarterChains",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.21"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Regenosca",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.23"]
+        },
+        {
+            "name": "Acurast",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.25"]
+        },
+        {
+            "name": "Kollabo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.28"]
+        },
+        {
+            "name": "enovetic",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.28"]
+        },
+        {
+            "name": "GlioCART",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.30"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Masaba Coffee",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.37"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "CASUS",
+            "registrySlug": "casus",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["21.41"]
+        },
+        {
+            "name": "Swijin",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.42"]
+        },
+        {
+            "name": "GreenTriangle",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.43"]
+        },
+        {
+            "name": "Autonomyo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.44"]
+        },
+        {
+            "name": "DOPPL",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.45"]
+        },
+        {
+            "name": "Sun Bioscience",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.45"]
+        },
+        {
+            "name": "NNAISENSE",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.46"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Healio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.47"]
+        },
+        {
+            "name": "Sharelock",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.47"]
+        },
+        {
+            "name": "Delvitech",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.48"]
+        },
+        {
+            "name": "Omnilex",
+            "registrySlug": "omnilex",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["21.50"]
+        },
+        {
+            "name": "Motley",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.1"]
+        },
+        {
+            "name": "BioVersys",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["19.41", "22.2"]
+        },
+        {
+            "name": "AMINA",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.3"]
+        },
+        {
+            "name": "SixPeaks",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.6"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Switchkine",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.12"]
+        },
+        {
+            "name": "Moodtalk",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.17"]
+        },
+        {
+            "name": "sign.mt",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.19"]
+        },
+        {
+            "name": "NLS Pharmaceutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.21"]
+        },
+        {
+            "name": "Newcelx",
+            "registrySlug": null,
+            "status": "product-or-alias-not-separate-company",
+            "articleIds": ["11.1", "22.21"],
+            "canonicalEntity": "NewcelX"
+        },
+        {
+            "name": "GAYA Earth",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.22"]
+        },
+        {
+            "name": "chainstaff",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.24"]
+        },
+        {
+            "name": "MYNE",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.26"]
+        },
+        {
+            "name": "FireDrone",
+            "registrySlug": "firedrone",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["22.27"]
+        },
+        {
+            "name": "Obligate",
+            "registrySlug": "obligate",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["22.28"]
+        },
+        {
+            "name": "Lookmove",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.30"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "CUE Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.31"],
+            "primaryDecision": "own-technology-and-registered-address-verified-local-team-question"
+        },
+        {
+            "name": "Art Recognition",
+            "registrySlug": "art-recognition",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["22.32"]
+        },
+        {
+            "name": "Data Migration International",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.34"]
+        },
+        {
+            "name": "TVP Solar",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.44"]
+        },
+        {
+            "name": "Smart Chip Switzerland",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.46"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Nexthink",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.48"]
+        },
+        {
+            "name": "21Shares",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["22.50"]
+        },
+        {
+            "name": "Trilliome",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.1"]
+        },
+        {
+            "name": "BOXS",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.2"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Recoplast",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.2"]
+        },
+        {
+            "name": "QUMEA",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["21.38", "23.3"]
+        },
+        {
+            "name": "Kontera",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.5"]
+        },
+        {
+            "name": "Omnitone",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.8"]
+        },
+        {
+            "name": "WWW",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.8"]
+        },
+        {
+            "name": "Red Drop",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.8"]
+        },
+        {
+            "name": "maison.work",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.10"]
+        },
+        {
+            "name": "Future Kitchens",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.13"]
+        },
+        {
+            "name": "Twiliner",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.13"]
+        },
+        {
+            "name": "Peoplegeist",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.15"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Suisselle",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.16"]
+        },
+        {
+            "name": "eFrontiers",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.18"]
+        },
+        {
+            "name": "Lawise.ai",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.21"]
+        },
+        {
+            "name": "TALPA Inspection",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.22"]
+        },
+        {
+            "name": "Anevo",
+            "registrySlug": "anevo",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["23.23"]
+        },
+        {
+            "name": "Subsquid",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.25"]
+        },
+        {
+            "name": "Wemedoo",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.26"]
+        },
+        {
+            "name": "ELKA Watch",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.26"]
+        },
+        {
+            "name": "Shack",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.27"]
+        },
+        {
+            "name": "General Intuition",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.28"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Cubra",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.30"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Plenio",
+            "registrySlug": null,
+            "status": "product-or-alias-not-separate-company",
+            "articleIds": ["23.30"],
+            "canonicalEntity": "Cubra"
+        },
+        {
+            "name": "Cryptonow",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.31"]
+        },
+        {
+            "name": "Pretty Good",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.32"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Ikerian",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.33"]
+        },
+        {
+            "name": "RetinAI",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.33"]
+        },
+        {
+            "name": "GradeSens",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.34"]
+        },
+        {
+            "name": "capzlog.aero",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.41"]
+        },
+        {
+            "name": "Navique",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.42"]
+        },
+        {
+            "name": "Nouscom",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.44"]
+        },
+        {
+            "name": "ADC Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.40"]
+        },
+        {
+            "name": "YARU",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.46"]
+        },
+        {
+            "name": "Crowdsports",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.48"]
+        },
+        {
+            "name": "Arqh",
+            "registrySlug": "arqh",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["23.50"]
+        },
+        {
+            "name": "Moozz",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["23.50"]
+        },
+        {
+            "name": "Apiax",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.14"]
+        },
+        {
+            "name": "Baio Labs",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.30"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Ageospatial",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.31"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Alentis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.32", "20.48", "23.29"]
+        },
+        {
+            "name": "RheoCarti",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.7"]
+        },
+        {
+            "name": "Neural Concept",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.13", "6.43", "9.2", "10.15", "10.37", "19.14"]
+        },
+        {
+            "name": "Odne",
+            "registrySlug": "odne",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["3.8"]
+        },
+        {
+            "name": "Panda Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.49"]
+        },
+        {
+            "name": "REEcover",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["4.3"]
+        },
+        {
+            "name": "Evax",
+            "registrySlug": "evax",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["4.49"]
+        },
+        {
+            "name": "HAYA Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.27", "10.3"]
+        },
+        {
+            "name": "Oculis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["5.5", "5.27", "9.29", "11.48", "18.29", "22.36", "23.44"]
+        },
+        {
+            "name": "Terasol",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.24"]
+        },
+        {
+            "name": "MoonLake Immunotherapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["16.33"]
+        },
+        {
+            "name": "SWISSto12",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.28", "17.35"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Bubbles Crèches",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.45"]
+        },
+        {
+            "name": "Creapole",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.19"]
+        },
+        {
+            "name": "hephaistos.bio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.28"]
+        },
+        {
+            "name": "TUUS",
+            "registrySlug": null,
+            "status": "product-or-alias-not-separate-company",
+            "articleIds": ["8.17", "9.43"],
+            "canonicalEntity": "TUUS Solutions"
+        },
+        {
+            "name": "Ecorobotix",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.18", "13.48", "23.45"]
+        },
+        {
+            "name": "Neology",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.22", "23.39"],
+            "screening": "title-or-teaser-places-company-outside-ZH-ZG; no current-local-presence conclusion or exclusion"
+        },
+        {
+            "name": "Interact Media Group",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["11.41"]
+        },
+        {
+            "name": "Selma Finance",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.34"]
+        },
+        {
+            "name": "Unita Capital",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.34"]
+        },
+        {
+            "name": "KAEX",
+            "registrySlug": null,
+            "status": "product-or-alias-not-separate-company",
+            "articleIds": ["16.8"],
+            "canonicalEntity": "KA-EX"
+        },
+        {
+            "name": "Corintis",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["3.20", "6.43", "20.9"]
+        },
+        {
+            "name": "Aspivix",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["2.33", "16.10", "23.19"]
+        },
+        {
+            "name": "SFF Studio",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["1.6", "8.5"]
+        },
+        {
+            "name": "Swiss Champion Fund",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["7.45"]
+        },
+        {
+            "name": "ACE & Company",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["6.31"]
+        },
+        {
+            "name": "SwissVC",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["9.41"]
+        },
+        {
+            "name": "Operator Circle",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["14.2"]
+        },
+        {
+            "name": "VitaminC",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "articleIds": ["13.30"]
+        },
+        {
+            "name": "mimic",
+            "registrySlug": "mimic",
+            "status": "represented-name-or-reviewed-alias",
+            "articleIds": ["2.7", "21.35", "22.29"]
+        },
+        {
+            "name": "Moonlake Therapeutics",
+            "registrySlug": null,
+            "status": "unmatched-name-not-confirmed-omission",
+            "canonicalEntity": "MoonLake Immunotherapeutics",
+            "articleIds": ["6.27"]
+        }
+    ]
+}

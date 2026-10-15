@@ -1,0 +1,334 @@
+{
+    "checkedAt": "2026-10-15T02:59:42.881Z",
+    "registryCount": 1072,
+    "productionWrites": 0,
+    "publicationRequired": "Main review and official asset publication; payload intentionally omits mapLogoUrl until main publishes reviewed local assets.",
+    "records": [
+        {
+            "slug": "c-technology",
+            "ownTechnology": "Develops a connected-vehicle SaaS platform with OEM analytics, dealer/fleet tooling, OTA diagnostics, vehicle-owner applications and public APIs.",
+            "sources": [
+                "https://ctechnology.io/",
+                "https://ctechnology.io/imprint",
+                "https://wagtail.ctechnology.io/about/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=fr&uid_id=CHE384751094"
+            ],
+            "address": {
+                "line1": "Stockerstrasse 33",
+                "postalCode": "8002",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.36684799194336,
+                "longitude": 8.534937858581543,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2366961_0?sr=4326"
+            },
+            "office": "Company contact address",
+            "federalAddressLabel": "Stockerstrasse 33 <b>8002 Zürich</b>",
+            "identityCheckedAgainst": "2026-10-15T02:52:32.079Z",
+            "registryCount": 1072,
+            "duplicateMatches": [],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/ctechnologyio/"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Legacy shop, privacy and parts of terms still say Tessinerplatz 7. Current imprint and official UID agree Stockerstrasse 33. Do not import both as offices.",
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-c-technology.png",
+                "source": "https://cdn.prod.website-files.com/68d680e484992855f82b4425/68da8256206120f70f5c9047_fav-c-tech.png",
+                "officialDeclaration": "shortcut icon",
+                "originalWidth": 32,
+                "originalHeight": 32
+            },
+            "apply": false
+        },
+        {
+            "slug": "gonina",
+            "ownTechnology": "Develops demand-prediction software using point-of-sale, weather and event data to forecast daily production quantities and reduce food waste.",
+            "sources": [
+                "https://www.gonina.com/",
+                "https://www.gonina.com/legal",
+                "https://www.gonina.com/en/privacy-policy"
+            ],
+            "address": {
+                "line1": "Zweierstrasse 35",
+                "postalCode": "8004",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.372657775878906,
+                "longitude": 8.525577545166016,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/148412_0?sr=4326"
+            },
+            "office": "Registered address",
+            "federalAddressLabel": "Zweierstrasse 35 <b>8004 Zürich</b>",
+            "identityCheckedAgainst": "2026-10-15T02:52:32.079Z",
+            "registryCount": 1072,
+            "duplicateMatches": [],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/gonina"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Legal name GoNina AG is styled GoNiña AG. Current forecasts product differs from older surplus-food marketplace wording; use current product.",
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-gonina.png",
+                "source": "https://cdn.prod.website-files.com/68ff92e85968076e250c1201/691c518a7c3865fe406b0863_GoNina%20-%20Main%20Logo%20-%202025%20-%20Icon.png",
+                "officialDeclaration": "apple-touch-icon",
+                "originalWidth": 256,
+                "originalHeight": 256
+            },
+            "apply": false
+        },
+        {
+            "slug": "cue-labs",
+            "ownTechnology": "Original CUE language developers maintain CUE and commercial CUE Hub, Central Registry and Unity tools.",
+            "sources": [
+                "https://cue.dev/",
+                "https://cue.dev/about/",
+                "https://cue.dev/imprint/",
+                "https://cue.dev/terms-of-service/central-registry/",
+                "https://github.com/cue-lang/cue/discussions/4160"
+            ],
+            "address": {
+                "line1": "Gotthardstrasse 28",
+                "postalCode": "6300",
+                "locality": "Zug",
+                "countryCode": "CH",
+                "latitude": 47.17290496826172,
+                "longitude": 8.51182746887207,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/190908069_0?sr=4326"
+            },
+            "office": "Registered address",
+            "federalAddressLabel": "Gotthardstrasse 28 <b>6300 Zug</b>",
+            "identityCheckedAgainst": "2026-10-15T02:52:32.079Z",
+            "registryCount": 1072,
+            "duplicateMatches": [],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/cue-dev/",
+                "github": "https://github.com/cue-lang",
+                "x": "https://x.com/cue_lang"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Registered address is explicitly permitted. Official terms identify this Swiss company as CUE developer and maintainer; no separate local engineering office claim.",
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-cue-labs.png",
+                "source": "https://cue.dev/favicons/apple-touch-icon.png",
+                "officialDeclaration": "apple-touch-icon",
+                "originalWidth": 180,
+                "originalHeight": 180
+            },
+            "apply": false
+        },
+        {
+            "slug": "goneon",
+            "ownTechnology": "Develops agentic infrastructure-planning software combining constraint-aware spatial models and machine-readable design rules; current production use cases include network redesign, parking and cycling corridors.",
+            "sources": [
+                "https://goneon.city/",
+                "https://goneon.city/jobs",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE-347.405.966"
+            ],
+            "address": {
+                "line1": "The Circle 60",
+                "postalCode": "8058",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.44912338256836,
+                "longitude": 8.566515922546387,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210292749_4?sr=4326"
+            },
+            "office": "Company address",
+            "federalAddressLabel": "The Circle 60 <b>8302 Kloten</b>",
+            "identityCheckedAgainst": "2026-10-15T02:52:32.079Z",
+            "registryCount": 1072,
+            "duplicateMatches": [],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/goneon-city/"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Company publishes 8058 Zurich; federal physical building address is 8302 Kloten. Exact street/number and official UID establish same building. Profile city Kloten, company postal address retained.",
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-goneon.png",
+                "source": "https://goneon.city/favicon.ico",
+                "officialDeclaration": "icon",
+                "originalWidth": 256,
+                "originalHeight": 256
+            },
+            "apply": false
+        },
+        {
+            "slug": "porters",
+            "ownTechnology": "Maintained banking-operations platform uses AI agents for document classification, case ledgers, decisioning and execution, with human exception review. Original platform supports a service-led commercial model, not merely generic consulting.",
+            "sources": ["https://www.withporters.com/", "https://www.withporters.com/imprint"],
+            "address": {
+                "line1": "Delphinstrasse 14",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.36342239379883,
+                "longitude": 8.552614212036133,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/159307_0?sr=4326"
+            },
+            "office": "Company contact address",
+            "federalAddressLabel": "Delphinstrasse 14 <b>8008 Zürich</b>",
+            "identityCheckedAgainst": "2026-10-15T02:52:32.079Z",
+            "registryCount": 1072,
+            "duplicateMatches": [],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/withporters/"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Legal entity Porters Group AG. Do not classify as generic agency solely because website calls its offering outsourcing.",
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-porters.png",
+                "source": "https://www.withporters.com/favicon-light.ico",
+                "officialDeclaration": "icon",
+                "originalWidth": 48,
+                "originalHeight": 48
+            },
+            "apply": false
+        },
+        {
+            "slug": "scyai",
+            "ownTechnology": "Develops risk-intelligence software connecting asset, maintenance, engineering and insurance information in a digital-twin model; official team names software, ML and geospatial engineers.",
+            "sources": [
+                "https://www.scyai.com/",
+                "https://www.scyai.com/about",
+                "https://www.scyai.com/terms"
+            ],
+            "address": {
+                "line1": "Dufourstrasse 49",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.362239837646484,
+                "longitude": 8.549212455749512,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/158795_0?sr=4326"
+            },
+            "office": "Headquarters",
+            "federalAddressLabel": "Dufourstrasse 49 <b>8008 Zürich</b>",
+            "identityCheckedAgainst": "2026-10-15T02:52:32.079Z",
+            "registryCount": 1072,
+            "duplicateMatches": [],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/scyai/",
+                "x": "https://x.com/scyai_"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "About page explicitly calls Dufourstrasse 49 headquarters. Terms retain registered Bederstrasse 72. These labels must remain distinct; no automatic two-office import.",
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-scyai.png",
+                "source": "https://www.scyai.com/assets/favicon-light.png",
+                "officialDeclaration": "icon",
+                "originalWidth": 64,
+                "originalHeight": 64
+            },
+            "apply": false
+        },
+        {
+            "slug": "visorway",
+            "ownTechnology": "Develops a maintained AI-native sourcing platform with custom orchestration, retrieval and domain-specific service logic. Productized expert workflows and on-site AI/software engineering distinguish it from ordinary client-only implementation.",
+            "sources": [
+                "https://www.visorway.ai/contact.html",
+                "https://www.visorway.ai/job-portal.html",
+                "https://www.visorway.ai/assets/blog-content/visorway-raises-preseed-round.html",
+                "https://www.visorway.ai/footer.html",
+                "https://www.linkedin.com/company/visorway"
+            ],
+            "address": {
+                "line1": "Technoparkstrasse 1",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38977813720703,
+                "longitude": 8.516196250915527,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/11524802_0?sr=4326"
+            },
+            "office": "Headquarters",
+            "federalAddressLabel": "Technoparkstrasse 1 <b>8005 Zürich</b>",
+            "identityCheckedAgainst": "2026-10-15T02:52:32.079Z",
+            "registryCount": 1072,
+            "duplicateMatches": [],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/visorway"
+            },
+            "socialEvidence": "Official dynamically loaded footer explicitly links the company LinkedIn, whose company page links the exact website. Share-intent links were rejected.",
+            "caveat": "Older privacy policy names Founded3 Ventures KlG in Bulach. Current September 2026 company announcement explicitly names Visorway AG at Technopark; use current company identity.",
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-visorway.png",
+                "source": "https://www.visorway.ai/assets/images/favicon.png",
+                "officialDeclaration": "shortcut icon",
+                "originalWidth": 96,
+                "originalHeight": 96
+            },
+            "apply": false
+        },
+        {
+            "slug": "qendra",
+            "ownTechnology": "Develops quantum-control instruments qendra pulse, vision and volt for trapped-ion and neutral-atom systems, building on ETH research. Current official catalogue documents hardware capabilities.",
+            "sources": [
+                "https://qendra.tech/",
+                "https://qendra.tech/products",
+                "https://qendra.tech/about",
+                "https://qendra.tech/privacy",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE331046181"
+            ],
+            "address": {
+                "line1": "Hohlstrasse 421",
+                "postalCode": "8048",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.38685607910156,
+                "longitude": 8.501891136169434,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302064103_0?sr=4326"
+            },
+            "office": "Registered address",
+            "federalAddressLabel": "Hohlstrasse 421 <b>8048 Zürich</b>",
+            "identityCheckedAgainst": "2026-10-15T02:52:32.079Z",
+            "registryCount": 1072,
+            "duplicateMatches": [],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/qendra"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Official UID confirms active Qendra AG, c/o Martin Stadler at this registered address, last postal check 2026-09-09. No engineering-office claim.",
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-qendra.png",
+                "source": "https://images.squarespace-cdn.com/content/v1/69051bfeb23d8e794ec6a5c8/dc876fec-1f32-44f4-bd70-1dc6f393846c/favicon.ico?format=100w",
+                "officialDeclaration": "icon",
+                "originalWidth": 100,
+                "originalHeight": 100
+            },
+            "apply": false
+        },
+        {
+            "slug": "fainite",
+            "ownTechnology": "Develops Physics AI prediction and engineering-simulation software; official careers page identifies a Zurich technical team.",
+            "sources": ["https://www.fainite.com/", "https://fainite.com/careers.html"],
+            "address": {
+                "line1": "Erika-Mann-Strasse 11",
+                "postalCode": "8050",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.41091537475586,
+                "longitude": 8.539593696594238,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302015833_1?sr=4326"
+            },
+            "office": "Company address",
+            "federalAddressLabel": "Erika-Mann-Strasse 11 <b>8050 Zürich</b>",
+            "identityCheckedAgainst": "2026-10-15T02:52:32.079Z",
+            "registryCount": 1072,
+            "duplicateMatches": [],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/fainite"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Federal building address record confirms the exact published 8050 Zurich address; former postal inconsistency hold withdrawn.",
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-fainite.png",
+                "source": "https://www.fainite.com/img/fainite_logo.png",
+                "officialDeclaration": "icon",
+                "originalWidth": 800,
+                "originalHeight": 736
+            },
+            "apply": false
+        }
+    ]
+}

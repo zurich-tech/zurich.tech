@@ -1,0 +1,48 @@
+{
+    "checkedAt": "2026-10-15T06:48:35.570Z",
+    "population": 1250,
+    "apply": false,
+    "organisationWrites": 0,
+    "status": "held-awaiting-supported-importer-deployment",
+    "deploymentHold": "Local importer now accepts and validates mapLogoDarkUrl. Do not apply until main deploys this support and runs a fresh preview. Preserve both approved asset variants.",
+    "mainLatestIdentityReview": {
+        "population": 1273,
+        "result": "Main reports fresh duplicate check clean and site/imprint approved; not an independent agent reread."
+    },
+    "assetsUploadedAndVerified": 2,
+    "ready": "/tmp/zurich-registry-review/primary-parfit-startupticker-porters-hosted-ready.json",
+    "identityMatches": [],
+    "sharedAddressMatches": [],
+    "addressDecision": "Retain the previously verified Delphinstrasse 14 contact address and federal building coordinates; no shared public address found.",
+    "approval": "Main explicitly approved the exact official dark asset and previously reviewed light asset. Organisation publication remains main-owned.",
+    "assets": [
+        {
+            "theme": "light",
+            "slug": "porters",
+            "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-porters.png",
+            "source": "https://www.withporters.com/favicon-light.ico",
+            "website": "https://www.withporters.com/",
+            "sha256": "df59b00cceddf1f5aa6f40013321d2efef57fbefd576a7a695e42c51468a35f7",
+            "url": "https://media.zurich.tech/organisations/porters/df59b00cceddf1f5aa6f40013321d2efef57fbefd576a7a695e42c51468a35f7.png"
+        },
+        {
+            "theme": "dark",
+            "slug": "porters",
+            "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-porters-dark-192.png",
+            "source": "https://www.withporters.com/favicon-dark.ico",
+            "website": "https://www.withporters.com/",
+            "sha256": "59e90aefb97112e60ff660551d37059e57619a2090ac246f5fcbaec28da7f390",
+            "url": "https://media.zurich.tech/organisations/porters/59e90aefb97112e60ff660551d37059e57619a2090ac246f5fcbaec28da7f390.png"
+        }
+    ],
+    "unchangedFields": "All profile fields, sources, socials, classification and address preserved exactly from consolidated-ready.",
+    "remainingArtworkHolds": [
+        "goneon",
+        "fainite",
+        "alligator",
+        "zerolook",
+        "nordfen",
+        "open-forest-protocol",
+        "truvami"
+    ]
+}

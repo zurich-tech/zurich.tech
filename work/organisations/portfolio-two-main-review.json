@@ -1,0 +1,19 @@
+{
+    "reviewedOn": "2026-10-15",
+    "status": "Published once and independently verified",
+    "manifest": "/tmp/zurich-registry-review/primary-9297-following-two-hosted-ready.json",
+    "organisations": ["carero", "neho"],
+    "primaryReview": [
+        "CARERO own team and platform identify product development; UID resolves Seniors Group identity and registered address without inferring an engineering office",
+        "Neho own careers article explicitly attributes internal software development and Zurich product roles; current office corroborated separately",
+        "Neho own acquisition announcement identifies Acheteur.ch; no separate acquired-brand entry added"
+    ],
+    "artwork": "Main inspected both supplied contact-sheet originals and marker sizes; hosted hashes, full pixel decode and CORS independently passed",
+    "duplicates": "Fresh complete 1250-record production checks found no exact names, hosts, slugs or former/operator aliases",
+    "locations": "Both existing public address IDs reused unchanged",
+    "dryRunCount": 2,
+    "appliedCount": 2,
+    "independentlyVerifiedCount": 2,
+    "verifiedProductionCount": 1252,
+    "verification": "Fresh production organisations, locations, addresses and links compared to exact reviewed fields after apply"
+}

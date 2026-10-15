@@ -1,0 +1,34 @@
+{
+    "date": "2026-10-15",
+    "status": "unpublished-review",
+    "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-software-four-ready.json",
+    "reviews": [
+        {
+            "slug": "zenline",
+            "source": "https://www.tryzenline.ai/about",
+            "finding": "Main read own engineering attribution, retail assortment agents, named founders and venture backing. Own development supported. Request Startup classification rather than blanket Company default. Address and identity checks remain."
+        },
+        {
+            "slug": "tom-medications",
+            "source": "https://www.tommedications.com/",
+            "finding": "Main read current medication-management application features and official app-store links. Footer names Innovation 6 AG; verify operator and former-name identity before publication, not a separate duplicate product record."
+        },
+        {
+            "slug": "simpletrain",
+            "source": "https://simpletrain.ch/blog/neue-buchungsplattform",
+            "finding": "Main read own November 2024 announcement attributing two years of platform development to the team, with connection search, fare comparison and automated booking. Technical eligibility supported, not merely a travel agency using third-party booking software. Current identity, activity and address checks remain."
+        },
+        {
+            "slug": "get-local",
+            "source": "https://getlocal.ch/ueber-uns",
+            "finding": "Main read explicit distinction: GET LOCAL AG houses development and central services; GET LOCAL SCHWEIZ AG is the Swiss licensee. Require prepared UID, address and canonical website to identify developer parent correctly. Shared brand alone is insufficient to merge the legal entities."
+        }
+    ],
+    "artwork": {
+        "method": "Main viewed all four prepared PNGs directly",
+        "approved": ["zenline", "tom-medications", "simpletrain", "get-local"],
+        "finding": "Distinct compact genuine marks are readable. GET LOCAL grey key-circle retained unchanged; prepared parent-app provenance must remain associated with correct entity.",
+        "scope": "Artwork only, not publication approval"
+    },
+    "productionWrites": 0
+}

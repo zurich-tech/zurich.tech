@@ -1,0 +1,46 @@
+{
+    "date": "2026-10-15",
+    "status": "published-independently-verified",
+    "reviews": [
+        {
+            "slug": "swissict",
+            "finding": "Main read current own specialist-group Agile Breakfast programme with a Zurich team and official Vulkanstrasse 120 contact. Technical community scope supported.",
+            "sources": [
+                "https://www.swissict.ch/agile-breakfast/",
+                "https://www.swissict.ch/kontakt/"
+            ]
+        },
+        {
+            "slug": "swico",
+            "finding": "Main read the actual October 2026 Swiss Web Security Day entry explicitly naming Swico as co-organiser, not merely a calendar host. Official Secretariat contact is Lagerstrasse 33.",
+            "sources": [
+                "https://www.swico.ch/fr/calendrier-des-manifestations/",
+                "https://www.swico.ch/de/kontakt/"
+            ]
+        },
+        {
+            "slug": "swiss-fintech-innovations",
+            "finding": "Main read Common API maintained specifications and reference architectures, official privacy contact Ramistrasse 5, and the directly linked GitHub organisation with reciprocal institutional links and 2026 activity. The street address is distinct from the postal-box address.",
+            "sources": [
+                "https://swissfintechinnovations.ch/projects/common-api/",
+                "https://swissfintechinnovations.ch/privacy-policy/",
+                "https://github.com/swissfintechinnovations"
+            ],
+            "additionalSocial": { "github": "https://github.com/swissfintechinnovations" }
+        }
+    ],
+    "artwork": "Main directly viewed all three genuine compact prepared marks and approved unchanged-byte supported upload; no generated initials or cropped wordmarks",
+    "publication": {
+        "manifest": "/tmp/zurich-registry-review/membership-associations-ready3.json",
+        "identityCheckedAt": "2026-10-15T04:16:49.187Z",
+        "identityBaseline": 1119,
+        "assetsCheckedAt": "2026-10-15T04:16:57.835Z",
+        "assets": "All three exact hashes, complete image dimensions and public CORS passed",
+        "result": "Supported preview and apply each returned exactly three; independent complete production readback verified all profile, location and social fields",
+        "verifiedOrganisations": 3,
+        "totalOrganisations": 1122,
+        "frozen": true
+    },
+    "remaining": [],
+    "productionWrites": 3
+}

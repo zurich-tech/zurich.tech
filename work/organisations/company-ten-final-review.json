@@ -1,0 +1,172 @@
+{
+    "reviewedAt": "2026-10-15T02:30:02.196Z",
+    "scope": "Targeted final reassessment of ten existing unresolved companies; no discovery.",
+    "baseline": "company-population-1063.json",
+    "method": "Fresh primary product/case/contact/legal pages, targeted official searches and public direct HTTP recovery. Prior evidence retained. No private endpoints, messages, database writes or browser actions.",
+    "counts": {
+        "reviewed": 10,
+        "unreviewed": 0,
+        "newKeep": 0,
+        "newExclude": 0,
+        "unresolved": 10,
+        "companyKeep": 916,
+        "companyExclude": 20,
+        "companyHold": 10,
+        "companyPopulation": 946,
+        "totalRegistry": 1063,
+        "pendingRemovalLocations": 19
+    },
+    "meaning": "This closes the finite research pass, not the factual questions. All ten have concrete findings and a decisive remaining question. No candidate is excluded for silence, lack of patents, lack of standalone SaaS or use of third-party components.",
+    "rows": [
+        {
+            "slug": "forte-digital",
+            "category": "current-local-presence",
+            "finding": "Official 1 August 2024 leadership announcement explicitly says offices had recently opened in Switzerland and Austria. This is affirmative historical Swiss-office evidence, stronger than a Swiss customer reference. Current office list still omits Switzerland; no closure proof or current Zurich occupancy identified.",
+            "question": "Does Forte currently maintain the listed Zurich office/team, and at which address?",
+            "sources": [
+                "https://www.fortedigital.com/en/blog/johan-groenlund-blir-ny-ceo-i-forte-digital",
+                "https://www.fortedigital.com/de/ueber-uns"
+            ],
+            "nextAction": "Main can seek a current first-party office/contact confirmation; no exclusion or location deletion recommended.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        },
+        {
+            "slug": "koch-it",
+            "category": "successor-location",
+            "finding": "Adnovum's dated announcement confirms April 2026 absorption into its public-sector team. Its current contact roster does not list Winterthur. The technical business continues through the successor; the unresolved issue is representation of the predecessor and its location, not technical eligibility.",
+            "question": "Should the existing Koch profile be represented as an Adnovum predecessor/site, and is the Winterthur location still occupied?",
+            "sources": [
+                "https://www.adnovum.com/blog/adnovum-strengthens-cybersecurity-and-realigns-solutions",
+                "https://www.adnovum.com/company/contact-locations"
+            ],
+            "nextAction": "Prepare a successor/profile reconciliation only after address confirmation; preserve organisation and relationships.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        },
+        {
+            "slug": "walkingtoweb",
+            "category": "joint-development-attribution",
+            "finding": "Direct current HTTP read succeeds. blue.project page explicitly claims continuous development over 25 years while assigning detailed functions, licensing, support and custom adaptations to partner walkingtoyou. A shared page voice is not proof either of walkingtoweb development or of resale-only status.",
+            "question": "Does walkingtoweb itself contribute original continuing blue.project development, jointly with walkingtoyou, or only host and sell it?",
+            "sources": [
+                "https://www.walkingtoweb.com/de/cloudloesungen/blue-project-cloud",
+                "https://www.walkingtoyou.com/de"
+            ],
+            "nextAction": "Keep withdrawn from removals; accept explicit joint-development evidence without requiring sole ownership.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        },
+        {
+            "slug": "icentic",
+            "category": "spin-off-development-attribution",
+            "finding": "Current company catalogue expressly offers joint or commissioned development of modules/platforms. Beppo's own current account identifies its icentic origin and continued Zurich development, but not current icentic participation. This is substantive software work, not merely support; founder overlap alone does not attribute the separate spin-off's technology.",
+            "question": "Does current icentic continue developing beppo or another company-originated technology, beyond client-only development assignments?",
+            "sources": [
+                "https://www.icentic.com/",
+                "https://www.icentic.com/about/",
+                "https://mybeppo.ch/en/about/"
+            ],
+            "nextAction": "Retain pending direct development-allocation evidence; do not infer exclusion from an outsourcing label.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        },
+        {
+            "slug": "mathys-partner",
+            "category": "original-technical-process",
+            "finding": "Simulation.solar documents specialist optical computation, methodological criticism and ongoing interdisciplinary work. Direct reads recover visualisierung.ch as a Mathys page linking simulation.solar; glarecontrol.aero is an image-only placeholder, not evidence of a launched software product. Neither fact establishes or disproves original simulation-method development.",
+            "question": "Which simulation method, computational component or technical process does Mathys itself develop rather than only apply?",
+            "sources": [
+                "https://simulation.solar/leitfaden-blendung/",
+                "https://visualisierung.ch/",
+                "https://glarecontrol.aero/"
+            ],
+            "nextAction": "An attributable original simulation method suffices; do not demand patents or standalone software sales.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        },
+        {
+            "slug": "mecas",
+            "category": "protected-young-company",
+            "finding": "Current first-party imprint confirms Mecas GmbH, Zurich address and leadership. Founder-authored hiring post describes building production AI systems; company page describes vision, sensor processing and robotics. The linked Notion careers page returns 404. These establish a technical team and local identity, but do not distinguish own/joint technology from client-only projects.",
+            "question": "What concrete original or jointly developed system/method can be attributed to Mecas beyond commissioned implementation?",
+            "sources": [
+                "https://www.mecas.ai/",
+                "https://www.mecas.ai/legal",
+                "https://www.linkedin.com/posts/marco-adriano-magno_were-hiring-at-mecas-were-growing-fast-activity-7335241214113255424-Jp9g"
+            ],
+            "nextAction": "Preserve young company; unavailable job page and sparse publicity are not exclusion or dormancy evidence.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        },
+        {
+            "slug": "reasoning-labs",
+            "category": "protected-identity",
+            "finding": "Fresh official homepage still identifies REASONING MACHINES INC. No primary bridge to the listed Swiss entity emerged. Similarly named GitHub/Hugging Face accounts are not accepted without identity linkage.",
+            "question": "Which primary source links the listed Swiss organisation/team to reasoninglabs.com and its named corporate owner?",
+            "sources": ["https://reasoninglabs.com/"],
+            "nextAction": "Preserve identity hold and existing no-topic-change instruction; do not infer inactivity.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        },
+        {
+            "slug": "scheuss-partner",
+            "category": "platform-development-attribution",
+            "finding": "Current catalogue and company-published marketplace offer establish provisioning, billing and reporting functionality. Direct marketplace HTTP read returns a JavaScript application shell. The visible dependency names do not establish vendor or developer authorship; Cura360 vendor-service composition likewise does not settle Marketplace attribution.",
+            "question": "Who develops and maintains the publicloud Marketplace software, and what original technical contribution belongs to Scheuss/publicloud?",
+            "sources": [
+                "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud-marketplace/",
+                "https://marketplace.publicloud.ch/",
+                "https://marketplace.microsoft.com/uk-ua/product/scheusspartnerag1618902072870.sol-62563-ydh?tab=Overview"
+            ],
+            "nextAction": "Do not exclude on the inaccessible rendered application or dependence on third-party libraries.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        },
+        {
+            "slug": "umb",
+            "category": "joint-technology-versus-client-implementation",
+            "finding": "Two fresh first-party cases materially strengthen evidence: UMB explicitly jointly developed the VBZ E-Mail Butler with IBM/VBZ and a Belimo solution with CAS. These are actual software co-development, not generic support. The former is described as commissioned PoC; the latter implements CAS Case Manager for Belimo. The pages do not settle whether the relevant original component is continuing UMB/joint technology rather than client-only implementation. Historical ubitec/meshTec acquisitions cannot automatically import current mesoneer products.",
+            "question": "Does UMB maintain an original/joint component from these solutions, or another current developed technology, beyond the customer-specific implementation?",
+            "sources": [
+                "https://www.umb.ch/kunden/projekt/detail/fragen-an-die-vbz-der-ki-butler-hilft-dem-kundendienst-bei-der-beantwortung",
+                "https://www.umb.ch/kunden/projekt/detail/weltmarktfuehrer-belimo-setzt-auf-business-automation-von-umb-und-cas",
+                "https://www.umb.ch/kunden/projekt/detail/mehr-zeit-fuer-hyrock-umb-optimiert-cloud-architektur-fuer-kundenapplikation-in-der-azure-cloud"
+            ],
+            "nextAction": "Strongest central-review candidate for retention under the joint-technology boundary. Do not call this resale-only and do not demand exclusively owned code.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        },
+        {
+            "slug": "unimission",
+            "category": "platform-versus-managed-infrastructure",
+            "finding": "Current uNimbus product page presents a standardised private-cloud platform across operating systems and management levels. Official history explicitly says development started in 2025; current catalogue also describes orchestration of vendor infrastructure. Original development is plausible but its concrete component/process remains unspecified. IBM/Green partnership does not negate it.",
+            "question": "What original technical component or developed process is maintained for uNimbus beyond managed infrastructure operation?",
+            "sources": [
+                "https://www.unimission.ch/unimbus-die-100-schweizer-cloud-fuer-kmus/",
+                "https://www.unimission.ch/uber-uns/",
+                "https://www.unimission.ch/en/cloud-services/"
+            ],
+            "nextAction": "Preserve withdrawn exclusion; clarify development contribution without demanding a patent, new cloud stack or SaaS product.",
+            "decision": "uncertain",
+            "disposition": "retain-pending-specific-evidence",
+            "apply": false
+        }
+    ],
+    "noncompany": {
+        "action": "No new exclusions or classification changes warranted by this pass.",
+        "reference": "company-population-1063.json#nonCompanyCoherence",
+        "limitations": "Creathor operating-activity uncertainty remains separate from investor eligibility. Prior non-company roles, topicless exceptions and protected institutions are not re-certified from company evidence."
+    },
+    "productionWrites": 0,
+    "apply": false
+}

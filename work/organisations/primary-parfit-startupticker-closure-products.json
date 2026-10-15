@@ -1,0 +1,82 @@
+{
+    "checkedAt": "2026-10-15",
+    "population": 1159,
+    "productionWrites": 0,
+    "records": [
+        {
+            "name": "Ascend Sport Technology",
+            "decision": "outside-region-primary-corporate-profile",
+            "reason": "Own website links the exact corporate profile, which identifies Schwanenplatz 4, Lucerne. Own portfolio describes sport-technology operating companies. No target-region company location established; proposed reverse merger does not itself relocate operations.",
+            "sources": [
+                "https://ascend-sport.com/",
+                "https://www.linkedin.com/company/ascend-sport"
+            ]
+        },
+        {
+            "name": "Indivi",
+            "decision": "outside-region-current-primary-register",
+            "reason": "Official UID identifies active Indivi AG CHE216912534 at Elisabethenanlage 7, 4051 Basel, validated September 2026. Own privacy policy independently identifies Basel. No target-region site established.",
+            "sources": [
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE216912534",
+                "https://indivi.io/legal/privacy-policy"
+            ]
+        },
+        {
+            "name": "Square Commodities",
+            "decision": "outside-region-current-primary-corporate-profile",
+            "reason": "Current company website identifies Lausanne and exact corporate profile gives Promenade de Castellane 6, Morges. Both in Vaud; old report addresses are not used as current mapped locations. Source is market-intelligence business, not namesake Square payments.",
+            "sources": [
+                "https://squarecommodities.com/",
+                "https://www.linkedin.com/company/square-commodities"
+            ]
+        },
+        {
+            "name": "finpension",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact enumerates Inseliquai 12B, Lucerne and Rue du Mont Blanc 7, Geneva. Do not confuse pension-foundation registered seats or customer coverage with operating-company offices.",
+            "sources": ["https://finpension.ch/en/contact/"]
+        },
+        {
+            "name": "Accure",
+            "decision": "outside-region-exact-transaction-counterparty",
+            "reason": "Original article concerns Accure Therapeutics SL, the Barcelona counterparty explicitly identified in Oculis's own August 2026 announcement. Not accure AG, ACCURE Battery Intelligence or Accure AI. Agreement concerns drug assets, not proof seller moved to Oculis's Zug address or ceased all operations.",
+            "sources": [
+                "https://investors.oculis.com/news-releases/news-release-details/oculis-signs-asset-purchase-agreement-accure-therapeutics-lead",
+                "https://investors.oculis.com/node/10326/html"
+            ]
+        },
+        {
+            "name": "Cutempa Medical",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own legal notice gives CHE447804901, Lichtstrasse 35, 4056 Basel. Own SIOTWO mineral wound-care development confirmed; planned 2028 products are not described as already marketed.",
+            "sources": [
+                "https://www.cutempamedical.com/legal-notice.php",
+                "https://www.cutempamedical.com/",
+                "https://www.cutempamedical.com/about-us/"
+            ]
+        },
+        {
+            "name": "Aderis",
+            "decision": "eligible-primary-profile-preparation-open",
+            "reason": "Own about/platform and direct investor 3VC document original live-finance ERP development and current customers. Own contact explicitly identifies headquarters Seestrasse 139, 8802 Kilchberg, CHE167289722. Startup supported by first funding/product phase, not blanket Company. No exact name/domain match in 1159 or pending ready/batch files. Genuine compact artwork and coordinates still to prepare, not a blocked eligibility hold.",
+            "sources": [
+                "https://aderis.com/en/about",
+                "https://aderis.com/de/kontakt",
+                "https://three.vc/blog/why-we-invested-in-aderis/"
+            ],
+            "socials": { "linkedin": "https://www.linkedin.com/company/aderisag/" },
+            "socialVerification": "Exact outbound own-about link; LinkedIn reader failed, no guessed replacement."
+        },
+        {
+            "name": "Zerolook",
+            "decision": "eligible-primary-profile-preparation-open",
+            "reason": "Own zerolook.ai identifies Navifare AG as operator of original ML flight-price search API. Official UID fetched directly confirms active CHE222465331 at Suurstoffi 37, 6343 Rotkreuz. Use Registered address, not implied engineering office. No exact name/domain alias match in 1159 or pending ready/batch files. Logo/social/geocode preparation outstanding, not an evidence hold.",
+            "sources": [
+                "https://www.zerolook.ai/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE222465331"
+            ],
+            "capture": "/tmp/zurich-registry-review/primary-parfit-startupticker-navifare-uid.html",
+            "aliases": ["Navifare", "zerolook.com"]
+        }
+    ]
+}

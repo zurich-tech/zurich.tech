@@ -1,0 +1,296 @@
+{
+    "reviewedAt": "2026-10-15T05:50:56.207Z",
+    "populationReadAt": "2026-10-15T05:45:52.872Z",
+    "status": "whole-population-source-reconciliation",
+    "organisationWrites": 0,
+    "apply": false,
+    "scope": "All1171 current identities; additive HCI pair and current-criteria ten-hold reassessment",
+    "criteria": "work/organisations/inclusion-criteria.json",
+    "counts": {
+        "population": 1171,
+        "byDecision": {
+            "keep": 1144,
+            "exclude": 21,
+            "held": 6
+        },
+        "byKind": {
+            "startup": 372,
+            "company": 670,
+            "lab": 57,
+            "university": 5,
+            "nonprofit": 18,
+            "community": 8,
+            "investor": 30,
+            "space": 11
+        },
+        "baselineUnique": 1059,
+        "laterRecords": 112,
+        "uncovered": 0
+    },
+    "removals": {
+        "authority": "work/organisations/company-eligibility-exclusions.json",
+        "exclusionDecisions": 21,
+        "awaitingApprovalOrMainAction": 19,
+        "alreadyUnmappedOrganisationPreserved": ["wittwer-it-services"],
+        "action": "No removal or approval request. Re-read exact public locations before any separately authorised action.",
+        "newSeparateRecommendation": {
+            "slug": "walkingtoweb",
+            "source": "final-held-primary-review.json",
+            "approval": "Main review and action-time authorisation required; not silently added to earlier19"
+        }
+    },
+    "qualifications": [
+        "Coverage means an explicit attributable primary keep/exclude/held decision, not proof that every organisation is eligible or every web page was independently revisited today.",
+        "Original commissioned or jointly developed technology qualifies. Reuse, open-source dependencies and third-party models do not negate original development.",
+        "Passam is counted under its newer company decision, not its superseded lab classification.",
+        "Historical remaining/publication notes in a primary review do not override the current snapshot or later verified publication. Eligibility findings are reused, not historical release status.",
+        "Exact profile IDs establish population membership. Geographic pin accuracy, branding semantics and post-snapshot changes are separate audits.",
+        "Current decision counts include three keep recommendations and one new exclusion recommendation from independent reassessment, requiring main review. Six reviewed factual holds remain. No removals performed."
+    ],
+    "uncovered": [],
+    "held": [
+        {
+            "organisationId": "p17f3gm79eqcybgeq6hk5j9tt18g9wpr",
+            "slug": "unimission",
+            "reason": "Official history explicitly says uNimbus development began in2025. Current cloud product page explains managed infrastructure but does not identify an original software component or technical process. IBM/Green dependencies do not disqualify development; managed infrastructure alone also does not prove it.",
+            "remaining": "Attributable original uNimbus software or developed technical process beyond deployment and operation of vendor infrastructure"
+        },
+        {
+            "organisationId": "p171erwt6v0my650pa9v3cf4bs8g8kkp",
+            "slug": "koch-it",
+            "reason": "Fresh successor announcement explicitly confirms April2026 absorption merger into Adnovum. Original technical activity qualifies; the separate predecessor listing and its old office remain the issue.",
+            "remaining": "Whether an independently represented current Koch identity or office survives the absorption; preserve records until main decides representation"
+        },
+        {
+            "organisationId": "p175j9q32k81qb893ff9gtgx598g9b76",
+            "slug": "scheuss-partner",
+            "reason": "Official Marketplace catalogue describes provisioning, reporting and billing but not who developed the application. Company branding and operation alone cannot settle original or commissioned development attribution.",
+            "remaining": "Whether Scheuss/publicloud developed or commissioned original Marketplace software, rather than operating a vendor portal"
+        },
+        {
+            "organisationId": "p1757az3zwr1edw41ehr4db0dx8g8tbw",
+            "slug": "forte-digital",
+            "reason": "Technical development is not disputed. Current official office roster still lists Norway, Poland, Germany and Denmark without Switzerland; earlier official2024 Swiss opening remains affirmative historical evidence, not current occupancy or closure proof.",
+            "remaining": "Current Zurich operating presence versus historical Swiss office"
+        },
+        {
+            "organisationId": "p1748qrrqhnpjpdnbj5n60gae18g8rk0",
+            "slug": "mathys-partner",
+            "reason": "Own site demonstrates specialist simulations and reports. Federal2024 report page43 lists Mathys glare calculation capability but explicitly describes original tool development for other organisations, not Mathys. It cannot be used as proof of Mathys-developed software.",
+            "remaining": "An original computational method, software component or engineering process attributable to Mathys; no requirement for a patented or separately sold product"
+        },
+        {
+            "organisationId": "p17emksnc16q6zf6yvd1m9dn5h8g4cgh",
+            "slug": "reasoning-labs",
+            "reason": "Main Chrome review in topicless-review.json resolves the Zurich corporate identity and approves broad AI classification. Withdraw the old no-primary-bridge rationale. Current homepage remains a minimal superintelligence statement, so it does not independently establish a concrete research programme or developed system.",
+            "remaining": "Specific attributable technical research/development activity, not identity or a narrower topic; no street address inferred"
+        }
+    ],
+    "populationFile": "work/organisations/final-eligibility-population.json",
+    "inputHashes": [
+        {
+            "file": "/tmp/zurich-registry-review/final-eligibility-current-organisations.json",
+            "sha256": "bc2fcaf460a143ba8ac2d576abfd4f58d9aede25281ca1daf63ad5877a0d8209"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/company-eligibility-audit.json",
+            "sha256": "8bc5b6c442cc391135b36dc2b58a3353750a90deb04d245f9cf25c1e407b25fc"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/noncompany-eligibility-review.json",
+            "sha256": "75927e5bcbd1a27147ab0487790e4710f6cf2346da77721e7aa5937e9b8e680c"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/company-eligibility-exclusions.json",
+            "sha256": "6c2aed78ee17f9feeb9cbbdc55bbb5e3c232de58136a87c415f573e031f0d974"
+        },
+        {
+            "file": "/tmp/zurich-registry-review/final-eligibility-evidence-index.json",
+            "sha256": "8d8e2a6cef363c364a0e551bf1a3d12c086aad61475bb9eb053408c48f788c4e"
+        },
+        {
+            "file": "/tmp/zurich-registry-review/primary-30c4-industry-seven-ready.json",
+            "sha256": "0ee147ba65514dc3e8540e3afb6a1225151e926af79064aac0c2dff761a988e6"
+        },
+        {
+            "file": "/tmp/zurich-registry-review/biotech-four-reviewed-ready.json",
+            "sha256": "2425796338e73876f788b8f1003397d55c4e83b9e0d614b12d4f4079d1eb4266"
+        },
+        {
+            "file": "/tmp/zurich-registry-review/primary-9297-approved-eight-ready.json",
+            "sha256": "83e1d42673075caab845df4fe415faff469a306aeb98abbf65145589c7b28582"
+        },
+        {
+            "file": "/tmp/zurich-registry-review/primary-db05-approved-seven-hosted-ready.json",
+            "sha256": "4346b86bd55c04d77deefd364de5ffba414c2dd40d8915922f523ae8d67a16e3"
+        },
+        {
+            "file": "/tmp/zurich-registry-review/membership-artifact-ready.json",
+            "sha256": "db53e76452fbca5139ac791440992cee2f05cdc867f079e895419402d5d17a55"
+        },
+        {
+            "file": "/tmp/zurich-registry-review/membership-positive-two-ready.json",
+            "sha256": "50aad107752184591f5565bbf453705c7c3b711f365a14e5bc7b6f27e610581b"
+        },
+        {
+            "file": "/tmp/zurich-registry-review/campus-three-reviewed-ready.json",
+            "sha256": "18607249c33aab0aaba952972ac934bc5e414d9bb30800c9c38bc9646ab31701"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-ifz-chain-publication-review.json",
+            "sha256": "5d14afae2a864a4014ee2241e4d53395631f46d97a5ff676e5d0a6c5e13babe3"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/portfolio-eight-publication-review.json",
+            "sha256": "016eda92e42b89efb26bfb77ab7dbe0fcb5f2cdbe63423f799af87e0d5aa7a64"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-lookthrough-aeon-main-review.json",
+            "sha256": "94fa9210084263abbf56120c8630e68dea7eae7720e2c332dd3fbc4304bb07a6"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-six-main-review.json",
+            "sha256": "87225751e4b6ece8c74e4e396217600ad60a2c9a80d5bd7fc11ab0b73ecbc5bb"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/university-next-main-review.json",
+            "sha256": "24d3c76a0d7b63a9f0c232e08786438cdd49402de11fb2480069025279afd5d2"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/mistral-main-review.json",
+            "sha256": "6d970d90d68e302d61e666e8f9f7b08c097654bd434eb929cf0404e51b0156d4"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-fintech-main-review.json",
+            "sha256": "530f46944fec10dd0f2a493ee2ce273debe76660aa965fb4b40e398ce86b6845"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/hwz-main-review.json",
+            "sha256": "0ccee60ec7905bc844656e39b4025d9f54d1ed8cc9495c5c3a39763f3c314f12"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-distribution-main-review.json",
+            "sha256": "7ecc0c8c5fa2f0354b9ac904e033f804913b4314308e8a1147870115e338ca4a"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/newcelx-main-review.json",
+            "sha256": "c8c12cd3de69c6ff021e5c30312ba105f4a9f5062b9174413bc21dd29584affd"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-next-main-review.json",
+            "sha256": "a93d5cfc20a2f863539c2072287d5c27119ec2a76798b58ab47733a8f8783956"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-last-main-review.json",
+            "sha256": "bd57c79cda5070e6e2dac1789799ee8ea2c13cd63810d185cbbe91dda50dddec"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-commercial-main-review.json",
+            "sha256": "c8184be0acf8d6ca9d45c2208b39dc004798f51cca9af606d308419cdae8ac02"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-final-four-main-review.json",
+            "sha256": "3bf86ba7ff1ed0bc4c4cd2fe835dd59514c11e6edac341d7886aa219076ecf26"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-platform-main-review.json",
+            "sha256": "eb24ee23135a75438f9ce4fc2052a59267d32dab5237f4110504c7886ca77841"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-fintech-main-review.json",
+            "sha256": "d752f6e0174f7439f1c1d4af83c804b1f5e2b52e09b82870c004ddd349ef81ab"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-institutions-main-review.json",
+            "sha256": "31837823097d28d6e20792a5b6408835b5126777a54a4864e34b8c3f92e72e86"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-three-main-review.json",
+            "sha256": "2042da6a4815640972cd79d6baa094d7c7ca64975ac5ce2ca9f021f39b0f19e6"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-twiliner-main-review.json",
+            "sha256": "bc03aa867bb81b352c38a3f71694cbd7c72d107ef4a4659c88c7ea779f407b73"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-chirp-main-review.json",
+            "sha256": "617daabd21f3fa3e8f80a26eff4629ee06907e710a29a7cc3df867e4a81bb882"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-energy-biotech-main-review.json",
+            "sha256": "f5756c2e0e0273fcaa86f0a7bc422c56d5a290f661960000f59b4c3981c7b15c"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-software-main-review.json",
+            "sha256": "0224d3c6f98cb5fb9a12da270f2b14b524d47ddd4ce042a974a2a77ca51b448e"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-platforms-main-review.json",
+            "sha256": "7e1380257e3ba556594ac58014f37ad25482261775f5fce4e10d82cc63098a3a"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-devices-main-review.json",
+            "sha256": "93f0b5ccddaa0a68abf0fd21b031519653d069cdce73c3374baf87b9c1a49415"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-bastionne-main-review.json",
+            "sha256": "b54a20470f653da8aacefe100c446cea0db34b8a558c8acb59fe5bb59a443a89"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/startupticker-current-main-review.json",
+            "sha256": "f8a108b586863e65492128eb49e138d3c85ffac64a0f712a0b029801123f0370"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-community-main-review.json",
+            "sha256": "7e61b80d9a1e42ce2e61416faf6b5449158bd6ecc63ca7948d14a07503317bfc"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/four-publication-review.json",
+            "sha256": "1aa2f31d29a032746fd4e50aba570b1e6ab26c61b5e4f344c2c7253327f53eee"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/carbonfuture-review.json",
+            "sha256": "3a047ada05a79be0793d8dff5630f81f3ca4fd7d02be600d394688ac589e8a75"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/membership-main-review.json",
+            "sha256": "3d07c23d0f5f2f21e77c016757bdfcca3b62f3a0a1c460bf6fa0ce691e42993b"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/biotech-four-review.json",
+            "sha256": "5d39c4a45fcd019b92c2e5d8dbbb81dc327b97999e95998d043c14df12a80e34"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/industrial-seven-review.json",
+            "sha256": "76043995a8c94368f8dc23a014ab08aa00d471c1090d6c4d00ecdfd51ee4c7d3"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/university-two-review.json",
+            "sha256": "6b7658b31fbd0a34e89c1c2cd89edcd5d6e7699f7a6cebc2004a4b19d7212b7f"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/classification-1060-followup.json",
+            "sha256": "125fe745af62ffedff512139c374d55639bd0b7756c31e0a77eb29fa22f4fcf7"
+        },
+        {
+            "file": "/Users/florian/symbol/zurich.tech/work/organisations/classification-final-1056.json",
+            "sha256": "231e0165464582603a3dfb6556fb35c4792dd6adfd8b78ad998150ffc957bef5"
+        }
+    ],
+    "previousCheckpoint": {
+        "population": 1169,
+        "decisions": {
+            "keep": 1139,
+            "held": 10,
+            "exclude": 20
+        },
+        "supersededHeldReasoning": "Final current-criteria review replaces3 holds withkeep and1 withnew exclusion recommendation;6 specific holds retained"
+    },
+    "latestSnapshot": {
+        "count": 1171,
+        "readAt": "2026-10-15T05:45:52.872Z",
+        "sha256": "9b3b92d2b564495f1c185ccbd408757a31aaf8b97a0f6cd2410a80e881aba4e3",
+        "limit": 10000,
+        "truncationRejected": true
+    }
+}

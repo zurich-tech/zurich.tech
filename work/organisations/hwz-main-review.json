@@ -1,0 +1,21 @@
+{
+    "date": "2026-10-15",
+    "status": "published-and-independently-verified-frozen",
+    "sources": [
+        "https://fh-hwz.ch/de/projektbasierte-beratung/app-development-projekt",
+        "https://fh-hwz.ch/de/kontakt"
+    ],
+    "finding": "Main read applied software-engineering/data-science curriculum and functional prototype development supervised by lecturers. University criteria apply, not the commercial own-product test.",
+    "address": "Physical campus entrance Lagerstrasse 5, 8004 Zurich, distinguished from postal-box address 8021",
+    "artwork": "Main visually approved the full genuine HWZ blue mark at 32px and 64px; hosted SHA256 8ce4aac074eba27f9bf067fb79a5d214179d08f4dc75b1c4728f2d8d5f227848 decoded and CORS verified",
+    "socials": "Official contact-page outbound corporate school LinkedIn link rechecked",
+    "publication": {
+        "manifest": "/tmp/zurich-registry-review/membership-hwz-ready.json",
+        "identityPopulation": 1145,
+        "identityCheckedAt": "2026-10-15T04:59:20.372Z",
+        "artworkCheckedAt": "2026-10-15T04:59:20.562Z",
+        "result": "Supported preview and single apply; independent full-field, public-address and social readback passed",
+        "productionPopulationAfter": 1146,
+        "organisationWrites": 1
+    }
+}

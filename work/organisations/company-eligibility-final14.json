@@ -1,0 +1,694 @@
+{
+    "schemaVersion": 1,
+    "reviewedAt": "2026-10-15T01:21:19.702Z",
+    "snapshotAt": "2026-10-15T01:15:44.498Z",
+    "apply": false,
+    "productionWrites": 0,
+    "scope": "Fourteen existing company eligibility gaps plus Unimission uNimbus branch. Finite review, no discovery.",
+    "counts": {
+        "originalHolds": 14,
+        "resolvedKeep": 1,
+        "originalHoldsRemaining": 13,
+        "reopenedExclusion": 1,
+        "newExclusions": 0,
+        "currentUncertain": 14
+    },
+    "population": {
+        "organisations": 1035,
+        "companyStartup": 919,
+        "separateCriteriaKinds": 116
+    },
+    "policy": "Own maintained technology is sufficient; no patent, exclusive ownership or multi-customer sales paperwork is required. Specific customer engineering is not automatically ineligible, but client-only implementation without company technology remains a scope question. Missing evidence is not definite exclusion.",
+    "decisions": [
+        {
+            "slug": "accenture-switzerland",
+            "organisationId": "p172tckhc7pqqnpw3m72nj6exd8g8x5h",
+            "name": "Accenture Switzerland",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Fresh official searches still identify the historical Zurich prototyping hub and group myWizard platform, without attributing ongoing platform development to the current Zurich team. Group technology exists; this is a local attribution gap.",
+            "remainingQuestion": "Which current Zurich team develops a group platform or other maintained original technology?",
+            "evidence": [
+                {
+                    "url": "https://www.accenture.com/en"
+                },
+                {
+                    "url": "https://newsroom.accenture.com/news/2018/accenture-opens-innovation-hub-in-zurich-to-help-clients-with-their-digital-transformation-agendas"
+                },
+                {
+                    "url": "https://newsroom.accenture.com/news/2020/accenture-introduces-powerful-new-version-of-mywizard-intelligent-automation-platform"
+                }
+            ]
+        },
+        {
+            "slug": "automate",
+            "organisationId": "p17aaje06s5t3f8fftqbwa92h98g9bkt",
+            "name": "AutoMate Insurance AG",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Executive-solutions and team pages establish an insurance portal and calculators, but do not identify the engine developer. Direct about retrieval exposes untranslated templates; indexed team material does not settle attribution. Unrelated Canadian AutoMate results were rejected.",
+            "remainingQuestion": "Does AutoMate maintain the insurance platform, or license its implementation from another developer?",
+            "evidence": [
+                {
+                    "url": "https://automate.ch/website/executive_solutions"
+                },
+                {
+                    "url": "https://automate.ch/website/about"
+                },
+                {
+                    "url": "https://platform.automate.ch/website/home"
+                },
+                {
+                    "url": "https://www.automate.ch/website/about"
+                },
+                {
+                    "url": "https://www.automate.ch/website/executive_solutions"
+                }
+            ]
+        },
+        {
+            "slug": "forte-digital",
+            "organisationId": "p1757az3zwr1edw41ehr4db0dx8g8tbw",
+            "name": "Forte Digital",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "The official Migros Aare case proves customer software development and Swiss customer business, not a current Swiss engineering office. The current office roster omits Switzerland. Neither omission proves closure nor the client case proves retained original company technology.",
+            "remainingQuestion": "Is the listed Swiss operation current, and which original technology does that operation develop?",
+            "evidence": [
+                {
+                    "url": "https://www.fortedigital.com/de"
+                },
+                {
+                    "url": "https://www.fortedigital.com/de/ueber-uns"
+                },
+                {
+                    "url": "https://www.fortedigital.com/en/services"
+                },
+                {
+                    "url": "https://fortedigital.com/en/blog/forte-digital-wins-multi-stage-pitch-for-digital-product-development-for-migros"
+                },
+                {
+                    "url": "https://fortedigital.com/en/blog/ferd-aquires-stake-in-forte-digital"
+                }
+            ]
+        },
+        {
+            "slug": "icentic",
+            "organisationId": "p173b49q1c5av62z5v3kcbjrns8g8t1q",
+            "name": "icentic",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Both company and beppo pages confirm founder/incubation links and beppo's spin-off identity. They do not settle whether current icentic develops that platform or whether development now belongs solely to the distinct spin-off.",
+            "remainingQuestion": "Does icentic still develop the beppo platform or another original group technology, rather than only provide client development resources?",
+            "evidence": [
+                {
+                    "url": "https://www.icentic.com/about/"
+                },
+                {
+                    "url": "https://www.icentic.com/software-development-for-sme/"
+                },
+                {
+                    "url": "https://www.icentic.com/"
+                },
+                {
+                    "url": "https://mybeppo.ch/en/about/"
+                },
+                {
+                    "url": "https://mybeppo.ch/uber-uns/"
+                }
+            ]
+        },
+        {
+            "slug": "koch-it",
+            "organisationId": "p171erwt6v0my650pa9v3cf4bs8g8kkp",
+            "name": "KOCH IT",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Acquisition and absorption evidence remains an identity/location issue, not a lack-of-technology finding. Adnovum's current published office roster lists Zurich, Bern and Lausanne but not Winterthur; continued occupancy of the mapped Koch office is not established.",
+            "remainingQuestion": "Should the Koch IT profile/location be represented as an Adnovum site, and is the exact mapped office still occupied?",
+            "evidence": [
+                {
+                    "url": "https://www.adnovum.com/blog/adnovum-strengthens-cybersecurity-and-realigns-solutions"
+                },
+                {
+                    "url": "https://www.adnovum.com/hubfs/FILES/04_Insights/Media%20Releases/2026/20260108_Media_Release_Adnovum_iSPIN_Koch_IT_en.pdf"
+                },
+                {
+                    "url": "https://www.adnovum.com/company/contact-locations"
+                }
+            ]
+        },
+        {
+            "slug": "linked-engineering",
+            "organisationId": "p172ezfczacp9c5pcnstjvj9558g98aq",
+            "name": "Linked Engineering",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Reused substantive company/offer pages describe self-developed assemblies and prototypes, including client engineering. Targeted official-domain search found no further named continuing company technology. Original engineering is plausible; client-deliverable versus maintained company design remains unresolved.",
+            "remainingQuestion": "Which identified assembly, process or maintained design is Linked Engineering's continuing technology rather than solely a customer deliverable?",
+            "evidence": [
+                {
+                    "url": "https://linked-engineering.ch/"
+                },
+                {
+                    "url": "https://linked-engineering.ch/angebot/"
+                },
+                {
+                    "url": "https://linked-engineering.ch/ueber-uns/"
+                }
+            ]
+        },
+        {
+            "slug": "mathys-partner",
+            "organisationId": "p1748qrrqhnpjpdnbj5n60gae18g8rk0",
+            "name": "Mathys Partner",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "The simulation methodology is substantive, but does not attribute engine development. Following the visualisierung.ch and glarecontrol.aero branches produced image-led landing pages without decisive authorship text. No conclusion that the company merely resells software is supported.",
+            "remainingQuestion": "Does Mathys Partner develop the simulation engine or methods, or use externally developed software to prepare expert reports?",
+            "evidence": [
+                {
+                    "url": "https://simulation.solar/"
+                },
+                {
+                    "url": "https://simulation.solar/uebersicht-blendung/"
+                },
+                {
+                    "url": "https://pubdb.bfe.admin.ch/de/publication/download/11996"
+                },
+                {
+                    "url": "https://visualisierung.ch/"
+                },
+                {
+                    "url": "https://glarecontrol.aero/"
+                }
+            ]
+        },
+        {
+            "slug": "mecas",
+            "organisationId": "p179bhdyjbxxrk4bnqpvzy629n8g82rm",
+            "name": "mecas",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Current homepage describes physical-AI projects and the legal page confirms Mecas GmbH in Zurich. The actual linked careers page fails with 404 in the reader. Neither a concrete in-house system nor a research output was established; a quiet young startup is not excluded for sparse publication.",
+            "remainingQuestion": "What concrete in-house physical-AI system or research output is attributable to Mecas?",
+            "evidence": [
+                {
+                    "url": "https://www.mecas.ai/"
+                },
+                {
+                    "url": "https://www.mecas.ai/terms-of-service"
+                },
+                {
+                    "url": "https://www.mecas.ai/legal"
+                },
+                {
+                    "url": "https://lowly-sardine-983.notion.site/Work-at-mecas-1985ab2eb16880a7a91dd68a69d6fd5d?pvs=4"
+                }
+            ]
+        },
+        {
+            "slug": "quantum-digital",
+            "organisationId": "p174yapjfwc09qfrvtmtbcp9fh8g8cde",
+            "name": "Quantum Digital",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "SelfService explicitly credits Quantum Digital with programming and continuing development; bws trackmaster is jointly developed and the Hawle case describes an IoT application. This rules out a confident reseller-only characterization. These are presented as client systems; whether the company retains a continuing original technology beyond those deliverables is still not explicit. No patent or exclusive-IP paperwork is required.",
+            "remainingQuestion": "Does Quantum Digital maintain SelfService or a reusable original application beyond the individual client implementation?",
+            "evidence": [
+                {
+                    "url": "https://www.q-digital.ch/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/data-driven-leadership/product-acceleration/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/unternehmen/partner-produkte/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/optimierte-druckvorstufenprozesse-bei-der-mattenbach-gruppe/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/ersatzteile-24-7-die-zukunft-des-handwerks-bei-debrunner-acifer/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/bwstrackmaster/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/mit-iot-app-innovation-und-wettbewerbsfaehigkeit-gewinnen/"
+                }
+            ]
+        },
+        {
+            "slug": "reasoning-labs",
+            "organisationId": "p17emksnc16q6zf6yvd1m9dn5h8g4cgh",
+            "name": "Reasoning Labs",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Current exact-domain homepage/search still supplies a research ambition and REASONING MACHINES INC footer, without a Swiss-entity bridge or concrete attributable programme. Identity remains unresolved; sparse startup communications do not establish dormancy or ineligibility.",
+            "remainingQuestion": "What primary source ties this domain and research team to the listed Swiss legal entity/local operation?",
+            "evidence": [
+                {
+                    "url": "https://reasoninglabs.com/"
+                }
+            ]
+        },
+        {
+            "slug": "scheuss-partner",
+            "organisationId": "p175j9q32k81qb893ff9gtgx598g9b76",
+            "name": "Scheuss & Partner",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "The publicloud catalogue describes a real provisioning/reporting/billing portal. The public loading shell and ordinary public script publisher checks did not establish its developer. No authenticated access was attempted. Do not infer licensed white-label software from framework dependencies.",
+            "remainingQuestion": "Who develops and maintains the publicloud Marketplace software?",
+            "evidence": [
+                {
+                    "url": "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud-marketplace/"
+                },
+                {
+                    "url": "https://marketplace.publicloud.ch/"
+                },
+                {
+                    "url": "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud/"
+                },
+                {
+                    "url": "https://www.scheuss-partner.ch/kontakt/publicloud/"
+                }
+            ]
+        },
+        {
+            "slug": "swiss-robotics-advanced-technologies",
+            "organisationId": "p177n3v8841mq33kxrbeyh9mnx8g8vfc",
+            "name": "Swiss Robotics & Advanced Technologies",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The exact-company Robotics Engineer / Autonomy listing syndicated by Swiss Robotics Association places development in Winterthur and specifies original C++ autonomy modules, perception, localisation, planning and system architecture for autonomous robotic platforms. The company's own LinkedIn description corroborates inspection robotics and links the same company domain. This resolves the integration-versus-development gap.",
+            "evidence": [
+                {
+                    "url": "https://www.swiss-robotics.com/"
+                },
+                {
+                    "url": "https://www.swiss-robotics.com/solutions"
+                },
+                {
+                    "url": "https://www.swiss-robotics.com/vision"
+                },
+                {
+                    "url": "https://swiss-robotics.org/srd25_sra_screen1/"
+                },
+                {
+                    "url": "https://www.linkedin.com/company/swiss-robotics-advanced-technologies"
+                }
+            ]
+        },
+        {
+            "slug": "umb",
+            "organisationId": "p17a4v926sgmxexwkmtjacjyh18g9vv4",
+            "name": "UMB",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Current IBM partner and Platform Builder pages establish vendor infrastructure services, not absence of all original technology. The previously described near-zero-downtime concept still lacks enough implementation detail to distinguish original process development from vendor configuration. Former UMB Solutions/mesoneer products cannot automatically be attributed to current UMB.",
+            "remainingQuestion": "What maintained original software or technical process does current UMB develop beyond vendor configuration, independently of mesoneer?",
+            "evidence": [
+                {
+                    "url": "https://www.umb.ch/en/blog/news/detail/umb-expands-its-technology-business-transformation-offerings"
+                },
+                {
+                    "url": "https://www.mesoneer.io/blog/umb-solutions-now-operates-as-mesoneer"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/platform-builder"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/ai-data-scientist"
+                },
+                {
+                    "url": "https://www.umb.ch/blog/news/detail/quick-and-easy-so-richten-sie-ihre-eigene-devops-umgebung-ein"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/sap-wizard/sap-cloud"
+                },
+                {
+                    "url": "https://www.umb.ch/unternehmen/partner/umb-bietet-ibm-power-ibm-z-ibm-flash-systems-und-qradar"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/platform-builder/platform"
+                }
+            ]
+        },
+        {
+            "slug": "voviva",
+            "organisationId": "p174zn30nyj5q0ky5w9vz0mqr18g8qkb",
+            "name": "Voviva",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "An older indexed English root-page rendering says a public-sector project uses its guided-intake solution, but the current live /en/ page does not confirm that reusable-core wording. Current project material describes substantive jointly developed Dextra intake and custom AI work. The discrepancy is recorded rather than resolving the hold on stale wording.",
+            "remainingQuestion": "Is the Dextra system or its core maintained as Voviva technology beyond the bespoke client project?",
+            "evidence": [
+                {
+                    "url": "https://voviva.ch/projekte/guided-claims-intake/"
+                },
+                {
+                    "url": "https://voviva.ch/"
+                },
+                {
+                    "url": "https://voviva.ch/en/"
+                }
+            ]
+        },
+        {
+            "slug": "unimission",
+            "organisationId": "p17f3gm79eqcybgeq6hk5j9tt18g9wpr",
+            "name": "Unimission",
+            "previousDecision": "exclude",
+            "decision": "uncertain",
+            "reason": "Official company history explicitly states that development of Swiss Private Cloud uNimbus began in 2025. Green hosting, IBM infrastructure and SolarWinds-powered UniVision do not disprove original uNimbus development. The catalogue does not identify an original control-plane/software component or technical process. Prior exclusion is unsafe until this branch is resolved.",
+            "remainingQuestion": "What original software, control-plane or technical process does Unimission develop for uNimbus beyond operating the vendor infrastructure?",
+            "evidence": [
+                {
+                    "url": "https://www.unimission.ch/"
+                },
+                {
+                    "url": "https://www.unimission.ch/univision/"
+                },
+                {
+                    "url": "https://www.unimission.ch/unimbus-die-100-schweizer-cloud-fuer-kmus/"
+                },
+                {
+                    "url": "https://www.unimission.ch/uber-uns/"
+                },
+                {
+                    "url": "https://www.unimission.ch/cloud-services/"
+                }
+            ]
+        }
+    ],
+    "acceptedKeepPreserved": "cross-works",
+    "removalSafety": {
+        "excludedClassification": 24,
+        "alreadyUnmapped": 1,
+        "existingManifestRecommendations": 20,
+        "staleRecommendationDoNotApply": ["unimission"],
+        "effectiveExistingRecommendations": 19,
+        "newRecommendationsAwaitingMainReview": 4,
+        "newRecommendationsFile": "company-eligibility-final22.json",
+        "requiresMainReview": true,
+        "manifestsModified": false
+    },
+    "suspendedExclusions": [
+        {
+            "slug": "unimission",
+            "reason": "Explicit 2025 uNimbus development claim requires branch attribution review; prior exclusion is not safe to apply.",
+            "evidence": [
+                {
+                    "url": "https://www.unimission.ch/uber-uns/"
+                }
+            ]
+        }
+    ],
+    "populationDelta": [
+        {
+            "slug": "qenax",
+            "reason": "Develops natural active ingredients for cosmetic formulations",
+            "evidence": [
+                {
+                    "url": "https://www.qenax.com/about-us"
+                },
+                {
+                    "url": "https://www.qenax.com/about-us/disclaimer"
+                },
+                {
+                    "url": "https://in.linkedin.com/company/qenax-ag"
+                },
+                {
+                    "url": "https://www.qenax.com/products/cayoma-r-green-coffee"
+                }
+            ],
+            "reviewedBatch": "biotech-compact-three-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "inthera-bioscience",
+            "reason": "Develops small-molecule cancer therapeutics targeting transcriptional control",
+            "evidence": [
+                {
+                    "url": "https://intherabio.com/technology/"
+                },
+                {
+                    "url": "https://intherabio.com/contact/"
+                },
+                {
+                    "url": "https://intherabio.com/about-us/"
+                },
+                {
+                    "url": "https://www.linkedin.com/company/inthera-bioscience"
+                },
+                {
+                    "url": "https://www.uid.admin.ch/Detail.aspx?lang=fr&uid_id=CHE-412.998.242"
+                }
+            ],
+            "reviewedBatch": "biotech-compact-three-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "bacoba",
+            "reason": "Develops drug candidates using natural-product chemistry and molecular pharmacology",
+            "evidence": [
+                {
+                    "url": "https://bacoba.ch/index.html"
+                }
+            ],
+            "reviewedBatch": "biotech-compact-three-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "novalytica",
+            "reason": "Develops co2lect software for collecting, validating and reporting property consumption data",
+            "evidence": [
+                {
+                    "url": "https://novalytica.com/en/"
+                },
+                {
+                    "url": "https://novalytica.com/en/contact/"
+                },
+                {
+                    "url": "https://novalytica.com/novalytica-gewinnt-den-real-estate-award-2024/"
+                },
+                {
+                    "url": "https://novalytica.com/wp-content/uploads/2023/08/20230815_DatenschutzerklaerungNovalytica.pdf"
+                }
+            ],
+            "reviewedBatch": "completion-three-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "precomb-therapeutics",
+            "reason": "Develops automated tumour drug-response profiling technology for translational oncology research",
+            "evidence": [
+                {
+                    "url": "https://www.precomb.com/"
+                },
+                {
+                    "url": "https://www.precomb.com/contact/"
+                }
+            ],
+            "reviewedBatch": "completion-three-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "qiibee",
+            "reason": "Develops loyalty-points exchange software for rewards, partner integration and settlement",
+            "evidence": [
+                {
+                    "url": "https://www.qiibee.com/"
+                },
+                {
+                    "url": "https://www.qiibee.com/impressum"
+                }
+            ],
+            "reviewedBatch": "finite-next-three-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "pipra",
+            "reason": "Develops medical software for delirium risk assessment and prevention workflows",
+            "evidence": [
+                {
+                    "url": "https://pipra.ch/"
+                }
+            ],
+            "reviewedBatch": "finite-next-three-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "b-rayz",
+            "reason": "Develops AI software for breast imaging quality assessment and clinical workflows",
+            "evidence": [
+                {
+                    "url": "https://b-rayz.com/"
+                },
+                {
+                    "url": "https://b-rayz.com/contact/"
+                }
+            ],
+            "reviewedBatch": "finite-next-three-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "mpower-ventures",
+            "reason": "Develops fintech software for solar-product operations, remote monitoring and customer financing",
+            "evidence": [
+                {
+                    "url": "https://mpower.africa/About"
+                },
+                {
+                    "url": "https://mpower.africa/Contact?id=69738714f2a7622c0975902e"
+                },
+                {
+                    "url": "https://www.linkedin.com/company/mpowerventures/"
+                }
+            ],
+            "reviewedBatch": "resolved-two-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "stimit",
+            "reason": "Develops non-invasive diaphragm stimulation technology for mechanically ventilated patients",
+            "evidence": [
+                {
+                    "url": "https://www.stimit.com/about-us.html"
+                },
+                {
+                    "url": "https://stimit.com/News.html"
+                },
+                {
+                    "url": "https://search.technopark-allianz.ch/companies?f.branch=branch%3AMedtech&f.companyInitial=companyInitial%3As&lang=de"
+                },
+                {
+                    "url": "https://www.linkedin.com/company/empowerpatients/"
+                }
+            ],
+            "reviewedBatch": "resolved-two-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "aidonic",
+            "reason": "Develops humanitarian payment, voucher distribution and recipient management software",
+            "evidence": [
+                {
+                    "url": "https://www.aidonic.io/"
+                },
+                {
+                    "url": "https://www.aidonic.io/about"
+                },
+                {
+                    "url": "https://www.aidonic.io/contact"
+                },
+                {
+                    "url": "https://www.aidonic.io/privacy-policy"
+                }
+            ],
+            "reviewedBatch": "portfolio-next-final-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "qashqade",
+            "reason": "Develops private-market fund calculation, allocation and reporting software",
+            "evidence": [
+                {
+                    "url": "https://www.qashqade.com/"
+                },
+                {
+                    "url": "https://www.qashqade.com/company/contact/"
+                },
+                {
+                    "url": "https://www.qashqade.com/imprint/"
+                }
+            ],
+            "reviewedBatch": "portfolio-next-final-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        },
+        {
+            "slug": "timly",
+            "reason": "Develops inventory software for equipment tracking, maintenance and stock management",
+            "evidence": [
+                {
+                    "url": "https://timly.com/"
+                },
+                {
+                    "url": "https://timly.com/impressum/"
+                },
+                {
+                    "url": "https://timly.com/datenschutzerklaerung/"
+                }
+            ],
+            "reviewedBatch": "portfolio-next-final-reviewed-ready.json",
+            "attribution": "Main-reviewed primary product/address evidence from the reviewed batch. This pass reconciled public identity and locations, not an independent rereading of every new source."
+        }
+    ],
+    "separateCriteriaDelta": {
+        "historicalReview": "noncompany-eligibility-review.json",
+        "historicallyReviewed": 114,
+        "currentPopulation": 116,
+        "newOutsideThisCompanyPass": ["women-in-web3-switzerland", "superlab-suisse"],
+        "note": "Do not present the historical 114-record non-company review as a fresh review of all 116."
+    },
+    "limitations": [
+        "Voviva indexed English wording differs from current live /en/ page; not used as decisive evidence.",
+        "Mecas linked careers page could not be retrieved; legal identity was confirmed separately.",
+        "KOCH IT successor identity and current office occupancy remain unresolved, independently of technical eligibility.",
+        "Reasoning Labs Swiss entity/domain bridge remains unresolved; no dormancy inference.",
+        "Public portal shells do not prove third-party authorship.",
+        "Source summaries and URLs are durable here; raw public retrieval captures are optional supporting temporary artifacts."
+    ],
+    "historicalSnapshot": true,
+    "supersededBy": "company-eligibility-exclusions.json",
+    "currentDecisionAuthority": "company-eligibility-audit.json",
+    "notExecutable": true,
+    "supersessionNotice": "Historical research only. Counts, open questions and recommendations may be stale. Use the current exclusions manifest and audit; do not execute historical operations.",
+    "withdrawnExclusionOverrides": [
+        {
+            "slug": "stutz-medien",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "cyberlink",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "trias-pharma",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "cross-works",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "unimission",
+            "decision": "uncertain",
+            "status": "withdrawn-unresolved",
+            "apply": false
+        },
+        {
+            "slug": "blackpoints",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "dream-production",
+            "decision": "uncertain",
+            "status": "withdrawn-unresolved",
+            "apply": false
+        }
+    ],
+    "latestCatalogueChallenge": "company-eligibility-removal-review.json"
+}

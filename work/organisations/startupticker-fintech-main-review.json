@@ -1,0 +1,48 @@
+{
+    "date": "2026-10-15",
+    "status": "all-three-published-and-independently-verified-frozen",
+    "reviews": [
+        {
+            "slug": "gentwo",
+            "sources": ["https://gentwo.com/about/"],
+            "finding": "Main read current official account of GenTwo Pro and AMC Creator launches, ongoing 2026 activity and Zurich headquarters at Brandschenkestrasse 5. Technology and operations also have a Pristina hub; do not imply every developer works in Zurich. Preserve one group identity rather than duplicating GenTwo Digital.",
+            "artwork": "Main visually approved complete official two-colour mark in three-profile contact sheet; unchanged-byte supported upload permitted"
+        },
+        {
+            "slug": "maiq",
+            "sources": ["https://maiq.io/about/", "https://maiq.io/legal-matters/"],
+            "finding": "Main read founder and technical cofounder account and current legal imprint MaiQ AG, CHE-137.004.932, Blegistrasse 23 Baar. Terms describe its TestingHub/FeedbackSuite SaaS. Privacy text also names MaiQ Innovations and Test4Cash/Test4Data, which need alias checks. Replace inaccessible legal-information source with current legal-matters URL.",
+            "artwork": "Main visually approved complete official white MaiQ wordmark on black; unchanged-byte supported upload permitted",
+            "remaining": [],
+            "followup": "Read captured current own homepage describing AgentC six-agent testing. Mixed live and waitlist wording does not support a precise availability claim, so published copy describes development only. Checked historical identities without asserting that MaiQ Innovations, Test4Cash or Test4Data are legal aliases."
+        },
+        {
+            "slug": "timestatement",
+            "sources": [
+                "https://timestatement.com/schweiz/ueber-uns",
+                "https://timestatement.com/schweiz/kontakt"
+            ],
+            "finding": "Main read current own cloud time-tracking, absence, expense and billing product account and official contact address Oberneuhofstrasse 10 Baar. Product software qualifies; this is not a generic implementation consultancy.",
+            "artwork": "Main visually approved the complete official 76px TS icon rather than the old 32px source or unreadably small wordmark. Hosted PNG hash d3c6e7945633b151fc122f94bf3c48305efd1d05cf611d61be256d6273d90a6a independently decoded and CORS-verified."
+        }
+    ],
+    "remaining": [],
+    "timeStatementPublication": {
+        "manifest": "/tmp/zurich-registry-review/primary-56c0-timestatement-hosted-ready.json",
+        "identityPopulation": 1145,
+        "identityCheckedAt": "2026-10-15T04:59:37.146Z",
+        "artworkCheckedAt": "2026-10-15T04:59:48.259Z",
+        "result": "Supported preview and single apply; independent full-field, address and social readback passed",
+        "productionPopulationAfter": 1147
+    },
+    "publication": {
+        "slugs": ["gentwo", "maiq"],
+        "manifest": "/tmp/zurich-registry-review/primary-56c0-reviewed-two-ready.json",
+        "identityPopulation": 1141,
+        "identityCheckedAt": "2026-10-15T04:52:32.780Z",
+        "artworkCheckedAt": "2026-10-15T04:52:42.854Z",
+        "result": "Supported preview and one apply; independent full-field, public-address and social-link readback passed",
+        "productionPopulationAfter": 1143
+    },
+    "organisationWrites": 3
+}

@@ -1,0 +1,265 @@
+{
+    "date": "2026-10-15",
+    "status": "in-progress",
+    "latestMobileFollowup": {
+        "date": "2026-10-15",
+        "browser": "Main Chrome, isolated anonymous local preview",
+        "snapshot": { "mappedOrganisations": 1164, "locationRows": 1166, "topics": 34 },
+        "viewports": ["390x844", "320x640", "740x390"],
+        "verified": [
+            "Collapsed mobile controls occupy105px at320x640, flush with left, right and bottom edges, with no dedicated handle row",
+            "Technopark search settles to165 organisations; Akina detail shows description, tags and LinkedIn without horizontal overflow",
+            "End expands to575px below the header; Home collapses to105px and marks content hidden; ArrowUp reopens",
+            "Back restores the Akina result focus and preserves Technopark search",
+            "Short landscape uses a scrollable side panel and leaves the map usable",
+            "Viewport restored, temporary tabs closed and local preview stopped"
+        ],
+        "limitations": "Physical-phone keyboard/safe-area and pointer drag were not exercised in this follow-up. Existing gesture checks remain separate. Known cross-origin localhost zurich.tech branding-image decode error recurred; no new console errors observed. Source snapshot count guard was updated from1121 to1164 only in the temporary preview. No production code or policy changed."
+    },
+    "interactionReferences": {
+        "sources": [
+            "https://developer.apple.com/design/human-interface-guidelines/sheets",
+            "https://m1.material.io/components/bottom-sheets.html"
+        ],
+        "decision": "Use a persistent resizable sheet rather than a modal: keep the map interactive, offer collapsed/compact/expanded stops and adapt to a side panel in short landscape. The mobile resize button shares the search row; filters and count share the next row. No dedicated grab-handle row.",
+        "remainingChecks": "Repeat gestures with the final production-sized snapshot, including keyboard-resize geometry, compact detail, multiple-location navigation and desktop focus restoration. Physical phone keyboard and safe-area behaviour remain unverified."
+    },
+    "latestCodeChecks": {
+        "date": "2026-10-15",
+        "runtime": "Repository-pinned Bun 1.3.3",
+        "typecheck": "Passed",
+        "tests": "336 passed, zero failed, 10808 assertions across 40 files",
+        "environment": "Initial sandbox run could not bind the deployment test's ephemeral local server. The same complete suite passed with local listening permitted, without source changes.",
+        "review": "Read navigation history and pending-selection handling, sheet state and compact layout, bounded six-slot logo downloads, hosted-logo cache recovery and exact stale-review guards for description cleanup",
+        "limitation": "Code and automated checks do not replace final live desktop/mobile visual and interaction review"
+    },
+    "latestBrowserCheck": {
+        "date": "2026-10-15",
+        "browser": "User main Chrome, isolated local app with public snapshot and no production mutations",
+        "snapshot": { "mappedOrganisations": 1121, "locationRows": 1123, "topics": 34 },
+        "viewports": ["390x844", "320x640", "740x390", "1280x800"],
+        "verified": [
+            "Compact mobile search and sheet control share a row; filters and count share the next row",
+            "Technopark search settles to 165 organisations and opens Akina at the correct shared address",
+            "Detail fits narrow portrait with full description, tags and LinkedIn link; no horizontal overflow",
+            "Back restores focus to the selected Akina result",
+            "Empty search reports zero; clearing restores results",
+            "Robotics selection produces 79 results and a removable tag without horizontal overflow",
+            "Short landscape preserves a scrollable result area and usable map space",
+            "Desktop retains its heading, count, filter controls and full descriptions",
+            "Viewport restored, test tab closed and isolated server stopped"
+        ],
+        "timing": "One warm Technopark search measured 1.9ms to input frame and 180.4ms to result frame including intentional 150ms debounce; 119 existing rows retained. This is not a device benchmark or percentile claim.",
+        "assetIssue": "Only observed console error was zurich.tech/branding/logo.png decode failure in cross-origin localhost preview. Public HEAD returned image/png 200 without Access-Control-Allow-Origin. Production uses the same origin; do not claim a production failure from this result. The remaining organisation marks rendered in inspected views.",
+        "limitations": [
+            "Physical phone keyboard and safe-area behaviour not reproduced",
+            "Latest snapshot did not repeat drag gestures; previous gesture checks and tests remain separate evidence",
+            "Not a complete network/asset audit"
+        ]
+    },
+    "latestStructuralAudit": {
+        "checkedAt": "2026-10-15T06:00:47.838Z",
+        "organisations": 1191,
+        "mappedOrganisations": 1188,
+        "reportedBy": "Main; fresh read-only structural audit",
+        "result": "No duplicate names/slugs, unknown kinds, invalid topic references, missing mapped logos or missing coordinates found by the structural audit.",
+        "remaining": "17 topicless cases remain, including broad investors, universities and communities, plus unmapped CLIMADA. Stableton is the newly reviewed broad investor. Reasoning Labs AI classification is present. See topicless-review.json; do not infer that every topicless organisation needs arbitrary tags. This structural audit does not certify semantic eligibility, activity or branding."
+    },
+    "laterVerifiedImports": {
+        "organisations": 1060,
+        "latestCampusVerification": "WE SHAPE TECH, Evax, Swiss Bioscience and Genetikzentrum independently verified at1060. Frozen as published; evidence in work/organisations/campus-artwork-review.json. No reapply required.",
+        "latestPropertyTravelVerification": "Tango Analytics, TrekkSoft and Raumpioniere independently verified at1056. Main read Tango's Locatee acquisition and current Hardstrasse201 contact; preserved Registered address and exact shared public building. Main read TrekkSoft's current Zug office and its own development account; federal entrance has doffadr0, retained explicitly in source review rather than misrepresented. Main read SEP's direct attribution of Raumpioniere's matching-algorithm development and ongoing modification, corroborated by current operational tool and Zurich office, not merely generic property consulting. Genuine compact logos reviewed and published, fresh complete identity/alias/domain/address deduplication passed, supported preview/apply once and independent complete verification passed. All nine prepared portfolio entries are now frozen as published.",
+        "latestLearningWorkflowVerification": "Interaction Partners, Get More Brain and Classtime independently verified at1053. Main read current first-party own-development/team and legal/contact evidence, approved genuine compact logos, and checked fresh full-table names, aliases, domains and shared addresses. Get More Brain uses canonical entrance22 within its published22/24 address; no invented combined entrance. Main additionally found and verified its matching corporate LinkedIn account, missed by website-outbound-only research. Three exact supported preview/apply additions executed once, followed by complete-field/location/social verification. Tango Analytics, TrekkSoft and Raumpioniere remain unpublished from the original nine.",
+        "latestFinanceAdvertisingVerification": "CG24 Group, C Wire and Contovista independently verified at1050 after main own-development, address, brand and corporate-social review. CG24 retains Contact address, C Wire Registered address, Contovista Postal address and finnova identity. Current complete organisations/address reads checked names, aliases and current/former domains before preparation. Three genuine compact logos visually reviewed, published and hash/CORS verified. Exact supported preview/apply ran once, followed by independent full-field, public-location and social-link verification. Six other profiles from the source nine remain unpublished pending main review.",
+        "latestMaterialsTestingVerification": "Siloxene and aQuaTox-Solutions independently verified at1047. Main read Siloxene's current own-materials offering and active UIDCHE131740688 atZürichstrasse38; Registered address label preserves the separately documented website Zürcherstrasse discrepancy. Main read aQuaTox's own computational/test-method research and exact Winterthur Headquarters contact/social page. Official complete logos visually approved, with aQuaTox's low-resolution compact mark judged at32px rather than claimed high-resolution. Exact preview/apply ran once and complete-table verification passed.",
+        "latestIntectVerification": "Intect independently verified at1045 after main current official sensor/software, imprint and artwork review. Complete official compact symbol published and verified, exact Contact address retained, corporate LinkedIn confirmed in official page evidence, no duplicate identity. Supported preview/apply ran once and fresh complete-table verification passed.",
+        "latestSoftwareVerification": "nextesy and Perspectix independently verified at1044 after current official product and imprint review, genuine compact artwork and fresh identity/domain deduplication. Supported preview and apply ran once. Perspectix reuses exact reviewed Hardturmstrasse253 address j9770pvbfx64rvwhmr94fe65s58f5d28; another pre-existing duplicate building record was not merged or modified. Both use Contact address labels.",
+        "latestAxLabsVerification": "AxLabs independently verified at1042 after main review of its original neow3j development, active official Zurich registered address, linked corporate accounts and genuine compact logo. Exact supported preview/apply executed once. Initial coordinate verification mismatch resolved through fresh read of existing Hardturmstrasse161 building j976gz0kng8sj5qsnve6r37epx8g4dnh at47.393336,8.511879, approximately14cm from the federal result. Building pin preserved and verification repeated read-only; no duplicate apply. Defensia's FreienbachSZ candidate was not included.",
+        "latestCreoptixVerification": "Creoptix independently verified at1041 with Registered address Zugerstrasse76,8820Waedenswil, reusing the validated existing building. Main read current official UID fields directly, current parent brand/product page and visually approved the genuine parent icon. Fresh identity/parent-domain deduplication, supported preview/apply and independent full-field/location/social verification passed. Subsequent whole-directory structural audit at1041 found only the existing15 topicless exception/review cases.",
+        "latestIdentityVerification": "Myant Europe, Scaled Agile Switzerland and Sedimentum (Helpany) independently verified at1040. Same-UID evidence establishes Nanoleq/Myant and Rentouch/Scaled continuity; fresh aliases/domain checks prevent duplicate historical brands. Sedimentum's current Apple provider disclosure and active UID agree on Dorfplatz6, labelled Registered address without implying operating premises. Genuine compact official logos visually approved; complete Myant white mark uses reviewed dark backing. Supported exact preview/apply once, followed by independent full-field/location/social verification.",
+        "latestCurrentPortfolioVerification": "Houzy and Infront Assetmax independently verified at1037. Main reviewed current products, development evidence, exact official contact addresses and genuine compact icons. Houzy's unavailable HouzyConnect page was removed from sources and its description narrowed to the verified current homeownership platform. Current Infront office page confirms8005Hardturmstrasse123; the prior8021 discrepancy is absent from the current read. Exact shared address validated, fresh identity deduplication passed, supported preview/apply executed once and all fields/locations/socials independently verified.",
+        "latestBiotechVerification": "Bacoba, Inthera Bioscience and Qenax independently verified at 1035 after primary own-development and address review, approved official compact artwork, fresh identity deduplication and exact supported preview/apply. Bacoba is labelled Contact address; Inthera Registered address. All three full profiles, public locations and socials independently verified; no repeat apply required.",
+        "latestCompletionVerification": "PreComb Therapeutics, Novalytica and Women in Web3 Switzerland independently verified at 1032. Main reviewed own technology or community education, exact addresses and official compact artwork. WiW3 correctly labelled Mailing address; existing Rennweg 57 pin independently inspected and preserved at47.37366,8.53895, approximately33cm from federal coordinates. Initial verifier mismatch resolved read-only; import was not repeated. Fresh whole-directory structural audit passed at1032 with the same15 topicless records pending their documented exception decisions.",
+        "latestFiniteVerification": "b-rayZ, PIPRA and qiibee independently verified at 1029 after current product and official address review, visually approved compact logos, fresh name/slug/domain duplicate checks and exact supported preview/apply. PIPRA is labelled Contact address at published coworking address Tessinerplatz 7. Both reused building IDs validated before import; no repeat apply required.",
+        "latestSpaceVerification": "Superlab Suisse independently verified at 1026, including its exact shared Zuercherstrasse 39D laboratory address. Main reviewed current official equipped-laboratory page, captured exact street evidence and authentic compact logo. No repeat apply required.",
+        "latestResolvedVerification": "STIMIT and MPower Ventures independently verified at 1025 after current primary own-technology review, exact local-address evidence, visually approved compact official artwork, fresh identity deduplication and supported exact preview/apply. STIMIT reuses the verified Technoparkstrasse 1 building. No reapply required.",
+        "latestPortfolioVerification": "Timly, qashqade and AIDONIC independently verified at 1023 after current primary product review, visual approval of official icons, fresh name/slug/domain deduplication, supported exact dry-run/apply and independent full-field/location/social verification. Timly reuses verified Andreasstrasse 5 Registered address; AIDONIC is labelled Contact address. No repeat apply required.",
+        "softwareVerification": "Atfinity, Enterprise Bot and Sustema independently verified at 1020 after main review of current primary products, addresses and official artwork. No existing identity matched fresh name/slug/domain checks; shared Atfinity and Sustema addresses verified before import.",
+        "latestVerification": "Fresh whole-directory structural audit passed at 1015; Perk and BATT Suisse subsequently independently verified at 1017. Perk/TravelPerk/Yokoy alias check found no existing identity; BATT reuses the verified Sonnentalstrasse 8 address. Current source reconciliation and semantic eligibility audit remain incomplete.",
+        "batches": [
+            "primary-30c4-source-two-ready.json: 2",
+            "primary-df3c-next-two-with-logos.json: 2",
+            "primary-9297-next-two-ready.json: 2",
+            "primary-df3c-kuori-with-logo.json: 1",
+            "primary-9297-approved-five-ready.json: 5",
+            "primary-9297-tiun-billte-riskwolf-ready.json: 3",
+            "ponos-reviewed-ready.json: 1",
+            "bio-two-reviewed-ready.json: 2",
+            "zalando-fortit-reviewed-ready.json: 2",
+            "life-five-reviewed-ready.json: 5",
+            "agile-limmex-reviewed-ready.json: 2",
+            "portfolio-seven-reviewed-ready.json: 7",
+            "omissions-three-reviewed-ready.json: 3",
+            "omissions-four-reviewed-ready.json: 4",
+            "omissions-five-reviewed-ready.json: 5",
+            "omissions-six-reviewed-ready.json: 6",
+            "kadoa-cybera-reviewed-ready.json: 2",
+            "omissions-final-three-reviewed-ready.json: 3",
+            "portfolio-next-three-reviewed-ready.json: 3",
+            "university-four-reviewed-ready.json: 4",
+            "campus-next-three-reviewed-ready.json: 3",
+            "lumisera-reviewed-ready.json: 1",
+            "campus-software-reviewed-ready.json: 3",
+            "glatec-two-reviewed-ready.json: 2",
+            "midata-vivtex-reviewed-ready.json: 2",
+            "software-three-reviewed-ready.json: 3",
+            "glatec-next-two-reviewed-ready.json: 2",
+            "campus-materials-two-reviewed-ready.json: 2",
+            "finite-four-reviewed-ready.json: 4",
+            "campus-business-two-reviewed-ready.json: 2",
+            "portfolio-software-three-reviewed-ready.json: 3",
+            "portfolio-next-final-reviewed-ready.json: 3",
+            "resolved-two-reviewed-ready.json: 2",
+            "superlab-reviewed-ready.json: 1",
+            "finite-next-three-reviewed-ready.json: 3",
+            "completion-three-reviewed-ready.json: 3",
+            "biotech-compact-three-reviewed-ready.json: 3",
+            "portfolio-current-two-reviewed-ready.json: 2",
+            "identity-three-reviewed-ready.json: 3",
+            "creoptix-reviewed-ready.json: 1",
+            "axlabs-reviewed-ready.json: 1",
+            "software-current-two-reviewed-ready.json: 2",
+            "intect-reviewed-ready.json: 1",
+            "materials-testing-two-reviewed-ready.json: 2"
+        ],
+        "verification": "All listed supported applies independently verified; no reapply required. The whole-directory structural audit covers 1004 records; GIANTS Software, Ubique, smino, Lepto, upwater, NewGreenTec, vVARDIS, Hylomorph, Scinora, TALDIS and evismo were subsequently verified at total 1015. NewGreenTec is labelled Contact address; vVARDIS and evismo Registered address; no operating-office claim inferred. This count is not a completeness claim. Ubique reuses the existing Limmatquai 122 pin, 0.23 metres from the federal result. Zalando, Pathmate, Klenico, FLOWIT, Kadoa, CYBERA and Arago Labs also reuse existing building pins within one metre of the federal results."
+    },
+    "productionVerification": {
+        "organisations": 929,
+        "mappedOrganisations": 926,
+        "independentlyVerifiedBatches": [
+            "primary-30c4-verification-batch.json: 6",
+            "primary-9297-four-ready.json: 4",
+            "primary-df3c-five-verification-batch.json: 5",
+            "primary-56c0-verification-batch.json: 11"
+        ],
+        "caution": "Counts are a checkpoint, not evidence that the eligibility or source review is complete."
+    },
+    "browserChecks": {
+        "finalActualAppReview": {
+            "date": "2026-10-15",
+            "fixture": "Isolated temporary local application with actual Solid, WebGL, CSS and public logos; frozen1044mapped identities and1046office rows. This is not the latest1060registry or a production backend modification.",
+            "coverage": "Dark and light portrait320x640/390x844, short landscape740x390, light desktop900/1280; search, filters, selected chips, compact/expanded/detail, Back focus/scroll, last-row access and sheet controls. No horizontal overflow in recorded views. Shared44px chevron occupies the search row, with no dedicated24px gutter; count stays beside type/topic controls, selected chips have their own strip.",
+            "navigation": "Whitespace retained1046/1046row nodes; normalized case/spacing retained327/327. All1046office rows reachable, last ZuriQ result opened and Back restored scroll125385 and result focus. Query retained through filtered SoftART detail and resize.",
+            "settledFraming": "SoftART logo and selected ring visibly above the overlay after400ms flight at320x640 and after resize to390x844. Earlier blank screenshot was premature, not evidence of missing-marker defect. Settled images: /tmp/zurich-registry-review/map-review-light-320-detail-settled.jpg and map-review-light-390-detail-settled.jpg.",
+            "drag": "Actual mouse trace reproduced native dragstart on Add link beneath a moving sheet, followed by pointercancel. Preventing pointerdown default and explicitly focusing the handle eliminates native dragstart: same upward drag completes pointerup and opens expanded; ArrowDown returns compact. Cancellation still restores original state. Source-wiring regression complements actual browser proof, not a substitute for interaction.",
+            "performance": "Local development desktop measurements: initial badges/source phase534.4ms before,39.4ms after per-call identical-initial placeholder reuse. Each organisation retains independent MapLibre image ID/backing pixels. Single observations with cache/warmth differences, not a guaranteed speedup. Genuine858-to327transition still observed136ms task before optimization; warm830-to327 measured203.8ms input-to-result including150msdebounce,2.4ms input frame,263retained rows and no>=50ms task. This does not prove the136ms risk eliminated; no speculative virtualization added.",
+            "evidence": [
+                "/tmp/zurich-registry-review/map-final-shared-control-results.json",
+                "/tmp/zurich-registry-review/map-final-shared-control-evidence.json",
+                "/tmp/zurich-registry-review/map-review-final-light-evidence.json",
+                "/tmp/zurich-registry-review/map-review-light-desktop-list.jpg",
+                "/tmp/zurich-registry-review/map-review-light-900-list.jpg",
+                "/tmp/zurich-registry-review/map-review-light-320-expanded.jpg",
+                "/tmp/zurich-registry-review/map-review-light-landscape-list.jpg"
+            ],
+            "limitations": "Responsive Chrome on desktop is not physical phone CPU, touch gesture, virtual keyboard or safe-area proof. No production deployment of this diff. Earlier browserChecks.local entries are historical; shared-control layout supersedes separate-handle geometry.",
+            "cleanup": "Local theme restored to system, viewport reset, ephemeral tab closed, own3197server stopped. No production writes."
+        },
+        "browser": "User Chrome",
+        "production": [
+            "Cosaic searchable with current brand, official logo, Horgen contact address and LinkedIn",
+            "Desktop map tiles settled after selection",
+            "390x844 mobile detail sheet fits viewport",
+            "Mobile back navigation and searchable topic selection work",
+            "Temporary viewport restored"
+        ],
+        "local": [
+            "After deferred-search and focus fixes, main Chrome verified keyboard open/Back restores ETH AI Center result focus; immediate ETH AI typing then selection retains details and query. 390x844 list and 320x640 compact detail render without overlap or blank excess space; no warning/error logs. Temporary viewport restored, tab closed, server stopped. Tool latency does not prove sub-150ms timing; focused tests cover that state transition.",
+            "Latest 54 focused map/navigation/sheet/image tests pass with 8070 assertions; includes pending-query filter invalidation and result-focus regressions",
+            "Latest 64x24 handle verified in Chrome at 390x844 collapsed/open, 320x640 search and compact organisation detail, and 740x390 landscape; no warning/error logs. Handle remains outside the scrolling controls. Temporary viewport reset and local review server stopped.",
+            "46 focused map/navigation/sheet tests pass with 8037 assertions after the handle adjustment",
+            "Full suite passes with pinned Bun 1.3.3: 315 tests, 10684 assertions; deployment test requires localhost networking permissions",
+            "Latest 390x844 and 320x640 Chrome checks cover search, detail/back, topic selection/removal and down/up drags; 740x390 landscape remains usable",
+            "Single filtered result now uses content height; singular count reads 1 organisation; 45 focused map/navigation/sheet tests pass with pinned Bun 1.3.3",
+            "Development dataset contains 292 organisations; these checks do not certify production-scale phone performance or physical-keyboard/safe-area behaviour",
+            "Compact mobile controls occupy two rows; drag handle is positioned at the sheet edge rather than consuming a separate row",
+            "390x844 collapsed toolbar is approximately 117px; organisation details use content height rather than leaving a half-screen empty panel",
+            "320x640 long selected topic fits without horizontal overflow; empty results use compact content height",
+            "740x390 landscape collapsed and single-detail panels avoid the previous full-height blank area",
+            "Desktop layout retains its heading and full organisation count after resetting viewport overrides",
+            "Drag expansion, collapse button, type/topic selection and chip removal checked in user Chrome; no warning/error console entries",
+            "Local review server on port 3001 uses development data",
+            "Search settles to filtered results without runtime errors in the checked view",
+            "ETH search returns 23 organisations in the development snapshot",
+            "390x844 dark-theme shared-address sheet stays flush to viewport edges",
+            "Technopark address opens 23 organisations; address search narrows Chipmind to 1 of 23",
+            "Dragging the mobile sheet upward expands it below the header",
+            "Back navigation retains the global search and clears address-only search",
+            "Type filter narrows the Technopark search from 30 to 18 startups; collapsing retains filters",
+            "No warning/error console entries during this mobile interaction pass",
+            "Viewport override restored after testing; development snapshot has no topic assignments, so topic-result semantics require production checks"
+        ],
+        "notYetProven": [
+            "Physical phone keyboard and safe-area behaviour; responsive viewport testing does not reproduce these fully",
+            "Complete desktop/mobile interaction regression",
+            "All logo requests in an existing browser cache",
+            "Production rendering of uncommitted changes"
+        ]
+    },
+    "findings": [
+        {
+            "issue": "Rejecting an obsolete result during search debounce left keyboard focus on the page body.",
+            "status": "fixed-locally-browser-verified-not-deployed",
+            "evidence": "Rejected directory selections now refocus search and rejected marker selections refocus the map canvas without restoring stale details or changing typed text. Agent reproduced before and after in Chrome at320x640 and390x844; main inspected code and screenshot and independently passed57 focused map/navigation/sheet/image tests with8085assertions. Physical phone keyboard remains unverified."
+        },
+        {
+            "issue": "Changing a search or filter retained the previous results scroll offset.",
+            "status": "fixed-locally-browser-verified-not-deployed",
+            "evidence": "Committed search/filter changes reset result scroll before replaying any deferred selection. Detail/Back restoration remains separate. Agent checked actual Chrome desktop, narrow portrait, short landscape and compact drag without console errors; main inspected compact empty-result screenshot, source ordering and passed23 navigation/sheet tests. Physical-phone and production-scale performance remain unproven."
+        },
+        {
+            "issue": "Escape closed expanded results without clearing expansion, making the next handle activation remain closed.",
+            "status": "fixed-locally-browser-verified-not-deployed",
+            "evidence": "Escape now discards drag state and clears both open and expanded state. Main inspected the change and ran 22 navigation/sheet tests successfully. Independent Chrome interaction at 320x640 and 390x844 verified expand/Escape/one-activation reopen from fresh state; main inspected saved 390px screenshot. Resize to390x480 followed visualViewport height with visible search. Physical phone keyboard remains unproven. Temporary viewport restored, tab closed and own server stopped."
+        },
+        {
+            "issue": "A debounced search commit can clear a detail selection opened during its 150ms delay; Back restores the list but focuses the map instead of the originating result.",
+            "status": "fixed-locally-not-deployed",
+            "evidence": "Deferred selection matches committed query/category/topics and rejects stale results. Main Chrome confirms open/Back focus and retained search, with 54 focused tests passing. Precise sub-150ms interleaving is covered by state tests rather than asserted from browser tool timing."
+        },
+        {
+            "issue": "inspire AG's external logo decodes but lacks a cross-origin response header required by the map canvas.",
+            "evidence": "https://inspire.ch/site/templates/images/logo-inspire.png; checked with Origin https://zurich.tech",
+            "status": "corrected-in-production-independently-verified",
+            "resolution": "Published the verified official full wordmark to the media host and changed only mapLogoUrl through authenticated Admin. Fresh production comparison confirmed only mapLogoUrl and updatedAt changed; normal logoUrl and other record fields were preserved.",
+            "asset": "https://media.zurich.tech/organisations/inspire-ag/1f3fd03a7511f966a4ef4b0479704aa68f30a66448b764754ee74a19015bf0ba.png",
+            "visualEvidence": "/tmp/zurich-registry-review/inspire-live-proof.png"
+        },
+        {
+            "issue": "Main map count double-counted organisations with multiple offices while topic filter counted unique identities.",
+            "resolution": "Count distinct organisation IDs in total, viewport and selected-address counts without removing offices.",
+            "status": "fixed-locally-not-deployed",
+            "regression": "test_count_organisations_once_across_offices_and_filtered_views"
+        },
+        {
+            "issue": "Live Chrome logged image-decode failures for cotierra and etfbook.",
+            "evidence": "Both public PNGs independently returned HTTP 200, expected SHA256, 192x192 dimensions, CORS * and Vary Origin. They are not missing or malformed assets.",
+            "status": "pending-local-cache-recovery-browser-verification",
+            "caution": "Existing local recovery implementation has focused tests but is not yet proven in the affected production browser context."
+        }
+    ],
+    "checks": {
+        "productionScaleComputation": "Independent1037-organisation/1039-location public snapshot: warm Bun1.3.3 search pipeline median0.81-1.76ms and maxp95 2.75ms;34topic counts median4.91ms,p95 6.21ms onM2Max. Exact result IDs matched an independent search oracle. Static Chrome CSS fixture1039rows reached finalrow with no horizontal overflow at320x640,390x844,740x390,1280x800. These do not measure real-phone CPU, Solid updates, logo decoding, WebGL or end-to-end latency. Main read the measurements and limitations; real production-scale application QA remains outstanding.",
+        "liveLogoAssets": "Main verified2026-10-15T06:01:05.521Z at1191organisations: all1176distinct assets loaded and decoded every pixel, with applicable content hashes and map-readable CORS verified. Zero failures. This does not certify brand ownership, semantic branding completeness, visual quality or existing browser caches.",
+        "focusedTests": "62 passed,0failed,8121assertions across map/navigation/sheet/image after placeholder reuse and native-drag prevention, pinnedBun1.3.3.",
+        "typecheck": "passed after count and compact mobile control changes",
+        "productionBuild": "passed with the Cloudflare module preset after compact mobile controls and landscape sizing changes",
+        "fullSuite": "Main reports336passed,0failed,10808assertions across40files with pinnedBun1.3.3 after the native-drag regression; knownconvex-testTimeoutOverflowWarning only. Typecheck also passed. Independent non-map review reran42tests with8045assertions successfully; no concrete regressions found, with rendered Image attribute coverage, affected browser-cache recovery and manually managed media-header drift remaining verification gaps.",
+        "runtimeCompatibility": "The installed Bun 1.4.3-canary.1 fails to load commands.test.ts and markdown.test.ts with unavailable Solid jsx/jsxDEV exports; both pass on pinned Bun 1.3.3. Production mode alone does not fix the canary incompatibility.",
+        "sandbox": "Initial full-suite attempt also could not bind its local test server; that test passes with authorised local binding.",
+        "wholeDirectoryEligibility": "incomplete",
+        "finalReview": "not-complete"
+    },
+    "deployment": "No commit or deployment authorised for this goal."
+}

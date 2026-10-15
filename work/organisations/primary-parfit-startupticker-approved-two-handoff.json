@@ -1,0 +1,23 @@
+{
+    "apply": false,
+    "status": "main-published-independently-verified-frozen-do-not-reapply",
+    "publication": "Main reports exact two previewed/applied once and independently verified, population 1159. Agent performed asset uploads only, not organisation writes.",
+    "organisationWrites": 0,
+    "registryPopulation": 1148,
+    "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-approved-two-hosted-ready.json",
+    "freshChecks": "/tmp/zurich-registry-review/primary-parfit-startupticker-approved-two-checks.json",
+    "assetAuthorization": "Main visually approved unchanged Lookthrough two-ring icon and Aeon symbol on peach circle at 32px and explicitly authorised supported uploads. Publisher verified remote SHA-256 and public CORS for both.",
+    "historicalHandoffs": [
+        "work/organisations/primary-parfit-startupticker-lookthrough-handoff.json",
+        "work/organisations/primary-parfit-startupticker-aeon-handoff.json"
+    ],
+    "aeonDevelopment": {
+        "source": "https://www.linkedin.com/jobs/view/4429826131",
+        "provenance": "Reached through the VP Software post on the exact corporate account directly linked by Aeon's own website: https://www.linkedin.com/company/aeon-life/ -> https://lnkd.in/eyUg3BjX.",
+        "evidence": "The employer describes an existing engineering team and a hands-on technical lead coding daily. Responsibilities cover architecture of Aeon's patient-facing health platform, medical partner portal and AI-module integration, code reviews and engineering standards. Hybrid Winterthur office attendance is specified. This is substantive maintained software development, not an inference from the CPTO title or imaging-service marketing.",
+        "recency": "Read 2026-10-15; listing says posted three months ago and no longer accepting applications. Supports recent team/platform development, not a claim of a currently open vacancy.",
+        "limits": "Do not reproduce diagnostic efficacy guarantees or claim the platform already has SaMD approval; the job describes a transition toward those processes. Registered address label retained."
+    },
+    "lookthrough": "Own in-house SaaS development and representative office already independently reviewed by main. Preserve Brandschenkestrasse 38 spelling supported by UID despite own contact typo. Do not claim BuildingMinds transaction has completed.",
+    "nextAction": "No further publication action. Preserve packet as historical evidence; do not reapply."
+}

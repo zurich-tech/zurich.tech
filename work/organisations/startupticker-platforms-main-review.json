@@ -1,0 +1,27 @@
+{
+    "date": "2026-10-15",
+    "status": "unpublished-review",
+    "reviews": [
+        {
+            "slug": "xelon",
+            "sources": [
+                "https://www.xelon.ch/hq",
+                "https://www.xelon.ch/ueber-uns",
+                "https://www.xelon.ch/impressum"
+            ],
+            "finding": "Main read original Xelon HQ orchestration launch2019, continuing platform development and named team, Cloudpilot evolution2026, and Poststrasse15 Zug address with matching UID. This is original software development, not merely third-party hosting. Include Cloudpilot in alias checks rather than creating a separate product listing.",
+            "artwork": "Main directly viewed official compact symbol; supported upload approved"
+        },
+        {
+            "slug": "open-forest-protocol",
+            "sources": [
+                "https://www.openforestprotocol.org/blog/introducing-naturegrid-by-open-forest-protocol-the-operating-system-for-nature-monitoring",
+                "https://www.iubenda.com/privacy-policy/33938219/full-legal"
+            ],
+            "finding": "Main read June2026 NatureGrid announcement: original offline mobile collection and web dashboard combining field and remote-sensing data. Ignore unrelated template placeholder text. Main separately inspected saved successful legal capture identifying Open Forest AG,Unter Altstadt28,6300Zug; live web-reader failure is not contradictory evidence.",
+            "remaining": "Check local technical presence and classification; retain Registered address rather than implying working office",
+            "artwork": "Main revoked initial approval after inspecting full asset: dark full wordmark is too small at marker size. Require genuine compact official logo or verified readable alternative; no publication yet"
+        }
+    ],
+    "productionWrites": 0
+}

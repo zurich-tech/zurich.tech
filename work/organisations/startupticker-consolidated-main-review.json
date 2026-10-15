@@ -1,0 +1,108 @@
+{
+    "reviewedOn": "2026-10-15",
+    "status": "sixteen published and independently verified",
+    "handoff": "work/organisations/primary-parfit-startupticker-consolidated-handoff.json",
+    "approvedArtwork": [
+        "c-technology",
+        "gonina",
+        "cue-labs",
+        "scyai",
+        "visorway",
+        "viesus",
+        "motif-ai",
+        "kelva-systems",
+        "trilliome",
+        "billoba",
+        "hemetron",
+        "peelpack",
+        "noemon",
+        "cedric",
+        "iqtax",
+        "aderis"
+    ],
+    "artworkReview": "Main inspected the consolidated contact sheet at 32px and larger sizes. Original CUE, Noemon and Cedric marks are branding, not generated initials. Original 32px favicons are not represented as high-resolution sources. Sixteen assets approved for hosting; no organisation import approval is implied by hosting.",
+    "artworkHolds": {
+        "nordfen": "Full wordmark is unreadable at marker scale; seek an official compact mark without inventing a crop",
+        "goneon": "Confirm existing map backing or an official alternate preserves contrast",
+        "porters": "Confirm existing map backing or an official alternate preserves contrast",
+        "fainite": "Confirm existing map backing or an official alternate preserves contrast",
+        "alligator": "Confirm existing map backing or an official alternate preserves contrast",
+        "zerolook": "Confirm existing map backing or an official alternate preserves contrast"
+    },
+    "primaryChecks": [
+        {
+            "slugs": ["cue-labs"],
+            "sources": ["https://cue.dev/about/", "https://cue.dev/imprint/"],
+            "finding": "Original language stewardship and enterprise configuration products; imprint confirms Gotthardstrasse 28 Zug. Registered address does not imply an engineering office."
+        },
+        {
+            "slugs": ["iqtax"],
+            "sources": [
+                "https://www.iqtax.ch/uber-uns",
+                "https://www.postfinance.ch/de/support/services/tools-rechner/taxoptimizer.html"
+            ],
+            "finding": "Own development team and existing software explicitly confirmed by PostFinance partner. Published Rotkreuz address matches preparation. Do not reproduce financial or security assurances."
+        },
+        {
+            "slugs": ["aderis"],
+            "sources": ["https://aderis.com/en/about", "https://aderis.com/de/kontakt"],
+            "finding": "Own multi-ledger finance platform; company publishes Seestrasse 139 Kilchberg headquarters."
+        },
+        {
+            "slugs": ["c-technology", "gonina", "scyai"],
+            "sources": [
+                "https://ctechnology.io/imprint",
+                "https://www.gonina.com/",
+                "https://www.scyai.com/about",
+                "https://www.scyai.com/"
+            ],
+            "finding": "Current company and product pages support prepared identities and software descriptions. c.technology current imprint supersedes the older shop address."
+        },
+        {
+            "slugs": ["visorway"],
+            "sources": [
+                "https://www.visorway.ai/assets/blog-content/visorway-raises-preseed-round.html"
+            ],
+            "finding": "Current company announcement identifies original methodology encoded into maintained AI sourcing services and Technopark headquarters. Service-led business model alone is not exclusion; original software evidence remains required."
+        },
+        {
+            "slugs": ["viesus", "motif-ai"],
+            "sources": ["https://www.viesus.com/about-us", "https://www.chatwithmotif.com/"],
+            "finding": "Viesus explicitly independent from former parent since 2023, with own image algorithms and Dielsdorf address. Motif publishes its temporal graph and agent architecture; avoid repeating advisory performance promises."
+        },
+        {
+            "slugs": ["kelva-systems", "noemon"],
+            "sources": ["https://kelva-systems.ch/", "https://noemon.com/"],
+            "finding": "Main Chrome review after reader failure. Kelva describes own concrete storage blocks and Empa material development. Noemon links original research code and official social profiles. No independent validation of engineering performance or benchmark claims is implied."
+        },
+        {
+            "slugs": ["trilliome", "billoba", "hemetron", "peelpack"],
+            "sources": [
+                "https://www.trilliome.com/",
+                "https://www.billoba.com/",
+                "https://www.hemetron.com/",
+                "https://peelpack.ch/"
+            ],
+            "finding": "Original bioactives, foam materials, electrochemical reader and biopolymer development respectively. Describe development without repeating health, safety, certification or efficacy claims. PeelPack directly publishes Josefstrasse 219."
+        },
+        {
+            "slugs": ["cedric"],
+            "sources": ["https://meet-cedric.com/privacy"],
+            "finding": "SFF S26 AG operator and Westhive Hardturm office explicitly published. Keep one operator profile rather than duplicating its three product brands."
+        }
+    ],
+    "publication": {
+        "manifest": "/tmp/zurich-registry-review/primary-parfit-startupticker-approved-sixteen-hosted-ready.json",
+        "before": 1194,
+        "after": 1210,
+        "freshIdentityReview": "2026-10-15T06:16:04.593Z: no exact name, slug or host matches; additional operator and product alias search returned none",
+        "images": "All16 expected hashes, decoding and CORS passed at2026-10-15T06:16:12.481Z",
+        "sharedAddressesReused": 6,
+        "previewCount": 16,
+        "applyCount": 16,
+        "independentlyVerifiedCount": 16,
+        "frozen": true,
+        "verification": "Full production readback matched name, type, headline, description, website, logo, topics, locality, office label, address identity or exact fields, and expected social links"
+    },
+    "productionWrites": 16
+}

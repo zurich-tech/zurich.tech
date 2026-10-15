@@ -1,0 +1,650 @@
+{
+    "checkedAt": "2026-10-15",
+    "population": 1159,
+    "productionWrites": 0,
+    "records": [
+        {
+            "name": "CCRAFT",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own foundry site identifies Rue Jaquet-Droz 1, Neuchatel. Original thin-film lithium niobate process and maintained PDKs are explicitly supported by CSEM spinout history. No target-region site established; customer-driven foundry work is not dismissed as generic consultancy.",
+            "sources": [
+                "https://www.ccraft.com/",
+                "https://www.ccraft.com/about-us",
+                "https://www.ccraft.com/technology"
+            ]
+        },
+        {
+            "name": "MYSTONES",
+            "decision": "outside-region-primary-corporate-location",
+            "reason": "Own company page identifies original athlete software and backend/frontend developers; exact-domain corporate profile places company in Lausanne 1018. No Zurich/Zug operation established. This is a city-level disposition, not verification of an exact building.",
+            "sources": [
+                "https://mystones.ch/about-us/",
+                "https://ch.linkedin.com/company/mystonestrackandfield"
+            ]
+        },
+        {
+            "name": "Skilder",
+            "decision": "outside-region-current-primary-operator",
+            "reason": "Own August 2026 legal notice identifies skilder.ai SA at Unlimitrust Campus, Route des Flumeaux 52, Prilly. Own maintained AI-role platform acknowledged. Infrastructure hosting in Geneva is not mistaken for the company's operating office; no Zurich/Zug site established.",
+            "sources": ["https://www.skilder.ai/en/legal-notice/", "https://www.skilder.ai/en/"]
+        },
+        {
+            "name": "Kyra",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Exact-domain corporate primary profile describes its original grid model and physics-informed forecasting; public UID page independently confirms Kyra Energy Solutions GmbH CHE396903554, c/o BlueLion Stiftung, Josefstrasse 219, Zurich. Use Registered address, not an inferred engineering office. Not US Kyra Health. Exact-name/domain absent in 1235 snapshot.",
+            "sources": [
+                "https://www.linkedin.com/company/kyraenergysolutions/",
+                "https://kyra-solutions.com/",
+                "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE396903554"
+            ],
+            "capture": "/tmp/zurich-registry-review/primary-parfit-startupticker-kyra-uid.html",
+            "remaining": "Prepare genuine logo, canonical topics and importer row; reuse existing BlueLion address. Do not import incomplete record."
+        },
+        {
+            "name": "Memorises Bio",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Memo's own archive and acquirer announcement distinguish the Dropzylla platform/Rec-IgG carve-out from potravitug retained in acquired Memo. Current corporate profile and Swiss Biotech member listing confirm Memorises Bio's antibody-platform activity and Wagistrasse 27, Schlieren. Do not copy potravitug to this profile or assume it remains Memo's platform. No exact-name record in 1235 snapshot.",
+            "sources": [
+                "https://memo-therapeutics.com/further-information/",
+                "https://ch.linkedin.com/company/memorises-bio",
+                "https://www.swissbiotech.org/listing/memorises-bio-ag/"
+            ],
+            "remaining": "Official standalone website/logo and importer identity verification remain; member location supports preparation but no ready packet asserted."
+        },
+        {
+            "name": "Talentir",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own product and founders' story attribute maintained payout, reconciliation and API platform to Talentir, not generic financial consulting. October 2026 terms identify operator Talentir LLC CHE146889750 at Stockerstrasse 38, Zurich. Label legal address conservatively; no all-local-development or yield guarantee claimed.",
+            "sources": [
+                "https://www.talentir.com/",
+                "https://www.talentir.com/story",
+                "https://www.talentir.com/legal/terms-and-conditions"
+            ],
+            "remaining": "Fresh alias check, official compact logo, social scan, coordinates/shared-address check and importer packet outstanding."
+        },
+        {
+            "name": "SecuSuisse",
+            "decision": "hold-group-profile-attribution-main-review",
+            "reason": "Generic integration is extensive, but Q.key is an original maintained software service operated by QBIC at In der Luberzen 40, Urdorf. SecuSuisse's June 2026 primary announcement explicitly identifies QBIC as subsidiary. Thus do not reject entire group as resale-only. SecuSuisse local HQ is Kapfstrasse 44, Bubikon; Q.Suite claims alone are not treated as proof of a delivered product.",
+            "sources": [
+                "https://www.secusuisse.ch/service",
+                "https://www.secusuisse.ch/services/zutrittsmanagement",
+                "https://qkey.ch/",
+                "https://qkey.ch/nutzungsbestimmungen/",
+                "https://www.secusuisse.ch/news/secusuisse-ist-neu-teil-der-prosero-group"
+            ],
+            "question": "Prefer the actual software operator QBIC at Urdorf or a single SecuSuisse group profile explicitly attributing Q.key to its subsidiary? Avoid duplicate group/technology entries."
+        },
+        {
+            "name": "Crion",
+            "decision": "hold-exact-local-site-primary-confirmation",
+            "reason": "Exact-domain corporate profile supports original outdoor platform and lists Lugano HQ plus Rumlang 8153. Own homepage and legal-page reader attempts failed. Corporate officer residence in Rumlang does not establish a business office, so neither a location guess nor outside-region exclusion is justified.",
+            "sources": ["https://www.linkedin.com/company/crion/", "https://www.crion.org/"],
+            "question": "What published exact address and business-site role substantiate the company's Rumlang location? City-only corporate profile cannot place a marker.",
+            "attempts": [
+                "Own homepage web reader inaccessible",
+                "Own privacy-policy path inaccessible",
+                "Exact Rumlang search returned corporate profile and officer-residence register mentions, not a street-level company office"
+            ]
+        },
+        {
+            "name": "Transcendance",
+            "decision": "outside-region-primary-acquired-identity",
+            "reason": "Archive article 8.31 concerns TEC Group acquisition of Transcendance Sarl watchmaking decoration, corroborated by acquiring investor and company profile in Le Sentier, Vallee de Joux. Not the unrelated Transcendance Incorporation software website. Building differs between directory and corporate profile, so geography only is resolved; no exact address or technology rejection asserted.",
+            "sources": [
+                "https://www.sienna-pe.com/news/",
+                "https://www.linkedin.com/company/transcendance-s%C3%A0rl/",
+                "https://www.valleedejoux.ch/entreprises-commerces/transcendance-sarl/"
+            ]
+        },
+        {
+            "name": "Minysa",
+            "decision": "outside-region-primary-host-supported",
+            "reason": "Microcity's own startup programme identifies support for Minysa's GaN power technology; company profile records incorporation and establishment at Microcity Neuchatel in October 2025. Own domain and Venture Kick article were unavailable to reader, so precise current building remains unverified. No target-region evidence; not considered inactive or technically ineligible.",
+            "sources": ["https://microcity.ch/programme-startup", "https://www.startup.ch/minysa"],
+            "limitation": "Current own legal-address page unavailable; host evidence plus company profile supports outside-region disposition, not exact-address verification."
+        },
+        {
+            "name": "LOXO",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own current autonomous-driving software site identifies LOXO AG at Zieglerstrasse 29, Bern, and German subsidiary expansion. Original Digital Driver is acknowledged. Customer delivery projects or pilots do not establish a Zurich/Zug company office. Not the unrelated recruitment platform Loxo.",
+            "sources": ["https://www.loxo.ch/"]
+        },
+        {
+            "name": "MoleSense",
+            "decision": "outside-region-current-primary-development-location",
+            "reason": "Own current technical vacancy expressly identifies the biosensor development team and on-site workplace at Biopole Lausanne. Own Wear & Forget technology is supported; invitation for ETH students to apply is not a Zurich operation. Exact building not asserted.",
+            "sources": [
+                "https://www.molesense.ch/",
+                "https://www.molesense.ch/jobs/master-thesis-in-materials-science-nanotechnology"
+            ]
+        },
+        {
+            "name": "Cria Technologies",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own current site identifies incubation and address at Fongit, Route de la Galaise 34, Plan-les-Ouates. Original high-vacuum containers and monitoring application acknowledged. ETH cryo-EM lab validation is customer/partner evidence, not a Zurich office.",
+            "sources": ["https://www.cria-tech.com/", "https://www.linkedin.com/company/cria-tech/"]
+        },
+        {
+            "name": "Sonar",
+            "decision": "outside-region-current-primary-location-inventory",
+            "reason": "Own current international office inventory identifies Swiss HQ at Chemin de Blandonnet 10, Vernier, and overseas locations. No Zurich/Zug office listed. SonarSource alias resolved; original software recognised, not confused with Swiss Re SONAR research programme.",
+            "sources": ["https://www.sonarsource.com/company/contact/"]
+        },
+        {
+            "name": "Ex Nunc Intelligence",
+            "decision": "outside-region-current-primary-operator",
+            "reason": "Current Silex privacy policy identifies operator Ex Nunc Intelligence SA at EPFL Innovation Park, Building C, Lausanne. Original legal research SaaS acknowledged. Rebrand is not disappearance or a second company; no Zurich/Zug operation established.",
+            "sources": ["https://silex.legal/en/privacy-policy"]
+        },
+        {
+            "name": "Equadis",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Current own contact footer identifies Equadis SA at Rue du Tunnel 6, Carouge GE. Own product data and analytics platform acknowledged. Corporate office inventory also names Geneva and foreign cities, not Zurich/Zug.",
+            "sources": [
+                "https://equadis.com/contact/",
+                "https://www.linkedin.com/posts/equadis_discover-our-international-offices-equadis-activity-7193150029396635648-BD7d"
+            ]
+        },
+        {
+            "name": "Proxipel",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Current own catalogue and June 2026 launch identify original Proxiflex mobile pelletising machinery. Current footer lists ZI Le Tresi 2, Preverenges; older privacy address Le Vaud is not substituted. Neither establishes Zurich/Zug operation.",
+            "sources": ["https://proxipel.ch/en/", "https://proxipel.ch/en/cookie-policy/"]
+        },
+        {
+            "name": "SmartHelio",
+            "decision": "outside-region-current-primary-location-inventory",
+            "reason": "Own current contact identifies HQ at Route des Flumeaux 48, Prilly and India office. Original GAIA/Autopilot solar analytics is acknowledged. Older Lausanne privacy address is not substituted for current HQ; no Zurich/Zug site established.",
+            "sources": ["https://smarthelio.com/contact/", "https://smarthelio.com/"]
+        },
+        {
+            "name": "AveoliX",
+            "decision": "outside-region-current-primary-location-inventory",
+            "reason": "Source spelling resolves to AlveoliX, organ-on-chip company. Own contact identifies labs and HQ at Freiburgstrasse 3, Bern and production in Biel/Nidau, with specific Aarbergstrasse 46 address. No Zurich/Zug site listed. Not the unrelated Auvellix retail shop returned by broad search.",
+            "sources": ["https://www.alveolix.com/contact-us/"]
+        },
+        {
+            "name": "Combioxin",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own current contact lists Route de la Corniche 8, Epalinges. No Zurich/Zug establishment confirmed; no technical eligibility rejection inferred from location.",
+            "sources": ["https://www.combioxin.com/contact/"]
+        },
+        {
+            "name": "Kandou AI",
+            "decision": "outside-region-current-primary-location-inventory",
+            "reason": "Current own global office inventory identifies Swiss HQ Kandou Bus SA at Rue des Jordils 1B, Saint-Sulpice, plus offices abroad. No Zurich/Zug operation listed. Kandou AI is not treated as a separate new entity from Kandou Bus.",
+            "sources": ["https://www.kandou.ai/contact", "https://www.kandou.ai/privacy-policy"]
+        },
+        {
+            "name": "LEM Surgical",
+            "decision": "outside-region-current-primary-development-location",
+            "reason": "Own current homepage expressly locates development and manufacture of Dynamis surgical robotics in Bern; current engineering vacancy also Bern. Imprint gives Morgenstrasse 36 whereas older vacancy PDF gives 136, so no exact building is asserted. Both are outside scope. Not confused with LEM electrical sensor company.",
+            "sources": [
+                "https://lemsurgical.com/",
+                "https://lemsurgical.com/impressum/",
+                "https://lemsurgical.com/lem-surgical-job-opportunities/"
+            ]
+        },
+        {
+            "name": "ORYL Photonics",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Current own instrument and measurement-service contact locates ORYL Photonics SA at Biopole, Route de la Corniche 5B, Epalinges. Own F1 measurement technology acknowledged; no Zurich/Zug establishment confirmed.",
+            "sources": [
+                "https://www.orylphotonics.com/company/contact/",
+                "https://www.orylphotonics.com/products/measurement-services/"
+            ]
+        },
+        {
+            "name": "Hydromea",
+            "decision": "outside-region-current-primary-location",
+            "reason": "Own June and August 2026 technical partnership announcements identify Renens/Lausanne operations; corporate public profile lists Avenue de Longemalle 9, Renens and current technical hiring there. Original EXRAY and optical communications qualify technically; no target-region location established.",
+            "sources": ["https://www.hydromea.com/news", "https://fr.linkedin.com/company/hydromea"]
+        },
+        {
+            "name": "ABCDx",
+            "decision": "outside-region-current-primary-location-inventory",
+            "reason": "Own current contact inventory lists Swiss operation at Fongit, 34 route de la Galaise, Plan-les-Ouates, and Spanish operation in Barcelona. No Zurich/Zug site listed. This is geography, not a rejection of diagnostic technology.",
+            "sources": ["https://www.abcdx.ch/contact"]
+        },
+        {
+            "name": "Isospec Analytics",
+            "decision": "outside-region-primary-corporate-location",
+            "reason": "Own company history identifies original EPFL molecular identification technology; exact-domain corporate profile places HQ Lausanne 1015. Own imprint is placeholder text and is not valid legal-address evidence. No Zurich/Zug site established; no precise building invented.",
+            "sources": [
+                "https://www.isospecanalytics.com/company",
+                "https://www.isospecanalytics.com/imprint",
+                "https://www.linkedin.com/company/isospec-analytics/"
+            ]
+        },
+        {
+            "name": "Logol",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own product catalogue identifies ELLE legal software and EFFE financial software with maintained modules, APIs and commercial plans, separately from implementation services. Current own contact identifies Logol AG CHE306365387 at Sennweidstrasse 43, Steinhausen. Microsoft infrastructure does not negate original application development. Fresh alias dedup, geometry and assets remain outstanding.",
+            "sources": ["https://www.logol.com/", "https://www.logol.com/effe"]
+        },
+        {
+            "name": "SeasON Energy",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own technical description identifies sodium-hydroxide sorption heat storage, functioning pilot installations and ongoing optimisation, standardisation and scaling. Current own contact identifies SeasON Energy AG at Schanzengasse 10, Zurich. Pilot development qualifies; no commercial maturity or performance guarantee inferred. Alias dedup, geometry and assets remain outstanding.",
+            "sources": ["https://www.seasonenergy.ch/", "https://www.seasonenergy.ch/kontakt"]
+        },
+        {
+            "name": "Carewell",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own staffing marketplace and current contact identify Carewell SA at Rue du Grand-Pre 4, 1007 Lausanne. No Zurich/Zug establishment confirmed; nationwide customer coverage is not an office. Not excluded as generic staffing merely because of its sector.",
+            "sources": ["https://www.carewell.ch/", "https://www.carewell.ch/contact"]
+        },
+        {
+            "name": "Tortin",
+            "decision": "outside-region-current-primary-operator",
+            "reason": "Own teaching software and privacy policy identify Swiss operator Tortin Ventures Sarl CHE142665855 at Chemin des Tattes 7b, Vesenaz, alongside Qatar entity. Original teaching platform acknowledged; Swiss origin does not establish Zurich/Zug presence.",
+            "sources": [
+                "https://tortin.com/",
+                "https://tortin.com/privacy",
+                "https://tortin.com/about"
+            ]
+        },
+        {
+            "name": "Arrhenius",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Current own contact identifies Arrhenius AG office at Ebenaustrasse 20, 6048 Horw. No Zurich/Zug site confirmed. This resolves geography only and is not a technology or activity exclusion.",
+            "sources": ["https://arrhenius.com/de/kontakt/"]
+        },
+        {
+            "name": "MB Cyber Security",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own current appliance catalogue identifies original ML detection and Swiss-made security software, not generic firewall resale. Imprint identifies MB Cyber Security AG CHE188107206, Dammstrasse 16, Zug. Own footer links exact corporate LinkedIn. Geometry and genuine compact logo remain unprepared; not included in consolidated prepared handoff.",
+            "sources": [
+                "https://mbcybersecurity.com/en/",
+                "https://mbcybersecurity.com/en/impressum",
+                "https://www.linkedin.com/company/mbcybersecurity"
+            ]
+        },
+        {
+            "name": "Arviem",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own current platform describes maintained cargo analytics and CTO/product team, while EU project record attributes original cloud risk-management development to Arviem. Third-party monitoring devices are not misrepresented as original hardware. Current contact is Haldenstrasse 5, Baar; historical grant record Haldenstrasse 3 is not substituted. Geometry, official compact asset and public social scan remain to prepare.",
+            "sources": [
+                "https://arviem.com/",
+                "https://arviem.com/about-arviem/",
+                "https://arviem.com/contact-us/",
+                "https://cordis.europa.eu/project/id/885924"
+            ]
+        },
+        {
+            "name": "ServiceHunter",
+            "decision": "represented-reviewed-operator-alias",
+            "registrySlug": "quitt",
+            "reason": "Own corporate history and current quitt terms identify ServiceHunter AG as operator of quitt and quinn. Exact quitt organisation exists in fresh 1191 snapshot. Do not import a second legal-operator profile.",
+            "sources": ["https://servicehunter.ch/en/about-us/", "https://quitt.ch/en/gtc/"]
+        },
+        {
+            "name": "AgroSustain",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own pre/post-harvest product site attributes product development to Swiss specialists and gives Rue de Lausanne 64, 1020 Renens. Original biocoating and agricultural technology acknowledged; no target-region location established.",
+            "sources": ["https://www.agrosustain.ch/"]
+        },
+        {
+            "name": "OceanSafe",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own polymer/materials development site and current contact identify OceanSafe AG at Stauffacherstrasse 66a, Berne. Original naNea/coNea materials qualify technically; no Zurich/Zug operating site established.",
+            "sources": ["https://www.oceansafe.co/", "https://www.oceansafe.co/en/contact"]
+        },
+        {
+            "name": "Meteomatics",
+            "decision": "outside-region-current-primary-location-inventory",
+            "reason": "Own current office inventory places Swiss company at Unterstrasse 12, St Gallen, alongside foreign offices. No Zurich/Zug office listed. Own weather API, models and drones are acknowledged; this is geography, not technology rejection.",
+            "sources": ["https://www.meteomatics.com/en/contact/"]
+        },
+        {
+            "name": "Rhonexum",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own 2026 site describes cryogenic integrated circuits and modelling technology, with current funding news and contact at EPFL Innovation Park Building C, Lausanne. Under-construction banner is not inactivity evidence. No target-region location established.",
+            "sources": ["https://rhonexum.com/"]
+        },
+        {
+            "name": "NaturLoop",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own current contact lists Solothurnstrasse 102, Biel. Original Cocoboard biocomposite development is supported by own product/company material, but no Zurich/Zug operation established. Not the unrelated Malaysian Natureloop brand.",
+            "sources": [
+                "https://naturloop.com/contact/",
+                "https://naturloop.com/naturloop-ready-to-scale-sustainable-innovation-with-cocoboard/"
+            ]
+        },
+        {
+            "name": "MEMBRYX",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own current protective-textile development site identifies Magnusstrasse 3, 8739 Rieden SG and explicitly confirms Phantomleaf Textiles rebrand and Getzner group membership. Original textile development acknowledged; acquisition is not inactivity. Not US AI-chip company MemryX.",
+            "sources": ["https://www.membryx.com/"]
+        },
+        {
+            "name": "Phantomleaf Textiles",
+            "decision": "duplicate-source-rebranded-membryx",
+            "reason": "Successor's own homepage explicitly says Phantomleaf Textiles becomes Membryx. Reconcile same company at Rieden SG rather than a separate omission or closure.",
+            "sources": ["https://www.membryx.com/"]
+        },
+        {
+            "name": "Efteor",
+            "decision": "outside-region-primary-certified-production-site",
+            "reason": "Current certification body record and 2025-2028 certificate identify Efteor SA watch-case manufacturing site at Bassecourt. Own website could not be read, but the issuer's current audited entity scope establishes location rather than an unfetched-site hold. No target-region site established.",
+            "sources": [
+                "https://www.responsiblejewellery.com/member/efteor-sa/",
+                "https://www.responsiblejewellery.com/wp-content/uploads/Efteor-SA-RJC-Certificate-COC-2025-EU.pdf"
+            ]
+        },
+        {
+            "name": "ReproNovo",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Current own company/pipeline page identifies Rue de Langallerie 11, Lausanne, with October 2026 announcements locating operations in Lausanne and Copenhagen. Original investigational fertility therapeutics acknowledged without implying commercial approval.",
+            "sources": ["https://repronovo.com/"]
+        },
+        {
+            "name": "Télôs Watch",
+            "decision": "outside-region-primary-contact",
+            "reason": "Exact Swiss watch-mechanism developer identifies Rue du Parc 1, La Chaux-de-Fonds on its company and concepts pages. Its own movements are substantive engineering; exclusion is geography, not commissioned-development status. Not Greek Telos Watches or US Telos Corporation.",
+            "sources": [
+                "https://www.teloswatch.ch/en/index.html",
+                "https://www.teloswatch.ch/en/concept.html"
+            ]
+        },
+        {
+            "name": "Hafnova",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own current office contact identifies Chemin du Bois-de-Vaux 3, Lausanne, corroborated by current official UID CHE221636618. Original DoHzel security software documentation confirms own technology; no target-region office established.",
+            "sources": [
+                "https://hafnova.com/en/contact-us",
+                "https://app.hafnova.com/doc/",
+                "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-221.636.618"
+            ]
+        },
+        {
+            "name": "FloBiotech",
+            "decision": "outside-region-current-primary-contact",
+            "reason": "Own current FloCells disease-modelling platform and partner pages identify Klybeckstrasse 141, Basel. Original early-stage human brain-cell models qualify technically; no Zurich/Zug operation established. Collaboration geography alone is not a company office.",
+            "sources": ["https://flo-biotech.com/", "https://flo-biotech.com/investors-partners/"]
+        },
+        {
+            "name": "WIZE",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own company history attributes original wealth-management platform to team and records WIZE SA's 2022 separation from TeamWork. Current contact explicitly publishes Zurich team location c/o TeamWork Schweiz, Prime Tower, Hardstrasse 201, as well as Geneva and Singapore. Neither a Geneva-only exclusion nor generic TeamWork client implementation. Exact identity/shared address, geometry, compact official asset and social verification remain to prepare; no importer-ready claim.",
+            "sources": [
+                "https://www.wize.net/en/welcome-wize",
+                "https://www.wize.net/en/contact",
+                "https://ch.linkedin.com/company/wizeitplatform"
+            ]
+        },
+        {
+            "name": "Hilo",
+            "decision": "outside-region-current-primary-operator",
+            "reason": "Current regulatory and legal page names Aktiia SA CHE149232500 at Rue du Bassin 8a, Neuchatel as operator and medical software manufacturer, including a 2026 backend version. Original technology is clear; no Zurich/Zug site established. Rebrand is not company disappearance.",
+            "sources": ["https://hilo.com/en-eu/pages/legal"]
+        },
+        {
+            "name": "Prodlane",
+            "decision": "outside-region-primary-operator",
+            "reason": "Exact source identifies the St Gallen university spinout. Its MAIA product legal notice identifies Prodlane GmbH HRB39585 at Loehrstrasse 15, Leipzig. Swiss academic origin is not evidence of a Zurich/Zug operating location.",
+            "sources": [
+                "https://www.getmaia.ai/impressum",
+                "https://www.startupticker.ch/en/news/ki-startup-prodlane-sammelt-4-millionen-euro-ein"
+            ]
+        },
+        {
+            "name": "AELER",
+            "decision": "outside-region-primary-location-inventory",
+            "reason": "Own location inventory lists Swiss headquarters in Lausanne and offices in Porto and Hamburg. Original smart-container technology is acknowledged. Building I in this captured contact version differs from other Building D evidence but both locate the Swiss company in Lausanne; no target-region site established.",
+            "sources": [
+                "https://www.aeler.com/contact?4a9183db_page=0",
+                "https://www.epfl-innovationpark.ch/companies/details?id=10881"
+            ]
+        },
+        {
+            "name": "EnergieLink",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own complete incineration-system catalogue explicitly attributes component development to its engineers and reports installations in multiple plants. Waste-feed and deslagging products are original engineering, not just maintenance or reselling. Current Swiss location is Riedstrasse 6, 8953 Dietikon. Exact geometry, genuine compact asset and public socials still require preparation; not importer ready.",
+            "sources": [
+                "https://energielink.eu/en/what-we-produce-en/system-solution-incineration-technology",
+                "https://energielink.eu/en/who-we-are-en/where-we-are-en"
+            ]
+        },
+        {
+            "name": "DriveLab",
+            "decision": "eligible-platform-preparation-outstanding",
+            "reason": "Current partner catalogue specifies its 2026 instructor app, digital training records, scheduling and customer dashboard. Own October 2026 company page distinguishes platform team from independent driving schools and identifies DriveLab GmbH CHE313205027, registered and postal address Lauriedhofweg 12, Zug. Prepare operator once, not acquired todrive.ch separately. Exact geometry, compact official artwork and corporate socials remain outstanding.",
+            "sources": [
+                "https://drivelab.ch/partner/",
+                "https://drivelab.ch/about/",
+                "https://www.startupticker.ch/en/news/drivelab-uebernimmt-fahrschulvergleich-todrive-ch"
+            ]
+        },
+        {
+            "name": "todrive.ch",
+            "decision": "duplicate-source-platform-under-drivelab",
+            "reason": "Acquisition article explicitly assigns continuing development of both retained platforms to DriveLab GmbH. This is an operator alias, not evidence that todrive.ch disappeared. Reconcile with DriveLab preparation and do not create a second organisation.",
+            "sources": [
+                "https://www.startupticker.ch/en/news/drivelab-uebernimmt-fahrschulvergleich-todrive-ch",
+                "https://todrive.ch/",
+                "https://drivelab.ch/about/"
+            ]
+        },
+        {
+            "name": "ABILITY Neurotech",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current development history explicitly places independent Wyss spinout and founding technical team at Campus Biotech, Geneva. Original investigational BCI technology confirmed; first-in-human activity is not commercial approval or evidence of a Zurich site.",
+            "sources": ["https://abilityneuro.com/"]
+        },
+        {
+            "name": "Tipiog",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own March 2026 privacy notice identifies Zentrum Staldenbach 6, 8808 Pfaeffikon SZ. Own product catalogue is prepared tapioca; no Zurich/Zug operation established.",
+            "sources": [
+                "https://tipiog.com/policies/privacy-policy",
+                "https://tipiog.com/products/tapioca"
+            ]
+        },
+        {
+            "name": "PLASH",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own legal notice and seller terms identify Gerhard Petzl's PLASH Mocktails, Grand-Rue, 1814 La Tour-de-Peilz, CHE207791467. Both language variants agree locality, notwithstanding omitted street number in German.",
+            "sources": [
+                "https://www.drinkplash.com/impressum",
+                "https://www.drinkplash.com/en/impressum",
+                "https://www.drinkplash.com/terms-conditions"
+            ]
+        },
+        {
+            "name": "HeroSupport",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own current website explicitly identifies company in Veyrier, Geneva and laboratory at Fondation pour la Recherche, La Tulipe, Avenue de la Roseraie 64, Geneva. Original patient-specific radiotherapy devices confirmed. Not rejected for precommercial status.",
+            "sources": ["https://herosupport.care/"]
+        },
+        {
+            "name": "Maus Robotics",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own current contact, team and roles locate the operating robotics lab at Hammerstrasse 121, 4057 Basel. Founder's ETH degree does not establish a Zurich company site. Original food-preparation robot confirmed.",
+            "sources": [
+                "https://mausrobotics.com/en/contact",
+                "https://mausrobotics.com/en/team",
+                "https://mausrobotics.com/en"
+            ]
+        },
+        {
+            "name": "DiverSsiTy",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current home identifies DiverSsiTy SA, Rue de l'Industrie 23, 1950 Sion, and original applied therapeutic spatial-computing research with HES-SO Valais. Partner relationships do not establish a Zurich branch.",
+            "sources": ["https://diverssity.io/", "https://ch.linkedin.com/company/diverssity"]
+        },
+        {
+            "name": "UNBOOUND",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current site identifies UNBOOUND Medical Technologies SA at Rue de la Rotisserie 2, 1204 Geneva, and Rockefeller spinout developing original SMELL-RS olfactory diagnostic technology. No Zurich/Zug site established.",
+            "sources": ["https://unboound.com/", "https://www.unboound.ch/"]
+        },
+        {
+            "name": "Matcha and Friends",
+            "decision": "exclude-ordinary-tea-retail-and-events",
+            "reason": "Own company story and complete navigation describe sourcing and selling matcha/cacao, recipes, catering supply, ceremonies and community workshops. These are ordinary consumer retail and wellness events rather than original technology production. Do not confuse similarly named LINE theme or competitors' product claims with this company.",
+            "sources": [
+                "https://matchaandfriends.ch/pages/uber-uns",
+                "https://matchaandfriends.ch/en/search"
+            ]
+        },
+        {
+            "name": "42 Zürich",
+            "decision": "eligible-technical-education-preparation-outstanding",
+            "reason": "Own current school site and events establish active project-based software-development education campus at Leutschenbachstrasse 95. Separate technical nonprofit/education criterion applies, not company own-product test. Own imprint says 8052 whereas contact/footer says 8050; exact federal building/postcode verification needed in preparation. Not an accreditation claim or yet a ready importer packet.",
+            "sources": [
+                "https://42zurich.ch/en/home/",
+                "https://42zurich.ch/en/imprint/",
+                "https://42zurich.ch/en/contact/",
+                "https://42zurich.ch/en/events/"
+            ]
+        },
+        {
+            "name": "PrivacyBee",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own February 2026 imprint and September 2026 privacy policy identify PrivacyBee AG CHE399860757 at Laupenstrasse 1, 3008 Bern. Original recurring privacy software confirmed. German landing-page legal widget was empty in reader and HTML; Austrian locale supplied the same Swiss operator explicitly.",
+            "sources": [
+                "https://www.privacybee.io/de-at/impressum/",
+                "https://www.privacybee.io/de-at/datenschutzerklaerung/",
+                "https://www.privacybee.io/"
+            ]
+        },
+        {
+            "name": "fonea",
+            "decision": "outside-region-current-primary-successor",
+            "reason": "Own fonea.ch now redirects to rednea.ch and explicitly announces the rebrand. Current imprint names kraftscale GmbH CHE155650863 at Aastrasse 8, 8853 Lachen SZ. Geographic marketing pages for Zurich/Zug describe service availability, not established offices. Original Swiss-developed phone software acknowledged; not excluded as generic telephony resale.",
+            "sources": [
+                "https://www.fonea.ch/de",
+                "https://www.rednea.ch/de",
+                "https://www.rednea.ch/impressum"
+            ]
+        },
+        {
+            "name": "Fewotech",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own FEWOlution contact identifies platform owner Fewotech GmbH, Muhlernstrasse 53, 3098 Koeniz. Marketplace accommodation locations are not developer offices.",
+            "sources": ["https://fewolution.ch/contact.php", "https://fewolution.ch/"]
+        },
+        {
+            "name": "AVEA",
+            "decision": "hold-exact-building-not-technology",
+            "reason": "Own about page attributes longevity product development to AVEA LIFE AG and research collaborators, distinct from US sales entity in international imprint. Current official UID CHE341800867 confirms active Zug company at Bahnhofplatz but supplies no building number; own editorial address is equally incomplete. Do not choose arbitrary Bahnhofplatz coordinates. Need precise deliverable building before map preparation; no patent or exclusive-development requirement.",
+            "sources": [
+                "https://avea-life.com/pages/about",
+                "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-341.800.867",
+                "https://insights.avea-life.com/editorial/",
+                "https://avea-life.com/pages/impressum"
+            ],
+            "attempts": "Compared current company about, international legal entity, Swiss domain legal path (404), official September-validated UID and own editorial contact."
+        },
+        {
+            "name": "CAZ Cascara",
+            "decision": "exclude-ordinary-beverage-production-scope",
+            "reason": "Own origin and product pages describe importing hand-processed dried coffee pulp from named growers and blending it into a locally produced carbonated drink. Scope is beverage formulation, sourcing and retail; no distinct technological process is described in these production branches. Upcycling marketing or novel-food authorisation alone does not establish original technology. Actual operator Marolini GmbH has Meilen address; this is not a geography exclusion.",
+            "sources": [
+                "https://www.caz-cascara.ch/",
+                "https://www.caz-cascara.ch/origin",
+                "https://www.caz-cascara.ch/impressum"
+            ]
+        },
+        {
+            "name": "botts.ai",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own about expressly describes transition from consulting practice to original multi-channel AI platform. Named AI/product engineer builds the product end to end. Current own about and federal UID agree Neugasse 15, 6300 Zug, CHE381779995. Startup, AI/software engineering; not blanket consulting exclusion. Exact importer geometry, official asset and social capture still to prepare.",
+            "sources": [
+                "https://botts.ai/en/about",
+                "https://botts.ai/en",
+                "https://botts.ai/en/widget-privacy",
+                "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-381.779.995"
+            ]
+        },
+        {
+            "name": "AssetOS",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own platform has original real-estate transaction intake, due-diligence and document-generation workflow; product rights explicitly assigned to AssetOS AG in own imprint. Current Stadthausstrasse 14, 8400 Winterthur, CHE389275681. Not a real-estate brokerage merely using external software. Exact importer geometry, official asset and social capture still to prepare.",
+            "sources": [
+                "https://assetos.ch/en/",
+                "https://assetos.ch/en/imprint/",
+                "https://assetos.ch/en/privacy-policy/"
+            ]
+        },
+        {
+            "name": "valuemize",
+            "decision": "eligible-primary-preparation-outstanding",
+            "reason": "Own product lifecycle costing platform has published software architecture, open API, cloud/on-premise deployment and licensed product. Own site notice identifies valuemize AG CHE185343331, Hohlstrasse 104, Zurich, with separate Munich subsidiary. Not generic cost consulting despite register industry label. Exact importer geometry, official asset and social capture still to prepare.",
+            "sources": [
+                "https://www.valuemize.io/en/site-notice",
+                "https://www.valuemize.io/en/contact"
+            ]
+        },
+        {
+            "name": "Technik Partner",
+            "decision": "exclude-installation-and-integration-catalogue",
+            "reason": "Reviewed all service categories and followed the two plausible technology branches, energy management and monitoring. These describe installing and connecting customer PV, batteries, sensors and DCIM interfaces, with parameterisation, commissioning and support. No original maintained technology is asserted in these branches. This is an affirmative catalogue-scope exclusion, not an inference from its acquisition. Zurich address Albulastrasse 57 is real.",
+            "sources": [
+                "https://www.technikpartner.ch/leistungen",
+                "https://www.technikpartner.ch/leistungen/elektrotechnik/energiemanagement",
+                "https://www.technikpartner.ch/leistungen/rechenzentren/monitoring",
+                "https://www.technikpartner.ch/unternehmen"
+            ],
+            "captures": [
+                "/tmp/zurich-registry-review/primary-parfit-startupticker-technikpartner-energy.html",
+                "/tmp/zurich-registry-review/primary-parfit-startupticker-technikpartner-monitoring.html"
+            ]
+        },
+        {
+            "name": "Cy Biopharma",
+            "decision": "hold-current-swiss-role-after-completed-acquisition",
+            "reason": "Original CY200 neuroplastogen development confirmed. Ensysce's August 6 announcement explicitly says acquisition of Cy Biopharma Inc completed; current own website is combined En+Cy. Official UID still identifies active Swiss Cy Biopharma AG CHE344502550 at Oberneuhofstrasse 6, Baar, with July 31 validation. Orphanet links the exact Swiss sponsor and domain. Not excluded or presumed dissolved. Remaining question is current Swiss operating/sponsor role after the US transaction, and whether entry should use continuing Swiss subsidiary or combined identity.",
+            "sources": [
+                "https://ir.ensysce.com/news/press-releases/detail/222/ensysce-biosciences-announces-acquisition-of-cy-biopharma",
+                "https://www.cybiopharma.com/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE344502550",
+                "https://www.orpha.net/en/institutions/legal-entity/726223"
+            ],
+            "attempts": "Current homepage and issuer transaction read; legacy homepage and guessed contact path unavailable through reader. Register and exact sponsor resolve Swiss identity but do not prove post-acquisition local role."
+        },
+        {
+            "name": "Tier-Inserate",
+            "decision": "acquired-platform-outside-region-parent",
+            "reason": "Acquirer's own August 3 announcement confirms acquisition of tier-inserate.ch as a marketplace by Schweizer Agrarmedien AG, based in Muenchenbuchsee. No separate target-region technical company established. Acquisition does not mean platform disappeared.",
+            "sources": [
+                "https://www.agrarmedien.ch/ueber-uns/aktuelles/medienmitteilung-vom-3-august-2026"
+            ]
+        },
+        {
+            "name": "petfinder",
+            "decision": "acquired-platform-outside-region-parent",
+            "reason": "Exact Swiss petfinder.ch is explicitly named in Schweizer Agrarmedien's completed marketplace acquisition. Do not confuse with US Petfinder or treat old association copy as current independent operator. Acquirer is Muenchenbuchsee; no separate target-region technical company established.",
+            "sources": [
+                "https://www.agrarmedien.ch/ueber-uns/aktuelles/medienmitteilung-vom-3-august-2026",
+                "https://petfinder.ch/ueber-petfinder"
+            ]
+        },
+        {
+            "name": "Timeline",
+            "decision": "outside-region-primary-parent-identity",
+            "reason": "Own company explanation identifies Timeline Longevity as the consumer brand of Amazentis SA, the research company headquartered in Lausanne; US entity is in Florida. Original Mitopure development is acknowledged, not a supplement-resale exclusion. No target-region location established.",
+            "sources": [
+                "https://answers.timeline.com/trust/is-timeline-longevity-legitimate",
+                "https://www.timeline.com/blog/a-novel-molecule-to-promote-longevity"
+            ]
+        },
+        {
+            "name": "SOPHiA GENETICS",
+            "decision": "outside-region-current-primary-locations",
+            "reason": "Current careers location inventory enumerates Swiss headquarters and purpose-built genomics research lab at La Piece 12, Rolle, with Boston and Bidart offices. Product documentation independently lists subsidiaries. No Zurich/Zug operating site in these primary location inventories.",
+            "sources": [
+                "https://careers.sophiagenetics.com/locations",
+                "https://www.sophiagenetics.com/wp-content/uploads/2025/01/Cloud-Service-Technical-Documentation_Jan2025.pdf"
+            ]
+        },
+        {
+            "name": "Hamerly",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current product site identifies Hamerly AG, Herbergstrasse 31, 9524 Zuzwil SG. Original construction workflow software confirmed; DACH customer coverage is not a Zurich office. Not namesake Haemmerle construction contractor.",
+            "sources": ["https://hamerly.co/en", "https://hamerly.co/it/bauleiter-software"]
+        }
+    ]
+}

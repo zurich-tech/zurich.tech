@@ -1,0 +1,175 @@
+{
+    "checkedAt": "2026-10-15",
+    "population": 1159,
+    "productionWrites": 0,
+    "scope": "Only existing finite pages 1-23 extracted names. Unassessed names remain in reconciliation; source-specific geography is not a claim of exhaustive global office coverage.",
+    "records": [
+        {
+            "name": "Kiyo",
+            "decision": "outside-region-current-primary-site",
+            "reason": "LUKB award page links exact toothpaste-tablet developer to kiyo-natural.com, whose imprint gives Kiyo AG CHE290050361, Suesswinkel 7, 6004 Luzern. Not German furniture company kiyo.eu; founder's personal Zurich location is not company premises.",
+            "sources": [
+                "https://www.lukb.ch/zukunftspreis/kiyo",
+                "https://kiyo-natural.com/pages/impressum-1"
+            ]
+        },
+        {
+            "name": "storabble",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current imprint identifies storabble Group AG CHE234705418, Lerchenfeldstrasse 3, 9014 St Gallen. Listed Zurich storage facilities belong to marketplace suppliers and are not company offices.",
+            "sources": ["https://storabble.com/legal-notice", "https://storabble.com/"]
+        },
+        {
+            "name": "Flottando",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current imprint identifies Flottando Technologies SA CHE267797226, Route de la Galaise 34, 1228 Plan-les-Ouates. Own fleet software confirmed. Use this over older Lausanne third-party profile; no target-region location established.",
+            "sources": [
+                "https://www.flottando.com/en/legal/imprint",
+                "https://www.flottando.com/en"
+            ]
+        },
+        {
+            "name": "Walnut Planet",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own imprint identifies Walnut Planet GmbH CHE460805788, Schindellegistrasse 73, 8808 Pfaeffikon SZ. Do not confuse Pfaeffikon ZH. No target-region company site established.",
+            "sources": ["https://walnutplanet.com/impressum/"]
+        },
+        {
+            "name": "siabit",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own ForstControl site identifies siabit AG, Wambisterstrasse 1a, 5412 Gebenstorf as operator/support. September acquisition announcement confirms continuing development and MobiPolter integration. No target-region company site established.",
+            "sources": [
+                "https://forstcontrol.com/",
+                "https://forstcontrol.com/vollstaendigeholzerfassung-fuer-forstcontrol/"
+            ]
+        },
+        {
+            "name": "ForstControl",
+            "decision": "duplicate-source-product",
+            "reason": "Own site explicitly identifies siabit AG as operator; ForstControl is its forestry software, not another organisation. Parent reviewed separately.",
+            "sources": ["https://forstcontrol.com/"]
+        },
+        {
+            "name": "MobiPolter",
+            "decision": "duplicate-source-product",
+            "reason": "siabit's own acquisition release identifies MobiPolter as acquired mobile timber-recording software integrated with ForstControl, not separate company.",
+            "sources": ["https://forstcontrol.com/vollstaendigeholzerfassung-fuer-forstcontrol/"]
+        },
+        {
+            "name": "Avrion Therapeutics",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current connect page identifies Avrion Therapeutics SA at 3DLegal, Rue de Bourg 27, 1003 Lausanne. Original synapse-therapy discovery and delivery research confirmed. Legal contact is not labelled laboratory; no target-region company site established.",
+            "sources": ["https://www.avriontx.com/connect.php", "https://www.avriontx.com/"]
+        },
+        {
+            "name": "Dexterous Endoscopes",
+            "decision": "outside-region-primary-city-level",
+            "reason": "Own current homepage explicitly announces opened office at Biopole Lausanne and investigational variable-stiffness endoscope development. Zurich award ceremony is not company location. Not a match to existing Scope merely because name contains scope.",
+            "sources": ["https://www.dexterousendoscopes.com/"]
+        },
+        {
+            "name": "Gaia Tech",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact labels office at Laenggasse 85, 3052 Zollikofen, c/o BFH-HAFL, and identifies agricultural sidestream ingredients platform. No target-region company site established.",
+            "sources": ["https://www.gaiatech.ch/pages/contact", "https://www.gaiatech.ch/"]
+        },
+        {
+            "name": "Goodwall",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own current about enumerates four physical hubs: Geneva, London, Cape Town and Manila, plus remote staff. Swiss hub is EPFL Campus Biotech, Avenue de Secheron 15, Geneva. No target-region office established; remote hiring or customers are not locations.",
+            "sources": ["https://www.goodwall.io/about", "https://www.goodwall.io/dataprotect"]
+        },
+        {
+            "name": "Roofless Labs",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own K4MERA product terms dated August 2026 explicitly identify Roofless Labs Sarl, 1 rue des Photographes, 1207 Geneva. Product brand/operator bridge verified; no target-region company location established.",
+            "sources": ["https://k4mera.world/terms/"]
+        },
+        {
+            "name": "Infera Neuro",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current contact identifies EPFL Innovation Park, Route Cantonale, 1015 Lausanne and original edge-AI ASIC development for brain-computer interfaces. No target-region site established.",
+            "sources": ["https://infera-neuro.com/contact"]
+        },
+        {
+            "name": "smarli",
+            "decision": "hold-exact-local-site",
+            "reason": "Own contact confirms Zurich demonstration apartment as well as St Gallen showroom; registered/contact street Gueterbahnhofstrasse 7 belongs to St Gallen. Own SaaS terms support product, but no exact Zurich address in contact text. Must not exclude solely on St Gallen headquarters or invent address for showroom.",
+            "question": "What published exact Zurich address and company-controlled role correspond to the demonstration apartment?",
+            "sources": ["https://smarli.ch/kontakt/", "https://smarli.ch/agb/"]
+        },
+        {
+            "name": "Kredo",
+            "decision": "hold-own-development-and-local-address",
+            "reason": "Own founder publicly confirms Zurich office opening; company-sponsored interview gives Stockerstrasse 38 while own contact still only Pully. Own team and platform pages support lending workflow but do not clearly attribute maintained software development. Not excluded because of Pully headquarters; distinguish Swiss SME credit business from unrelated Kredo software firms.",
+            "question": "Can current company evidence confirm the exact Zurich office and original maintained credit-platform development?",
+            "sources": [
+                "https://www.kredo.swiss/en/contact/",
+                "https://www.kredo.swiss/lequipe/",
+                "https://www.kredo.swiss/en/",
+                "https://fr.linkedin.com/posts/lucas-w%C3%BCst-1878001_grande-annonce-kredo-a-officiellement-ouvert-activity-7425834803259858944-hyzH",
+                "https://fokus.swiss/business/finanzen/investment/ambitionen-finanzieren/"
+            ]
+        },
+        {
+            "name": "Premium Brand Solutions",
+            "decision": "acquired-business-represented-by-swibeco",
+            "reason": "Both seller's corporate post and Swibeco corporate account confirm acquisition of PBS e-commerce activity and integration of team into Swibeco. Existing Swibeco represents this activity. Do not claim all PBS legal entities merged or create another technical company from private-sales brand alone.",
+            "sources": [
+                "https://fr.linkedin.com/company/swibeco",
+                "https://fr.linkedin.com/posts/premium-brand-solutions_ventespriv%C3%A9es-marquespremium-avantagescollaborateurs-activity-7513947159172399104-abB2"
+            ]
+        },
+        {
+            "name": "VITO Energies",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact identifies Vito New Energies Solutions at In Bugeon, 2087 Cornaux NE. No target-region company site established; energy installations elsewhere are not offices.",
+            "sources": ["https://vitoenergies.ch/en/contact/"]
+        },
+        {
+            "name": "Helvetiqua",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own current location catalogue lists Marly, Uvrier, Bex, Avenches and Lausanne. Catalogue concerns selecting and installing market products for building energy renovation, not evidence of own technology. Geography already outside; no broad inference from renewable-energy category.",
+            "sources": ["https://www.helvetiqua.ch/"]
+        },
+        {
+            "name": "Birds&Co",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own legal notice identifies operator S. Ventures Sarl CHE198150907, Chemin de la Roche 14, 1020 Renens. Do not confuse unrelated animation brand or third-party hosting address. No target-region company site established.",
+            "sources": ["https://www.birdsnco.ch/legal"]
+        },
+        {
+            "name": "Piccovélo",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current contact and visit instructions identify shop at Chemin de Mochettaz 6A, 1030 Bussigny. No target-region company location established.",
+            "sources": ["https://piccovelo.com/contact/"]
+        },
+        {
+            "name": "Woofy",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own team/history/contact identify Lausanne daycare at Avenue Bergieres 10. Own client guide explicitly uses third-party Collar app for booking; do not confuse namesake app by Lucas Labigne or US marketing software. No target-region company site established.",
+            "sources": ["https://www.woofy.ch/fr/about-us", "https://www.woofy.ch/clientguide"]
+        },
+        {
+            "name": "Nettle Circle",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own HILAYA fibre-development site identifies Nettle Circle AG, Seehaeusernstrasse 22, 6208 Oberkirch. Haelixa DNA-marker collaboration does not place Nettle Circle at Haelixa's Zurich address or give it ownership of Haelixa technology.",
+            "sources": ["https://www.nettlecircle.com/"]
+        },
+        {
+            "name": "Embodied AI",
+            "decision": "outside-region-primary-city-level",
+            "reason": "Own robotics site and exact corporate LinkedIn identify Lausanne headquarters and Delft; recent corporate-shared announcement describes Lausanne and Rome teams. ETH education/affiliation is not a Zurich workplace. Original safe robotic manipulator development confirmed.",
+            "sources": ["https://embodiedai.ch/", "https://ch.linkedin.com/company/embodiedai"]
+        },
+        {
+            "name": "IRISgo",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own German legal notice gives Ebenaustrasse 18, English legal notice 20, both 6048 Horw, CHE273285319. Preserve building-number disagreement; both outside region. Product is drinkware, not unrelated irisgo.ai desktop software.",
+            "sources": [
+                "https://irisgo.com/policies/legal-notice",
+                "https://irisgo.com/en-eu/policies/legal-notice"
+            ]
+        }
+    ]
+}

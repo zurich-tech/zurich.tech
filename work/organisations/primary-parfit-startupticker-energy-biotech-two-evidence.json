@@ -1,0 +1,271 @@
+{
+    "checkedAt": "2026-10-15T03:41:34.777Z",
+    "productionWrites": 0,
+    "visualReview": "Inspected contact sheet at32px and96px: both declared official icons are recognizable, unchanged artwork. Main approval pending.",
+    "latestSnapshotDedup": {
+        "count": 1093,
+        "snapshotModifiedAt": "2026-10-15T03:27:23.761Z",
+        "matches": [],
+        "method": "Exact slug, case-insensitive name and normalized website host"
+    },
+    "records": [
+        {
+            "slug": "smart-me",
+            "name": "smart-me",
+            "website": "https://web.smart-me.com/",
+            "line1": "Riedstrasse 18",
+            "postalCode": "6343",
+            "locality": "Rotkreuz",
+            "office": "Office and production",
+            "headline": "Smart energy meters and energy-management software",
+            "description": "Develops electricity meters, charging stations and cloud software for measuring, managing and billing energy consumption in buildings",
+            "topics": ["electronics", "climate-tech"],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/smart-me-ag/"
+            },
+            "source": "https://web.smart-me.com/wp-content/uploads/2025/09/cropped-sm_favicon-192x192.png",
+            "sources": [
+                "https://web.smart-me.com/",
+                "https://web.smart-me.com/about-smart-me/",
+                "https://web.smart-me.com/impressum/",
+                "https://web.smart-me.com/kontakt/"
+            ],
+            "rationale": "Current About identifies software and hardware development founders, original Nimbus/Telstar meters and Pico charger, and the 2023 move joining production and office at Riedstrasse18. Current contact and imprint agree. Historical Lettenstrasse9 is not used. eCarUp is a separately named subsidiary, not an alias to create here.",
+            "socialEvidence": "Official footer directly links corporate smart-me-ag LinkedIn. No official GitHub or X link verified in reviewed home, About, contact or imprint.",
+            "address": {
+                "line1": "Riedstrasse 18",
+                "postalCode": "6343",
+                "locality": "Rotkreuz",
+                "countryCode": "CH",
+                "latitude": 47.14675521850586,
+                "longitude": 8.42701244354248,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/101494151_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "riedstrasse 18 6343 rotkreuz 1707 risch ch zg",
+                            "featureId": "101494151_0",
+                            "geom_quadindex": "030022113133330312212",
+                            "geom_st_box2d": "BOX(8.427002 47.146757,8.427002 47.146757)",
+                            "label": "Riedstrasse 18 <b>6343 Rotkreuz</b>",
+                            "lat": 47.14675521850586,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101405057",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/101494151_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.42701244354248,
+                            "num": 18,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.42701244354248,
+                            "y": 47.14675521850586,
+                            "zoomlevel": 10
+                        },
+                        "id": 3117613,
+                        "weight": 100
+                    },
+                    {
+                        "attrs": {
+                            "detail": "riedstrasse 18.1 6343 rotkreuz 1707 risch ch zg",
+                            "featureId": "502204871_0",
+                            "geom_quadindex": "030022113133333020220",
+                            "geom_st_box2d": "BOX(8.427085 47.146588,8.427085 47.146588)",
+                            "label": "Riedstrasse 18.1 <b>6343 Rotkreuz</b>",
+                            "lat": 47.14658737182617,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/103189134",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/502204871_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.427095413208008,
+                            "num": 181,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.427095413208008,
+                            "y": 47.14658737182617,
+                            "zoomlevel": 10
+                        },
+                        "id": 3050833,
+                        "weight": 4
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-smart-me.png",
+                "source": "https://web.smart-me.com/wp-content/uploads/2025/09/cropped-sm_favicon-192x192.png",
+                "width": 192,
+                "height": 192,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "moonlake-immunotherapeutics",
+            "name": "MoonLake Immunotherapeutics",
+            "website": "https://moonlaketx.com/",
+            "line1": "Dorfstrasse 29",
+            "postalCode": "6300",
+            "locality": "Zug",
+            "office": "Head office",
+            "headline": "Antibody-derived therapies for inflammatory diseases",
+            "description": "Develops sonelokimab, an investigational antibody-derived therapy targeting IL-17A and IL-17F, through research and clinical development for inflammatory diseases",
+            "topics": ["biotech"],
+            "uid": "433093536",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/moonlake-immunotherapeutics-ag/",
+                "x": "https://x.com/moonlaketx"
+            },
+            "source": "https://moonlaketx.com/wp-content/uploads/2022/04/cropped-Moonlake-Favicon-192x192.png",
+            "sources": [
+                "https://moonlaketx.com/",
+                "https://moonlaketx.com/science/",
+                "https://moonlaketx.com/contact-us/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE433093536"
+            ],
+            "rationale": "Current science page documents specific therapeutic design and continuing development; investigational status retained without approval or efficacy assertions. Contact explicitly calls Dorfstrasse29 the Zug head office; active federal UID agrees. Foreign additional offices do not negate this published Swiss head office.",
+            "socialEvidence": "Official homepage, science and contact footer links directly identify corporate LinkedIn and X. No corporate GitHub verified.",
+            "address": {
+                "line1": "Dorfstrasse 29",
+                "postalCode": "6300",
+                "locality": "Zug",
+                "countryCode": "CH",
+                "latitude": 47.16454315185547,
+                "longitude": 8.517196655273438,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/320330_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "dorfstrasse 29 6300 zug 1711 zug ch zg",
+                            "featureId": "320330_0",
+                            "geom_quadindex": "030023011122111012100",
+                            "geom_st_box2d": "BOX(8.517186 47.164545,8.517186 47.164545)",
+                            "label": "Dorfstrasse 29 <b>6300 Zug</b>",
+                            "lat": 47.16454315185547,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100310119",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/320330_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.517196655273438,
+                            "num": 29,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.517196655273438,
+                            "y": 47.16454315185547,
+                            "zoomlevel": 10
+                        },
+                        "id": 3053782,
+                        "weight": 100
+                    },
+                    {
+                        "attrs": {
+                            "detail": "dorfstrasse 29b 6300 zug 1711 zug ch zg",
+                            "featureId": "191791511_0",
+                            "geom_quadindex": "030023011122111211203",
+                            "geom_st_box2d": "BOX(8.517212 47.164426,8.517212 47.164426)",
+                            "label": "Dorfstrasse 29b <b>6300 Zug</b>",
+                            "lat": 47.164424896240234,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102487633",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/191791511_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.51722240447998,
+                            "num": 29,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.51722240447998,
+                            "y": 47.164424896240234,
+                            "zoomlevel": 10
+                        },
+                        "id": 3068329,
+                        "weight": 4
+                    },
+                    {
+                        "attrs": {
+                            "detail": "dorfstrasse 29a 6300 zug 1711 zug ch zg",
+                            "featureId": "191988235_0",
+                            "geom_quadindex": "030023011122111203222",
+                            "geom_st_box2d": "BOX(8.517111 47.164385,8.517111 47.164385)",
+                            "label": "Dorfstrasse 29a <b>6300 Zug</b>",
+                            "lat": 47.16438293457031,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/103309141",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/191988235_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.517121315002441,
+                            "num": 29,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.517121315002441,
+                            "y": 47.16438293457031,
+                            "zoomlevel": 10
+                        },
+                        "id": 3094128,
+                        "weight": 4
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-moonlake-immunotherapeutics.png",
+                "source": "https://moonlaketx.com/wp-content/uploads/2022/04/cropped-Moonlake-Favicon-192x192.png",
+                "width": 192,
+                "height": 192,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        }
+    ]
+}

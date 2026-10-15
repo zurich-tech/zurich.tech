@@ -1,0 +1,239 @@
+{
+  "apply": false,
+  "organisations": [
+    {
+      "id": "p171dp0w4b2qbqf3cy088cf8wd8f5kar",
+      "slug": "aylight",
+      "expectedDescription": "Aylight develops optical frequency comb lasers.",
+      "description": "Aylight develops optical frequency comb lasers"
+    },
+    {
+      "id": "p17512sedqj6stmkg0xz1fgqd98f4vc2",
+      "slug": "aws-zurich",
+      "expectedDescription": "Amazon Web Services Zurich develops and supports cloud computing infrastructure.",
+      "description": "Amazon Web Services Zurich develops and supports cloud computing infrastructure"
+    },
+    {
+      "id": "p17bsr130dy6vsfpc287yghvb18f42jg",
+      "slug": "avientus",
+      "expectedDescription": "Avientus develops the P3 and P10 transport drones, which carry up to 10 kg over distances of up to 100 km. It is based in Zurich.",
+      "description": "Avientus develops the P3 and P10 transport drones, which carry up to 10 kg over distances of up to 100 km. It is based in Zurich"
+    },
+    {
+      "id": "p17chawyy77cm42xsqj454bz058f4jy5",
+      "slug": "avian",
+      "expectedDescription": "AVIAN develops thermal monitoring systems for industrial fire detection.",
+      "description": "AVIAN develops thermal monitoring systems for industrial fire detection"
+    },
+    {
+      "id": "p17fq633e4a8j2y49mjvb60atx8f5ctj",
+      "slug": "avaloq",
+      "expectedDescription": "Avaloq develops banking and wealth-management software.",
+      "description": "Avaloq develops banking and wealth-management software"
+    },
+    {
+      "id": "p17c955qcz4bf7nbgfbhtfxgan8f4eap",
+      "slug": "auxivo",
+      "expectedDescription": "Auxivo develops exoskeletons that support workers in logistics, construction, manufacturing and agriculture. Its products include the LiftSuit, DeltaSuit and OmniSuit.",
+      "description": "Auxivo develops exoskeletons that support workers in logistics, construction, manufacturing and agriculture. Its products include the LiftSuit, DeltaSuit and OmniSuit"
+    },
+    {
+      "id": "p17e8j8sp2qardphzjpg9q746h8f4e11",
+      "slug": "auterion",
+      "expectedDescription": "Auterion builds operating software for autonomous drones.",
+      "description": "Auterion builds operating software for autonomous drones"
+    },
+    {
+      "id": "p17eg6ng6srnyxcb13k2ny51qn8f4skk",
+      "slug": "aurigin",
+      "expectedDescription": "Aurigin.ai builds software that flags AI-generated and spoofed voices in calls and audio. Its customers include banks, communication platforms and biometric systems.",
+      "description": "Aurigin.ai builds software that flags AI-generated and spoofed voices in calls and audio. Its customers include banks, communication platforms and biometric systems"
+    },
+    {
+      "id": "p17277nnpecm1vh95h4seqahsn8f5r4x",
+      "slug": "astrivis",
+      "expectedDescription": "Astrivis offers a 3D scanning app, SDK and white-label product for iOS and Android. Its main users are orthotics and prosthetics workshops.",
+      "description": "Astrivis offers a 3D scanning app, SDK and white-label product for iOS and Android. Its main users are orthotics and prosthetics workshops"
+    },
+    {
+      "id": "p17a1j963yg7f1afss2pkecxx58f555s",
+      "slug": "assaia",
+      "expectedDescription": "Assaia builds computer vision software for airport ground operations.",
+      "description": "Assaia builds computer vision software for airport ground operations"
+    },
+    {
+      "id": "p171arej2t3m0457wepv1qm9518f5tsh",
+      "slug": "aspaara",
+      "expectedDescription": "aspaara builds AI planning software for vehicle bodyshops. It also offers an AI copilot for bodyshop teams.",
+      "description": "aspaara builds AI planning software for vehicle bodyshops. It also offers an AI copilot for bodyshop teams"
+    },
+    {
+      "id": "p1772wd0dr81ex4jthrpwdvp0n8f5gph",
+      "slug": "askearth",
+      "expectedDescription": "askEarth develops software for querying satellite imagery and geospatial information.",
+      "description": "askEarth develops software for querying satellite imagery and geospatial information"
+    },
+    {
+      "id": "p1775ttenkj7n5f5x5rn7abvh98f5jqt",
+      "slug": "ascento",
+      "expectedDescription": "Ascento develops autonomous legged security robots and offers them as a guarding service for outdoor sites. It is an ETH Zurich spin-off.",
+      "description": "Ascento develops autonomous legged security robots and offers them as a guarding service for outdoor sites. It is an ETH Zurich spin-off"
+    },
+    {
+      "id": "p17b0trxkptf75apcfcec1wvzn8f4swq",
+      "slug": "art-recognition",
+      "expectedDescription": "Art Recognition trains image models that assess whether a painting is by the attributed artist. It offers analyses to collectors, auction houses and insurers.",
+      "description": "Art Recognition trains image models that assess whether a painting is by the attributed artist. It offers analyses to collectors, auction houses and insurers"
+    },
+    {
+      "id": "p175zaf8xka675g29k1xe31bjd8f56s2",
+      "slug": "arqh",
+      "expectedDescription": "Arqh develops software for freight dispatch and fleet planning.",
+      "description": "Arqh develops software for freight dispatch and fleet planning"
+    },
+    {
+      "id": "p175qg910ysqr68cfr7qcg1y118f4rek",
+      "slug": "arktis",
+      "expectedDescription": "Arktis Radiation Detectors develops sensors and systems that detect radioactive and nuclear material. They are used in security and industrial settings.",
+      "description": "Arktis Radiation Detectors develops sensors and systems that detect radioactive and nuclear material. They are used in security and industrial settings"
+    },
+    {
+      "id": "p173cn0d3mcr6f0294884185mn8f4p5j",
+      "slug": "archlet",
+      "expectedDescription": "Archlet develops software for analysing supplier bids and running sourcing events and auctions. It was founded in Zurich in 2019.",
+      "description": "Archlet develops software for analysing supplier bids and running sourcing events and auctions. It was founded in Zurich in 2019"
+    },
+    {
+      "id": "p172swv0mnnx9cedej1tv7g38h8f5ahe",
+      "slug": "archilogic",
+      "expectedDescription": "Archilogic turns floor plans into structured spatial data for workplace and real estate applications. It also has an office in the San Francisco Bay Area.",
+      "description": "Archilogic turns floor plans into structured spatial data for workplace and real estate applications. It also has an office in the San Francisco Bay Area"
+    },
+    {
+      "id": "p178fet3t1bfdgyrkes5djjkz58f4dbj",
+      "slug": "arc-power",
+      "expectedDescription": "Arc Power develops DC/DC converters and modular power units for use in space. It is based in Glattbrugg.",
+      "description": "Arc Power develops DC/DC converters and modular power units for use in space. It is based in Glattbrugg"
+    },
+    {
+      "id": "p1717fg5a315vqaeypkzwr5nj18f5vyg",
+      "slug": "apple-zurich",
+      "expectedDescription": "Apple's Zurich teams grew out of the Faceshift and Fashwell acquisitions. They work on computer vision, scene understanding and machine learning.",
+      "description": "Apple's Zurich teams grew out of the Faceshift and Fashwell acquisitions. They work on computer vision, scene understanding and machine learning"
+    },
+    {
+      "id": "p17ee9jjfvhnrxq5rp1tve7qs18f48w4",
+      "slug": "apheros",
+      "expectedDescription": "Apheros develops metal foams for cooling electronic equipment.",
+      "description": "Apheros develops metal foams for cooling electronic equipment"
+    },
+    {
+      "id": "p171jm97fr6c3m8jsw1xd7akqs8f4ne6",
+      "slug": "anybotics",
+      "expectedDescription": "ANYbotics develops the ANYmal inspection robot. Its Zurich headquarters houses robotics, hardware and software engineering teams.",
+      "description": "ANYbotics develops the ANYmal inspection robot. Its Zurich headquarters houses robotics, hardware and software engineering teams"
+    },
+    {
+      "id": "p17ey64d9dp0pxh9781f75112h8f4be7",
+      "slug": "anthropic-zurich",
+      "expectedDescription": "Anthropic opened its Zurich research office in 2025, led by Neil Houlsby. The team works on pretraining and multimodal research for Claude.",
+      "description": "Anthropic opened its Zurich research office in 2025, led by Neil Houlsby. The team works on pretraining and multimodal research for Claude"
+    },
+    {
+      "id": "p170g6jaktfes7g90nxwn34b658f43fx",
+      "slug": "anapaya",
+      "expectedDescription": "Anapaya develops networking products that control traffic paths and isolate network connections using SCION.",
+      "description": "Anapaya develops networking products that control traffic paths and isolate network connections using SCION"
+    },
+    {
+      "id": "p179a8e58cy1zrwgsme0t3ptk18f4gmf",
+      "slug": "amnis",
+      "expectedDescription": "amnis develops payment, currency management and expense software for businesses.",
+      "description": "amnis develops payment, currency management and expense software for businesses"
+    },
+    {
+      "id": "p17bzysgrrs5w4p6p5d9rmvjj58f4n9z",
+      "slug": "alternative-embedded",
+      "expectedDescription": "Alternative Embedded Innovation (AEI) builds embedded vision and radar AI software for L2+ driver assistance. It also provides automotive software engineering services.",
+      "description": "Alternative Embedded Innovation (AEI) builds embedded vision and radar AI software for L2+ driver assistance. It also provides automotive software engineering services"
+    },
+    {
+      "id": "p177p5n09x8dkaw015s055gkk98f5n4r",
+      "slug": "alivion",
+      "expectedDescription": "Alivion develops the SmartSelect chemical sensing platform and Spark gas-sensor modules. It works with industrial partners from Glattbrugg.",
+      "description": "Alivion develops the SmartSelect chemical sensing platform and Spark gas-sensor modules. It works with industrial partners from Glattbrugg"
+    },
+    {
+      "id": "p17bv5err6651ek5brnx2q29118f4b94",
+      "slug": "albatross",
+      "expectedDescription": "Albatross develops recommendation models for online product discovery.",
+      "description": "Albatross develops recommendation models for online product discovery"
+    },
+    {
+      "id": "p174qjpmrgqw18hg165p9e4tyx8f5vzw",
+      "slug": "akina",
+      "expectedDescription": "Akina develops motion analysis and remote physiotherapy software.",
+      "description": "Akina develops motion analysis and remote physiotherapy software"
+    },
+    {
+      "id": "p17fjj5wmph8mjh3rphwpswbt58f4w9q",
+      "slug": "aegis-rider",
+      "expectedDescription": "Aegis Rider develops the Vision helmet, which shows riding information anchored in the rider's field of view. It is an ETH Zurich spin-off based in Regensdorf.",
+      "description": "Aegis Rider develops the Vision helmet, which shows riding information anchored in the rider's field of view. It is an ETH Zurich spin-off based in Regensdorf"
+    },
+    {
+      "id": "p17dadepzk5zy4s65fy2ztxjzh8f43j1",
+      "slug": "adnovum",
+      "expectedDescription": "Adnovum develops enterprise software and identity and access systems.",
+      "description": "Adnovum develops enterprise software and identity and access systems"
+    },
+    {
+      "id": "p176tw2h69htrhmvt45832qwx58f4pz0",
+      "slug": "acutronic",
+      "expectedDescription": "Acutronic develops precision motion simulators for testing guidance and navigation systems. The group is headquartered in Bubikon and has subsidiaries in the US, Germany, France and India.",
+      "description": "Acutronic develops precision motion simulators for testing guidance and navigation systems. The group is headquartered in Bubikon and has subsidiaries in the US, Germany, France and India"
+    },
+    {
+      "id": "p17br1fdv0svg9r8rtf8ze5kx98f4a1h",
+      "slug": "absolute-magnetics",
+      "expectedDescription": "Absolute Magnetics develops patented magnetic rotary encoders that measure angle from a single magnetic track. It sells sensors and evaluation kits for motion control.",
+      "description": "Absolute Magnetics develops patented magnetic rotary encoders that measure angle from a single magnetic track. It sells sensors and evaluation kits for motion control"
+    },
+    {
+      "id": "p17dw1t15bgapwexqddswq783h8f4zfa",
+      "slug": "abb",
+      "expectedDescription": "ABB develops electrification equipment, motion systems and industrial automation. Its group headquarters is in Zurich Oerlikon.",
+      "description": "ABB develops electrification equipment, motion systems and industrial automation. Its group headquarters is in Zurich Oerlikon"
+    },
+    {
+      "id": "p17feckqt2synsfmsnbek85mnd8f4cdh",
+      "slug": "a-metal",
+      "expectedDescription": "a-metal builds metal additive manufacturing machines.",
+      "description": "a-metal builds metal additive manufacturing machines"
+    },
+    {
+      "id": "p17cbj5tyer7hd4a7abmgstezd8f5ae2",
+      "slug": "8inks",
+      "expectedDescription": "8inks develops electrode coating processes and equipment for battery production. Its work includes slurry engineering, electrode design and pilot manufacturing.",
+      "description": "8inks develops electrode coating processes and equipment for battery production. Its work includes slurry engineering, electrode design and pilot manufacturing"
+    },
+    {
+      "id": "p17895qz2vvm5gtqe19peyxkqd8edjer",
+      "slug": "dream-machines",
+      "expectedDescription": "Robotic AI and automation for European manufacturers, founded by researchers and engineers from ETH Zurich.",
+      "description": "Robotic AI and automation for European manufacturers, founded by researchers and engineers from ETH Zurich"
+    },
+    {
+      "id": "p17fw5qzvabv58xpdw4y01v1j18e640b",
+      "slug": "zurich-tech",
+      "expectedDescription": "A registered nonprofit bringing people together around tech in and around Zurich.",
+      "description": "A registered nonprofit bringing people together around tech in and around Zurich"
+    },
+    {
+      "id": "p17ay0qwgc76kad8e08c70dths8e0cph",
+      "slug": "eth-ai-center",
+      "expectedDescription": "ETH Zurich’s centre for artificial intelligence and a longtime venue for ZurichNLP, ZurichCV, and ZurichRobotics gatherings.",
+      "description": "ETH Zurich’s centre for artificial intelligence and a longtime venue for ZurichNLP, ZurichCV, and ZurichRobotics gatherings"
+    }
+  ]
+}

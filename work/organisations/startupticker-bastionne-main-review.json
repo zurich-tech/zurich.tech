@@ -1,0 +1,20 @@
+{
+    "date": "2026-10-15",
+    "status": "unpublished-awaiting-final-checks",
+    "slug": "bastionne",
+    "sources": [
+        "https://www.bastionne.com/",
+        "https://www.bastionne.com/tech",
+        "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE395385036"
+    ],
+    "primaryReview": "Main read claimed original identity, integrity and authorised-action verification architecture with software, virtual infrastructure and dedicated-node deployment. Keep plain functional description; do not repeat unverified attack-prevention or zero-breach metrics.",
+    "registryReview": "Main inspected saved federal UID record: active BastionneAG,CHE395385036,Freihofstrasse15. Main subsequently read the current corporate LinkedIn page: exact brand and website, Zurich headquarters, named Wolfgang Sachsenhofer and Iwan von Buchler. This supports the Swiss operating identity despite separate Delaware website boilerplate; preserve Registered address, not an inferred engineering office.",
+    "corporateSource": "https://ch.linkedin.com/company/bastionne",
+    "kindReview": "Startup: founder-led security-product venture; publication must retain the reviewed functional description rather than marketing claims",
+    "artwork": "Main directly viewed official compact cream mark on dark background; readable unchanged artwork approved for supported upload",
+    "remaining": [
+        "Fresh complete duplicate and address checks",
+        "Hosted-asset verification before publication"
+    ],
+    "productionWrites": 0
+}

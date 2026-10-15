@@ -1,0 +1,36 @@
+{
+    "date": "2026-10-15",
+    "status": "published-and-independently-verified-frozen",
+    "reviews": [
+        {
+            "slug": "boddy",
+            "sources": [
+                "https://boddy.life/",
+                "https://boddy.life/privacy",
+                "https://boddy.life/terms"
+            ],
+            "finding": "Main read current platform API and white-label distribution offering, then rendered privacy and terms in Chrome. Both identify Pindor Group AG, Tessinerplatz 7 Zurich, register CH13030243140. Privacy is dated 2020 and is not represented as a newly authored notice. Preserve Registered address and one product/operator identity; do not substitute an old BODDY AG registration.",
+            "socials": "Main Chrome privacy footer directly links linkedin.com/company/boddyonline/",
+            "address": "Reuse existing public Tessinerplatz 7 address after fresh readback"
+        },
+        {
+            "slug": "expertvision-ai",
+            "sources": [
+                "https://www.expertvision.ai/",
+                "https://www.expertvision.ai/impressum-and-data-protection/"
+            ],
+            "finding": "Main read own computer-vision product account and followed the own-site legal link. Imprint confirms ExpertVision AI AG CHE-281.249.834 and c/o Domizilagentur GmbH, Baarerstrasse 43 Zug. Preserve Registered address, not a claim that engineering occurs at the fiduciary address. Avoid reproducing accuracy or customer guarantees."
+        }
+    ],
+    "artwork": "Main visually approved genuine complete prepared BODDY and ExpertVision AI PNGs for unchanged-byte supported upload",
+    "remaining": [],
+    "publication": {
+        "manifest": "/tmp/zurich-registry-review/primary-parfit-startupticker-platform-next-two-hosted-ready.json",
+        "identityPopulation": 1143,
+        "identityCheckedAt": "2026-10-15T04:54:31.177Z",
+        "artworkCheckedAt": "2026-10-15T04:54:31.981Z",
+        "result": "Supported preview and single apply of two entries; independent full-field, public-address and social-link readback passed",
+        "productionPopulationAfter": 1145
+    },
+    "organisationWrites": 2
+}

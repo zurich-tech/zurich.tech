@@ -1,0 +1,803 @@
+{
+    "checkedAt": "2026-10-15T03:21:14.702Z",
+    "productionWrites": 0,
+    "visualReview": "Inspected contact sheet at32px and96px. Kelva,Trilliome,Billoba,PeelPack,Noemon,Alligator have readable original symbols. Hemetron uses original32px favicon: higher display is visibly interpolated, no higher-resolution compact symbol verified. nordfen uses original310x88 header wordmark: lettering is small at32px. These two limitations require main visual approval; no artwork invented or recoloured.",
+    "records": [
+        {
+            "slug": "kelva-systems",
+            "name": "Kelva Systems",
+            "website": "https://kelva-systems.ch/",
+            "line1": "Zehntenstrasse 15b",
+            "postalCode": "8800",
+            "locality": "Thalwil",
+            "office": "Registered address",
+            "headline": "High-temperature concrete thermal storage",
+            "description": "Develops thermal energy storage using concrete blocks engineered for high temperatures, with storage materials co-developed with Empa",
+            "topics": ["climate-tech", "materials"],
+            "uid": "369331810",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/kelva-systems/"
+            },
+            "source": "https://cdn.prod.website-files.com/68ee1e1e9a75f01aca0a8b6b/6901cff27bd32569c81f0b9b_webclip.png",
+            "sources": [
+                "https://kelva-systems.ch/",
+                "https://kelva-systems.ch/impressum",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE369331810"
+            ],
+            "rationale": "Own thermal storage engineering and Empa material collaboration. Current active UID MLCL AG resolves stale imprint 'in formation'; exact registered address, not an asserted engineering office.",
+            "socialEvidence": "Corporate LinkedIn identifies Kelva Systems and links exact official website.",
+            "address": {
+                "line1": "Zehntenstrasse 15b",
+                "postalCode": "8800",
+                "locality": "Thalwil",
+                "countryCode": "CH",
+                "latitude": 47.28985595703125,
+                "longitude": 8.571101188659668,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/63316_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "zehntenstrasse 15b 8800 thalwil 141 thalwil ch zh",
+                            "featureId": "63316_0",
+                            "geom_quadindex": "030021101323031313123",
+                            "geom_st_box2d": "BOX(8.57109 47.289858,8.57109 47.289858)",
+                            "label": "Zehntenstrasse 15b <b>8800 Thalwil</b>",
+                            "lat": 47.28985595703125,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100059509",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/63316_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.571101188659668,
+                            "num": 15,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.571101188659668,
+                            "y": 47.28985595703125,
+                            "zoomlevel": 10
+                        },
+                        "id": 2233509,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-kelva-systems.png",
+                "source": "https://cdn.prod.website-files.com/68ee1e1e9a75f01aca0a8b6b/6901cff27bd32569c81f0b9b_webclip.png",
+                "width": 256,
+                "height": 256,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "trilliome",
+            "name": "Trilliome",
+            "website": "https://www.trilliome.com/",
+            "line1": "Im Stelzenacker 17",
+            "postalCode": "8049",
+            "locality": "Zürich",
+            "office": "Registered address",
+            "headline": "Precision bioactives for gut health",
+            "description": "Develops precision plant-derived bioactives using its Teroka experimental and computational discovery platform",
+            "topics": ["biotech"],
+            "uid": "489016967",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/trilliome/"
+            },
+            "source": "https://www.trilliome.com/apple-touch-icon-6b1aa19a8e051ff294fb8b703ff746c2.png?vsn=d",
+            "sources": [
+                "https://www.trilliome.com/",
+                "https://www.trilliome.com/imprint",
+                "https://www.trilliome.com/contact",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE489016967"
+            ],
+            "rationale": "Teroka wet-lab/computational platform and TRI01/TRI04 programmes establish original development. Official imprint names UID; active register supplies full street address.",
+            "socialEvidence": "Official site links corporate LinkedIn.",
+            "address": {
+                "line1": "Im Stelzenacker 17",
+                "postalCode": "8049",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.41643524169922,
+                "longitude": 8.48236083984375,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/165937_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "im stelzenacker 17 8049 zuerich 261 zuerich ch zh",
+                            "featureId": "165937_0",
+                            "geom_quadindex": "030003012022202211121",
+                            "geom_st_box2d": "BOX(8.482348 47.416437,8.482348 47.416437)",
+                            "label": "Im Stelzenacker 17 <b>8049 Zürich</b>",
+                            "lat": 47.41643524169922,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100181337",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/165937_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.48236083984375,
+                            "num": 17,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.48236083984375,
+                            "y": 47.41643524169922,
+                            "zoomlevel": 10
+                        },
+                        "id": 2764380,
+                        "weight": 100
+                    },
+                    {
+                        "attrs": {
+                            "detail": "im stelzenacker 17a 8049 zuerich 261 zuerich ch zh",
+                            "featureId": "302021289_0",
+                            "geom_quadindex": "030003012022202011332",
+                            "geom_st_box2d": "BOX(8.48236 47.416546,8.48236 47.416546)",
+                            "label": "Im Stelzenacker 17a <b>8049 Zürich</b>",
+                            "lat": 47.41654586791992,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101730114",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302021289_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.482372283935547,
+                            "num": 17,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.482372283935547,
+                            "y": 47.41654586791992,
+                            "zoomlevel": 10
+                        },
+                        "id": 2290067,
+                        "weight": 4
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-trilliome.png",
+                "source": "https://www.trilliome.com/apple-touch-icon-6b1aa19a8e051ff294fb8b703ff746c2.png?vsn=d",
+                "width": 180,
+                "height": 180,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "billoba",
+            "name": "Billoba",
+            "website": "https://www.billoba.com/",
+            "line1": "Seminarstrasse 1",
+            "postalCode": "8057",
+            "locality": "Zürich",
+            "office": "Registered address",
+            "headline": "Bio-based rubber foam materials",
+            "description": "Develops bio-based closed-cell rubber foam as an alternative to fossil-based cushioning and insulation materials",
+            "topics": ["materials", "climate-tech"],
+            "uid": "328782658",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/billoba/"
+            },
+            "source": "https://framerusercontent.com/images/6kkGMXN0Yl8YSDyVjEZNmwXSFFI.png",
+            "sources": [
+                "https://www.billoba.com/",
+                "https://www.billoba.com/policies/terms-conditions",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE328782658"
+            ],
+            "rationale": "Own rubber foam material development; current legal terms and active UID agree exact registered address.",
+            "socialEvidence": "Official footer links corporate LinkedIn.",
+            "address": {
+                "line1": "Seminarstrasse 1",
+                "postalCode": "8057",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.391685485839844,
+                "longitude": 8.538256645202637,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/151705_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "seminarstrasse 1 8057 zuerich 261 zuerich ch zh",
+                            "featureId": "151705_0",
+                            "geom_quadindex": "030003120232003123331",
+                            "geom_st_box2d": "BOX(8.538245 47.391688,8.538245 47.391688)",
+                            "label": "Seminarstrasse 1 <b>8057 Zürich</b>",
+                            "lat": 47.391685485839844,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100195494",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/151705_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.538256645202637,
+                            "num": 1,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.538256645202637,
+                            "y": 47.391685485839844,
+                            "zoomlevel": 10
+                        },
+                        "id": 2347906,
+                        "weight": 100
+                    },
+                    {
+                        "attrs": {
+                            "detail": "seminarstrasse 11a 8057 zuerich 261 zuerich ch zh",
+                            "featureId": "302032950_0",
+                            "geom_quadindex": "030003120223111201203",
+                            "geom_st_box2d": "BOX(8.537241 47.391932,8.537241 47.391932)",
+                            "label": "Seminarstrasse 11a <b>8057 Zürich</b>",
+                            "lat": 47.391929626464844,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102040266",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302032950_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.537252426147461,
+                            "num": 11,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.537252426147461,
+                            "y": 47.391929626464844,
+                            "zoomlevel": 10
+                        },
+                        "id": 1946453,
+                        "weight": 4
+                    },
+                    {
+                        "attrs": {
+                            "detail": "seminarstrasse 11 8057 zuerich 261 zuerich ch zh",
+                            "featureId": "151709_0",
+                            "geom_quadindex": "030003120223111132211",
+                            "geom_st_box2d": "BOX(8.537494 47.391968,8.537494 47.391968)",
+                            "label": "Seminarstrasse 11 <b>8057 Zürich</b>",
+                            "lat": 47.3919677734375,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100195498",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/151709_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.537506103515625,
+                            "num": 11,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.537506103515625,
+                            "y": 47.3919677734375,
+                            "zoomlevel": 10
+                        },
+                        "id": 2866435,
+                        "weight": 4
+                    },
+                    {
+                        "attrs": {
+                            "detail": "seminarstrasse 12 8057 zuerich 261 zuerich ch zh",
+                            "featureId": "302031132_0",
+                            "geom_quadindex": "030003120230222320311",
+                            "geom_st_box2d": "BOX(8.537816 47.392132,8.537816 47.392132)",
+                            "label": "Seminarstrasse 12 <b>8057 Zürich</b>",
+                            "lat": 47.39213180541992,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102045021",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302031132_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.53782844543457,
+                            "num": 12,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.53782844543457,
+                            "y": 47.39213180541992,
+                            "zoomlevel": 10
+                        },
+                        "id": 2254907,
+                        "weight": 4
+                    },
+                    {
+                        "attrs": {
+                            "detail": "seminarstrasse 14 8057 zuerich 261 zuerich ch zh",
+                            "featureId": "302031133_0",
+                            "geom_quadindex": "030003120230222113013",
+                            "geom_st_box2d": "BOX(8.537939 47.392304,8.537939 47.392304)",
+                            "label": "Seminarstrasse 14 <b>8057 Zürich</b>",
+                            "lat": 47.392303466796875,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102050050",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302031133_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.537951469421387,
+                            "num": 14,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.537951469421387,
+                            "y": 47.392303466796875,
+                            "zoomlevel": 10
+                        },
+                        "id": 2870034,
+                        "weight": 4
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-billoba.png",
+                "source": "https://framerusercontent.com/images/6kkGMXN0Yl8YSDyVjEZNmwXSFFI.png",
+                "width": 1024,
+                "height": 1024,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "hemetron",
+            "name": "Hemetron",
+            "website": "https://www.hemetron.com/",
+            "line1": "Kirchbodenstrasse 40",
+            "postalCode": "8800",
+            "locality": "Thalwil",
+            "office": "Registered address",
+            "headline": "Electrochemical home blood testing",
+            "description": "Develops a reusable electrochemical reader and disposable test strips for monitoring C-reactive protein in blood at home",
+            "topics": ["medtech", "electronics"],
+            "uid": "431378471",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/42766873/",
+                "x": "https://x.com/hemetron"
+            },
+            "source": "https://www.hemetron.com/favicon.ico",
+            "sources": [
+                "https://www.hemetron.com/",
+                "https://www.hemetron.com/contact.html",
+                "https://www.hemetron.com/policy.html",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE431378471"
+            ],
+            "rationale": "Original CRP reader and strips are under development; do not imply approved commercial diagnostic device. Active UID supplies exact registered address.",
+            "socialEvidence": "Official footer links numeric corporate LinkedIn and Hemetron Twitter account.",
+            "address": {
+                "line1": "Kirchbodenstrasse 40",
+                "postalCode": "8800",
+                "locality": "Thalwil",
+                "countryCode": "CH",
+                "latitude": 47.28912353515625,
+                "longitude": 8.571432113647461,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210199091_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "kirchbodenstrasse 40 8800 thalwil 141 thalwil ch zh",
+                            "featureId": "210199091_0",
+                            "geom_quadindex": "030021101323302132310",
+                            "geom_st_box2d": "BOX(8.571421 47.289124,8.571421 47.289124)",
+                            "label": "Kirchbodenstrasse 40 <b>8800 Thalwil</b>",
+                            "lat": 47.28912353515625,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101887006",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210199091_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.571432113647461,
+                            "num": 40,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.571432113647461,
+                            "y": 47.28912353515625,
+                            "zoomlevel": 10
+                        },
+                        "id": 2146712,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-hemetron.png",
+                "source": "https://www.hemetron.com/favicon.ico",
+                "width": 32,
+                "height": 32,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "nordfen",
+            "name": "nordfen",
+            "website": "https://nordfen.ch/",
+            "line1": "Erika-Mann-Strasse 11",
+            "postalCode": "8050",
+            "locality": "Zürich",
+            "office": "Registered address",
+            "headline": "Simulation software for drone crew training",
+            "description": "Develops simulation software combining aircraft controls, terrain models and mission scenarios for drone crew training and structured debriefing",
+            "topics": ["software-engineering", "graphics"],
+            "uid": "374853505",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/nordfen/"
+            },
+            "source": "https://nordfen.ch/",
+            "embeddedLogo": true,
+            "sources": [
+                "https://nordfen.ch/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE374853505"
+            ],
+            "rationale": "Original simulation layer and debrief software, not merely training services. Official imprint and active UID identify Swiss parent; Riga subsidiary does not negate Swiss entity. Header PNG is original official artwork, not an invented symbol.",
+            "socialEvidence": "Official site links corporate LinkedIn.",
+            "address": {
+                "line1": "Erika-Mann-Strasse 11",
+                "postalCode": "8050",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.41091537475586,
+                "longitude": 8.539593696594238,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302015833_1?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "erika-mann-strasse 11 8050 zuerich 261 zuerich ch zh",
+                            "featureId": "302015833_1",
+                            "geom_quadindex": "030003102230100023212",
+                            "geom_st_box2d": "BOX(8.539581 47.410917,8.539581 47.410917)",
+                            "label": "Erika-Mann-Strasse 11 <b>8050 Zürich</b>",
+                            "lat": 47.41091537475586,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/103176330",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302015833_1",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.539593696594238,
+                            "num": 11,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.539593696594238,
+                            "y": 47.41091537475586,
+                            "zoomlevel": 10
+                        },
+                        "id": 2110405,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-nordfen.png",
+                "source": "https://nordfen.ch/",
+                "width": 310,
+                "height": 88,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "peelpack",
+            "name": "PeelPack",
+            "website": "https://peelpack.ch/",
+            "line1": "Josefstrasse 219",
+            "postalCode": "8005",
+            "locality": "Zürich",
+            "office": "Company contact address",
+            "headline": "Biopolymers from food-processing sidestreams",
+            "description": "Develops Materra thermoplastic biopolymer materials from food-processing sidestreams for industrial manufacturing",
+            "topics": ["materials", "climate-tech"],
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/the-peel-pack/"
+            },
+            "source": "https://peelpack.ch/wp-content/uploads/2026/04/PeelPack-Favicon-2-300x300-1.avif",
+            "sources": ["https://peelpack.ch/"],
+            "rationale": "Own Materra polymer engineering. Official contact publishes Josefstrasse219 and linked map identifies 8005Zurich; no registered-office assertion.",
+            "socialEvidence": "Official site links corporate LinkedIn.",
+            "address": {
+                "line1": "Josefstrasse 219",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.387611389160156,
+                "longitude": 8.520889282226562,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/150824_1?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "josefstrasse 219 8005 zuerich 261 zuerich ch zh",
+                            "featureId": "150824_1",
+                            "geom_quadindex": "030003033102103201301",
+                            "geom_st_box2d": "BOX(8.520877 47.387614,8.520877 47.387614)",
+                            "label": "Josefstrasse 219 <b>8005 Zürich</b>",
+                            "lat": 47.387611389160156,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100145730",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/150824_1",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.520889282226562,
+                            "num": 219,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.520889282226562,
+                            "y": 47.387611389160156,
+                            "zoomlevel": 10
+                        },
+                        "id": 1950860,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-peelpack.png",
+                "source": "https://peelpack.ch/wp-content/uploads/2026/04/PeelPack-Favicon-2-300x300-1.avif",
+                "width": 288,
+                "height": 288,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "noemon",
+            "name": "Noemon",
+            "website": "https://noemon.com/",
+            "line1": "Thurgauerstrasse 132",
+            "postalCode": "8152",
+            "locality": "Glattpark (Opfikon)",
+            "office": "Registered address",
+            "headline": "Continual-learning AI systems",
+            "description": "Develops learning-native AI systems using local plasticity and distributed learning, including open-source work on abstract reasoning",
+            "topics": ["machine-learning"],
+            "uid": "471308956",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/noemon/",
+                "x": "https://x.com/noemon_ai"
+            },
+            "source": "https://static.wixstatic.com/media/0ea6c1_acb755b1eeff4a4a99930d0a5b5f4932%7Emv2.jpg/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/0ea6c1_acb755b1eeff4a4a99930d0a5b5f4932%7Emv2.jpg",
+            "sources": [
+                "https://noemon.com/",
+                "https://github.com/noemon/noemon-arc-agi",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE471308956"
+            ],
+            "rationale": "Own learning architecture and original public code, not generic consultancy. Active UID confirms exact registered company address. GitHub repository retained as evidence, not misrepresented as a corporate profile link.",
+            "socialEvidence": "Official site links corporate LinkedIn and X.",
+            "address": {
+                "line1": "Thurgauerstrasse 132",
+                "postalCode": "8152",
+                "locality": "Glattpark (Opfikon)",
+                "countryCode": "CH",
+                "latitude": 47.42409896850586,
+                "longitude": 8.560148239135742,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210184324_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "thurgauerstrasse 132 8152 glattpark _opfikon_ 66 opfikon ch zh",
+                            "featureId": "210184324_0",
+                            "geom_quadindex": "030003101223202213023",
+                            "geom_st_box2d": "BOX(8.560136 47.424101,8.560136 47.424101)",
+                            "label": "Thurgauerstrasse 132 <b>8152 Glattpark (Opfikon)</b>",
+                            "lat": 47.42409896850586,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101781970",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210184324_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.560148239135742,
+                            "num": 132,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.560148239135742,
+                            "y": 47.42409896850586,
+                            "zoomlevel": 10
+                        },
+                        "id": 2169427,
+                        "weight": 4
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-noemon.png",
+                "source": "https://static.wixstatic.com/media/0ea6c1_acb755b1eeff4a4a99930d0a5b5f4932%7Emv2.jpg/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/0ea6c1_acb755b1eeff4a4a99930d0a5b5f4932%7Emv2.jpg",
+                "width": 192,
+                "height": 192,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        },
+        {
+            "slug": "alligator",
+            "name": "Alligator",
+            "website": "https://alligator.systems/",
+            "line1": "Suurstoffi 18b",
+            "postalCode": "6343",
+            "locality": "Rotkreuz",
+            "office": "Company contact address",
+            "headline": "High-voltage connections for electric truck trailers",
+            "description": "Develops a planar high-voltage feedthrough connecting electric truck tractors and trailers, with prototypes tested on Swiss roads",
+            "topics": ["electronics", "climate-tech"],
+            "socials": {},
+            "source": "https://alligator.systems/images/logo_tap-180.png",
+            "sources": [
+                "https://alligator.systems/",
+                "https://alligator.systems/imprint.html",
+                "https://alligator.systems/alligator_ag.html"
+            ],
+            "rationale": "Current company page describes own engineering, tested2023prototype and prospective2026pilot; do not describe planned2027series production as current. Current contact address18b supersedes older patent address37.",
+            "socialEvidence": "Reviewed official home, company and imprint links and searched exact domain plus corporate LinkedIn; no verified corporate social account found. Personal founder account not substituted.",
+            "address": {
+                "line1": "Suurstoffi 18b",
+                "postalCode": "6343",
+                "locality": "Rotkreuz",
+                "countryCode": "CH",
+                "latitude": 47.144657135009766,
+                "longitude": 8.438321113586426,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/191661977_1?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "suurstoffi 18b 6343 rotkreuz 1707 risch ch zg",
+                            "featureId": "191661977_1",
+                            "geom_quadindex": "030023002211320021030",
+                            "geom_st_box2d": "BOX(8.438311 47.14466,8.438311 47.14466)",
+                            "label": "Suurstoffi 18b <b>6343 Rotkreuz</b>",
+                            "lat": 47.144657135009766,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/103280100",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/191661977_1",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.438321113586426,
+                            "num": 18,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.438321113586426,
+                            "y": 47.144657135009766,
+                            "zoomlevel": 10
+                        },
+                        "id": 3108324,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-alligator.png",
+                "source": "https://alligator.systems/images/logo_tap-180.png",
+                "width": 180,
+                "height": 180,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        }
+    ]
+}

@@ -1,0 +1,337 @@
+{
+    "checkedAt": "2026-10-15",
+    "scope": "Existing pages1-23 source names only. No new source discovery, production writes or uploads.",
+    "mainReportedPopulation": 1159,
+    "localSnapshotPopulation": 1147,
+    "localSnapshot": "/tmp/zurich-registry-review/primary-parfit-startupticker-public-current.json",
+    "records": [
+        {
+            "name": "Helvo",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current terms identify fintech operator HELVO SA, ChemindeMongevon25Crissier and its maintained financial platform. Bank partner HypothekarbankLenzburg is not operator headquarters. Distinct from helvo.ch transcription business; no Zurich/Zug site asserted.",
+            "sources": [
+                "https://www.helvo.com/terms-and-conditions",
+                "https://www.helvo.com/talk-to-us"
+            ]
+        },
+        {
+            "name": "Fusionality",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current imprint identifies Fusionality SA CHE492170215 Rue de la Grotte6Lausanne; own homepage develops fusion-device measurement/control/data systems. EPFL spinout technical eligibility is positive but current own site remains outside geography.",
+            "sources": ["https://fusionality.com/", "https://fusionality.com/imprint"]
+        },
+        {
+            "name": "Aware Health",
+            "decision": "outside-region-acquired-brand-not-second-local-company",
+            "reason": "Aeon's own October2026 acquisition explanation explicitly says Aware app, appointments and subscriptions continue inGermany while Aeon operatesSwisscheckups. Current Aware imprint identifies Aeon Life GmbH Berlin. Do not duplicate as Swiss omission or confuse with USemployerhealth namesake. Acquisition does not mean shutdown.",
+            "sources": [
+                "https://aeon.life/en/blog/aware-is-now-part-of-aeon-one-check-up-and-blood-values-you-can-repeat/",
+                "https://webflow.aware.app/en/imprint"
+            ]
+        },
+        {
+            "name": "LittleCubes",
+            "decision": "primary-reviewed-region-no-local-site",
+            "reason": "Own current product/study pages confirm original luminous hardware/app and continuing2026trial. Own history explicitly places development in French-speakingSwitzerland after ECALLausanne origin; primaryFIT/H4programme evidence corroborates. No Zurich/Zug site established; no invented exactheadquarters or unsupportedmedicalefficacy claims. This is a regional disposition, not exact registeredaddress verification.",
+            "sources": [
+                "https://littlecubes.ch/",
+                "https://littlecubes.ch/blog/lancement-etude/",
+                "https://littlecubes.ch/etude/fiche.pdf",
+                "https://www.linkedin.com/company/fondation-innovation-technologie/"
+            ]
+        },
+        {
+            "name": "Verretex",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact and legal terms locate original glass-fibre upcycling developer at EPFLInnovationPark Saint-SulpiceVD. StartupNights awards inWinterthur do not establish a Zurich office.",
+            "sources": [
+                "https://www.verretex.com/contact-us",
+                "https://www.verretex.com/terms",
+                "https://www.verretex.com/"
+            ]
+        },
+        {
+            "name": "Windward Bio",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current pipeline and clinical news demonstrate continuing original antibody development. Own company page explicitly states Basel headquarters with US operations and publishes Aeschenplatz6Basel. No Zurich/Zug workplace inferred from investors.",
+            "sources": ["https://windwardbio.com/"]
+        },
+        {
+            "name": "Isochronic",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own contact and imprint consistently locate robotics company Route de la Pale14Denges, CHE218280886. No target-region workplace evidenced by these company pages.",
+            "sources": ["https://isochronic.com/contact/", "https://isochronic.com/Imprint/"]
+        },
+        {
+            "name": "SurfAce Cleantech",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own site names CTO and R&D manager for biopolymer/compostable packaging development. Own contact explicitly publishes EPFLInnovationPark BuildingALausanne; no local listing inferred from awards or partners.",
+            "sources": [
+                "https://www.surfacecleantech.com/",
+                "https://www.surfacecleantech.com/contact-3"
+            ]
+        },
+        {
+            "name": "Lookthrough",
+            "decision": "primary-eligible-preparation-open",
+            "reason": "Own platform page explicitly attributes in-house code and a licensed SaaS decarbonisation planning product. Current contact gives Brandschenkenstrasse38Zurich as representative office, distinct from Herisau legal address and third-party Emch+Berger partners. August2026 own/co-party release says BuildingMinds combination expected to close Q4 subject to conditions: do not claim completed merger or list Berlin business as separate local office. Fresh1140 directory has no name/domain/BuildingMinds match. Company, software-engineering; use Representative office label.",
+            "sources": [
+                "https://lookthrough.io/platform",
+                "https://lookthrough.io/contact",
+                "https://buildingminds.com/blog/lookthrough-and-buildingminds-join-forces-to-build-the-leading-ai-platform-for-real-estate-decision-intelligence",
+                "https://www.linkedin.com/company/lookthrough1/"
+            ]
+        },
+        {
+            "name": "Pharvaris",
+            "decision": "primary-eligible-asset-preparation-gap",
+            "reason": "Own current contact identifies corporate headquarters Pharvaris GmbH CHE462641977 Grafenauweg8Zug. Own science and pipeline substantiate continuing deucrictibant development, not generic healthcare services. Public clinical-stage Company, biotech, no claim approved therapy. Exact official LinkedIn outbound verified. Fresh1140 directory has no match. CLI homepage returns challenge rather than declared artwork and investor site403; web reader successfully reads substantive pages. Remaining gap is genuine official compact artwork plus final coordinate/social extraction, not eligibility or local address.",
+            "sources": [
+                "https://pharvaris.com/contact-us/",
+                "https://pharvaris.com/science/",
+                "https://ir.pharvaris.com/",
+                "https://www.linkedin.com/company/pharvaris/"
+            ]
+        },
+        {
+            "name": "ipQuants",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current homepage explicitly identifies original Qthena workspace and current Bahnhofstrasse28Schaffhausen contact. Questel distribution is not a Zurich workplace or second standalone local entity. No local site asserted by current own evidence.",
+            "sources": ["https://ipquants.com/"]
+        },
+        {
+            "name": "Qthena",
+            "decision": "duplicate-source-product",
+            "canonicalName": "ipQuants",
+            "reason": "Own ipQuants homepage directly attributes Qthena development and explains Questel distribution. It is a product name, not a second company omission.",
+            "sources": ["https://ipquants.com/"]
+        },
+        {
+            "name": "Energy Control",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own About explains original PROLA-developed product transferred to ENERGYControl AG in2025 and gives current company/showroom Emmenweidstrasse58Emmenbruecke. EWZ deployments are customer sites, not own Zurich office. Product eligibility passes; geography does not.",
+            "sources": [
+                "https://www.energy-control.ch/en",
+                "https://www.energy-control.ch/ueber-uns"
+            ]
+        },
+        {
+            "name": "Giotto.ai",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own current homepage identifies Swiss lab and original model/operating system but explicitly locates headquarters Place de la Gare4Lausanne, CHE300132471. Distributed European team and partner data centres do not establish Zurich/Zug office.",
+            "sources": ["https://www.giotto.ai/"]
+        },
+        {
+            "name": "Magic Heidi",
+            "decision": "outside-region-current-primary-site",
+            "reason": "Own invoicing software is substantive, but own imprint gives Route de Vaux1,1126Vaux. Zurich hosting badge is not a company workplace; no local listing proposed from hosting location.",
+            "sources": ["https://magicheidi.ch/en", "https://magicheidi.ch/en/imprint"]
+        },
+        {
+            "name": "Precira",
+            "decision": "primary-reviewed-outside-region-city-level",
+            "reason": "Own product/team substantiates autonomous laser weeding development. Own-linked2026LUKB project page explicitly calls it Lucerne startup. Own contact still contains Odoo fake US placeholder: reject this as address evidence, do not infer fraud or technical ineligibility. No ZH/ZG primary site established; exact Lucerne building not verified or needed for an outside-region disposition.",
+            "sources": [
+                "https://www.precira.ch/en",
+                "https://www.precira.ch/en/kontakt",
+                "https://www.lukb.ch/zukunftspreis/precira"
+            ]
+        },
+        {
+            "name": "Starmind",
+            "decision": "primary-eligible-successor-brand-main-review",
+            "reason": "Fresh homepage redirects to Capacity's retained Starmind product, not disappearance. Rebranded corporate account Starmind by Capacity still publishes Zurich HQ Muhlebachstrasse162, matching active UID CHE115732992 at162-164. Maintained original expertise platform is affirmative. Recommend one Company profile Starmind by Capacity, registered address unless current workplace independently established; no separate Capacity duplicate. This new evidence narrows earlier successor-local-activity hold, main review required.",
+            "sources": [
+                "https://capacity.com/starmind/",
+                "https://www.linkedin.com/company/starmind-com",
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE-115.732.992",
+                "https://www.starmind.com/blog/capacity-acquires-starmind"
+            ]
+        },
+        {
+            "name": "Polariton",
+            "decision": "hold-current-successor-address",
+            "reason": "Current own domain redirects to Marvell acquisition page; acquirer April2026 announcement identifies retained photonics engineering technology/team. Old Polariton2024primary event document locates offices/labs Soodstrasse52Adliswil but cannot alone establish post-acquisition address. Resolve current register or Marvell Swiss workplace before preparing one successor-aware profile; not excluded because acquired.",
+            "sources": [
+                "https://www.marvell.com/ai/marvell-acquires-polariton.html",
+                "https://www.marvell.com/company/newsroom/marvell-acquires-polariton-advancing-future-of-optical-connectivity.html",
+                "https://www.polariton.ch/wp-content/uploads/2024/05/Information_Participants.pdf"
+            ]
+        },
+        {
+            "name": "9T Labs",
+            "decision": "hold-liquidation-successor-not-active-startup",
+            "reason": "Official UID currently names 9T Labs AG in Liquidation CHE204670554. UID status Active is not proof of active operations. Direct website TLS fails and web-reader fails; secondary reproduction of April2026 official insolvency notice reports asset sale to Biwi in Glovelier. Do not newly list historical startup or infer deletion; current local operating successor not established.",
+            "sources": [
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE204670554",
+                "https://www.9tlabs.com/"
+            ],
+            "secondaryLead": "https://www.moneyhouse.ch/en/company/9t-labs-ag-12285077391"
+        },
+        {
+            "name": "KEMARO",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Current own site explicitly says designed/produced Eschlikon; Swiss company address Hilagstrasse20,8360Eschlikon and US entity ColumbiaSC. Distribution page does not turn third-party dealers into own offices. Original robotics confirmed, no ZH/ZG site.",
+            "sources": [
+                "https://www.kemaro.ch/",
+                "https://www.kemaro.ch/company/where-to-find-us",
+                "https://knowledgehub.kemaro.ch/de/was-ist-der-k900-de"
+            ]
+        },
+        {
+            "name": "Sellva",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Current own imprint identifies Sellva as product of smartNsales AG CHE422097458, Habsburgerstrasse32Lucerne; footer additionally lists Rue des Voisins8Geneva. No ZH/ZG office asserted. Original software eligibility is not disputed.",
+            "sources": [
+                "https://sellva.net/legal/imprint/",
+                "https://smartnsales.com/legal/privacy/"
+            ]
+        },
+        {
+            "name": "smartNsales",
+            "decision": "duplicate-source-alias",
+            "canonicalName": "Sellva",
+            "reason": "Current Sellva imprint explicitly names smartNsales AG as operator and footer says formerly smartNsales. One identity, not two omissions.",
+            "sources": ["https://sellva.net/legal/imprint/"]
+        },
+        {
+            "name": "Opterion Health",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own About and privacy identify Opterion Health AG at Hofackerstrasse40B/40Muttenz. Dialysis developer is outside the target region on current primary contact evidence.",
+            "sources": ["https://www.opterion.com/about", "https://www.opterion.com/privacy"]
+        },
+        {
+            "name": "Opterio Health",
+            "decision": "duplicate-source-typo",
+            "canonicalName": "Opterion Health",
+            "reason": "Article2.21 teaser omits final n from the dialysis company. Context matches Opterion OPT101 kidney-disease programme, not unrelated Opterio eye-care exam app. Preserve source spelling as alias, not a second company.",
+            "sources": [
+                "https://www.startupticker.ch/en/news/positive-clinical-trials-boost-confidence-of-swiss-biotechs",
+                "https://www.opterion.com/about"
+            ]
+        },
+        {
+            "name": "AC Immune",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own current careers and legal pages explicitly locate the company and work at EPFL Innovation Park BuildingBLausanne. No Zurich/Zug site established.",
+            "sources": [
+                "https://www.acimmune.com/careers/",
+                "https://www.acimmune.com/terms-of-use/"
+            ]
+        },
+        {
+            "name": "Perovskia Solar",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Current own homepage identifies headquarters in Aubonne and engineering/production in Switzerland near EPFL. Empa/ETH ecosystem access is not a local site; own press release names Rue de l'Ouriette129Aubonne.",
+            "sources": [
+                "https://perovskia.solar/",
+                "https://perovskia.solar/about-us/",
+                "https://perovskia.solar/wp-content/uploads/2024/09/Perovskia-press-release-September-2024.pdf"
+            ]
+        },
+        {
+            "name": "Planlabs",
+            "decision": "outside-region-acquired-technical-team",
+            "reason": "Current corporate account identifies Aarau Neumattstrasse13 and confirms team joining Endra. Acquirer's16September2026 release identifies five-person Swiss technical acquisition but no Zurich/Zug workplace. Acquisition does not prove disappearance or justify a new local parent listing.",
+            "sources": [
+                "https://ch.linkedin.com/company/planlabs",
+                "https://www.prnewswire.com/news-releases/endra-unveils-power-studio-the-first-ai-platform-purpose-built-for-electrical-engineering-acquires-planlabs-to-build-out-the-mechanical-discipline-302881012.html"
+            ]
+        },
+        {
+            "name": "Mosanna Therapeutics",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Own contact lists Swiss entity c/oWalderWyss,Aeschenvorstadt48Basel and USRedwoodCity. Genuine therapeutic developer; no local branch inferred.",
+            "sources": ["https://mosanna.com/contact/"]
+        },
+        {
+            "name": "AEON",
+            "decision": "primary-eligible-identity-resolved-preparation-open",
+            "canonicalName": "Aeon",
+            "reason": "Current aeon.life About names product/technical leadership; platform/app terms and corporate account attribute maintained multimodal health software to MRI Health Holding AG. Own January2026 imprint gives CHE432302803 Neuwiesenstrasse15Winterthur. Not Aeon Scientific and not Canadian aeon.health. Prior unrelated website-integrity hold must not be inherited. Main preparation should use current register and distinguish corporate address from partner clinics.",
+            "sources": [
+                "https://aeon.life/en-ch/about-us/",
+                "https://aeon.life/en-ch/terms-of-use/",
+                "https://aeon.life/en-ch/impressum-terms-of-use/",
+                "https://www.linkedin.com/company/aeon-life/"
+            ],
+            "priorConflict": "primary-56c0-startupticker-identity-index.json linked older Aeon Scientific decision to Aeon name; current article anchor aeon.life proves different identity."
+        },
+        {
+            "name": "Ferm Labs",
+            "decision": "primary-eligible-registered-address-review",
+            "reason": "Own science page attributes original microbial bioprocessing; About names Stephanie/ Mattia matching Swiss entity leadership. Corporate account explicitly announces Ferm Labs AG financing, but current R&D/production roles are BolzanoItaly. Active UID CHE390844982 confirms Zug registered address. Registered company can qualify under approved rule; do not present Zug as proven laboratory. Main review should retain precise registered-only attribution.",
+            "sources": [
+                "https://fermlabs.com/science.html",
+                "https://fermlabs.com/about.html",
+                "https://www.linkedin.com/company/fermlabs/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE390844982"
+            ]
+        },
+        {
+            "name": "Etanox",
+            "decision": "hold-separate-current-activity-after-asset-sale",
+            "reason": "Acquirer Stellar Alpina directly confirms acquisition of propulsion assets and one engineer joining. That technology is represented by existing stellar-alpina. An asset sale is not proof that the entire Etanox legal entity dissolved or that any separate local work continues; no standalone new listing proposed without evidence.",
+            "sources": [
+                "https://www.linkedin.com/posts/stellar-alpina_stellar-alpina-has-acquired-assets-of-etanox-activity-7505166095926984704-FCaR"
+            ]
+        },
+        {
+            "name": "SEPPmail",
+            "decision": "reused-primary-outside-region-with-current-access-limit",
+            "reason": "Franklin's primary company flyer records Industriestrasse7Neuenhof. Reuse reviewed outside-region evidence rather than repeat preparation. Current contact access was unresolved, so no new stronger current-location claim.",
+            "sources": [
+                "https://www.seppmail.com/wp-content/uploads/2024/07/Flyer-About-EN-SEPPmail.pdf"
+            ],
+            "evidenceReference": "/tmp/zurich-registry-review/primary-56c0-startupticker-decisions.json"
+        },
+        {
+            "name": "Newcelx",
+            "decision": "duplicate-source-spelling",
+            "canonicalName": "NewcelX",
+            "reason": "Both spellings refer to the identical articles11.1and22.21 and explicitly the NLS/Kadimastem combination. Merge source-name accounting only; canonical current identity/location still unresolved.",
+            "sources": [
+                "https://www.startupticker.ch/en/news/nls-pharma-and-kadimastem-finalise-business-combination"
+            ]
+        },
+        {
+            "name": "Vitamin C",
+            "decision": "duplicate-source-spelling",
+            "canonicalName": "VitaminC",
+            "reason": "Both spellings extracted from the same article13.30 identifying VitaminºC. Merge source-name accounting only; primary investor identity/location review remains open.",
+            "sources": [
+                "https://www.startupticker.ch/en/news/new-climate-vc-vitaminc-raises-20-million"
+            ]
+        }
+    ],
+    "articleNoise": [
+        {
+            "name": "Chronic",
+            "noiseArticleIds": [
+                "1.42",
+                "2.21",
+                "5.13",
+                "5.19",
+                "8.32",
+                "11.17",
+                "13.38",
+                "17.30",
+                "23.43"
+            ],
+            "retainArticleIds": ["16.6"],
+            "reason": "Nine mentions describe chronic disease, not an entity. Article16.6 genuinely names Chronic coffee company, which remains a candidate requiring its own disposition."
+        },
+        {
+            "name": "Computer Vision",
+            "noiseArticleIds": ["3.11", "4.11"],
+            "retainArticleIds": ["8.21"],
+            "reason": "Two generic technology mentions are extraction noise. Article8.21 genuinely identifies Zurich Computer Vision/Emeralgo; do not discard the company name wholesale."
+        }
+    ],
+    "limits": [
+        "Four duplicate source-name rows are not four additional researched companies; canonical unresolved identities remain open.",
+        "Eleven noise mentions do not remove either of their two genuine company-name records.",
+        "WWW is a real women-workwear project in article23.8, not automatically noise from its name.",
+        "Source entities still awaiting primary reconciliation are not counted as verified omissions or access holds."
+    ]
+}

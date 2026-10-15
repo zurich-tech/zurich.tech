@@ -1,0 +1,33 @@
+{
+    "date": "2026-10-15",
+    "status": "published-and-independently-verified",
+    "organisationWrites": 2,
+    "publication": {
+        "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-approved-two-hosted-ready.json",
+        "checks": "Fresh main identity/shared-building review at 05:20:05.697Z against 1157 records; exact approved hosted assets decoded and hash/CORS verified at 05:20:08.684Z",
+        "result": "Supported preview passed, exact pair applied once, independent full-field/location/social verification passed at 1159 records",
+        "instruction": "Both entries frozen as published; do not reapply"
+    },
+    "lookthrough": {
+        "source": "https://lookthrough.io/platform",
+        "method": "Main Chrome rendered page",
+        "finding": "Explicit Swiss in-house software development, licensed SaaS, data aggregation, portfolio analysis and scenario modelling establish original technology. Current footer labels Zurich Representative office; preserve that label. Agent UID evidence corrects website's Brandschenkenstrasse typo to Brandschenkestrasse 38.",
+        "social": "Main directly observed corporate LinkedIn lookthrough1 outbound link",
+        "artwork": "Complete official two-ring icon visually approved by main at map size",
+        "remaining": "None for this reviewed publication"
+    },
+    "aeon": {
+        "sources": [
+            "https://aeon.life/en-ch/impressum-terms-of-use/",
+            "https://aeon.life/en-ch/technology/"
+        ],
+        "finding": "Main read current official imprint: MRI Health Holding AG, CHE-432.302.803, Neuwiesenstrasse 15, Winterthur. Technology page describes multimodal imaging and patient portal but alone is insufficient to distinguish original software development from clinical service delivery.",
+        "artwork": "Complete official dark symbol on peach circle visually approved by main at map size",
+        "developmentEvidence": {
+            "source": "https://www.linkedin.com/jobs/view/4429826131",
+            "method": "Main Chrome rendered employer-authored role",
+            "finding": "Explicit existing engineering team, technical architecture for patient and partner platforms, daily coding and Winterthur hybrid office establish original local software development. Role is no longer accepting applications; do not describe it as a currently open vacancy. Registered map address remains separate from partner scan clinics."
+        },
+        "remaining": "None for this reviewed publication"
+    }
+}

@@ -1,0 +1,432 @@
+{
+    "schemaVersion": 1,
+    "historicalSnapshot": true,
+    "laterReview": {
+        "date": "2026-10-15",
+        "slug": "reasoning-labs",
+        "decision": "identity-resolved-broad-ai-approved",
+        "sources": [
+            "https://www.linkedin.com/company/reasoning-labs/about/",
+            "https://reasoninglabs.com/"
+        ],
+        "evidence": "Main directly inspected authenticated Chrome company About page: Reasoning Labs, Zurich headquarters, founded2026, 2-10 employees and explicit reasoninglabs.com website link. The official domain states superintelligence focus. Other similarly named company search results were distinguished.",
+        "action": "Supported classify dryrun and one apply changed empty topics to ai, retaining startup kind; independent full-table production readback verified at1093 organisations",
+        "social": "Supported enrich preview confirms the exact corporate LinkedIn link already exists unchanged; no link mutation needed",
+        "remaining": "No verified street address; no map pin created or location change made. No finer AI subfield inferred."
+    },
+    "reviewedOn": "2026-10-14",
+    "scope": "Only the 15 explicitly assigned topicless production organisations. This is a review document, not an import or mutation payload.",
+    "snapshot": {
+        "path": "/tmp/zurich-registry-review/current-public-organisations.json",
+        "count": 811,
+        "sha256": "7374af5bb39d14923418bd849f076835e44ce155e0235d5d8c56983319aaa023"
+    },
+    "taxonomy": {
+        "path": "/Users/florian/symbol/zurich.tech/convex/topics/catalogue.ts",
+        "climateTechMeaning": "Energy",
+        "rules": [
+            "Use current canonical names and stable keys.",
+            "Do not derive investor topics from individual portfolio companies.",
+            "Do not automatically assign Startups merely because an organisation finances startups.",
+            "Keep multidisciplinary university and broad community umbrellas topicless; classify specialist units independently.",
+            "Proposals, if any, require Main approval; no redundant ancestors."
+        ]
+    },
+    "counts": {
+        "reviewed": 15,
+        "justifiedTopicless": 13,
+        "identityHolds": 1,
+        "explicitExclusions": 1,
+        "proposedTagChanges": 0
+    },
+    "productionWrites": 0,
+    "repositoryEdits": 0,
+    "proposedMutations": [],
+    "interpretation": "An empty proposedTopics array means no additions proposed, not a request to overwrite topics. Null means classification withheld. Missing production topic fields are preserved distinctly from empty arrays.",
+    "limitations": [
+        "Primary pages were retrieved through the web reader; its crawl freshness ranged from today to four days old.",
+        "This topic audit does not recertify addresses, logos, social accounts or registry eligibility.",
+        "CLIMADA body text was unavailable; its exclusion is authoritative regardless.",
+        "No broad discovery or other agents' sources were pursued."
+    ],
+    "rows": [
+        {
+            "slug": "lakestar",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://www.lakestar.com/",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Investment platform spanning venture funds and personal investments across stages and geographies; current mission supports European sovereignty and portfolio growth."
+                }
+            ],
+            "reason": "Broad investment remit does not establish a specific technical specialisation. Sovereignty is not evidence of cybersecurity or AI policy work.",
+            "expected": {
+                "slug": "lakestar",
+                "id": "p1754wjcf0ta2n4t47tdkkwa958g8bh7",
+                "name": "Lakestar",
+                "kind": "investor",
+                "website": "https://www.lakestar.com/",
+                "updatedAt": 1791994314823,
+                "topicsFieldPresent": true,
+                "topics": []
+            }
+        },
+        {
+            "slug": "zkb",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://www.zkb.ch/de/unternehmen/firmengruendung/start-up-finanzierung.html",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Finances innovative Swiss startups and scaleups with equity or convertible loans; criteria cover stage, Swiss domicile, innovation, prototype and business plan."
+                }
+            ],
+            "reason": "Banking and financing do not establish a Fintech investment mandate. Portfolio examples do not justify Medtech or Robotics tags.",
+            "expected": {
+                "slug": "zkb",
+                "id": "p177x5rawaza8vsdgjfmdq8yx98g983p",
+                "name": "Zürcher Kantonalbank",
+                "kind": "investor",
+                "website": "https://www.zkb.ch/",
+                "updatedAt": 1791993048860,
+                "topicsFieldPresent": true,
+                "topics": []
+            }
+        },
+        {
+            "slug": "winti-ventures",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://winti-ventures.ch/",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Organises startup pitches and connects founders with investors in Winterthur; supports early financing and growth."
+                }
+            ],
+            "reason": "Broad matchmaking activity, without a technical sector restriction. Do not derive tags from participating startups.",
+            "expected": {
+                "slug": "winti-ventures",
+                "id": "p177was9w6qn1h886bhx60wtc98g9e9p",
+                "name": "Winti Ventures",
+                "kind": "investor",
+                "website": "https://winti-ventures.ch/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "qbit-capital",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://qbitcapital.xyz/how-we-invest/",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Provides pre-seed and seed financing and founder support, including go-to-market and scaling; homepage identifies a Swiss-startup focus."
+                }
+            ],
+            "reason": "Stage and geography define the remit, not the listed portfolio companies' technical sectors. The name QBIT does not establish Quantum.",
+            "expected": {
+                "slug": "qbit-capital",
+                "id": "p17bf97dhdwdn68hy45e70w3p18g9dn1",
+                "name": "QBIT Capital",
+                "kind": "investor",
+                "website": "https://qbitcapital.xyz/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "backbone-ventures",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://www.backbone.vc/focus",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "5502 Fund focuses on pre-seed, underrepresented founders and Germany/Switzerland; explicitly describes a generalist, broad-industry strategy."
+                }
+            ],
+            "reason": "Explicit generalist investment mandate supports intentional topiclessness.",
+            "expected": {
+                "slug": "backbone-ventures",
+                "id": "p17e1737mnsmtxaczbj1j17mph8g9zze",
+                "name": "Backbone Ventures",
+                "kind": "investor",
+                "website": "https://www.backbone.vc/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "equitypitcher-ventures",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://www.equitypitcher.com/",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Diversified venture firm backing entrepreneurs across industries, markets and stages; industry network supports B2B technology sales."
+                }
+            ],
+            "reason": "B2B technology is not a specific catalogue subject. Portfolio announcements are not mandate evidence.",
+            "expected": {
+                "slug": "equitypitcher-ventures",
+                "id": "p17f1dysd89psmhtkd4kbyzhzh8g9jd7",
+                "name": "EquityPitcher Ventures",
+                "kind": "investor",
+                "website": "https://www.equitypitcher.com/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "spicehaus-partners",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://www.spicehaus.com/",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Backs Swiss early-stage B2B technology companies with sophisticated or deep-tech products and international scaling potential."
+                }
+            ],
+            "reason": "Deep tech and B2B are broad investment criteria, not specific canonical topics. Growth workshops do not establish technical subject expertise.",
+            "expected": {
+                "slug": "spicehaus-partners",
+                "id": "p1738fq8h8aq5ehzw1m9xj0j9s8g9heb",
+                "name": "Spicehaus Partners",
+                "kind": "investor",
+                "website": "https://www.spicehaus.com/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "sictic",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://www.sictic.ch/startups/",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Matches technology startups to angel investors; members invest directly. Criteria require innovative technology, science or IP enabling scalable growth."
+                }
+            ],
+            "reason": "Broad innovation criteria are not a narrower technical mandate. Neither portfolio companies nor themed pitch events determine organisation-wide topics.",
+            "expected": {
+                "slug": "sictic",
+                "id": "p17fp4pr188vpg516eahzqcv6x8g9189",
+                "name": "SICTIC",
+                "kind": "investor",
+                "website": "https://www.sictic.ch/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "founderful",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://www.founderful.com/about",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Partners with Swiss startups and supports their development in the global technology industry."
+                }
+            ],
+            "reason": "Swiss technology startup support remains broad; no specific technical mandate is established by the reviewed activity statement.",
+            "expected": {
+                "slug": "founderful",
+                "id": "p170sb1e27b0372jnsmykhp0en8g82kr",
+                "name": "Founderful",
+                "kind": "investor",
+                "website": "https://www.founderful.com/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "zhaw",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://www.zhaw.ch/en/about-us",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Applied university with eight schools spanning engineering, health, linguistics, psychology, architecture, management and social work; its overview also explicitly highlights energy and social integration."
+                }
+            ],
+            "reason": "Retain the multidisciplinary university umbrella without selecting a subset of its disciplines. Energy is genuine stated activity, but no university-wide Energy tag is proposed under the broad-umbrella treatment; specialised units should be classified separately.",
+            "expected": {
+                "slug": "zhaw",
+                "id": "p178n8qaacxknnqpykkgy8mcnd8f4bdb",
+                "name": "ZHAW",
+                "kind": "university",
+                "website": "https://www.zhaw.ch/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "uzh",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://www.uzh.ch/en/explore/portrait/profile.html",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "University comprising seven faculties and approximately 100 subject areas, with broad teaching, research and public knowledge transfer."
+                }
+            ],
+            "reason": "Multidisciplinary university umbrella. Do not promote selected institute research or highlighted awards to organisation-wide leaf tags.",
+            "expected": {
+                "slug": "uzh",
+                "id": "p17c9q75qs1fdyt1bv4fshqeq18f519z",
+                "name": "University of Zurich",
+                "kind": "university",
+                "website": "https://www.uzh.ch/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "eth-zurich",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://ethz.ch/en/the-eth-zurich.html",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Science and engineering university whose listed departments span architecture, biology, chemistry, computing, mathematics, materials, physics and social sciences."
+                }
+            ],
+            "reason": "Broad university umbrella; individual departmental specialisations do not warrant an arbitrary subset of institution-wide tags.",
+            "expected": {
+                "slug": "eth-zurich",
+                "id": "p17a07tc54822vapysmqfm7c2s8f447w",
+                "name": "ETH Zurich",
+                "kind": "university",
+                "website": "https://ethz.ch/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "zurich-tech",
+            "decision": "justified-topicless",
+            "action": "no-change",
+            "proposedTopics": [],
+            "primaryEvidence": [
+                {
+                    "url": "https://zurich.tech/about",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-page web retrieval",
+                    "activity": "Volunteer-run nonprofit association for people building technology in Zurich, organising talks, paper clubs, dinners and hackathons."
+                }
+            ],
+            "reason": "Current broad community remit takes precedence over historical ZurichNLP/ZurichAI names. Team expertise and individual events do not establish an exclusive NLP or AI mandate.",
+            "expected": {
+                "slug": "zurich-tech",
+                "id": "p17fw5qzvabv58xpdw4y01v1j18e640b",
+                "name": "zurich.tech",
+                "kind": "community",
+                "website": "https://zurich.tech",
+                "updatedAt": 1791992077881,
+                "topicsFieldPresent": true,
+                "topics": []
+            }
+        },
+        {
+            "slug": "reasoning-labs",
+            "decision": "identity-hold",
+            "action": "no-change",
+            "proposedTopics": null,
+            "primaryEvidence": [
+                {
+                    "url": "https://reasoninglabs.com/",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-domain web retrieval",
+                    "activity": "Landing page claims superintelligence and identifies REASONING MACHINES INC. in its copyright notice; the retrieved text contains no Zurich address or verified connection to the production entity."
+                }
+            ],
+            "reason": "Preserve the explicit identity hold. Domain branding and a superintelligence claim do not resolve the Zurich legal identity; do not assign AI, ML or Agents.",
+            "releaseCondition": "Main independently resolves the production entity and official domain/local presence, then authorises classification review.",
+            "expected": {
+                "slug": "reasoning-labs",
+                "id": "p17emksnc16q6zf6yvd1m9dn5h8g4cgh",
+                "name": "Reasoning Labs",
+                "kind": "startup",
+                "website": "https://reasoninglabs.com/",
+                "updatedAt": 1791981768882,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        },
+        {
+            "slug": "climada-technologies",
+            "decision": "explicit-exclusion",
+            "action": "no-change",
+            "proposedTopics": null,
+            "primaryEvidence": [
+                {
+                    "url": "https://climada.tech/",
+                    "reviewedOn": "2026-10-14",
+                    "method": "official-domain web retrieval",
+                    "activity": null,
+                    "retrievalLimitation": "The web reader returned a climate-risk software page title but no body text. This is not treated as fresh verification of activity."
+                }
+            ],
+            "reason": "User explicitly excludes this entry from classification. Preserve exclusion, do not requeue or clear fields. The stable key climate-tech means Energy, not environmental or climate-risk software.",
+            "authority": "Latest explicit user instruction",
+            "expected": {
+                "slug": "climada-technologies",
+                "id": "p17bbf25gv5324f5akqh3h0y8n8f5t7w",
+                "name": "CLIMADA Technologies",
+                "kind": "startup",
+                "website": "https://climada.tech/",
+                "updatedAt": 1791991567194,
+                "topicsFieldPresent": false,
+                "topics": null
+            }
+        }
+    ]
+}

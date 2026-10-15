@@ -1,0 +1,141 @@
+{
+    "reviewedOn": "2026-10-15",
+    "scope": "Current tracked and untracked src/convex/tests/scripts changes; no source edits",
+    "findings": [
+        {
+            "severity": "P2",
+            "file": "src/map/map.tsx",
+            "line": 663,
+            "status": "Fixed locally after explicit ownership coordination: panel ref replaces canvas lookup",
+            "title": "Topic activation loses keyboard focus",
+            "scenario": "Keyboard-activate a topic link in selected details or a preview. filterTopic removes that view, then attempts to focus search.",
+            "cause": "container is ref={container} on .map-canvas. The .map-directory-panel is a sibling outside that subtree, so container.querySelector('.map-directory-panel input[type=search]') always returns null. Focus remains on a removed element/body rather than the intended search input.",
+            "proposedFix": "Use the existing panel ref to select the main .map-search input; preserve preventScroll. Coordinate before editing.",
+            "testGap": "Added execution-level regression for the actual component handler with mocked view/focus targets: details and preview origins, deferred focus, query/kind retention, cleared navigation and preventScroll. This is not a mounted browser DOM or physical-keyboard test."
+        }
+    ],
+    "introducedRegressionsFound": 0,
+    "checks": {
+        "focused": {
+            "passed": 71,
+            "failed": 0,
+            "assertions": 8222,
+            "files": 6,
+            "bun": "1.3.3",
+            "status": "executed by this reviewer"
+        },
+        "typecheck": "passed, executed by this reviewer",
+        "diffCheck": "passed for src convex tests scripts",
+        "fullSuite": {
+            "passed": 338,
+            "failed": 0,
+            "assertions": 10860,
+            "provenance": "Main agent actual test-tool result, not rerun by this reviewer"
+        }
+    },
+    "reviewed": [
+        "Map query debounce and deferred selection invalidation",
+        "List-origin camera/scroll/focus restoration and map-origin focus",
+        "Sheet compact measurement, drag cancellation, keyboard sizing and viewport CSS",
+        "Row identity/highlight/hover memoization",
+        "Hosted-logo predicate, CORS request ordering and bounded decode recovery",
+        "Shared Image use for news and event logos",
+        "cleanDescriptions internal mutation bounds, exact guards and transactional rollback",
+        "media-headers.json scope and generated API module reference"
+    ],
+    "remainingTestGaps": [
+        "Several navigation/sheet component tests assert source strings plus pure state rather than mounted component interactions",
+        "Image tests cover URL policy and mocked badge recovery; they do not simulate a real browser mixed-mode HTTP cache",
+        "No physical-phone soft-keyboard/touch/assistive-technology run in this review",
+        "No new production-sized browser benchmark; earlier actual-app performance evidence remains applicable only to its recorded dataset/device"
+    ],
+    "productionWrites": 0,
+    "sourceEdits": 1,
+    "topicFocusVerification": {
+        "files": ["src/map/map.tsx", "tests/map-navigation.test.ts"],
+        "bun": "1.3.3",
+        "focusedTests": 62,
+        "failures": 0,
+        "assertions": 8162,
+        "typecheck": "passed",
+        "format": "targeted files formatted",
+        "diffCheck": "passed",
+        "browserQA": {
+            "status": "Passed actual Chrome interactions in isolated local Solid/WebGL snapshot app",
+            "fixture": "/tmp/zurich-map-qa.Xd8xvS",
+            "productionConnection": false,
+            "cases": [
+                {
+                    "viewport": "1960x1152",
+                    "origin": "ETH AI Center detail",
+                    "activation": "click AI",
+                    "query": "ETH",
+                    "kind": "lab",
+                    "topic": "ai",
+                    "activeElement": "Search organisations or addresses",
+                    "documentScroll": [0, 0],
+                    "panelScroll": 0
+                },
+                {
+                    "viewport": "1960x1152",
+                    "origin": "ETH AI Center keyboard-focused result preview",
+                    "activation": "Enter AI",
+                    "query": "ETH",
+                    "kind": "lab",
+                    "topic": "ai",
+                    "activeElement": "Search organisations or addresses",
+                    "documentScroll": [0, 0],
+                    "panelScroll": 0,
+                    "previewDismissed": true
+                },
+                {
+                    "viewport": "390x844",
+                    "origin": "ETH AI Center detail",
+                    "activation": "click AI",
+                    "query": "ETH",
+                    "kind": "lab",
+                    "topic": "ai",
+                    "activeElement": "Search organisations or addresses",
+                    "documentScroll": [0, 0],
+                    "panelScroll": 0
+                },
+                {
+                    "viewport": "320x640",
+                    "origin": "Dream Machines keyboard-focused marker preview",
+                    "activation": "click Robotics",
+                    "query": "Dream",
+                    "kind": "startup",
+                    "topic": "robotics",
+                    "activeElement": "Search organisations or addresses",
+                    "documentScrollBeforeAfter": [
+                        [0, 0],
+                        [0, 0]
+                    ],
+                    "panelScrollBeforeAfter": [0, 0],
+                    "previewDismissed": true
+                },
+                {
+                    "viewport": "320x640",
+                    "origin": "Dream Machines detail",
+                    "activation": "click AI replacing Robotics",
+                    "query": "Dream",
+                    "kind": "startup",
+                    "topic": "ai",
+                    "activeElement": "Search organisations or addresses",
+                    "documentScrollBeforeAfter": [
+                        [0, 0],
+                        [0, 0]
+                    ],
+                    "panelScrollBeforeAfter": [0, 0]
+                }
+            ],
+            "additionalObservation": "320px ETH same-topic keyboard activation also focused search and retained query/kind. Panel scroll was 43 afterward without a before reading, so this case is not claimed as scroll-preservation proof; the subsequent Dream cases measured both sides.",
+            "consoleErrorsOrWarnings": [],
+            "screenshot": "/tmp/zurich-registry-review/topic-focus-mobile-320.jpg",
+            "testDistinction": "These are actual app DOM activeElement/URL/scroll observations. The 62 focused tests above include mocked handler execution, not browser interaction.",
+            "limitations": "Desktop Chrome with viewport overrides, not physical-phone touch, soft-keyboard or assistive-technology validation. Mobile marker preview was opened by keyboard focus, not touch hover.",
+            "cleanup": "Viewport override reset, owned ephemeral tab closed, own fixture server stopped"
+        }
+    },
+    "deployments": 0
+}

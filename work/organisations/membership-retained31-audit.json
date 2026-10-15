@@ -1,0 +1,962 @@
+{
+    "checkedAt": "2026-10-15T05:29:21.977Z",
+    "scope": "Exact31 retained holds, no new discovery",
+    "count": 31,
+    "unassessed": 0,
+    "reasonCounts": {
+        "exact-public-location-or-building": 11,
+        "local-technical-team-or-product-attribution": 16,
+        "external-primary-access-blocker": 2,
+        "artwork-quality": 1,
+        "other-owner-review": 1
+    },
+    "records": [
+        {
+            "identityKey": "digitalwinterthur",
+            "name": "Digital Winterthur",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Current association/team/projects readable and technical ecosystem scope plausible. Inspected pages do not disclose exact public street. Partner organisations and event venues are not office evidence. No private board-member address or inferred map pin.",
+            "priorFinding": "Current association/team/projects readable and technical ecosystem scope plausible. Inspected pages do not disclose exact public street. Partner organisations and event venues are not office evidence. No private board-member address or inferred map pin.",
+            "attempts": [
+                {
+                    "url": "https://www.digital-winterthur.ch/ueber-uns",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/7d6170f24435ef1ba452.json",
+                        "fileSha256": "c9d8dc2afc6aeeee6dae746945bc0285eab4601e04719c1da56ab4e673415f56",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:05:13.853Z",
+                        "capturedTextLength": 1527
+                    }
+                },
+                {
+                    "url": "https://digital-winterthur.ch/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/d69410a17ffedb3f7716.json",
+                        "fileSha256": "87243e17952d9f9c5417421235cb2aae6539df911da4c601c64b9bb7efcd9030",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:22:31.032Z",
+                        "capturedTextLength": 2667
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Current association/team/projects readable and technical ecosystem scope plausible. Inspected pages do not disclose exact public street. Partner organisations and event venues are not office evidence. No private board-member address or inferred map pin.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "novaintelligence",
+            "name": "Nova Intelligence",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Own enterprise-agent product evident. Contact page supplies email/form, not a local street; conferences and Swiss association membership are not office proof.",
+            "priorFinding": "Own enterprise-agent product evident. Contact page supplies email/form, not a local street; conferences and Swiss association membership are not office proof.",
+            "attempts": [
+                {
+                    "url": "https://www.novaintelligence.com/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/1ab270d357a2a9931aaf.json",
+                        "fileSha256": "34d82a987dcb819eca75c8b67544926604784cb5c5f3fb4a816ad1abff90bd5c",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:34:24.295Z",
+                        "capturedTextLength": 6250
+                    }
+                },
+                {
+                    "url": "https://www.novaintelligence.com/contact",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/76c17def47d8e6f8efd8.json",
+                        "fileSha256": "9bfc7dfac6b08e29e470ab8ea15038d3130689ba3a0f373291525af319dded29",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:34:24.547Z",
+                        "capturedTextLength": 1420
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Own enterprise-agent product evident. Contact page supplies email/form, not a local street; conferences and Swiss association membership are not office proof.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "palantir",
+            "name": "Palantir",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Ordinary Chrome office directory explicitly lists Switzerland/Zurich but no street. Own platform documentation read. Exact public business street remains unresolved; no customer or employee address substituted",
+            "priorFinding": "Official contact explicitly lists Zurich office and own platform documentation supports technical scope. No street is disclosed on inspected office page. Hold exact public office; do not substitute an employee or customer site.",
+            "attempts": [
+                {
+                    "url": "https://www.palantir.com/contact/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/2799981c6de982924ec5.json",
+                        "fileSha256": "e558689cca002a85b7c86178c685c77d01bd0f151b7a422b612eca1f035c9244",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:41.312Z",
+                        "capturedTextLength": 34
+                    }
+                },
+                {
+                    "url": "https://www.palantir.com/docs/foundry/architecture-center/overview",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/b472f662a0591a7d0559.json",
+                        "fileSha256": "f713cfa5308a5799fa63f07241c93b2f47f3aa645cc94e610064888de16bd089",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:42.141Z",
+                        "capturedTextLength": 6369
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Ordinary Chrome office directory explicitly lists Switzerland/Zurich but no street. Own platform documentation read. Exact public business street remains unresolved; no customer or employee address substituted",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "openai",
+            "name": "openAI",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Readable official careers result listed Zurich Forward Deployed Engineer and Research Engineer/Scientist Data Understanding Foundations. Local technical scope supported; exact public street remains unresolved",
+            "priorFinding": "Official careers results explicitly list research roles in Zurich. This resolves local technical scope, not exact public street address. Do not infer building from press or employee profiles.",
+            "attempts": [
+                {
+                    "url": "https://openai.com/careers/search/?c=alignment%2Chuman-data%2Cplatform%2Cpost-training%2Cpreparedness%2Csafety-systems%2Csora%2Cresearch",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/f1e0a31cc4bd9e3bb84d.json",
+                        "fileSha256": "8a4c61638407ef11a66a3d05cdb7580f651685b8b7883cff84d7c15f145023a7",
+                        "status": 403,
+                        "checkedAt": "2026-10-15T04:02:47.491Z",
+                        "capturedTextLength": 0
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Readable official careers result listed Zurich Forward Deployed Engineer and Research Engineer/Scientist Data Understanding Foundations. Local technical scope supported; exact public street remains unresolved",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "fellowdigitals",
+            "name": "Fellow Digitals",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Current official contact lists Cologne, Tegernsee, Amsterdam, Dhaka and Singapore but no Zurich street; another official-language footer retains Zurich telephone and company LinkedIn lists Bahnhofplatz 1. Own LMS/intranet development is confirmed. Do not promote potentially stale LinkedIn branch to current engineering office without corroboration.",
+            "priorFinding": "Current official contact lists Cologne, Tegernsee, Amsterdam, Dhaka and Singapore but no Zurich street; another official-language footer retains Zurich telephone and company LinkedIn lists Bahnhofplatz 1. Own LMS/intranet development is confirmed. Do not promote potentially stale LinkedIn branch to current engineering office without corroboration.",
+            "attempts": [
+                {
+                    "url": "https://www.fellowdigitals.com/de/kontakt/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/770579038709f9cf2c29.json",
+                        "fileSha256": "aff5919ef4859c3d860e3bbdedb7a3f396c9c9518738dec21beb1155b78067ec",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:35:34.560Z",
+                        "capturedTextLength": 3814
+                    }
+                },
+                {
+                    "url": "https://www.fellowdigitals.com/nl/imprint/",
+                    "method": "prior-rendered-or-web-review-record",
+                    "record": "/tmp/zurich-registry-review/membership-holds-reading-index.json",
+                    "rawCaptureAvailable": false
+                },
+                {
+                    "url": "https://ch.linkedin.com/company/fellowdigitals",
+                    "method": "prior-rendered-or-web-review-record",
+                    "record": "/tmp/zurich-registry-review/membership-holds-reading-index.json",
+                    "rawCaptureAvailable": false
+                }
+            ],
+            "latestBrowserOrWebFinding": "Current official contact lists Cologne, Tegernsee, Amsterdam, Dhaka and Singapore but no Zurich street; another official-language footer retains Zurich telephone and company LinkedIn lists Bahnhofplatz 1. Own LMS/intranet development is confirmed. Do not promote potentially stale LinkedIn branch to current engineering office without corroboration.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "gstch",
+            "name": "gst.ch",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Current technical educational programme includes November 2026 engineering visit; imprint names editorial responsibility and email but no physical business address. Do not pin private officer contact or excursion venue.",
+            "priorFinding": "Current technical educational programme includes November 2026 engineering visit; imprint names editorial responsibility and email but no physical business address. Do not pin private officer contact or excursion venue.",
+            "attempts": [
+                {
+                    "url": "https://www.gst.ch/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/ea3c5964849d93b3443a.json",
+                        "fileSha256": "74c30294af8220e6f0840f8b67f075be94dffb6d5470c1bb7d9e251cd5325daf",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:35:35.886Z",
+                        "capturedTextLength": 1544
+                    }
+                },
+                {
+                    "url": "https://www.gst.ch/about/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/b2b5f1c524370d24903e.json",
+                        "fileSha256": "d75a95b95d5a51758578630e810a37eb4bea8e21715d14e53ac76d821649d4dc",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:35:35.976Z",
+                        "capturedTextLength": 286
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Current technical educational programme includes November 2026 engineering visit; imprint names editorial responsibility and email but no physical business address. Do not pin private officer contact or excursion venue.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "bitcoinassociationswitzerland",
+            "name": "Bitcoin Association Switzerland",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Technical community and activity remain supported, but current public business street not established. Do not reuse historical officer residential/care-of details from old regulatory letters.",
+            "priorFinding": "Technical community and activity remain supported, but current public business street not established. Do not reuse historical officer residential/care-of details from old regulatory letters.",
+            "attempts": [
+                {
+                    "url": "https://bitcoinassociation.ch/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/4f67a16e2488ae02c775.json",
+                        "fileSha256": "cc3d0feb34d9333bfbc0f36240d96a0a21295e78f0eaa58b98e0e4809ec812f0",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:47.605Z",
+                        "capturedTextLength": 1499
+                    }
+                },
+                {
+                    "url": "https://bitcoinassociation.ch/events",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/c2fa022db0582d06b9d2.json",
+                        "fileSha256": "3fc32ef71a814e286864d71e33021fb8d38afcc9032a36b2a27abfde4859030f",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:47.898Z",
+                        "capturedTextLength": 1808
+                    }
+                },
+                {
+                    "url": "https://bitcoinassociation.ch/board",
+                    "method": "prior-rendered-or-web-review-record",
+                    "record": "/tmp/zurich-registry-review/membership-holds-reading-index.json",
+                    "rawCaptureAvailable": false
+                }
+            ],
+            "latestBrowserOrWebFinding": "Technical community and activity remain supported, but current public business street not established. Do not reuse historical officer residential/care-of details from old regulatory letters.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "fintechconnector",
+            "name": "FinTech Connector",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Own public community page connects fintech professionals and firms; Zurich community members/networking event do not identify a permanent business office. No event boat or member address used as a pin.",
+            "priorFinding": "Own public community page connects fintech professionals and firms; Zurich community members/networking event do not identify a permanent business office. No event boat or member address used as a pin.",
+            "attempts": [
+                {
+                    "url": "https://members.fintechconnector.com/public/organizations/fintech-connector",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/1663e451e11b05e03a94.json",
+                        "fileSha256": "40662194487212877b4ba056177d88f6e398a5806b77cafba7475cc1417cb65e",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:41:15.260Z",
+                        "capturedTextLength": 2848
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Own public community page connects fintech professionals and firms; Zurich community members/networking event do not identify a permanent business office. No event boat or member address used as a pin.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "swissinsurtechhub",
+            "name": "Swiss InsurTech Hub",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Own nonprofit identity and hands-on workshops support technical community scope. Both current contact surfaces state Zurich only, with no public street. Do not use summit venue or member address.",
+            "priorFinding": "Own nonprofit identity and hands-on workshops support technical community scope. Both current contact surfaces state Zurich only, with no public street. Do not use summit venue or member address.",
+            "attempts": [
+                {
+                    "url": "https://swissinsurtech.com/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/c65ec771404e26da676d.json",
+                        "fileSha256": "9a71c1b4005716c80f99f08c2f2486c18929dbe40c21d03cc5c0276f2483aa49",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:38:46.967Z",
+                        "capturedTextLength": 2283
+                    }
+                },
+                {
+                    "url": "https://summit.swissinsurtech.com/contact-us/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/29fe0a92b9853c0ee27c.json",
+                        "fileSha256": "acb5e09330e19be547ce1c3eb43c9d2456e2cb21c2345a32ba1454a10a1bf9ac",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:38:49.735Z",
+                        "capturedTextLength": 1029
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Own nonprofit identity and hands-on workshops support technical community scope. Both current contact surfaces state Zurich only, with no public street. Do not use summit venue or member address.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "veryearlyventures",
+            "name": "very early Ventures",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Own site supports Web3 investment activity. Legal notice identifies very early I (G.P.) Limited in Grand Cayman, not a Zurich office. City-level Zurich signals do not resolve an exact local public address. No guessed map pin.",
+            "priorFinding": "Own site supports Web3 investment activity. Legal notice identifies very early I (G.P.) Limited in Grand Cayman, not a Zurich office. City-level Zurich signals do not resolve an exact local public address. No guessed map pin.",
+            "attempts": [
+                {
+                    "url": "https://www.veryearly.xyz/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/beede2ccad4c42456783.json",
+                        "fileSha256": "648f17c2da950d7ed9cf7ac33b0707b601353a9d6091a64f799e8a628e19e3c5",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:32:37.129Z",
+                        "capturedTextLength": 261
+                    }
+                },
+                {
+                    "url": "https://www.veryearly.xyz/impressum-legal-notice",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/ad36c0598c8c3c245382.json",
+                        "fileSha256": "d07bab5690f5b3392a63eb268610406496f82c15ebc138263ba726ee308144dd",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:32:37.182Z",
+                        "capturedTextLength": 519
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Own site supports Web3 investment activity. Legal notice identifies very early I (G.P.) Limited in Grand Cayman, not a Zurich office. City-level Zurich signals do not resolve an exact local public address. No guessed map pin.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "datalevelag",
+            "name": "datalevel AG",
+            "reasonGroup": "exact-public-location-or-building",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Own address Risistrasse 32, 8903 Birmensdorf conflicts with official address results 32a/32b and 32.1/32.2/32.3. Existing exact-building review preserved. No inferred entrance choice or averaging coordinates.",
+            "priorFinding": "Own address Risistrasse 32, 8903 Birmensdorf conflicts with official address results 32a/32b and 32.1/32.2/32.3. Existing exact-building review preserved. No inferred entrance choice or averaging coordinates.",
+            "attempts": [
+                {
+                    "url": "https://datalevel.ch/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/689433b9273074312c1c.json",
+                        "fileSha256": "907c358dbe4f34ddfa2f90b4a789c3b5b72dee5791507d05388ebbe2fbe87de3",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:49.923Z",
+                        "capturedTextLength": 4619
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Own address Risistrasse 32, 8903 Birmensdorf conflicts with official address results 32a/32b and 32.1/32.2/32.3. Existing exact-building review preserved. No inferred entrance choice or averaging coordinates.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "alibabacloud",
+            "name": "Alibaba Cloud",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Own global cloud technology is established. Official infrastructure locations do not establish a Zurich business or engineering office; Swiss customer coverage is not local presence. No exact local pin supported.",
+            "priorFinding": "Own global cloud technology is established. Official infrastructure locations do not establish a Zurich business or engineering office; Swiss customer coverage is not local presence. No exact local pin supported.",
+            "attempts": [
+                {
+                    "url": "https://www.alibabacloud.com/en/global-locations?_p_lc=1",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/0b456ce7d99a36359721.json",
+                        "fileSha256": "9f6fa63fa9c5a876cc254add52a6a710d74893641fe0801b345974558b82546c",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:37.096Z",
+                        "capturedTextLength": 9389
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Own global cloud technology is established. Official infrastructure locations do not establish a Zurich business or engineering office; Swiss customer coverage is not local presence. No exact local pin supported.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "cloudflare",
+            "name": "Cloudflare",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Current Zurich event found but no own office established. Gotthardstrasse 5 in event listing is not accepted as an office.",
+            "priorFinding": "Current Zurich event found but no own office established. Gotthardstrasse 5 in event listing is not accepted as an office.",
+            "attempts": [
+                {
+                    "url": "https://fieldmarketing.www.cloudflare.com/immerse-zurich-2026?lang=en",
+                    "method": "prior-rendered-or-web-review-record",
+                    "record": "/tmp/zurich-registry-review/membership-holds-reading-index.json",
+                    "rawCaptureAvailable": false
+                },
+                {
+                    "url": "https://www.cloudflare.com/en-gb/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/bc10e03be05ff5f636e8.json",
+                        "fileSha256": "6a5b26fb159f63f8cff7999c90ad8c19dc330ba37c7835c66eb938f9005a8660",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:34:17.076Z",
+                        "capturedTextLength": 20226
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Current Zurich event found but no own office established. Gotthardstrasse 5 in event listing is not accepted as an office.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "dassaultsystems",
+            "name": "Dassault Systems",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Official location page confirms Balz-Zimmermannstrasse 7, 8302 Kloten. Current listed Kloten role is sales; ZHAW partner lab or customer sites cannot be relabelled Dassault engineering offices.",
+            "priorFinding": "Official location page confirms Balz-Zimmermannstrasse 7, 8302 Kloten. Current listed Kloten role is sales; ZHAW partner lab or customer sites cannot be relabelled Dassault engineering offices.",
+            "attempts": [
+                {
+                    "url": "https://www.3ds.com/about/company/office-locations/switzerland",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/e5d259634496f5520fb8.json",
+                        "fileSha256": "ae9b8b118c238430b303e5d06fe84c9e16fe7f057da64c10a229cb22e7c4ff03",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:37.548Z",
+                        "capturedTextLength": 1718
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Official location page confirms Balz-Zimmermannstrasse 7, 8302 Kloten. Current listed Kloten role is sales; ZHAW partner lab or customer sites cannot be relabelled Dassault engineering offices.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "ernstyoung",
+            "name": "Ernst & Young",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Own blockchain product exists globally. Swiss wavespace primary describes Basel client co-creation, not an exact local Zurich product-development team. Preserve a specific local attribution hold, not assertion that EY has no IP.",
+            "priorFinding": "Own blockchain product exists globally. Swiss wavespace primary describes Basel client co-creation, not an exact local Zurich product-development team. Preserve a specific local attribution hold, not assertion that EY has no IP.",
+            "attempts": [
+                {
+                    "url": "https://www.ey.com/en_ch/wavespace",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/067af04f3253f38b6a23.json",
+                        "fileSha256": "7445a05d45696c259db23fe2cce2c2564629b1b1a6d5bba4153b946c93df3459",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:39.555Z",
+                        "capturedTextLength": 15012
+                    }
+                },
+                {
+                    "url": "https://blockchain.ey.com/products/privacy-sandbox",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/5f4afb613e0ace1c7fa7.json",
+                        "fileSha256": "3ef0cc12679987a826b492e92f62fd2584f0989836e82a7cec1bc182bc3a485a",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:40.230Z",
+                        "capturedTextLength": 7738
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Own blockchain product exists globally. Swiss wavespace primary describes Basel client co-creation, not an exact local Zurich product-development team. Preserve a specific local attribution hold, not assertion that EY has no IP.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "hultef",
+            "name": "HultEF",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Source now resolves EF Corporate Learning and its own EFEKTA/Hyperclass technology. Local operating identity, exact office and local technical team need corroboration; language-school service alone is not the basis.",
+            "priorFinding": "Source now resolves EF Corporate Learning and its own EFEKTA/Hyperclass technology. Local operating identity, exact office and local technical team need corroboration; language-school service alone is not the basis.",
+            "attempts": [
+                {
+                    "url": "https://corporatelearning.ef.com/de/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/d3f2e9794889217526c6.json",
+                        "fileSha256": "9422a85c2a0206c3f9460f50b7be28697b751844f00f19940a9b5bff3318b92d",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:34:21.388Z",
+                        "capturedTextLength": 14957
+                    }
+                },
+                {
+                    "url": "https://corporatelearning.ef.com/de/kontakt/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/4c2d836134eff506a17a.json",
+                        "fileSha256": "5e7cbbce980948cd38f499020e8fa0cbb3dc7e829d4e57ec1351bbd6bb548cb2",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:34:21.583Z",
+                        "capturedTextLength": 4833
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Source now resolves EF Corporate Learning and its own EFEKTA/Hyperclass technology. Local operating identity, exact office and local technical team need corroboration; language-school service alone is not the basis.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "uber",
+            "name": "Uber",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Global own engineering confirmed. June 2026 Zurich robotaxi partnership is an operating-service deployment using WeRide autonomy, not proof of local Uber development office. No exact local technical office supported.",
+            "priorFinding": "Global own engineering confirmed. June 2026 Zurich robotaxi partnership is an operating-service deployment using WeRide autonomy, not proof of local Uber development office. No exact local technical office supported.",
+            "attempts": [
+                {
+                    "url": "https://eng.uber.com/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/1fdab550328d9f0143a6.json",
+                        "fileSha256": "2f0e036d7fd437bf4ba680a59cd4479d40adcc92346478e248c393b49f7d77d8",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:43.324Z",
+                        "capturedTextLength": 23393
+                    }
+                },
+                {
+                    "url": "https://investor.uber.com/news-events/news/press-release-details/2026/WeRide-and-Uber-Plan-to-Launch-Commercial-Robotaxi-Service-in-Zurich-Expanding-European-Partnership-2026-lbSmf_S3R_/default.aspx",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/8e579f0479b4b8cf4e72.json",
+                        "fileSha256": "ca6fb5c142ca94ed55b2b2891e3df9b0eff750570221ffe7ff039d39ee7917b7",
+                        "status": 403,
+                        "checkedAt": "2026-10-15T04:02:43.396Z",
+                        "capturedTextLength": 16
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Global own engineering confirmed. June 2026 Zurich robotaxi partnership is an operating-service deployment using WeRide autonomy, not proof of local Uber development office. No exact local technical office supported.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "cognizant",
+            "name": "Cognizant",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Neuro AI is named own branded technology and Swiss insurance offering is current. No evidence tying product engineering to local Swiss team in reviewed pages. Do not blanket-exclude as consultancy or infer local R&D from country sales leadership.",
+            "priorFinding": "Neuro AI is named own branded technology and Swiss insurance offering is current. No evidence tying product engineering to local Swiss team in reviewed pages. Do not blanket-exclude as consultancy or infer local R&D from country sales leadership.",
+            "attempts": [
+                {
+                    "url": "https://www.cognizant.com/ch/en/services/ai/generative-ai",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/79782f8e1071642265c7.json",
+                        "fileSha256": "5e81e6ee59b67d33e6685429dda57be9d811409b30b0fb4eec82fe27ecb41cc6",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:44.833Z",
+                        "capturedTextLength": 39378
+                    }
+                },
+                {
+                    "url": "https://www.cognizant.com/ch/en/cmp/ai-builder-insurance",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/b50b4130c8e8f35b0338.json",
+                        "fileSha256": "8c7db6d978b740eec534075ab7ea12cb6c2286668641a6f69fa65cad99e2418c",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:45.330Z",
+                        "capturedTextLength": 4926
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Neuro AI is named own branded technology and Swiss insurance offering is current. No evidence tying product engineering to local Swiss team in reviewed pages. Do not blanket-exclude as consultancy or infer local R&D from country sales leadership.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "dataiku",
+            "name": "Dataiku",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Zurich summit and historical Microsoft-hosted roundtable found. These event venues do not substantiate Dataiku office or local technical team; do not pin Microsoft's address.",
+            "priorFinding": "Zurich summit and historical Microsoft-hosted roundtable found. These event venues do not substantiate Dataiku office or local technical team; do not pin Microsoft's address.",
+            "attempts": [
+                {
+                    "url": "https://www.dataiku.com/company/events/the-dataiku-summit-events",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/94f0a5d1a67b1ce140bc.json",
+                        "fileSha256": "6e2a8ac2439acf9bbe9c9a001a6122cf0fc45b140fabcbac30eef5235633c259",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:45.811Z",
+                        "capturedTextLength": 2951
+                    }
+                },
+                {
+                    "url": "https://pages.dataiku.com/roundtable-zurich-2019",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/e1b61ee3b925ef4c87b9.json",
+                        "fileSha256": "c6f530d7a1c62febd6d8db6b8e12a4c3eddbe7e87d2268700a08e7647cd7db19",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:46.005Z",
+                        "capturedTextLength": 2105
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Zurich summit and historical Microsoft-hosted roundtable found. These event venues do not substantiate Dataiku office or local technical team; do not pin Microsoft's address.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "dynatrace",
+            "name": "Dynatrace",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Official office list resolves Stockerstrasse 33, 8002 Zürich. Retrieved actual engineering vacancy is explicitly Lucerne hybrid, not Zurich. Swiss cloud availability is not Zurich engineering evidence.",
+            "priorFinding": "Official office list resolves Stockerstrasse 33, 8002 Zürich. Retrieved actual engineering vacancy is explicitly Lucerne hybrid, not Zurich. Swiss cloud availability is not Zurich engineering evidence.",
+            "attempts": [
+                {
+                    "url": "https://www.dynatrace.com/company/locations/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/4a3bcd2e44c62bbbf735.json",
+                        "fileSha256": "fc6b9761b9bcff408fed80528f00fca26a1e701e798e6c056c380dcfd1d0efd8",
+                        "error": "TypeError: fetch failed",
+                        "checkedAt": "2026-10-15T04:02:46.167Z",
+                        "capturedTextLength": 0
+                    }
+                },
+                {
+                    "url": "https://www.dynatrace.com/careers/jobs/1432032600/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/2234b1ad0b2200c713dd.json",
+                        "fileSha256": "aa0b0beb0498cf56f6175aa10edd1664d1cddbe8d614ef5e26efe04cc842af56",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:46.216Z",
+                        "capturedTextLength": 5310
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Official office list resolves Stockerstrasse 33, 8002 Zürich. Retrieved actual engineering vacancy is explicitly Lucerne hybrid, not Zurich. Swiss cloud availability is not Zurich engineering evidence.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "leverx",
+            "name": "LeverX",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "BMAX and IPS are explicit branded reusable tools, so generic client-services exclusion would be wrong. Current primary establishes worldwide development and SAP integration; exact local product-development team remains unsubstantiated.",
+            "priorFinding": "BMAX and IPS are explicit branded reusable tools, so generic client-services exclusion would be wrong. Current primary establishes worldwide development and SAP integration; exact local product-development team remains unsubstantiated.",
+            "attempts": [
+                {
+                    "url": "https://leverx.com/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/ed29e1b0acfbdac4f292.json",
+                        "fileSha256": "cb1caeb22ba5dba70fe5afb3c0c4a26b879f6a5ebd8beed26643541776b16809",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:34:46.505Z",
+                        "capturedTextLength": 13000
+                    }
+                },
+                {
+                    "url": "https://leverx.com/products/bmax",
+                    "method": "prior-rendered-or-web-review-record",
+                    "record": "/tmp/zurich-registry-review/membership-holds-reading-index.json",
+                    "rawCaptureAvailable": false
+                }
+            ],
+            "latestBrowserOrWebFinding": "BMAX and IPS are explicit branded reusable tools, so generic client-services exclusion would be wrong. Current primary establishes worldwide development and SAP integration; exact local product-development team remains unsubstantiated.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "tiktok",
+            "name": "Tiktok",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Ordinary Chrome hydrated careers search returned one Zurich Brand Partnerships Manager Switzerland role, Advertising and Sales, detail 7654943109677320453. Does not substantiate local engineering or exact street. Not a claim that no engineers exist; no ByteDance substitution",
+            "priorFinding": "Directory link yields a JavaScript/app surface with no local employer contact. No exact local technical office substantiated in the bounded primary review; global application availability is not local presence. No guessed ByteDance parent substitution.",
+            "attempts": [
+                {
+                    "url": "https://www.tiktok.com/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/9362956c86b724ae05a3.json",
+                        "fileSha256": "5f835c98c24c5c603431543c593785043c7973c93c555adc7beed3cfab29f720",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:46.549Z",
+                        "capturedTextLength": 22
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Ordinary Chrome hydrated careers search returned one Zurich Brand Partnerships Manager Switzerland role, Advertising and Sales, detail 7654943109677320453. Does not substantiate local engineering or exact street. Not a claim that no engineers exist; no ByteDance substitution",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "audemarspiguet",
+            "name": "Audemars Piguet",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Watchmaking technology is genuine, but Zurich retail activity does not establish local development or production. No reviewed primary local manufacturing/research address; do not pin a boutique as engineering.",
+            "priorFinding": "Watchmaking technology is genuine, but Zurich retail activity does not establish local development or production. No reviewed primary local manufacturing/research address; do not pin a boutique as engineering.",
+            "attempts": [
+                {
+                    "url": "https://www.audemarspiguet.com/com/en/home.html",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/9f7e91624935b0a6fa14.json",
+                        "fileSha256": "4f188f4a97d4a2a5cd903b06e3cd25b5d63af28a236f642a142f37908f615368",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:35:05.758Z",
+                        "capturedTextLength": 1660
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Watchmaking technology is genuine, but Zurich retail activity does not establish local development or production. No reviewed primary local manufacturing/research address; do not pin a boutique as engineering.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "cisco",
+            "name": "Cisco",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Current official directory explicitly confirms Wallisellen office Richtistrasse 7, 8304. Global original networking technology is clear. Inspected local evidence establishes office and solution/customer engineering, not substantive local product development; same locality/team standard as Samsung and Genesys. Do not treat office listing as proof of R&D.",
+            "priorFinding": "Current official directory explicitly confirms Wallisellen office Richtistrasse 7, 8304. Global original networking technology is clear. Inspected local evidence establishes office and solution/customer engineering, not substantive local product development; same locality/team standard as Samsung and Genesys. Do not treat office listing as proof of R&D.",
+            "attempts": [
+                {
+                    "url": "https://www.cisco.com/site/us/en/about/contact-cisco/global-office-locations.html",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-holds-evidence/ded1f5626a737217a0ca.json",
+                        "fileSha256": "228cee0e1b7ae8661937c61a10270dc4b5fe73b2641ae12a3aee23bcbfa6713d",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T04:02:46.828Z",
+                        "capturedTextLength": 14522
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Current official directory explicitly confirms Wallisellen office Richtistrasse 7, 8304. Global original networking technology is clear. Inspected local evidence establishes office and solution/customer engineering, not substantive local product development; same locality/team standard as Samsung and Genesys. Do not treat office listing as proof of R&D.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "ringier",
+            "name": "Ringier",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Current primary explicitly describes self-developed STAR data platform with tracking, semantics, NLP, recommendations and advertising components. Own technology is resolved; remaining local development attribution and parent versus existing JobCloud/SMG profile overlap. Do not reuse subsidiary products as parent evidence",
+            "priorFinding": "Current group page attributes flagship marketplaces to JobCloud and SMG, both already represented. Group address alone is insufficient to add an umbrella duplicate; independent parent-owned technical product/team remains unproven in reviewed page.",
+            "attempts": [
+                {
+                    "url": "https://www.ringier.com/de/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/4f5d41b10c2b88fc9ef8.json",
+                        "fileSha256": "04a78fb57960e6563bf7444ca2304e69b90cc72596d28d54a0d31f0615e0632c",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:35:39.705Z",
+                        "capturedTextLength": 3139
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Current primary explicitly describes self-developed STAR data platform with tracking, semantics, NLP, recommendations and advertising components. Own technology is resolved; remaining local development attribution and parent versus existing JobCloud/SMG profile overlap. Do not reuse subsidiary products as parent evidence",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "trifork",
+            "name": "Trifork",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Group Health Platform development and Zurich contact confirmed. Products/services separation and multiple acquired businesses mean current Swiss product-development attribution and overlap remain unresolved. Hold specific Swiss identity; do not infer all group technology belongs to the Zurich service office or create duplicates of acquired businesses.",
+            "priorFinding": "Group Health Platform development and Zurich contact confirmed. Products/services separation and multiple acquired businesses mean current Swiss product-development attribution and overlap remain unresolved. Hold specific Swiss identity; do not infer all group technology belongs to the Zurich service office or create duplicates of acquired businesses.",
+            "attempts": [
+                {
+                    "url": "https://trifork.com/work/digital-health/trifork-health-platform/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/e948692d693101ffd82b.json",
+                        "fileSha256": "b94897f65574a9857c77c78db1c41f7c941a563897f90ec01eb244c60f84b1fb",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:05:13.488Z",
+                        "capturedTextLength": 6148
+                    }
+                },
+                {
+                    "url": "https://trifork.com/contact/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/9660c57a8ca3e7a54d76.json",
+                        "fileSha256": "4bac67a0fb454bef1ffc4dd80ee3845a9a89a72ee3ca7be7db271a3915c4021a",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:05:13.782Z",
+                        "capturedTextLength": 10707
+                    }
+                },
+                {
+                    "url": "https://investor.trifork.com/2026/02/24/11-2026%E3%83%BBtrifork-group-change-of-reporting-segmentation/",
+                    "method": "prior-rendered-or-web-review-record",
+                    "record": "/tmp/zurich-registry-review/membership-holds-reading-index.json",
+                    "rawCaptureAvailable": false
+                }
+            ],
+            "latestBrowserOrWebFinding": "Group Health Platform development and Zurich contact confirmed. Products/services separation and multiple acquired businesses mean current Swiss product-development attribution and overlap remain unresolved. Hold specific Swiss identity; do not infer all group technology belongs to the Zurich service office or create duplicates of acquired businesses.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "rinascai",
+            "name": "Rinascai",
+            "reasonGroup": "local-technical-team-or-product-attribution",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Current own site describes Rinascai Suite and September 2026 OPCORE/Pryvet combination. Zurich branch Bahnhofplatz 1 and holding registered Hinterbergstrasse 16 are distinct. Verify ownership/development of suite and Swiss technical activity before treating partner technology as own.",
+            "priorFinding": "Current own site describes Rinascai Suite and September 2026 OPCORE/Pryvet combination. Zurich branch Bahnhofplatz 1 and holding registered Hinterbergstrasse 16 are distinct. Verify ownership/development of suite and Swiss technical activity before treating partner technology as own.",
+            "attempts": [
+                {
+                    "url": "https://www.rinascai.com/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/bc3a8acd72440149f8d3.json",
+                        "fileSha256": "5ed43bbd645860fe80be10e9bf58746bd6ef9144c9ded5fdcf719635f7af03c5",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:22:24.941Z",
+                        "capturedTextLength": 12340
+                    }
+                },
+                {
+                    "url": "https://www.rinascai.com/impressum",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/3e529b0d4f48a10d1734.json",
+                        "fileSha256": "c849523711fb70b1e11c6f1199430e13c8367abb387b4c752a556b23d6ef2515",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:22:24.979Z",
+                        "capturedTextLength": 1385
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Current own site describes Rinascai Suite and September 2026 OPCORE/Pryvet combination. Zurich branch Bahnhofplatz 1 and holding registered Hinterbergstrasse 16 are distinct. Verify ownership/development of suite and Swiss technical activity before treating partner technology as own.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "netcommsuisse",
+            "name": "NetComm Suisse",
+            "reasonGroup": "external-primary-access-blocker",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Ordinary Chrome returned ERR_NAME_NOT_RESOLVED / DNS_PROBE_FINISHED_NXDOMAIN. Current technical programme and public local address unverified; no inference of dissolution",
+            "priorFinding": "Normal Chrome returned ERR_NAME_NOT_RESOLVED / DNS_PROBE_FINISHED_NXDOMAIN. No bypass; current technical programme and public local address remain unverified. No inference of dissolution.",
+            "attempts": [
+                {
+                    "url": "https://www.netcommsuisse.ch/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/6eb3229a6e36f61bde04.json",
+                        "fileSha256": "9b02321601571cbf138504fa0f0395156a2756b5d22ae323684598984f7efe79",
+                        "error": "TypeError: fetch failed",
+                        "checkedAt": "2026-10-15T03:41:17.226Z",
+                        "capturedTextLength": 0
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Ordinary Chrome returned ERR_NAME_NOT_RESOLVED / DNS_PROBE_FINISHED_NXDOMAIN. Current technical programme and public local address unverified; no inference of dissolution",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "fimedgroup",
+            "name": "FIMED GROUP",
+            "reasonGroup": "external-primary-access-blocker",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Ordinary Chrome showed Wix domain-not-connected page. Current exact identity and activity unverified. Secondary liquidation suggestion not accepted as primary evidence; unrelated Dominican medical business excluded from matching",
+            "priorFinding": "Normal Chrome at fimedgroup.com returned Wix domain-not-connected page. Secondary liquidation suggestion is not treated as primary registry proof. Do not substitute unrelated Dominican medical business.",
+            "attempts": [
+                {
+                    "url": "https://www.fimedgroup.com/",
+                    "method": "prior-rendered-or-web-review-record",
+                    "record": "/tmp/zurich-registry-review/membership-holds-reading-index.json",
+                    "rawCaptureAvailable": false
+                }
+            ],
+            "latestBrowserOrWebFinding": "Ordinary Chrome showed Wix domain-not-connected page. Current exact identity and activity unverified. Secondary liquidation suggestion not accepted as primary evidence; unrelated Dominican medical business excluded from matching",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "decinstitute",
+            "name": "DEC Institute",
+            "reasonGroup": "artwork-quality",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Address check resolved: own public contact Suurstoffi1,6343Rotkreuz and exact official EGID191653293 point47.143415,8.432992. One association/institute brand, not duplicated commercial arm. Draft retained. Remaining hold only genuine readable artwork: full white wordmark tiny at32px, not approved. No production changes or guessed compact initial.",
+            "priorFinding": "Address check resolved: own public contact Suurstoffi1,6343Rotkreuz and exact official EGID191653293 point47.143415,8.432992. One association/institute brand, not duplicated commercial arm. Draft retained. Remaining hold only genuine readable artwork: full white wordmark tiny at32px, not approved. No production changes or guessed compact initial.",
+            "attempts": [
+                {
+                    "url": "https://decinstitute.org/about-us",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/68da0280e8c58008ebec.json",
+                        "fileSha256": "d6a5d4536a9e75c5453e861759ab78f1f96324ce7b7a251375ec51be58bc6310",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T03:22:24.399Z",
+                        "capturedTextLength": 22239
+                    }
+                },
+                {
+                    "url": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102367816?sr=4326&geometryFormat=geojson",
+                    "method": "prior-rendered-or-web-review-record",
+                    "record": "/tmp/zurich-registry-review/membership-holds-reading-index.json",
+                    "rawCaptureAvailable": false
+                }
+            ],
+            "latestBrowserOrWebFinding": "Address check resolved: own public contact Suurstoffi1,6343Rotkreuz and exact official EGID191653293 point47.143415,8.432992. One association/institute brand, not duplicated commercial arm. Draft retained. Remaining hold only genuine readable artwork: full white wordmark tiny at32px, not approved. No production changes or guessed compact initial.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        },
+        {
+            "identityKey": "emexchangemarketgmbh",
+            "name": "EM Exchange Market GmbH",
+            "reasonGroup": "other-owner-review",
+            "assessment": "bounded-primary-attempt-confirmed-not-unassessed",
+            "missingFact": "Primary contact supports Technoparkstrasse 1 and exchange platform. Existing campus review owns candidate; no additional concrete attributable development evidence established here. Do not duplicate preparation or infer software engineering from exchange operation.",
+            "priorFinding": "Primary contact supports Technoparkstrasse 1 and exchange platform. Existing campus review owns candidate; no additional concrete attributable development evidence established here. Do not duplicate preparation or infer software engineering from exchange operation.",
+            "attempts": [
+                {
+                    "url": "https://exchangemarket.ch/",
+                    "method": "saved-public-fetch-verified-on-disk",
+                    "capture": {
+                        "path": "/tmp/zurich-registry-review/membership-evidence/51129566ad49dcdfee36.json",
+                        "fileSha256": "4f5a50d523c09faeb0163ccf27aa309706b091a5a8c2f54bea0c98c6f2b71484",
+                        "status": 200,
+                        "checkedAt": "2026-10-15T02:44:13.807Z",
+                        "capturedTextLength": 28305
+                    }
+                }
+            ],
+            "latestBrowserOrWebFinding": "Primary contact supports Technoparkstrasse 1 and exchange platform. Existing campus review owns candidate; no additional concrete attributable development evidence established here. Do not duplicate preparation or infer software engineering from exchange operation.",
+            "observationAuthority": "work/organisations/membership-unresolved-reasons.json",
+            "caveat": "This pass audits saved attempts and specific missing facts, not a new live reread of every source. HTTP200 or metadata-only text is not a successful substantive read. Browser findings without raw captures remain explicitly record-backed."
+        }
+    ],
+    "organisationWrites": 0
+}

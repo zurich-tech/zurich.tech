@@ -1,0 +1,482 @@
+{
+    "reviewedAt": "2026-10-15T02:25:10.410Z",
+    "snapshot": {
+        "readAt": "2026-10-15T02:22:41.656Z",
+        "total": 1063,
+        "byKind": {
+            "company": 621,
+            "startup": 325,
+            "nonprofit": 11,
+            "community": 7,
+            "space": 11,
+            "lab": 56,
+            "investor": 29,
+            "university": 3
+        },
+        "readMethod": "Read-only production organisations query; no production mutations."
+    },
+    "scope": "Finite population reconciliation and targeted eleven-hold review. No new discovery and no claim of ecosystem completeness.",
+    "counts": {
+        "companyStartup": 946,
+        "companyKeep": 916,
+        "companyExclude": 20,
+        "companyHold": 10,
+        "nonCompany": 117,
+        "nonCompanyRetain": 117,
+        "overallKeep": 1033,
+        "overallExclude": 20,
+        "overallHold": 10,
+        "unreviewedCompanyIds": 0,
+        "pendingRemovalLocations": 19,
+        "alreadyUnmappedExcluded": 1
+    },
+    "coverage": {
+        "method": "Compare exact organisation IDs and current kinds against prior per-record company audit and historical 114-record non-company review; incorporate three independently reviewed new company IDs. Non-company population is 113 remaining prior records plus four previously reviewed additions; Passam transferred into company scope.",
+        "evidenceMeaning": "Reviewed means an explicit evidence-backed decision or a reasoned unresolved factual question. A successful fetch is not a review and retention is not universal current-activity certification.",
+        "priorCompanyAudit": "company-eligibility-audit.json",
+        "priorNonCompanyReview": "noncompany-eligibility-review.json",
+        "nonCompanyDeltaReviews": [
+            "classification-final-1056.json",
+            "classification-1060-followup.json"
+        ]
+    },
+    "latestThree": [
+        {
+            "slug": "kanadevia-inova",
+            "reason": "First-party site describes developed Waste to X and Renewable Gas systems and its Pulse operational platform; retains company/Energy. No separate Hitachi Zosen Inova alias found in current roster.",
+            "evidence": [
+                {
+                    "url": "https://kanadevia-inova.com/"
+                }
+            ],
+            "_id": "p17b05yh1brymwzgah7acqjgzd8ga9bk",
+            "name": "Kanadevia Inova",
+            "kind": "company",
+            "topics": ["climate-tech"],
+            "website": "https://kanadevia-inova.com/",
+            "decision": "keep",
+            "apply": false,
+            "reviewAttribution": "Independent primary-page review this pass; main performed production import and address verification."
+        },
+        {
+            "slug": "boostbar",
+            "reason": "Boost inc's own history identifies Boostbar and Aeguana's combined technology business; Boostbar operates on that hardware/software platform. Retain the already explicit group context, not a claim that refreshments alone qualify. No duplicate Boost inc/Aeguana row in current roster.",
+            "evidence": [
+                {
+                    "url": "https://boostinc.com/about-us-2/"
+                },
+                {
+                    "url": "https://boostbar.ch/warum-boostbar/"
+                }
+            ],
+            "_id": "p170m53w1yexmcrm7559kwqam58gan51",
+            "name": "Boostbar",
+            "kind": "startup",
+            "topics": ["software-engineering"],
+            "website": "https://boostbar.ch/",
+            "decision": "keep",
+            "apply": false,
+            "reviewAttribution": "Independent primary-page review this pass; main performed production import and address verification."
+        },
+        {
+            "slug": "aepsy",
+            "reason": "Own matching, booking, chat and payment platform; official site explicitly identifies Swiss development. Retain startup/software-engineering, not a claim of a regulated medical device or AI merely from matching.",
+            "evidence": [
+                {
+                    "url": "https://aepsy.com/"
+                }
+            ],
+            "_id": "p179se3n2r1ypz33b44j3fqtwx8ga8qh",
+            "name": "Aepsy",
+            "kind": "startup",
+            "topics": ["software-engineering"],
+            "website": "https://aepsy.com/",
+            "decision": "keep",
+            "apply": false,
+            "reviewAttribution": "Independent primary-page review this pass; main performed production import and address verification."
+        }
+    ],
+    "holdReviews": [
+        {
+            "slug": "automate",
+            "name": "AutoMate Insurance AG",
+            "limitation": null,
+            "evidence": [
+                {
+                    "url": "https://platform.automate.ch/website/home",
+                    "finding": "Live platform describes broker sales, claims and quote functions, a Zurich office and ongoing solution creation. Does not identify development responsibility."
+                },
+                {
+                    "url": "https://automate.ch/website/executive_solutions",
+                    "finding": "White-label offerings and calculator integration are explicit; extracted page retains translation templates. No developer attribution."
+                },
+                {
+                    "url": "https://www.automate.ch/website/about",
+                    "finding": "Public team roles mainly cover insurance, claims and operations; absence of a developer biography is not exclusion evidence."
+                }
+            ],
+            "gapType": "development-attribution",
+            "decision": "keep",
+            "currentReview": {
+                "url": "https://tar.automate.ch/",
+                "finding": "STAR explicitly identifies AutoMate Insurance AG under Development & Operation and states that it develops and operates modular platform solutions. The named register includes automated checks, insurer verification, auditability and continuing updates. This resolves development attribution without requiring patents or exclusive internal development.",
+                "retrieval": "Official indexed page plus successful direct public HTML read; web-reader direct route failed. No login or form submissions."
+            },
+            "apply": false
+        },
+        {
+            "slug": "forte-digital",
+            "name": "Forte Digital",
+            "limitation": "Is the listed Zurich technical operation current?",
+            "evidence": [
+                {
+                    "url": "https://fortedigital.com/en/blog/forte-digital-wins-multi-stage-pitch-for-digital-product-development-for-migros",
+                    "finding": "Official indexed July 2024 announcement identifies an employee app for Migros Aare; direct retrieval failed, primary indexed text was readable."
+                },
+                {
+                    "url": "https://fortedigital.com/de/blog/medienhighlights-2024",
+                    "finding": "Official account identifies Berlin-based Central Europe delivery for Migros."
+                },
+                {
+                    "url": "https://www.fortedigital.com/de/ueber-uns",
+                    "finding": "Current office roster lists Norway, Poland, Germany and Denmark, but not Zurich. Omission is a verification gap, not proof of closure."
+                },
+                {
+                    "url": "https://careers-de.fortedigital.com/jobs/8474669-product-designer-m-w-d",
+                    "finding": "Current Berlin product role supports continuing development, but not a Swiss development location."
+                }
+            ],
+            "gapType": "local-presence",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://www.fortedigital.com/de/ueber-uns",
+                "finding": "Current company/office page re-read; no new Zurich presence evidence. Do not treat omission as proof of closure."
+            },
+            "apply": false
+        },
+        {
+            "slug": "icentic",
+            "name": "icentic",
+            "limitation": "Does current icentic contribute to beppo or another maintained original technology?",
+            "evidence": [
+                {
+                    "url": "https://www.icentic.com/about/",
+                    "finding": "Current account describes incubation of digital spin-offs and shared founder/leadership with beppo."
+                },
+                {
+                    "url": "https://mybeppo.ch/en/about/",
+                    "finding": "Beppo identifies itself as an icentic spin-off and says its Zurich headquarters continues developing parking/fuel-theft tools."
+                },
+                {
+                    "url": "https://www.icentic.com/",
+                    "finding": "Current catalogue includes turnkey software as well as staff/teams and development-centre setup; no named current icentic-owned platform branch."
+                },
+                {
+                    "url": "https://www.icentic.com/software-development-for-sme/",
+                    "finding": "Co-development and complete software work packages are substantive, but current contribution to the identified original platform remains unconfirmed."
+                }
+            ],
+            "gapType": "current-development-attribution",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://www.icentic.com/about/",
+                "finding": "Official current account confirms incubation and shared beppo leadership, not the continuing development allocation after spin-off."
+            },
+            "apply": false
+        },
+        {
+            "slug": "koch-it",
+            "name": "KOCH IT",
+            "limitation": "How should the absorbed entity and unconfirmed Winterthur office be represented under Adnovum?",
+            "evidence": [
+                {
+                    "url": "https://www.adnovum.com/blog/adnovum-strengthens-cybersecurity-and-realigns-solutions",
+                    "finding": "20 May 2026 announcement says the Koch IT absorption merger completed in April and incorporated its team into Adnovum public sector. Corrects earlier loose May-integration wording."
+                },
+                {
+                    "url": "https://www.adnovum.com/company/contact-locations",
+                    "finding": "Current Swiss locations include Zurich, Bern and Lausanne; no Winterthur match."
+                }
+            ],
+            "gapType": "successor-and-location",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://www.adnovum.com/blog/adnovum-strengthens-cybersecurity-and-realigns-solutions",
+                "finding": "April 2026 absorption merger re-confirmed; hold concerns predecessor identity/location, not lack of technology."
+            },
+            "apply": false
+        },
+        {
+            "slug": "mathys-partner",
+            "name": "Mathys Partner",
+            "limitation": "Does Mathys develop the simulation software or original computational methods rather than solely apply external tools?",
+            "evidence": [
+                {
+                    "url": "https://simulation.solar/"
+                },
+                {
+                    "url": "https://simulation.solar/uebersicht-blendung/"
+                },
+                {
+                    "url": "https://pubdb.bfe.admin.ch/de/publication/download/11996"
+                },
+                {
+                    "url": "https://visualisierung.ch/"
+                },
+                {
+                    "url": "https://glarecontrol.aero/"
+                },
+                {
+                    "url": "https://simulation.solar/leitfaden-blendung/",
+                    "finding": "Specialist simulation practice and technical methods; not explicit software authorship."
+                },
+                {
+                    "url": "https://pubdb.bfe.admin.ch/de/publication/download/11996",
+                    "finding": "BFE October 2024 report, printed page 43: Mathys can calculate and visualise glare; unlike adjacent entries, no explicit development history is given."
+                }
+            ],
+            "gapType": "technical-attribution",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://simulation.solar/leitfaden-blendung/",
+                "finding": "Technical simulation methodology and specialist scientific practice re-confirmed; public text still does not attribute a developed original computational component. No exclusion inferred."
+            },
+            "apply": false
+        },
+        {
+            "slug": "mecas",
+            "name": "mecas",
+            "limitation": "What concrete technical work can be attributed to Mecas?",
+            "evidence": [
+                {
+                    "url": "https://www.mecas.ai/"
+                },
+                {
+                    "url": "https://www.mecas.ai/terms-of-service"
+                },
+                {
+                    "url": "https://www.mecas.ai/legal"
+                },
+                {
+                    "url": "https://lowly-sardine-983.notion.site/Work-at-mecas-1985ab2eb16880a7a91dd68a69d6fd5d?pvs=4"
+                },
+                {
+                    "url": "https://www.mecas.ai/",
+                    "finding": "Current physical-AI research claims; no named output on homepage."
+                }
+            ],
+            "gapType": "protected-young-firm-evidence",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://www.mecas.ai/",
+                "finding": "Physical AI research and sensor/robotics work are claimed; no additional named output from targeted official search. Preserve protected young-firm uncertainty; do not infer dormancy."
+            },
+            "apply": false
+        },
+        {
+            "slug": "reasoning-labs",
+            "name": "Reasoning Labs",
+            "limitation": "What primary source connects the website/research team to the Swiss listing?",
+            "evidence": [
+                {
+                    "url": "https://reasoninglabs.com/"
+                },
+                {
+                    "url": "https://reasoninglabs.com/",
+                    "finding": "Current footer identifies REASONING MACHINES INC.; Swiss identity not established here."
+                }
+            ],
+            "gapType": "protected-identity-gap",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://reasoninglabs.com/",
+                "finding": "Official indexed text remains sparse; no additional Swiss-identity bridge. Preserve identity hold, not inactivity verdict."
+            },
+            "apply": false
+        },
+        {
+            "slug": "scheuss-partner",
+            "name": "Scheuss & Partner",
+            "limitation": "Who develops and maintains the publicloud Marketplace software?",
+            "evidence": [
+                {
+                    "url": "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud-marketplace/"
+                },
+                {
+                    "url": "https://marketplace.publicloud.ch/"
+                },
+                {
+                    "url": "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud/"
+                },
+                {
+                    "url": "https://www.scheuss-partner.ch/kontakt/publicloud/"
+                }
+            ],
+            "gapType": "software-attribution",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud-marketplace/",
+                "finding": "Marketplace provisioning/reporting/billing features remain concrete; software development attribution unresolved. Customer infrastructure cases do not settle this branch."
+            },
+            "apply": false
+        },
+        {
+            "slug": "umb",
+            "name": "UMB",
+            "limitation": "What original maintained software or technical component is attributable to current UMB?",
+            "evidence": [
+                {
+                    "url": "https://www.umb.ch/en/blog/news/detail/umb-expands-its-technology-business-transformation-offerings"
+                },
+                {
+                    "url": "https://www.mesoneer.io/blog/umb-solutions-now-operates-as-mesoneer"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/platform-builder"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/ai-data-scientist"
+                },
+                {
+                    "url": "https://www.umb.ch/blog/news/detail/quick-and-easy-so-richten-sie-ihre-eigene-devops-umgebung-ein"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/sap-wizard/sap-cloud"
+                },
+                {
+                    "url": "https://www.umb.ch/unternehmen/partner/umb-bietet-ibm-power-ibm-z-ibm-flash-systems-und-qradar"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/platform-builder/platform"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/ai-data-scientist",
+                    "finding": "Current development claims and named AI/software development contact."
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/ai-data-scientist/data-science",
+                    "finding": "Specific AI application offerings, but no decisive attribution of a maintained original component."
+                },
+                {
+                    "url": "https://www.umb.ch/kunden/projekt/detail/verschtaht-au-schwizerduetsch-voicebot-von-umb-entlastet-das-einwohneramt-kreuzlingen-mit-kuenstlicher-intelligenz",
+                    "finding": "Concrete customer case explicitly identifies the assistant as Spitch technology."
+                }
+            ],
+            "gapType": "original-component-attribution",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://impact.umb.ch/",
+                "finding": "September 2026 programme identifies AI & Software Development leadership and AWS cloud-foundation work for iamo. Confirms technical activity, not decisive attribution of a maintained original component. Do not attribute mesoneer products to current UMB."
+            },
+            "apply": false
+        },
+        {
+            "slug": "unimission",
+            "name": "Unimission",
+            "limitation": "What original technical component or process does Unimission develop for uNimbus beyond operating vendor infrastructure?",
+            "evidence": [
+                {
+                    "url": "https://www.unimission.ch/"
+                },
+                {
+                    "url": "https://www.unimission.ch/univision/"
+                },
+                {
+                    "url": "https://www.unimission.ch/unimbus-die-100-schweizer-cloud-fuer-kmus/"
+                },
+                {
+                    "url": "https://www.unimission.ch/uber-uns/"
+                },
+                {
+                    "url": "https://www.unimission.ch/cloud-services/"
+                },
+                {
+                    "url": "https://www.unimission.ch/uber-uns/",
+                    "finding": "2025 history explicitly says uNimbus development started."
+                },
+                {
+                    "url": "https://www.unimission.ch/unimbus-die-100-schweizer-cloud-fuer-kmus/",
+                    "finding": "Current managed-cloud offering; IBM Power and Green roles explicitly distinguished."
+                }
+            ],
+            "gapType": "platform-development-attribution",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://www.unimission.ch/uber-uns/",
+                "finding": "uNimbus development statement persists alongside managed private-cloud catalogue. Partner infrastructure alone does not refute original technical development; retain attribution hold."
+            },
+            "apply": false
+        },
+        {
+            "slug": "walkingtoweb",
+            "name": "walkingtoweb GmbH",
+            "limitation": "Does walkingtoweb itself develop or jointly maintain blue.project, or does the first-person development claim refer solely to walkingtoyou?",
+            "evidence": [
+                {
+                    "url": "https://www.walkingtoweb.com/de/walkingtoweb"
+                },
+                {
+                    "url": "https://www.walkingtoweb.com/de/cloudloesungen/blue-project-cloud"
+                },
+                {
+                    "url": "https://www.walkingtoyou.com/de"
+                }
+            ],
+            "gapType": "development-attribution",
+            "decision": "uncertain",
+            "currentReview": {
+                "url": "https://www.walkingtoyou.com/de",
+                "finding": "Partner still distinguishes its development offer from walkingtoweb hosting; prior first-person blue.project statement remains ambiguous."
+            },
+            "apply": false
+        }
+    ],
+    "nonCompanyCoherence": {
+        "preserve": ["ecoinvent", "emvlab", "zkb", "bellevue"],
+        "companyException": "South Pole remains a company with explicitly approved own Luumo platform, not recast as a nonprofit.",
+        "investorRule": "Technical investment mandates qualify independently of proprietary products; portfolio sectors alone do not justify tags.",
+        "topicless": {
+            "count": 16,
+            "slugs": [
+                "we-shape-tech",
+                "lakestar",
+                "zkb",
+                "winti-ventures",
+                "qbit-capital",
+                "backbone-ventures",
+                "equitypitcher-ventures",
+                "spicehaus-partners",
+                "sictic",
+                "founderful",
+                "reasoning-labs",
+                "zhaw",
+                "uzh",
+                "eth-zurich",
+                "climada-technologies",
+                "zurich-tech"
+            ],
+            "finding": "Fourteen broad non-company institutions/investors/communities remain reasonably topicless. Reasoning Labs remains an identity hold; CLIMADA remains explicitly outside classification changes. No invented tags."
+        },
+        "activityLimitation": {
+            "slug": "creathor-ventures",
+            "url": "https://www.creathor.com/updates",
+            "finding": "Fresh read still shows latest listed news in February 2022 and Meilen contact. Technical-investor eligibility retained; current investment/portfolio-management activity not independently confirmed."
+        },
+        "pendingDescriptionCorrections": ["eth-lre", "sdsc", "eth-ai-center"],
+        "descriptionCorrectionAuthority": "noncompany-eligibility-review.json#recommendations",
+        "descriptionStatus": "Fresh production still contains the old LRE expansion, historical two-institution SDSC framing and venue-focused ETH AI Center text. Preserve as main-review proposals; none applied here.",
+        "passam": "Company kind correction is live; historical proposal is fulfilled, not a pending action."
+    },
+    "removals": {
+        "authority": "company-eligibility-exclusions.json",
+        "apply": false,
+        "requiresMainReview": true,
+        "requiresActionTimeApproval": true,
+        "walkingHold": true,
+        "wetalkwithyouRetain": true,
+        "wittwerNoAction": true
+    },
+    "identity": "HUBER+SUHNER identity allegation remains withdrawn; no pending correction.",
+    "productionWrites": 0,
+    "apply": false
+}

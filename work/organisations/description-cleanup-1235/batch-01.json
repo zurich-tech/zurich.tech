@@ -1,0 +1,605 @@
+{
+  "apply": false,
+  "organisations": [
+    {
+      "id": "p178b04z8d3jhzp6nmn6s16s618g8fd9",
+      "slug": "gowago",
+      "expectedDescription": "Develops a platform for vehicle selection, financing quotations and digital contract completion. Its product, software engineering and data science team builds the technology supporting online vehicle leasing and loans.",
+      "description": "Develops a platform for vehicle selection, financing quotations and digital contract completion. Its product, software engineering and data science team builds the technology supporting online vehicle leasing and loans"
+    },
+    {
+      "id": "p1787zd3sfeh9e389gyed5azj98g8hg3",
+      "slug": "stratos-technologies",
+      "expectedDescription": "Develops an automotive aftersales platform for vehicle manufacturers, fleet operators, leasing companies and garages. Its software automates service quotations, repair-cost calculations and business workflows across the vehicle maintenance process.",
+      "description": "Develops an automotive aftersales platform for vehicle manufacturers, fleet operators, leasing companies and garages. Its software automates service quotations, repair-cost calculations and business workflows across the vehicle maintenance process"
+    },
+    {
+      "id": "p178b0rp7m1gf9ss8cnpngaqk98g88h6",
+      "slug": "patchxr",
+      "expectedDescription": "Develops PatchWorld, a collaborative creation environment for virtual reality and desktop. Its proprietary PatchSound spatial audio engine and modular visual programming tools connect sound, graphics, physics and interaction for instruments, worlds and live performances.",
+      "description": "Develops PatchWorld, a collaborative creation environment for virtual reality and desktop. Its proprietary PatchSound spatial audio engine and modular visual programming tools connect sound, graphics, physics and interaction for instruments, worlds and live performances"
+    },
+    {
+      "id": "p17ewmq8ktwxe7x1zkw8h0zefd8g9mfg",
+      "slug": "flowit",
+      "expectedDescription": "Develops software for employee development, feedback and organisational analysis. Its interdisciplinary team builds AI-supported insights and coaching from reviews, surveys and employee outreach.",
+      "description": "Develops software for employee development, feedback and organisational analysis. Its interdisciplinary team builds AI-supported insights and coaching from reviews, surveys and employee outreach"
+    },
+    {
+      "id": "p176ac5ehtgpm21rzed1421pah8g9a76",
+      "slug": "acodis",
+      "expectedDescription": "Develops an intelligent document processing platform that extracts structured data from documents and scans. Its technology supports document review, chunking and automation for quality and regulatory teams in life sciences and public health.",
+      "description": "Develops an intelligent document processing platform that extracts structured data from documents and scans. Its technology supports document review, chunking and automation for quality and regulatory teams in life sciences and public health"
+    },
+    {
+      "id": "p17d4v8thh7b5ec5r6vk7pz2qh8g96nj",
+      "slug": "urban-connect",
+      "expectedDescription": "Develops a shared-mobility platform for employers, combining vehicle booking, mobility budgets and public transport access. Its software supports keyless vehicle use, business and private trip accounting, fleet optimisation and emissions reporting.",
+      "description": "Develops a shared-mobility platform for employers, combining vehicle booking, mobility budgets and public transport access. Its software supports keyless vehicle use, business and private trip accounting, fleet optimisation and emissions reporting"
+    },
+    {
+      "id": "p172yqj70rbs1epqrv58xnsg7s8g9j54",
+      "slug": "blocksport",
+      "expectedDescription": "Develops a fan engagement platform for sports clubs, leagues and venues. Its SuperApp and Cockpit Hub combine fan identity, mobile experiences, audience segmentation and campaign analytics.",
+      "description": "Develops a fan engagement platform for sports clubs, leagues and venues. Its SuperApp and Cockpit Hub combine fan identity, mobile experiences, audience segmentation and campaign analytics"
+    },
+    {
+      "id": "p17egdhakagrtx0sd9q5mvs8998g80rq",
+      "slug": "limmex",
+      "expectedDescription": "Limmex develops emergency-call watches with mobile connectivity, positioning and voice communication. Its products include a 4G watch and a companion application for dementia care. The company is based in Zurich.",
+      "description": "Limmex develops emergency-call watches with mobile connectivity, positioning and voice communication. Its products include a 4G watch and a companion application for dementia care. The company is based in Zurich"
+    },
+    {
+      "id": "p177a0q5p11ajg4cw5cjr3613x8g8t7v",
+      "slug": "agile-wind-power",
+      "expectedDescription": "Agile Wind Power develops Vertical Sky wind turbines for decentralised electricity generation. Its work covers turbine design, control technology and testing. The company lists its Swiss office in Dübendorf.",
+      "description": "Agile Wind Power develops Vertical Sky wind turbines for decentralised electricity generation. Its work covers turbine design, control technology and testing. The company lists its Swiss office in Dübendorf"
+    },
+    {
+      "id": "p17dtcf4mkffjc5yeyqd9fwsbd8g8pqt",
+      "slug": "klenico",
+      "expectedDescription": "Develops software for assessing and visualising psychological symptoms. Its system supports mental-health professionals with structured symptom profiles and diagnostic assessment, alongside digital mental-health checks for individuals and organisations.",
+      "description": "Develops software for assessing and visualising psychological symptoms. Its system supports mental-health professionals with structured symptom profiles and diagnostic assessment, alongside digital mental-health checks for individuals and organisations"
+    },
+    {
+      "id": "p170dyxt9df9kxd1qmdwvxqrbn8g9nnj",
+      "slug": "clemedi",
+      "expectedDescription": "Develops diagnostic reagents and software that combine DNA sequencing with algorithms for identifying pathogens and antibiotic resistance. Its Tuberculini assay analyses tuberculosis samples to support antimicrobial susceptibility reporting.",
+      "description": "Develops diagnostic reagents and software that combine DNA sequencing with algorithms for identifying pathogens and antibiotic resistance. Its Tuberculini assay analyses tuberculosis samples to support antimicrobial susceptibility reporting"
+    },
+    {
+      "id": "p17bvtdvdnznjgxe7dggc0z8mx8g87hr",
+      "slug": "susos",
+      "expectedDescription": "Develops functional surface coatings and polymer formulations for controlling adhesion, wetting and other material properties. Its products include photo-reactive coupling agents and specialised coating chemistries for industrial and biomedical applications.",
+      "description": "Develops functional surface coatings and polymer formulations for controlling adhesion, wetting and other material properties. Its products include photo-reactive coupling agents and specialised coating chemistries for industrial and biomedical applications"
+    },
+    {
+      "id": "p17btfnb8bfrnrrzbxwqv1qwcs8g9rx6",
+      "slug": "securecell",
+      "expectedDescription": "Develops Lucullus bioprocess software and Numera automated sampling systems for biotechnology laboratories and production. Its technologies integrate process data, sampling and analysis to monitor and control bioprocesses.",
+      "description": "Develops Lucullus bioprocess software and Numera automated sampling systems for biotechnology laboratories and production. Its technologies integrate process data, sampling and analysis to monitor and control bioprocesses"
+    },
+    {
+      "id": "p176e644pwfeene85wx4kvj9q18g9m7m",
+      "slug": "pathmate",
+      "expectedDescription": "Develops digital health applications and CoachStudio, a platform for building conversational health interventions. Its software combines a dialogue engine, configurable coaching workflows and patient-facing applications.",
+      "description": "Develops digital health applications and CoachStudio, a platform for building conversational health interventions. Its software combines a dialogue engine, configurable coaching workflows and patient-facing applications"
+    },
+    {
+      "id": "p17b1kk8h29bgr9t0dmxvkx5ys8g8p8r",
+      "slug": "fortit",
+      "expectedDescription": "Develops fortControl, an information security management platform for security assessments, compliance checks, control evaluation and cyber-risk management. Its workflows support organisations implementing standards including ISO 27001 and NIST CSF.",
+      "description": "Develops fortControl, an information security management platform for security assessments, compliance checks, control evaluation and cyber-risk management. Its workflows support organisations implementing standards including ISO 27001 and NIST CSF"
+    },
+    {
+      "id": "p172hwgvbrwnkh1fk269kbema58g9yny",
+      "slug": "zalando-switzerland",
+      "expectedDescription": "Zalando’s Zurich technology hub develops software and computer vision for size recommendations and product discovery. The team grew from Zalando’s acquisition of Fision in 2020.",
+      "description": "Zalando’s Zurich technology hub develops software and computer vision for size recommendations and product discovery. The team grew from Zalando’s acquisition of Fision in 2020"
+    },
+    {
+      "id": "p17bhwqtp1hte9pvxzkxkzbxes8g8md4",
+      "slug": "surgical-fusion",
+      "expectedDescription": "Surgical Fusion Technologies develops ultrasonic systems, implants and instruments for soft tissue-to-bone fixation. Its SupraFusion technology uses ultrasonic energy to bond polymer implants with bone.",
+      "description": "Surgical Fusion Technologies develops ultrasonic systems, implants and instruments for soft tissue-to-bone fixation. Its SupraFusion technology uses ultrasonic energy to bond polymer implants with bone"
+    },
+    {
+      "id": "p17fsa25t6cnzp7xzvfwr3mx7h8g8tg4",
+      "slug": "dinamiqs",
+      "expectedDescription": "DINAMIQS develops its proprietary DINAPEAK platform for viral-vector process development and manufacturing, including advances in purification, automation and analytical methods for gene therapies.",
+      "description": "DINAMIQS develops its proprietary DINAPEAK platform for viral-vector process development and manufacturing, including advances in purification, automation and analytical methods for gene therapies"
+    },
+    {
+      "id": "p17bqjfytn3twf6nkq7ydjvrr18g818f",
+      "slug": "ponos-technology",
+      "expectedDescription": "Develops CryptoCPU, a RISC-V processor architecture for accelerating zero-knowledge proofs and confidential computing. Its team designs cryptographic hardware IP and FPGA implementations for post-quantum and verifiable computation.",
+      "description": "Develops CryptoCPU, a RISC-V processor architecture for accelerating zero-knowledge proofs and confidential computing. Its team designs cryptographic hardware IP and FPGA implementations for post-quantum and verifiable computation"
+    },
+    {
+      "id": "p17ban41atg752t43nq8b6jqp18g9hca",
+      "slug": "riskwolf",
+      "expectedDescription": "Develops software for designing, pricing, launching and monitoring parametric insurance products. Its platform combines weather data, configurable triggers, insurer integrations and automated payout reporting.",
+      "description": "Develops software for designing, pricing, launching and monitoring parametric insurance products. Its platform combines weather data, configurable triggers, insurer integrations and automated payout reporting"
+    },
+    {
+      "id": "p175zn8n86n3sfxtx7n536ncyh8g96p0",
+      "slug": "billte",
+      "expectedDescription": "Develops end-to-end invoicing software, multi-channel invoice portals and eBill integrations. Its products automate invoice delivery and payment workflows for businesses and consumers.",
+      "description": "Develops end-to-end invoicing software, multi-channel invoice portals and eBill integrations. Its products automate invoice delivery and payment workflows for businesses and consumers"
+    },
+    {
+      "id": "p17br3dtke0dvajx0e4by7nyfd8g8xkk",
+      "slug": "tiun",
+      "expectedDescription": "Develops an integrated backend for software products, combining authentication, payments, customer records and analytics. Its platform includes developer integrations and merchant-of-record payment services.",
+      "description": "Develops an integrated backend for software products, combining authentication, payments, customer records and analytics. Its platform includes developer integrations and merchant-of-record payment services"
+    },
+    {
+      "id": "p17ftfj8zfgy916s0vebs8d3v58g9bje",
+      "slug": "doodle",
+      "expectedDescription": "Develops scheduling software for group polls, booking pages and one-to-one meetings. The Zurich-headquartered company operates its own platform and is a subsidiary of TX Group.",
+      "description": "Develops scheduling software for group polls, booking pages and one-to-one meetings. The Zurich-headquartered company operates its own platform and is a subsidiary of TX Group"
+    },
+    {
+      "id": "p17ej26z105hjdv6pbxs1pahjs8g9t9s",
+      "slug": "numab-therapeutics",
+      "expectedDescription": "Develops multispecific antibody medicines using proprietary antibody discovery and engineering technology. Its research pipeline targets cancer and inflammatory diseases.",
+      "description": "Develops multispecific antibody medicines using proprietary antibody discovery and engineering technology. Its research pipeline targets cancer and inflammatory diseases"
+    },
+    {
+      "id": "p174y5yyap7ckadw3hp09x3ped8g84am",
+      "slug": "relio",
+      "expectedDescription": "Develops an automated compliance framework for digital business accounts, including complex ownership structures and international payment activity. Its financial platform combines this technology with third-party banking infrastructure.",
+      "description": "Develops an automated compliance framework for digital business accounts, including complex ownership structures and international payment activity. Its financial platform combines this technology with third-party banking infrastructure"
+    },
+    {
+      "id": "p170v8wmxsxmz883r03rmzxhe18g9s29",
+      "slug": "logbook",
+      "expectedDescription": "Develops a logistics data platform that matches, cleans and enriches location records across transport and enterprise systems. Its software maintains geofences and distributes consistent site information to logistics operators and shippers.",
+      "description": "Develops a logistics data platform that matches, cleans and enriches location records across transport and enterprise systems. Its software maintains geofences and distributes consistent site information to logistics operators and shippers"
+    },
+    {
+      "id": "p17bh6r5pjpjyge9993kvxahds8g9hzn",
+      "slug": "qala",
+      "expectedDescription": "Develops software that maps sensitive data flows and checks engineering systems against governance policies. Its Qala AI platform detects policy drift and produces evidence for security and compliance teams.",
+      "description": "Develops software that maps sensitive data flows and checks engineering systems against governance policies. Its Qala AI platform detects policy drift and produces evidence for security and compliance teams"
+    },
+    {
+      "id": "p177vjnm4dd1qb8zypqke3g0zh8g95x8",
+      "slug": "kuori",
+      "expectedDescription": "KUORI develops BIOWA material grades using food-industry byproducts, bio-based compounds and recyclable rubber for applications including footwear, outdoor equipment and manufacturing.",
+      "description": "KUORI develops BIOWA material grades using food-industry byproducts, bio-based compounds and recyclable rubber for applications including footwear, outdoor equipment and manufacturing"
+    },
+    {
+      "id": "p175etd9mqqjrv6acg9730wv258g9j26",
+      "slug": "supervised",
+      "expectedDescription": "Develops software that captures operational knowledge through team conversations, structures updates and keeps business systems informed. Its platform provides context for managers and AI tools across distributed teams and projects.",
+      "description": "Develops software that captures operational knowledge through team conversations, structures updates and keeps business systems informed. Its platform provides context for managers and AI tools across distributed teams and projects"
+    },
+    {
+      "id": "p172rrngwgz4y2bq8v6x32qzk98g92f9",
+      "slug": "elthera",
+      "expectedDescription": "Develops proprietary antibodies targeting L1CAM for aggressive cancers. Its research combines targeted immunotherapies with companion diagnostics to identify patients who may benefit from treatment.",
+      "description": "Develops proprietary antibodies targeting L1CAM for aggressive cancers. Its research combines targeted immunotherapies with companion diagnostics to identify patients who may benefit from treatment"
+    },
+    {
+      "id": "p179gzapg1c5dz1dt08mjk4rd18g92sv",
+      "slug": "proteomedix",
+      "expectedDescription": "Proteomedix develops biomarker-based immunoassay diagnostics, including the Proclarix blood test for prostate cancer risk assessment, and additional tests for prognosis and treatment selection.",
+      "description": "Proteomedix develops biomarker-based immunoassay diagnostics, including the Proclarix blood test for prostate cancer risk assessment, and additional tests for prognosis and treatment selection"
+    },
+    {
+      "id": "p173b0f0t6whtz44qg90cbt8wn8g9g4k",
+      "slug": "limmatech-biologics",
+      "expectedDescription": "LimmaTech Biologics develops multivalent vaccine platforms and a pipeline of vaccines to prevent infections caused by antimicrobial-resistant pathogens.",
+      "description": "LimmaTech Biologics develops multivalent vaccine platforms and a pipeline of vaccines to prevent infections caused by antimicrobial-resistant pathogens"
+    },
+    {
+      "id": "p17a5s7m5c6hrpzf1035qg7s3h8g9ac0",
+      "slug": "klingelnberg",
+      "expectedDescription": "Develops and manufactures its own gear-production and precision-measuring machines, with a development and manufacturing site in Zürich.",
+      "description": "Develops and manufactures its own gear-production and precision-measuring machines, with a development and manufacturing site in Zürich"
+    },
+    {
+      "id": "p17d9vx673xq7rtnw5pktn610d8g8f8k",
+      "slug": "levitronix",
+      "expectedDescription": "Develops its own bearingless motor and magnetic-levitation pump technology, with research, development and main manufacturing in Zürich.",
+      "description": "Develops its own bearingless motor and magnetic-levitation pump technology, with research, development and main manufacturing in Zürich"
+    },
+    {
+      "id": "p1799666cp17pjfsr8zswzs4sd8g9xhp",
+      "slug": "zhaw-iunr",
+      "expectedDescription": "The ZHAW Institute of Natural Resource Sciences researches natural-resource management, ecosystems and environmental technologies, including renewable-energy systems through its own research group. Its institutional contact address is in Wädenswil.",
+      "description": "The ZHAW Institute of Natural Resource Sciences researches natural-resource management, ecosystems and environmental technologies, including renewable-energy systems through its own research group. Its institutional contact address is in Wädenswil"
+    },
+    {
+      "id": "p17f0pn0mxnapkm8cs78a40cdh8g940e",
+      "slug": "zhaw-ilgi",
+      "expectedDescription": "The ZHAW Institute of Food and Beverage Innovation researches fermentation cultures, food microbiology, packaging and food-production technologies. It is a distinct institute of the School of Life Sciences and Facility Management.",
+      "description": "The ZHAW Institute of Food and Beverage Innovation researches fermentation cultures, food microbiology, packaging and food-production technologies. It is a distinct institute of the School of Life Sciences and Facility Management"
+    },
+    {
+      "id": "p170mdd573ncma546cahtf7a318g94nw",
+      "slug": "zhaw-icbt",
+      "expectedDescription": "The ZHAW Institute of Chemistry and Biotechnology researches biotechnological and chemical production processes, functional materials, therapies and analytical methods. It is a distinct institute of the School of Life Sciences and Facility Management.",
+      "description": "The ZHAW Institute of Chemistry and Biotechnology researches biotechnological and chemical production processes, functional materials, therapies and analytical methods. It is a distinct institute of the School of Life Sciences and Facility Management"
+    },
+    {
+      "id": "p174yn3jqyhq6sh55dmp42mzkx8g81qb",
+      "slug": "prognosix",
+      "expectedDescription": "PrognosiX develops predictive analytics and decision-support software for demand forecasting, planning and logistics, using learning algorithms. The ZHAW spin-off operates from Zürich.",
+      "description": "PrognosiX develops predictive analytics and decision-support software for demand forecasting, planning and logistics, using learning algorithms. The ZHAW spin-off operates from Zürich"
+    },
+    {
+      "id": "p170n3ys5v237xka7sfj1fjw3s8g8fz9",
+      "slug": "welmedis",
+      "expectedDescription": "Welmedis develops its own targeted cancer-drug pipeline, including a proprietary PIP5K1A inhibitor, through chemical discovery and biological validation. Its laboratory is in Wädenswil, separate from its Zug headquarters.",
+      "description": "Welmedis develops its own targeted cancer-drug pipeline, including a proprietary PIP5K1A inhibitor, through chemical discovery and biological validation. Its laboratory is in Wädenswil, separate from its Zug headquarters"
+    },
+    {
+      "id": "p17445kewjz2k8nxyhprdm3b5d8g946p",
+      "slug": "phalconbio",
+      "expectedDescription": "PhalconBio develops engineered dual-action bacteriophages that target bacterial pathogens and deliver antibacterial effector proteins. Its lead programme targets pulmonary Pseudomonas aeruginosa infections.",
+      "description": "PhalconBio develops engineered dual-action bacteriophages that target bacterial pathogens and deliver antibacterial effector proteins. Its lead programme targets pulmonary Pseudomonas aeruginosa infections"
+    },
+    {
+      "id": "p17e9rqrght0jbvvp51qn1g9ps8g8vrf",
+      "slug": "nemis-technologies",
+      "expectedDescription": "NEMIS Technologies develops proprietary on-site pathogen-detection technology and hygiene-monitoring products for food-production quality control. Its Swiss office is in Au ZH.",
+      "description": "NEMIS Technologies develops proprietary on-site pathogen-detection technology and hygiene-monitoring products for food-production quality control. Its Swiss office is in Au ZH"
+    },
+    {
+      "id": "p1789mq3wrzt83d68fdyk5vff98g93yt",
+      "slug": "glycoera",
+      "expectedDescription": "GlycoEra develops precision biologics that selectively remove extracellular proteins, including disease-driving autoantibodies. Its Swiss office is in Wädenswil.",
+      "description": "GlycoEra develops precision biologics that selectively remove extracellular proteins, including disease-driving autoantibodies. Its Swiss office is in Wädenswil"
+    },
+    {
+      "id": "p171qkwq77jyzk6kqbe0b6vavx8g9zye",
+      "slug": "shape-biopharmaceuticals",
+      "expectedDescription": "Shape Biopharmaceuticals develops immunotherapies using computational antigen design, protein engineering and nanoparticle delivery. Its Swiss registered office is in Au ZH.",
+      "description": "Shape Biopharmaceuticals develops immunotherapies using computational antigen design, protein engineering and nanoparticle delivery. Its Swiss registered office is in Au ZH"
+    },
+    {
+      "id": "p17e9vjtsjnzagp9pmtmd0bb6n8g8hvd",
+      "slug": "cosaic",
+      "expectedDescription": "Cosaic develops a patented yeast-fermentation ingredient containing fat, proteins and fibres to improve the texture and stability of food products. Formerly Cultivated Biosciences, it operates from Horgen.",
+      "description": "Cosaic develops a patented yeast-fermentation ingredient containing fat, proteins and fibres to improve the texture and stability of food products. Formerly Cultivated Biosciences, it operates from Horgen"
+    },
+    {
+      "id": "p17e6901rm4m4bb4n907r0kq9n8g8a6w",
+      "slug": "arethia",
+      "expectedDescription": "Arethia designs its own natural ingredients and develops flavour-manufacturing systems using internal engineering capabilities. Its Horgen location is part of its international flavour and fragrance group; production hubs are abroad.",
+      "description": "Arethia designs its own natural ingredients and develops flavour-manufacturing systems using internal engineering capabilities. Its Horgen location is part of its international flavour and fragrance group; production hubs are abroad"
+    },
+    {
+      "id": "p17d4tven4mayym7ae9gs9x0qx8g8xzz",
+      "slug": "nextbusiness",
+      "expectedDescription": "NextBusiness develops Infinity, accounting software that uses AI to process bookkeeping workflows and provide financial reporting for businesses.",
+      "description": "NextBusiness develops Infinity, accounting software that uses AI to process bookkeeping workflows and provide financial reporting for businesses"
+    },
+    {
+      "id": "p1754hxfgcg241mnha2nfep4518g81tc",
+      "slug": "cdr-life",
+      "expectedDescription": "CDR-Life develops antibody-based T-cell-engaging therapies through its M-gager platform for solid tumours and autoimmune diseases.",
+      "description": "CDR-Life develops antibody-based T-cell-engaging therapies through its M-gager platform for solid tumours and autoimmune diseases"
+    },
+    {
+      "id": "p1703g8catdh7kssxc2g3wz16x8g8a9e",
+      "slug": "athebio",
+      "expectedDescription": "Athebio develops the Athebody DARPin platform, combining engineered repeat-protein scaffolds and a discovery engine to create targeted and multispecific biotherapeutics.",
+      "description": "Athebio develops the Athebody DARPin platform, combining engineered repeat-protein scaffolds and a discovery engine to create targeted and multispecific biotherapeutics"
+    },
+    {
+      "id": "p174bzqjhgntg7vdks6nyyh2fs8g9nxe",
+      "slug": "arcoris-bio",
+      "expectedDescription": "arcoris bio develops enzyme-free DNA nanotechnology and reagent kits for multiplex imaging and signal amplification in protein, DNA and RNA biomarker assays.",
+      "description": "arcoris bio develops enzyme-free DNA nanotechnology and reagent kits for multiplex imaging and signal amplification in protein, DNA and RNA biomarker assays"
+    },
+    {
+      "id": "p17dyjy9vxrgbbwznnq0tx7jvn8g8n15",
+      "slug": "versive",
+      "expectedDescription": "Versive develops manual wheelchairs with backrest-controlled steering and individually designed, 3D-printed seats.",
+      "description": "Versive develops manual wheelchairs with backrest-controlled steering and individually designed, 3D-printed seats"
+    },
+    {
+      "id": "p17djtk0w2wwbzf8mdkbtbtsrh8g8jxj",
+      "slug": "redbiotec",
+      "expectedDescription": "Develops engineered microorganisms, proteins and genetic materials for biotechnology applications. Its BRISPRtech work includes engineering yeast and bacteria for protein production and cell-free manufacturing of DNA products, alongside microfluidics research with ETH Zurich.",
+      "description": "Develops engineered microorganisms, proteins and genetic materials for biotechnology applications. Its BRISPRtech work includes engineering yeast and bacteria for protein production and cell-free manufacturing of DNA products, alongside microfluidics research with ETH Zurich"
+    },
+    {
+      "id": "p170r4w946yvf0jjg6pcsg2vx18g8r2k",
+      "slug": "immunos-therapeutics",
+      "expectedDescription": "Develops HLA-based therapeutic molecules for cancer and inflammatory diseases. Its platform targets immune-cell checkpoints using tailored modalities, with programmes in immuno-oncology and inflammation.",
+      "description": "Develops HLA-based therapeutic molecules for cancer and inflammatory diseases. Its platform targets immune-cell checkpoints using tailored modalities, with programmes in immuno-oncology and inflammation"
+    },
+    {
+      "id": "p17543vf4w8407axkrdac31efh8g8a0v",
+      "slug": "norm",
+      "expectedDescription": "Develops Explorer, a software platform that structures building documents, equipment and condition data for property portfolios. Its team combines software engineering, research and building expertise to support asset analysis, renovation planning and energy assessments.",
+      "description": "Develops Explorer, a software platform that structures building documents, equipment and condition data for property portfolios. Its team combines software engineering, research and building expertise to support asset analysis, renovation planning and energy assessments"
+    },
+    {
+      "id": "p17d6tg2arveny3v1xt2dn0jws8g9w2k",
+      "slug": "n-dream",
+      "expectedDescription": "Develops AirConsole, an in-car multiplayer gaming platform, and Mapplets, context-aware automotive software. Its software integrates connected experiences into vehicle cockpit architectures. N-Dream AG is the organisation behind the AirConsole brand.",
+      "description": "Develops AirConsole, an in-car multiplayer gaming platform, and Mapplets, context-aware automotive software. Its software integrates connected experiences into vehicle cockpit architectures. N-Dream AG is the organisation behind the AirConsole brand"
+    },
+    {
+      "id": "p17ehdgpctb2apm3pj42r6866h8g9g0f",
+      "slug": "feller",
+      "expectedDescription": "Develops and manufactures electrical-installation products and building controls in Horgen, bringing together development, production and testing within Schneider Electric.",
+      "description": "Develops and manufactures electrical-installation products and building controls in Horgen, bringing together development, production and testing within Schneider Electric"
+    },
+    {
+      "id": "p172tckhc7pqqnpw3m72nj6exd8g8x5h",
+      "slug": "accenture-switzerland",
+      "expectedDescription": "Builds software and implements technology systems through its Zürich engineering teams, with capabilities in application architecture, development and integration.",
+      "description": "Builds software and implements technology systems through its Zürich engineering teams, with capabilities in application architecture, development and integration"
+    },
+    {
+      "id": "p17d2pex4fecd9svyw6v2xqj7d8g8pe3",
+      "slug": "sunrise",
+      "expectedDescription": "Engineers telecommunications networks and delivers ICT implementations through its local technical and professional-services teams in Glattpark.",
+      "description": "Engineers telecommunications networks and delivers ICT implementations through its local technical and professional-services teams in Glattpark"
+    },
+    {
+      "id": "p177wz2aa7bzaz5spc90bnfdm18g85b6",
+      "slug": "bucher-industries",
+      "expectedDescription": "Develops industrial machinery through its specialist businesses. In Niederweningen, Bucher Municipal develops compact sweepers at the group's shared operating site.",
+      "description": "Develops industrial machinery through its specialist businesses. In Niederweningen, Bucher Municipal develops compact sweepers at the group's shared operating site"
+    },
+    {
+      "id": "p1728qmwpq4ad6s2x5937cpkmx8g9tz4",
+      "slug": "sulzer",
+      "expectedDescription": "Develops industrial fluid and process technologies, including a Winterthur polymer pilot centre staffed by R&D engineers and modelling specialists. The mapped address is its corporate contact, not the testing facility.",
+      "description": "Develops industrial fluid and process technologies, including a Winterthur polymer pilot centre staffed by R&D engineers and modelling specialists. The mapped address is its corporate contact, not the testing facility"
+    },
+    {
+      "id": "p17ff8fp2aepksq44hgj281jzh8g9dss",
+      "slug": "six",
+      "expectedDescription": "Develops and operates financial-market infrastructure and software, with application-development and platform-engineering teams in Zürich.",
+      "description": "Develops and operates financial-market infrastructure and software, with application-development and platform-engineering teams in Zürich"
+    },
+    {
+      "id": "p171nzwydxgpnjt71ypk2wj07n8g8cpx",
+      "slug": "aris",
+      "expectedDescription": "Independent nonprofit association in which students design, build and test space systems through hands-on engineering projects. Its programmes include rockets, satellites and related propulsion, control and recovery technologies, connecting students across Swiss universities.",
+      "description": "Independent nonprofit association in which students design, build and test space systems through hands-on engineering projects. Its programmes include rockets, satellites and related propulsion, control and recovery technologies, connecting students across Swiss universities"
+    },
+    {
+      "id": "p177vdra1rh5wz2ka213jqwscn8g8nhp",
+      "slug": "eth-gramazio-kohler",
+      "expectedDescription": "Researches digital manufacturing and robotic fabrication for architecture and construction. The Chair of Architecture and Digital Fabrication develops computational design methods and fabrication processes that connect building materials, production systems and architectural design.",
+      "description": "Researches digital manufacturing and robotic fabrication for architecture and construction. The Chair of Architecture and Digital Fabrication develops computational design methods and fabrication processes that connect building materials, production systems and architectural design"
+    },
+    {
+      "id": "p17892s2ar3hnwcfvkranazq658g9h78",
+      "slug": "eth-cvl",
+      "expectedDescription": "Researches computational methods for analysing medical images, including semantic information extraction, quantitative measurement and population comparisons. Its Biomedical Image Computing group develops methods that support diagnosis, treatment and clinical research.",
+      "description": "Researches computational methods for analysing medical images, including semantic information extraction, quantitative measurement and population comparisons. Its Biomedical Image Computing group develops methods that support diagnosis, treatment and clinical research"
+    },
+    {
+      "id": "p17fr9fjgx8kmmmfdf1g4pax7s8g8zaz",
+      "slug": "seito-biologics",
+      "expectedDescription": "Develops selective regulatory T-cell engagers, called TREX, intended to restore immune balance in autoimmune and inflammatory diseases. Its immunotherapy research builds on discoveries in interleukin-2 signalling and regulatory T-cell biology.",
+      "description": "Develops selective regulatory T-cell engagers, called TREX, intended to restore immune balance in autoimmune and inflammatory diseases. Its immunotherapy research builds on discoveries in interleukin-2 signalling and regulatory T-cell biology"
+    },
+    {
+      "id": "p171507gj9zexsq2hk0kfjnxkn8g8grw",
+      "slug": "reha-stim-medtec",
+      "expectedDescription": "Develops gait rehabilitation devices, including robotic gait trainers, dynamic body-weight support systems and medical treadmills. Its FLOAT system supports three-dimensional movement during rehabilitation and can be combined with virtual-reality training.",
+      "description": "Develops gait rehabilitation devices, including robotic gait trainers, dynamic body-weight support systems and medical treadmills. Its FLOAT system supports three-dimensional movement during rehabilitation and can be combined with virtual-reality training"
+    },
+    {
+      "id": "p17dq39vrw0wgncr2pyq7fb73h8g9y7g",
+      "slug": "stutz-medien",
+      "expectedDescription": "Develops custom websites and digital platforms through its Digital Unit and full-stack development team. Its implementation work includes synchronised calendars, autocomplete search and custom WordPress systems alongside its media and publishing services.",
+      "description": "Develops custom websites and digital platforms through its Digital Unit and full-stack development team. Its implementation work includes synchronised calendars, autocomplete search and custom WordPress systems alongside its media and publishing services"
+    },
+    {
+      "id": "p17cyb9vka0q1tepxx3tbavntn8g9920",
+      "slug": "walkingtoweb",
+      "expectedDescription": "Implements and operates managed cloud and server infrastructure, including FileMaker, Nextcloud and messaging environments. Its team directly administers its own infrastructure in Zurich; the published contact location is a postal address, not the datacenter.",
+      "description": "Implements and operates managed cloud and server infrastructure, including FileMaker, Nextcloud and messaging environments. Its team directly administers its own infrastructure in Zurich; the published contact location is a postal address, not the datacenter"
+    },
+    {
+      "id": "p174hgnh052sch9vhg3rwwef4s8g9w88",
+      "slug": "webunique",
+      "expectedDescription": "Develops web platforms and progressive web applications for customers, with senior web and full-stack developers. Its published work includes Camply and Dalia applications and custom development for Delivros Orell Fuessli.",
+      "description": "Develops web platforms and progressive web applications for customers, with senior web and full-stack developers. Its published work includes Camply and Dalia applications and custom development for Delivros Orell Fuessli"
+    },
+    {
+      "id": "p17eet0pmx427rptyymh9s18rh8g82qs",
+      "slug": "wittwer-it-services",
+      "expectedDescription": "Implements and operates Linux and virtualised infrastructure, including Proxmox migrations, Ansible automation, network configuration, monitoring and server hardening. Its engineering team works in the Winterthur area; the published company address is in Seuzach.",
+      "description": "Implements and operates Linux and virtualised infrastructure, including Proxmox migrations, Ansible automation, network configuration, monitoring and server hardening. Its engineering team works in the Winterthur area; the published company address is in Seuzach"
+    },
+    {
+      "id": "p1763mbsavytp0dnn8nds34k818g9gc1",
+      "slug": "moveside",
+      "expectedDescription": "Develops Rollator-Rest, a mechanical restraint and seating support that secures walking frames in public-transport vehicles without electronic components.",
+      "description": "Develops Rollator-Rest, a mechanical restraint and seating support that secures walking frames in public-transport vehicles without electronic components"
+    },
+    {
+      "id": "p1714xak3srct9mf7j3jw78cnh8g80sv",
+      "slug": "lipal-biochemicals",
+      "expectedDescription": "Researches and produces complex biochemicals, including amino-acid derivatives, resins and peptides, for pharmaceutical companies, laboratories and reagent suppliers.",
+      "description": "Researches and produces complex biochemicals, including amino-acid derivatives, resins and peptides, for pharmaceutical companies, laboratories and reagent suppliers"
+    },
+    {
+      "id": "p17eamg3wwcb4y7wsy05m21rn18g8gwx",
+      "slug": "cellerys",
+      "expectedDescription": "Cellerys develops antigen-specific immune-tolerance therapies for autoimmune diseases. Its CLS12311 programme couples a patient's red blood cells with peptides associated with multiple sclerosis, aiming to re-establish immune tolerance.",
+      "description": "Cellerys develops antigen-specific immune-tolerance therapies for autoimmune diseases. Its CLS12311 programme couples a patient's red blood cells with peptides associated with multiple sclerosis, aiming to re-establish immune tolerance"
+    },
+    {
+      "id": "p17fyfx3mbwvfk0237rzf6rdhd8g924h",
+      "slug": "everon",
+      "expectedDescription": "Develops a wealth-management platform for portfolio workflows and client services.",
+      "description": "Develops a wealth-management platform for portfolio workflows and client services"
+    },
+    {
+      "id": "p17f18wk2j4wcxn6tkfgfdjsms8g8szp",
+      "slug": "kove-medical",
+      "expectedDescription": "KOVE medical develops a medical device intended to close membrane defects left by fetoscopic surgery, with the aim of reducing fluid leakage and premature-birth risk. The University of Zurich and University Hospital Zurich spin-off combines bioengineering, materials expertise and medical-device R&D.",
+      "description": "KOVE medical develops a medical device intended to close membrane defects left by fetoscopic surgery, with the aim of reducing fluid leakage and premature-birth risk. The University of Zurich and University Hospital Zurich spin-off combines bioengineering, materials expertise and medical-device R&D"
+    },
+    {
+      "id": "p179bxmj5cv5fm8574b5hpdxjd8g9kgh",
+      "slug": "bitplane-imaris",
+      "expectedDescription": "Develops Imaris software for visualization, segmentation and analysis of microscopy images, including cell tracking and three-dimensional image processing. Bitplane is part of Oxford Instruments.",
+      "description": "Develops Imaris software for visualization, segmentation and analysis of microscopy images, including cell tracking and three-dimensional image processing. Bitplane is part of Oxford Instruments"
+    },
+    {
+      "id": "p17ev3kk8thzmkyyam02dmrpwd8g9610",
+      "slug": "beekeeper",
+      "expectedDescription": "Develops mobile workplace communication and workflow software for frontline employees. Beekeeper is part of LumApps.",
+      "description": "Develops mobile workplace communication and workflow software for frontline employees. Beekeeper is part of LumApps"
+    },
+    {
+      "id": "p17f660mexme5w6hv12zwez0618g8pgc",
+      "slug": "smartodont",
+      "expectedDescription": "Develops dental products combining engineering and dental medicine, including RepliDens three-dimensional printed anatomical teeth for dental training.",
+      "description": "Develops dental products combining engineering and dental medicine, including RepliDens three-dimensional printed anatomical teeth for dental training"
+    },
+    {
+      "id": "p178vprfwnyt0mnx2ymh4x8rws8g887z",
+      "slug": "microbe-investigations",
+      "expectedDescription": "Conducts microbiology research and develops customized efficacy-testing programmes for products targeting bacteria, viruses, fungi and pests. The ETH Zurich spin-off operates as a contract research organization.",
+      "description": "Conducts microbiology research and develops customized efficacy-testing programmes for products targeting bacteria, viruses, fungi and pests. The ETH Zurich spin-off operates as a contract research organization"
+    },
+    {
+      "id": "p172aj542b7qyh85m6d520yyjd8g83ga",
+      "slug": "eaternity",
+      "expectedDescription": "Develops food life-cycle assessment software, datasets and APIs for analysing ingredients, recipes and food products.",
+      "description": "Develops food life-cycle assessment software, datasets and APIs for analysing ingredients, recipes and food products"
+    },
+    {
+      "id": "p1730xa1r168n1n8h631ynxskn8g9p0s",
+      "slug": "gratxray",
+      "expectedDescription": "Develops senoa, a breast CT imaging system designed for high-precision three-dimensional imaging without breast compression.",
+      "description": "Develops senoa, a breast CT imaging system designed for high-precision three-dimensional imaging without breast compression"
+    },
+    {
+      "id": "p179f41dqt0vefjydgmzjracd18g9q3n",
+      "slug": "aeroskin-tech",
+      "expectedDescription": "Aeroskin Tech develops thin silica-aerogel insulation systems for building renovation and new construction. Its prefabrication approach combines facade capture and robotic manufacturing to make building-specific elements that reduce heat loss.",
+      "description": "Aeroskin Tech develops thin silica-aerogel insulation systems for building renovation and new construction. Its prefabrication approach combines facade capture and robotic manufacturing to make building-specific elements that reduce heat loss"
+    },
+    {
+      "id": "p1748x041zd1dq8c1g9qnmy3tn8g9yyy",
+      "slug": "disco-pharmaceuticals",
+      "expectedDescription": "DISCO Pharmaceuticals develops a mass-spectrometry-based platform for mapping cancer-cell surfaces and identifying targets for antibody-based therapies.",
+      "description": "DISCO Pharmaceuticals develops a mass-spectrometry-based platform for mapping cancer-cell surfaces and identifying targets for antibody-based therapies"
+    },
+    {
+      "id": "p175d6svs1cvfct1cnn3ph3dc18g8sqk",
+      "slug": "sallea",
+      "expectedDescription": "Develops precision templating with water-soluble cores to manufacture complex internal structures in advanced materials, including composite components.",
+      "description": "Develops precision templating with water-soluble cores to manufacture complex internal structures in advanced materials, including composite components"
+    },
+    {
+      "id": "p17baevwzthk82v9zva0nm8w758g82pe",
+      "slug": "scale-lasers",
+      "expectedDescription": "Develops miniaturized quantum cascade surface-emitting lasers for spectroscopy and sensing. The ETH Zurich spin-off works on scalable mid-infrared laser components.",
+      "description": "Develops miniaturized quantum cascade surface-emitting lasers for spectroscopy and sensing. The ETH Zurich spin-off works on scalable mid-infrared laser components"
+    },
+    {
+      "id": "p17320ghrwnpsqt7zb3zm6kfh18g9ssv",
+      "slug": "deeppsy",
+      "expectedDescription": "DeepPsy develops analysis software that turns EEG and ECG recordings into reports for psychiatric treatment decisions.",
+      "description": "DeepPsy develops analysis software that turns EEG and ECG recordings into reports for psychiatric treatment decisions"
+    },
+    {
+      "id": "p172cf77ka64pdypngwbvz5fex8g9qb4",
+      "slug": "hooq",
+      "expectedDescription": "hooq develops individually fitted climbing shoes using foot scans and a custom shoe-form workflow, with an office and showroom in Winterthur.",
+      "description": "hooq develops individually fitted climbing shoes using foot scans and a custom shoe-form workflow, with an office and showroom in Winterthur"
+    },
+    {
+      "id": "p17071352pvcj4jrz1h3fcyedn8g9f34",
+      "slug": "brack-alltron",
+      "expectedDescription": "Brack.Alltron operates an in-house IT development office in Zurich supporting its retail and wholesale businesses, including Brack and Alltron.",
+      "description": "Brack.Alltron operates an in-house IT development office in Zurich supporting its retail and wholesale businesses, including Brack and Alltron"
+    },
+    {
+      "id": "p179w773btsrakjq4ck2s1zpzh8g86dq",
+      "slug": "dormakaba-switzerland",
+      "expectedDescription": "Develops access-control and locking products, with a longstanding technical and production operation in Wetzikon.",
+      "description": "Develops access-control and locking products, with a longstanding technical and production operation in Wetzikon"
+    },
+    {
+      "id": "p177hyktmtsptn12wdy81eqs0s8g84rn",
+      "slug": "trafag",
+      "expectedDescription": "Develops and manufactures pressure and temperature sensors and monitoring instruments, with research and production at its Bubikon headquarters.",
+      "description": "Develops and manufactures pressure and temperature sensors and monitoring instruments, with research and production at its Bubikon headquarters"
+    },
+    {
+      "id": "p170x1z5yz9nfxhp7bhz1zvkx58g90jr",
+      "slug": "uster-technologies",
+      "expectedDescription": "Develops textile quality-measurement and yarn-testing systems. Its Uster technology centre includes research and development, textile technology and manufacturing.",
+      "description": "Develops textile quality-measurement and yarn-testing systems. Its Uster technology centre includes research and development, textile technology and manufacturing"
+    },
+    {
+      "id": "p177hde1tg94chf14ze73906ys8g99s6",
+      "slug": "ferag",
+      "expectedDescription": "Develops conveying, sorting and material-flow systems. Its Hinwil headquarters combines research and development, mechanical and software engineering, and manufacturing.",
+      "description": "Develops conveying, sorting and material-flow systems. Its Hinwil headquarters combines research and development, mechanical and software engineering, and manufacturing"
+    },
+    {
+      "id": "p176rkdmzz8at16k4h51ckncyd8g915x",
+      "slug": "maag-pump-systems",
+      "expectedDescription": "Develops and manufactures polymer and extrusion gear pumps at its Oberglatt headquarters and gear-pump competence centre.",
+      "description": "Develops and manufactures polymer and extrusion gear pumps at its Oberglatt headquarters and gear-pump competence centre"
+    },
+    {
+      "id": "p17eper6bp7rp2rr25p53wj2fn8g967m",
+      "slug": "hapa",
+      "expectedDescription": "Develops and manufactures on-demand printing systems for pharmaceutical packaging, including digital, flexographic and hybrid printing technology, from its Volketswil headquarters.",
+      "description": "Develops and manufactures on-demand printing systems for pharmaceutical packaging, including digital, flexographic and hybrid printing technology, from its Volketswil headquarters"
+    },
+    {
+      "id": "p170bpz7e9tpwzhfvc54adchth8g9r0k",
+      "slug": "bruker-switzerland",
+      "expectedDescription": "Develops scientific instrumentation and magnetic-resonance methods, with a Swiss office and applications laboratory in Fällanden working with hardware and software R&D.",
+      "description": "Develops scientific instrumentation and magnetic-resonance methods, with a Swiss office and applications laboratory in Fällanden working with hardware and software R&D"
+    },
+    {
+      "id": "p17145w4x8bmgt11xyw73fmjfx8g9eed",
+      "slug": "tecan",
+      "expectedDescription": "Develops laboratory automation and liquid-handling systems, with headquarters and manufacturing-engineering roles in Männedorf.",
+      "description": "Develops laboratory automation and liquid-handling systems, with headquarters and manufacturing-engineering roles in Männedorf"
+    },
+    {
+      "id": "p17eekvbxdw703ykr2wv87a9h18g9h0k",
+      "slug": "siemens-mobility-switzerland",
+      "expectedDescription": "Engineers railway signalling, automation and transport systems, with Swiss headquarters in Wallisellen and local technical operations.",
+      "description": "Engineers railway signalling, automation and transport systems, with Swiss headquarters in Wallisellen and local technical operations"
+    },
+    {
+      "id": "p17dyaycjd5g906p38spwbgmcx8g9hdj",
+      "slug": "rheinmetall-air-defence",
+      "expectedDescription": "Develops and manufactures air-defence systems and associated electronics, with a competence centre and technical operations in Zurich.",
+      "description": "Develops and manufactures air-defence systems and associated electronics, with a competence centre and technical operations in Zurich"
+    },
+    {
+      "id": "p177k48mrqdx5sda4pamg3mpyx8g83r0",
+      "slug": "everllence-switzerland",
+      "expectedDescription": "Develops and manufactures high-tech compressor systems and large-scale heat pumps at its Zurich production site. Formerly MAN Energy Solutions Switzerland.",
+      "description": "Develops and manufactures high-tech compressor systems and large-scale heat pumps at its Zurich production site. Formerly MAN Energy Solutions Switzerland"
+    },
+    {
+      "id": "p17e8bv9mgqhz2p5dhvbtb8wgh8g8z06",
+      "slug": "burckhardt-compression",
+      "expectedDescription": "Engineers and manufactures reciprocating compressor systems for industrial gases, chemical processing and energy applications, with headquarters and manufacturing roles in Winterthur.",
+      "description": "Engineers and manufactures reciprocating compressor systems for industrial gases, chemical processing and energy applications, with headquarters and manufacturing roles in Winterthur"
+    },
+    {
+      "id": "p17ae06p69gfvx01amqys2e97s8g8n6p",
+      "slug": "rieter",
+      "expectedDescription": "Develops and manufactures textile spinning machinery. Its Winterthur headquarters and Innovation Center support machine development, spinning trials and textile research.",
+      "description": "Develops and manufactures textile spinning machinery. Its Winterthur headquarters and Innovation Center support machine development, spinning trials and textile research"
+    }
+  ]
+}

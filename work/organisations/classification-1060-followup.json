@@ -1,0 +1,309 @@
+{
+    "snapshotAt": "2026-10-15T02:08:52.344Z",
+    "population": {
+        "organisations": 1060,
+        "companyStartup": 943,
+        "separateCriteriaKinds": 117
+    },
+    "apply": false,
+    "productionWrites": 0,
+    "campusDelta": [
+        {
+            "slug": "genetikzentrum-schlieren",
+            "name": "Genetikzentrum Schlieren",
+            "organisationId": "p171j3ww7mmmbz57jnfyesm6b18gb1da",
+            "website": "https://www.genetikzentrum.ch/",
+            "kind": "nonprofit",
+            "topics": ["biotech"],
+            "decision": "keep",
+            "reason": "Official homepage identifies the rare-disease foundation's genetics centre, research, teaching and diagnostic methods; retain nonprofit/biotech. Homepage confirms Wagistrasse 25. Dedicated Projects/Traegerschaft requests returned errors; do not claim fresh full-page validation of those two.",
+            "evidence": [
+                {
+                    "url": "https://www.genetikzentrum.ch/"
+                }
+            ],
+            "reviewAttribution": "Independent primary-source delta review; main owns import and location verification.",
+            "apply": false
+        },
+        {
+            "slug": "swiss-bioscience",
+            "name": "Swiss Bioscience",
+            "organisationId": "p174m6h33gy9yb4wk7xq2nrea58gandk",
+            "website": "https://www.swissbioscience.com/",
+            "kind": "company",
+            "topics": ["biotech"],
+            "decision": "keep",
+            "reason": "First-party R&D page identifies own experiments, clinical-grade cell manufacturing and extracellular-vesicle therapeutic research. Retain company/biotech; research description does not claim approved treatments.",
+            "evidence": [
+                {
+                    "url": "https://www.swissbioscience.com/research&development.html"
+                }
+            ],
+            "reviewAttribution": "Independent primary-source delta review; main owns import and location verification.",
+            "apply": false
+        },
+        {
+            "slug": "evax",
+            "name": "Evax",
+            "organisationId": "p177gh8agfnxay7n4s76akr85x8gaajk",
+            "website": "https://www.evax.ch/",
+            "kind": "company",
+            "topics": ["biotech"],
+            "decision": "keep",
+            "reason": "Own therapeutic vaccine candidates; current official homepage explicitly identifies acquisition by Boehringer Ingelheim Animal Health. Retain company/biotech; parent relationship already disclosed, not independent-startup copy.",
+            "evidence": [
+                {
+                    "url": "https://www.evax.ch/"
+                }
+            ],
+            "reviewAttribution": "Independent primary-source delta review; main owns import and location verification.",
+            "apply": false
+        },
+        {
+            "slug": "we-shape-tech",
+            "name": "WE SHAPE TECH",
+            "organisationId": "p175bg2sjwhtvf0wmay7j777bx8gaeg4",
+            "website": "https://weshape.tech/",
+            "kind": "community",
+            "topics": [],
+            "decision": "keep",
+            "reason": "Broad technology community, knowledge exchange and inclusion work. Retain community and empty topics; isolated AI events do not establish a narrow standing technical specialty.",
+            "evidence": [
+                {
+                    "url": "https://weshape.tech/about-us/"
+                },
+                {
+                    "url": "https://weshape.tech/events/"
+                }
+            ],
+            "reviewAttribution": "Independent primary-source delta review; main owns import and location verification.",
+            "apply": false
+        }
+    ],
+    "companyLedgerAdditions": [
+        {
+            "slug": "swiss-bioscience",
+            "name": "Swiss Bioscience",
+            "organisationId": "p174m6h33gy9yb4wk7xq2nrea58gandk",
+            "website": "https://www.swissbioscience.com/",
+            "kind": "company",
+            "topics": ["biotech"],
+            "decision": "keep",
+            "reason": "First-party R&D page identifies own experiments, clinical-grade cell manufacturing and extracellular-vesicle therapeutic research. Retain company/biotech; research description does not claim approved treatments.",
+            "evidence": [
+                {
+                    "url": "https://www.swissbioscience.com/research&development.html"
+                }
+            ],
+            "reviewAttribution": "Independent primary-source delta review; main owns import and location verification.",
+            "apply": false
+        },
+        {
+            "slug": "evax",
+            "name": "Evax",
+            "organisationId": "p177gh8agfnxay7n4s76akr85x8gaajk",
+            "website": "https://www.evax.ch/",
+            "kind": "company",
+            "topics": ["biotech"],
+            "decision": "keep",
+            "reason": "Own therapeutic vaccine candidates; current official homepage explicitly identifies acquisition by Boehringer Ingelheim Animal Health. Retain company/biotech; parent relationship already disclosed, not independent-startup copy.",
+            "evidence": [
+                {
+                    "url": "https://www.evax.ch/"
+                }
+            ],
+            "reviewAttribution": "Independent primary-source delta review; main owns import and location verification.",
+            "apply": false
+        },
+        {
+            "slug": "passam",
+            "name": "passam",
+            "organisationId": "p172h4dkdh9c063vmxg0xagv218g9eqe",
+            "website": "https://www.passam.ch/",
+            "kind": "company",
+            "topics": ["hardware"],
+            "decision": "keep",
+            "reason": "Commercial producer of own passive samplers as well as analytical laboratory; transferred from separate-kind review into company denominator after main's verified kind correction.",
+            "evidence": [
+                {
+                    "url": "https://www.passam.ch/"
+                }
+            ],
+            "reviewAttribution": "Prior independent classification review; main applied correction, independently re-read.",
+            "apply": false
+        }
+    ],
+    "classificationApplication": {
+        "status": "eight-applied-by-main-independently-re-read",
+        "source": "/tmp/zurich-registry-review/classification-eight-reviewed.json",
+        "records": [
+            {
+                "slug": "passam",
+                "kind": "company",
+                "topics": ["hardware"],
+                "updatedAt": 1792030087419,
+                "status": "verified-applied-do-not-reapply"
+            },
+            {
+                "slug": "btry",
+                "kind": "startup",
+                "topics": ["materials", "manufacturing", "climate-tech"],
+                "updatedAt": 1792030087419,
+                "status": "verified-applied-do-not-reapply"
+            },
+            {
+                "slug": "hitachi-energy",
+                "kind": "company",
+                "topics": ["electronics", "semiconductors", "climate-tech"],
+                "updatedAt": 1792030087419,
+                "status": "verified-applied-do-not-reapply"
+            },
+            {
+                "slug": "exnaton",
+                "kind": "startup",
+                "topics": ["software-engineering", "climate-tech"],
+                "updatedAt": 1792030087419,
+                "status": "verified-applied-do-not-reapply"
+            },
+            {
+                "slug": "hivoduct",
+                "kind": "startup",
+                "topics": ["electronics", "materials", "climate-tech"],
+                "updatedAt": 1792030087419,
+                "status": "verified-applied-do-not-reapply"
+            },
+            {
+                "slug": "hyperscale-power",
+                "kind": "startup",
+                "topics": ["electronics", "climate-tech"],
+                "updatedAt": 1792030087419,
+                "status": "verified-applied-do-not-reapply"
+            },
+            {
+                "slug": "incon-ai",
+                "kind": "startup",
+                "topics": ["graphics", "software-engineering", "computer-vision"],
+                "updatedAt": 1792030087419,
+                "status": "verified-applied-do-not-reapply"
+            },
+            {
+                "slug": "digital-assets-technologies",
+                "kind": "startup",
+                "topics": ["security", "fintech"],
+                "updatedAt": 1792030087419,
+                "status": "verified-applied-do-not-reapply"
+            }
+        ],
+        "huberIdentityFieldsNotApplied": true
+    },
+    "huberSuhner": {
+        "status": "prior-mixup-finding-withdrawn-no-production-correction",
+        "reason": "Two narrow production reads agree on correct website and headline. updatedAt equals creation time and predates the prior audit capture. Existing eligibility evidence also had the correct website. The earlier mixed-field audit capture is not trustworthy evidence of a production error; exact origin of its corruption is unestablished.",
+        "observed": {
+            "_creationTime": 1791995385318.803,
+            "_id": "p1777b9xd63c795pde2c1wx6958g8kaf",
+            "description": "Develops and manufactures electrical and optical connectivity products, with a Pfäffikon ZH production and development presence.",
+            "headline": "Electrical and optical connectivity",
+            "kind": "company",
+            "location": "Pfäffikon ZH",
+            "mapLogoUrl": "https://media.zurich.tech/organisations/huber-suhner/0c21b2be1374e73950496edea3e8dbc21d73a2df0f5dc5e63d6285c09a2754ac.png",
+            "name": "HUBER+SUHNER",
+            "slug": "huber-suhner",
+            "topics": ["electronics", "photonics"],
+            "updatedAt": 1791995385318,
+            "website": "https://www.hubersuhner.com/"
+        },
+        "publicLocations": [
+            {
+                "_creationTime": 1791995385318.8032,
+                "_id": "px75v0sj9wvrtb0shmrssp4w4d8g9dd2",
+                "addressId": "j973bjer1mb3ynxnv38b9fmh0s8g8apw",
+                "name": "Production and administration",
+                "ownerId": "p1777b9xd63c795pde2c1wx6958g8kaf",
+                "visibility": "public"
+            }
+        ],
+        "publicAddresses": [
+            {
+                "_creationTime": 1791995385318.8027,
+                "_id": "j973bjer1mb3ynxnv38b9fmh0s8g8apw",
+                "countryCode": "CH",
+                "createdAt": 1791995385318,
+                "latitude": 47.36479949951172,
+                "line1": "Tumbelenstrasse 20",
+                "locality": "Pfäffikon ZH",
+                "longitude": 8.783077239990234,
+                "postalCode": "8330",
+                "updatedAt": 1791995385318
+            }
+        ],
+        "publicLinks": [
+            {
+                "_creationTime": 1791995385318.8035,
+                "_id": "ks7fypjcd0918hvgkaatd6cf7d8g8rxh",
+                "createdAt": 1791995385318,
+                "kind": "linkedin",
+                "ownerId": "p1777b9xd63c795pde2c1wx6958g8kaf",
+                "position": 1,
+                "updatedAt": 1791995385318,
+                "url": "https://www.linkedin.com/company/hubersuhner",
+                "visibility": "public"
+            }
+        ],
+        "profileReview": "Name, slug, company kind, electronics/photonics, description and website are coherent. No logoUrl or dark variant fields present in returned record. Separate Kinastic identity, address and LinkedIn confirmed; no cross-owner public link/location found.",
+        "logo": {
+            "status": "verified-official-identity",
+            "hostedSha256": "0c21b2be1374e73950496edea3e8dbc21d73a2df0f5dc5e63d6285c09a2754ac",
+            "source": "https://www.hubersuhner.com/apple-touch-icon.png",
+            "sourceSha256": "a76c9550aea8cf4684b542c88e0b8013ae765f827d4f61592b54179d4a80b515",
+            "method": "Fresh public-byte hashes match reviewed local hosted asset and original official source respectively. Visually inspected blue H/hexagonal brand mark; not Kinastic. Original 180px icon resized/letterboxed to 192px without recolouring."
+        },
+        "locationReview": "Annual report confirms Tumbelenstrasse 20, 8330 Pfaeffikon ZH; current official careers location section explicitly labels that address factory and administrative site. Preserve production/administration label. Coordinate values retained, not freshly geocoded in this pass.",
+        "socialReview": "Fresh official company HTML contains exact https://www.linkedin.com/company/hubersuhner; matches sole public stored link.",
+        "sources": [
+            "https://www.hubersuhner.com/en/company/about-us",
+            "https://reports.hubersuhner.com/2025/ar/contact",
+            "https://www.hubersuhner.com/en/company/jobs-and-careers/where-to-join-us/emea"
+        ],
+        "proposedChanges": {},
+        "supportedAdmin": {
+            "url": "https://zurich.tech/admin?section=organisations&organisation=p1777b9xd63c795pde2c1wx6958g8kaf",
+            "component": "src/organisations/company.tsx",
+            "mutation": "organisations/mutations:upsertCompany",
+            "instruction": "No save needed: current state is already correct. If later real changes are approved, use signed-in existing Admin editor, preserve all other loaded profile/social/image fields and independently re-read afterward. Do not run an unauthenticated mutation or construct a new bypass."
+        }
+    },
+    "socialCoordination": {
+        "sentTo": "01a13b5a-6c2b-79d2-bd71-7c18d80056c0",
+        "delivered": true,
+        "decisions": [
+            {
+                "slug": "insite",
+                "decision": "keep",
+                "reason": "Named insiteWeb introduced by company, maintained application software across AK81/AK89; primary customer manual sixth edition October 2024. Not a claim to own the upstream framework or a blanket acceptance of bespoke coding.",
+                "sources": [
+                    "https://insite.ch/",
+                    "https://www.ak81.ch/fileadmin/user_upload/AK81/Formulare/Benutzerhandbuch-insiteWEB-AK81.pdf"
+                ]
+            },
+            {
+                "slug": "xiag",
+                "decision": "keep",
+                "reason": "LEVO explicitly a product of XIAG AG: independent application, crawler, administration and analytics on upstream Elasticsearch.",
+                "sources": ["https://levo.xiag.ch/produkt/"]
+            }
+        ],
+        "note": "Eligibility does not block verified corporate-social enrichment. Link mutation remains main/Franklin's scope."
+    },
+    "topicless": {
+        "current": 16,
+        "previous15Unchanged": true,
+        "newJustifiedEmpty": "we-shape-tech",
+        "reasoningLabsIdentityHoldUnchanged": true
+    },
+    "limits": [
+        "Not a second full-registry primary-source pass.",
+        "No imports, reapplications, uploads, deletions or production edits executed.",
+        "All 20 map-removal proposals remain disabled."
+    ]
+}

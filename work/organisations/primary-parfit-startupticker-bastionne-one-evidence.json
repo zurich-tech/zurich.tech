@@ -1,0 +1,217 @@
+{
+    "checkedAt": "2026-10-15T03:24:15.321Z",
+    "productionWrites": 0,
+    "visualReview": "Original declared192px favicon inspected at32px and96px on light contact sheet. Cream three-prong mark on official dark background is readable. No recolouring or redrawing.",
+    "records": [
+        {
+            "slug": "bastionne",
+            "name": "Bastionne",
+            "website": "https://www.bastionne.com/",
+            "line1": "Freihofstrasse 15",
+            "postalCode": "8700",
+            "locality": "Küsnacht ZH",
+            "office": "Registered address",
+            "headline": "Sovereign machine identity and security infrastructure",
+            "description": "Develops security infrastructure that verifies device identity, system integrity and authorised actions without continuous reliance on external infrastructure",
+            "topics": ["security"],
+            "uid": "395385036",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/bastionne/"
+            },
+            "source": "https://static.wixstatic.com/media/45b038_7b53593d537e4d0bbe4066268144b43a%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/45b038_7b53593d537e4d0bbe4066268144b43a%7Emv2.png",
+            "declaredIcon": true,
+            "sources": [
+                "https://www.bastionne.com/",
+                "https://www.bastionne.com/tech",
+                "https://ch.linkedin.com/company/bastionne",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE395385036"
+            ],
+            "rationale": "Current own technology page describes original verification architecture. Active Swiss UID Bastionne AG establishes exact registered address; company LinkedIn links same domain and founders, resolving identity. Delaware-law boilerplate is not a foreign-only exclusion. No independent endorsement of security-performance claims.",
+            "socialEvidence": "Official site footer links corporate LinkedIn, whose own website field matches.",
+            "address": {
+                "line1": "Freihofstrasse 15",
+                "postalCode": "8700",
+                "locality": "Küsnacht ZH",
+                "countryCode": "CH",
+                "latitude": 47.30928039550781,
+                "longitude": 8.58757495880127,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210208388_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "freihofstrasse 15 8700 kuesnacht zh 154 kuesnacht _zh_ ch zh",
+                            "featureId": "210208388_0",
+                            "geom_quadindex": "030003332230101031230",
+                            "geom_st_box2d": "BOX(8.587564 47.309282,8.587564 47.309282)",
+                            "label": "Freihofstrasse 15 <b>8700 Küsnacht ZH</b>",
+                            "lat": 47.30928039550781,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/102084522",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210208388_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.58757495880127,
+                            "num": 15,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.58757495880127,
+                            "y": 47.30928039550781,
+                            "zoomlevel": 10
+                        },
+                        "id": 1942628,
+                        "weight": 100
+                    },
+                    {
+                        "attrs": {
+                            "detail": "freihofstrasse 2 8700 kuesnacht zh 154 kuesnacht _zh_ ch zh",
+                            "featureId": "71645_0",
+                            "geom_quadindex": "030003332231232102010",
+                            "geom_st_box2d": "BOX(8.589512 47.307475,8.589512 47.307475)",
+                            "label": "Freihofstrasse 2 <b>8700 Küsnacht ZH</b>",
+                            "lat": 47.307472229003906,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100073485",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/71645_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.589523315429688,
+                            "num": 2,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.589523315429688,
+                            "y": 47.307472229003906,
+                            "zoomlevel": 10
+                        },
+                        "id": 1936129,
+                        "weight": 1
+                    },
+                    {
+                        "attrs": {
+                            "detail": "freihofstrasse 2b 8700 kuesnacht zh 154 kuesnacht _zh_ ch zh",
+                            "featureId": "71647_0",
+                            "geom_quadindex": "030003332231232020220",
+                            "geom_st_box2d": "BOX(8.589303 47.307422,8.589303 47.307422)",
+                            "label": "Freihofstrasse 2b <b>8700 Küsnacht ZH</b>",
+                            "lat": 47.30741882324219,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100073487",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/71647_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.589314460754395,
+                            "num": 2,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.589314460754395,
+                            "y": 47.30741882324219,
+                            "zoomlevel": 10
+                        },
+                        "id": 2416021,
+                        "weight": 1
+                    },
+                    {
+                        "attrs": {
+                            "detail": "freihofstrasse 2d 8700 kuesnacht zh 154 kuesnacht _zh_ ch zh",
+                            "featureId": "191968865_0",
+                            "geom_quadindex": "030003332231221311302",
+                            "geom_st_box2d": "BOX(8.589284 47.307622,8.589284 47.307622)",
+                            "label": "Freihofstrasse 2d <b>8700 Küsnacht ZH</b>",
+                            "lat": 47.307621002197266,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/103203888",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/191968865_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.589295387268066,
+                            "num": 2,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.589295387268066,
+                            "y": 47.307621002197266,
+                            "zoomlevel": 10
+                        },
+                        "id": 2511327,
+                        "weight": 1
+                    },
+                    {
+                        "attrs": {
+                            "detail": "freihofstrasse 2a 8700 kuesnacht zh 154 kuesnacht _zh_ ch zh",
+                            "featureId": "71646_0",
+                            "geom_quadindex": "030003332231222113122",
+                            "geom_st_box2d": "BOX(8.588892 47.307472,8.588892 47.307472)",
+                            "label": "Freihofstrasse 2a <b>8700 Küsnacht ZH</b>",
+                            "lat": 47.30746841430664,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/100073486",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/71646_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.588903427124023,
+                            "num": 2,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.588903427124023,
+                            "y": 47.30746841430664,
+                            "zoomlevel": 10
+                        },
+                        "id": 2613828,
+                        "weight": 1
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-bastionne.png",
+                "source": "https://static.wixstatic.com/media/45b038_7b53593d537e4d0bbe4066268144b43a%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/45b038_7b53593d537e4d0bbe4066268144b43a%7Emv2.png",
+                "width": 192,
+                "height": 192,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        }
+    ]
+}

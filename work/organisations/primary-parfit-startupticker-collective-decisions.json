@@ -1,0 +1,358 @@
+{
+    "checkedAt": "2026-10-15",
+    "productionWrites": 0,
+    "scope": "Candidate decisions from the 160 collectively reported article bodies on archive pages1-23; not a completed primary review of every entity.",
+    "records": [
+        {
+            "name": "Twiliner",
+            "decision": "prepared-main-scope-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-twiliner-one-ready.json",
+            "evidence": "work/organisations/primary-parfit-startupticker-twiliner-one-evidence.json",
+            "reason": "Current official About describes joint original passenger-restraint development, prototyping and crash testing, with current product designers and Seat2.0 plans. Not merely ticket resale. Exact Zurich company contact address and official compact logo prepared; main should review physical-technology boundary for this transport operator."
+        },
+        {
+            "name": "SensorX Solutions",
+            "decision": "hold-exact-local-site",
+            "reason": "Current official contact publishes SarnenHQ and foreign sales offices. Current employer ProjectEngineer advertisement is labelled Zurich and explicitly describes original optical sensors, embedded systems and prototyping. Do not reject technology scope or assume there is no Zurich operation; exact current ZH/ZG site remains unverified, and a city-tagged job cannot supply street coordinates.",
+            "sources": [
+                "https://www.sensorxsolutions.com/contact",
+                "https://ch.linkedin.com/jobs/view/project-engineer-at-sensorx-solutions-4462824174"
+            ]
+        },
+        {
+            "name": "OOVIE Studios",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Current official About supports original live music/AI-film development. Active federal UID355662844 places company at ViaMassimilianoMagatti1,6900Lugano. No ZH/ZG operating site verified; a founder university affiliation does not establish one.",
+            "sources": [
+                "https://www.ooviestudios.com/en/about-us",
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE355662844"
+            ]
+        },
+        {
+            "name": "CC Cardio",
+            "decision": "hold-local-identity-not-established",
+            "reason": "Current own website and company LinkedIn describe UniFlow preclinical heart-pump development and Ticino ecosystem participation. Own contact only says Switzerland; no Zurich/Zug address published. No basis to invent a university address, infer dissolution, or reject young investigational technology. Current local operating location is the decisive gap.",
+            "sources": [
+                "https://cccardio.ch/",
+                "https://cccardio.ch/contact.html",
+                "https://www.linkedin.com/company/cccardio"
+            ]
+        },
+        {
+            "name": "Ancora.ai",
+            "decision": "hold-current-local-address",
+            "reason": "Current federal UID356971093 identifies active Ancora.ai AG at Rebmoosweg9,5200BruggAG. Corporate LinkedIn still says Zurich8000 without street and documents continuing clinical-trial search development. Both bare/www official site return403. Do not map historical Zurich address or infer dissolution; decisive gap is a current exact ZH/ZG operating site.",
+            "sources": [
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE356971093",
+                "https://www.linkedin.com/company/ancora-ai",
+                "https://ancora.ai/"
+            ]
+        },
+        {
+            "name": "Health Yourself",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Current official About identifies St.Gallen; imprint and active UID329681043 agree Lerchenfeldstrasse3,9014St.Gallen. Old Zurich trademark/address references are stale. Current services include digital lab-test workflows, but no ZH/ZG site verified; no technology-based exclusion inferred.",
+            "sources": [
+                "https://yourself.health/pages/about-health-yourself",
+                "https://yourself.health/pages/impressum",
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE329681043"
+            ]
+        },
+        {
+            "name": "Scenario X",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Current official company page documents original risk modules and lists Plan-les-Ouates RouteDeLaGalaise34, Geneva CoursDeRive2, Arlesheim Schorenweg44B and Singapore. No ZH/ZG site in published office list. Zurich ecosystem/news participation is not an address.",
+            "sources": ["https://scenario-x.ai/company/", "https://scenario-x.ai/"]
+        },
+        {
+            "name": "KoraLabs",
+            "decision": "hold-liquidation-current-operator",
+            "reason": "Current federal UID401151856 names KoraLabs GmbH in Liquidation at Letzigraben26Zurich. UID/RC remain active, so this is not a claim that legal deletion has completed. Live official domain now shows a Hostinger parked page, unlike stale indexed agronomy-platform copy. Do not prepare active listing without evidence of continuing operator/product activity or an identified successor.",
+            "sources": [
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE401151856",
+                "https://koralabs.ch/"
+            ]
+        },
+        {
+            "name": "ProSeed Ingredients",
+            "decision": "outside-region-current-primary-sites",
+            "reason": "Official contact lists head office RueDeLIndustrie23,1950Sion and pilot plant RueDesAvouillons1,1920Martigny. Do not confuse with unrelated similarly named ProseedAG or seed suppliers. No ZH/ZG site verified.",
+            "sources": ["https://www.proseed.co/contactus"]
+        },
+        {
+            "name": "Watchibia",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Official imprint identifies WatchibiaAG CHE353293090, Freiburgstrasse2,3008Bern. Original smart-strap technology supported, but no current ZH/ZG site verified.",
+            "sources": [
+                "https://www.watchibia.com/Impressum_Watchibia.pdf",
+                "https://watchibia.com/"
+            ]
+        },
+        {
+            "name": "Sixteen44",
+            "decision": "outside-region-current-primary-locality",
+            "reason": "Current official homepage describes original dilute-methane oxidation equipment and identifies1025St-Sulpice. No ZH/ZG site verified; technology eligibility is not the issue.",
+            "sources": ["https://www.sixteen44.com/"]
+        },
+        {
+            "name": "smart-me / MoonLake Immunotherapeutics",
+            "decision": "prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-energy-biotech-two-ready.json",
+            "evidence": "work/organisations/primary-parfit-startupticker-energy-biotech-two-evidence.json",
+            "reason": "Original technology and current exact local sites verified on official pages; exact federal coordinates and declared official192px icons prepared. No matching identity in1093 snapshot."
+        },
+        {
+            "name": "Chirp Light",
+            "decision": "prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-chirp-one-ready.json",
+            "evidence": "work/organisations/primary-parfit-startupticker-chirp-one-evidence.json",
+            "reason": "Official technical pages describe original FMCW lidar. Active UID and imprint confirm Thalwil registered address. Exact corporate LinkedIn identity verified; declared CL icon visually checked."
+        },
+        {
+            "name": "Qendra",
+            "decision": "other-owner-prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-db05-positive-instruments-five-batch.json",
+            "evidence": "/tmp/zurich-registry-review/primary-db05-positive-instruments-five-evidence.json",
+            "reason": "Lagrange owns the complete pending packet. Not published; do not duplicate from historical nine-ready handoff.",
+            "sources": [
+                "https://qendra.tech/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE331046181"
+            ]
+        },
+        {
+            "name": "Monix Health",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Current official contact and substantive privacy text identify Monix Health AG, Burgfeldermattweg6,4123Allschwil. One duplicate footer says Monix AG Musterstrasse00,8000Zurich: explicit template placeholder, not a valid location. Own hormone biosensor technology is supported; no ZH/ZG location verified.",
+            "sources": [
+                "https://monix.health/",
+                "https://monix.health/contact-us/",
+                "https://monix.health/privacy-policy/"
+            ]
+        },
+        {
+            "name": "Cedric / Underheard / Cedreon",
+            "decision": "eligible-operator-grouping-review-before-preparation",
+            "reason": "All three primary legal pages identify SFF S26 AG as operator, rather than three separate companies. Cedric privacy explicitly publishes Westhive Zurich Hardturm,Hardturmstrasse161,8005Zurich as office; Underheard and Cedreon identify registered Schuetzengasse7,9000St.Gallen. Original ongoing software is evident: agent workspace, voice-interview automation and privacy-screened AI workspace. Decide one operator profile with three brands; do not create three legal-company duplicates or map registered St.Gallen as Zurich.",
+            "sources": [
+                "https://meet-cedric.com/",
+                "https://meet-cedric.com/terms",
+                "https://meet-cedric.com/privacy",
+                "https://underheard.ai/",
+                "https://underheard.ai/en/imprint",
+                "https://cedreon.com/",
+                "https://cedreon.com/privacy"
+            ]
+        },
+        {
+            "name": "Olexir",
+            "decision": "primary-technology-confirmed-exact-location-unresolved",
+            "reason": "Current own technology and about pages describe protein-based encapsulation that structures liquid oils into oleogels, originating at ETH Zurich. Reviewed homepage/about/terms/privacy do not establish an exact operating or registered address. Must follow ETH primary affiliation/UID before mapping; no campus centroid invented.",
+            "sources": [
+                "https://olexir.ch/",
+                "https://olexir.ch/aboutus",
+                "https://olexir.ch/termsandconditions",
+                "https://olexir.ch/privacypolicy",
+                "https://entrepreneurship.ethz.ch/startups-spinoffs/find-offers-programs-space-grants-for-entrepreneurs/pioneer-fellowship/current-fellows/20241/olexir.html"
+            ]
+        },
+        {
+            "name": "Viesus",
+            "decision": "prepared-next-two-awaiting-main-review",
+            "reason": "Current About explicitly states independent Viesus AG spun out of Imaging Solutions in2023. Current cloud terms and active UID agree Niederhaslistrasse14,8157Dielsdorf. Maintains original image enhancement software; historical parent privacy PDF does not override current legal operator.",
+            "sources": [
+                "https://www.viesus.com/about-us",
+                "https://www.viesus.cloud/terms-of-service",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE154750120"
+            ]
+        },
+        {
+            "name": "Motif",
+            "decision": "prepared-next-two-awaiting-main-review",
+            "reason": "Own temporal financial knowledge graph and agent suite; official mailing address Schwertstrasse18,6300Zug matches active Motif Labs GmbH UID. No engineering-office assertion.",
+            "sources": [
+                "https://www.chatwithmotif.com/",
+                "https://www.chatwithmotif.com/privacy-policy",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE257428187"
+            ]
+        },
+        {
+            "name": "UpGrid",
+            "decision": "other-owner-prepared",
+            "packet": "/tmp/zurich-registry-review/primary-56c0-programmes-next-review-batch.json",
+            "reason": "Franklin prepared current Adliswil address; historical article Baar address must not generate a second import. Publication not assumed.",
+            "sources": ["https://upgrid.ch/de/about-us", "https://upgrid.ch/de/terms-conditions"]
+        },
+        {
+            "name": "Talpa Inspection / Riverkin",
+            "decision": "other-owner-prepared",
+            "packet": "/tmp/zurich-registry-review/primary-db05-positive-campus-four-batch.json",
+            "reason": "Lagrange prepared exact ETH HIF campus locations. Do not duplicate; publication not assumed.",
+            "sources": [
+                "https://www.talpa-inspection.ch/contact.html",
+                "https://www.riverkin.com/about"
+            ]
+        },
+        {
+            "name": "Kelva Systems / Trilliome / Billoba / Hemetron / nordfen / PeelPack / Noemon / Alligator",
+            "decision": "prepared-products-eight-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json",
+            "evidence": "work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+            "reason": "Eight original technology developers; exact official contact or active UID registered addresses each match federal building coordinates. Individually checked exact names, slugs and hosts against1076; no existing prepared batch matches. Logo review limitations retained; no production writes."
+        },
+        {
+            "name": "Luminarity",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Own Product Data Intelligence platform is supported, but current official contact is Spinnereistrasse29,8640Rapperswil-Jona,SG. No current ZH/ZG location verified; do not map historical Zurich references.",
+            "sources": ["https://luminarity.ai/"]
+        },
+        {
+            "name": "SwissVeritas",
+            "decision": "outside-region-current-primary-operator",
+            "reason": "Original inspection technology is supported; current homepage places operation in Ticino under CBSquared GmbH CHE443158048. Old accelerator article is not evidence of current Zurich location.",
+            "sources": ["https://www.swissveritas.ai/"]
+        },
+        {
+            "name": "Iron Energy",
+            "decision": "current-zurich-research-address-unresolved",
+            "reason": "Original seasonal iron energy storage supported. Current active UID identifies Badenerstrasse13,5200Brugg,AG, superseding old Zurich registered address. Zurich research project affiliation does not yet identify a current exact local company site; do not map old Kugeliloostrasse3.",
+            "sources": [
+                "https://ironenergy.ch/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE174989351"
+            ]
+        },
+        {
+            "name": "UAC Labs",
+            "decision": "other-owner-prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/membership-ready.json",
+            "reason": "Hold resolved: official About via web reader identifies Coordination State Machine and founders; Bank of England independently names UAC Labs AG as decentralised synchronised settlement participant. Active UID confirms Sonneggstrasse88,8006Zurich. Existing membership-ready packet owns preparation; no duplicate payload. Publication not assumed.",
+            "sources": [
+                "https://uaclabs.com/about",
+                "https://www.bankofengland.co.uk/payments/rtgs-future-roadmap/synchro-lab",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE407507928"
+            ]
+        },
+        {
+            "name": "Bastionne",
+            "decision": "prepared-bastionne-one-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-bastionne-one-ready.json",
+            "reason": "Hold resolved: active Swiss UID Bastionne AG names Freihofstrasse15,8700KusnachtZH; exact federal building verified. Official technology page and matching corporate LinkedIn confirm original security architecture and company identity. Delaware-law boilerplate does not justify exclusion; use Registered address label.",
+            "sources": [
+                "https://www.bastionne.com/",
+                "https://www.bastionne.com/tech",
+                "https://ch.linkedin.com/company/bastionne",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE395385036"
+            ]
+        },
+        {
+            "name": "DBWarp",
+            "decision": "legal-identity-and-exact-location-unresolved",
+            "reason": "Original database acceleration and Blueprint open-source development supported. Current contact lacks street address; terms explicitly say formal terms are still being prepared. Sparse young-company legal pages do not justify exclusion.",
+            "sources": ["https://dbwarp.com/", "https://dbwarp.com/legal/terms/"]
+        },
+        {
+            "name": "Erthina",
+            "decision": "current-geography-and-legal-entity-unresolved",
+            "reason": "Original materials discovery platform and lab supported. Site identifies Erthina SA and EPFL founders but no exact address. Neither EPFL affiliation nor collective article proves a Zurich or Zug site.",
+            "sources": ["https://www.erthina.com/"]
+        },
+        {
+            "name": "Siresca",
+            "decision": "prepared-siresca-one-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-siresca-one-ready.json",
+            "reason": "Live structured homepage content resolves prior access limitation: own AR installation software and exact Schlieren contact address, confirmed by active UID. Official LinkedIn /in/ is not permitted for org imports; omission intentional, evidence preserved.",
+            "sources": [
+                "https://siresca.ch/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE272045422"
+            ]
+        },
+        {
+            "name": "Xelon / Open Forest Protocol",
+            "decision": "prepared-platforms-two-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-platforms-two-ready.json",
+            "evidence": "work/organisations/primary-parfit-startupticker-platforms-two-evidence.json",
+            "reason": "Original maintained software independently read on current first-party pages. Exact company addresses and active UID records agree; federal coordinates verified. Xelon HQ/Cloudpilot and Open Forest/NatureGrid treated as operator/product families, not separate duplicate profiles."
+        },
+        {
+            "name": "Flappie",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Original embedded computer-vision product is clear. Current official contact and legal notice both identify Leutschenstrasse43,8807Freienbach,SZ; no current ZH/ZG site established. Historic 'Zurich startup' press copy not used as a map location.",
+            "sources": [
+                "https://flappiedoors.com/",
+                "https://flappiedoors.com/pages/contact",
+                "https://flappiedoors.com/policies/legal-notice"
+            ]
+        },
+        {
+            "name": "PROVUU",
+            "decision": "outside-region-current-primary-location",
+            "reason": "Original augmented-visibility eyewear is clear, but current official homepage explicitly identifies Basel. No current ZH/ZG site established.",
+            "sources": ["https://provuu.com/"]
+        },
+        {
+            "name": "Malaica",
+            "decision": "local-technology-role-unresolved",
+            "reason": "Current official homepage describes maternity clinical services and exact Nairobi address. No Swiss engineering or original software demonstrated on that page. Do not infer no technology from silence; Swiss operating-company role and substantive tech need a separate primary source before preparation.",
+            "sources": ["https://malaica.com/"]
+        },
+        {
+            "name": "Truvami",
+            "decision": "prepared-truvami-one-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami-one-ready.json",
+            "reason": "Resolved through live official device/firmware docs and verified-domain GitHub with current original code. Active UID confirms distinct truvami GmbH at Binzstrasse7,8045Zurich c/oSwisscomBroadcast; use Registered address, not older LinkedIn Gallusstrasse4. Main marketing website still520; not an activity exclusion. Official GitHub avatar used with small-wordmark visual limitation.",
+            "sources": [
+                "https://docs.truvami.com/",
+                "https://docs.truvami.com/devices",
+                "https://github.com/truvami",
+                "https://www.linkedin.com/company/truvami/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE175842213"
+            ]
+        },
+        {
+            "name": "Exploris Health / Optiverse",
+            "decision": "other-owner-prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-56c0-startupticker-six-ready.json",
+            "reason": "Franklin has frozen prepared profiles; no duplicate preparation. Publication not assumed."
+        },
+        {
+            "name": "Jurata",
+            "decision": "other-owner-prepared-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-db05-positive-eight-batch.json",
+            "reason": "Lagrange has frozen prepared profile; no duplicate preparation. Publication not assumed."
+        },
+        {
+            "name": "Zenline AI / TOM Medications / SimpleTrain / GET LOCAL",
+            "decision": "prepared-software-four-awaiting-main-review",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-software-four-ready.json",
+            "evidence": "work/organisations/primary-parfit-startupticker-software-four-evidence.json",
+            "reason": "Current own or jointly developed maintained software established. Zenline current imprint/UID override old terms address; TOM represents Innovation6AG once; SimpleTrain has explicit original booking-platform development with nxtEngineering; GET LOCAL parent develops software, Swiss licensee not separately duplicated. All exact federal addresses verified."
+        },
+        {
+            "name": "Studyond",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Original university-company collaboration platform is supported; current imprint gives ZurcherStrasse45,9000StGallen. ETH startup/project affiliation and university customers do not establish a current Zurich company site.",
+            "sources": [
+                "https://studyond.com/",
+                "https://studyond.com/about",
+                "https://studyond.com/impressum"
+            ]
+        },
+        {
+            "name": "dEEGtal",
+            "decision": "outside-region-current-primary-address",
+            "reason": "Own EEG analysis software supported. Official homepage names dEEGtalInsightsSA c/oWyssCenter CheminDesMines9,1202Geneva; no ZH/ZG site verified.",
+            "sources": ["https://www.deegtal.ai/"]
+        },
+        {
+            "name": "Winduction / Baxiva / ogmo",
+            "decision": "represented-in-fresh1076-public-snapshot",
+            "reason": "Exact company identities verified in the fresh read-only directory; no new imports.",
+            "slugs": ["winduction", "baxiva", "ogmo"],
+            "sources": [
+                "https://www.winduction.com/",
+                "https://www.baxiva.com/",
+                "https://www.ogmo.ch/"
+            ]
+        }
+    ],
+    "remaining": "Further named candidates from fully read bodies remain under primary identity/geography reconciliation. This file is not evidence that the finite candidate queue has closed."
+}

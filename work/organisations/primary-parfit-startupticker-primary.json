@@ -1,0 +1,345 @@
+{
+    "checkedAt": "2026-10-15",
+    "productionWrites": 0,
+    "apply": false,
+    "records": [
+        {
+            "name": "c.technology",
+            "website": "https://ctechnology.io/",
+            "decision": "prepared-for-main-review-no-production-write",
+            "ownTechnology": "Develops a connected-vehicle SaaS platform with OEM analytics, dealer/fleet tooling, OTA diagnostics, vehicle-owner applications and public APIs.",
+            "address": {
+                "text": "Stockerstrasse 33, 8002 Zürich, Switzerland",
+                "label": "Company contact address",
+                "source": "https://ctechnology.io/imprint"
+            },
+            "sources": [
+                "https://ctechnology.io/",
+                "https://ctechnology.io/imprint",
+                "https://wagtail.ctechnology.io/about/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=fr&uid_id=CHE384751094"
+            ],
+            "caveat": "Legacy shop, privacy and parts of terms still say Tessinerplatz 7. Current imprint and official UID agree Stockerstrasse 33. Do not import both as offices.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["2.25", "22.47"],
+            "importReady": true,
+            "remainingPreparation": "Main review and publication of supplied official logo; attach published mapLogoUrl before central import.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["cloud", "analytics"],
+            "previousScreening": {
+                "decision": "eligible-primary-evidence-main-review",
+                "caveat": "Legacy shop, privacy and parts of terms still say Tessinerplatz 7. Current imprint and official UID agree Stockerstrasse 33. Do not import both as offices."
+            },
+            "finalEvidence": "work/organisations/primary-parfit-startupticker-nine-evidence.json"
+        },
+        {
+            "name": "GoNina",
+            "website": "https://www.gonina.com/",
+            "decision": "prepared-for-main-review-no-production-write",
+            "ownTechnology": "Develops demand-prediction software using point-of-sale, weather and event data to forecast daily production quantities and reduce food waste.",
+            "address": {
+                "text": "Zweierstrasse 35, 8004 Zürich, Switzerland",
+                "label": "Registered address",
+                "source": "https://www.gonina.com/legal"
+            },
+            "sources": [
+                "https://www.gonina.com/",
+                "https://www.gonina.com/legal",
+                "https://www.gonina.com/en/privacy-policy"
+            ],
+            "caveat": "Legal name GoNina AG is styled GoNiña AG. Current forecasts product differs from older surplus-food marketplace wording; use current product.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["5.22"],
+            "importReady": true,
+            "remainingPreparation": "Main review and publication of supplied official logo; attach published mapLogoUrl before central import.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["machine-learning", "analytics"],
+            "previousScreening": {
+                "decision": "eligible-primary-evidence-main-review",
+                "caveat": "Legal name GoNina AG is styled GoNiña AG. Current forecasts product differs from older surplus-food marketplace wording; use current product."
+            },
+            "finalEvidence": "work/organisations/primary-parfit-startupticker-nine-evidence.json"
+        },
+        {
+            "name": "CUE Labs",
+            "website": "https://cue.dev/",
+            "decision": "prepared-for-main-review-no-production-write",
+            "ownTechnology": "Original CUE language developers maintain CUE and commercial CUE Hub, Central Registry and Unity tools.",
+            "address": {
+                "text": "Gotthardstrasse 28, 6300 Zug, Switzerland",
+                "label": "Registered address",
+                "source": "https://cue.dev/imprint/"
+            },
+            "sources": [
+                "https://cue.dev/",
+                "https://cue.dev/about/",
+                "https://cue.dev/imprint/",
+                "https://cue.dev/terms-of-service/central-registry/",
+                "https://github.com/cue-lang/cue/discussions/4160"
+            ],
+            "caveat": "Registered address is explicitly permitted. Official terms identify this Swiss company as CUE developer and maintainer; no separate local engineering office claim.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["22.31"],
+            "importReady": true,
+            "remainingPreparation": "Main review and publication of supplied official logo; attach published mapLogoUrl before central import.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["software-engineering"],
+            "previousScreening": {
+                "decision": "own-technology-and-registered-address-verified-local-team-question",
+                "caveat": "Do not call the registered address an engineering office. Team page confirms original development but does not locate engineers in Zug; main must apply local-role standard."
+            },
+            "finalEvidence": "work/organisations/primary-parfit-startupticker-nine-evidence.json"
+        },
+        {
+            "name": "goNEON Agentic Systems",
+            "website": "https://goneon.city/",
+            "decision": "prepared-for-main-review-no-production-write",
+            "ownTechnology": "Develops agentic infrastructure-planning software combining constraint-aware spatial models and machine-readable design rules; current production use cases include network redesign, parking and cycling corridors.",
+            "address": {
+                "text": "The Circle 60, 8058 Zürich, Switzerland",
+                "label": "Company address",
+                "source": "https://goneon.city/jobs"
+            },
+            "sources": [
+                "https://goneon.city/",
+                "https://goneon.city/jobs",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE-347.405.966"
+            ],
+            "caveat": "Company publishes 8058 Zurich; federal physical building address is 8302 Kloten. Exact street/number and official UID establish same building. Profile city Kloten, company postal address retained.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["6.18"],
+            "importReady": true,
+            "remainingPreparation": "Main review and publication of supplied official logo; attach published mapLogoUrl before central import.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["agents"],
+            "previousScreening": {
+                "decision": "eligible-primary-evidence-main-review",
+                "caveat": "Official hiring page explicitly places engineering work on-site in Zurich. Postal Zurich address is municipality Kloten per official UID."
+            },
+            "finalEvidence": "work/organisations/primary-parfit-startupticker-nine-evidence.json"
+        },
+        {
+            "name": "Porters",
+            "website": "https://www.withporters.com/",
+            "decision": "prepared-for-main-review-no-production-write",
+            "ownTechnology": "Maintained banking-operations platform uses AI agents for document classification, case ledgers, decisioning and execution, with human exception review. Original platform supports a service-led commercial model, not merely generic consulting.",
+            "address": {
+                "text": "Delphinstrasse 14, 8008 Zürich, Switzerland",
+                "label": "Company contact address",
+                "source": "https://www.withporters.com/imprint"
+            },
+            "sources": ["https://www.withporters.com/", "https://www.withporters.com/imprint"],
+            "caveat": "Legal entity Porters Group AG. Do not classify as generic agency solely because website calls its offering outsourcing.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["7.50", "16.11"],
+            "importReady": true,
+            "remainingPreparation": "Main review and publication of supplied official logo; attach published mapLogoUrl before central import.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["agents", "fintech"],
+            "previousScreening": {
+                "decision": "eligible-primary-evidence-main-review",
+                "caveat": "Legal entity Porters Group AG. Do not classify as generic agency solely because website calls its offering outsourcing."
+            },
+            "finalEvidence": "work/organisations/primary-parfit-startupticker-nine-evidence.json"
+        },
+        {
+            "name": "ScyAI",
+            "website": "https://www.scyai.com/",
+            "decision": "prepared-for-main-review-no-production-write",
+            "ownTechnology": "Develops risk-intelligence software connecting asset, maintenance, engineering and insurance information in a digital-twin model; official team names software, ML and geospatial engineers.",
+            "address": {
+                "text": "Dufourstrasse 49, 8008 Zürich, Switzerland",
+                "label": "Headquarters",
+                "source": "https://www.scyai.com/about"
+            },
+            "sources": [
+                "https://www.scyai.com/",
+                "https://www.scyai.com/about",
+                "https://www.scyai.com/terms"
+            ],
+            "publicSocials": [
+                {
+                    "kind": "linkedin",
+                    "url": "https://www.linkedin.com/company/scyai/",
+                    "source": "https://www.scyai.com/terms"
+                }
+            ],
+            "caveat": "About page explicitly calls Dufourstrasse 49 headquarters. Terms retain registered Bederstrasse 72. These labels must remain distinct; no automatic two-office import.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["15.47"],
+            "importReady": true,
+            "remainingPreparation": "Main review and publication of supplied official logo; attach published mapLogoUrl before central import.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["ai", "fintech"],
+            "previousScreening": {
+                "decision": "eligible-primary-evidence-main-review",
+                "caveat": "About page explicitly calls Dufourstrasse 49 headquarters. Terms retain registered Bederstrasse 72. These labels must remain distinct; no automatic two-office import."
+            },
+            "finalEvidence": "work/organisations/primary-parfit-startupticker-nine-evidence.json"
+        },
+        {
+            "name": "Visorway",
+            "website": "https://www.visorway.ai/",
+            "decision": "prepared-for-main-review-no-production-write",
+            "ownTechnology": "Develops a maintained AI-native sourcing platform with custom orchestration, retrieval and domain-specific service logic. Productized expert workflows and on-site AI/software engineering distinguish it from ordinary client-only implementation.",
+            "address": {
+                "text": "Technoparkstrasse 1, 8005 Zürich, Switzerland",
+                "label": "Headquarters",
+                "source": "https://www.visorway.ai/assets/blog-content/visorway-raises-preseed-round.html"
+            },
+            "sources": [
+                "https://www.visorway.ai/contact.html",
+                "https://www.visorway.ai/job-portal.html",
+                "https://www.visorway.ai/assets/blog-content/visorway-raises-preseed-round.html"
+            ],
+            "priorEvidence": "work/organisations/holds.json: Visorway address hold",
+            "caveat": "Older privacy policy names Founded3 Ventures KlG in Bulach. Current5October2026 company announcement explicitly names Visorway AG at Technopark; use current company identity.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["1.20"],
+            "importReady": true,
+            "remainingPreparation": "Main review and publication of supplied official logo; attach published mapLogoUrl before central import.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["agents"],
+            "previousScreening": {
+                "decision": "eligible-primary-evidence-resolves-prior-address-hold-main-review",
+                "caveat": "Older privacy policy names Founded3 Ventures KlG in Bulach. Current September 2026 company announcement explicitly names Visorway AG at Technopark; use current company identity."
+            },
+            "finalEvidence": "work/organisations/primary-parfit-startupticker-nine-evidence.json"
+        },
+        {
+            "name": "Qendra",
+            "website": "https://qendra.tech/",
+            "decision": "other-owner-prepared-awaiting-main-review",
+            "ownTechnology": "Develops quantum-control instruments qendra pulse, vision and volt for trapped-ion and neutral-atom systems, building on ETH research. Current official catalogue documents hardware capabilities.",
+            "sources": [
+                "https://qendra.tech/",
+                "https://qendra.tech/products",
+                "https://qendra.tech/about",
+                "https://qendra.tech/privacy"
+            ],
+            "caveat": "Official UID confirms active Qendra AG, c/o Martin Stadler at this registered address, last postal check 2026-09-09. No engineering-office claim.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["11.8", "11.25", "14.41", "16.34"],
+            "importReady": false,
+            "remainingPreparation": "Use Lagrange packet; do not import this record from the historical nine-company packet.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["quantum", "electronics"],
+            "previousScreening": {
+                "decision": "own-technology-verified-exact-primary-address-held",
+                "caveat": "Third-party listing gives Hohlstrasse 421, but official pages inspected do not publish street address and official UID retrieval failed. Do not convert that to verified map location."
+            },
+            "address": {
+                "text": "Hohlstrasse 421, 8048 Zürich, Switzerland",
+                "label": "Registered address",
+                "source": "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE331046181"
+            },
+            "finalEvidence": "work/organisations/primary-parfit-startupticker-nine-evidence.json",
+            "authoritativePacket": "/tmp/zurich-registry-review/primary-db05-positive-instruments-five-batch.json"
+        },
+        {
+            "name": "Fainite",
+            "website": "https://www.fainite.com/",
+            "decision": "prepared-for-main-review-no-production-write",
+            "ownTechnology": "Develops Physics AI prediction and engineering-simulation software; official careers page identifies a Zurich technical team.",
+            "address": {
+                "text": "Erika-Mann-Strasse 11, 8050 Zürich, Switzerland",
+                "label": "Company address",
+                "source": "https://www.fainite.com/"
+            },
+            "sources": ["https://www.fainite.com/", "https://fainite.com/careers.html"],
+            "caveat": "Federal building address record confirms the exact published 8050 Zurich address; former postal inconsistency hold withdrawn.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["15.1"],
+            "importReady": true,
+            "remainingPreparation": "Main review and publication of supplied official logo; attach published mapLogoUrl before central import.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["machine-learning"],
+            "previousScreening": {
+                "decision": "own-technology-and-zurich-team-verified-address-inconsistency-held",
+                "caveat": "Published Erika-Mann-Strasse and 8050/Oerlikon combination needs official address verification before geocoding. Do not silently correct postal code."
+            },
+            "finalEvidence": "work/organisations/primary-parfit-startupticker-nine-evidence.json"
+        },
+        {
+            "name": "Siresca",
+            "website": "https://siresca.ch/",
+            "decision": "prepared-siresca-one-awaiting-main-review",
+            "ownTechnology": "Siresca Admin and mobile application provide electrical-installation plans, augmented on-site workflows and synchronized documentation; paid per-user catalogue is current.",
+            "address": {
+                "text": "Zurcherstrasse 39, 8952 Schlieren, Switzerland",
+                "label": "Company contact address",
+                "source": "https://siresca.ch/fr/prix"
+            },
+            "sources": [
+                "https://siresca.ch/?from=AppAgg.com",
+                "https://siresca.ch/fr/prix",
+                "https://siresca.ch/impressum"
+            ],
+            "caveat": "Access limitation resolved: complete live product/address content read from official homepage application/json scripts general_de and pageData_. Registered address independently confirmed by active UID CHE272045422. Official LinkedIn uses unsupported /in/ form and is intentionally omitted from importer socials.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["19.20"],
+            "importReady": true,
+            "readyPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-siresca-one-ready.json",
+            "remainingPreparation": "Main review and asset publication;32px original favicon limitation retained.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["software-engineering"]
+        },
+        {
+            "name": "Viesus",
+            "website": "https://www.viesus.com/",
+            "decision": "prepared-next-two-awaiting-main-review",
+            "ownTechnology": "Current official About identifies independent Viesus AG spun out of Imaging Solutions in2023; current cloud terms and active UID agree exact Dielsdorf address. Own image enhancement software is confirmed.",
+            "sources": [
+                "https://www.viesus.com/about-us",
+                "https://www.viesus.cloud/terms-of-service",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE154750120"
+            ],
+            "caveat": "Previous parent-identity hold resolved by current primary evidence. Historical parent privacy PDF retained in captures; do not use it to override current legal identity.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["8.22"],
+            "importReady": true,
+            "readyPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-next-two-ready.json",
+            "remainingPreparation": "Main review and official asset publication only; no uploads or imports authorized here.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": "company",
+            "proposedTopics": ["computer-vision"]
+        },
+        {
+            "name": "Copresence",
+            "website": "https://copresence.tech/",
+            "decision": "do-not-add-official-wind-down",
+            "ownTechnology": "Previously developed photorealistic avatar technology; own technology is not the exclusion reason.",
+            "sources": ["https://copresence.tech/", "https://www.copresence.tech/legal/imprint/"],
+            "caveat": "Current official homepage expressly announces closing and winding down after five years. This is affirmative first-party current-status evidence, not disappearance inferred from acquisition or sparse activity. No production deletion proposed.",
+            "apply": false,
+            "checkedAt": "2026-10-15",
+            "articleIds": ["18.2"],
+            "importReady": false,
+            "remainingPreparation": "Main eligibility review, final alias/parent review, coordinates and official logo/social preparation as applicable; no uploads or imports authorized here.",
+            "snapshotNameAndWebsiteMatch": false,
+            "proposedKind": null,
+            "proposedTopics": []
+        }
+    ]
+}

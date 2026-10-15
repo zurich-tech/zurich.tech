@@ -1,0 +1,3644 @@
+{
+    "checkedAt": "2026-10-15T06:11:53.174Z",
+    "criteria": "work/organisations/inclusion-criteria.json",
+    "registryCount": 1194,
+    "productionOrganisationWrites": 0,
+    "assetUploadsThisHandoff": ["phylax-intelligence", "iris-labs", "sentianova"],
+    "readyMeaning": "Evidence-ready is not publication approval. Main must review artwork and profile, approve assets, fresh-preview, then decide publication. Phylax/Iris/SentiaNova are published and frozen; their hosted handoff is main-owned and must never be rewritten or reapplied.",
+    "counts": {
+        "currentPrepared": 45,
+        "publishedFrozen": 21,
+        "unpublished": 24,
+        "held": 2,
+        "evidenceReady": 22,
+        "hostedReady": 0
+    },
+    "ready": "/tmp/zurich-registry-review/primary-parfit-startupticker-consolidated-ready.json",
+    "logos": "/tmp/zurich-registry-review/primary-parfit-startupticker-consolidated-logos.json",
+    "contactSheet": "/tmp/zurich-registry-review/primary-parfit-startupticker-consolidated-logos.png",
+    "heldContactSheet": "/tmp/zurich-registry-review/primary-parfit-startupticker-consolidated-held-logos.png",
+    "records": [
+        {
+            "slug": "c-technology",
+            "name": "c.technology",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-eight-evidence.json",
+            "ownTechnology": "Develops a connected-vehicle SaaS platform with OEM analytics, dealer/fleet tooling, OTA diagnostics, vehicle-owner applications and public APIs.",
+            "sources": [
+                "https://ctechnology.io/",
+                "https://ctechnology.io/imprint",
+                "https://wagtail.ctechnology.io/about/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=fr&uid_id=CHE384751094",
+                "https://ctechnology.io/blog/strong-growth-for-c-technology"
+            ],
+            "address": {
+                "line1": "Stockerstrasse 33",
+                "postalCode": "8002",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.36684799194336,
+                "longitude": 8.534937858581543,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/2366961_0?sr=4326"
+            },
+            "addressLabel": "Company contact address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/ctechnologyio/"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Legacy shop, privacy and parts of terms still say Tessinerplatz 7. Current imprint and official UID agree Stockerstrasse 33. Do not import both as offices.",
+            "kindReview": {
+                "slug": "c-technology",
+                "kind": "startup",
+                "reason": "Own growth article identifies the founder-led SaaS startup founded in 2020.",
+                "sources": [
+                    "https://ctechnology.io/",
+                    "https://ctechnology.io/imprint",
+                    "https://wagtail.ctechnology.io/about/",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=fr&uid_id=CHE384751094",
+                    "https://ctechnology.io/blog/strong-growth-for-c-technology"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-ready.json"
+            },
+            "sharedAddressMatches": [
+                {
+                    "slug": "saipient",
+                    "addressId": "j9734vje8nvtf5c63yzgjf5wth8gandr",
+                    "address": {
+                        "_creationTime": 1792036087271.943,
+                        "_id": "j9734vje8nvtf5c63yzgjf5wth8gandr",
+                        "countryCode": "CH",
+                        "createdAt": 1792036087271,
+                        "latitude": 47.36684799194336,
+                        "line1": "Stockerstrasse 33",
+                        "locality": "Zürich",
+                        "longitude": 8.534937858581543,
+                        "postalCode": "8002",
+                        "updatedAt": 1792036087271
+                    }
+                }
+            ],
+            "logo": {
+                "slug": "c-technology",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-c-technology.png",
+                "source": "https://cdn.prod.website-files.com/68d680e484992855f82b4425/68da8256206120f70f5c9047_fav-c-tech.png",
+                "website": "https://ctechnology.io/",
+                "sha256": "e67df099ae98c28707de8634a535e5f17d72ca2ddc37c5689a2fe0ee50eaebf1",
+                "mainApproved": false,
+                "caution": "Original 32px source; enlarged preview pixelates."
+            }
+        },
+        {
+            "slug": "gonina",
+            "name": "GoNina",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-eight-evidence.json",
+            "ownTechnology": "Develops demand-prediction software using point-of-sale, weather and event data to forecast daily production quantities and reduce food waste.",
+            "sources": [
+                "https://www.gonina.com/",
+                "https://www.gonina.com/legal",
+                "https://www.gonina.com/en/privacy-policy"
+            ],
+            "address": {
+                "line1": "Zweierstrasse 35",
+                "postalCode": "8004",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.372657775878906,
+                "longitude": 8.525577545166016,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/148412_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/gonina"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Legal name GoNina AG is styled GoNiña AG. Current forecasts product differs from older surplus-food marketplace wording; use current product.",
+            "kindReview": {
+                "slug": "gonina",
+                "kind": "startup",
+                "reason": "Founder-led forecasting venture expanding its initial commercial bakery deployment. Stage judgment, not an age rule.",
+                "sources": [
+                    "https://www.gonina.com/",
+                    "https://www.gonina.com/legal",
+                    "https://www.gonina.com/en/privacy-policy"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "gonina",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-gonina.png",
+                "source": "https://cdn.prod.website-files.com/68ff92e85968076e250c1201/691c518a7c3865fe406b0863_GoNina%20-%20Main%20Logo%20-%202025%20-%20Icon.png",
+                "website": "https://www.gonina.com/",
+                "sha256": "a21a244555c1e0f52daddce39a262110f02a4568659277e646fbc952722e075e",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "cue-labs",
+            "name": "CUE Labs",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-eight-evidence.json",
+            "ownTechnology": "Original CUE language developers maintain CUE and commercial CUE Hub, Central Registry and Unity tools.",
+            "sources": [
+                "https://cue.dev/",
+                "https://cue.dev/about/",
+                "https://cue.dev/imprint/",
+                "https://cue.dev/terms-of-service/central-registry/",
+                "https://github.com/cue-lang/cue/discussions/4160"
+            ],
+            "address": {
+                "line1": "Gotthardstrasse 28",
+                "postalCode": "6300",
+                "locality": "Zug",
+                "countryCode": "CH",
+                "latitude": 47.17290496826172,
+                "longitude": 8.51182746887207,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/190908069_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/cue-dev/",
+                "github": "https://github.com/cue-lang",
+                "x": "https://x.com/cue_lang"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Registered address is explicitly permitted. Official terms identify this Swiss company as CUE developer and maintainer; no separate local engineering office claim.",
+            "kindReview": {
+                "slug": "cue-labs",
+                "kind": "startup",
+                "reason": "Founder-led, investor-backed open-core venture launching commercial CUE services.",
+                "sources": [
+                    "https://cue.dev/",
+                    "https://cue.dev/about/",
+                    "https://cue.dev/imprint/",
+                    "https://cue.dev/terms-of-service/central-registry/",
+                    "https://github.com/cue-lang/cue/discussions/4160"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "cue-labs",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-cue-labs.png",
+                "source": "https://cue.dev/favicons/apple-touch-icon.png",
+                "website": "https://cue.dev/",
+                "sha256": "c4c63d730cff40158f62b3d30ce4275c3f38d49e424ca5d357b1babf720bb539",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "goneon",
+            "name": "goNEON Agentic Systems",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-eight-evidence.json",
+            "ownTechnology": "Develops agentic infrastructure-planning software combining constraint-aware spatial models and machine-readable design rules; current production use cases include network redesign, parking and cycling corridors.",
+            "sources": [
+                "https://goneon.city/",
+                "https://goneon.city/jobs",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE-347.405.966"
+            ],
+            "address": {
+                "line1": "The Circle 60",
+                "postalCode": "8058",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.44912338256836,
+                "longitude": 8.566515922546387,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210292749_4?sr=4326"
+            },
+            "addressLabel": "Company address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/goneon-city/"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Company publishes 8058 Zurich; federal physical building address is 8302 Kloten. Exact street/number and official UID establish same building. Profile city Kloten, company postal address retained.",
+            "kindReview": {
+                "slug": "goneon",
+                "kind": "startup",
+                "reason": "Growing founder-led urban-infrastructure software venture recruiting its local engineering team.",
+                "sources": [
+                    "https://goneon.city/",
+                    "https://goneon.city/jobs",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE-347.405.966"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-ready.json"
+            },
+            "sharedAddressMatches": [
+                {
+                    "slug": "scanvio",
+                    "addressId": "j97cwx75aw23rxe3g28vjtfch98f5gbt",
+                    "address": {
+                        "_creationTime": 1790455770385.0662,
+                        "_id": "j97cwx75aw23rxe3g28vjtfch98f5gbt",
+                        "countryCode": "CH",
+                        "createdAt": 1790455770385,
+                        "latitude": 47.44912,
+                        "line1": "The Circle 60",
+                        "locality": "Zurich",
+                        "longitude": 8.56652,
+                        "postalCode": "8058",
+                        "updatedAt": 1790455770385
+                    }
+                },
+                {
+                    "slug": "nextbusiness",
+                    "addressId": "j97cwx75aw23rxe3g28vjtfch98f5gbt",
+                    "address": {
+                        "_creationTime": 1790455770385.0662,
+                        "_id": "j97cwx75aw23rxe3g28vjtfch98f5gbt",
+                        "countryCode": "CH",
+                        "createdAt": 1790455770385,
+                        "latitude": 47.44912,
+                        "line1": "The Circle 60",
+                        "locality": "Zurich",
+                        "longitude": 8.56652,
+                        "postalCode": "8058",
+                        "updatedAt": 1790455770385
+                    }
+                }
+            ],
+            "logo": {
+                "slug": "goneon",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-goneon.png",
+                "source": "https://goneon.city/favicon.ico",
+                "website": "https://goneon.city/",
+                "sha256": "7a403470f6eabab45cb7cdeb0bfa83aff6508a5277c412ec81e17e5cadb62f7f",
+                "mainApproved": false,
+                "caution": "Black transparent symbol has poor dark-background contrast; main must approve backing treatment or an official alternate before publication."
+            }
+        },
+        {
+            "slug": "porters",
+            "name": "Porters",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-eight-evidence.json",
+            "ownTechnology": "Maintained banking-operations platform uses AI agents for document classification, case ledgers, decisioning and execution, with human exception review. Original platform supports a service-led commercial model, not merely generic consulting.",
+            "sources": ["https://www.withporters.com/", "https://www.withporters.com/imprint"],
+            "address": {
+                "line1": "Delphinstrasse 14",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.36342239379883,
+                "longitude": 8.552614212036133,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/159307_0?sr=4326"
+            },
+            "addressLabel": "Company contact address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/withporters/"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Legal entity Porters Group AG. Do not classify as generic agency solely because website calls its offering outsourcing.",
+            "kindReview": {
+                "slug": "porters",
+                "kind": "startup",
+                "reason": "Early founder-led AI banking-operations product venture.",
+                "sources": ["https://www.withporters.com/", "https://www.withporters.com/imprint"],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "porters",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-porters.png",
+                "source": "https://www.withporters.com/favicon-light.ico",
+                "website": "https://www.withporters.com/",
+                "sha256": "df59b00cceddf1f5aa6f40013321d2efef57fbefd576a7a695e42c51468a35f7",
+                "mainApproved": false,
+                "caution": "Dark transparent original symbol loses contrast on dark backgrounds."
+            }
+        },
+        {
+            "slug": "scyai",
+            "name": "ScyAI",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-eight-evidence.json",
+            "ownTechnology": "Develops risk-intelligence software connecting asset, maintenance, engineering and insurance information in a digital-twin model; official team names software, ML and geospatial engineers.",
+            "sources": [
+                "https://www.scyai.com/",
+                "https://www.scyai.com/about",
+                "https://www.scyai.com/terms"
+            ],
+            "address": {
+                "line1": "Dufourstrasse 49",
+                "postalCode": "8008",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.362239837646484,
+                "longitude": 8.549212455749512,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/158795_0?sr=4326"
+            },
+            "addressLabel": "Headquarters",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/scyai/",
+                "x": "https://x.com/scyai_"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "About page explicitly calls Dufourstrasse 49 headquarters. Terms retain registered Bederstrasse 72. These labels must remain distinct; no automatic two-office import.",
+            "kindReview": {
+                "slug": "scyai",
+                "kind": "startup",
+                "reason": "Own About identifies a small founding team and investor backing.",
+                "sources": [
+                    "https://www.scyai.com/",
+                    "https://www.scyai.com/about",
+                    "https://www.scyai.com/terms"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-ready.json"
+            },
+            "sharedAddressMatches": [
+                {
+                    "slug": "evax",
+                    "addressId": "j97dn8awe672c5skwh452fkg958gbw5q",
+                    "address": {
+                        "_creationTime": 1792029900657.7937,
+                        "_id": "j97dn8awe672c5skwh452fkg958gbw5q",
+                        "countryCode": "CH",
+                        "createdAt": 1792029900657,
+                        "latitude": 47.36224,
+                        "line1": "Dufourstrasse 49",
+                        "locality": "Zürich",
+                        "longitude": 8.549213,
+                        "postalCode": "8008",
+                        "updatedAt": 1792029900657
+                    }
+                }
+            ],
+            "logo": {
+                "slug": "scyai",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-scyai.png",
+                "source": "https://www.scyai.com/assets/favicon-light.png",
+                "website": "https://www.scyai.com/",
+                "sha256": "1754c7e51b64cab09644c4f9bba1b166f50c599d1e6b1bc2dd61aa0046a2bf53",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "visorway",
+            "name": "Visorway",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-eight-evidence.json",
+            "ownTechnology": "Develops a maintained AI-native sourcing platform with custom orchestration, retrieval and domain-specific service logic. Productized expert workflows and on-site AI/software engineering distinguish it from ordinary client-only implementation.",
+            "sources": [
+                "https://www.visorway.ai/contact.html",
+                "https://www.visorway.ai/job-portal.html",
+                "https://www.visorway.ai/assets/blog-content/visorway-raises-preseed-round.html",
+                "https://www.visorway.ai/footer.html",
+                "https://www.linkedin.com/company/visorway"
+            ],
+            "address": {
+                "_creationTime": 1790455758718.636,
+                "_id": "j9795e6jx37m7rrty4w7rwyt218f4dtw",
+                "countryCode": "CH",
+                "createdAt": 1790455758718,
+                "latitude": 47.38978,
+                "line1": "Technoparkstrasse 1",
+                "locality": "Zurich",
+                "longitude": 8.5162,
+                "postalCode": "8005",
+                "updatedAt": 1790455758718
+            },
+            "addressLabel": "Headquarters",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/visorway"
+            },
+            "socialEvidence": "Official dynamically loaded footer explicitly links the company LinkedIn, whose company page links the exact website. Share-intent links were rejected.",
+            "caveat": "Older privacy policy names Founded3 Ventures KlG in Bulach. Current5October2026 company announcement explicitly names Visorway AG at Technopark; use current company identity.",
+            "kindReview": {
+                "slug": "visorway",
+                "kind": "startup",
+                "reason": "Own October 2026 pre-seed announcement explicitly establishes early venture stage.",
+                "sources": [
+                    "https://www.visorway.ai/contact.html",
+                    "https://www.visorway.ai/job-portal.html",
+                    "https://www.visorway.ai/assets/blog-content/visorway-raises-preseed-round.html",
+                    "https://www.visorway.ai/footer.html",
+                    "https://www.linkedin.com/company/visorway"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-ready.json"
+            },
+            "sharedAddressMatches": [
+                {
+                    "slug": "a-metal",
+                    "addressId": "j9795e6jx37m7rrty4w7rwyt218f4dtw",
+                    "address": {
+                        "_creationTime": 1790455758718.636,
+                        "_id": "j9795e6jx37m7rrty4w7rwyt218f4dtw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "akina",
+                    "addressId": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                    "address": {
+                        "_creationTime": 1790455758718.6404,
+                        "_id": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "alternative-embedded",
+                    "addressId": "j972b9hzcm0t5y7xcr1hnccyed8f4vjz",
+                    "address": {
+                        "_creationTime": 1790455758718.6426,
+                        "_id": "j972b9hzcm0t5y7xcr1hnccyed8f4vjz",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "chipmind",
+                    "addressId": "j978aqrpnd2434k4xq0cnbh1qn8f4hc0",
+                    "address": {
+                        "_creationTime": 1790455761092.3274,
+                        "_id": "j978aqrpnd2434k4xq0cnbh1qn8f4hc0",
+                        "countryCode": "CH",
+                        "createdAt": 1790455761092,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455761092
+                    }
+                },
+                {
+                    "slug": "csem-zurich",
+                    "addressId": "j97fckkdmqmrwaaaqwyr66xbcx8f43n4",
+                    "address": {
+                        "_creationTime": 1790455762318.6575,
+                        "_id": "j97fckkdmqmrwaaaqwyr66xbcx8f43n4",
+                        "countryCode": "CH",
+                        "createdAt": 1790455762318,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455762318
+                    }
+                },
+                {
+                    "slug": "flink-robotics",
+                    "addressId": "j97bbpztmbge0k9m0ppct3272n8f4xa6",
+                    "address": {
+                        "_creationTime": 1790455764487.5498,
+                        "_id": "j97bbpztmbge0k9m0ppct3272n8f4xa6",
+                        "countryCode": "CH",
+                        "createdAt": 1790455764487,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455764487
+                    }
+                },
+                {
+                    "slug": "gravimon",
+                    "addressId": "j97epytgnhpgjj9vky4tge7r9n8f5jzq",
+                    "address": {
+                        "_creationTime": 1790455764487.5571,
+                        "_id": "j97epytgnhpgjj9vky4tge7r9n8f5jzq",
+                        "countryCode": "CH",
+                        "createdAt": 1790455764487,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455764487
+                    }
+                },
+                {
+                    "slug": "irmos-technologies",
+                    "addressId": "j97ave8t3k8a9pzbgyfted399x8f5c9g",
+                    "address": {
+                        "_creationTime": 1790455765590.1396,
+                        "_id": "j97ave8t3k8a9pzbgyfted399x8f5c9g",
+                        "countryCode": "CH",
+                        "createdAt": 1790455765590,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455765590
+                    }
+                },
+                {
+                    "slug": "k2-photonics",
+                    "addressId": "j976qxftgh2yq0qqfv9pwxd1b18f5nn5",
+                    "address": {
+                        "_creationTime": 1790455765590.141,
+                        "_id": "j976qxftgh2yq0qqfv9pwxd1b18f5nn5",
+                        "countryCode": "CH",
+                        "createdAt": 1790455765590,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455765590
+                    }
+                },
+                {
+                    "slug": "lowrisc",
+                    "addressId": "j97exbvg5b3nkxst5n84vr9sfx8f43ba",
+                    "address": {
+                        "_creationTime": 1790455766814.743,
+                        "_id": "j97exbvg5b3nkxst5n84vr9sfx8f43ba",
+                        "countryCode": "CH",
+                        "createdAt": 1790455766814,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455766814
+                    }
+                },
+                {
+                    "slug": "mosaic-soc",
+                    "addressId": "j97744nxn2fakr2hy5wrkxy0wh8f44f0",
+                    "address": {
+                        "_creationTime": 1790455768063.529,
+                        "_id": "j97744nxn2fakr2hy5wrkxy0wh8f44f0",
+                        "countryCode": "CH",
+                        "createdAt": 1790455768063,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455768063
+                    }
+                },
+                {
+                    "slug": "nanonis",
+                    "addressId": "j972rzawba0ff3tcc53ca1bm658f5tcw",
+                    "address": {
+                        "_creationTime": 1790455768063.5298,
+                        "_id": "j972rzawba0ff3tcc53ca1bm658f5tcw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455768063,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455768063
+                    }
+                },
+                {
+                    "slug": "plexim",
+                    "addressId": "j97c37pnqypccs4cpggmz7nxy58f5stk",
+                    "address": {
+                        "_creationTime": 1790455769222.312,
+                        "_id": "j97c37pnqypccs4cpggmz7nxy58f5stk",
+                        "countryCode": "CH",
+                        "createdAt": 1790455769222,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455769222
+                    }
+                },
+                {
+                    "slug": "positrigo",
+                    "addressId": "j973x5dbaj5c92ftz6e0ty0ea18f4f8z",
+                    "address": {
+                        "_creationTime": 1790455769222.3127,
+                        "_id": "j973x5dbaj5c92ftz6e0ty0ea18f4f8z",
+                        "countryCode": "CH",
+                        "createdAt": 1790455769222,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "line2": "Zeppelin wing, fifth floor, offices 5009-5010",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455769222
+                    }
+                },
+                {
+                    "slug": "rimon-technologies",
+                    "addressId": "j977thh73hz5g7cwtkkq8r3tah8f451q",
+                    "address": {
+                        "_creationTime": 1790455770385.058,
+                        "_id": "j977thh73hz5g7cwtkkq8r3tah8f451q",
+                        "countryCode": "CH",
+                        "createdAt": 1790455770385,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455770385
+                    }
+                },
+                {
+                    "slug": "rtdt",
+                    "addressId": "j97dzqq0eyt1sed3zrtbgmme9s8f4yj2",
+                    "address": {
+                        "_creationTime": 1790455770385.0632,
+                        "_id": "j97dzqq0eyt1sed3zrtbgmme9s8f4yj2",
+                        "countryCode": "CH",
+                        "createdAt": 1790455770385,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455770385
+                    }
+                },
+                {
+                    "slug": "senozon",
+                    "addressId": "j97c8qkn8e3anspxqjd8nt9q3x8f43g2",
+                    "address": {
+                        "_creationTime": 1790455770385.069,
+                        "_id": "j97c8qkn8e3anspxqjd8nt9q3x8f43g2",
+                        "countryCode": "CH",
+                        "createdAt": 1790455770385,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455770385
+                    }
+                },
+                {
+                    "slug": "solskin-zurich-soft-robotics",
+                    "addressId": "j971ez6xkq75w5r30b4akq32fx8f59a9",
+                    "address": {
+                        "_creationTime": 1790455771473.6348,
+                        "_id": "j971ez6xkq75w5r30b4akq32fx8f59a9",
+                        "countryCode": "CH",
+                        "createdAt": 1790455771473,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455771473
+                    }
+                },
+                {
+                    "slug": "subatron",
+                    "addressId": "j972mxabys62xaz8gtey5z73t58f5h19",
+                    "address": {
+                        "_creationTime": 1790455771473.6406,
+                        "_id": "j972mxabys62xaz8gtey5z73t58f5h19",
+                        "countryCode": "CH",
+                        "createdAt": 1790455771473,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455771473
+                    }
+                },
+                {
+                    "slug": "supercomputing-systems",
+                    "addressId": "j971p5wr6ygncg4cttf2mh9veh8f4y3h",
+                    "address": {
+                        "_creationTime": 1790455771473.642,
+                        "_id": "j971p5wr6ygncg4cttf2mh9veh8f4y3h",
+                        "countryCode": "CH",
+                        "createdAt": 1790455771473,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455771473
+                    }
+                },
+                {
+                    "slug": "technopark-zurich",
+                    "addressId": "j97ct8exyt0cg07bwvtxfq52dn8f5cst",
+                    "address": {
+                        "_creationTime": 1790455772587.8875,
+                        "_id": "j97ct8exyt0cg07bwvtxfq52dn8f5cst",
+                        "countryCode": "CH",
+                        "createdAt": 1790455772587,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455772587
+                    }
+                },
+                {
+                    "slug": "zurich-instruments",
+                    "addressId": "j976bc10rt6m5bh57wrfewaj158f5wd7",
+                    "address": {
+                        "_creationTime": 1790455774787.6963,
+                        "_id": "j976bc10rt6m5bh57wrfewaj158f5wd7",
+                        "countryCode": "CH",
+                        "createdAt": 1790455774787,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455774787
+                    }
+                },
+                {
+                    "slug": "inspire-ag",
+                    "addressId": "j97extpf4tvj5jdx68gczr79818fgzkq",
+                    "address": {
+                        "_creationTime": 1790951031077.648,
+                        "_id": "j97extpf4tvj5jdx68gczr79818fgzkq",
+                        "countryCode": "CH",
+                        "createdAt": 1790951031077,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "ucentrics",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "inventage",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "autoform",
+                    "addressId": "j97fdrpfkqz76qpytcbyn71a158g9jer",
+                    "address": {
+                        "_creationTime": 1791979956972.5999,
+                        "_id": "j97fdrpfkqz76qpytcbyn71a158g9jer",
+                        "countryCode": "CH",
+                        "createdAt": 1791979956972,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "comsol",
+                    "addressId": "j97cb32b6w3jaq84f5vf1q57jx8g93m1",
+                    "address": {
+                        "_creationTime": 1791979966725.8203,
+                        "_id": "j97cb32b6w3jaq84f5vf1q57jx8g93m1",
+                        "countryCode": "CH",
+                        "createdAt": 1791979966725,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "ai-medical",
+                    "addressId": "j974k97rcr72kz5enbfp0th4cs8g8fq0",
+                    "address": {
+                        "_creationTime": 1791979981617.0376,
+                        "_id": "j974k97rcr72kz5enbfp0th4cs8g8fq0",
+                        "countryCode": "CH",
+                        "createdAt": 1791979981617,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "ason",
+                    "addressId": "j97140wc0g5661ypqcqx0sbxas8g85np",
+                    "address": {
+                        "_creationTime": 1791979987158.8828,
+                        "_id": "j97140wc0g5661ypqcqx0sbxas8g85np",
+                        "countryCode": "CH",
+                        "createdAt": 1791979987158,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "beriflapp",
+                    "addressId": "j97cxz35989kw3ceccw5zhpv8s8g8yr8",
+                    "address": {
+                        "_creationTime": 1791980005618.0288,
+                        "_id": "j97cxz35989kw3ceccw5zhpv8s8g8yr8",
+                        "countryCode": "CH",
+                        "createdAt": 1791980005618,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "citrus",
+                    "addressId": "j973sk82skt58n762tk488wpxs8g8db0",
+                    "address": {
+                        "_creationTime": 1791980013110.9958,
+                        "_id": "j973sk82skt58n762tk488wpxs8g8db0",
+                        "countryCode": "CH",
+                        "createdAt": 1791980013110,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "ddrobotec",
+                    "addressId": "j97a4f463mqgxa7f98qhc6v0c98g9xmr",
+                    "address": {
+                        "_creationTime": 1791980020341.089,
+                        "_id": "j97a4f463mqgxa7f98qhc6v0c98g9xmr",
+                        "countryCode": "CH",
+                        "createdAt": 1791980020341,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "fabware",
+                    "addressId": "j974d493an16dkq17agsbdqwzd8g9y65",
+                    "address": {
+                        "_creationTime": 1791980043757.721,
+                        "_id": "j974d493an16dkq17agsbdqwzd8g9y65",
+                        "countryCode": "CH",
+                        "createdAt": 1791980043757,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "medicalholodeck",
+                    "addressId": "j9754bvcmc8gvh90cf6x46f3tx8g97c2",
+                    "address": {
+                        "_creationTime": 1791980053261.9412,
+                        "_id": "j9754bvcmc8gvh90cf6x46f3tx8g97c2",
+                        "countryCode": "CH",
+                        "createdAt": 1791980053261,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "octotronic",
+                    "addressId": "j97cyjkhrg50ft44cxb3dmzazd8g9aw7",
+                    "address": {
+                        "_creationTime": 1791980058790.836,
+                        "_id": "j97cyjkhrg50ft44cxb3dmzazd8g9aw7",
+                        "countryCode": "CH",
+                        "createdAt": 1791980058790,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "sentinus",
+                    "addressId": "j97evke3dm783ktvwm0stkv5r18g9kyp",
+                    "address": {
+                        "_creationTime": 1791980073632.9248,
+                        "_id": "j97evke3dm783ktvwm0stkv5r18g9kyp",
+                        "countryCode": "CH",
+                        "createdAt": 1791980073632,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "survalyzer",
+                    "addressId": "j97axcncejqjp0t1h1wv6z32rx8g8b1g",
+                    "address": {
+                        "_creationTime": 1791980081894.2822,
+                        "_id": "j97axcncejqjp0t1h1wv6z32rx8g8b1g",
+                        "countryCode": "CH",
+                        "createdAt": 1791980081894,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "wantex",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "cyberwave",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "delta-js",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "digital-assets-technologies",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "ecologic",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "emvlab",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "enerdrive",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "icentic",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "intonate",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "medicusdata",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "loopia",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "mesys",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "ndd",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "novagear",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "nureo",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "nxgen",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "olymp",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "opusm",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "pastahr",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "paymash",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "pedeus-health",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "qubrix",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "ritz-engineering",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "siriotek",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "step-x",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "swiss-terahertz",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "yquantum",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "ansys-zurich",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "breezelabs",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "incon-ai",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "resmonics",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "marmota-engineering",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "combustion-flow-solutions",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "qvanteq",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "aseptuva",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "thoratec-switzerland",
+                    "addressId": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                    "address": {
+                        "_creationTime": 1791979741373.9922,
+                        "_id": "j9755zwcv8tnerswa37p2tj49n8g94me",
+                        "countryCode": "CH",
+                        "createdAt": 1791979741373,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "anevo",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "chromacon",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "egonym",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "noimos",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "qbit-capital",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "upleap",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "univerbal",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "leg-and-airy",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "enzian-pharmaceutics",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "phoeniqs",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "sandsiv",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "blackpoints",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "d11z-ventures",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "ecoinvent",
+                    "addressId": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                    "address": {
+                        "_creationTime": 1790455758718.6404,
+                        "_id": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "3r-technics",
+                    "addressId": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                    "address": {
+                        "_creationTime": 1790455758718.6404,
+                        "_id": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "dacs",
+                    "addressId": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                    "address": {
+                        "_creationTime": 1790455758718.6404,
+                        "_id": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "swiss-infosec",
+                    "addressId": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                    "address": {
+                        "_creationTime": 1790455758718.6404,
+                        "_id": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "ergtech-research",
+                    "addressId": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                    "address": {
+                        "_creationTime": 1790455758718.6404,
+                        "_id": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "sgk",
+                    "addressId": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                    "address": {
+                        "_creationTime": 1790455758718.6404,
+                        "_id": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "walder-trueb-engineering",
+                    "addressId": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                    "address": {
+                        "_creationTime": 1790455758718.6404,
+                        "_id": "j9719mg9xwd578drt4exs0mvvn8f52p6",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "lucid-concepts",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "cellvie",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "timetoact-group-schweiz",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "mathys-partner",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "meteodat",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "etavis",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "vat",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "arbrea-labs",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "forte-digital",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "gnl",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "logway",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "pront",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "eth-aimm",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "prometeia",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "cognel",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "netmedia",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "south-pole",
+                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                    "address": {
+                        "_creationTime": 1791979280584.1965,
+                        "_id": "j970avpe5thp93jq071adsgnzs8g9wg5",
+                        "countryCode": "CH",
+                        "createdAt": 1791979280584,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "itopia",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "etix-ventures",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "kove-medical",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "moveside",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "stratos-technologies",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "rs-dynamics",
+                    "addressId": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                    "address": {
+                        "_creationTime": 1791980102728.0398,
+                        "_id": "j97beyc53dqfgnv4a7aty0mss58g8qsw",
+                        "countryCode": "CH",
+                        "createdAt": 1791980102728,
+                        "latitude": 47.389779,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.516196,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997001689
+                    }
+                },
+                {
+                    "slug": "hylomorph",
+                    "addressId": "j9795e6jx37m7rrty4w7rwyt218f4dtw",
+                    "address": {
+                        "_creationTime": 1790455758718.636,
+                        "_id": "j9795e6jx37m7rrty4w7rwyt218f4dtw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                },
+                {
+                    "slug": "stimit",
+                    "addressId": "j9795e6jx37m7rrty4w7rwyt218f4dtw",
+                    "address": {
+                        "_creationTime": 1790455758718.636,
+                        "_id": "j9795e6jx37m7rrty4w7rwyt218f4dtw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455758718,
+                        "latitude": 47.38978,
+                        "line1": "Technoparkstrasse 1",
+                        "locality": "Zurich",
+                        "longitude": 8.5162,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455758718
+                    }
+                }
+            ],
+            "logo": {
+                "slug": "visorway",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-visorway.png",
+                "source": "https://www.visorway.ai/assets/images/favicon.png",
+                "website": "https://www.visorway.ai/",
+                "sha256": "4a7f898bd8d745a7fff2b2277ef7f3dacddce9e4c052612c736240cc13471e50",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "fainite",
+            "name": "Fainite",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-eight-evidence.json",
+            "ownTechnology": "Develops Physics AI prediction and engineering-simulation software; official careers page identifies a Zurich technical team.",
+            "sources": ["https://www.fainite.com/", "https://fainite.com/careers.html"],
+            "address": {
+                "line1": "Erika-Mann-Strasse 11",
+                "postalCode": "8050",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.41091537475586,
+                "longitude": 8.539593696594238,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302015833_1?sr=4326"
+            },
+            "addressLabel": "Company address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/fainite"
+            },
+            "socialEvidence": "Corporate links explicitly published by the official homepage; individual LinkedIn profiles and sharing links excluded. CUE organisation GitHub root also explicitly linked by official terms.",
+            "caveat": "Federal building address record confirms the exact published 8050 Zurich address; former postal inconsistency hold withdrawn.",
+            "kindReview": {
+                "slug": "fainite",
+                "kind": "startup",
+                "reason": "Emerging physics-AI platform with an expanding engineering team; stage inference from current product and careers pages.",
+                "sources": ["https://www.fainite.com/", "https://fainite.com/careers.html"],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-eight-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "fainite",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-fainite.png",
+                "source": "https://www.fainite.com/img/fainite_logo.png",
+                "website": "https://www.fainite.com/",
+                "sha256": "b841f24563e62bb32cb9b3a266402e1cbba2666933a08f0c09483945bbab38cf",
+                "mainApproved": false,
+                "caution": "Black transparent original symbol loses contrast on dark backgrounds."
+            }
+        },
+        {
+            "slug": "viesus",
+            "name": "Viesus",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-next-two-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-next-two-evidence.json",
+            "ownTechnology": "Official About page explicitly identifies independent Viesus AG spun out of Imaging Solutions in2023; current cloud terms and active UID confirm exact company/address. Old parent privacy PDF is superseded by current company terms, not evidence of a duplicate.",
+            "sources": [
+                "https://www.viesus.com/",
+                "https://www.viesus.com/about-us",
+                "https://www.viesus.cloud/terms-of-service",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE154750120"
+            ],
+            "address": {
+                "line1": "Niederhaslistrasse 14",
+                "postalCode": "8157",
+                "locality": "Dielsdorf",
+                "countryCode": "CH",
+                "latitude": 47.482791900634766,
+                "longitude": 8.46352481842041,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/30136_1?sr=4326"
+            },
+            "addressLabel": "Company contact address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/viesus/",
+                "x": "https://x.com/viesus_ai"
+            },
+            "socialEvidence": "Corporate links published in official homepage footer; personal accounts excluded.",
+            "caveat": "Official About page explicitly identifies independent Viesus AG spun out of Imaging Solutions in2023; current cloud terms and active UID confirm exact company/address. Old parent privacy PDF is superseded by current company terms, not evidence of a duplicate.",
+            "kindReview": {
+                "slug": "viesus",
+                "kind": "startup",
+                "reason": "Own About explicitly calls the 2023 independent imaging spinout a startup.",
+                "sources": [
+                    "https://www.viesus.com/",
+                    "https://www.viesus.com/about-us",
+                    "https://www.viesus.cloud/terms-of-service",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE154750120"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-next-two-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "viesus",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-viesus.png",
+                "source": "https://www.viesus.com/viesus_favicon.png",
+                "website": "https://www.viesus.com/",
+                "sha256": "736b6370ea637e439994a9b1f95ec3b079d8c78b68e327c9edf887580c037263",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "motif-ai",
+            "name": "Motif",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-next-two-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-next-two-evidence.json",
+            "ownTechnology": "Own current product architecture establishes original software. Official privacy page explicitly publishes mailing address; active UID Motif Labs GmbH matches. No local engineering-office claim.",
+            "sources": [
+                "https://www.chatwithmotif.com/",
+                "https://www.chatwithmotif.com/about",
+                "https://www.chatwithmotif.com/privacy-policy",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE257428187"
+            ],
+            "address": {
+                "line1": "Schwertstrasse 18",
+                "postalCode": "6300",
+                "locality": "Zug",
+                "countryCode": "CH",
+                "latitude": 47.16045379638672,
+                "longitude": 8.519670486450195,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/320147_0?sr=4326"
+            },
+            "addressLabel": "Registered and mailing address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/motifapp/",
+                "x": "https://x.com/Motif_Ai"
+            },
+            "socialEvidence": "Corporate links published in official homepage footer; personal accounts excluded.",
+            "caveat": "Own current product architecture establishes original software. Official privacy page explicitly publishes mailing address; active UID Motif Labs GmbH matches. No local engineering-office claim.",
+            "kindReview": {
+                "slug": "motif-ai",
+                "kind": "startup",
+                "reason": "Founder-led AI-agent product venture with a small distributed team.",
+                "sources": [
+                    "https://www.chatwithmotif.com/",
+                    "https://www.chatwithmotif.com/about",
+                    "https://www.chatwithmotif.com/privacy-policy",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE257428187"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-next-two-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "motif-ai",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-motif-ai.png",
+                "source": "https://www.chatwithmotif.com/favicon.ico",
+                "website": "https://www.chatwithmotif.com/",
+                "sha256": "9e61a9e79dda5c6c02c684c8fbaa51a0853d323a9d1e0ecf927f0dca462eca2e",
+                "mainApproved": false,
+                "caution": "Original 32px favicon; larger preview is interpolated."
+            }
+        },
+        {
+            "slug": "kelva-systems",
+            "name": "Kelva Systems",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+            "ownTechnology": "Own thermal storage engineering and Empa material collaboration. Current active UID MLCL AG resolves stale imprint 'in formation'; exact registered address, not an asserted engineering office.",
+            "sources": [
+                "https://kelva-systems.ch/",
+                "https://kelva-systems.ch/impressum",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE369331810"
+            ],
+            "address": {
+                "line1": "Zehntenstrasse 15b",
+                "postalCode": "8800",
+                "locality": "Thalwil",
+                "countryCode": "CH",
+                "latitude": 47.28985595703125,
+                "longitude": 8.571101188659668,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/63316_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/kelva-systems/"
+            },
+            "socialEvidence": "Corporate LinkedIn identifies Kelva Systems and links exact official website.",
+            "caveat": "Own thermal storage engineering and Empa material collaboration. Current active UID MLCL AG resolves stale imprint 'in formation'; exact registered address, not an asserted engineering office.",
+            "kindReview": {
+                "slug": "kelva-systems",
+                "kind": "startup",
+                "reason": "Concrete-manufacturing venture at proof-of-concept and pilot commercialisation stage.",
+                "sources": [
+                    "https://kelva-systems.ch/",
+                    "https://kelva-systems.ch/impressum",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE369331810"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "kelva-systems",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-kelva-systems.png",
+                "source": "https://cdn.prod.website-files.com/68ee1e1e9a75f01aca0a8b6b/6901cff27bd32569c81f0b9b_webclip.png",
+                "website": "https://kelva-systems.ch/",
+                "sha256": "db89b1d0c1ed7f7518853292f314ef1e08b7fbbeb011389569f3c39eef60aad5",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "trilliome",
+            "name": "Trilliome",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+            "ownTechnology": "Teroka wet-lab/computational platform and TRI01/TRI04 programmes establish original development. Official imprint names UID; active register supplies full street address.",
+            "sources": [
+                "https://www.trilliome.com/",
+                "https://www.trilliome.com/imprint",
+                "https://www.trilliome.com/contact",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE489016967"
+            ],
+            "address": {
+                "line1": "Im Stelzenacker 17",
+                "postalCode": "8049",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.41643524169922,
+                "longitude": 8.48236083984375,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/165937_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/trilliome/"
+            },
+            "socialEvidence": "Official site links corporate LinkedIn.",
+            "caveat": "Teroka wet-lab/computational platform and TRI01/TRI04 programmes establish original development. Official imprint names UID; active register supplies full street address.",
+            "kindReview": {
+                "slug": "trilliome",
+                "kind": "startup",
+                "reason": "Own site announces the 2026 startup competition and a planned first product launch.",
+                "sources": [
+                    "https://www.trilliome.com/",
+                    "https://www.trilliome.com/imprint",
+                    "https://www.trilliome.com/contact",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE489016967"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "trilliome",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-trilliome.png",
+                "source": "https://www.trilliome.com/apple-touch-icon-6b1aa19a8e051ff294fb8b703ff746c2.png?vsn=d",
+                "website": "https://www.trilliome.com/",
+                "sha256": "b2ed1a48dd0d1c9524f337f93c1f72dc81c0d271d8949f058ad89b6bb71c5ac3",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "billoba",
+            "name": "Billoba",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+            "ownTechnology": "Own rubber foam material development; current legal terms and active UID agree exact registered address.",
+            "sources": [
+                "https://www.billoba.com/",
+                "https://www.billoba.com/policies/terms-conditions",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE328782658"
+            ],
+            "address": {
+                "line1": "Seminarstrasse 1",
+                "postalCode": "8057",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.391685485839844,
+                "longitude": 8.538256645202637,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/151705_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/billoba/"
+            },
+            "socialEvidence": "Official footer links corporate LinkedIn.",
+            "caveat": "Own rubber foam material development; current legal terms and active UID agree exact registered address.",
+            "kindReview": {
+                "slug": "billoba",
+                "kind": "startup",
+                "reason": "Own homepage explicitly reports startup competition and Venture Kick funding in 2025.",
+                "sources": [
+                    "https://www.billoba.com/",
+                    "https://www.billoba.com/policies/terms-conditions",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE328782658"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "billoba",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-billoba.png",
+                "source": "https://framerusercontent.com/images/6kkGMXN0Yl8YSDyVjEZNmwXSFFI.png",
+                "website": "https://www.billoba.com/",
+                "sha256": "22008ed338b1b3d94765608397b6074990282356c797ad6b1ceaa64796bae8be",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "hemetron",
+            "name": "Hemetron",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+            "ownTechnology": "Original CRP reader and strips are under development; do not imply approved commercial diagnostic device. Active UID supplies exact registered address.",
+            "sources": [
+                "https://www.hemetron.com/",
+                "https://www.hemetron.com/contact.html",
+                "https://www.hemetron.com/policy.html",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE431378471"
+            ],
+            "address": {
+                "line1": "Kirchbodenstrasse 40",
+                "postalCode": "8800",
+                "locality": "Thalwil",
+                "countryCode": "CH",
+                "latitude": 47.28912353515625,
+                "longitude": 8.571432113647461,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210199091_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/42766873/",
+                "x": "https://x.com/hemetron"
+            },
+            "socialEvidence": "Official footer links numeric corporate LinkedIn and Hemetron Twitter account.",
+            "caveat": "Original CRP reader and strips are under development; do not imply approved commercial diagnostic device. Active UID supplies exact registered address.",
+            "kindReview": {
+                "slug": "hemetron",
+                "kind": "startup",
+                "reason": "ETH spinout developing its precommercial diagnostic reader.",
+                "sources": [
+                    "https://www.hemetron.com/",
+                    "https://www.hemetron.com/contact.html",
+                    "https://www.hemetron.com/policy.html",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE431378471"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "hemetron",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-hemetron.png",
+                "source": "https://www.hemetron.com/favicon.ico",
+                "website": "https://www.hemetron.com/",
+                "sha256": "b2a8188199bbf304db2ba30ddacfba90994dc7b6b32abaf6f109446eef3a460d",
+                "mainApproved": false,
+                "caution": "Original 32px favicon; larger preview is interpolated."
+            }
+        },
+        {
+            "slug": "nordfen",
+            "name": "nordfen",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+            "ownTechnology": "Original simulation layer and debrief software, not merely training services. Official imprint and active UID identify Swiss parent; Riga subsidiary does not negate Swiss entity. Header PNG is original official artwork, not an invented symbol.",
+            "sources": [
+                "https://nordfen.ch/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE374853505"
+            ],
+            "address": {
+                "line1": "Erika-Mann-Strasse 11",
+                "postalCode": "8050",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.41091537475586,
+                "longitude": 8.539593696594238,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/302015833_1?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/nordfen/"
+            },
+            "socialEvidence": "Official site links corporate LinkedIn.",
+            "caveat": "Original simulation layer and debrief software, not merely training services. Official imprint and active UID identify Swiss parent; Riga subsidiary does not negate Swiss entity. Header PNG is original official artwork, not an invented symbol.",
+            "kindReview": {
+                "slug": "nordfen",
+                "kind": "startup",
+                "reason": "Own 2026 chronology records ESA incubation and a newcomer deep-tech cohort.",
+                "sources": [
+                    "https://nordfen.ch/",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE374853505"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "nordfen",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-nordfen.png",
+                "source": "https://nordfen.ch/",
+                "website": "https://nordfen.ch/",
+                "sha256": "03e035964183c84a2cb0a81441bba5137e4107ce34e1e7124707612421135cba",
+                "mainApproved": false,
+                "caution": "Complete official wordmark is very small at 32px; main must explicitly accept or request an official compact alternative."
+            }
+        },
+        {
+            "slug": "peelpack",
+            "name": "PeelPack",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+            "ownTechnology": "Own Materra polymer engineering. Official contact publishes Josefstrasse219 and linked map identifies 8005Zurich; no registered-office assertion.",
+            "sources": ["https://peelpack.ch/", "https://ch.linkedin.com/company/peelpack"],
+            "address": {
+                "line1": "Josefstrasse 219",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.387611389160156,
+                "longitude": 8.520889282226562,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/150824_1?sr=4326"
+            },
+            "addressLabel": "Company contact address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/the-peel-pack/"
+            },
+            "socialEvidence": "Official site links corporate LinkedIn.",
+            "caveat": "Own Materra polymer engineering. Official contact publishes Josefstrasse219 and linked map identifies 8005Zurich; no registered-office assertion.",
+            "kindReview": {
+                "slug": "peelpack",
+                "kind": "startup",
+                "reason": "Official corporate account explicitly describes the Materra materials startup.",
+                "sources": ["https://peelpack.ch/", "https://ch.linkedin.com/company/peelpack"],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json"
+            },
+            "sharedAddressMatches": [
+                {
+                    "slug": "aspaara",
+                    "addressId": "j97779mp28yqn3b4mmw728set58f5ytw",
+                    "address": {
+                        "_creationTime": 1790455759934.0283,
+                        "_id": "j97779mp28yqn3b4mmw728set58f5ytw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455759934,
+                        "latitude": 47.38761,
+                        "line1": "Josefstrasse 219",
+                        "locality": "Zurich",
+                        "longitude": 8.52089,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455759934
+                    }
+                },
+                {
+                    "slug": "bluelion",
+                    "addressId": "j970dae1h9n6gqe08x0chzt9658f5mr7",
+                    "address": {
+                        "_creationTime": 1790455761092.3171,
+                        "_id": "j970dae1h9n6gqe08x0chzt9658f5mr7",
+                        "countryCode": "CH",
+                        "createdAt": 1790455761092,
+                        "latitude": 47.38761,
+                        "line1": "Josefstrasse 219",
+                        "locality": "Zurich",
+                        "longitude": 8.52089,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455761092
+                    }
+                },
+                {
+                    "slug": "calvin-risk",
+                    "addressId": "j9754pds05a53jsmx5sxqvt8wn8f4znw",
+                    "address": {
+                        "_creationTime": 1790455761092.3208,
+                        "_id": "j9754pds05a53jsmx5sxqvt8wn8f4znw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455761092,
+                        "latitude": 47.38761,
+                        "line1": "Josefstrasse 219",
+                        "locality": "Zurich",
+                        "longitude": 8.52089,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455761092
+                    }
+                },
+                {
+                    "slug": "decentriq",
+                    "addressId": "j976v132hgy5j7yz2tm8jhqgxd8f5z0n",
+                    "address": {
+                        "_creationTime": 1790455762318.6604,
+                        "_id": "j976v132hgy5j7yz2tm8jhqgxd8f5z0n",
+                        "countryCode": "CH",
+                        "createdAt": 1790455762318,
+                        "latitude": 47.38761,
+                        "line1": "Josefstrasse 219",
+                        "locality": "Zurich",
+                        "longitude": 8.52089,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455762318
+                    }
+                },
+                {
+                    "slug": "synthara",
+                    "addressId": "j97ct3413vc6zjnepns9kk5nsx8f4tcw",
+                    "address": {
+                        "_creationTime": 1790455772587.8853,
+                        "_id": "j97ct3413vc6zjnepns9kk5nsx8f4tcw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455772587,
+                        "latitude": 47.38761,
+                        "line1": "Josefstrasse 219",
+                        "locality": "Zurich",
+                        "longitude": 8.52089,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455772587
+                    }
+                },
+                {
+                    "slug": "aiendoscopic",
+                    "addressId": "j97ct3413vc6zjnepns9kk5nsx8f4tcw",
+                    "address": {
+                        "_creationTime": 1790455772587.8853,
+                        "_id": "j97ct3413vc6zjnepns9kk5nsx8f4tcw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455772587,
+                        "latitude": 47.38761,
+                        "line1": "Josefstrasse 219",
+                        "locality": "Zurich",
+                        "longitude": 8.52089,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455772587
+                    }
+                },
+                {
+                    "slug": "nuorail",
+                    "addressId": "j97ct3413vc6zjnepns9kk5nsx8f4tcw",
+                    "address": {
+                        "_creationTime": 1790455772587.8853,
+                        "_id": "j97ct3413vc6zjnepns9kk5nsx8f4tcw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455772587,
+                        "latitude": 47.38761,
+                        "line1": "Josefstrasse 219",
+                        "locality": "Zurich",
+                        "longitude": 8.52089,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455772587
+                    }
+                },
+                {
+                    "slug": "invariant-labs",
+                    "addressId": "j970dae1h9n6gqe08x0chzt9658f5mr7",
+                    "address": {
+                        "_creationTime": 1790455761092.3171,
+                        "_id": "j970dae1h9n6gqe08x0chzt9658f5mr7",
+                        "countryCode": "CH",
+                        "createdAt": 1790455761092,
+                        "latitude": 47.38761,
+                        "line1": "Josefstrasse 219",
+                        "locality": "Zurich",
+                        "longitude": 8.52089,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455761092
+                    }
+                },
+                {
+                    "slug": "pathmate",
+                    "addressId": "j97ct3413vc6zjnepns9kk5nsx8f4tcw",
+                    "address": {
+                        "_creationTime": 1790455772587.8853,
+                        "_id": "j97ct3413vc6zjnepns9kk5nsx8f4tcw",
+                        "countryCode": "CH",
+                        "createdAt": 1790455772587,
+                        "latitude": 47.38761,
+                        "line1": "Josefstrasse 219",
+                        "locality": "Zurich",
+                        "longitude": 8.52089,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455772587
+                    }
+                }
+            ],
+            "logo": {
+                "slug": "peelpack",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-peelpack.png",
+                "source": "https://peelpack.ch/wp-content/uploads/2026/04/PeelPack-Favicon-2-300x300-1.avif",
+                "website": "https://peelpack.ch/",
+                "sha256": "e59f04307b74f8c6d14ac9b4e7db52be3dec1bbfcf5752e2713323dbb8da3b68",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "noemon",
+            "name": "Noemon",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+            "ownTechnology": "Own learning architecture and original public code, not generic consultancy. Active UID confirms exact registered company address. GitHub repository retained as evidence, not misrepresented as a corporate profile link.",
+            "sources": [
+                "https://noemon.com/",
+                "https://github.com/noemon/noemon-arc-agi",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE471308956"
+            ],
+            "address": {
+                "line1": "Thurgauerstrasse 132",
+                "postalCode": "8152",
+                "locality": "Glattpark (Opfikon)",
+                "countryCode": "CH",
+                "latitude": 47.42409896850586,
+                "longitude": 8.560148239135742,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/210184324_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/noemon/",
+                "x": "https://x.com/noemon_ai"
+            },
+            "socialEvidence": "Official site links corporate LinkedIn and X.",
+            "caveat": "Own learning architecture and original public code, not generic consultancy. Active UID confirms exact registered company address. GitHub repository retained as evidence, not misrepresented as a corporate profile link.",
+            "kindReview": {
+                "slug": "noemon",
+                "kind": "startup",
+                "reason": "Own site explicitly describes the venture as in stealth.",
+                "sources": [
+                    "https://noemon.com/",
+                    "https://github.com/noemon/noemon-arc-agi",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE471308956"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json"
+            },
+            "sharedAddressMatches": [
+                {
+                    "slug": "climeworks",
+                    "addressId": "j97ems0gy5ftmpzqwamtfrq5mn8f4th2",
+                    "address": {
+                        "_creationTime": 1790455761092.3296,
+                        "_id": "j97ems0gy5ftmpzqwamtfrq5mn8f4th2",
+                        "countryCode": "CH",
+                        "createdAt": 1790455761092,
+                        "latitude": 47.4241,
+                        "line1": "Thurgauerstrasse 132",
+                        "locality": "Glattpark (Opfikon)",
+                        "longitude": 8.56015,
+                        "postalCode": "8152",
+                        "updatedAt": 1790455761092
+                    }
+                }
+            ],
+            "logo": {
+                "slug": "noemon",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-noemon.png",
+                "source": "https://static.wixstatic.com/media/0ea6c1_acb755b1eeff4a4a99930d0a5b5f4932%7Emv2.jpg/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/0ea6c1_acb755b1eeff4a4a99930d0a5b5f4932%7Emv2.jpg",
+                "website": "https://noemon.com/",
+                "sha256": "0368b7698b0037d0b50d0363b747d74545423074bd131f67b61cfb56a832efeb",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "alligator",
+            "name": "Alligator",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+            "ownTechnology": "Current company page describes own engineering, tested2023prototype and prospective2026pilot; do not describe planned2027series production as current. Current contact address18b supersedes older patent address37.",
+            "sources": [
+                "https://alligator.systems/",
+                "https://alligator.systems/imprint.html",
+                "https://alligator.systems/alligator_ag.html"
+            ],
+            "address": {
+                "line1": "Suurstoffi 18b",
+                "postalCode": "6343",
+                "locality": "Rotkreuz",
+                "countryCode": "CH",
+                "latitude": 47.144657135009766,
+                "longitude": 8.438321113586426,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/191661977_1?sr=4326"
+            },
+            "addressLabel": "Company contact address",
+            "socials": {},
+            "socialEvidence": "Reviewed official home, company and imprint links and searched exact domain plus corporate LinkedIn; no verified corporate social account found. Personal founder account not substituted.",
+            "caveat": "Current company page describes own engineering, tested2023prototype and prospective2026pilot; do not describe planned2027series production as current. Current contact address18b supersedes older patent address37.",
+            "kindReview": {
+                "slug": "alligator",
+                "kind": "startup",
+                "reason": "Own company page explicitly calls it a startup; pilot and scale-up financing precede serial production.",
+                "sources": [
+                    "https://alligator.systems/",
+                    "https://alligator.systems/imprint.html",
+                    "https://alligator.systems/alligator_ag.html"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json"
+            },
+            "sharedAddressMatches": [
+                {
+                    "slug": "scait",
+                    "addressId": "j97bkg4wy4ae8cjtm68n7k2k918g9awr",
+                    "address": {
+                        "_creationTime": 1792010568808.8645,
+                        "_id": "j97bkg4wy4ae8cjtm68n7k2k918g9awr",
+                        "countryCode": "CH",
+                        "createdAt": 1792010568808,
+                        "latitude": 47.144657135009766,
+                        "line1": "Suurstoffi 18b",
+                        "locality": "Rotkreuz",
+                        "longitude": 8.438321113586426,
+                        "postalCode": "6343",
+                        "updatedAt": 1792010568808
+                    }
+                },
+                {
+                    "slug": "phylax-intelligence",
+                    "addressId": "j97bkg4wy4ae8cjtm68n7k2k918g9awr",
+                    "address": {
+                        "_creationTime": 1792010568808.8645,
+                        "_id": "j97bkg4wy4ae8cjtm68n7k2k918g9awr",
+                        "countryCode": "CH",
+                        "createdAt": 1792010568808,
+                        "latitude": 47.144657135009766,
+                        "line1": "Suurstoffi 18b",
+                        "locality": "Rotkreuz",
+                        "longitude": 8.438321113586426,
+                        "postalCode": "6343",
+                        "updatedAt": 1792010568808
+                    }
+                }
+            ],
+            "logo": {
+                "slug": "alligator",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-alligator.png",
+                "source": "https://alligator.systems/images/logo_tap-180.png",
+                "website": "https://alligator.systems/",
+                "sha256": "a93562f877f0a5bd1f2627421a26e74f3830ab53258f994a02625f7894a494e0",
+                "mainApproved": false,
+                "caution": "Complete official symbol is readable on light background but low contrast on dark."
+            }
+        },
+        {
+            "slug": "open-forest-protocol",
+            "name": "Open Forest Protocol",
+            "status": "held-do-not-publish",
+            "apply": false,
+            "hold": "Main hold: compact artwork approval revoked; Swiss operator/local role review remains unresolved. Registered address alone is not an engineering-office claim.",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-platforms-two-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-platforms-two-evidence.json",
+            "ownTechnology": "Open Forest AG is own platform operator, with current NatureGrid original mobile/dashboard software and verification protocol; not simply carbon-credit brokerage or advocacy. Official privacy identifies Swiss operator/address; active UID confirms same registered address c/oMercandor. No engineering-office claim. NatureGrid not separately duplicated.",
+            "sources": [
+                "https://www.openforestprotocol.org/",
+                "https://www.openforestprotocol.org/blog/introducing-naturegrid-by-open-forest-protocol-the-operating-system-for-nature-monitoring",
+                "https://www.iubenda.com/privacy-policy/33938219/full-legal",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE396866692"
+            ],
+            "address": {
+                "line1": "Unter Altstadt 28",
+                "postalCode": "6300",
+                "locality": "Zug",
+                "countryCode": "CH",
+                "latitude": 47.16529846191406,
+                "longitude": 8.514087677001953,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/320197_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/theopenforestprotocol/"
+            },
+            "socialEvidence": "Official footer directly links exact corporate LinkedIn. Other footer Twitter/LinkedIn generic root placeholders excluded. NEAR ecosystem primary repository lists historical OpenForest_ X account, but direct current account read403; not inserted as independently current verified. No official corporate GitHub verified.",
+            "caveat": "Open Forest AG is own platform operator, with current NatureGrid original mobile/dashboard software and verification protocol; not simply carbon-credit brokerage or advocacy. Official privacy identifies Swiss operator/address; active UID confirms same registered address c/oMercandor. No engineering-office claim. NatureGrid not separately duplicated.",
+            "kindReview": {
+                "slug": "open-forest-protocol",
+                "kind": "startup",
+                "reason": "Product venture expanding from its protocol into the 2026 NatureGrid platform. Stage inference; publication remains held for local technical attribution and artwork.",
+                "sources": [
+                    "https://www.openforestprotocol.org/",
+                    "https://www.openforestprotocol.org/blog/introducing-naturegrid-by-open-forest-protocol-the-operating-system-for-nature-monitoring",
+                    "https://www.iubenda.com/privacy-policy/33938219/full-legal",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE396866692"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-platforms-two-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "open-forest-protocol",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-open-forest-protocol.png",
+                "source": "https://cdn.prod.website-files.com/64f89d4a320393768834d275/652d6009c4e047f7ed66f095_logo-256.png",
+                "website": "https://www.openforestprotocol.org/",
+                "sha256": "c5fc4798867f318dc8a58d623230c4467c91841ec0c518394033f78908ae9178",
+                "mainApproved": false
+            },
+            "latestHold": {
+                "kind": "startup",
+                "publication": "held",
+                "artworkApproval": "revoked",
+                "legal": "Main and saved official privacy policy confirm Open Forest AG, Unter Altstadt 28, Zug. Registered label only.",
+                "localTechnicalGap": "Fresh official team page identifies mobile, blockchain, frontend and DevOps engineers but explicitly describes a worldwide team and gives no individual Swiss working locations. Do not claim a Zug engineering office from the registered address.",
+                "artworkGap": "Official 256px touch icon was downloaded and viewed; it too contains the full wordmark. It is not a resolved compact-logo replacement.",
+                "sources": [
+                    "https://www.openforestprotocol.org/team",
+                    "https://www.iubenda.com/privacy-policy/33938219/full-legal"
+                ]
+            }
+        },
+        {
+            "slug": "truvami",
+            "name": "Truvami",
+            "status": "held-do-not-publish",
+            "apply": false,
+            "hold": "Technical eligibility confirmed; replacement compact official favicon remains unapproved. Original wordmark rejected.",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami-one-v2-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-truvami-one-evidence.json",
+            "ownTechnology": "Official live developer documentation establishes own tracker families, firmware and payload architecture; officially linked GitHub has verified truvami.com domain and original decoder/Helm development activeSeptember/October2026. Current active UID identifies distinct truvami GmbH at Binzstrasse7 c/oSwisscomBroadcast; older LinkedIn Gallusstrasse4 is not used. Same registered building as parent/partner does not itself duplicate distinct product company. Main marketing website returns520; docs and GitHub remain accessible.",
+            "sources": [
+                "https://docs.truvami.com/",
+                "https://docs.truvami.com/devices",
+                "https://github.com/truvami",
+                "https://www.linkedin.com/company/truvami/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE175842213"
+            ],
+            "address": {
+                "line1": "Binzstrasse 7",
+                "postalCode": "8045",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.36292266845703,
+                "longitude": 8.51699161529541,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/9001967_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/truvami/",
+                "github": "https://github.com/truvami"
+            },
+            "socialEvidence": "Official docs link GitHub organisation; verified-domain GitHub in turn links exact LinkedIn company/truvami. No X linked on reviewed official docs/GitHub. Original logo is the verified official GitHub organisation avatar, not a GitHub platform icon.",
+            "caveat": "Official live developer documentation establishes own tracker families, firmware and payload architecture; officially linked GitHub has verified truvami.com domain and original decoder/Helm development activeSeptember/October2026. Current active UID identifies distinct truvami GmbH at Binzstrasse7 c/oSwisscomBroadcast; older LinkedIn Gallusstrasse4 is not used. Same registered building as parent/partner does not itself duplicate distinct product company. Main marketing website returns520; docs and GitHub remain accessible.",
+            "kindReview": {
+                "slug": "truvami",
+                "kind": "startup",
+                "reason": "Official corporate account explicitly identifies an IoT startup founded in 2023.",
+                "sources": [
+                    "https://docs.truvami.com/",
+                    "https://docs.truvami.com/devices",
+                    "https://github.com/truvami",
+                    "https://www.linkedin.com/company/truvami/",
+                    "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE175842213"
+                ],
+                "originalPacket": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami-one-ready.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "truvami",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami-compact-v3.png",
+                "source": "https://docs.truvami.com/favicon.ico?c47c16e8ae1bcfcd",
+                "website": "https://truvami.com/",
+                "sha256": "66ecfda8b5de1f2115cfbc67437556e758879c0581ee56bf9d008beba2df0a9a",
+                "mainApproved": false
+            },
+            "latestHold": {
+                "kind": "startup",
+                "kindSource": "https://www.linkedin.com/company/truvami/",
+                "development": "Original documented protocols, firmware/devices and maintained decoder/helm work support technical eligibility. Forks are not counted as original development.",
+                "artworkStatus": "held-pending-main-visual-review",
+                "rejectedArtwork": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami.png",
+                "alternative": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami-compact-v3.png",
+                "source": "https://docs.truvami.com/favicon.ico?c47c16e8ae1bcfcd",
+                "provenance": "Official documentation declares this favicon. Largest original ICO frame is 48x48 and contains the compact turquoise t/pin mark. Transparent margins trimmed, proportionally resized and padded to 192px; no invented shape, recolouring or backing. Source pixels are limited and enlarged edges are visibly coarse. Main must approve before uploading this replacement.",
+                "sourceFile": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami-favicon-source.ico",
+                "limitation": "Main public site fetch returned HTTP 520; no higher-resolution compact original verified."
+            }
+        },
+        {
+            "slug": "cedric",
+            "name": "Cedric",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-cedric-one-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-cedric-one-evidence.json",
+            "ownTechnology": "All three first-party legal policies identify SFF S26 AG, rather than three separate legal companies. Cedric privacy explicitly publishes its office at Westhive Zurich Hardturm, Hardturmstrasse161. Registered operator is in St.Gallen; do not label Zurich as registered address. One brand-led operator profile names all three products. Original maintained agent/workspace/interview software, not generic client coding. Startup judgment: newly established June2026 operator with developing products. No universal confidentiality or automation guarantees reproduced.",
+            "sources": [
+                "https://meet-cedric.com/",
+                "https://meet-cedric.com/privacy",
+                "https://meet-cedric.com/terms",
+                "https://underheard.ai/en/imprint",
+                "https://cedreon.com/privacy",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE223097342"
+            ],
+            "address": {
+                "line1": "Hardturmstrasse 161",
+                "postalCode": "8005",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.39333724975586,
+                "longitude": 8.511878967285156,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/150684_0?sr=4326"
+            },
+            "addressLabel": "Office at Westhive Hardturm",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/meet-cedric/",
+                "x": "https://x.com/meet_cedric"
+            },
+            "socialEvidence": "Own Cedric privacy and homepage directly link meet-cedric corporate LinkedIn and meet_cedric X. No unverified socials added for other brands.",
+            "caveat": "All three first-party legal policies identify SFF S26 AG, rather than three separate legal companies. Cedric privacy explicitly publishes its office at Westhive Zurich Hardturm, Hardturmstrasse161. Registered operator is in St.Gallen; do not label Zurich as registered address. One brand-led operator profile names all three products. Original maintained agent/workspace/interview software, not generic client coding. Startup judgment: newly established June2026 operator with developing products. No universal confidentiality or automation guarantees reproduced.",
+            "kindReview": {
+                "kind": "startup",
+                "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-cedric-one-evidence.json"
+            },
+            "sharedAddressMatches": [
+                {
+                    "slug": "snipd",
+                    "addressId": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                    "address": {
+                        "_creationTime": 1790455771473.634,
+                        "_id": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                        "countryCode": "CH",
+                        "createdAt": 1790455771473,
+                        "latitude": 47.39334,
+                        "line1": "Hardturmstrasse 161",
+                        "locality": "Zurich",
+                        "longitude": 8.51188,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455771473
+                    }
+                },
+                {
+                    "slug": "klarent",
+                    "addressId": "j976gz0kng8sj5qsnve6r37epx8g4dnh",
+                    "address": {
+                        "_creationTime": 1791792694573.5193,
+                        "_id": "j976gz0kng8sj5qsnve6r37epx8g4dnh",
+                        "countryCode": "CH",
+                        "createdAt": 1791792694573,
+                        "latitude": 47.393336,
+                        "line1": "Hardturmstrasse 161",
+                        "locality": "Zurich",
+                        "longitude": 8.511879,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997590064
+                    }
+                },
+                {
+                    "slug": "cartorga",
+                    "addressId": "j976gz0kng8sj5qsnve6r37epx8g4dnh",
+                    "address": {
+                        "_creationTime": 1791792694573.5193,
+                        "_id": "j976gz0kng8sj5qsnve6r37epx8g4dnh",
+                        "countryCode": "CH",
+                        "createdAt": 1791792694573,
+                        "latitude": 47.393336,
+                        "line1": "Hardturmstrasse 161",
+                        "locality": "Zurich",
+                        "longitude": 8.511879,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997590064
+                    }
+                },
+                {
+                    "slug": "rarog",
+                    "addressId": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                    "address": {
+                        "_creationTime": 1790455771473.634,
+                        "_id": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                        "countryCode": "CH",
+                        "createdAt": 1790455771473,
+                        "latitude": 47.39334,
+                        "line1": "Hardturmstrasse 161",
+                        "locality": "Zurich",
+                        "longitude": 8.51188,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455771473
+                    }
+                },
+                {
+                    "slug": "teralytics",
+                    "addressId": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                    "address": {
+                        "_creationTime": 1790455771473.634,
+                        "_id": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                        "countryCode": "CH",
+                        "createdAt": 1790455771473,
+                        "latitude": 47.39334,
+                        "line1": "Hardturmstrasse 161",
+                        "locality": "Zurich",
+                        "longitude": 8.51188,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455771473
+                    }
+                },
+                {
+                    "slug": "unchained-commerce",
+                    "addressId": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                    "address": {
+                        "_creationTime": 1790455771473.634,
+                        "_id": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                        "countryCode": "CH",
+                        "createdAt": 1790455771473,
+                        "latitude": 47.39334,
+                        "line1": "Hardturmstrasse 161",
+                        "locality": "Zurich",
+                        "longitude": 8.51188,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455771473
+                    }
+                },
+                {
+                    "slug": "relai",
+                    "addressId": "j976gz0kng8sj5qsnve6r37epx8g4dnh",
+                    "address": {
+                        "_creationTime": 1791792694573.5193,
+                        "_id": "j976gz0kng8sj5qsnve6r37epx8g4dnh",
+                        "countryCode": "CH",
+                        "createdAt": 1791792694573,
+                        "latitude": 47.393336,
+                        "line1": "Hardturmstrasse 161",
+                        "locality": "Zurich",
+                        "longitude": 8.511879,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997590064
+                    }
+                },
+                {
+                    "slug": "axlabs",
+                    "addressId": "j976gz0kng8sj5qsnve6r37epx8g4dnh",
+                    "address": {
+                        "_creationTime": 1791792694573.5193,
+                        "_id": "j976gz0kng8sj5qsnve6r37epx8g4dnh",
+                        "countryCode": "CH",
+                        "createdAt": 1791792694573,
+                        "latitude": 47.393336,
+                        "line1": "Hardturmstrasse 161",
+                        "locality": "Zurich",
+                        "longitude": 8.511879,
+                        "postalCode": "8005",
+                        "updatedAt": 1791997590064
+                    }
+                },
+                {
+                    "slug": "selma-finance",
+                    "addressId": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                    "address": {
+                        "_creationTime": 1790455771473.634,
+                        "_id": "j9775z0sz51dp7nfn22pgnmp118f459g",
+                        "countryCode": "CH",
+                        "createdAt": 1790455771473,
+                        "latitude": 47.39334,
+                        "line1": "Hardturmstrasse 161",
+                        "locality": "Zurich",
+                        "longitude": 8.51188,
+                        "postalCode": "8005",
+                        "updatedAt": 1790455771473
+                    }
+                }
+            ],
+            "logo": {
+                "slug": "cedric",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-cedric.png",
+                "source": "https://meet-cedric.com/icon-192.png",
+                "website": "https://meet-cedric.com/",
+                "sha256": "6089f39c55d2f12e89b32144c800abaee785d2f76bcb7b5bc8512bbaaacf3264",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "iqtax",
+            "name": "iqtax",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-iqtax-one-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-iqtax-one-evidence.json",
+            "ownTechnology": {
+                "reason": "Own team page describes continuing software development. PostFinance explicitly confirms TaxOptimizer is based on iqtax's existing solution, jointly extended for the 2026 pilot. This is not merely a tax adviser reselling a third-party tool.",
+                "sources": [
+                    "https://www.iqtax.ch/uber-uns",
+                    "https://www.postfinance.ch/de/support/services/tools-rechner/taxoptimizer.html"
+                ]
+            },
+            "sources": [
+                "https://www.iqtax.ch/impressum",
+                "https://www.iqtax.ch/uber-uns",
+                "https://www.postfinance.ch/de/support/services/tools-rechner/taxoptimizer.html",
+                "https://www.iqtax.ch/post/postfinance-und-iqtax-lancieren-taxoptimizer"
+            ],
+            "address": {
+                "line1": "Erlenstrasse 4b",
+                "postalCode": "6343",
+                "locality": "Rotkreuz",
+                "countryCode": "CH",
+                "latitude": 47.14951705932617,
+                "longitude": 8.43015193939209,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/3186288_1?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/iqtax"
+            },
+            "socialEvidence": "Exact outbound link in own homepage. Instagram also linked but outside supported importer social keys. No GitHub or X link found in homepage scan.",
+            "kindReview": {
+                "kind": "startup",
+                "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-iqtax-one-evidence.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "iqtax",
+                "name": "iqtax",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-iqtax-192.png",
+                "source": "https://cdn.prod.website-files.com/688b340891a665b4af10d95d/688e53276a17214fbe034595_256.png",
+                "website": "https://www.iqtax.ch/",
+                "provenance": "Own homepage declares this 256px touch icon. Proportional resize to 192px only; original transparency and artwork retained. Awaiting main visual approval; not uploaded.",
+                "sha256": "55e440fde22ebc400f1bf9673e72ccbf240c7fff783680930063661f9ae3d4f0",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "aderis",
+            "name": "Aderis",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-finance-flight-two-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-finance-flight-two-evidence.json",
+            "ownTechnology": "Own about and platform pages describe a maintained original multi-ledger ERP. Investor 3VC describes product demo, early customers and backing after stealth. Not a generic ERP implementation consultancy.",
+            "sources": [
+                "https://aderis.com/en/about",
+                "https://aderis.com/de/kontakt",
+                "https://three.vc/blog/why-we-invested-in-aderis/"
+            ],
+            "address": {
+                "line1": "Seestrasse 139",
+                "postalCode": "8802",
+                "locality": "Kilchberg",
+                "countryCode": "CH",
+                "latitude": 47.32366180419922,
+                "longitude": 8.550039291381836,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/56619_0?sr=4326"
+            },
+            "addressLabel": "Headquarters",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/aderisag/"
+            },
+            "socialEvidence": "Own homepage and about link exact aderisag corporate LinkedIn URL recorded in packet; numeric company link also present. No GitHub/X outbound in homepage. Do not publish staff profiles.",
+            "kindReview": {
+                "kind": "startup",
+                "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-finance-flight-two-evidence.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "aderis",
+                "name": "Aderis",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-aderis-192.png",
+                "source": "https://cdn.prod.website-files.com/6a1fdfb974053633e33f7fa6/6a302f34d948b8456827aaaf_2606_aderis-favicon.png",
+                "website": "https://aderis.com/",
+                "provenance": "Exact unchanged 192px icon declared by current own homepage. Visually inspected; purple backing and A symbol are original. Main approval pending; no upload.",
+                "sha256": "89c027f134bb0bf445e238e9719093c4493bdb13a579fe86b79f543fd4def6b5",
+                "mainApproved": false
+            }
+        },
+        {
+            "slug": "zerolook",
+            "name": "Zerolook",
+            "status": "evidence-ready-awaiting-main-artwork-review-and-hosting",
+            "apply": false,
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-finance-flight-two-ready.json",
+            "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-finance-flight-two-evidence.json",
+            "ownTechnology": "Own service details describe ML-predicted flight search API. Corporate LinkedIn and founder posts confirm Navifare pivot and 2026 pre-seed engineering expansion.",
+            "sources": [
+                "https://www.zerolook.ai/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=en&uid_id=CHE222465331",
+                "https://www.linkedin.com/company/zerolook-ai/"
+            ],
+            "address": {
+                "line1": "Suurstoffi 37",
+                "postalCode": "6343",
+                "locality": "Rotkreuz",
+                "countryCode": "CH",
+                "latitude": 47.14479446411133,
+                "longitude": 8.436997413635254,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/191635393_0?sr=4326"
+            },
+            "addressLabel": "Registered address",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/zerolook-ai/"
+            },
+            "socialEvidence": "Corporate LinkedIn matches exact own website, founders and product. Homepage has no social outbound. Navifare GitHub repositories found with matching domain references, but no reverse current own-domain link established; not added to payload. No verified X found.",
+            "kindReview": {
+                "kind": "startup",
+                "evidencePath": "/Users/florian/symbol/zurich.tech/work/organisations/primary-parfit-startupticker-finance-flight-two-evidence.json"
+            },
+            "sharedAddressMatches": [],
+            "logo": {
+                "slug": "zerolook",
+                "name": "Zerolook",
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-zerolook-192.png",
+                "source": "https://www.zerolook.ai/brand/logo-z.png",
+                "website": "https://www.zerolook.ai/",
+                "provenance": "Own declared favicon, original black Z symbol on transparency, proportionally resized from 2044x2153 to 192px with transparent padding. White-backed preview is separate, not recoloured artwork. Main approval pending; dark-background readability needs main review.",
+                "sha256": "a3874f514137cb1b0c0b70710e7c0706476ca67f25548e1c07f235d0794a36f1",
+                "mainApproved": false,
+                "caution": "Original transparent black symbol has poor dark-background contrast; do not recolour or invent a backing."
+            }
+        }
+    ],
+    "frozen": [
+        {
+            "slug": "bastionne",
+            "organisationId": "p174wsyf7w7h5sapzp0czb7qws8gaj21",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-bastionne-one-v2-ready.json"
+        },
+        {
+            "slug": "siresca",
+            "organisationId": "p17exhg6jv6rat941yh4j4zgnn8gab8m",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-siresca-one-v2-ready.json"
+        },
+        {
+            "slug": "xelon",
+            "organisationId": "p17794cvg80gsfzwhqr06yz9ph8gbngv",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-platforms-two-v2-ready.json"
+        },
+        {
+            "slug": "zenline",
+            "organisationId": "p17d4gzwgrk1s74jme60x8mydd8gagsh",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-software-four-v2-ready.json"
+        },
+        {
+            "slug": "tom-medications",
+            "organisationId": "p17f4xqcnyf4bp5www4zgyk67d8gbmb7",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-software-four-v2-ready.json"
+        },
+        {
+            "slug": "simpletrain",
+            "organisationId": "p177pk7q77fqamhpn1q14f66hn8gbqqe",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-software-four-v2-ready.json"
+        },
+        {
+            "slug": "get-local",
+            "organisationId": "p170rr1pgs5y3w5ezm900atmas8gaamk",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-software-four-v2-ready.json"
+        },
+        {
+            "slug": "smart-me",
+            "organisationId": "p179xmky1zdamccgk3gref4e0x8gasrm",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-energy-biotech-two-v2-ready.json"
+        },
+        {
+            "slug": "moonlake-immunotherapeutics",
+            "organisationId": "p17beg0gftntvk25jykq79df9n8gb52t",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-energy-biotech-two-v2-ready.json"
+        },
+        {
+            "slug": "chirp-light",
+            "organisationId": "p177d0gnmeqqsz1argdgftvfa58gbsp7",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-chirp-one-v2-ready.json"
+        },
+        {
+            "slug": "twiliner",
+            "organisationId": "p1710ycsdyk93j2ba49yxd78eh8gb4f4",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-twiliner-one-v2-ready.json"
+        },
+        {
+            "slug": "swibeco",
+            "organisationId": "p171vzaqhhsjmg0zte8k2p91wd8gafry",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-commercial-three-ready.json"
+        },
+        {
+            "slug": "naoo",
+            "organisationId": "p1734z8tw5xtjfdh2336gb8rmx8gaenk",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-commercial-three-ready.json"
+        },
+        {
+            "slug": "ontinue",
+            "organisationId": "p178rk58m2a94gmz2rr62r6bgs8gbmzy",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-commercial-three-ready.json"
+        },
+        {
+            "slug": "boddy",
+            "organisationId": "p17dandr5exfrdncr4n1vprg158gbxfh",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-platform-next-two-ready.json"
+        },
+        {
+            "slug": "expertvision-ai",
+            "organisationId": "p17e6n7ww8arkwktc3vt5jyvh98gb75y",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-platform-next-two-ready.json"
+        },
+        {
+            "slug": "phylax-intelligence",
+            "organisationId": "p1772p67q0bq7tbeb8zcdpny7s8gbcdy",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-primary-next-three-ready.json"
+        },
+        {
+            "slug": "iris-labs",
+            "organisationId": "p1799pmrvtakz1e5x69a7gpyvh8gbw4f",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-primary-next-three-ready.json"
+        },
+        {
+            "slug": "sentianova",
+            "organisationId": "p17dhjqk86d8bz3a7js6rzbd458ga53h",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-primary-next-three-ready.json"
+        },
+        {
+            "slug": "lookthrough",
+            "organisationId": "p172ch6mgyqxy2bn7zf8he14zs8gb950",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-lookthrough-one-ready.json"
+        },
+        {
+            "slug": "aeon-life",
+            "organisationId": "p1771vtcddn8m134847te9tywx8gaada",
+            "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-aeon-one-ready.json"
+        }
+    ],
+    "historicalOnly": [
+        {
+            "slug": "qendra",
+            "file": "primary-parfit-startupticker-nine-ready.json",
+            "status": "superseded-other-owner-review-required"
+        }
+    ],
+    "finiteQueue": {
+        "unresolvedSourceNames": 405,
+        "geographyScreenOnly": 85,
+        "status": "Open, not relabelled as holds or complete."
+    }
+}

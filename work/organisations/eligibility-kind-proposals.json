@@ -1,0 +1,47 @@
+{
+    "reviewedAt": "2026-10-15T01:12:23.016Z",
+    "apply": false,
+    "requiresMainReview": true,
+    "productionWrites": 0,
+    "changes": [
+        {
+            "slug": "passam",
+            "organisationId": "p172h4dkdh9c063vmxg0xagv218g9eqe",
+            "expected": {
+                "kind": "lab",
+                "topics": ["hardware"]
+            },
+            "proposed": {
+                "kind": "company"
+            },
+            "preserve": ["topics", "locations", "profile", "relationships"],
+            "reason": "Independent commercial AG produces its own diffusive air-pollution samplers as well as providing accredited analysis.",
+            "evidence": [
+                {
+                    "url": "https://www.passam.ch/"
+                }
+            ]
+        },
+        {
+            "slug": "microbe-investigations",
+            "organisationId": "p178vprfwnyt0mnx2ymh4x8rws8g887z",
+            "expected": {
+                "kind": "company"
+            },
+            "proposed": {
+                "kind": "lab"
+            },
+            "preserve": ["topics", "locations", "profile", "relationships"],
+            "reason": "Official history identifies the Schlieren laboratory, and the about page describes a microbiology CRO/test laboratory with bacteriology, virology and entomology research/testing facilities. Retain on specialised physical laboratory infrastructure grounds analogous to the expressly approved EMVLAB rationale; propose Company to Lab for main review, without claiming an original proprietary assay.",
+            "evidence": [
+                {
+                    "url": "https://microbe-investigations.com/about/"
+                },
+                {
+                    "url": "https://microbe-investigations.com/cosmetic-testing/detection-test/usp-62-non-sterile-product-testing/"
+                }
+            ]
+        }
+    ],
+    "notExecutable": "Review proposals only. Re-read exact current kind/topics before constructing a supported guarded mutation. No live changes made."
+}

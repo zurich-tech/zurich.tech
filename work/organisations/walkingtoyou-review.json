@@ -1,0 +1,35 @@
+{
+    "date": "2026-10-15",
+    "status": "developer-preparation-and-host-removal-review-pending",
+    "method": "Main read both companies' current rendered pages in Chrome and the product pages through the web reader",
+    "sources": [
+        "https://www.walkingtoyou.com/en/about-us",
+        "https://www.walkingtoyou.com/en/blue-project",
+        "https://www.walkingtoweb.com/de/walkingtoweb",
+        "https://www.walkingtoweb.com/crmhosting_en.php"
+    ],
+    "developer": {
+        "name": "walkingtoyou GmbH",
+        "finding": "Own About page, visibly updated 13 October 2026, explicitly attributes in-house database development to walkingtoyou. Its blue.project product is licensed separately from the hosted offering. This is an original maintained software product, not merely generic FileMaker support.",
+        "address": "Obsthaldenstrasse 187, 8046 Zurich",
+        "addressLabel": "Postal address",
+        "identity": "Do not rename walkingtoweb or merge the two companies merely because they share an address and contact person",
+        "socials": "About page links a personal founder LinkedIn profile, not a corporate profile; do not import it as the company account",
+        "remaining": [
+            "Fresh identity and legal review",
+            "Genuine logo",
+            "Corporate social search",
+            "Supported publication and independent verification"
+        ]
+    },
+    "host": {
+        "slug": "walkingtoweb",
+        "organisationId": "p17cyb9vka0q1tepxx3tbavntn8g9920",
+        "uid": "CHE-358.408.489",
+        "finding": "Current About page describes operation of vendor-based infrastructure and separately identifies walkingtoyou as the FileMaker developer. The English blue.project hosting page explicitly credits development to walkingtoyou; the developer's current product page identifies walkingtoweb as its hosting partner.",
+        "recommendation": "Exclude the hosting-only map listing under the original-technology criterion, while preserving the organisation and relationships",
+        "caveat": "Common ownership or the same contact person does not establish which legal company develops the software. No assertion of inactivity, poor engineering or closure.",
+        "remaining": "Central review and action-time approval before irreversible location removal; no removal performed"
+    },
+    "productionWrites": 0
+}

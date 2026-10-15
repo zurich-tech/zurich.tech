@@ -1,0 +1,605 @@
+{
+  "apply": false,
+  "organisations": [
+    {
+      "id": "p171005xs4s7exphq8t4fychkh8g8d04",
+      "slug": "medizintechnik-basler",
+      "expectedDescription": "Develops and supplies Doppler diagnostic instruments, medical probes and industrial flow-measurement sensors.",
+      "description": "Develops and supplies Doppler diagnostic instruments, medical probes and industrial flow-measurement sensors"
+    },
+    {
+      "id": "p172h4dkdh9c063vmxg0xagv218g9eqe",
+      "slug": "passam",
+      "expectedDescription": "Produces passive air-pollution samplers and operates an accredited laboratory for environmental air-quality analysis.",
+      "description": "Produces passive air-pollution samplers and operates an accredited laboratory for environmental air-quality analysis"
+    },
+    {
+      "id": "p17c660b8z61xcmdp74ph6tfd18g9qdp",
+      "slug": "eurospider",
+      "expectedDescription": "Develops information retrieval, media analysis and compliance software, including content-oriented search products.",
+      "description": "Develops information retrieval, media analysis and compliance software, including content-oriented search products"
+    },
+    {
+      "id": "p174043hbgmwhdvg8v5brs4qn18g9xzy",
+      "slug": "ecospeed",
+      "expectedDescription": "Develops carbon-accounting software and EnerCoach, a building-energy monitoring and analysis product for physical consumption, energy performance and efficiency comparisons.",
+      "description": "Develops carbon-accounting software and EnerCoach, a building-energy monitoring and analysis product for physical consumption, energy performance and efficiency comparisons"
+    },
+    {
+      "id": "p178e241zrdtt1dbyby0f90zmd8g8d1f",
+      "slug": "3r-technics",
+      "expectedDescription": "Develops non-destructive measurement systems for material properties, sheet thickness, coating thickness and production-line monitoring.",
+      "description": "Develops non-destructive measurement systems for material properties, sheet thickness, coating thickness and production-line monitoring"
+    },
+    {
+      "id": "p173p9g5c83fy5ds35bqm4na3n8g9cac",
+      "slug": "tep-energy",
+      "expectedDescription": "Develops energy-demand models, building-stock simulations and analysis tools for energy efficiency and emissions planning.",
+      "description": "Develops energy-demand models, building-stock simulations and analysis tools for energy efficiency and emissions planning"
+    },
+    {
+      "id": "p17d6geper78a9vt28g7pt0fyx8g80mf",
+      "slug": "rob-technologies",
+      "expectedDescription": "Develops robotic control and design-to-fabrication software for flexible manufacturing and construction processes.",
+      "description": "Develops robotic control and design-to-fabrication software for flexible manufacturing and construction processes"
+    },
+    {
+      "id": "p17abp0pdhmm2vdh68dvatyt7h8g97ec",
+      "slug": "enerlytica",
+      "expectedDescription": "Develops data analysis, forecasting and energy monitoring software for energy suppliers.",
+      "description": "Develops data analysis, forecasting and energy monitoring software for energy suppliers"
+    },
+    {
+      "id": "p178kp0agr42df0141swe4w7bh8g8zw7",
+      "slug": "fields-at-work",
+      "expectedDescription": "Develops electromagnetic exposure measurement instruments, monitoring systems and custom engineering solutions.",
+      "description": "Develops electromagnetic exposure measurement instruments, monitoring systems and custom engineering solutions"
+    },
+    {
+      "id": "p17ck6achsy11qk1nga2ktbq958g9v6m",
+      "slug": "hydrosolutions",
+      "expectedDescription": "Provides hydrological modelling, remote-sensing analysis and water-resource monitoring and planning tools.",
+      "description": "Provides hydrological modelling, remote-sensing analysis and water-resource monitoring and planning tools"
+    },
+    {
+      "id": "p17cbazeat10jyb7dkxc8322j58g8yw4",
+      "slug": "hemotune",
+      "expectedDescription": "Develops magnetic nanoparticles and separation systems for blood purification and biological processing.",
+      "description": "Develops magnetic nanoparticles and separation systems for blood purification and biological processing"
+    },
+    {
+      "id": "p174s371xkavzxsc7drbgdwmwx8g9h15",
+      "slug": "invariant-labs",
+      "expectedDescription": "Develops agent-behaviour inspection, contextual guardrails and security scanning for MCP servers.",
+      "description": "Develops agent-behaviour inspection, contextual guardrails and security scanning for MCP servers"
+    },
+    {
+      "id": "p1727p5df9qbhv0zr1srv776yd8g9pr3",
+      "slug": "quitt",
+      "expectedDescription": "Develops and operates quitt, an online platform for registering and administering household employment.",
+      "description": "Develops and operates quitt, an online platform for registering and administering household employment"
+    },
+    {
+      "id": "p170pgzk593ett69dme8q1ezz98g9526",
+      "slug": "scanvision",
+      "expectedDescription": "Produces 3D laser-scanned and photogrammetric models, interactive digital twins, and spatial visualisations.",
+      "description": "Produces 3D laser-scanned and photogrammetric models, interactive digital twins, and spatial visualisations"
+    },
+    {
+      "id": "p17by4k9418af7m8dzhd35zr3d8g95h1",
+      "slug": "shift-crypto",
+      "expectedDescription": "Develops BitBox hardware wallets and open-source firmware for local custody and protection of cryptographic private keys.",
+      "description": "Develops BitBox hardware wallets and open-source firmware for local custody and protection of cryptographic private keys"
+    },
+    {
+      "id": "p173q35w3qv2ytjsw52kh03bdh8g942p",
+      "slug": "ecoinvent",
+      "expectedDescription": "Develops and maintains a life-cycle inventory database and API used in environmental modelling and life-cycle assessments.",
+      "description": "Develops and maintains a life-cycle inventory database and API used in environmental modelling and life-cycle assessments"
+    },
+    {
+      "id": "p177rmgfey6knpa4qspmpprex18g8mqv",
+      "slug": "mecos",
+      "expectedDescription": "Develops active magnetic bearings and controls for turbomachinery, industrial applications and research equipment.",
+      "description": "Develops active magnetic bearings and controls for turbomachinery, industrial applications and research equipment"
+    },
+    {
+      "id": "p175nn6t7qzvd4725s9f443v918g810b",
+      "slug": "concretum",
+      "expectedDescription": "Develops rapid-hardening concrete, dry mixes, fibres and additives for demanding transport infrastructure and construction applications.",
+      "description": "Develops rapid-hardening concrete, dry mixes, fibres and additives for demanding transport infrastructure and construction applications"
+    },
+    {
+      "id": "p171jd3mqmdqesf65tx6wfxwkn8g9726",
+      "slug": "geowatt",
+      "expectedDescription": "Develops the GEOWATTCORE online platform for designing and simulating geothermal borehole systems and specialised engineering models.",
+      "description": "Develops the GEOWATTCORE online platform for designing and simulating geothermal borehole systems and specialised engineering models"
+    },
+    {
+      "id": "p178g3jyhqbtkdkk0vpsst6p8n8g83tk",
+      "slug": "datahouse",
+      "expectedDescription": "Develops and operates AI agents, web-crawling systems, analytics dashboards and custom data platforms for enterprise clients.",
+      "description": "Develops and operates AI agents, web-crawling systems, analytics dashboards and custom data platforms for enterprise clients"
+    },
+    {
+      "id": "p17df4zgqd5438hp8y1gxrryms8g8jjq",
+      "slug": "compliant-concept",
+      "expectedDescription": "Develops technical care assistants, automated repositioning systems and patient-monitoring technology for hospitals and nursing homes.",
+      "description": "Develops technical care assistants, automated repositioning systems and patient-monitoring technology for hospitals and nursing homes"
+    },
+    {
+      "id": "p178cem4ncszmj2a30cbdmxjgn8g9wcf",
+      "slug": "electricfeel",
+      "expectedDescription": "Develops a software platform for shared light-electric-vehicle services, covering fleet operations, rider payments, promotions and vehicle integrations.",
+      "description": "Develops a software platform for shared light-electric-vehicle services, covering fleet operations, rider payments, promotions and vehicle integrations"
+    },
+    {
+      "id": "p177c4sypscxh23e2vrh6287rx8g9t2c",
+      "slug": "magnes",
+      "expectedDescription": "Develops NUSHU smart shoes combining wearable sensors, gait-analysis algorithms and real-time vibrotactile feedback for mobility assessment and rehabilitation.",
+      "description": "Develops NUSHU smart shoes combining wearable sensors, gait-analysis algorithms and real-time vibrotactile feedback for mobility assessment and rehabilitation"
+    },
+    {
+      "id": "p174qxbes32vzjwnaerft8mdw58g8fey",
+      "slug": "synple-chem",
+      "expectedDescription": "Develops automated chemical synthesis instruments, reaction cartridges and digital chemical-space tools to accelerate molecule discovery.",
+      "description": "Develops automated chemical synthesis instruments, reaction cartridges and digital chemical-space tools to accelerate molecule discovery"
+    },
+    {
+      "id": "p17950bsdf9bqay7ht0k1ep4398g884n",
+      "slug": "microcaps",
+      "expectedDescription": "Develops microencapsulation technology for controlled-size particles and formulations, including water-based fragrance pearls, cosmetics and pharmaceutical applications.",
+      "description": "Develops microencapsulation technology for controlled-size particles and formulations, including water-based fragrance pearls, cosmetics and pharmaceutical applications"
+    },
+    {
+      "id": "p176dzpyr2pgpw4c9ky1nc3j318g99cv",
+      "slug": "4qt",
+      "expectedDescription": "Develops electric drive technology for heavy-duty machines and vehicles, supporting the electrification of industrial equipment.",
+      "description": "Develops electric drive technology for heavy-duty machines and vehicles, supporting the electrification of industrial equipment"
+    },
+    {
+      "id": "p174xgyj4k9rqg53kpvvdfkw3x8g8zgs",
+      "slug": "d11z-ventures",
+      "expectedDescription": "Invests in early-stage software and technology companies through an evergreen venture fund, with a Zurich representative office.",
+      "description": "Invests in early-stage software and technology companies through an evergreen venture fund, with a Zurich representative office"
+    },
+    {
+      "id": "p17acw7ct945ay84255t0hjbzn8g9jvh",
+      "slug": "silana",
+      "expectedDescription": "Develops functional composites, additives and technical textiles for insulation, filtration, protective applications and water management.",
+      "description": "Develops functional composites, additives and technical textiles for insulation, filtration, protective applications and water management"
+    },
+    {
+      "id": "p17drjpbtamg7nmmeg0dqjbmpd8g8tt3",
+      "slug": "blackpoints",
+      "expectedDescription": "Develops web and mobile applications, including integrated data and project-management software for public infrastructure organisations.",
+      "description": "Develops web and mobile applications, including integrated data and project-management software for public infrastructure organisations"
+    },
+    {
+      "id": "p175vmgvfbchb506z4gc5awatn8g9121",
+      "slug": "celerato",
+      "expectedDescription": "Develops SynReport software for structured pathology reporting, with local and cloud deployment and multilingual reporting forms.",
+      "description": "Develops SynReport software for structured pathology reporting, with local and cloud deployment and multilingual reporting forms"
+    },
+    {
+      "id": "p17agv87rkhgd81twpxyqpht158g97n9",
+      "slug": "sherlock-robotics",
+      "expectedDescription": "Develops a collaborative robotics platform for automating assembly and manufacturing tasks.",
+      "description": "Develops a collaborative robotics platform for automating assembly and manufacturing tasks"
+    },
+    {
+      "id": "p17b21vmpgxc61tht1hj60bdsd8g85w2",
+      "slug": "toelt",
+      "expectedDescription": "Develops AI technologies for scientific modelling, computer vision, photonics, food and medical applications.",
+      "description": "Develops AI technologies for scientific modelling, computer vision, photonics, food and medical applications"
+    },
+    {
+      "id": "p1726rwtn45ptw8g668kzr9y7n8g8wkc",
+      "slug": "sotronik",
+      "expectedDescription": "Develops test stands, measurement systems, electronics and firmware using technologies including LabVIEW and embedded control.",
+      "description": "Develops test stands, measurement systems, electronics and firmware using technologies including LabVIEW and embedded control"
+    },
+    {
+      "id": "p17cz3cn09zmvt2ndfx7yskjp58g9f7r",
+      "slug": "smoca",
+      "expectedDescription": "Develops mobile applications, backend systems and embedded software, alongside sensor and scanning products.",
+      "description": "Develops mobile applications, backend systems and embedded software, alongside sensor and scanning products"
+    },
+    {
+      "id": "p17ewp6m432bfqsjmbqw3gftrh8g9tgh",
+      "slug": "rsb-mechatronik",
+      "expectedDescription": "Develops prototypes, production machines, industrial equipment and reusable control-software components.",
+      "description": "Develops prototypes, production machines, industrial equipment and reusable control-software components"
+    },
+    {
+      "id": "p175rycae913vxse7zs491v3bn8g916g",
+      "slug": "reamis",
+      "expectedDescription": "Develops software for real-estate asset and portfolio management, with its development team in Winterthur.",
+      "description": "Develops software for real-estate asset and portfolio management, with its development team in Winterthur"
+    },
+    {
+      "id": "p171ag60qpac89vgsbz0f4wsps8g9h80",
+      "slug": "promix-solutions",
+      "expectedDescription": "Develops mixing, gas-dosing, foam-extrusion and melt-cooling systems for industrial processing.",
+      "description": "Develops mixing, gas-dosing, foam-extrusion and melt-cooling systems for industrial processing"
+    },
+    {
+      "id": "p1732z5yqy3843y7ghe0yf3j658g8acq",
+      "slug": "libal-schweiz",
+      "expectedDescription": "Develops software for organizing and using building knowledge and documentation throughout property operations.",
+      "description": "Develops software for organizing and using building knowledge and documentation throughout property operations"
+    },
+    {
+      "id": "p17bvsdghw830kj414w86eamzd8g8mpj",
+      "slug": "crosswind",
+      "expectedDescription": "Develops geocoding, geographic-data integration and location-analysis software, including its Geobase platform.",
+      "description": "Develops geocoding, geographic-data integration and location-analysis software, including its Geobase platform"
+    },
+    {
+      "id": "p177e0wcb6zgfrxm1a2gkrm2r98g9kaj",
+      "slug": "cross-works",
+      "expectedDescription": "Develops business applications and document-management solutions for SMEs, schools and public administrations.",
+      "description": "Develops business applications and document-management solutions for SMEs, schools and public administrations"
+    },
+    {
+      "id": "p178rzk25zk4byxnhpp3tg3aj98g8ys7",
+      "slug": "joylab",
+      "expectedDescription": "Engineers electronics, firmware and mechanical systems for robotics, sensing and medical devices, from development through industrialization.",
+      "description": "Engineers electronics, firmware and mechanical systems for robotics, sensing and medical devices, from development through industrialization"
+    },
+    {
+      "id": "p171vsfqf0emp07vr558ve62hd8g9h0e",
+      "slug": "kinastic",
+      "expectedDescription": "Develops a digital platform for workplace health programs and employee wellbeing.",
+      "description": "Develops a digital platform for workplace health programs and employee wellbeing"
+    },
+    {
+      "id": "p172z27cew17s253sx9712erfh8g912x",
+      "slug": "earlybyte",
+      "expectedDescription": "Develops business-process automation and software products including mReport, mScan and mTime.",
+      "description": "Develops business-process automation and software products including mReport, mScan and mTime"
+    },
+    {
+      "id": "p176ycy6yqjnwt940cgbf2wsqd8g8e8r",
+      "slug": "steasy",
+      "expectedDescription": "Develops Steasy, a portable food steamer with app-based control, engineered in Winterthur.",
+      "description": "Develops Steasy, a portable food steamer with app-based control, engineered in Winterthur"
+    },
+    {
+      "id": "p17908m6zwnaax1j47kp7f85c18g9332",
+      "slug": "sandsiv",
+      "expectedDescription": "Develops sandsiv+, software for collecting, analyzing and acting on customer feedback using AI.",
+      "description": "Develops sandsiv+, software for collecting, analyzing and acting on customer feedback using AI"
+    },
+    {
+      "id": "p1772j3f3505dwza7xrf5hdqsn8g9w8d",
+      "slug": "phoeniqs",
+      "expectedDescription": "Develops sovereign cloud and AI infrastructure.",
+      "description": "Develops sovereign cloud and AI infrastructure"
+    },
+    {
+      "id": "p172z2954512y3k1dwvabjgqs98g89kc",
+      "slug": "enzian-pharmaceutics",
+      "expectedDescription": "Develops gastroretentive oral dosage forms and a 3D-printing process for manufacturing controlled-release drug-delivery systems.",
+      "description": "Develops gastroretentive oral dosage forms and a 3D-printing process for manufacturing controlled-release drug-delivery systems"
+    },
+    {
+      "id": "p17eg4thvxjqgp58jevswn37g18g8zpv",
+      "slug": "molecular-partners",
+      "expectedDescription": "Develops protein therapeutics using its designed ankyrin repeat protein platform.",
+      "description": "Develops protein therapeutics using its designed ankyrin repeat protein platform"
+    },
+    {
+      "id": "p17d1n71dbtmk6ycddtw48bjx18g8135",
+      "slug": "neurimmune",
+      "expectedDescription": "Develops antibody therapeutics using reverse translational medicine and human immune-system research.",
+      "description": "Develops antibody therapeutics using reverse translational medicine and human immune-system research"
+    },
+    {
+      "id": "p17aa5sryj17nxt0qxj4sbbq6x8g8e7b",
+      "slug": "virometix",
+      "expectedDescription": "Develops synthetic vaccine technology and vaccine candidates.",
+      "description": "Develops synthetic vaccine technology and vaccine candidates"
+    },
+    {
+      "id": "p175fpqm13tk1brz9w5tpdpran8g9pyq",
+      "slug": "supertext",
+      "expectedDescription": "Develops adaptive AI translation technology and combines it with professional language services.",
+      "description": "Develops adaptive AI translation technology and combines it with professional language services"
+    },
+    {
+      "id": "p173q9w91jpa66y5qwth4hxntx8g9mk6",
+      "slug": "mobile-health",
+      "expectedDescription": "Develops medidux, software for recording symptoms, wellbeing, vital signs and medication during cancer and chronic-disease care.",
+      "description": "Develops medidux, software for recording symptoms, wellbeing, vital signs and medication during cancer and chronic-disease care"
+    },
+    {
+      "id": "p17ct2n1hkahf2j66hdz7krfy58g8s20",
+      "slug": "kugelmeiers",
+      "expectedDescription": "Develops technologies and laboratory products for cell aggregation, three-dimensional culture and cell-therapy workflows.",
+      "description": "Develops technologies and laboratory products for cell aggregation, three-dimensional culture and cell-therapy workflows"
+    },
+    {
+      "id": "p174st664ge250bxkwtyypv7gx8g9eb6",
+      "slug": "mabylon",
+      "expectedDescription": "Develops human-antibody therapeutics for allergies and other diseases.",
+      "description": "Develops human-antibody therapeutics for allergies and other diseases"
+    },
+    {
+      "id": "p17cx1r43204skw26ydgnr8wws8g980h",
+      "slug": "quantactions",
+      "expectedDescription": "Develops software that measures smartphone interaction behavior to derive cognitive-performance indicators.",
+      "description": "Develops software that measures smartphone interaction behavior to derive cognitive-performance indicators"
+    },
+    {
+      "id": "p178xwecf2e7nra6j90ecbc5a98g83z0",
+      "slug": "vigilitech",
+      "expectedDescription": "Develops MARTA monitoring systems, sensors and software for preclinical research.",
+      "description": "Develops MARTA monitoring systems, sensors and software for preclinical research"
+    },
+    {
+      "id": "p17e5g82245yjcgq8js3wqx6518g99t3",
+      "slug": "exolabs",
+      "expectedDescription": "Develops satellite-data products and analytical tools, including snow-monitoring information through COSMOS.",
+      "description": "Develops satellite-data products and analytical tools, including snow-monitoring information through COSMOS"
+    },
+    {
+      "id": "p176xdmkepfgr4mtd04z5d7dtd8g9bdb",
+      "slug": "oncobit",
+      "expectedDescription": "Develops molecular diagnostic and monitoring technologies for cancer care.",
+      "description": "Develops molecular diagnostic and monitoring technologies for cancer care"
+    },
+    {
+      "id": "p173ysy8q6nnb6d88111zg0t858g8xw2",
+      "slug": "oxyprem",
+      "expectedDescription": "Develops optical devices for measuring tissue oxygenation, including newborn brain monitoring.",
+      "description": "Develops optical devices for measuring tissue oxygenation, including newborn brain monitoring"
+    },
+    {
+      "id": "p17ayqrkzfcyryx2rkps007tv58g8sdw",
+      "slug": "leg-and-airy",
+      "expectedDescription": "Develops pressure-sensing orthopedic devices and software for measuring fit and supporting personalized orthotic care.",
+      "description": "Develops pressure-sensing orthopedic devices and software for measuring fit and supporting personalized orthotic care"
+    },
+    {
+      "id": "p174r93av31752hg5q6s0mc0ss8g8728",
+      "slug": "muvon-therapeutics",
+      "expectedDescription": "Develops cell therapies for skeletal-muscle regeneration, initially targeting stress urinary incontinence.",
+      "description": "Develops cell therapies for skeletal-muscle regeneration, initially targeting stress urinary incontinence"
+    },
+    {
+      "id": "p176px8jc8tvcttb68bge8nb618g958n",
+      "slug": "mgme-neurotech",
+      "expectedDescription": "Develops the EyeQ assessment platform using behavioral modelling and computational neurobiology to measure decision-making.",
+      "description": "Develops the EyeQ assessment platform using behavioral modelling and computational neurobiology to measure decision-making"
+    },
+    {
+      "id": "p17emebdmm7v0xdg6e0a42mka18g9bpt",
+      "slug": "readney",
+      "expectedDescription": "Develops a reading app and discovery platform for children's books.",
+      "description": "Develops a reading app and discovery platform for children's books"
+    },
+    {
+      "id": "p17349thpyjzq9x1mw113kw6c98g83fz",
+      "slug": "reconnect-labs",
+      "expectedDescription": "Develops biopharmaceutical therapies for brain and metabolic disorders.",
+      "description": "Develops biopharmaceutical therapies for brain and metabolic disorders"
+    },
+    {
+      "id": "p17c63qqj7a11c127js3zq9tvh8g90pc",
+      "slug": "navignostics",
+      "expectedDescription": "Develops tumor-analysis and diagnostic technology to characterize cancers and support treatment selection.",
+      "description": "Develops tumor-analysis and diagnostic technology to characterize cancers and support treatment selection"
+    },
+    {
+      "id": "p17f2ek6zfthyxn5rq0jbm84618g9fhs",
+      "slug": "prometheus-life-technologies",
+      "expectedDescription": "Develops organoid products and life-science technologies using microgravity research.",
+      "description": "Develops organoid products and life-science technologies using microgravity research"
+    },
+    {
+      "id": "p17060x8z42t892xkk0vj256pn8g97dq",
+      "slug": "deepmed",
+      "expectedDescription": "Develops clinical AI software that converts consultations into medical documentation and supports secure clinical workflows.",
+      "description": "Develops clinical AI software that converts consultations into medical documentation and supports secure clinical workflows"
+    },
+    {
+      "id": "p173vn3w22sdmfhm3edcptv87h8g8z9s",
+      "slug": "scan2screen",
+      "expectedDescription": "Develops multispectral scanning technology and workflows for digitizing historical color films and photographs.",
+      "description": "Develops multispectral scanning technology and workflows for digitizing historical color films and photographs"
+    },
+    {
+      "id": "p17fez8kpm4d8fd65dmf0pmc7h8g9wtw",
+      "slug": "moving-spine",
+      "expectedDescription": "Develops medical technologies arising from clinical spine research.",
+      "description": "Develops medical technologies arising from clinical spine research"
+    },
+    {
+      "id": "p17fqazbqvts6zbb4fbp426cx58g8ask",
+      "slug": "x23d",
+      "expectedDescription": "Develops AI software that converts intraoperative imaging into real-time guidance for surgical navigation and robotics.",
+      "description": "Develops AI software that converts intraoperative imaging into real-time guidance for surgical navigation and robotics"
+    },
+    {
+      "id": "p17283pkage7bkagetnv0nxj8x8g8yra",
+      "slug": "transheps",
+      "expectedDescription": "Develops and operates laboratory technology for investigating drug-induced liver injury in clinical development.",
+      "description": "Develops and operates laboratory technology for investigating drug-induced liver injury in clinical development"
+    },
+    {
+      "id": "p17fsafp4pq8s4paa652rjw1ed8g9vtm",
+      "slug": "augmedi",
+      "expectedDescription": "Develops a digital learning platform combining interactive anatomy, medical content and examination preparation.",
+      "description": "Develops a digital learning platform combining interactive anatomy, medical content and examination preparation"
+    },
+    {
+      "id": "p17fx5nkx1q9rh33mhh2x4kbkh8g805b",
+      "slug": "ontrack-biomedical",
+      "expectedDescription": "Develops in-vitro diagnostic technologies.",
+      "description": "Develops in-vitro diagnostic technologies"
+    },
+    {
+      "id": "p17cgaxvaqf9szxcmvdm1chvt18g9yb5",
+      "slug": "eviive",
+      "expectedDescription": "Develops biomarker platforms that analyze extracellular vesicles to support precision immunotherapy and treatment selection.",
+      "description": "Develops biomarker platforms that analyze extracellular vesicles to support precision immunotherapy and treatment selection"
+    },
+    {
+      "id": "p17e40vh41mkerb4tz9jkwshxx8g8559",
+      "slug": "neurodaignostics",
+      "expectedDescription": "Develops artificial-intelligence software to simplify cognitive assessments.",
+      "description": "Develops artificial-intelligence software to simplify cognitive assessments"
+    },
+    {
+      "id": "p178cfhtsz5ksh1sv9gavtkcjx8g9y1b",
+      "slug": "artonis",
+      "expectedDescription": "Develops biomedical-material technologies for surgical hemostasis, spinal-disc repair and cartilage regeneration.",
+      "description": "Develops biomedical-material technologies for surgical hemostasis, spinal-disc repair and cartilage regeneration"
+    },
+    {
+      "id": "p170sb84famgzy7jm3yq382hbd8g91ja",
+      "slug": "kuros-biosciences",
+      "expectedDescription": "Develops bone-graft materials including MagnetOs for orthopedic and spinal applications.",
+      "description": "Develops bone-graft materials including MagnetOs for orthopedic and spinal applications"
+    },
+    {
+      "id": "p1715ksnk646a5501s55609yys8g90w6",
+      "slug": "virtamed",
+      "expectedDescription": "Develops medical simulators and associated software for procedural training and clinical education.",
+      "description": "Develops medical simulators and associated software for procedural training and clinical education"
+    },
+    {
+      "id": "p172q6gvnwjk6rk2j1q0x44pc18g944r",
+      "slug": "luciole-medical",
+      "expectedDescription": "Develops medical monitoring platforms, probes and sensors for assessing cerebral physiology.",
+      "description": "Develops medical monitoring platforms, probes and sensors for assessing cerebral physiology"
+    },
+    {
+      "id": "p17bbv3aawnp5gtj8nvfwp7zzn8g8s2a",
+      "slug": "skope",
+      "expectedDescription": "Develops field cameras, neuroscience imaging systems and software for magnetic-resonance research.",
+      "description": "Develops field cameras, neuroscience imaging systems and software for magnetic-resonance research"
+    },
+    {
+      "id": "p17740spc57evfgnprer80q3r58g8tpe",
+      "slug": "zurimed",
+      "expectedDescription": "Develops surgical devices and technologies for soft-tissue repair, including the FiberLocker system.",
+      "description": "Develops surgical devices and technologies for soft-tissue repair, including the FiberLocker system"
+    },
+    {
+      "id": "p1755r8n6ht7nnaq99xrkamaw98g8kaz",
+      "slug": "pharmabiome",
+      "expectedDescription": "Develops defined microbial consortia and microbiome-based therapeutic technologies.",
+      "description": "Develops defined microbial consortia and microbiome-based therapeutic technologies"
+    },
+    {
+      "id": "p17cftn3s8x4fy105btthrb0vd8g9vc4",
+      "slug": "lino-biotech",
+      "expectedDescription": "Develops instruments, sensor chips and assays for measuring biomolecular interactions using focal molography.",
+      "description": "Develops instruments, sensor chips and assays for measuring biomolecular interactions using focal molography"
+    },
+    {
+      "id": "p170xr60pwjywktqtw2m69hd298g9x9f",
+      "slug": "urbandatalab",
+      "expectedDescription": "Develops geospatial data products, predictive models and APIs for location-related decisions.",
+      "description": "Develops geospatial data products, predictive models and APIs for location-related decisions"
+    },
+    {
+      "id": "p173pq8v4wnva69myerznqaaq58g9p2m",
+      "slug": "sleepiz",
+      "expectedDescription": "Develops medical devices and software for contactless sleep monitoring.",
+      "description": "Develops medical devices and software for contactless sleep monitoring"
+    },
+    {
+      "id": "p174dk17w545sk6tw2m70c977x8g8hmk",
+      "slug": "tosoo",
+      "expectedDescription": "Develops an investigational platform combining home EEG monitoring with closed-loop auditory stimulation for sleep research and clinical studies.",
+      "description": "Develops an investigational platform combining home EEG monitoring with closed-loop auditory stimulation for sleep research and clinical studies"
+    },
+    {
+      "id": "p17dapbsdsgjj7zrvfj7eyhtcn8g8p43",
+      "slug": "simplexdna",
+      "expectedDescription": "Develops environmental-DNA sampling and analysis workflows for biodiversity monitoring, including aquatic monitoring products.",
+      "description": "Develops environmental-DNA sampling and analysis workflows for biodiversity monitoring, including aquatic monitoring products"
+    },
+    {
+      "id": "p1732adge73w4yd1371pn6vsan8g884r",
+      "slug": "univerbal",
+      "expectedDescription": "Develops a language-learning application that uses AI conversation practice and personalized tutoring.",
+      "description": "Develops a language-learning application that uses AI conversation practice and personalized tutoring"
+    },
+    {
+      "id": "p171dbgcvzaymkdxwbc3amg2th8g9rp6",
+      "slug": "nexmr",
+      "expectedDescription": "Develops light-coupled NMR technologies for molecular screening and affinity measurements.",
+      "description": "Develops light-coupled NMR technologies for molecular screening and affinity measurements"
+    },
+    {
+      "id": "p176amqea1pq48k7sczev66v3h8g8ddb",
+      "slug": "suri-biotech",
+      "expectedDescription": "Develops probiotic strains and formulations for infant health and athletic recovery, supported by microbiome research.",
+      "description": "Develops probiotic strains and formulations for infant health and athletic recovery, supported by microbiome research"
+    },
+    {
+      "id": "p17f01g5efb5bazbebg6gfar9d8g876x",
+      "slug": "citus",
+      "expectedDescription": "Develops measurement technology for quantitative assessment of skin health and personalized skin care.",
+      "description": "Develops measurement technology for quantitative assessment of skin health and personalized skin care"
+    },
+    {
+      "id": "p174cmzgget36xg49c6az0qp7d8g8ybj",
+      "slug": "inkvivo-technologies",
+      "expectedDescription": "Develops drug-delivery technologies and materials for controlled therapeutic release.",
+      "description": "Develops drug-delivery technologies and materials for controlled therapeutic release"
+    },
+    {
+      "id": "p17cjvge1sjqhewsjktcbw8m7n8g8sq9",
+      "slug": "vaulted",
+      "expectedDescription": "Develops low-carbon structural floor systems using computational design and efficient geometry.",
+      "description": "Develops low-carbon structural floor systems using computational design and efficient geometry"
+    },
+    {
+      "id": "p174mp2xmqg71de8pnrjxdedys8g942f",
+      "slug": "upleap",
+      "expectedDescription": "Develops software that converts hospitals' clinical protocols into short training scenarios and measures staff learning.",
+      "description": "Develops software that converts hospitals' clinical protocols into short training scenarios and measures staff learning"
+    },
+    {
+      "id": "p17985rx67qcn5apqyvjzt4a6n8g8ezg",
+      "slug": "qcella",
+      "expectedDescription": "Develops copper-functionalized cellulose materials and flexible heating mats for efficient surface heating.",
+      "description": "Develops copper-functionalized cellulose materials and flexible heating mats for efficient surface heating"
+    },
+    {
+      "id": "p17cemjft0724ftpkqn97ba5sn8g8aca",
+      "slug": "etavalve",
+      "expectedDescription": "Develops engine technology that converts industrial waste heat into electrical energy.",
+      "description": "Develops engine technology that converts industrial waste heat into electrical energy"
+    },
+    {
+      "id": "p17004dfs3cgvm4g5qyjf1g2es8g8w0x",
+      "slug": "solabs-nanotechnology",
+      "expectedDescription": "Develops nanotechnology-based defogging surfaces for eyewear and other optical applications.",
+      "description": "Develops nanotechnology-based defogging surfaces for eyewear and other optical applications"
+    },
+    {
+      "id": "p17faw4jqbhxb53s32adwmvshh8g9avx",
+      "slug": "nihito",
+      "expectedDescription": "Develops planning and orchestration software for electric-truck depots and charging operations.",
+      "description": "Develops planning and orchestration software for electric-truck depots and charging operations"
+    },
+    {
+      "id": "p174dypvmqbtrvfak2ghn53p358g8rtk",
+      "slug": "tandem-therapeutics",
+      "expectedDescription": "Develops extracellular-matrix-targeting peptide technologies for treating fibrotic diseases.",
+      "description": "Develops extracellular-matrix-targeting peptide technologies for treating fibrotic diseases"
+    },
+    {
+      "id": "p177gf4w9454135e4mf1zmecen8g9s4v",
+      "slug": "house-of-charts",
+      "expectedDescription": "Develops artificial-intelligence software that reduces medical documentation and administrative work for clinicians.",
+      "description": "Develops artificial-intelligence software that reduces medical documentation and administrative work for clinicians"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+    "reviewedOn": "2026-10-15",
+    "status": "Five published once and independently verified; Biosimo artwork remains held",
+    "publishedManifest": "/tmp/zurich-registry-review/primary-9297-finite-five-hosted-ready.json",
+    "verifiedProductionCount": 1250,
+    "reviewedProductionCount": 1245,
+    "sourceReview": "/tmp/zurich-registry-review/primary-9297-finite-six-review.json",
+    "approved": [
+        "carvolution",
+        "rulematch",
+        "algrano",
+        "sony-advanced-visual-sensing",
+        "matchspace-music"
+    ],
+    "held": [
+        {
+            "slug": "biosimo",
+            "reason": "Full official wordmark is too small at marker scale; seek official compact artwork without inventing a crop"
+        }
+    ],
+    "artwork": "Main inspected the 192px and 32px sheet. Approved five intact official marks; Sony uses the official parent mark on its published black backing. No Japanese parent social account substituted for the Swiss subsidiary.",
+    "primaryChecks": [
+        {
+            "slug": "carvolution",
+            "sources": [
+                "https://www.carvolution.com/en/contact",
+                "https://www.devedis.ch/en/projects/carvolution-webplatform"
+            ],
+            "finding": "Published Zurich office at Stockerstrasse 33. Development partner attributes maintained original mobile, ordering and fleet platform development to Carvolution; inclusion is not based merely on vehicle rental."
+        },
+        {
+            "slug": "rulematch",
+            "sources": [
+                "https://www.rulematch.com/crypto/about/",
+                "https://www.ergon.ch/en/news/2023/rulematch-trading-platform-benefits-from-cloud-and-on-premise-solution"
+            ],
+            "finding": "Own trading platform developed with Ergon qualifies; Nasdaq matching-engine technology is not attributed to RULEMATCH. Official Zurich address and Switzerland-based team documented."
+        },
+        {
+            "slug": "algrano",
+            "sources": ["https://algrano.com/our-team", "https://algrano.com/about-us"],
+            "finding": "Own product team and software engineers explicitly documented; not merely coffee distribution. Agent checked current federal registered address; label remains Registered address rather than invented working office."
+        },
+        {
+            "slug": "sony-advanced-visual-sensing",
+            "sources": ["https://www.sony-semicon.com/en/company/about/index.html"],
+            "finding": "Parent explicitly identifies Schlieren subsidiary and event-based sensor development at Wiesenstrasse 5. Former Insightness and separate Sony AI identities require explicit fresh duplicate review."
+        },
+        {
+            "slug": "matchspace-music",
+            "sources": [
+                "https://matchspace-music.ch/ch-en/about/about-us",
+                "https://www.blog.matchspace-music.ch/post/press-release-successful-seed-funding-round-a-new-team-member-and-moving-into-technopark"
+            ],
+            "finding": "Own booking and teaching-management platform, named product lead and continued development. Current about page describes remote-first team and Technopark mailing address; do not mislabel it as an onsite development office."
+        }
+    ],
+    "completedChecks": [
+        "Fresh 1245-record identity and former-name search found only the separately represented Sony AI Zurich; no duplicate of Sony's Schlieren sensor subsidiary or former Insightness",
+        "Three exact shared building IDs reused without moving their coordinates",
+        "Five hosted images decoded at 192px, matched approved hashes and allowed CORS",
+        "Supported preview returned five without writes; one apply returned five",
+        "Independent complete readback verified all five profiles, tags, locations and social links; total 1250"
+    ],
+    "productionWrites": 5
+}

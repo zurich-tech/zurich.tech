@@ -1,0 +1,31 @@
+{
+    "recordedOn": "2026-10-15",
+    "precedingDelta": "final-population-delta-1250.json",
+    "verifiedProductionCount": 1273,
+    "method": "Read main's durable independent verification records; no new production audit",
+    "deltas": [
+        {
+            "from": 1250,
+            "to": 1252,
+            "count": 2,
+            "slugs": ["carero", "neho"],
+            "status": "published-once-independently-verified-frozen",
+            "manifest": "/tmp/zurich-registry-review/primary-9297-following-two-hosted-ready.json",
+            "evidence": "work/organisations/portfolio-two-main-review.json",
+            "verification": "Main fresh production organisations, locations, addresses and links compared to exact reviewed fields; existing public address IDs reused"
+        },
+        {
+            "from": 1252,
+            "to": 1273,
+            "count": 21,
+            "status": "published-once-independently-verified-frozen",
+            "manifest": "/tmp/zurich-registry-review/primary-30c4-swissmem21-ready.json",
+            "evidence": "work/organisations/industrial-twenty-seven-artwork-review.json#/publication",
+            "verification": "Main fresh organisations, locations, addresses and links compared to profiles, classifications, office labels, exact pins and socials; all21 asset hash/decode/CORS checks passed"
+        }
+    ],
+    "coverage": "1235 population baseline +10 university +5 portfolio +2 portfolio +21 industrial =1273; imported deltas have main primary review and independent readback, not a newly rerun full semantic/structural audit",
+    "priorHoldsUnchanged": true,
+    "reapply": false,
+    "productionWritesByThisReview": 0
+}

@@ -1,0 +1,998 @@
+{
+    "updatedAt": "2026-10-15T00:49:47.020Z",
+    "baseline": {
+        "mainReportedOrganisations": 1011,
+        "localSharedSnapshotObservedOrganisations": 1015,
+        "previousIndependentAuditOrganisations": 1007,
+        "populationLimit": "This is a fixed 45-record follow-up, not a fresh whole-population audit. New arrivals after the previous independent snapshot are not silently counted as independently reviewed."
+    },
+    "criteria": "inclusion-criteria.json",
+    "scope": {
+        "holds": 34,
+        "exclusionsChallenged": 11,
+        "reviewed": 45,
+        "unreviewed": 0
+    },
+    "method": "Re-read the prior primary assessments for every record; targeted primary-site search, product/case/developer pages, live public fetches and vendor/entity cross-checks for closure. Unchanged exclusion assessments reuse the detailed catalogue reads from the preceding pass. Search absence is never evidence of ineligibility. Not every site was newly fetched in this pass.",
+    "interpretation": "Concrete original hardware/software/process development qualifies without patents, exclusive IP, invention of upstream components or a separate retail product. A commissioned project is not automatically excluded when the source specifically establishes original substantive technical development and continuing product work; ordinary vendor configuration, resale and generic agency/consulting remain excluded. Customer brands and technology are not reassigned to contractors.",
+    "holdOutcomes": {
+        "keep": 11,
+        "exclude": 1,
+        "uncertain": 22
+    },
+    "exclusionChallengeOutcomes": {
+        "keep": 2,
+        "exclude": 9,
+        "uncertain": 0
+    },
+    "withdrawnExclusions": ["cyberlink", "trias-pharma"],
+    "warning": "Do not execute the earlier Cyberlink or Trias recommendations. This report supersedes their eligibility recommendations only; no manifest or production operation was changed. Main must review and reconcile staged operations.",
+    "unresolved": [
+        {
+            "slug": "accenture-switzerland",
+            "question": "Which named original technology is developed by the Swiss operation, rather than global Accenture Labs or local client integration? Current primary research/careers and the Zurich hub announcement do not settle local attribution."
+        },
+        {
+            "slug": "automate",
+            "question": "Does AutoMate develop the branded insurance engine or license an external engine? The primary platform homepage confirms a real product, but developer identity remains unestablished."
+        },
+        {
+            "slug": "blackpoints",
+            "question": "Does Blackpoints author a substantive maintained application/component beyond the specifically documented CAMAC integrations and partner products? Existing catalogue is readable; no technology author is yet established for the exception."
+        },
+        {
+            "slug": "ecoparts",
+            "question": "Which changed manufacturing method or design is developed by Ecoparts beyond standard laser-sinter manufacture of MoldMasters/customer designs? Production is established, but the inspected process descriptions do not isolate an original process contribution."
+        },
+        {
+            "slug": "evolyze",
+            "question": "Is there a maintained original Evolyze platform beyond the named customer MVP and data-engineering delivery? Existing pages document customer engineering, but not a specific continuing company technology."
+        },
+        {
+            "slug": "forte-digital",
+            "question": "Is the Swiss operation still present, and which maintained technology is attributable to it? Current official office information omits Switzerland; omission alone is not closure evidence."
+        },
+        {
+            "slug": "icentic",
+            "question": "Does icentic still develop the beppo technology, or was that development spun into beppo? Beppo's own about page now confirms an actual icentic spin-off, stronger than founder overlap, but current development is explicitly at beppo."
+        },
+        {
+            "slug": "koch-it",
+            "question": "Is the Winterthur location still occupied after absorption into Adnovum? The technology business has a supported successor; reconcile identity/location, not eligibility by deleting a historical profile."
+        },
+        {
+            "slug": "linked-engineering",
+            "question": "Which concrete original assembly or control design is attributable to the firm beyond its general commissioned-development catalogue? No patent is required; a specific design example would resolve the remaining attribution gap."
+        },
+        {
+            "slug": "mathys-partner",
+            "question": "Who develops the actual glare-calculation engine or original model? The official methodology establishes specialist analysis; the federal tool overview corroborates the service but does not identify its software author."
+        },
+        {
+            "slug": "mecas",
+            "question": "What concrete original physical-AI research system or output belongs to this entity? The fresh primary page still gives broad research/client-sector claims without an attributable system. Do not classify a quiet lab as inactive."
+        },
+        {
+            "slug": "microbe-investigations",
+            "question": "What original assay, research method or test platform does MIS develop beyond the published standard-method testing catalogue? The fresh history and services remain substantive contract-testing evidence but do not resolve the research-output exception."
+        },
+        {
+            "slug": "onmit",
+            "question": "Does onmit maintain an original software platform beyond the customer's Teacher Switch app and vendor services? The primary licence terms explicitly distinguish third-party products, but do not resolve the specific original-development exception."
+        },
+        {
+            "slug": "quantum-digital",
+            "question": "What substantive original maintained component underlies SelfService/MediaLink? Current primary home page explicitly credits SelfService app development, but does not distinguish continuing platform development from customer implementation."
+        },
+        {
+            "slug": "reasoning-labs",
+            "question": "What is the Swiss entity relationship to Reasoning Machines Inc and its concrete research programme? Public primary material remains too sparse; no inactivity or service-only exclusion inferred."
+        },
+        {
+            "slug": "scheuss-partner",
+            "question": "Who develops publicloud Marketplace? The current subsidiary/product page confirms the real portal, not whether it is original software or licensed channel tooling."
+        },
+        {
+            "slug": "step-x",
+            "question": "Can Step-X's ZOE developer attribution be confirmed by a primary publisher/store record? A third-party app mirror names Step-X as publisher, but an accessible first-party publisher record was not recovered. ENOVIA/Scribe remain vendor products."
+        },
+        {
+            "slug": "swiss-robotics-advanced-technologies",
+            "question": "Which actual aerial robot, controller or original research prototype is developed by this entity? The freshly read solutions page still supplies generic autonomous-inspection claims, not a specific attributable system."
+        },
+        {
+            "slug": "tailorfast",
+            "question": "Does the demonstrated order-processing offering have an original maintained common engine? The fresh homepage establishes customised workflows and integrations, but not that technical attribution."
+        },
+        {
+            "slug": "umb",
+            "question": "Does UMB's current Near-Zero-Downtime approach contain original maintained software/process technology beyond SAP-instance failover configuration? The current page positively attributes the concept, but its detail describes a setup rather than identified original code. Do not use the divested mesoneer products."
+        },
+        {
+            "slug": "voviva",
+            "question": "Does the current Dextra system include a substantive original maintained technology beyond customer-specific LLM/data integration? The fresh detailed case proves a working development programme, but not that distinction. Startup age and lack of commercial release are not exclusion grounds."
+        },
+        {
+            "slug": "won-data",
+            "question": "Who develops the customer reporting portal or monitoring/control system? Public service descriptions and targeted searches still do not identify its author; datacentre operation alone does not settle this exception."
+        }
+    ],
+    "action": {
+        "apply": false,
+        "productionWrites": 0,
+        "disabledRemovalManifestChanged": false,
+        "disabledRemovalManifestSha256": "4bc9144e2876b18cb91bbf75f3a2cf9668dcbf60135c6173385d962b974d05f2",
+        "newOperationsCreated": 0,
+        "requiresMainReview": true
+    },
+    "rows": [
+        {
+            "slug": "accenture-switzerland",
+            "name": "Accenture Switzerland",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Which named original technology is developed by the Swiss operation, rather than global Accenture Labs or local client integration? Current primary research/careers and the Zurich hub announcement do not settle local attribution.",
+            "evidence": [
+                {
+                    "url": "https://www.accenture.com/en"
+                },
+                {
+                    "url": "https://newsroom.accenture.com/news/2018/accenture-opens-innovation-hub-in-zurich-to-help-clients-with-their-digital-transformation-agendas"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "automate",
+            "name": "AutoMate Insurance AG",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Does AutoMate develop the branded insurance engine or license an external engine? The primary platform homepage confirms a real product, but developer identity remains unestablished.",
+            "evidence": [
+                {
+                    "url": "https://automate.ch/website/executive_solutions"
+                },
+                {
+                    "url": "https://automate.ch/website/about"
+                },
+                {
+                    "url": "https://platform.automate.ch/website/home"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "beriflapp",
+            "name": "Beriflapp",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The current Weder case/testimonial describes original route-planning software expanded from an internal application into a maintained multi-client SaaS ecosystem. That is attributable substantial platform development, not just configuration. Weder remains the customer; exclusive rights or ownership of Weder are not claimed.",
+            "evidence": [
+                {
+                    "url": "https://beriflapp.com/about/"
+                },
+                {
+                    "url": "https://beriflapp.com/product-innovation"
+                },
+                {
+                    "url": "https://www.beriflapp.com/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "blackpoints",
+            "name": "Blackpoints",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Does Blackpoints author a substantive maintained application/component beyond the specifically documented CAMAC integrations and partner products? Existing catalogue is readable; no technology author is yet established for the exception.",
+            "evidence": [
+                {
+                    "url": "https://blackpoints.ch/"
+                },
+                {
+                    "url": "https://blackpoints.ch/development"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "cross-works",
+            "name": "cross-works",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The formerly ambiguous KIM CRM is independently identified by its primary developer DocHouse, including its current 2026 release and developer documentation. CrossWorks' own product copy says development is in Ravensburg and describes the Swiss offering. Recommend exclusion as CRM supply/implementation unless a distinct original CrossWorks product is supplied; no map action authorised.",
+            "evidence": [
+                {
+                    "url": "https://cross-works.net/"
+                },
+                {
+                    "url": "https://cross-works.net/kim-crm/"
+                },
+                {
+                    "url": "https://www.dochouse.de/de/blog/posts/kim-2026-01-ui-ki.php"
+                },
+                {
+                    "url": "https://cross-works.net/kim-crm-static/"
+                }
+            ],
+            "scope": "targeted-hold-closure",
+            "historicalDecision": "exclude",
+            "status": "superseded-not-a-removal-recommendation",
+            "apply": false,
+            "currentDecision": "keep",
+            "supersededBy": "company-eligibility-exclusions.json",
+            "currentReason": "SmartCampus explicitly undergoes continuing CrossWorks development, confirmed by its customer account of the original solution being continued and professionalised. All named product branches were checked: HS/SA is a multi-canton roadtraffic application; SwissContentCloud is an IBM-based DMS offering; KIM remains third-party CRM and does not determine company eligibility."
+        },
+        {
+            "slug": "ecoparts",
+            "name": "ECOPARTS",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Which changed manufacturing method or design is developed by Ecoparts beyond standard laser-sinter manufacture of MoldMasters/customer designs? Production is established, but the inspected process descriptions do not isolate an original process contribution.",
+            "evidence": [
+                {
+                    "url": "https://ecoparts.ch/dienstleistungen/3d-metall-druck/werkzeugbau/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "etavis",
+            "name": "ETAVIS",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The official Safety Lock account proves in-house engineered hardware and repeat manufacture for customer sale. An extra patent or technical-complexity threshold is unwarranted. The development is explicitly Basel-based: keep the existing group listing, without relabelling the Zurich location as the design laboratory.",
+            "evidence": [
+                {
+                    "url": "https://www.etavis.ch/news/innovative-eigenentwicklung-fuer-mehr-sicherheit/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "evolyze",
+            "name": "evolyze GmbH",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Is there a maintained original Evolyze platform beyond the named customer MVP and data-engineering delivery? Existing pages document customer engineering, but not a specific continuing company technology.",
+            "evidence": [
+                {
+                    "url": "https://evolyze.ch/"
+                },
+                {
+                    "url": "https://evolyze.ch/about"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "forte-digital",
+            "name": "Forte Digital",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Is the Swiss operation still present, and which maintained technology is attributable to it? Current official office information omits Switzerland; omission alone is not closure evidence.",
+            "evidence": [
+                {
+                    "url": "https://www.fortedigital.com/de"
+                },
+                {
+                    "url": "https://www.fortedigital.com/de/ueber-uns"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "icentic",
+            "name": "icentic",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Does icentic still develop the beppo technology, or was that development spun into beppo? Beppo's own about page now confirms an actual icentic spin-off, stronger than founder overlap, but current development is explicitly at beppo.",
+            "evidence": [
+                {
+                    "url": "https://www.icentic.com/about/"
+                },
+                {
+                    "url": "https://www.icentic.com/software-development-for-sme/"
+                },
+                {
+                    "url": "https://www.icentic.com/"
+                },
+                {
+                    "url": "https://mybeppo.ch/en/about/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "joylab",
+            "name": "Joylab",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "Joylab explicitly designed the Voliro T mission carrier board, including its high-speed interfaces, connectivity and adapted physical layout. This is original embedded hardware engineering rather than vendor installation. Voliro's overall drone is not attributed to Joylab, and contractual exclusivity is not required to recognise its board development.",
+            "evidence": [
+                {
+                    "url": "https://www.joylab.ch/"
+                },
+                {
+                    "url": "https://www.joylab.ch/pan-tilt-unit"
+                },
+                {
+                    "url": "https://www.joylab.ch/voliro-t"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "koch-it",
+            "name": "KOCH IT",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Is the Winterthur location still occupied after absorption into Adnovum? The technology business has a supported successor; reconcile identity/location, not eligibility by deleting a historical profile.",
+            "evidence": [
+                {
+                    "url": "https://www.adnovum.com/blog/adnovum-strengthens-cybersecurity-and-realigns-solutions"
+                },
+                {
+                    "url": "https://www.adnovum.com/hubfs/FILES/04_Insights/Media%20Releases/2026/20260108_Media_Release_Adnovum_iSPIN_Koch_IT_en.pdf"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "linked-engineering",
+            "name": "Linked Engineering",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Which concrete original assembly or control design is attributable to the firm beyond its general commissioned-development catalogue? No patent is required; a specific design example would resolve the remaining attribution gap.",
+            "evidence": [
+                {
+                    "url": "https://linked-engineering.ch/"
+                },
+                {
+                    "url": "https://linked-engineering.ch/angebot/"
+                },
+                {
+                    "url": "https://linked-engineering.ch/ueber-uns/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "mathys-partner",
+            "name": "Mathys Partner",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Who develops the actual glare-calculation engine or original model? The official methodology establishes specialist analysis; the federal tool overview corroborates the service but does not identify its software author.",
+            "evidence": [
+                {
+                    "url": "https://simulation.solar/"
+                },
+                {
+                    "url": "https://simulation.solar/uebersicht-blendung/"
+                },
+                {
+                    "url": "https://pubdb.bfe.admin.ch/de/publication/download/11996"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "mecas",
+            "name": "mecas",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "What concrete original physical-AI research system or output belongs to this entity? The fresh primary page still gives broad research/client-sector claims without an attributable system. Do not classify a quiet lab as inactive.",
+            "evidence": [
+                {
+                    "url": "https://www.mecas.ai/"
+                },
+                {
+                    "url": "https://www.mecas.ai/terms-of-service"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "microbe-investigations",
+            "name": "Microbe Investigations Switzerland",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "What original assay, research method or test platform does MIS develop beyond the published standard-method testing catalogue? The fresh history and services remain substantive contract-testing evidence but do not resolve the research-output exception.",
+            "evidence": [
+                {
+                    "url": "https://microbe-investigations.com/about/"
+                },
+                {
+                    "url": "https://microbe-investigations.com/cosmetic-testing/detection-test/usp-62-non-sterile-product-testing/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "novita-engineering",
+            "name": "Novita Engineering",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The modular sewer-robot case attributes mechanical development, construction, prototype production, testing and serial-design revision to Novita. These are concrete original hardware and production outputs, not only engineering staffing. The customer relationship does not negate demonstrated design/production of technology.",
+            "evidence": [
+                {
+                    "url": "https://www.novita.ch/unser-angebot"
+                },
+                {
+                    "url": "https://www.novita.ch/unser-angebot/idea-to-industry/production"
+                },
+                {
+                    "url": "https://www.novita.ch/referenzen/modularer-kanalroboter-fuer-abwasserkanaele"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "novu",
+            "name": "novu",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The app catalogue identifies original Roots point-of-sale software with offline operation, connected scales and self-checkout, plus the complete Working Bicycle software infrastructure and medical-device communication. This is substantive maintained software development beyond generic websites. Customer brands remain customer brands; no exclusive ownership of their businesses is inferred.",
+            "evidence": [
+                {
+                    "url": "https://novu.ch/ueber-novu"
+                },
+                {
+                    "url": "https://novu.ch/angebote/apps"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "onmit",
+            "name": "onmit",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Does onmit maintain an original software platform beyond the customer's Teacher Switch app and vendor services? The primary licence terms explicitly distinguish third-party products, but do not resolve the specific original-development exception.",
+            "evidence": [
+                {
+                    "url": "https://onmit.ch/"
+                },
+                {
+                    "url": "https://onmit.ch/dienstleistungen/softwareentwicklung/"
+                },
+                {
+                    "url": "https://onmit.ch/wp-content/uploads/2025/01/2025_01-Allgemeine-Geschaeftsbedingungen.pdf"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "plat4mation",
+            "name": "Plat4mation",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "Current official material attributes the Move4U application suite and workflow engine to Plat4mation and offers it as its relocation suite. Two years of development and continued current presentation establish original application technology on ServiceNow. Do not credit the separately divested 4Industry/4Facility products or unrelated move4u.com business.",
+            "evidence": [
+                {
+                    "url": "https://plat4mation.com/app/partner-applications/"
+                },
+                {
+                    "url": "https://plat4mation.com/workflow/creator-workflows/application-development/"
+                },
+                {
+                    "url": "https://plat4mation.com/news/sister-company-4industry-wins-the-2023-worldwide-built-on-servicenow-solution-partner-of-the-year-award/"
+                },
+                {
+                    "url": "https://www.servicenow.com/it/company/media/press-room/acquires-advania-quality-360.html"
+                },
+                {
+                    "url": "https://plat4mation.com/about-us/case-studies/move4u-our-end-to-end-relocation-suite/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "quantum-digital",
+            "name": "Quantum Digital",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "What substantive original maintained component underlies SelfService/MediaLink? Current primary home page explicitly credits SelfService app development, but does not distinguish continuing platform development from customer implementation.",
+            "evidence": [
+                {
+                    "url": "https://www.q-digital.ch/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/data-driven-leadership/product-acceleration/"
+                },
+                {
+                    "url": "https://www.q-digital.ch/unternehmen/partner-produkte/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "qubrix",
+            "name": "Qubrix",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The current company site explicitly describes development of manufacturing solvers, reduced-order surrogate models, inverse-design algorithms and CPU/GPU software, with licensing and continuing engineering partnerships. This is a sufficiently specific original technical-development programme for a young company; requiring a branded shipping product, patent or published contract would be excessive. Commercial maturity is not independently verified.",
+            "evidence": [
+                {
+                    "url": "https://www.qubrix.ch/"
+                },
+                {
+                    "url": "https://qubrix.ch/about-us"
+                },
+                {
+                    "url": "https://qubrix.ch/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "reasoning-labs",
+            "name": "Reasoning Labs",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "What is the Swiss entity relationship to Reasoning Machines Inc and its concrete research programme? Public primary material remains too sparse; no inactivity or service-only exclusion inferred.",
+            "evidence": [
+                {
+                    "url": "https://reasoninglabs.com/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "scanvision",
+            "name": "SCANVISION",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The official technical account attributes development of sensor-based interfaces and interactive point-cloud applications to Scanvision, grounded in its ETH modelling research. The currently exhibited interactive Zurich Town Hall system is a specific output. Recognise original visualisation/interface development without demanding a separately sold renderer or exclusive rights to every commissioned scene.",
+            "evidence": [
+                {
+                    "url": "https://scanvision.ch/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "scheuss-partner",
+            "name": "Scheuss & Partner",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Who develops publicloud Marketplace? The current subsidiary/product page confirms the real portal, not whether it is original software or licensed channel tooling.",
+            "evidence": [
+                {
+                    "url": "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud-marketplace/"
+                },
+                {
+                    "url": "https://marketplace.publicloud.ch/"
+                },
+                {
+                    "url": "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud/"
+                },
+                {
+                    "url": "https://www.scheuss-partner.ch/kontakt/publicloud/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "sotronik",
+            "name": "Sotronik",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The Kueng/IQONICS controller evidence establishes original embedded firmware and web-control engineering; the technology partner independently confirms the control-system development. This is concrete hardware-control software, not merely SICOS resale. SICOS remains Sulzer technology and Nabto remains an upstream component; neither is attributed as Sotronik's invention.",
+            "evidence": [
+                {
+                    "url": "https://audit.econgood.org/frm_file/aWQ6MTEwOTJ8ZmlsZW5hbWU6MjAxOF9nd29lX2JpbGFuel9wZWVyX2tfNS4wX3NvdHJvbmlrLnBkZg%3D%3D"
+                },
+                {
+                    "url": "https://www.sotronik.ch/files/Inhalte/Projektbeispiele/PrjBsp_KuengSauna.pdf"
+                },
+                {
+                    "url": "https://www.nabto.com/partners/sotronik/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "step-x",
+            "name": "STEP-X",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Can Step-X's ZOE developer attribution be confirmed by a primary publisher/store record? A third-party app mirror names Step-X as publisher, but an accessible first-party publisher record was not recovered. ENOVIA/Scribe remain vendor products.",
+            "evidence": [
+                {
+                    "url": "https://www.stepxsoftware.com/solutions"
+                },
+                {
+                    "url": "https://www.stepxsoftware.com/about-us"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "swiss-engineering-partners",
+            "name": "Swiss Engineering Partners",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The Make and Pack case establishes an original integrated robotic workstation, vision system and physical prototype engineered by SEP. This goes beyond installation of a ready-made vendor solution or generic advice. The Gategroup customer remains explicit; requiring a separately marketed robot stack or exclusive IP would add an unsupported eligibility barrier.",
+            "evidence": [
+                {
+                    "url": "https://www.swiss-ep.com/"
+                },
+                {
+                    "url": "https://www.swiss-ep.com/about"
+                },
+                {
+                    "url": "https://www.swiss-ep.com/projects/make-and-pack"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "swiss-robotics-advanced-technologies",
+            "name": "Swiss Robotics & Advanced Technologies",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Which actual aerial robot, controller or original research prototype is developed by this entity? The freshly read solutions page still supplies generic autonomous-inspection claims, not a specific attributable system.",
+            "evidence": [
+                {
+                    "url": "https://www.swiss-robotics.com/"
+                },
+                {
+                    "url": "https://www.swiss-robotics.com/solutions"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "tailorfast",
+            "name": "tailorfast",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Does the demonstrated order-processing offering have an original maintained common engine? The fresh homepage establishes customised workflows and integrations, but not that technical attribution.",
+            "evidence": [
+                {
+                    "url": "https://www.tailorfast.com/"
+                },
+                {
+                    "url": "https://www.tailorfast.com/ueber-uns.html"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "tekkminds",
+            "name": "TekkMinds",
+            "previousDecision": "uncertain",
+            "decision": "keep",
+            "reason": "The detailed vehicle-simulator case identifies original multi-gateway simulation, a test engine/API, virtual vehicle provisioning and a control interface, maintained over five years. This is concrete maintained original software, even though commissioned. QEMU is correctly credited as an upstream component; no claim is made to the customer's vehicle software.",
+            "evidence": [
+                {
+                    "url": "https://tekkminds.com/"
+                },
+                {
+                    "url": "https://tekkminds.com/work/simulation-platform/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "umb",
+            "name": "UMB",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Does UMB's current Near-Zero-Downtime approach contain original maintained software/process technology beyond SAP-instance failover configuration? The current page positively attributes the concept, but its detail describes a setup rather than identified original code. Do not use the divested mesoneer products.",
+            "evidence": [
+                {
+                    "url": "https://www.umb.ch/en/blog/news/detail/umb-expands-its-technology-business-transformation-offerings"
+                },
+                {
+                    "url": "https://www.mesoneer.io/blog/umb-solutions-now-operates-as-mesoneer"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/platform-builder"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/ai-data-scientist"
+                },
+                {
+                    "url": "https://www.umb.ch/blog/news/detail/quick-and-easy-so-richten-sie-ihre-eigene-devops-umgebung-ein"
+                },
+                {
+                    "url": "https://www.umb.ch/solutions/sap-wizard/sap-cloud"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "voviva",
+            "name": "Voviva",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Does the current Dextra system include a substantive original maintained technology beyond customer-specific LLM/data integration? The fresh detailed case proves a working development programme, but not that distinction. Startup age and lack of commercial release are not exclusion grounds.",
+            "evidence": [
+                {
+                    "url": "https://voviva.ch/projekte/guided-claims-intake/"
+                },
+                {
+                    "url": "https://voviva.ch/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "won-data",
+            "name": "WOn-Data",
+            "previousDecision": "uncertain",
+            "decision": "uncertain",
+            "reason": "Who develops the customer reporting portal or monitoring/control system? Public service descriptions and targeted searches still do not identify its author; datacentre operation alone does not settle this exception.",
+            "evidence": [
+                {
+                    "url": "https://won-data.ch/"
+                },
+                {
+                    "url": "https://won-data.ch/dienstleistungen/"
+                }
+            ],
+            "scope": "targeted-hold-closure"
+        },
+        {
+            "slug": "cyberlink",
+            "name": "Cyberlink",
+            "previousDecision": "exclude",
+            "decision": "keep",
+            "reason": "Withdraw the exclusion recommendation: the current official support page explicitly attributes a from-scratch rebuild of its customer portal, with live service management, tickets, requests and billing. Concrete original maintained software is supported. VMware, cloudscale and Anapaya remain upstream vendors; no invention of their technology is inferred.",
+            "evidence": [
+                {
+                    "url": "https://www.cyberlink.ch/de/cloud/openstack-cloudscale"
+                },
+                {
+                    "url": "https://www.cyberlink.ch/de/cloud/virtual-private-cloud"
+                },
+                {
+                    "url": "https://www.cyberlink.ch/de/customer/ein-netz-statt-vieler-einzelverbindungen-der-weg-der-semax-ag-ins-ssun-690"
+                },
+                {
+                    "url": "https://www.cyberlink.ch/de/support"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        },
+        {
+            "slug": "data-purpose",
+            "name": "Data Purpose",
+            "previousDecision": "exclude",
+            "decision": "exclude",
+            "reason": "Retain recommendation: the detailed packages affirmatively sell SAP/Microsoft architecture review, proofs of concept, dashboards, training and support. The referenced templates do not identify a substantive maintained software product. Targeted original-product search did not reveal contrary primary evidence; the decision rests on the catalogue, not the empty search.",
+            "evidence": [
+                {
+                    "url": "https://www.data-purpose.com/"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        },
+        {
+            "slug": "helvetic-it-solution",
+            "name": "Helvetic IT Solution",
+            "previousDecision": "exclude",
+            "decision": "exclude",
+            "reason": "Retain recommendation: the inspected catalogue sells managed vendor ICT and commissioned websites/software; the assessment calculators are marketing aids, not a maintained technology platform. No contradictory primary product evidence emerged. Recommendation only, not a proof that no undisclosed R&D exists.",
+            "evidence": [
+                {
+                    "url": "https://www.hitso.ch/"
+                },
+                {
+                    "url": "https://www.hitso.ch/services/website-development"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        },
+        {
+            "slug": "incendia",
+            "name": "incendia",
+            "previousDecision": "exclude",
+            "decision": "exclude",
+            "reason": "Retain recommendation: the detailed offering explicitly starts with SAP standard functionality and adds customer interfaces/forms/extensions and support. No original separate platform is claimed in that positive catalogue. Do not credit SAP or ordinary client customisation as an Incendia product.",
+            "evidence": [
+                {
+                    "url": "https://incendia.ch/"
+                },
+                {
+                    "url": "https://incendia.ch/dienstleistungen"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        },
+        {
+            "slug": "nomasis",
+            "name": "Nomasis",
+            "previousDecision": "exclude",
+            "decision": "exclude",
+            "reason": "Retain recommendation: current company history describes partnerships and managed-service development; the catalogue and inspected engineer duties describe third-party MDM/MTD rollout/configuration/operation. Managed-service branding alone is not evidence of an original software platform.",
+            "evidence": [
+                {
+                    "url": "https://nomasis.ch/"
+                },
+                {
+                    "url": "https://nomasis.ch/unternehmen/"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        },
+        {
+            "slug": "pront",
+            "name": "Pront",
+            "previousDecision": "exclude",
+            "decision": "exclude",
+            "reason": "Retain recommendation: the actual cases identify Interdiscount migration/DevOps and Helsana architecture/operating-model consultancy. These are positive client-integration/advisory examples, not evidence that Pront developed a health-platform product. No contrary named original product emerged.",
+            "evidence": [
+                {
+                    "url": "https://www.pront.org/"
+                },
+                {
+                    "url": "https://www.pront.org/en/company/team"
+                },
+                {
+                    "url": "https://www.pront.org/en/company/projects"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        },
+        {
+            "slug": "relyz",
+            "name": "relyz",
+            "previousDecision": "exclude",
+            "decision": "exclude",
+            "reason": "Retain recommendation: the full technology offering is a client-agency delivery workflow, with content hubs, CRM, websites, LLM integration and marketing automation. The AI Discovery Lab name is insufficient to override those concrete activities without a developed technology output.",
+            "evidence": [
+                {
+                    "url": "https://www.relyz.ch/"
+                },
+                {
+                    "url": "https://www.relyz.ch/services/digital-technology-engineering/"
+                },
+                {
+                    "url": "https://www.relyz.ch/insights/"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        },
+        {
+            "slug": "swiss-infosec",
+            "name": "Swiss Infosec",
+            "previousDecision": "exclude",
+            "decision": "exclude",
+            "reason": "Retain recommendation for the listed consultancy: its own GRC Toolbox page assigns software/operation to Swiss GRC and consulting/implementation to Swiss Infosec. Do not transfer sister-company technology merely because they are related. This is an entity-specific distinction, not a verdict against the group software.",
+            "evidence": [
+                {
+                    "url": "https://www.infosec.ch/mandate/grc-toolbox/"
+                },
+                {
+                    "url": "https://www.infosec.ch/"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        },
+        {
+            "slug": "trias-pharma",
+            "name": "Trias Pharma",
+            "previousDecision": "exclude",
+            "decision": "keep",
+            "reason": "Withdraw the service-only exclusion: the specific medicinal-cannabis case says the company initiated development and successfully developed several stable marketed formulations. Original formulation/process development qualifies without patents or a standalone branded platform. The separate inhalation device remains a client collaboration, not credited as wholly Trias-owned.",
+            "evidence": [
+                {
+                    "url": "https://www.trias-pharma.com/"
+                },
+                {
+                    "url": "https://www.trias-pharma.com/about"
+                },
+                {
+                    "url": "https://www.trias-pharma.com/services"
+                },
+                {
+                    "url": "https://www.trias-pharma.com/tablets"
+                },
+                {
+                    "url": "https://www.trias-pharma.com/medcannabis"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        },
+        {
+            "slug": "unimission",
+            "name": "Unimission",
+            "previousDecision": "exclude",
+            "decision": "uncertain",
+            "reason": "Retain recommendation: UniVision is the supplied SolarWinds offering and uNimbus describes IBM Power/Green-hosted managed infrastructure. Current corporate/service descriptions corroborate this vendor-operation business. No specific original technology exception is established.",
+            "evidence": [
+                {
+                    "url": "https://www.unimission.ch/"
+                },
+                {
+                    "url": "https://www.unimission.ch/univision/"
+                },
+                {
+                    "url": "https://www.unimission.ch/unimbus-die-100-schweizer-cloud-fuer-kmus/"
+                }
+            ],
+            "scope": "false-positive-challenge",
+            "historicalDecision": "exclude",
+            "status": "superseded-not-a-removal-recommendation",
+            "apply": false,
+            "currentDecision": "uncertain",
+            "supersededBy": "company-eligibility-exclusions.json",
+            "currentReason": "Official company history explicitly states that development of Swiss Private Cloud uNimbus began in 2025. Green hosting, IBM infrastructure and SolarWinds-powered UniVision do not disprove original uNimbus development. The catalogue does not identify an original control-plane/software component or technical process. Prior exclusion is unsafe until this branch is resolved."
+        },
+        {
+            "slug": "wetalkwithyou",
+            "name": "wetalkwithyou",
+            "previousDecision": "exclude",
+            "decision": "exclude",
+            "reason": "Retain recommendation: the strategy and Ably example explicitly describe commissioned shops/web applications using established frameworks. This is not a rule against OSS; the missing qualifying distinction is a concrete original maintained technology rather than generic agency integration.",
+            "evidence": [
+                {
+                    "url": "https://wetalkwithyou.com/"
+                },
+                {
+                    "url": "https://wetalkwithyou.com/technology"
+                },
+                {
+                    "url": "https://wetalkwithyou.com/technology/ably"
+                }
+            ],
+            "scope": "false-positive-challenge"
+        }
+    ],
+    "historicalSnapshot": true,
+    "supersededBy": "company-eligibility-exclusions.json",
+    "currentDecisionAuthority": "company-eligibility-audit.json",
+    "apply": false,
+    "notExecutable": true,
+    "supersessionNotice": "Historical research only. Counts, open questions and recommendations may be stale. Use the current exclusions manifest and audit; do not execute historical operations.",
+    "withdrawnExclusionOverrides": [
+        {
+            "slug": "stutz-medien",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "cyberlink",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "trias-pharma",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "cross-works",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "unimission",
+            "decision": "uncertain",
+            "status": "withdrawn-unresolved",
+            "apply": false
+        },
+        {
+            "slug": "blackpoints",
+            "decision": "keep",
+            "status": "withdrawn-keep",
+            "apply": false
+        },
+        {
+            "slug": "dream-production",
+            "decision": "uncertain",
+            "status": "withdrawn-unresolved",
+            "apply": false
+        }
+    ],
+    "correctedStaleExclusions": ["cross-works", "unimission"],
+    "latestCatalogueChallenge": "company-eligibility-removal-review.json"
+}

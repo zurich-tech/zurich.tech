@@ -1,0 +1,54 @@
+{
+    "apply": false,
+    "status": "published-by-main-frozen-do-not-reapply",
+    "publication": {
+        "reportedBy": "Main",
+        "publicPopulationAfter": 1145,
+        "verification": "Supported preview and apply once, followed by independent full-field, address and social verification of both profiles.",
+        "authority": "work/organisations/startupticker-distribution-main-review.json",
+        "frozenSlugs": ["boddy", "expertvision-ai"]
+    },
+    "checkedAt": "2026-10-15T04:45:45.982Z",
+    "publicPopulation": 1133,
+    "organisationWrites": 0,
+    "assetUploads": 2,
+    "approval": "Main approved both complete prepared marks for unchanged-byte supported upload. Organisation publication remains with main.",
+    "packet": "/tmp/zurich-registry-review/primary-parfit-startupticker-platform-next-two-hosted-ready.json",
+    "assetVerification": "/tmp/zurich-registry-review/primary-parfit-startupticker-platform-next-two-published.json",
+    "freshGuard": "/tmp/zurich-registry-review/primary-parfit-startupticker-platform-next-two-fresh-guard.json",
+    "primaryEvidence": "work/organisations/primary-parfit-startupticker-platform-next-two-evidence.json",
+    "verification": "Both remote PNGs match approved local SHA256 bytes and permit anonymous CORS. Fresh public name, slug, domain and BODDY/Pindor/ExpertVision alias checks returned no matches. Reviewed descriptions, Startup kinds, topics and corporate LinkedIn links remain unchanged.",
+    "records": [
+        {
+            "slug": "boddy",
+            "operator": "Pindor Group AG, CHE234516076",
+            "sources": [
+                "https://boddy.life/",
+                "https://boddy.life/privacy",
+                "https://boddy.life/terms",
+                "https://www.linkedin.com/company/boddyonline/"
+            ],
+            "identityDecision": "Use the current Pindor Group operator stated in the approved privacy and terms pages, not the historical inactive BODDY AG identity.",
+            "locationLabel": "Registered address",
+            "address": "Tessinerplatz 7, 8002 Zurich",
+            "addressId": "j972m9qe0fh7w1q4p1ayqjdhcx8f4zm6",
+            "sharedWith": ["soverli", "pipra", "go4balance"],
+            "artworkSha256": "7d73b258c5ce8436b468fb27405344aa7fbd1d46a6723334a4f24d5196f2c737"
+        },
+        {
+            "slug": "expertvision-ai",
+            "operator": "ExpertVision AI AG, CHE281249834",
+            "sources": [
+                "https://www.expertvision.ai/",
+                "https://www.expertvision.ai/impressum-and-data-protection/"
+            ],
+            "identityDecision": "Own imprint independently read in this pass identifies the legal entity and UID. Its data-controller section names c/o Domizilagentur GmbH at Baarerstrasse 43. Added this direct primary source to the hosted packet; identity no longer relies solely on app-store evidence.",
+            "locationLabel": "Registered address",
+            "address": "Baarerstrasse 43, 6300 Zug",
+            "sharedAddress": false,
+            "artworkSha256": "617d6ef66e28a503ea315356fc0b79440c46e59c027842c55e6aa63c2744f544"
+        }
+    ],
+    "locationCaveat": "Neither registered address is asserted to host all development or a staffed engineering office.",
+    "historicalEvidence": "This handoff supersedes older pending visual-review and snapshot states in the preparation evidence, while preserving the original reviewed input unchanged."
+}

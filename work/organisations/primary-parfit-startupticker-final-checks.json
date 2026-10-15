@@ -1,0 +1,57 @@
+{
+    "checkedAt": "2026-10-15",
+    "apply": false,
+    "productionWrites": 0,
+    "kindAuthority": "work/organisations/primary-parfit-startupticker-kind-review.json",
+    "bastionne": {
+        "kind": "startup",
+        "corporateProfile": "https://ch.linkedin.com/company/bastionne",
+        "finding": "Fresh public corporate profile names Zurich headquarters, links exactly https://www.bastionne.com and lists Wolfgang Sachsenhofer and Iwan von Buchler. Own site Intel articles are authored by Iwan Buchler. UID independently confirms active Bastionne AG, CHE395385036, Freihofstrasse 15, Kusnacht ZH. These are positive matching identity signals, not reliance on the site's Delaware terms boilerplate.",
+        "sources": [
+            "https://ch.linkedin.com/company/bastionne",
+            "https://www.bastionne.com/intel",
+            "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE395385036"
+        ],
+        "secondaryCrossCheck": {
+            "source": "https://www.moneyhouse.ch/en/company/bastionne-ag-12708390541",
+            "finding": "Republished SHAB notice HR01-1006690369 names Iwan Buchler and Wolfgang Reinhard Sachsenhofer as directors and reports June 2026 incorporation. Exact original SHAB director notice has not independently been retrieved; this is explicitly secondary corroboration, not a claimed primary registry director read."
+        },
+        "descriptionConstraint": "No attack-count, zero-breach or guaranteed-security claims in prepared profile. Registered address does not imply an engineering office."
+    },
+    "siresca": {
+        "kind": "company",
+        "reason": "Established currently marketed subscription product, multiple named customers and continued product releases; an individual stage judgment. About page is JavaScript-only in public reader, so no unverified founding/funding assertion is added.",
+        "officialLinkedIn": "https://www.linkedin.com/in/siresca-ag-87a366235",
+        "socialDisposition": "Main independently saw this exact link on the official site. Retain evidence but omit from importer socials because /in/ is intentionally rejected for organisation imports. Do not substitute an invented /company/ URL or loosen validation."
+    },
+    "truvami": {
+        "kind": "startup",
+        "kindSource": "https://www.linkedin.com/company/truvami/",
+        "development": "Original documented protocols, firmware/devices and maintained decoder/helm work support technical eligibility. Forks are not counted as original development.",
+        "artworkStatus": "held-pending-main-visual-review",
+        "rejectedArtwork": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami.png",
+        "alternative": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami-compact-v3.png",
+        "source": "https://docs.truvami.com/favicon.ico?c47c16e8ae1bcfcd",
+        "provenance": "Official documentation declares this favicon. Largest original ICO frame is 48x48 and contains the compact turquoise t/pin mark. Transparent margins trimmed, proportionally resized and padded to 192px; no invented shape, recolouring or backing. Source pixels are limited and enlarged edges are visibly coarse. Main must approve before uploading this replacement.",
+        "sourceFile": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami-favicon-source.ico",
+        "limitation": "Main public site fetch returned HTTP 520; no higher-resolution compact original verified."
+    },
+    "open-forest-protocol": {
+        "kind": "startup",
+        "publication": "held",
+        "artworkApproval": "revoked",
+        "legal": "Main and saved official privacy policy confirm Open Forest AG, Unter Altstadt 28, Zug. Registered label only.",
+        "localTechnicalGap": "Fresh official team page identifies mobile, blockchain, frontend and DevOps engineers but explicitly describes a worldwide team and gives no individual Swiss working locations. Do not claim a Zug engineering office from the registered address.",
+        "artworkGap": "Official 256px touch icon was downloaded and viewed; it too contains the full wordmark. It is not a resolved compact-logo replacement.",
+        "sources": [
+            "https://www.openforestprotocol.org/team",
+            "https://www.iubenda.com/privacy-policy/33938219/full-legal"
+        ]
+    },
+    "publicationRules": [
+        "All packets remain apply:false; main owns fresh dedup, uploads and publication.",
+        "The Truvami and OFP logos in original and v2 manifests must not be uploaded under the earlier artwork approval.",
+        "Main-approved unchanged artwork for other profiles remains unchanged.",
+        "Source reconciliation remains open; these checks do not close the entire Startupticker queue."
+    ]
+}

@@ -1,0 +1,52 @@
+{
+    "reviewedOn": "2026-10-15",
+    "databaseWrites": 0,
+    "assetPublication": "/tmp/zurich-registry-review/membership-fourteen-publication-verification.json",
+    "decisions": [
+        {
+            "slug": "uac-labs",
+            "kind": "startup",
+            "sources": ["https://www.linkedin.com/company/uac-labs", "https://uaclabs.com/about"],
+            "evidence": "Official company profile states founded 2025 and 2-10 employees. Founder-led development of its Coordination State Machine and current partnership/investment engagement establish early product-stage activity, not an established consulting organisation.",
+            "foundingYear": 2025
+        },
+        {
+            "slug": "lyorion",
+            "kind": "startup",
+            "sources": [
+                "https://lyorion.com/company",
+                "https://www.linkedin.com/posts/patrickschoeni_digitalassets-tokenization-fintech-activity-7478107834057015297-Y_9p",
+                "https://www.linkedin.com/posts/fabian-hediger-4658791a9_lyorion-the-banking-grade-operating-platform-activity-7483222921918779392-4l6r"
+            ],
+            "evidence": "Named cofounder introduces the newly co-founded venture; named engineering head announces its initial public website launch and ongoing infrastructure build. This supports early venture stage without inferring an exact legal incorporation date from relative post timestamps.",
+            "foundingYear": null
+        },
+        {
+            "slug": "enique",
+            "kind": "startup",
+            "sources": [
+                "https://ch.linkedin.com/company/enique",
+                "https://www.enique.ch/ueber-uns/",
+                "https://www.enique.ch/agb/"
+            ],
+            "evidence": "Official company LinkedIn states founded 2025, 2-10 employees and the same Schlieren identity. Current team and financing platform establish a young operating venture.",
+            "foundingYear": 2025,
+            "ownTechnologyCheck": {
+                "status": "supported-explicit-development",
+                "section": "AGB 4, Rechte & Pflichten von Enique",
+                "quote": "Enique entwickelt und verbessert seine Plattform und die Dienstleistungen ständig weiter",
+                "ownershipSections": [1, 8],
+                "capture": "/tmp/zurich-registry-review/membership-evidence/c92506bf3601bbc4f1b9.json",
+                "limit": "Supports attributable ongoing platform development; does not independently prove all implementation is performed in-house."
+            }
+        },
+        {
+            "slug": "wealthcom",
+            "kind": "startup",
+            "sources": ["https://wealthcom.com/", "https://ch.linkedin.com/company/wealthcom"],
+            "evidence": "Own current homepage identifies named cofounders and an Emerging FinTech Startup of the Year 2026 recognition while describing an expanding modular SaaS platform. Startup-stage classification is supported directly; the award itself was not separately authenticated and no incorporation year is inferred from copyright text.",
+            "foundingYear": null
+        }
+    ],
+    "unchanged": "Other reviewed identities retain their individually reviewed kinds. No blanket change based solely on headcount, website style or modern technology."
+}

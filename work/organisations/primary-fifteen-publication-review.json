@@ -1,0 +1,36 @@
+{
+    "date": "2026-10-15",
+    "status": "published-independently-verified",
+    "productionCountBefore": 1169,
+    "productionCountAfter": 1184,
+    "batches": [
+        {
+            "names": ["Archemides", "Procavea"],
+            "manifest": "/tmp/zurich-registry-review/primary-db05-hci-two-hosted-ready.json",
+            "verifiedCountAfter": 1171,
+            "review": "Main read official technology and HCI contact evidence, checked fresh production identities, reviewed genuine logo artwork and hosted image integrity. Public office labels retain actual rooms without internal building-pin terminology."
+        },
+        {
+            "names": ["ENS Dynamics", "VERAXA Biotech", "Windsor.ai"],
+            "manifest": "/tmp/zurich-registry-review/primary-56c0-positive-threed-hosted-ready.json",
+            "verifiedCountAfter": 1174,
+            "review": "Main verified official development and contact evidence. VERAXA's Zurich headquarters is distinguished from Heidelberg R&D; no local laboratory claim is inferred."
+        },
+        {
+            "names": ["Connect AI", "Gieni", "onocoy"],
+            "manifest": "/tmp/zurich-registry-review/primary-56c0-positive-connect-gieni-onocoy-hosted-ready.json",
+            "verifiedCountAfter": 1177,
+            "review": "Main checked TreuFlow, Orderfox and onocoy identity aliases against production. Gieni's rebranding and onocoy's development operator versus association governance are recorded; the latter uses a labelled registered address."
+        },
+        {
+            "names": ["Apiax", "Optune", "Stableton", "Cynos", "MaxBrain", "poinz", "Yonder"],
+            "manifest": "/tmp/zurich-registry-review/primary-9297-final-seven-ready.json",
+            "verifiedCountAfter": 1184,
+            "review": "Main reviewed official product, team and contact evidence and visually approved all seven genuine compact logos. Fresh production identity, parent and alias checks found no duplicates. Existing Apiax and MaxBrain building addresses were reused. Stableton is classified as an investor without arbitrary topic tags.",
+            "apiax": "Main Chrome verified active Apiax AG, CHE-414.461.970, Hohlstrasse 216, 8004 Zurich in the federal UID register, last validated 9 October 2026. The official 8 October Behavox acquisition announcement retains the product and team. The map office is explicitly labelled Registered address.",
+            "apiaxSource": "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-414.461.970"
+        }
+    ],
+    "publication": "Each frozen batch passed the supported importer preview, was applied once, and passed independent full-field organisation, public location, address and social-link readback. Do not reapply.",
+    "limitations": "This records these fifteen publications only. Finite source reconciliation, whole-directory eligibility, remaining removals and final desktop/mobile review are not complete. No code commit or deployment was performed."
+}

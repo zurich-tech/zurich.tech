@@ -1,0 +1,513 @@
+{
+    "checkedAt": "2026-10-15T05:29:21.622Z",
+    "scope": "Frozen55 membership remainder plus separately requested walkingtoyou followup; no discovery expansion",
+    "organisationWrites": 0,
+    "uploads": 0,
+    "snapshot": {
+        "path": "/tmp/zurich-registry-review/membership-positive-organisations.json",
+        "count": 1159,
+        "notLiveRevalidatedByThisAggregation": true
+    },
+    "retained31Audit": "work/organisations/membership-retained31-audit.json",
+    "finalSourceAccounting": "work/organisations/membership-final-source-accounting.json",
+    "cohortCount": 55,
+    "reconsideredIdentityCategoryOrScope": 24,
+    "previousSpecificReviewedLimitsRetained": 31,
+    "neverAssessed": 0,
+    "counts": {
+        "reviewed-unresolved:exact-public-location-or-building": 11,
+        "reviewed-unresolved:local-technical-team-or-product-attribution": 16,
+        "prepare-single-group-company": 1,
+        "prepare-operating-company-not-parent": 1,
+        "prepare-security-printing-identity": 1,
+        "identity-resolved-hold-current-product-and-location": 1,
+        "hold-unresolved-primary-identity": 2,
+        "prepare-one-ecosystem-community": 1,
+        "hold-locality-and-specific-attribution": 1,
+        "hold-qualifying-remit": 1,
+        "profile-and-local-artwork-prepared-main-review": 3,
+        "hold-locality-and-original-development": 1,
+        "hold-development-attribution": 2,
+        "hold-locality-unproven": 1,
+        "hold-technology-entity-attribution": 1,
+        "scope-plausible-held-implementation-and-artwork": 1,
+        "hold-implementation-evidence": 1,
+        "reviewed-unresolved:external-primary-access-blocker": 2,
+        "profile-prepared-artwork-held": 1,
+        "hold-local-technical-development": 3,
+        "exclude-current-training-only-candidate": 1,
+        "reviewed-unresolved:artwork-quality": 1,
+        "reviewed-unresolved:other-owner-review": 1
+    },
+    "records": [
+        {
+            "identityKey": "digitalwinterthur",
+            "name": "Digital Winterthur",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Current association/team/projects readable and technical ecosystem scope plausible. Inspected pages do not disclose exact public street. Partner organisations and event venues are not office evidence. No private board-member address or inferred map pin."
+        },
+        {
+            "identityKey": "novaintelligence",
+            "name": "Nova Intelligence",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Own enterprise-agent product evident. Contact page supplies email/form, not a local street; conferences and Swiss association membership are not office proof."
+        },
+        {
+            "identityKey": "palantir",
+            "name": "Palantir",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Ordinary Chrome office directory explicitly lists Switzerland/Zurich but no street. Own platform documentation read. Exact public business street remains unresolved; no customer or employee address substituted"
+        },
+        {
+            "identityKey": "openai",
+            "name": "openAI",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Readable official careers result listed Zurich Forward Deployed Engineer and Research Engineer/Scientist Data Understanding Foundations. Local technical scope supported; exact public street remains unresolved"
+        },
+        {
+            "identityKey": "fellowdigitals",
+            "name": "Fellow Digitals",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Current official contact lists Cologne, Tegernsee, Amsterdam, Dhaka and Singapore but no Zurich street; another official-language footer retains Zurich telephone and company LinkedIn lists Bahnhofplatz 1. Own LMS/intranet development is confirmed. Do not promote potentially stale LinkedIn branch to current engineering office without corroboration."
+        },
+        {
+            "identityKey": "gstch",
+            "name": "gst.ch",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Current technical educational programme includes November 2026 engineering visit; imprint names editorial responsibility and email but no physical business address. Do not pin private officer contact or excursion venue."
+        },
+        {
+            "identityKey": "bitcoinassociationswitzerland",
+            "name": "Bitcoin Association Switzerland",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Technical community and activity remain supported, but current public business street not established. Do not reuse historical officer residential/care-of details from old regulatory letters."
+        },
+        {
+            "identityKey": "fintechconnector",
+            "name": "FinTech Connector",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Own public community page connects fintech professionals and firms; Zurich community members/networking event do not identify a permanent business office. No event boat or member address used as a pin."
+        },
+        {
+            "identityKey": "swissinsurtechhub",
+            "name": "Swiss InsurTech Hub",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Own nonprofit identity and hands-on workshops support technical community scope. Both current contact surfaces state Zurich only, with no public street. Do not use summit venue or member address."
+        },
+        {
+            "identityKey": "veryearlyventures",
+            "name": "very early Ventures",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Own site supports Web3 investment activity. Legal notice identifies very early I (G.P.) Limited in Grand Cayman, not a Zurich office. City-level Zurich signals do not resolve an exact local public address. No guessed map pin."
+        },
+        {
+            "identityKey": "datalevelag",
+            "name": "datalevel AG",
+            "status": "reviewed-unresolved:exact-public-location-or-building",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Own address Risistrasse 32, 8903 Birmensdorf conflicts with official address results 32a/32b and 32.1/32.2/32.3. Existing exact-building review preserved. No inferred entrance choice or averaging coordinates."
+        },
+        {
+            "identityKey": "alibabacloud",
+            "name": "Alibaba Cloud",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Own global cloud technology is established. Official infrastructure locations do not establish a Zurich business or engineering office; Swiss customer coverage is not local presence. No exact local pin supported."
+        },
+        {
+            "identityKey": "cloudflare",
+            "name": "Cloudflare",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Current Zurich event found but no own office established. Gotthardstrasse 5 in event listing is not accepted as an office."
+        },
+        {
+            "identityKey": "dassaultsystems",
+            "name": "Dassault Systems",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Official location page confirms Balz-Zimmermannstrasse 7, 8302 Kloten. Current listed Kloten role is sales; ZHAW partner lab or customer sites cannot be relabelled Dassault engineering offices."
+        },
+        {
+            "identityKey": "ernstyoung",
+            "name": "Ernst & Young",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Own blockchain product exists globally. Swiss wavespace primary describes Basel client co-creation, not an exact local Zurich product-development team. Preserve a specific local attribution hold, not assertion that EY has no IP."
+        },
+        {
+            "identityKey": "hultef",
+            "name": "HultEF",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Source now resolves EF Corporate Learning and its own EFEKTA/Hyperclass technology. Local operating identity, exact office and local technical team need corroboration; language-school service alone is not the basis."
+        },
+        {
+            "identityKey": "uber",
+            "name": "Uber",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Global own engineering confirmed. June 2026 Zurich robotaxi partnership is an operating-service deployment using WeRide autonomy, not proof of local Uber development office. No exact local technical office supported."
+        },
+        {
+            "identityKey": "cognizant",
+            "name": "Cognizant",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Neuro AI is named own branded technology and Swiss insurance offering is current. No evidence tying product engineering to local Swiss team in reviewed pages. Do not blanket-exclude as consultancy or infer local R&D from country sales leadership."
+        },
+        {
+            "identityKey": "dataiku",
+            "name": "Dataiku",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Zurich summit and historical Microsoft-hosted roundtable found. These event venues do not substantiate Dataiku office or local technical team; do not pin Microsoft's address."
+        },
+        {
+            "identityKey": "dynatrace",
+            "name": "Dynatrace",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Official office list resolves Stockerstrasse 33, 8002 Zürich. Retrieved actual engineering vacancy is explicitly Lucerne hybrid, not Zurich. Swiss cloud availability is not Zurich engineering evidence."
+        },
+        {
+            "identityKey": "leverx",
+            "name": "LeverX",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "BMAX and IPS are explicit branded reusable tools, so generic client-services exclusion would be wrong. Current primary establishes worldwide development and SAP integration; exact local product-development team remains unsubstantiated."
+        },
+        {
+            "identityKey": "tiktok",
+            "name": "Tiktok",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Ordinary Chrome hydrated careers search returned one Zurich Brand Partnerships Manager Switzerland role, Advertising and Sales, detail 7654943109677320453. Does not substantiate local engineering or exact street. Not a claim that no engineers exist; no ByteDance substitution"
+        },
+        {
+            "identityKey": "audemarspiguet",
+            "name": "Audemars Piguet",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Watchmaking technology is genuine, but Zurich retail activity does not establish local development or production. No reviewed primary local manufacturing/research address; do not pin a boutique as engineering."
+        },
+        {
+            "identityKey": "cisco",
+            "name": "Cisco",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Current official directory explicitly confirms Wallisellen office Richtistrasse 7, 8304. Global original networking technology is clear. Inspected local evidence establishes office and solution/customer engineering, not substantive local product development; same locality/team standard as Samsung and Genesys. Do not treat office listing as proof of R&D."
+        },
+        {
+            "identityKey": "ringier",
+            "name": "Ringier",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Current primary explicitly describes self-developed STAR data platform with tracking, semantics, NLP, recommendations and advertising components. Own technology is resolved; remaining local development attribution and parent versus existing JobCloud/SMG profile overlap. Do not reuse subsidiary products as parent evidence"
+        },
+        {
+            "identityKey": "trifork",
+            "name": "Trifork",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Group Health Platform development and Zurich contact confirmed. Products/services separation and multiple acquired businesses mean current Swiss product-development attribution and overlap remain unresolved. Hold specific Swiss identity; do not infer all group technology belongs to the Zurich service office or create duplicates of acquired businesses."
+        },
+        {
+            "identityKey": "rinascai",
+            "name": "Rinascai",
+            "status": "reviewed-unresolved:local-technical-team-or-product-attribution",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Current own site describes Rinascai Suite and September 2026 OPCORE/Pryvet combination. Zurich branch Bahnhofplatz 1 and holding registered Hinterbergstrasse 16 are distinct. Verify ownership/development of suite and Swiss technical activity before treating partner technology as own."
+        },
+        {
+            "identityKey": "atos",
+            "name": "Atos",
+            "status": "prepare-single-group-company",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Exact current local legal/branding attribution and alias review before importer preparation; no Polycom vendor-hardware ownership claim"
+        },
+        {
+            "identityKey": "tamediatxgroup",
+            "name": "Tamedia / TX Group",
+            "status": "prepare-operating-company-not-parent",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Current physical street, public address/federal building, genuine logo and corporate social; do not copy TX postal8021 as physical postcode without checking"
+        },
+        {
+            "identityKey": "orellfussli",
+            "name": "Orell Füssli",
+            "status": "prepare-security-printing-identity",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Direct corporate report/site corroboration, exact current operating entity, postcode/building and assets before ready packet"
+        },
+        {
+            "identityKey": "arcton",
+            "name": "Arcton",
+            "status": "identity-resolved-hold-current-product-and-location",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Verify current original Rex implementation and current public Zurich/Zug business address; do not requeue historical blockchain/fintech claims"
+        },
+        {
+            "identityKey": "bussolaaiag",
+            "name": "Bussola AI AG",
+            "status": "hold-unresolved-primary-identity",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Official company domain/legal identity and local public address; membership description alone insufficient. Public profile boundary respected, no login/bypass"
+        },
+        {
+            "identityKey": "legata",
+            "name": "Legata",
+            "status": "hold-unresolved-primary-identity",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Authoritative bridge from member to company plus Zurich/Zug presence; no borrowed US product or German address"
+        },
+        {
+            "identityKey": "innovationzurich",
+            "name": "Innovation Zurich",
+            "status": "prepare-one-ecosystem-community",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Confirm platform contact attribution before using AWI Walchestrasse19;8090 is administrative mailing postcode. Prepare exact building, artwork and corporate socials; no standalone office inferred from partner offices"
+        },
+        {
+            "identityKey": "jemsgroup",
+            "name": "JEMS-Group",
+            "status": "hold-locality-and-specific-attribution",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Current public Zurich/Zug operation and specific original development attributable to that operation; not a generic member listing"
+        },
+        {
+            "identityKey": "swisscognitive",
+            "name": "SwissCognitive",
+            "status": "hold-qualifying-remit",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Substantive qualifying technical community/research or original development evidence with local address; do not conflate the separate CognitiveValley Foundation"
+        },
+        {
+            "identityKey": "chainiq",
+            "name": "ChainIQ",
+            "status": "profile-and-local-artwork-prepared-main-review",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Review local attribution, exact public HQ address, fresh aliases, official artwork and socials. Do not claim entire roadmap released or local engineering team without proof"
+        },
+        {
+            "identityKey": "swissitleadershipforum",
+            "name": "Swiss IT Leadership Forum",
+            "status": "profile-and-local-artwork-prepared-main-review",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Current association public contact/address review and official artwork/socials. Davos conference venue is not a Zurich office; do not use personal speaker addresses"
+        },
+        {
+            "identityKey": "louisdreyfuscompany",
+            "name": "Louis Dreyfus Company",
+            "status": "hold-locality-and-original-development",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Primary local engineering/product evidence and exact public local business address; access limit is directory-specific, not entire corporate site"
+        },
+        {
+            "identityKey": "condachgmbh",
+            "name": "Conda.ch GmbH",
+            "status": "hold-development-attribution",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Specific Swiss-owned/co-developed platform evidence. If later eligible use current footer/legal Baar address over older campaign Horgen address; do not create separate parent and platform duplicates"
+        },
+        {
+            "identityKey": "expleogroup",
+            "name": "Expleo Group",
+            "status": "hold-locality-unproven",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Current Zurich/Zug public operation and concrete original engineering attribution"
+        },
+        {
+            "identityKey": "instituteforfinancialserviceszugifz",
+            "name": "Institute for Financial Services Zug IFZ",
+            "status": "profile-and-local-artwork-prepared-main-review",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Fresh parent/same-host peer review, institute canonical website, exact existing addressId, approved exact existing parent branding or genuine institute artwork, corporate socials"
+        },
+        {
+            "identityKey": "marmotfinance",
+            "name": "Marmot Finance",
+            "status": "hold-development-attribution",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Specific developed or commissioned original software, technical team/project evidence"
+        },
+        {
+            "identityKey": "skaahgroupag",
+            "name": "SKAAH Group AG",
+            "status": "hold-technology-entity-attribution",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Specific original product/engineering or explicit technology-investment remit tied to exact local group/subsidiary identity; not an access blocker after successful direct fetch"
+        },
+        {
+            "identityKey": "suitekkgmbh",
+            "name": "SUITEKK GmbH",
+            "status": "scope-plausible-held-implementation-and-artwork",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Original development corroboration and genuine usable artwork; current exact business contact already retained"
+        },
+        {
+            "identityKey": "taiagmbh",
+            "name": "TAIA GmbH",
+            "status": "hold-implementation-evidence",
+            "reviewedThisPass": true,
+            "evidence": "membership-scope-decisions.json",
+            "remaining": "Inspect accessible implementation/API artefact or attributable development record; preserve pre-release boundaries and avoid claiming live public signup"
+        },
+        {
+            "identityKey": "netcommsuisse",
+            "name": "NetComm Suisse",
+            "status": "reviewed-unresolved:external-primary-access-blocker",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Ordinary Chrome returned ERR_NAME_NOT_RESOLVED / DNS_PROBE_FINISHED_NXDOMAIN. Current technical programme and public local address unverified; no inference of dissolution"
+        },
+        {
+            "identityKey": "fimedgroup",
+            "name": "FIMED GROUP",
+            "status": "reviewed-unresolved:external-primary-access-blocker",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Ordinary Chrome showed Wix domain-not-connected page. Current exact identity and activity unverified. Secondary liquidation suggestion not accepted as primary evidence; unrelated Dominican medical business excluded from matching"
+        },
+        {
+            "identityKey": "balgristuniversitatsklink",
+            "name": "Balgrist Universitätsklink",
+            "status": "profile-prepared-artwork-held",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Check institution-owner overlap, confirm exact lab building from institutional contact/federal evidence, then prepare assets/socials"
+        },
+        {
+            "identityKey": "equinix",
+            "name": "Equinix",
+            "status": "hold-local-technical-development",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Specific attributable local technical-development evidence; do not prepare from ZH4 operation or product availability alone"
+        },
+        {
+            "identityKey": "greendatacanter",
+            "name": "Green Datacanter",
+            "status": "hold-local-technical-development",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Specific original local technical-development evidence, not infrastructure ownership or partner technology; source typo Green Datacanter is not another entity"
+        },
+        {
+            "identityKey": "digitalrealty",
+            "name": "Digital Realty",
+            "status": "hold-local-technical-development",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Specific local technical-development evidence before preparation; retain Interxion alias for eventual deduplication"
+        },
+        {
+            "identityKey": "swisscyberinstitute",
+            "name": "Swiss Cyber Institute",
+            "status": "exclude-current-training-only-candidate",
+            "reviewedThisPass": true,
+            "evidence": "membership-twelve-decisions.json",
+            "remaining": "Reconsider only on independent technical-development evidence or separately evidenced qualifying research/community remit. Do not misclassify as university/nonprofit"
+        },
+        {
+            "identityKey": "decinstitute",
+            "name": "DEC Institute",
+            "status": "reviewed-unresolved:artwork-quality",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Address check resolved: own public contact Suurstoffi1,6343Rotkreuz and exact official EGID191653293 point47.143415,8.432992. One association/institute brand, not duplicated commercial arm. Draft retained. Remaining hold only genuine readable artwork: full white wordmark tiny at32px, not approved. No production changes or guessed compact initial."
+        },
+        {
+            "identityKey": "emexchangemarketgmbh",
+            "name": "EM Exchange Market GmbH",
+            "status": "reviewed-unresolved:other-owner-review",
+            "reviewedThisPass": false,
+            "evidence": "membership-unresolved-reasons.json",
+            "remaining": "Primary contact supports Technoparkstrasse 1 and exchange platform. Existing campus review owns candidate; no additional concrete attributable development evidence established here. Do not duplicate preparation or infer software engineering from exchange operation."
+        }
+    ],
+    "prepared": {
+        "positiveThree": {
+            "packet": "/tmp/zurich-registry-review/membership-positive-three-prepared.json",
+            "artwork": "/tmp/zurich-registry-review/membership-positive-three-logos.json",
+            "contactSheet": "/tmp/zurich-registry-review/membership-positive-three-contact-sheet.png",
+            "evidence": "membership-positive-three-review.json",
+            "status": "complete-local-proposals-awaiting-main-profile-and-artwork-review"
+        },
+        "walkingtoyou": {
+            "packet": "/tmp/zurich-registry-review/membership-walkingtoyou-prepared.json",
+            "artwork": "/tmp/zurich-registry-review/membership-walkingtoyou-logos.json",
+            "contactSheet": "/tmp/zurich-registry-review/membership-walkingtoyou-contact-sheet.png",
+            "status": "local-profile-and-artwork-prepared-awaiting-main-review",
+            "evidence": "membership-walkingtoyou-review.json",
+            "outsideFrozen55": true
+        },
+        "ingenuity": {
+            "packet": "/tmp/zurich-registry-review/membership-ingenuity-prepared.json",
+            "artwork": "/tmp/zurich-registry-review/membership-ingenuity-artwork-options.json",
+            "contactSheet": "/tmp/zurich-registry-review/membership-ingenuity-contact-sheet.png",
+            "status": "local-profile-prepared-artwork-held",
+            "evidence": "membership-ingenuity-review.json"
+        }
+    },
+    "frozenPublicationUpdates": {
+        "hwz": "Main independently verified published at1146; do not reapply",
+        "hostedFour": "Main independently verified published at1140; do not reapply"
+    },
+    "meaning": "All55 have a disposition, not all55 are import-ready or research-exhausted. IFZ, Swiss IT Leadership Forum and Chain IQ now have complete local profile/artwork proposals, pending main review and approved publication. Four earlier positive preparation recommendations remain explicitly pending, not silently labelled evidence-exhausted.31 retained primary-attempt records were audited and their exact missing facts preserved, not claimed freshly live reread. Main exact-five category decisions remain authoritative."
+}

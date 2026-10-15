@@ -1,0 +1,33 @@
+{
+    "reviewedOn": "2026-10-15",
+    "status": "Frozen: main published once and independently verified at1146; do not reapply",
+    "publicationEvidence": "Explicit main handoff confirms supported preview/apply and independent full-field/address/social verification; local snapshot1145 below is the pre-publication check, not current total",
+    "ready": "/tmp/zurich-registry-review/membership-hwz-ready.json",
+    "freshReview": "/tmp/zurich-registry-review/membership-hwz-fresh-review.json",
+    "assetVerification": "/tmp/zurich-registry-review/membership-hwz-publication-verification.json",
+    "snapshotCount": 1145,
+    "aliasMatches": [],
+    "exactExistingPublicAddressMatches": 0,
+    "physicalCampus": "Lagerstrasse 5, 8004 Zürich",
+    "postalAddressOnly": "Lagerstrasse 5, Postfach, 8021 Zürich",
+    "contactSource": "https://fh-hwz.ch/de/kontakt",
+    "federal": {
+        "addressId": 101723017,
+        "buildingId": 302019364,
+        "latitude": 47.376843,
+        "longitude": 8.533905,
+        "exactPhysicalPostcode": "8004"
+    },
+    "social": "Current official contact page outbound corporate school LinkedIn rechecked; no reverse About claim",
+    "preparedSha256": "8ce4aac074eba27f9bf067fb79a5d214179d08f4dc75b1c4728f2d8d5f227848",
+    "assetChecks": [
+        "original and approved local hash",
+        "remote exact SHA256",
+        "full pixel decode",
+        "local/remote pixels equal",
+        "HTTP200 image/png",
+        "CORS"
+    ],
+    "canonicalPrefetch": false,
+    "organisationWrites": 0
+}

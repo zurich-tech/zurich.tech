@@ -1,0 +1,228 @@
+{
+    "owner": "Parfit",
+    "checkedAt": "2026-10-15",
+    "authoritativeCoverageAccounting": "work/organisations/primary-parfit-startupticker-owner-closeout.json",
+    "coverageStatus": "Capture complete; substantive source reconciliation remains incomplete. Historical counts below must not be read as final closure.",
+    "scope": {
+        "archivePages": [1, 23],
+        "archiveRows": 1150,
+        "uniqueArticleUrls": 1150,
+        "matchedTeasers": 1150,
+        "missingTeasers": 0,
+        "partnerPromotionIncluded": 0,
+        "registryOrganisations": 1063,
+        "registrySource": "/tmp/zurich-registry-review/current-public-organisations.json",
+        "normalization": "Replace /index.php/ with / before joining",
+        "latestMainReportedRegistryCount": 1273,
+        "independentPreparationRegistryCount": 1273
+    },
+    "productionWrites": 0,
+    "additionalFrozenPublications": [
+        {
+            "slugs": [
+                "c-technology",
+                "gonina",
+                "cue-labs",
+                "scyai",
+                "visorway",
+                "viesus",
+                "motif-ai",
+                "kelva-systems",
+                "trilliome",
+                "billoba",
+                "hemetron",
+                "peelpack",
+                "noemon",
+                "cedric",
+                "iqtax",
+                "aderis"
+            ],
+            "reportedPopulation": 1210,
+            "authority": "work/organisations/startupticker-consolidated-main-review.json",
+            "rule": "Main reports publication once and independent full readback verification of all sixteen. Approved-sixteen packet is frozen; never reapply. This update records main verification, not a new independent read by Parfit."
+        },
+        {
+            "slugs": ["phylax-intelligence", "iris-labs", "sentianova"],
+            "reportedPopulation": 1194,
+            "authority": "work/organisations/primary-three-main-review.json",
+            "rule": "Main published once and independently verified; public snapshot independently confirms all three. Hosted-ready file is frozen and main-owned. Never reapply."
+        },
+        {
+            "slugs": ["lookthrough", "aeon-life", "crowdsports"],
+            "reportedPopulation": 1191,
+            "authority": "Main publication reports and independent public directory read.",
+            "rule": "Published and frozen; never requeue. This is a reconciliation snapshot, not a claim that all three were published together."
+        },
+        {
+            "slugs": ["newcelx", "gentwo", "maiq", "timestatement", "hwz"],
+            "reportedPopulation": 1147,
+            "authority": "Main publication report; independently matched exact slugs in fresh public directory on 2026-10-15.",
+            "rule": "Published and frozen; never requeue or reapply. Population is reconciliation snapshot, not the count at each individual publication."
+        },
+        {
+            "slugs": ["swibeco", "naoo", "ontinue"],
+            "reportedPopulation": 1136,
+            "authority": "work/organisations/startupticker-commercial-main-review.json",
+            "rule": "Main applied once and independently verified; never reapply."
+        },
+        {
+            "slugs": ["boddy", "expertvision-ai"],
+            "reportedPopulation": 1145,
+            "authority": "work/organisations/startupticker-distribution-main-review.json",
+            "rule": "Main applied once and independently verified; never reapply."
+        }
+    ],
+    "mainVerifiedPublication": {
+        "reportedPopulation": 1119,
+        "authority": "work/organisations/eleven-publication-review.json",
+        "manifest": "/tmp/zurich-registry-review/main-reviewed-eleven-1108.json",
+        "sha256": "3aba368a76b8bbb8a04a0037d228551162589f26c445b664ebd1e2dfb17d2414",
+        "slugs": [
+            "bastionne",
+            "siresca",
+            "xelon",
+            "zenline",
+            "tom-medications",
+            "simpletrain",
+            "get-local",
+            "smart-me",
+            "moonlake-immunotherapeutics",
+            "chirp-light",
+            "twiliner"
+        ],
+        "rule": "Published and independently verified by main. Frozen; never requeue or reapply. Main preserved SimpleTrain and Twiliner shared addressIds. Siresca unsupported /in/ social intentionally omitted."
+    },
+    "approvedAssetPublication": {
+        "organisationWrites": 0,
+        "hostedAssets": 11,
+        "authorization": "Main explicitly approved unchanged artwork and subsequently authorised supported asset uploads only.",
+        "hostedReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-approved-eleven-hosted-ready.json",
+        "verification": "/tmp/zurich-registry-review/primary-parfit-startupticker-approved-eleven-published.json",
+        "method": "Existing publish-assets.ts; content-addressed immutable PNG objects, exact SHA-256 roundtrip and public CORS verified individually.",
+        "excluded": ["open-forest-protocol", "truvami", "jurata"],
+        "publication": "Preparation payloads remain apply:false. Main subsequently applied and independently verified these exact eleven; never requeue or reapply."
+    },
+    "currentPacketVersions": {
+        "authority": "work/organisations/primary-parfit-startupticker-kind-review.json",
+        "version": "v2",
+        "rule": "Use the consolidated handoff for current unpublished prepared profiles. Earlier v2 and unversioned packets are retained historical evidence, not independent publication queues.",
+        "currentHandoff": "work/organisations/primary-parfit-startupticker-consolidated-handoff.json",
+        "kindCounts": { "startup": 27, "company": 4 },
+        "finalChecks": "work/organisations/primary-parfit-startupticker-final-checks.json",
+        "held": ["open-forest-protocol", "truvami"],
+        "holds": "OFP artwork approval revoked; registered legal address confirmed but local technical attribution remains unresolved. Do not upload OFP from either manifest.",
+        "mainScopeApproval": "Twiliner accepted for jointly developed and tested restraint technology, not merely transport operation. Future Seat 2.0 and electric bus aspirations excluded from description."
+    },
+    "status": "all-teasers-and-160-collective-bodies-read-candidate-primary-reconciliation-open",
+    "counts": {
+        "named-entities-in-title-or-teaser": 890,
+        "body-required-for-unidentified-or-additional-entities": 160,
+        "ecosystem-editorial-no-specific-company-lead-in-teaser": 100
+    },
+    "files": {
+        "consolidatedHandoff": "work/organisations/primary-parfit-startupticker-consolidated-handoff.json",
+        "finitePrimaryPass": "work/organisations/primary-parfit-startupticker-finite-pass.json",
+        "lookthroughHandoff": "work/organisations/primary-parfit-startupticker-lookthrough-handoff.json",
+        "aeonHandoff": "work/organisations/primary-parfit-startupticker-aeon-handoff.json",
+        "continuationDecisions": "work/organisations/primary-parfit-startupticker-continuation-decisions.json",
+        "commercialThreeReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-commercial-three-ready.json",
+        "platformNextTwoReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-platform-next-two-ready.json",
+        "cedricReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-cedric-one-ready.json",
+        "primaryNextThreeReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-primary-next-three-ready.json",
+        "articles": "work/organisations/primary-parfit-startupticker-articles.json",
+        "entities": "work/organisations/primary-parfit-startupticker-entities.json",
+        "primary": "work/organisations/primary-parfit-startupticker-primary.json",
+        "bodyQueue": "work/organisations/primary-parfit-startupticker-bodies.json",
+        "bodyReview": "work/organisations/primary-parfit-startupticker-body-review.json",
+        "activeReadyBatch": "/tmp/zurich-registry-review/primary-parfit-startupticker-consolidated-ready.json",
+        "activeLogoManifest": "/tmp/zurich-registry-review/primary-parfit-startupticker-consolidated-logos.json",
+        "frozenEvidence": "work/organisations/primary-parfit-startupticker-eight-evidence.json",
+        "nextTwoReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-next-two-ready.json",
+        "nextTwoEvidence": "work/organisations/primary-parfit-startupticker-next-two-evidence.json",
+        "productsEightReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-products-eight-ready.json",
+        "productsEightEvidence": "work/organisations/primary-parfit-startupticker-products-eight-evidence.json",
+        "collectiveDecisions": "work/organisations/primary-parfit-startupticker-collective-decisions.json",
+        "bastionneReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-bastionne-one-ready.json",
+        "bastionneEvidence": "work/organisations/primary-parfit-startupticker-bastionne-one-evidence.json",
+        "sirescaReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-siresca-one-ready.json",
+        "sirescaEvidence": "work/organisations/primary-parfit-startupticker-siresca-one-evidence.json",
+        "platformsReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-platforms-two-ready.json",
+        "platformsEvidence": "work/organisations/primary-parfit-startupticker-platforms-two-evidence.json",
+        "truvamiReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami-one-ready.json",
+        "truvamiEvidence": "work/organisations/primary-parfit-startupticker-truvami-one-evidence.json",
+        "sourceNameReconciliation": "work/organisations/primary-parfit-startupticker-reconciliation.json",
+        "softwareReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-software-four-ready.json",
+        "softwareEvidence": "work/organisations/primary-parfit-startupticker-software-four-evidence.json",
+        "energyBiotechReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-energy-biotech-two-ready.json",
+        "energyBiotechEvidence": "work/organisations/primary-parfit-startupticker-energy-biotech-two-evidence.json",
+        "chirpReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-chirp-one-ready.json",
+        "chirpEvidence": "work/organisations/primary-parfit-startupticker-chirp-one-evidence.json",
+        "twilinerReady": "/tmp/zurich-registry-review/primary-parfit-startupticker-twiliner-one-ready.json",
+        "twilinerEvidence": "work/organisations/primary-parfit-startupticker-twiliner-one-evidence.json"
+    },
+    "method": [
+        "Read all 1150 titles and all 1150 joined full teasers, including collective stories without geography keywords.",
+        "Link manually noted company/product leads and conservative normalized registry name matches to source rows; neither matches nor unmatched strings prove complete identity reconciliation.",
+        "Preserve every row, full teaser and source URL; known entities do not close a collective article with unnamed additional participants.",
+        "Current official company pages override stale positive archive coverage; never infer disappearance from acquisition, silence or a missing website alone.",
+        "Reuse named prior holds and Franklin's current work rather than preparing duplicate imports."
+    ],
+    "limits": [
+        "All 1150 title/teaser rows and all 160 collective bodies read; candidate primary reconciliation is still open, not complete merely because bodies were fetched or read.",
+        "Forty-five current-version profiles prepared historically; twenty-one are now published and frozen, twenty-two evidence-ready await artwork/main review, and two are explicitly held. Preparation counts do not measure completed source coverage.",
+        "Qendra belongs to the Lagrange five-company packet, awaiting main review, not published. Do not use the historical nine-company payload.",
+        "The 100 ecosystem/editorial rows have no specific new company lead in their teaser; their bodies have not been claimed empty.",
+        "Unmatched article names/hosts include aliases, parents, partners and outside-region firms, not a count of eligible omissions.",
+        "Latest independent public snapshot1194. Older packets retain historical snapshots; refresh identity and shared-address guards before import."
+    ],
+    "finiteClosure": {
+        "reference": "work/organisations/primary-parfit-startupticker-closure-pass.json",
+        "continuationReference": "work/organisations/primary-parfit-startupticker-closure-next.json",
+        "reconciliation": "work/organisations/primary-parfit-startupticker-reconciliation.json",
+        "sourceRows": 848,
+        "newPrimaryDecisions": 60,
+        "unresolvedSourceNames": 405,
+        "geographyScreenOnly": 85,
+        "note": "Counts distinguish unfinished identity/primary work from prior geographic screening. Neither group is considered a completed primary review or a verified hold. Current detailed decisions include closure-current, closure-addresses, closure-products and closure-catalogues; consult reconciliation for per-row references. Source queue remains open."
+    },
+    "primaryCounts": {
+        "historicalPrepared": 45,
+        "publishedFrozen": 21,
+        "activePreparedForMain": 22,
+        "preparedHeld": 2,
+        "initialTwelveOtherOwnerPrepared": 1,
+        "initialCandidatesStillUnderReview": 0,
+        "doNotAdd": 1
+    },
+    "updatedAt": "2026-10-15",
+    "historicalElevenSnapshotDedup": {
+        "count": 1119,
+        "preparedProfilesChecked": 40,
+        "matches": [
+            "bastionne",
+            "siresca",
+            "xelon",
+            "zenline",
+            "tom-medications",
+            "simpletrain",
+            "get-local",
+            "smart-me",
+            "moonlake-immunotherapeutics",
+            "chirp-light",
+            "twiliner"
+        ],
+        "method": "Exact slug, case-insensitive name and normalized website host; not a claim of exhaustive alias reconciliation"
+    },
+    "collectiveBodyCounts": {
+        "captured": 160,
+        "substantivelyRead": 160,
+        "remainingToRead": 0,
+        "candidateReconciliationComplete": false
+    },
+    "supersededHandoffs": [
+        {
+            "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-nine-ready.json",
+            "reason": "Qendra belongs to Lagrange pending main review; use eight-ready instead. Historical files remain unchanged."
+        }
+    ]
+}

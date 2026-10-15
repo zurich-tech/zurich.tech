@@ -1,0 +1,468 @@
+{
+    "reviewedOn": "2026-10-15",
+    "snapshotAt": "2026-10-15T01:22:28.131Z",
+    "apply": false,
+    "productionWrites": 0,
+    "authority": "Independent challenge for main review, not a replacement execution manifest. Existing disabled operations remain unchanged.",
+    "sourceManifest": "company-eligibility-exclusions.json",
+    "criteria": "Substantive continuing development of own or jointly developed relevant technology qualifies, including OSS-based software or original maintained technical processes. Generic consulting/support/resale and client-only custom implementation do not. No patent, exclusivity, internal-only engineering, multi-customer or standalone-product requirement.",
+    "method": "Re-read current first-party catalogues and named product/project branches, supplementing prior durable evidence. Public direct HTML retrieval used where web reader failed. Recommendations are bounded evidence assessments, not proof that undisclosed technology cannot exist.",
+    "counts": {
+        "challengedRemovals": 21,
+        "supportedRecommendations": 20,
+        "proposedWithdrawalsToHold": 1,
+        "confirmedKeepWithdrawals": 0,
+        "existingUnresolvedReviewed": 10,
+        "existingUnresolvedResolved": 0
+    },
+    "reconciliation": "Authoritative counts remain 893 keep, 22 exclude including already-unmapped Wittwer, 10 uncertain pending main acceptance. If walkingtoweb withdrawal is accepted: 893 keep, 21 exclude including Wittwer, 11 uncertain, 20 pending removals. No newer production read or independent review of subsequent imports is claimed.",
+    "results": [
+        {
+            "slug": "webunique",
+            "name": "webunique",
+            "organisationId": "p174hgnh052sch9vhg3rwwef4s8g9w88",
+            "publicLocationId": "px75zsh7cmrgbq4wjkmppywqhs8g8rf4",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Current catalogue describes commissioned websites/apps, customer prototypes and handover. Camply/Dalia references are customer work, not an attributed company platform.",
+            "evidence": ["https://webunique.ch/", "https://webunique.ch/agentur/"]
+        },
+        {
+            "slug": "walkingtoweb",
+            "name": "walkingtoweb GmbH",
+            "organisationId": "p17cyb9vka0q1tepxx3tbavntn8g9920",
+            "publicLocationId": "px71t7ghzjdgph80fvshkdsays8g9vnn",
+            "apply": false,
+            "decision": "withdraw-removal-to-hold-for-main-review",
+            "finding": "The blue.project page says in first person that blue has been developed continuously for over 25 years, while assigning licensing/support and detailed functions to partner walkingtoyou. Company history identifies walkingtoyou as the FileMaker developer. These statements do not settle walkingtoweb's own or joint development responsibility; a categorical reseller-only conclusion is unsafe.",
+            "evidence": [
+                "https://www.walkingtoweb.com/de/walkingtoweb",
+                "https://www.walkingtoweb.com/de/cloudloesungen/blue-project-cloud",
+                "https://www.walkingtoyou.com/de"
+            ]
+        },
+        {
+            "slug": "beebase",
+            "name": "BeeBase",
+            "organisationId": "p177ve51peb4724s5s2163v6y98g9gp2",
+            "publicLocationId": "px70t4cqaw6rtsw3mf86b3k8zn8g9dfx",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "IT operation and AI setup/training are the stated divisions. AI page names Langdock as platform and BeeBase as configuration/workflow/training provider.",
+            "evidence": [
+                "https://www.beebase.ch/",
+                "https://www.beebase.ch/ki-kompetenz",
+                "https://www.beebase.ch/faq",
+                "https://www.beebase.ch/faq/wie-wird-die-einfuehrung-neuer-systeme-begleitet"
+            ]
+        },
+        {
+            "slug": "citrus",
+            "name": "Citrus",
+            "organisationId": "p171z3gvm9fbe7kk579aq2v4pn8g9b8m",
+            "publicLocationId": "px7988f5b81jd9ae029z3a5q458g8vh1",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Catalogue expressly covers Google Workspace/Cloud rollout, migration, maintenance, support and training with selected vendor applications.",
+            "evidence": ["https://citrus.ch/", "https://citrus.ch/en/about-citrus/"]
+        },
+        {
+            "slug": "consys",
+            "name": "Consys",
+            "organisationId": "p17eva7z3s0hran0yqtdn372wx8g8h21",
+            "publicLocationId": "px7dmabk23kqxzv662kfrfx0xh8g8hre",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Current software catalogue checked against history and merger account: Limsophy is AAC Infotray software; Consys describes distribution, customer service and QM consulting. Historical consultancy methods do not establish maintained original technology.",
+            "evidence": [
+                "https://consys.ch/geschichte/",
+                "https://consys.ch/news-blogs/news/fusion-adressanderung/",
+                "https://consys.ch/software/",
+                "https://consys.ch/monday/",
+                "https://consys.ch/kundenstimmen-type/vom-langjahrigen-softwareeinsatz-zur-erweiterten-qualitatsmanagement-betreuung-nach-iso-9001/",
+                "https://downloads.ressolution.ch/Effektiver_arbeiten_mit_SAMM.pdf"
+            ]
+        },
+        {
+            "slug": "creative-matters",
+            "name": "creative matters",
+            "organisationId": "p17d6twb92tycbp4xrhgfewamx8g9xac",
+            "publicLocationId": "px7c21jj81ngz7eyjvmjzdb2h58g9xj6",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Full catalogue offers industrial/UI design, prototypes and manufacturing implementation support. Named 9T Labs/Hemotune/Securiton projects are customer assignments; this is a scope conclusion, not a denial of skilled technical design.",
+            "evidence": [
+                "https://creativematters.ch/",
+                "https://creativematters.ch/project/red-series-build/",
+                "https://creativematters.ch/en/"
+            ]
+        },
+        {
+            "slug": "data-purpose",
+            "name": "Data Purpose",
+            "organisationId": "p17fb9kbr3bbxt4k1tztfynvqd8g836q",
+            "publicLocationId": "px7c8z4jtcc8qgepns43scne9x8g86g1",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "AI packages are timed consultancy, vendor-tenant setup, use-case prototypes, model access, training and engineer residency. SAP/Microsoft-based customer delivery is described, not an attributable maintained company platform.",
+            "evidence": [
+                "https://www.data-purpose.com/",
+                "https://www.data-purpose.com/ai-for-analytics/"
+            ]
+        },
+        {
+            "slug": "digitalmaterial",
+            "name": "Digitalmaterial",
+            "organisationId": "p17ecewqcdws202nrp5d0sfdr58g9zzm",
+            "publicLocationId": "px75xpv32ep78qse63d83zvads8g864h",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Automation branch names Microsoft Endpoint Manager, Intune/Entra/Defender; wider catalogue covers customer infrastructure operation, support, strategy and M365.",
+            "evidence": [
+                "https://digitalmaterial.ch/",
+                "https://digitalmaterial.ch/it-services/automatisierung",
+                "https://digitalmaterial.ch/ueber-uns/unternehmen"
+            ]
+        },
+        {
+            "slug": "evolyze",
+            "name": "evolyze GmbH",
+            "organisationId": "p1753x3nrbvyfndway1z8ffhr18g9yks",
+            "publicLocationId": "px71avxvdd43mweb5csje35dc98g8rjm",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Project roster and detailed databaum case describe improvements to customer models/software, data cleanup and bug fixing. Substantive client-only engineering is acknowledged but insufficient under the user criterion.",
+            "evidence": [
+                "https://evolyze.ch/",
+                "https://evolyze.ch/about",
+                "https://evolyze.ch/projects/",
+                "https://evolyze.ch/projects/databaum/",
+                "https://www.swissmadesoftware.org/en/companies/evolyze-gmbh/home.html"
+            ]
+        },
+        {
+            "slug": "helvetic-it-solution",
+            "name": "Helvetic IT Solution",
+            "organisationId": "p17frxxxwwez0sf7t3bqcb7x258g86q3",
+            "publicLocationId": "px74b2cha1p5y6c0af4vnn9fex8g9fk3",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Website-development branch offers commissioned websites, apps and internal tools. Tools branch contains simple health/security/backup self-assessments and downtime-cost calculator; these advisory forms do not establish substantive original technology.",
+            "evidence": [
+                "https://www.hitso.ch/",
+                "https://www.hitso.ch/services/website-development",
+                "https://www.hitso.ch/tools"
+            ]
+        },
+        {
+            "slug": "incendia",
+            "name": "incendia",
+            "organisationId": "p171faq79ghzdhgkm210e210618g9en5",
+            "publicLocationId": "px73250p7kn6xj90r0fgd7r9t58g9449",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Service catalogue explicitly offers customer-specific apps, SAP extensions, ABAP interfaces/forms and continuing support. Original coding is acknowledged; published work remains client-only implementation. Central review remains required.",
+            "evidence": ["https://incendia.ch/", "https://incendia.ch/dienstleistungen"]
+        },
+        {
+            "slug": "intecso",
+            "name": "Intecso",
+            "organisationId": "p170qqmav2b28k99am4fkwtmmd8g83gz",
+            "publicLocationId": "px78bqv4m5jfw64caahre5smqh8g8k6m",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Full managed-ICT catalogue lists service desk, Azure migration/operation, M365/Copilot, backup, monitoring and security. Customer testimonials describe infrastructure renewal and implementation.",
+            "evidence": ["https://www.intecso.ch/", "https://www.intecso.ch/ueber-uns/"]
+        },
+        {
+            "slug": "itivity",
+            "name": "ITIVITY",
+            "organisationId": "p17ddm7715s30qndq2y270ecks8g8629",
+            "publicLocationId": "px7ef20tqvt5zq18arf1daj5v98g8jxb",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Direct current services page describes modular cloud, cybersecurity, Microsoft, backup and support/SLA. Prior actual-delivery case corroborates standard infrastructure migration and operation.",
+            "evidence": [
+                "https://www.itivity.ch/services/",
+                "https://www.itivity.ch/fileadmin/user_upload/Successstories/Itivity_Success_Story_Referenzstory_Grob_Kies_AG_GzA.pdf"
+            ]
+        },
+        {
+            "slug": "nomasis",
+            "name": "Nomasis",
+            "organisationId": "p178rt0zhq8xdg9cmtqz4xvpp18g8tyv",
+            "publicLocationId": "px7fefvxy49710qwz2mdmarr3h8g9nvx",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Engineering page claims investment in R&D, which is acknowledged. Its concrete offerings are customer systems optimisation, tailored automation, PoC, migration and rollout; EMEA's software-development language likewise does not identify an original maintained technology branch.",
+            "evidence": [
+                "https://nomasis.ch/",
+                "https://nomasis.ch/unternehmen/",
+                "https://nomasis.ch/en/it-services/engineering/",
+                "https://nomasis.ch/emea/"
+            ]
+        },
+        {
+            "slug": "onmit",
+            "name": "onmit",
+            "organisationId": "p171s9rs0bsn18esdjref2spad8g818p",
+            "publicLocationId": "px7637e3h205f8tnrvqc2r9jzx8g8yc1",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Individual software and web-app offerings are commissioned customer delivery. Named Teacher Switch is another startup's application; third-party frameworks alone are not the exclusion basis.",
+            "evidence": [
+                "https://onmit.ch/",
+                "https://onmit.ch/dienstleistungen/softwareentwicklung/",
+                "https://onmit.ch/wp-content/uploads/2025/01/2025_01-Allgemeine-Geschaeftsbedingungen.pdf",
+                "https://onmit.ch/dienstleistungen/webauftritt/"
+            ]
+        },
+        {
+            "slug": "pront",
+            "name": "Pront",
+            "organisationId": "p17dqr5qrk75sfa3e2s7k22s3n8g8k7a",
+            "publicLocationId": "px78wf8b88cy2pbrkd928ne2ch8g9jbd",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Data/AI catalogue offers customer strategy, architecture and prototypes. Concrete Interdiscount case is cloud migration/DevOps; Helsana case is platform strategy and enterprise integration.",
+            "evidence": [
+                "https://www.pront.org/",
+                "https://www.pront.org/en/company/team",
+                "https://www.pront.org/en/company/projects",
+                "https://www.pront.org/en/services/data-ai"
+            ]
+        },
+        {
+            "slug": "relyz",
+            "name": "relyz",
+            "organisationId": "p17535y7nqbqtp59s2wp00re9x8g8haz",
+            "publicLocationId": "px78x0bfsmzzyacr4qbetxxm758g9w6n",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "AI catalogue covers strategy, governance, training and customer API/MCP integration. KI-Kompass is a strategy/maturity method, not a demonstrated technical platform or original technical process.",
+            "evidence": [
+                "https://www.relyz.ch/",
+                "https://www.relyz.ch/services/digital-technology-engineering/",
+                "https://www.relyz.ch/insights/",
+                "https://www.relyz.ch/services/ai-consulting/",
+                "https://www.relyz.ch/insights/ki-strategie-modell/"
+            ]
+        },
+        {
+            "slug": "swiss-infosec",
+            "name": "Swiss Infosec",
+            "organisationId": "p1779h27bm8qv9cbsd7rvyw0rs8g9n8k",
+            "publicLocationId": "px75khm1yc4fk5c277et83hes58g9h5w",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "GRC software is attributed to Swiss GRC. Wider Academy/eLearning branch uses easylearn LMS and hosting; original training content is acknowledged but is not original relevant technology.",
+            "evidence": [
+                "https://www.infosec.ch/mandate/grc-toolbox/",
+                "https://www.infosec.ch/",
+                "https://www.infosec.ch/ausbildung/elearning-kurse/",
+                "https://www.infosec.ch/ausbildung/elearning-kurse/infosec-academy-die-kostenguenstige-und-benutzerfreundliche-elearning-plattform/"
+            ]
+        },
+        {
+            "slug": "wetalkwithyou",
+            "name": "wetalkwithyou",
+            "organisationId": "p177w21wmyn16thc8dy1113wrd8g98bh",
+            "publicLocationId": "px7d7qfsvgen9nfn8q92tsw6498g8vfv",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Technology, shop and case branches describe customer sites, booking and commerce implementations. Existing frameworks are not disqualifying themselves; client-only delivery is the material scope issue.",
+            "evidence": [
+                "https://wetalkwithyou.com/",
+                "https://wetalkwithyou.com/technology",
+                "https://wetalkwithyou.com/technology/ably",
+                "https://wetalkwithyou.com/technology/sylius",
+                "https://wetalkwithyou.com/cases/plaza-kliniken",
+                "https://wetalkwithyou.com/cases/focuswater-vending-machine"
+            ]
+        },
+        {
+            "slug": "won-data",
+            "name": "WOn-Data",
+            "organisationId": "p17caxktpgqwwz07sm50ygdwxh8g82v4",
+            "publicLocationId": "px7ez4s1xcas7d93w4f21kdmd58g8w9w",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Catalogue covers colocation, power/cooling, connectivity, remote hands and reporting. Operating engineered infrastructure is not itself proof of developing original relevant technology. Customer portal is mentioned without development attribution; retain as a scope-sensitive recommendation for main, not proof of no engineering.",
+            "evidence": ["https://won-data.ch/", "https://won-data.ch/dienstleistungen/"]
+        },
+        {
+            "slug": "zurichnetgroup",
+            "name": "zurichnetgroup",
+            "organisationId": "p17f6k23mre9v2z05c233nj77h8g8p75",
+            "publicLocationId": "px76cjzdn52s5y1y4wgdny5c318g92v6",
+            "apply": false,
+            "decision": "support-exclusion-recommendation-for-main-review",
+            "finding": "Full catalogue covers vendor cloud, Microsoft/Swisscom, telephony, security and support. Existing delivery/career evidence corroborates customer infrastructure integration rather than an attributed own product.",
+            "evidence": [
+                "https://www.zurichnetgroup.ch/",
+                "https://www.zurichnetgroup.ch/jobs/senior-it-engineer",
+                "https://www.swisscom.ch/de/business/enterprise/erfolgsgeschichten/it-und-kommunikationstechnologie/zurichnetgroup.html"
+            ]
+        }
+    ],
+    "unresolved": [
+        {
+            "slug": "automate",
+            "name": "AutoMate Insurance AG",
+            "organisationId": "p17aaje06s5t3f8fftqbwa92h98g9bkt",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Fresh platform read exposes untranslated templates and concrete insurance navigation/address, not developer attribution. No adverse inference from rendering limitations.",
+            "decisiveQuestion": "Does AutoMate develop and maintain the platform, including through a technical partner, or only operate supplied software?",
+            "evidence": [
+                "https://platform.automate.ch/website/home",
+                "https://automate.ch/website/executive_solutions",
+                "https://www.automate.ch/website/about"
+            ]
+        },
+        {
+            "slug": "forte-digital",
+            "name": "Forte Digital",
+            "organisationId": "p1757az3zwr1edw41ehr4db0dx8g8tbw",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Current official office roster still does not establish Zurich presence; Swiss customer work does not settle location.",
+            "decisiveQuestion": "Is the listed Zurich technical operation current?",
+            "evidence": [
+                "https://fortedigital.com/en/blog/forte-digital-wins-multi-stage-pitch-for-digital-product-development-for-migros",
+                "https://fortedigital.com/de/blog/medienhighlights-2024",
+                "https://www.fortedigital.com/de/ueber-uns",
+                "https://careers-de.fortedigital.com/jobs/8474669-product-designer-m-w-d"
+            ]
+        },
+        {
+            "slug": "icentic",
+            "name": "icentic",
+            "organisationId": "p173b49q1c5av62z5v3kcbjrns8g8t1q",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Current about page establishes incubation and shared beppo leadership, not current development participation by this entity.",
+            "decisiveQuestion": "Does current icentic contribute to beppo or another maintained original technology?",
+            "evidence": [
+                "https://www.icentic.com/about/",
+                "https://mybeppo.ch/en/about/",
+                "https://www.icentic.com/",
+                "https://www.icentic.com/software-development-for-sme/"
+            ]
+        },
+        {
+            "slug": "koch-it",
+            "name": "KOCH IT",
+            "organisationId": "p171erwt6v0my650pa9v3cf4bs8g8kkp",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Current successor office list does not settle Winterthur occupancy. Prior official absorption announcement remains decisive for identity reconciliation, not exclusion for lack of technology.",
+            "decisiveQuestion": "How should the absorbed entity and unconfirmed Winterthur office be represented under Adnovum?",
+            "evidence": [
+                "https://www.adnovum.com/blog/adnovum-strengthens-cybersecurity-and-realigns-solutions",
+                "https://www.adnovum.com/company/contact-locations"
+            ]
+        },
+        {
+            "slug": "mathys-partner",
+            "name": "Mathys Partner",
+            "organisationId": "p1748qrrqhnpjpdnbj5n60gae18g8rk0",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Official simulation homepage and targeted primary search add no decisive authorship statement. Existing specialist methods evidence remains positive; software/process attribution remains open.",
+            "decisiveQuestion": "Does Mathys develop the simulation software or original computational methods rather than solely apply external tools?",
+            "evidence": [
+                "https://simulation.solar/",
+                "https://simulation.solar/uebersicht-blendung/",
+                "https://pubdb.bfe.admin.ch/de/publication/download/11996",
+                "https://visualisierung.ch/",
+                "https://glarecontrol.aero/",
+                "https://simulation.solar/leitfaden-blendung/",
+                "https://pubdb.bfe.admin.ch/de/publication/download/11996"
+            ]
+        },
+        {
+            "slug": "mecas",
+            "name": "mecas",
+            "organisationId": "p179bhdyjbxxrk4bnqpvzy629n8g82rm",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Fresh homepage retains physical-AI research claims without a concrete attributable output. Protected sparse young firm; no inactivity inference.",
+            "decisiveQuestion": "What concrete technical work can be attributed to Mecas?",
+            "evidence": [
+                "https://www.mecas.ai/",
+                "https://www.mecas.ai/terms-of-service",
+                "https://www.mecas.ai/legal",
+                "https://lowly-sardine-983.notion.site/Work-at-mecas-1985ab2eb16880a7a91dd68a69d6fd5d?pvs=4",
+                "https://www.mecas.ai/"
+            ]
+        },
+        {
+            "slug": "reasoning-labs",
+            "name": "Reasoning Labs",
+            "organisationId": "p17emksnc16q6zf6yvd1m9dn5h8g4cgh",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Fresh homepage identifies REASONING MACHINES INC.; Swiss entity bridge remains unresolved. Sparse publicity is not exclusion evidence.",
+            "decisiveQuestion": "What primary source connects the website/research team to the Swiss listing?",
+            "evidence": ["https://reasoninglabs.com/", "https://reasoninglabs.com/"]
+        },
+        {
+            "slug": "scheuss-partner",
+            "name": "Scheuss & Partner",
+            "organisationId": "p175j9q32k81qb893ff9gtgx598g9b76",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Fresh Marketplace page confirms provisioning, reporting and automated billing, without developer attribution. Do not equate supplied cloud infrastructure with absence of original software.",
+            "decisiveQuestion": "Who develops and maintains the publicloud Marketplace software?",
+            "evidence": [
+                "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud-marketplace/",
+                "https://marketplace.publicloud.ch/",
+                "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud/",
+                "https://www.scheuss-partner.ch/kontakt/publicloud/"
+            ]
+        },
+        {
+            "slug": "umb",
+            "name": "UMB",
+            "organisationId": "p17a4v926sgmxexwkmtjacjyh18g9vv4",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Additional official Hyrock case expressly concerns the customer's application and UMB Azure architecture optimisation with its development partner. It does not establish UMB's own platform or disprove another original component.",
+            "decisiveQuestion": "What original maintained software or technical component is attributable to current UMB?",
+            "evidence": [
+                "https://www.umb.ch/en/blog/news/detail/umb-expands-its-technology-business-transformation-offerings",
+                "https://www.mesoneer.io/blog/umb-solutions-now-operates-as-mesoneer",
+                "https://www.umb.ch/solutions/platform-builder",
+                "https://www.umb.ch/solutions/ai-data-scientist",
+                "https://www.umb.ch/blog/news/detail/quick-and-easy-so-richten-sie-ihre-eigene-devops-umgebung-ein",
+                "https://www.umb.ch/solutions/sap-wizard/sap-cloud",
+                "https://www.umb.ch/unternehmen/partner/umb-bietet-ibm-power-ibm-z-ibm-flash-systems-und-qradar",
+                "https://www.umb.ch/solutions/platform-builder/platform",
+                "https://www.umb.ch/solutions/ai-data-scientist",
+                "https://www.umb.ch/solutions/ai-data-scientist/data-science",
+                "https://www.umb.ch/kunden/projekt/detail/verschtaht-au-schwizerduetsch-voicebot-von-umb-entlastet-das-einwohneramt-kreuzlingen-mit-kuenstlicher-intelligenz",
+                "https://www.umb.ch/kunden/projekt/detail/mehr-zeit-fuer-hyrock-umb-optimiert-cloud-architektur-fuer-kundenapplikation-in-der-azure-cloud"
+            ]
+        },
+        {
+            "slug": "unimission",
+            "name": "Unimission",
+            "organisationId": "p17f3gm79eqcybgeq6hk5j9tt18g9wpr",
+            "apply": false,
+            "decision": "uncertain-retain",
+            "finding": "Fresh history retains explicit 2025 uNimbus development claim. IBM infrastructure/Green hosting do not disprove an original component; precise development contribution remains unresolved.",
+            "decisiveQuestion": "What original technical component or process does Unimission develop for uNimbus beyond operating vendor infrastructure?",
+            "evidence": [
+                "https://www.unimission.ch/",
+                "https://www.unimission.ch/univision/",
+                "https://www.unimission.ch/unimbus-die-100-schweizer-cloud-fuer-kmus/",
+                "https://www.unimission.ch/uber-uns/",
+                "https://www.unimission.ch/cloud-services/",
+                "https://www.unimission.ch/uber-uns/",
+                "https://www.unimission.ch/unimbus-die-100-schweizer-cloud-fuer-kmus/"
+            ]
+        }
+    ],
+    "limits": "No automatic exclusions from missing evidence, access failures or quiet social accounts. No production mutation, action-time approval or removal execution. Incendia and WOn-Data require main's explicit scope review."
+}

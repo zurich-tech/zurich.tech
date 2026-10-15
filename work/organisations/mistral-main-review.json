@@ -1,0 +1,37 @@
+{
+    "date": "2026-10-15",
+    "status": "published-and-independently-verified",
+    "slug": "mistral-ai",
+    "sources": [
+        "https://www.welcometothejungle.com/en/companies/mistral-ai/jobs/ai-scientist_zurich",
+        "https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-220.730.249",
+        "https://mistral.ai/brand/"
+    ],
+    "technology": "Main read employer-authored Zurich AI Scientist role specifying research into language models and development of model training and evaluation infrastructure",
+    "address": {
+        "method": "Main Chrome rendered federal UID record",
+        "name": "Mistral AI (Suisse) GmbH",
+        "uid": "CHE-220.730.249",
+        "status": "Active",
+        "careOf": "Thouvenin Rechtsanwaelte KLG",
+        "line1": "Klausstrasse 33",
+        "postalCode": "8008",
+        "locality": "Zurich",
+        "egid": "158970",
+        "lastValidation": "2026-10-06",
+        "label": "Registered address",
+        "caveat": "The law-firm address is not asserted to be a staffed research office"
+    },
+    "artwork": {
+        "finding": "Main visually approved genuine compact official pixel mark at large and map sizes",
+        "sha256": "239a9ee842dcf664294945e57aed85d20d34102c9892d834bb25c3bc1f24f97f"
+    },
+    "checks": {
+        "identity": "Fresh complete production identity and shared-address check at 05:03:35.659Z: no duplicate",
+        "artwork": "Hosted pixels, hash and CORS independently checked at 05:03:37.871Z",
+        "publication": "Supported importer preview passed; exact reviewed selection applied once",
+        "readback": "Complete production tables independently verified every imported field, public address and social link; 1148 organisations"
+    },
+    "remaining": [],
+    "organisationWrites": 1
+}

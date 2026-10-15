@@ -1,0 +1,27 @@
+{
+    "date": "2026-10-15",
+    "status": "published-independently-verified",
+    "packet": "/tmp/zurich-registry-review/carbonfuture-main-reviewed.json",
+    "productionCount": 1094,
+    "reapply": false,
+    "primaryReview": {
+        "sources": [
+            "https://www.carbonfuture.earth/company",
+            "https://www.carbonfuture.earth/contact",
+            "https://www.carbonfuture.com/team/dominic-ludin",
+            "https://greenbuzz.global/wp-content/uploads/carbonfuture.pdf"
+        ],
+        "eligibility": "Main read current own monitoring/verification software, direct Zurich contact and first-party biography linking product responsibility to its Zurich team. Employer-authored Head of Product advert corroborates Zurich product-work location, not current vacancy or engineering headcount.",
+        "classification": "Startup, Software; no physical capture equipment claim or generic Energy tag",
+        "location": "Official Carbonfuture AG contact Rontgenstrasse16,8005Zurich,CHE405242179; exact federal address geometry retained with Contact address label",
+        "socials": "Official corporate LinkedIn identity verified; no speculative additional accounts"
+    },
+    "verification": {
+        "identity": "Fresh complete production organisation, location and address tables at1093,03:40UTC found no normalized identity or existing public building match",
+        "logo": "Main visually approved genuine official compact mark; uploaded asset independently SHA256 checked, fully pixel decoded at192x192 and CORS verified at03:40UTC",
+        "hash": "62a74843bbd6457986ba1521b104dc01457bc399a46fba88948a2a27e1b7348e",
+        "publication": "Supported dryrun then apply exactly once",
+        "readback": "Independent complete production table verification passed for all prepared profile fields, exact public location and social link; total1094"
+    },
+    "separateHold": "Kenjo remains unpublished: own software and Zurich office confirmed, local technical/product attribution unresolved in bounded checks"
+}

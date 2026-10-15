@@ -1,0 +1,38 @@
+{
+    "date": "2026-10-15",
+    "status": "published-independently-verified",
+    "reviews": [
+        {
+            "slug": "zhdk",
+            "finding": "Main read the university's Immersive Arts Space research, mixed-reality work and interdisciplinary computing/engineering team. Its official contact confirms Pfingstweidstrasse 96. Retain one university identity, not a duplicate internal lab.",
+            "sources": [
+                "https://www.zhdk.ch/immersive-arts-space",
+                "https://www.zhdk.ch/immersive-arts-space/kontakt-10993"
+            ],
+            "socialReview": "Main Chrome read the verified parent institution's About page: exact zhdk.ch website, full institution name, Zurich headquarters and Pfingstweidstrasse 96. The web reader returned 999, overcome through the real browser.",
+            "socials": { "linkedin": "https://www.linkedin.com/school/zhdk/" }
+        },
+        {
+            "slug": "didas",
+            "finding": "Main read current verifiable-credential guidance and technical working-group scope. Own contact identifies Campus Zug Rotkreuz; the host university's official campus document confirms Suurstoffi 1, correcting the association's Surstoffi spelling. Preserve Contact address; do not claim the forthcoming Launchpad is released.",
+            "sources": [
+                "https://www.didas.swiss/de/",
+                "https://www.hslu.ch/-/media/campus/common/files/dokumente/i/plaene-suurstoffi/lageplan-campus-zug-rotkreuz-suurstoffi.pdf/?la=de-ch"
+            ]
+        }
+    ],
+    "artwork": "Main directly viewed genuine compact ZHdK and DIDAS marks; unchanged-byte supported upload approved",
+    "publication": {
+        "manifest": "/tmp/zurich-registry-review/membership-institutions-ready2.json",
+        "identityCheckedAt": "2026-10-15T04:18:04.586Z",
+        "identityBaseline": 1122,
+        "assetsCheckedAt": "2026-10-15T04:18:07.661Z",
+        "assets": "Both exact hashes, complete image dimensions and public CORS passed",
+        "result": "Supported preview and apply each returned exactly two; independent complete production readback verified all profile, location and social fields",
+        "verifiedOrganisations": 2,
+        "totalOrganisations": 1124,
+        "frozen": true
+    },
+    "remaining": [],
+    "productionWrites": 2
+}

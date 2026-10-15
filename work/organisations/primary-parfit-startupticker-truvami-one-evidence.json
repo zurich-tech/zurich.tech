@@ -1,0 +1,90 @@
+{
+    "checkedAt": "2026-10-15T03:31:52.641Z",
+    "productionWrites": 0,
+    "visualReview": "Official verified-domain GitHub organisation avatar inspected at32px and96px. Original turquoise wordmark preserved; lettering small at32px. Main visual approval required; no invented monogram or recolouring.",
+    "records": [
+        {
+            "slug": "truvami",
+            "name": "Truvami",
+            "website": "https://truvami.com/",
+            "line1": "Binzstrasse 7",
+            "postalCode": "8045",
+            "locality": "Zürich",
+            "office": "Registered address",
+            "headline": "Low-power tracking devices and asset intelligence",
+            "description": "Develops compact LoRaWAN tracking devices, firmware and software for indoor and outdoor asset monitoring using GPS, Wi-Fi and Bluetooth positioning",
+            "topics": ["embedded", "telecom"],
+            "uid": "175842213",
+            "socials": {
+                "linkedin": "https://www.linkedin.com/company/truvami/",
+                "github": "https://github.com/truvami"
+            },
+            "source": "https://avatars.githubusercontent.com/u/144101217?s=200&v=4",
+            "sources": [
+                "https://docs.truvami.com/",
+                "https://docs.truvami.com/devices",
+                "https://github.com/truvami",
+                "https://www.linkedin.com/company/truvami/",
+                "https://www.uid.admin.ch/Detail.aspx?lang=de&uid_id=CHE175842213"
+            ],
+            "rationale": "Official live developer documentation establishes own tracker families, firmware and payload architecture; officially linked GitHub has verified truvami.com domain and original decoder/Helm development activeSeptember/October2026. Current active UID identifies distinct truvami GmbH at Binzstrasse7 c/oSwisscomBroadcast; older LinkedIn Gallusstrasse4 is not used. Same registered building as parent/partner does not itself duplicate distinct product company. Main marketing website returns520; docs and GitHub remain accessible.",
+            "socialEvidence": "Official docs link GitHub organisation; verified-domain GitHub in turn links exact LinkedIn company/truvami. No X linked on reviewed official docs/GitHub. Original logo is the verified official GitHub organisation avatar, not a GitHub platform icon.",
+            "address": {
+                "line1": "Binzstrasse 7",
+                "postalCode": "8045",
+                "locality": "Zürich",
+                "countryCode": "CH",
+                "latitude": 47.36292266845703,
+                "longitude": 8.51699161529541,
+                "source": "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/9001967_0?sr=4326"
+            },
+            "federal": {
+                "results": [
+                    {
+                        "attrs": {
+                            "detail": "binzstrasse 7 8045 zuerich 261 zuerich ch zh",
+                            "featureId": "9001967_0",
+                            "geom_quadindex": "030003211211322033102",
+                            "geom_st_box2d": "BOX(8.51698 47.362924,8.51698 47.362924)",
+                            "label": "Binzstrasse 7 <b>8045 Zürich</b>",
+                            "lat": 47.36292266845703,
+                            "links": [
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.swisstopo.amtliches-gebaeudeadressverzeichnis/101276788",
+                                    "rel": "related",
+                                    "title": "ch.swisstopo.amtliches-gebaeudeadressverzeichnis"
+                                },
+                                {
+                                    "href": "/rest/services/ech/MapServer/ch.bfs.gebaeude_wohnungs_register/9001967_0",
+                                    "rel": "related",
+                                    "title": "ch.bfs.gebaeude_wohnungs_register"
+                                }
+                            ],
+                            "lon": 8.51699161529541,
+                            "num": 7,
+                            "objectclass": "",
+                            "origin": "address",
+                            "rank": 7,
+                            "x": 8.51699161529541,
+                            "y": 47.36292266845703,
+                            "zoomlevel": 10
+                        },
+                        "id": 1950962,
+                        "weight": 100
+                    }
+                ]
+            },
+            "registryCount": 1076,
+            "registryCheckedAt": "2026-10-15T03:10:32.547Z",
+            "duplicateMatches": [],
+            "logo": {
+                "path": "/tmp/zurich-registry-review/primary-parfit-startupticker-truvami.png",
+                "source": "https://avatars.githubusercontent.com/u/144101217?s=200&v=4",
+                "width": 200,
+                "height": 200,
+                "transformation": "Original artwork resized and transparently padded; no recolouring or redrawing."
+            },
+            "apply": false
+        }
+    ]
+}

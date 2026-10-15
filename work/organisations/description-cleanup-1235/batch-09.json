@@ -1,0 +1,605 @@
+{
+  "apply": false,
+  "organisations": [
+    {
+      "id": "p1732mhr9gcgfphjsxqhnx7z7d8f5y9q",
+      "slug": "ionplus",
+      "expectedDescription": "Ionplus develops compact accelerator mass spectrometers and sample preparation systems such as MILEA. The company is an ETH spin-off founded in 2013.",
+      "description": "Ionplus develops compact accelerator mass spectrometers and sample preparation systems such as MILEA. The company is an ETH spin-off founded in 2013"
+    },
+    {
+      "id": "p1797w980gwcgae645384xhy9s8f5jp9",
+      "slug": "intellyse",
+      "expectedDescription": "Intellyse builds AI software that checks freight invoices, files carrier disputes and compares freight costs. The company started at ETH in 2026.",
+      "description": "Intellyse builds AI software that checks freight invoices, files carrier disputes and compares freight costs. The company started at ETH in 2026"
+    },
+    {
+      "id": "p179zxhx7d3mmrmjgfv8n3sp0x8f588d",
+      "slug": "innovation-park-zurich",
+      "expectedDescription": "Innovation Park Zurich hosts research and development activity at the Dübendorf airfield. It connects academic and industrial projects.",
+      "description": "Innovation Park Zurich hosts research and development activity at the Dübendorf airfield. It connects academic and industrial projects"
+    },
+    {
+      "id": "p174rmmtwfnqhhv4s133x956j18f43sh",
+      "slug": "inivation",
+      "expectedDescription": "iniVation develops dynamic vision sensors and event cameras with developer software. The company is a UZH spin-off founded in 2015.",
+      "description": "iniVation develops dynamic vision sensors and event cameras with developer software. The company is a UZH spin-off founded in 2015"
+    },
+    {
+      "id": "p170wppfr1nka6arf5pyzypp0d8f5w2n",
+      "slug": "init7",
+      "expectedDescription": "Init7 is an internet service provider offering fibre access up to 25 Gbit/s and wholesale IP transit. Its headquarters is in Winterthur.",
+      "description": "Init7 is an internet service provider offering fibre access up to 25 Gbit/s and wholesale IP transit. Its headquarters is in Winterthur"
+    },
+    {
+      "id": "p1756bvtt2p4nzcpwap5kvwma18f4kvr",
+      "slug": "ini",
+      "expectedDescription": "Institute of Neuroinformatics researches neural computation and neuromorphic systems.",
+      "description": "Institute of Neuroinformatics researches neural computation and neuromorphic systems"
+    },
+    {
+      "id": "p175326fx2zbr9kd81gpfzj5nh8f5n5e",
+      "slug": "impact-hub-zurich",
+      "expectedDescription": "Impact Hub Zürich operates shared workspaces and community events. Colab is its main community location; it also operates spaces at Viadukt and Kraftwerk.",
+      "description": "Impact Hub Zürich operates shared workspaces and community events. Colab is its main community location; it also operates spaces at Viadukt and Kraftwerk"
+    },
+    {
+      "id": "p17fes51j0b0sft9np12qj3z7x8f5nnp",
+      "slug": "impact-build",
+      "expectedDescription": "impact.build develops robotic processes for building with less carbon. It is based at the Technopark Winterthur.",
+      "description": "impact.build develops robotic processes for building with less carbon. It is based at the Technopark Winterthur"
+    },
+    {
+      "id": "p177fx1nkk640c3sjtn58jca3x8f5dtz",
+      "slug": "ibm-research-zurich",
+      "expectedDescription": "IBM's Zurich research laboratory operates in Rüschlikon. The site includes research laboratories and cleanroom facilities shared with ETH Zurich.",
+      "description": "IBM's Zurich research laboratory operates in Rüschlikon. The site includes research laboratories and cleanroom facilities shared with ETH Zurich"
+    },
+    {
+      "id": "p1754tjasqte7by54z4gd8qse18f4qrr",
+      "slug": "hyperscale-power",
+      "expectedDescription": "Hyperscale Power develops solid-state transformers for power conversion.",
+      "description": "Hyperscale Power develops solid-state transformers for power conversion"
+    },
+    {
+      "id": "p1725krna5q94vpskrc1h6hksx8f4j32",
+      "slug": "hoshii",
+      "expectedDescription": "Hoshii develops software that reads, drafts and routes order and supplier communication for B2B operations teams. It connects to ERP systems and is hosted in the EU.",
+      "description": "Hoshii develops software that reads, drafts and routes order and supplier communication for B2B operations teams. It connects to ERP systems and is hosted in the EU"
+    },
+    {
+      "id": "p17ahn8wseds1tj0jfxhsne08x8f4zz5",
+      "slug": "hitachi-energy",
+      "expectedDescription": "Hitachi Energy develops equipment and software for electrical grids. Its global headquarters is in Zurich.",
+      "description": "Hitachi Energy develops equipment and software for electrical grids. Its global headquarters is in Zurich"
+    },
+    {
+      "id": "p177kv8y5k2e3b57r98xrqmb3n8f5qdd",
+      "slug": "hexagon-robotics",
+      "expectedDescription": "Hexagon Robotics develops the AEON industrial humanoid robot, launched in 2025. It is the Zurich-based robotics division of Hexagon.",
+      "description": "Hexagon Robotics develops the AEON industrial humanoid robot, launched in 2025. It is the Zurich-based robotics division of Hexagon"
+    },
+    {
+      "id": "p17d9x17d9kx16kdh858kng2c98f4bqn",
+      "slug": "heidelberg-instruments-nano",
+      "expectedDescription": "Heidelberg Instruments Nano develops and builds the NanoFrazor lithography system in Zurich. It is an ETH spin-off, formerly SwissLitho.",
+      "description": "Heidelberg Instruments Nano develops and builds the NanoFrazor lithography system in Zurich. It is an ETH spin-off, formerly SwissLitho"
+    },
+    {
+      "id": "p17ff38c7ee8x5ne35jm68c5058f5rdq",
+      "slug": "hackteria",
+      "expectedDescription": "Hackteria develops open-source laboratory tools and runs biology workshops.",
+      "description": "Hackteria develops open-source laboratory tools and runs biology workshops"
+    },
+    {
+      "id": "p17fyznhdpyrpxtdmpg5cqhtwh8f5zpf",
+      "slug": "greenteg",
+      "expectedDescription": "greenTEG develops heat-flux sensors and the CORE body temperature sensor. The company is an ETH spin-off founded in 2009.",
+      "description": "greenTEG develops heat-flux sensors and the CORE body temperature sensor. The company is an ETH spin-off founded in 2009"
+    },
+    {
+      "id": "p177p038cm72w7ef4pwmpxet3d8f4gx7",
+      "slug": "gravis-robotics",
+      "expectedDescription": "Gravis Robotics develops autonomous control systems for construction machines.",
+      "description": "Gravis Robotics develops autonomous control systems for construction machines"
+    },
+    {
+      "id": "p17fcmvdyn6vryd7ca6qmk0pas8f4dda",
+      "slug": "gravimon",
+      "expectedDescription": "Gravimon develops modular industrial radar systems for real-time natural hazard detection. The company was founded in 2025 and is based in Technopark Zürich.",
+      "description": "Gravimon develops modular industrial radar systems for real-time natural hazard detection. The company was founded in 2025 and is based in Technopark Zürich"
+    },
+    {
+      "id": "p17bzma6j1r7ht6zr99h4ptc298f4ddg",
+      "slug": "google-zurich",
+      "expectedDescription": "Google operates engineering and research offices in Zurich. Its local research includes machine learning for language and speech applications.",
+      "description": "Google operates engineering and research offices in Zurich. Its local research includes machine learning for language and speech applications"
+    },
+    {
+      "id": "p1709217tq11kwwryddksfrxbh8f5w0c",
+      "slug": "gilytics",
+      "expectedDescription": "Gilytics builds Pathfinder, which automates routing and siting for linear infrastructure. The company is an ETH spin-off founded in 2017.",
+      "description": "Gilytics builds Pathfinder, which automates routing and siting for linear infrastructure. The company is an ETH spin-off founded in 2017"
+    },
+    {
+      "id": "p177fk3dgpcv5amadndbw3fjkn8f45dx",
+      "slug": "getyourguide",
+      "expectedDescription": "GetYourGuide operates a marketplace for tours, activities and attractions. Its Zurich office hosts engineering, product and design teams.",
+      "description": "GetYourGuide operates a marketplace for tours, activities and attractions. Its Zurich office hosts engineering, product and design teams"
+    },
+    {
+      "id": "p17abyh6pc0naftgdsm07nz81n8f4gme",
+      "slug": "futurae",
+      "expectedDescription": "Futurae builds multi-factor and passwordless authentication and anti-fraud SDKs for banks and fintechs. The company is an ETH spin-off.",
+      "description": "Futurae builds multi-factor and passwordless authentication and anti-fraud SDKs for banks and fintechs. The company is an ETH spin-off"
+    },
+    {
+      "id": "p178efaq28k2txrj3ms6mda4j58f432w",
+      "slug": "fruitful-ai",
+      "expectedDescription": "Fruitful AI builds Neo, a platform for training and deploying visual inspection models. The company started at ZHAW in 2021.",
+      "description": "Fruitful AI builds Neo, a platform for training and deploying visual inspection models. The company started at ZHAW in 2021"
+    },
+    {
+      "id": "p175kvx6cgp6q411spvmhm7mj18f5yqm",
+      "slug": "fotokite",
+      "expectedDescription": "Fotokite builds tethered observation drones for emergency responders.",
+      "description": "Fotokite builds tethered observation drones for emergency responders"
+    },
+    {
+      "id": "p17f2hvv9wvz2drq1mvqkjmfds8f4f1h",
+      "slug": "forgis",
+      "expectedDescription": "Forgis develops software and AI models for industrial operations.",
+      "description": "Forgis develops software and AI models for industrial operations"
+    },
+    {
+      "id": "p17f8ngznd6dhv13dfhgstzsns8f4wvg",
+      "slug": "fluxim",
+      "expectedDescription": "Fluxim builds device simulation software and characterization instruments for OLEDs, perovskite solar cells and batteries. The company is a ZHAW spin-off founded in 2007.",
+      "description": "Fluxim builds device simulation software and characterization instruments for OLEDs, perovskite solar cells and batteries. The company is a ZHAW spin-off founded in 2007"
+    },
+    {
+      "id": "p178f0141q65bnzmany97jwxd98f56g9",
+      "slug": "flux-mobility",
+      "expectedDescription": "Flux Mobility electrifies and builds light commercial vehicles for fleets and municipalities. It develops and assembles its vehicles in Winterthur.",
+      "description": "Flux Mobility electrifies and builds light commercial vehicles for fleets and municipalities. It develops and assembles its vehicles in Winterthur"
+    },
+    {
+      "id": "p175k0ysx2p2dzn8qbs0ngbx458f4tjf",
+      "slug": "flink-robotics",
+      "expectedDescription": "Flink Robotics develops robotic picking systems for parcel and goods handling. The company is an ETH spin-off founded in 2024.",
+      "description": "Flink Robotics develops robotic picking systems for parcel and goods handling. The company is an ETH spin-off founded in 2024"
+    },
+    {
+      "id": "p179nb77v02789qvr6qckjgqtd8f5jhg",
+      "slug": "flexion",
+      "expectedDescription": "Flexion develops control software for humanoid robots.",
+      "description": "Flexion develops control software for humanoid robots"
+    },
+    {
+      "id": "p17bm42wwsk9hy205qj47fj6fx8f4p97",
+      "slug": "fixposition",
+      "expectedDescription": "Fixposition develops sensors that fuse satellite navigation with computer vision for precise positioning. It is an ETH Zurich spinoff.",
+      "description": "Fixposition develops sensors that fuse satellite navigation with computer vision for precise positioning. It is an ETH Zurich spinoff"
+    },
+    {
+      "id": "p173jcqz3kknz6t93fdm08z1b58f50rq",
+      "slug": "fidectus",
+      "expectedDescription": "Fidectus develops the Global Energy Network, which confirms and settles trades between energy companies. It partnered with ION Group in 2026.",
+      "description": "Fidectus develops the Global Energy Network, which confirms and settles trades between energy companies. It partnered with ION Group in 2026"
+    },
+    {
+      "id": "p173fvdacdkdhs3db3eg346nvx8f4yh5",
+      "slug": "fablab-zurich",
+      "expectedDescription": "FabLab Zürich provides access to fabrication equipment and runs practical workshops. Its facilities include 3D printers, CNC machinery and laser cutting equipment.",
+      "description": "FabLab Zürich provides access to fabrication equipment and runs practical workshops. Its facilities include 3D printers, CNC machinery and laser cutting equipment"
+    },
+    {
+      "id": "p1786teqqc1ev0ync1gh9950a58f4vv0",
+      "slug": "exnaton",
+      "expectedDescription": "Exnaton builds a SaaS platform for utilities covering dynamic tariffs, energy communities and prosumer billing. The company is an ETH spin-off founded in 2020.",
+      "description": "Exnaton builds a SaaS platform for utilities covering dynamic tariffs, energy communities and prosumer billing. The company is an ETH spin-off founded in 2020"
+    },
+    {
+      "id": "p17154rr3av3vbfget3esxwsc18f4zrh",
+      "slug": "exeon",
+      "expectedDescription": "Exeon Analytics develops ExeonTrace, which detects threats by analysing network traffic metadata with machine learning. It is an ETH Zurich spinoff.",
+      "description": "Exeon Analytics develops ExeonTrace, which detects threats by analysing network traffic metadata with machine learning. It is an ETH Zurich spinoff"
+    },
+    {
+      "id": "p17ca8ewewbdk6rnpyzts8sdy98f5z2a",
+      "slug": "exclaim-robotics",
+      "expectedDescription": "Exclaim Robotics develops autonomous robots that carry out hardware repair and maintenance tasks in data centres. It was founded in 2026 and raised seed funding the same year.",
+      "description": "Exclaim Robotics develops autonomous robots that carry out hardware repair and maintenance tasks in data centres. It was founded in 2026 and raised seed funding the same year"
+    },
+    {
+      "id": "p17e4a543y9mxeqcma78e87bqd8f44ca",
+      "slug": "evulpo",
+      "expectedDescription": "evulpo develops educational software with exercises and learning content.",
+      "description": "evulpo develops educational software with exercises and learning content"
+    },
+    {
+      "id": "p1729xf49ysm11j9d5yzh1hkg18f4scm",
+      "slug": "ethon",
+      "expectedDescription": "Ethon develops software for analysing manufacturing processes and quality.",
+      "description": "Ethon develops software for analysing manufacturing processes and quality"
+    },
+    {
+      "id": "p17a07tc54822vapysmqfm7c2s8f447w",
+      "slug": "eth-zurich",
+      "expectedDescription": "ETH Zurich teaches and researches science, engineering and technology.",
+      "description": "ETH Zurich teaches and researches science, engineering and technology"
+    },
+    {
+      "id": "p172yp4w1fe95ffe2gfvpjpqrx8f4qd3",
+      "slug": "eth-systems",
+      "expectedDescription": "ETH Systems Group researches databases, operating systems and computing platforms.",
+      "description": "ETH Systems Group researches databases, operating systems and computing platforms"
+    },
+    {
+      "id": "p176q1tvc9py3w03kdsdjqyt158f4p2s",
+      "slug": "eth-student-project-house",
+      "expectedDescription": "ETH Student Project House runs makerspaces and supports student engineering projects.",
+      "description": "ETH Student Project House runs makerspaces and supports student engineering projects"
+    },
+    {
+      "id": "p17a17szfata79wfjzrny2qs098f5cdr",
+      "slug": "eth-sri",
+      "expectedDescription": "The SRI Lab at ETH Zurich studies machine learning and software systems, with an emphasis on security and reliability.",
+      "description": "The SRI Lab at ETH Zurich studies machine learning and software systems, with an emphasis on security and reliability"
+    },
+    {
+      "id": "p17df1szvz54czdr4k6jkaw3058f4jh9",
+      "slug": "eth-spy",
+      "expectedDescription": "ETH Secure and Private AI Lab researches security and privacy in machine learning.",
+      "description": "ETH Secure and Private AI Lab researches security and privacy in machine learning"
+    },
+    {
+      "id": "p1762j59j60b5hp0grp8nafr3d8f5mt3",
+      "slug": "eth-sip",
+      "expectedDescription": "ETH Sensing, Interaction and Perception Lab researches sensing systems and human-computer interaction.",
+      "description": "ETH Sensing, Interaction and Perception Lab researches sensing systems and human-computer interaction"
+    },
+    {
+      "id": "p172fv1yevjv38xwa4nye0cns98f5fzd",
+      "slug": "eth-rycolab",
+      "expectedDescription": "ETH Rycolab researches computational linguistics and language modelling.",
+      "description": "ETH Rycolab researches computational linguistics and language modelling"
+    },
+    {
+      "id": "p172jyyp2h05wzafw2dar1a8v58f512j",
+      "slug": "eth-rsl",
+      "expectedDescription": "The Robotic Systems Lab at ETH Zurich develops robots and methods for locomotion and manipulation.",
+      "description": "The Robotic Systems Lab at ETH Zurich develops robots and methods for locomotion and manipulation"
+    },
+    {
+      "id": "p174j8c6z6m0rd66teqfrbjrgs8f4r0m",
+      "slug": "eth-qudev",
+      "expectedDescription": "ETH Quantum Device Lab researches superconducting circuits for quantum computing.",
+      "description": "ETH Quantum Device Lab researches superconducting circuits for quantum computing"
+    },
+    {
+      "id": "p1782ssps7s61mes7m63am8m258f45sq",
+      "slug": "eth-qit",
+      "expectedDescription": "ETH Quantum Information Theory Group researches quantum information, cryptography and quantum computation.",
+      "description": "ETH Quantum Information Theory Group researches quantum information, cryptography and quantum computation"
+    },
+    {
+      "id": "p17095d77dvktpcrwwy1ek2wmn8f5sw2",
+      "slug": "eth-lre",
+      "expectedDescription": "ETH Learning, Reasoning and Education Lab researches language-model reasoning and applications in education.",
+      "description": "ETH Learning, Reasoning and Education Lab researches language-model reasoning and applications in education"
+    },
+    {
+      "id": "p17drthrgendhph2j4tjyez6as8f4aws",
+      "slug": "eth-infsec",
+      "expectedDescription": "ETH Information Security Group researches formal methods and information security.",
+      "description": "ETH Information Security Group researches formal methods and information security"
+    },
+    {
+      "id": "p176np9gh0vqw7vbya009bdzs98f49ps",
+      "slug": "eth-igl",
+      "expectedDescription": "ETH Interactive Geometry Lab researches geometric modelling, shape processing and fabrication.",
+      "description": "ETH Interactive Geometry Lab researches geometric modelling, shape processing and fabrication"
+    },
+    {
+      "id": "p17er8h784vxzn2nh86cydp7cx8f5fmr",
+      "slug": "eth-cvg",
+      "expectedDescription": "The Computer Vision and Geometry Group at ETH Zurich studies visual reconstruction, scene understanding and perception for autonomous systems.",
+      "description": "The Computer Vision and Geometry Group at ETH Zurich studies visual reconstruction, scene understanding and perception for autonomous systems"
+    },
+    {
+      "id": "p17bgzp8yx5mx3qq5c6qkv53dd8f5zm8",
+      "slug": "eth-cgl",
+      "expectedDescription": "ETH Computer Graphics Laboratory researches graphics, geometric modelling and physics-based animation.",
+      "description": "ETH Computer Graphics Laboratory researches graphics, geometric modelling and physics-based animation"
+    },
+    {
+      "id": "p174jmdpm01sqzbw8x07jgfgf98f5wpf",
+      "slug": "eth-asl",
+      "expectedDescription": "The Autonomous Systems Lab at ETH Zurich researches robot perception, navigation and autonomy.",
+      "description": "The Autonomous Systems Lab at ETH Zurich researches robot perception, navigation and autonomy"
+    },
+    {
+      "id": "p17cv1am44f7wfxqbkjm7vjmy58f4m1n",
+      "slug": "ergon",
+      "expectedDescription": "Ergon Informatik builds enterprise software and application-security products.",
+      "description": "Ergon Informatik builds enterprise software and application-security products"
+    },
+    {
+      "id": "p172eh3kbzkychcn7yphab45d98f4g5d",
+      "slug": "enclustra",
+      "expectedDescription": "Enclustra builds FPGA and SoC system-on-modules and FPGA IP cores. It also provides FPGA hardware and firmware design services.",
+      "description": "Enclustra builds FPGA and SoC system-on-modules and FPGA IP cores. It also provides FPGA hardware and firmware design services"
+    },
+    {
+      "id": "p17bmstv0q3kb2yhn3evffzqns8f5ecw",
+      "slug": "empa",
+      "expectedDescription": "Empa Dübendorf researches materials and technologies for industry, energy and health.",
+      "description": "Empa Dübendorf researches materials and technologies for industry, energy and health"
+    },
+    {
+      "id": "p171nfpc19x7ah9yh6qbnecw6d8f5p9q",
+      "slug": "embotech",
+      "expectedDescription": "Embotech develops autonomy software for industrial vehicles. It lists a Zurich headquarters and a technology centre in Dübendorf.",
+      "description": "Embotech develops autonomy software for industrial vehicles. It lists a Zurich headquarters and a technology centre in Dübendorf"
+    },
+    {
+      "id": "p178gzq66527gc624cechty7bx8f48vs",
+      "slug": "duramon",
+      "expectedDescription": "DuraMon develops sensors for monitoring corrosion in concrete structures.",
+      "description": "DuraMon develops sensors for monitoring corrosion in concrete structures"
+    },
+    {
+      "id": "p1711mk0erveh0esgntmwtjw958f5hv3",
+      "slug": "dufour-aerospace",
+      "expectedDescription": "Dufour Aerospace develops the Aero2 tilt-wing drone and hybrid-electric aircraft. Its design and flight-test teams work at the Dübendorf airfield.",
+      "description": "Dufour Aerospace develops the Aero2 tilt-wing drone and hybrid-electric aircraft. Its design and flight-test teams work at the Dübendorf airfield"
+    },
+    {
+      "id": "p17cmdvvjjkqfd1tzcamf3vsc98f4794",
+      "slug": "duatic",
+      "expectedDescription": "Duatic develops the DynaArm robotic arm and the Duatic Alpha, a wheeled two-armed robot. The company is a spin-off of the ETH Robotic Systems Lab.",
+      "description": "Duatic develops the DynaArm robotic arm and the Duatic Alpha, a wheeled two-armed robot. The company is a spin-off of the ETH Robotic Systems Lab"
+    },
+    {
+      "id": "p173jge7avkvk2hf0hf25y935n8f5zfz",
+      "slug": "drone-harmony",
+      "expectedDescription": "Drone Harmony develops flight planning software for autonomous drone inspections.",
+      "description": "Drone Harmony develops flight planning software for autonomous drone inspections"
+    },
+    {
+      "id": "p17e2qcwamxzhfgnjbj2hk7kpn8f51xm",
+      "slug": "distran",
+      "expectedDescription": "Distran develops portable acoustic imaging cameras that locate gas leaks and faults. It is a spinoff of the ETH Zurich Autonomous Systems Lab.",
+      "description": "Distran develops portable acoustic imaging cameras that locate gas leaks and faults. It is a spinoff of the ETH Zurich Autonomous Systems Lab"
+    },
+    {
+      "id": "p170zcjnkpf6f2364hjwgzebk58f466k",
+      "slug": "disney-research",
+      "expectedDescription": "Disney Research Studios researches graphics, machine learning and robotics for entertainment.",
+      "description": "Disney Research Studios researches graphics, machine learning and robotics for entertainment"
+    },
+    {
+      "id": "p173j6dnfypd7qfxjwmegpzjjd8f59ng",
+      "slug": "digitale-gesellschaft",
+      "expectedDescription": "Digitale Gesellschaft runs public DNS resolvers, Tor servers and digital-rights activities. It maintains an office and seminar space at the Bitwäscherei in Zurich.",
+      "description": "Digitale Gesellschaft runs public DNS resolvers, Tor servers and digital-rights activities. It maintains an office and seminar space at the Bitwäscherei in Zurich"
+    },
+    {
+      "id": "p179gd9ng1bmvczdfwtrvrxhts8f5ca5",
+      "slug": "deepjudge",
+      "expectedDescription": "DeepJudge develops search and AI tools for legal documents.",
+      "description": "DeepJudge develops search and AI tools for legal documents"
+    },
+    {
+      "id": "p17895aq3e2zbjwqyrrmqj4jqh8f4bv9",
+      "slug": "decentriq",
+      "expectedDescription": "Decentriq develops data clean rooms that let organisations analyse shared data without exposing it. The platform is built on confidential computing.",
+      "description": "Decentriq develops data clean rooms that let organisations analyse shared data without exposing it. The platform is built on confidential computing"
+    },
+    {
+      "id": "p17fvnhvnefqq1129sbnnpr3958f5qwn",
+      "slug": "decentlab",
+      "expectedDescription": "Decentlab develops and manufactures LoRaWAN sensor devices for environmental and structural measurements. The company is an Empa spin-off based in Dübendorf.",
+      "description": "Decentlab develops and manufactures LoRaWAN sensor devices for environmental and structural measurements. The company is an Empa spin-off based in Dübendorf"
+    },
+    {
+      "id": "p179ekm1wbf77krqaqxzetpxjn8f5rkw",
+      "slug": "dare-campus",
+      "expectedDescription": "DARE Campus provides workspace for robotics and other technology companies.",
+      "description": "DARE Campus provides workspace for robotics and other technology companies"
+    },
+    {
+      "id": "p17039mvm8pqzhh8fwb0e3qdn98f5zr7",
+      "slug": "cyltronic",
+      "expectedDescription": "Cyltronic develops IO-Link electric cylinders, linear axes and servo motors. They are used in industrial automation and machine building.",
+      "description": "Cyltronic develops IO-Link electric cylinders, linear axes and servo motors. They are used in industrial automation and machine building"
+    },
+    {
+      "id": "p17c5aakv3qwgsxdxr3n6aj2a98f59zk",
+      "slug": "csem-zurich",
+      "expectedDescription": "CSEM is a Swiss research and technology organisation that transfers applied research into industry. Its Zurich site is in Technopark Zürich.",
+      "description": "CSEM is a Swiss research and technology organisation that transfers applied research into industry. Its Zurich site is in Technopark Zürich"
+    },
+    {
+      "id": "p17f08jj6q8pmyaj82p3mqkvkd8f4yf4",
+      "slug": "cradle",
+      "expectedDescription": "Cradle develops machine-learning software that helps biologists design and optimise proteins. It has offices in Amsterdam and Zurich.",
+      "description": "Cradle develops machine-learning software that helps biologists design and optimise proteins. It has offices in Amsterdam and Zurich"
+    },
+    {
+      "id": "p17eykx2djzxt54xsh9ad164g58f4skj",
+      "slug": "covalo",
+      "expectedDescription": "Covalo develops ingredient search and data management software for consumer goods.",
+      "description": "Covalo develops ingredient search and data management software for consumer goods"
+    },
+    {
+      "id": "p172g92f3fqvrnj4hyjc34nj9s8f5gbv",
+      "slug": "correntics",
+      "expectedDescription": "Correntics develops a platform that quantifies physical climate risks for company sites and suppliers. Customers include Syngenta and Sika.",
+      "description": "Correntics develops a platform that quantifies physical climate risks for company sites and suppliers. Customers include Syngenta and Sika"
+    },
+    {
+      "id": "p17237nzs2zmjh2wtqhs0v0vfs8f4yt6",
+      "slug": "condenzero",
+      "expectedDescription": "condenZero develops cryogenic cooling systems that reach millikelvin temperatures without large dilution refrigerators. Its systems target quantum computing and sensor research.",
+      "description": "condenZero develops cryogenic cooling systems that reach millikelvin temperatures without large dilution refrigerators. Its systems target quantum computing and sensor research"
+    },
+    {
+      "id": "p17b7gyzv1kcs9hq3y7dvmxa798f5fav",
+      "slug": "coatmaster",
+      "expectedDescription": "coatmaster develops thermal-optical sensors that measure paint and coating thickness without contact. They are used for quality control in industrial production.",
+      "description": "coatmaster develops thermal-optical sensors that measure paint and coating thickness without contact. They are used for quality control in industrial production"
+    },
+    {
+      "id": "p17fe16jqfcqh854vb0s1shkjd8f4d4s",
+      "slug": "cloudscale",
+      "expectedDescription": "cloudscale operates virtual servers, object storage and networking on its own infrastructure in Switzerland. The company is based in Zurich.",
+      "description": "cloudscale operates virtual servers, object storage and networking on its own infrastructure in Switzerland. The company is based in Zurich"
+    },
+    {
+      "id": "p176ykqk6trf2yd5y6r0976atd8f5gz9",
+      "slug": "climeworks",
+      "expectedDescription": "Climeworks develops direct air capture systems and supplies carbon removal services. Its Swiss office is in Glattpark.",
+      "description": "Climeworks develops direct air capture systems and supplies carbon removal services. Its Swiss office is in Glattpark"
+    },
+    {
+      "id": "p17bbf25gv5324f5akqh3h0y8n8f5t7w",
+      "slug": "climada-technologies",
+      "expectedDescription": "CLIMADA Technologies offers software for assessing climate hazards and adaptation options for assets. It builds on the open-source CLIMADA model from ETH Zurich.",
+      "description": "CLIMADA Technologies offers software for assessing climate hazards and adaptation options for assets. It builds on the open-source CLIMADA model from ETH Zurich"
+    },
+    {
+      "id": "p1727j7q5gtrqdbj2jpv4bf3nx8f4stg",
+      "slug": "chiral",
+      "expectedDescription": "Chiral builds equipment to place nanomaterials on semiconductor wafers.",
+      "description": "Chiral builds equipment to place nanomaterials on semiconductor wafers"
+    },
+    {
+      "id": "p173g0adtnx82ypjwz5xbezw3s8f4fpk",
+      "slug": "chipmind",
+      "expectedDescription": "Chipmind develops AI tools for semiconductor design workflows.",
+      "description": "Chipmind develops AI tools for semiconductor design workflows"
+    },
+    {
+      "id": "p17czf7wrgy1h9d3j05kc3cp9h8f5sv3",
+      "slug": "certifaction",
+      "expectedDescription": "Certifaction develops electronic signature and document verification software that keeps documents encrypted end to end. It serves Swiss and European businesses.",
+      "description": "Certifaction develops electronic signature and document verification software that keeps documents encrypted end to end. It serves Swiss and European businesses"
+    },
+    {
+      "id": "p177h0jp50f3kawkb5eb771bk58f45df",
+      "slug": "cerrion",
+      "expectedDescription": "Cerrion develops computer vision software to monitor manufacturing processes.",
+      "description": "Cerrion develops computer vision software to monitor manufacturing processes"
+    },
+    {
+      "id": "p17cj7zw3yfyen2n7zgr3b7ked8f4998",
+      "slug": "celeroton",
+      "expectedDescription": "Celeroton develops electric drive systems, compressors and turbo blowers that run at very high speeds. It is an ETH Zurich spin-off founded in 2008.",
+      "description": "Celeroton develops electric drive systems, compressors and turbo blowers that run at very high speeds. It is an ETH Zurich spin-off founded in 2008"
+    },
+    {
+      "id": "p177hazgtsnthkqaj3km9qawsx8f5dxw",
+      "slug": "cdds",
+      "expectedDescription": "CDDS develops autonomous kinetic interceptor drones that detect and neutralise hostile drones. The company was founded in 2025 and raised seed funding in 2026.",
+      "description": "CDDS develops autonomous kinetic interceptor drones that detect and neutralise hostile drones. The company was founded in 2025 and raised seed funding in 2026"
+    },
+    {
+      "id": "p178t169g36nshkdvqwqqfg4w98f4tyg",
+      "slug": "ccc-zurich",
+      "expectedDescription": "CCC Zürich brings together people working on computing, hardware and digital rights. It is based in the shared Bitwäscherei hackerspace and holds regular public gatherings.",
+      "description": "CCC Zürich brings together people working on computing, hardware and digital rights. It is based in the shared Bitwäscherei hackerspace and holds regular public gatherings"
+    },
+    {
+      "id": "p17afj1pqx028ttb4h4291rxyh8f5shf",
+      "slug": "caterra",
+      "expectedDescription": "Caterra develops electric field robots that find and kill weeds with lasers in vegetable farming. Its first robot is called Honeybee.",
+      "description": "Caterra develops electric field robots that find and kill weeds with lasers in vegetable farming. Its first robot is called Honeybee"
+    },
+    {
+      "id": "p17e66ckmpsbeterqwy293kqbn8f57t6",
+      "slug": "casus",
+      "expectedDescription": "CASUS develops a legal AI associate for work under Swiss law. Its users are law firms and in-house legal teams.",
+      "description": "CASUS develops a legal AI associate for work under Swiss law. Its users are law firms and in-house legal teams"
+    },
+    {
+      "id": "p178cdt5mg41k68mc17s9hrr4n8f5yt7",
+      "slug": "caplena",
+      "expectedDescription": "Caplena develops text analysis software for customer feedback.",
+      "description": "Caplena develops text analysis software for customer feedback"
+    },
+    {
+      "id": "p17emh58n9ncnsbkkev6h8mqfx8f5fbp",
+      "slug": "calvin-risk",
+      "expectedDescription": "Calvin Risk develops software for testing and governing AI systems.",
+      "description": "Calvin Risk develops software for testing and governing AI systems"
+    },
+    {
+      "id": "p17ezt3hmmfwep2thtxdqvhb4d8f491n",
+      "slug": "btry",
+      "expectedDescription": "BTRY develops batteries and production processes using semiconductor manufacturing equipment. Applications include connected devices, medical devices and consumer electronics.",
+      "description": "BTRY develops batteries and production processes using semiconductor manufacturing equipment. Applications include connected devices, medical devices and consumer electronics"
+    },
+    {
+      "id": "p170zsqqs60p0c2x6k1e64gepx8f44w9",
+      "slug": "bring-labs",
+      "expectedDescription": "Bring! Labs develops the Bring! app, which households use to plan and share shopping lists. The app is used across Europe.",
+      "description": "Bring! Labs develops the Bring! app, which households use to plan and share shopping lists. The app is used across Europe"
+    },
+    {
+      "id": "p17b8w0swa7py6vwn2z5dpzk158f51tf",
+      "slug": "bota-systems",
+      "expectedDescription": "Bota Systems develops six-axis force-torque sensors that give robot arms a sense of touch. It is a spin-off of the ETH Zurich Robotic Systems Lab.",
+      "description": "Bota Systems develops six-axis force-torque sensors that give robot arms a sense of touch. It is a spin-off of the ETH Zurich Robotic Systems Lab"
+    },
+    {
+      "id": "p172zv1j51jt5casmpn3emen018f4wk6",
+      "slug": "borobotics",
+      "expectedDescription": "Borobotics builds compact drilling robots for geothermal heat installations.",
+      "description": "Borobotics builds compact drilling robots for geothermal heat installations"
+    },
+    {
+      "id": "p177pgd5gcsttecj4w9gc0yhjh8f4xvb",
+      "slug": "bluelion",
+      "expectedDescription": "Bluelion runs workspaces and incubation programmes for technology startups.",
+      "description": "Bluelion runs workspaces and incubation programmes for technology startups"
+    },
+    {
+      "id": "p171erw4svpz1vb3xg5k5708y98f5y0f",
+      "slug": "blp-digital",
+      "expectedDescription": "BLP Digital builds an AI platform for back-office processes. It automates tasks such as handling incoming orders and invoices.",
+      "description": "BLP Digital builds an AI platform for back-office processes. It automates tasks such as handling incoming orders and invoices"
+    },
+    {
+      "id": "p17a3an96ky181dz3mkaff28458f4jx8",
+      "slug": "bloom-labs",
+      "expectedDescription": "Bloom lets people build native mobile apps by describing them on their phone. Its team works from a Zurich office.",
+      "description": "Bloom lets people build native mobile apps by describing them on their phone. Its team works from a Zurich office"
+    },
+    {
+      "id": "p17ezqg754f0x53vje2ve3fk118f4ktg",
+      "slug": "binabik",
+      "expectedDescription": "Binabik builds edge and cloud software that runs and coordinates humanoid robots for tasks such as machine tending and box handling. It has offices in Winterthur and Espoo, Finland.",
+      "description": "Binabik builds edge and cloud software that runs and coordinates humanoid robots for tasks such as machine tending and box handling. It has offices in Winterthur and Espoo, Finland"
+    },
+    {
+      "id": "p1786wfq4fc0yfameq25z3z9ah8f4aqw",
+      "slug": "beyond-gravity",
+      "expectedDescription": "Beyond Gravity develops and manufactures products for satellites and launch vehicles. Its Zurich-Seebach site houses engineering and production.",
+      "description": "Beyond Gravity develops and manufactures products for satellites and launch vehicles. Its Zurich-Seebach site houses engineering and production"
+    },
+    {
+      "id": "p17f8xm2480xm5ecvk0831r9qd8f4wn6",
+      "slug": "belimo",
+      "expectedDescription": "Belimo develops field devices that control HVAC systems, including data-centre cooling. Its headquarters is in Hinwil.",
+      "description": "Belimo develops field devices that control HVAC systems, including data-centre cooling. Its headquarters is in Hinwil"
+    },
+    {
+      "id": "p17cc18gprwpw7kx1qn1k50qp58f4zwq",
+      "slug": "belian",
+      "expectedDescription": "belian develops software and geospatial science to assess forest carbon baselines independently. It has entities in Zurich and England.",
+      "description": "belian develops software and geospatial science to assess forest carbon baselines independently. It has entities in Zurich and England"
+    }
+  ]
+}

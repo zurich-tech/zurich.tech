@@ -1,0 +1,421 @@
+{
+    "schemaVersion": 1,
+    "currentCriteria": "work/organisations/inclusion-criteria.json",
+    "companyEligibilityReview": "work/organisations/company-eligibility-audit.json",
+    "eligibilityNotice": "Historical completion and import counts below are not approvals under the superseding 2026-10-15 own-technology criterion. All companies/startups are being reassessed; separate investor and institutional criteria remain unchanged.",
+    "compiledAt": "2026-10-14T21:46:04Z",
+    "productionWrites": false,
+    "scope": "Consolidated saved-source and bounded-queue closeout, not a new ecosystem census or import payload.",
+    "ecosystemComplete": false,
+    "allResearchQueuesClosed": false,
+    "finalSnapshotPending": false,
+    "namedHolds": "work/organisations/holds.json",
+    "progressOverrides": {
+        "status": "Final verified bounded-batch checkpoint; supersedes historical readiness below, not a claim of ecosystem completeness.",
+        "verifiedAdditionsSince841": "Beemind and SemiVi; ten software profiles; Avantama, ETIX Ventures, ETH IWF and ETH LEC; twenty jobs-source employers; two discovery profiles; fifteen final shortlist profiles. All 53 additions applied and independently verified by parent.",
+        "additionAccounting": {
+            "baseline": 841,
+            "verifiedApplied": 53,
+            "approvedPending": 0,
+            "verifiedFinalTotal": 894
+        },
+        "approvedAwaitingImports": {},
+        "holds": "Biosimo remains held for exact building occupancy, with official logo approved. s3 and Thervia remain held for own substantive technical scope. Hapimag remains held for a substantial existing technical team and delivered work. Full named holds and evidence URLs are durable in holds.json.",
+        "nextSnapshot": "This closes the specified import batches. Any future changes require a newly timestamped audit.",
+        "finalAudit": "2026-10-14T21:53:44.667Z"
+    },
+    "conclusion": "The named finite selections below have been assessed or reconciled. Closed assessment means every selected candidate has a recorded disposition, not that every candidate is eligible, imported or resolved. Sources remain partially covered and specific holds remain. No exhaustive canton or ecosystem coverage is claimed.",
+    "snapshots": {
+        "latestParentReported": {
+            "organisations": 894,
+            "mapped": 892,
+            "verifiedAt": "2026-10-14T21:53:44.667Z",
+            "basis": "Parent final independent production audit; all 53 additions since 841 verified.",
+            "importsOngoing": false,
+            "warning": "A timestamped checkpoint, not a live counter or exhaustive ecosystem census."
+        },
+        "socialAudit": {
+            "startedAt": "2026-10-14T21:53:55.683Z",
+            "completedAt": "2026-10-14T21:53:58.243Z",
+            "organisations": 894,
+            "source": "/tmp/zurich-registry-review/closeout-socials.json"
+        },
+        "wholeStructuralAudit": {
+            "checkedAt": "2026-10-14T21:53:44.667Z",
+            "organisations": 894,
+            "mapped": 892,
+            "kinds": {
+                "company": 491,
+                "startup": 297,
+                "lab": 52,
+                "investor": 29,
+                "nonprofit": 7,
+                "space": 10,
+                "university": 3,
+                "community": 5
+            },
+            "topicless": 15,
+            "result": "No structural issues reported except the same fifteen previously reviewed topicless profiles. This does not certify complete semantic classification.",
+            "semanticClassificationComplete": false,
+            "reference": "work/organisations/topicless-review.json",
+            "source": "/tmp/zurich-registry-review/current-audit.json"
+        },
+        "historicalSocialAudit": {
+            "startedAt": "2026-10-14T21:42:06.408Z",
+            "completedAt": "2026-10-14T21:42:09.994Z",
+            "organisations": 841,
+            "source": "Earlier read-only audit; temporary report subsequently refreshed. Counts preserved here as historical.",
+            "withPublicSocials": 730,
+            "missing": 111
+        },
+        "historicalStructuralAudit": {
+            "checkedAt": "2026-10-14T20:31:02.566Z",
+            "organisations": 811,
+            "mapped": 809,
+            "topicless": 15,
+            "result": "No duplicate exact names or slugs, invalid topic references, missing effective map-logo references or missing public coordinates reported in that audited scope. Later additions are not recertified by this earlier whole-registry check.",
+            "reference": "work/organisations/classification-review.json#/latestStructuralAudit"
+        }
+    },
+    "boundedQueues": [
+        {
+            "name": "Swiss Made Software four researched selections",
+            "checkedAt": "2026-10-14T21:42:58.607Z",
+            "assessmentClosed": true,
+            "sourceComplete": false,
+            "countsAt841": {
+                "assessed": 80,
+                "represented": 28,
+                "readyForParentReview": 10,
+                "held": 30,
+                "excluded": 12,
+                "unassessed": 0
+            },
+            "remaining": "Follow named unresolved holds in work/organisations/holds.json; historical readiness counts above are superseded by finalOutcome.",
+            "evidence": "/tmp/zurich-registry-review/closeout-software.json",
+            "finalOutcome": "All ten ready profiles imported and independently verified; thirty holds and twelve exclusions retained. The bounded selection is assessed, not the whole directory."
+        },
+        {
+            "name": "Saved SwissDevJobs feed and jobs.ch selection",
+            "checkedAt": "2026-10-14T21:44:33.283Z",
+            "assessmentClosed": true,
+            "sourceComplete": false,
+            "countsAtReview": {
+                "sourceEntries": 113,
+                "swissDevJobsEmployers": 93,
+                "jobsChSelectedEmployers": 20,
+                "represented": 34,
+                "readyForParentReview": 21,
+                "held": 40,
+                "excluded": 18
+            },
+            "remaining": "Follow named unresolved holds in work/organisations/holds.json; historical readiness counts above are superseded by finalOutcome.",
+            "evidence": "/tmp/zurich-registry-review/closeout-jobs.json",
+            "durableSourceReference": "work/organisations/job-sources.json",
+            "finalOutcome": "Twenty employers imported and independently verified. Hapimag moved from ready to held, leaving forty-one holds; eighteen exclusions retained. Failed vacancy extractions remain a source limitation."
+        },
+        {
+            "name": "Reserved institutional twenty",
+            "assessmentClosed": true,
+            "sourceComplete": false,
+            "countsAtReview": {
+                "assessed": 20,
+                "ready": 2,
+                "held": 17,
+                "duplicateExcluded": 1,
+                "unassessed": 0
+            },
+            "subsequentParentReport": "Beemind, SemiVi, Avantama, ETIX Ventures, ETH IWF and ETH LEC imported and independently verified; thirteen holds remain. Breathe medical is represented by UpLeap.",
+            "remaining": "Follow named unresolved holds in work/organisations/holds.json; historical readiness counts above are superseded by finalOutcome.",
+            "evidence": "/tmp/zurich-registry-review/closeout-institutions.json",
+            "finalOutcome": "Beemind, SemiVi, Avantama, ETIX Ventures, ETH IWF and ETH LEC imported and independently verified; thirteen holds remain. Breathe medical is represented by UpLeap."
+        },
+        {
+            "name": "Previously ready seventeen-identity shortlist",
+            "checkedAt": "2026-10-14T21:41:37.104Z",
+            "assessmentClosed": true,
+            "sourceComplete": false,
+            "countsAt841": {
+                "assigned": 17,
+                "represented": 0,
+                "readyForParentAssetPublicationAndImport": 17,
+                "held": 0
+            },
+            "remaining": "Follow named unresolved holds in work/organisations/holds.json; historical readiness counts above are superseded by finalOutcome.",
+            "evidence": "/tmp/zurich-registry-review/closeout-ready.json",
+            "finalOutcome": "Fifteen imported and independently verified; s3 and Thervia remain held for substantive technical scope. No approved imports remain pending in this shortlist."
+        }
+    ],
+    "sourceCoverage": {
+        "countingRule": "Directories overlap. Candidate rows, accounting groups and source entries are not unique organisations and must not be summed as an eligible-missing total. Holds and prepared cases are not unassessed candidates.",
+        "enumeratedButNotExhausted": [
+            "Captured ETH and UZH central spin-off lists: reconciled, with explicit candidate holds and prepared cases; department, laboratory and news archives were only partially reviewed.",
+            "ZHAW Engineering startup list and selected institute rosters: captured, but not every school, RUNWAY cohort or news archive.",
+            "Captured Technopark Zurich and Winterthur tenant lists: enumerated; unresolved venue, legal-entity and technical-scope decisions are not an untouched directory.",
+            "SwissICT and Swiss Made Software: bounded roster and geographic screening, not complete eligibility resolution or a full Swiss software census.",
+            "SwissDevJobs: all 209 items in the returned national RSS feed were fetched; 93 employer identities assessed. This is not every historical vacancy, portal listing or regional employer."
+        ],
+        "gaps": [
+            "Startupticker: Pasteur screened 50 teasers on the latest index page for October 1-14, 2026, comprising 48 in-date and two boundary teasers. This is not the 2026 archive and not every company buried in multi-company roundups was assessed.",
+            "EPFL: partial targeted Zurich-presence pass only, including 50 viewed rows from a directory reporting 656. A Zurich keyword search returning zero is not proof of no local offices; no complete company-primary operating-presence census is established.",
+            "startup.ch: 168 entries across eight successful pages; page nine was blocked, not an empty terminal page. Remaining size is unknown.",
+            "Venturelab: targeted 2026 Technology cohort, not all historical cohorts or portfolio entries.",
+            "Incubator and VC portfolios: selected examples only; investor-mandate classification is separate from portfolio-company discovery.",
+            "jobs.ch: selected twenty-employer batch, not full portal enumeration. LinkedIn Jobs and ictjobs.ch coverage remains unproven in these closeouts.",
+            "Named candidate holds still require identity, current local engineering, exact address or readable official asset evidence. Retrieval failure is not proof of ineligibility or dissolution."
+        ],
+        "durableReferences": [
+            "work/organisations/source-coverage.json",
+            "work/organisations/coverage-reconciliation.json",
+            "work/organisations/remaining-candidates.json",
+            "work/organisations/job-sources.json"
+        ],
+        "latestSourceReview": "/tmp/zurich-registry-review/source-closeout.json",
+        "historicalWarning": "Earlier 413-, 508- and 722-organisation ledgers retain historical evidence and counts. Do not treat their unresolved totals as current omissions or their closed screening as ecosystem completion."
+    },
+    "topicless": {
+        "reference": "work/organisations/topicless-review.json",
+        "reviewedAtOrganisationCount": 811,
+        "reviewed": 15,
+        "justifiedTopicless": 13,
+        "justifiedSlugs": [
+            "lakestar",
+            "zkb",
+            "winti-ventures",
+            "qbit-capital",
+            "backbone-ventures",
+            "equitypitcher-ventures",
+            "spicehaus-partners",
+            "sictic",
+            "founderful",
+            "zhaw",
+            "uzh",
+            "eth-zurich",
+            "zurich-tech"
+        ],
+        "identityHold": "reasoning-labs",
+        "explicitExclusion": "climada-technologies",
+        "policy": "Broad investors, multidisciplinary universities and broad community umbrellas can reasonably have empty topics. Investor specialities require explicit investment mandates, not own technical products or individual portfolio-company sectors. Operating organisations require evidence of their own technical activity. Classify specialist institutes independently; no redundant ancestor tags, arbitrary quota or forced topic assignment.",
+        "mutationWarning": "This records no-change decisions, not instructions to clear any current topics. Preserve the identity hold and explicit exclusion.",
+        "reconfirmedAt": "2026-10-14T21:53:44.667Z",
+        "reconfirmedAtOrganisationCount": 894
+    },
+    "socialCoverage": {
+        "snapshotOrganisations": 894,
+        "startedAt": "2026-10-14T21:53:55.683Z",
+        "completedAt": "2026-10-14T21:53:58.243Z",
+        "withPublicLinkedInGitHubOrX": 768,
+        "missingPublicSocials": 126,
+        "publicSocialLinkRows": 980,
+        "platformOrganisationCounts": {
+            "linkedin": 738,
+            "github": 71,
+            "x": 171
+        },
+        "classificationBreakdown": {
+            "community": {
+                "total": 5,
+                "withPublicSocials": 2,
+                "missing": 3
+            },
+            "company": {
+                "total": 491,
+                "withPublicSocials": 407,
+                "missing": 84
+            },
+            "investor": {
+                "total": 29,
+                "withPublicSocials": 28,
+                "missing": 1
+            },
+            "lab": {
+                "total": 52,
+                "withPublicSocials": 32,
+                "missing": 20
+            },
+            "nonprofit": {
+                "total": 7,
+                "withPublicSocials": 5,
+                "missing": 2
+            },
+            "space": {
+                "total": 10,
+                "withPublicSocials": 9,
+                "missing": 1
+            },
+            "startup": {
+                "total": 297,
+                "withPublicSocials": 282,
+                "missing": 15
+            },
+            "university": {
+                "total": 3,
+                "withPublicSocials": 3,
+                "missing": 0
+            }
+        },
+        "noSocialSlugs": [
+            "3r-technics",
+            "4qt",
+            "alabus",
+            "alp-bio",
+            "am-tec-switzerland",
+            "anronaut",
+            "antavi",
+            "araris-biotech",
+            "ase",
+            "beebase",
+            "beekeeper",
+            "bitplane-imaris",
+            "blackpoints",
+            "blockchain-presence",
+            "bluact-technologies",
+            "bonsai-systems",
+            "ccc-zurich",
+            "cellerys",
+            "cellvie",
+            "checktor-biosciences",
+            "climada-technologies",
+            "cointact",
+            "compliant-concept",
+            "cross-ing",
+            "dacs",
+            "de-cavis",
+            "dory-health",
+            "eaternity",
+            "ecoparts",
+            "einzly",
+            "enerdrive",
+            "enzian-pharmaceutics",
+            "esurance",
+            "eth-aimm",
+            "eth-infsec",
+            "eth-iwf",
+            "eth-lec",
+            "eth-qit",
+            "expersoft",
+            "fablab-zurich",
+            "fahrenheit",
+            "fields-at-work",
+            "fleco-power",
+            "frontdam-buddyns",
+            "geowatt",
+            "gnl",
+            "hackteria",
+            "halion-fusion-group",
+            "huawei-zurich-research-center",
+            "hydken",
+            "ibm-research-zurich",
+            "incendia",
+            "infineon-switzerland",
+            "innotix",
+            "innovative-web",
+            "insite",
+            "invariant-labs",
+            "lipal-biochemicals",
+            "localsearch",
+            "lock-and-key-biosciences",
+            "lucid-concepts",
+            "lugs",
+            "mathys-partner",
+            "medizintechnik-basler",
+            "meteodat",
+            "microsoft-spatial-ai",
+            "netmedia",
+            "novita-engineering",
+            "orange-business",
+            "playnvoice",
+            "pv-computing",
+            "qubrix",
+            "rarog",
+            "readney",
+            "rehaptix",
+            "rheinmetall-air-defence",
+            "rob-technologies",
+            "scanvision",
+            "secure-switzerland",
+            "serpentine-ventures",
+            "sgk",
+            "sigmatools",
+            "silana",
+            "sitrox",
+            "slg-broadcast",
+            "smartodont",
+            "smile-solutions",
+            "softart",
+            "spektrum-lab",
+            "spineplanner",
+            "step-x",
+            "streamwise",
+            "swiss-medical-record",
+            "swiss-terahertz",
+            "switch",
+            "sylva",
+            "tailorfast",
+            "technokrat",
+            "tep-energy",
+            "teralytics",
+            "the-i-engineers",
+            "thelkin",
+            "thoratec-switzerland",
+            "traconiq",
+            "trafag",
+            "treeless",
+            "trenda",
+            "triboni",
+            "twincap-first",
+            "unomed",
+            "uzh-csg",
+            "uzh-ddis",
+            "vlot",
+            "vonesco-control",
+            "walder-trueb-engineering",
+            "xiag",
+            "zhaw-iamp",
+            "zhaw-icp",
+            "zhaw-ids",
+            "zhaw-iefe",
+            "zhaw-imes",
+            "zhaw-ims",
+            "zhaw-ines",
+            "zhaw-ipp",
+            "zhaw-isc",
+            "zhaw-zav"
+        ],
+        "meaning": "Recorded public organisation accounts only. The links schema has no verification flag; this is not fresh primary-source verification of every account. Missing means no qualifying public account recorded, not verified absence of accounts. No private link URLs are included.",
+        "excludedScope": "The all-registry 126 includes user-excluded CLIMADA; excluding it gives 125 missing among 893. Its presence in arithmetic does not authorize research or mutation.",
+        "historicalComparison": {
+            "completedAt": "2026-10-14T21:42:09.994Z",
+            "organisations": 841,
+            "withPublicSocials": 730,
+            "missing": 111
+        },
+        "priorQueueComparison": {
+            "finalAuditPriorMissing": 50,
+            "nowCovered": 33,
+            "stillMissing": 17,
+            "unverifiedPriorMissing": 80,
+            "unverifiedNowCovered": 61,
+            "unverifiedStillMissing": 19
+        },
+        "durableHistoricalReferences": [
+            "work/organisations/final-social-audit.json",
+            "work/organisations/socials-unverified.json"
+        ],
+        "limitations": [
+            "Two sequential table reads are not an atomic database snapshot.",
+            "No new primary-page identity verification was performed; source evidence conclusions are retained as historical, not upgraded to verified-none."
+        ]
+    },
+    "handoff": {
+        "owner": "Parent owns production writes, asset publication, fresh deduplication, import verification and the authoritative ledger.",
+        "nextActions": [
+            "All 53 additions in this bounded closeout are applied and independently verified. Do not requeue imported profiles.",
+            "Keep exact contact, registered and engineering-office labels distinct; building coordinates do not prove a local engineering team.",
+            "Retain explicit holds and source gaps; do not silently convert them to exclusions or verified-none socials.",
+            "Future imports or social updates require fresh timestamped counts; preserve the historical snapshot distinctions."
+        ],
+        "evidenceStorage": "This durable closeout preserves counts, exact missing-social slugs, source limitations and references. Named hold reasons and public evidence URLs are durable in work/organisations/holds.json; temporary detailed reports are supplementary, not required to identify follow-up work."
+    },
+    "finalizedAt": "2026-10-14T21:53:58.243Z"
+}

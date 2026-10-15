@@ -1,0 +1,42 @@
+{
+    "date": "2026-10-15",
+    "status": "published-independently-verified",
+    "reviewer": "main",
+    "profiles": [
+        {
+            "slug": "nimagna",
+            "ownTechnology": "Current company account identifies its video technology development, founders and engineering team",
+            "location": "Registered address: Bellerivestrasse7,8008Zurich, c/oBelleriveRechtsanwaelte; no staffed office claim",
+            "sources": ["https://www.nimagna.com/about", "https://www.nimagna.com/imprint"],
+            "artwork": "/tmp/zurich-registry-review/primary-db05-final-nimagna-192.png",
+            "artworkDecision": "Approve genuine compact red-and-white symbol"
+        },
+        {
+            "slug": "gobugfree",
+            "ownTechnology": "Current official About explicitly attributes vulnerability-management SaaS development and hosting to its founders in Switzerland",
+            "location": "Office,2ndfloor: Badenerstrasse281,8003Zurich; explicit current contact page",
+            "sources": ["https://gobugfree.com/about-us", "https://gobugfree.com/contact"],
+            "artwork": "/tmp/zurich-registry-review/primary-db05-final-gobugfree-192.png",
+            "artworkDecision": "Approve genuine turquoise lock/cube symbol"
+        }
+    ],
+    "publication": {
+        "manifest": "/tmp/zurich-registry-review/university-two-reviewed-ready.json",
+        "preflight": "/tmp/zurich-registry-review/university-two-preflight.json",
+        "assetVerification": "/tmp/zurich-registry-review/primary-db05-final-two-asset-verification.json",
+        "preview": 2,
+        "appliedOnce": 2,
+        "independentlyVerified": 2,
+        "totalOrganisations": 1065,
+        "verification": "Fresh complete organisations, locations, addresses and links compared against every reviewed field and public destination",
+        "notes": [
+            "GObugfree reuses existing exact Badenerstrasse281 building and coordinates",
+            "Official company LinkedIn link redirects from bugbountyhub to gobugfreecom; current canonical destination used",
+            "Nimagna social destinations verified from official About page links",
+            "Final sentence periods removed before publication",
+            "Frozen as published; never reapply"
+        ]
+    },
+    "remaining": [],
+    "productionWrites": 2
+}

@@ -1,0 +1,87 @@
+{
+    "reviewedAt": "2026-10-15T05:50:56.199Z",
+    "snapshot": {
+        "count": 1171,
+        "readAt": "2026-10-15T05:45:52.872Z",
+        "sha256": "9b3b92d2b564495f1c185ccbd408757a31aaf8b97a0f6cd2410a80e881aba4e3",
+        "limit": 10000,
+        "truncationRejected": true
+    },
+    "status": "prepared-not-applied",
+    "apply": false,
+    "productionWrites": 0,
+    "mutation": "organisations/imports:cleanDescriptions",
+    "deployment": "Undeployed; no production preview or apply performed",
+    "reconciliation": {
+        "oldPopulation": 1063,
+        "priorApproved": 939,
+        "unchangedExpectedDescriptions": 939,
+        "stale": 0,
+        "additionalUnreviewedTerminalPeriods": 0,
+        "currentPopulation": 1171,
+        "currentTerminalPeriods": 939,
+        "currentNoTerminalPeriod": 232,
+        "headlineTerminalPeriods": 0
+    },
+    "review": "Prior explicitly approved939 exact old/new descriptions all match current production. Final tokens reviewed: sentence-ending years/numbers and undotted acronyms such as AG/GmbH/AI retain every letter/digit. No ellipsis or dotted abbreviation is removed; internal sentences, decimals and punctuation remain byte-for-byte unchanged.",
+    "safeguards": [
+        "Exact ID, slug and expected description",
+        "Exactly one final period removed",
+        "No runtime abbreviation heuristic",
+        "Every batch <=100 and apply:false",
+        "No other profile fields included; supported mutation changes description and updatedAt only",
+        "Refresh stale guard immediately before independently authorised preview/apply; preserve records and relationships"
+    ],
+    "batches": [
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-01.json",
+            "count": 100,
+            "sha256": "da0f1c7feecdcac4a1b37d9d4567d82ae1704f657c542233cc804d24cbabc614"
+        },
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-02.json",
+            "count": 100,
+            "sha256": "fa5ce7e69fbec691f899a6b867da8c6957626fb473135c1dd50c0f3c1958c650"
+        },
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-03.json",
+            "count": 100,
+            "sha256": "9c9f3a1aa2354c4276a2511638d5f0cd27ae25acc1b12aa1d7bdbe2762928973"
+        },
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-04.json",
+            "count": 100,
+            "sha256": "1b991b3db7adee2338eaa4b5d7eba87ea796aa4bd1474aa3f635ea9e270244ca"
+        },
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-05.json",
+            "count": 100,
+            "sha256": "578b7d508f8b6d02f145ecbf279cf11fdffb8ffbbb0fce4f6b7df135cd4a0ed4"
+        },
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-06.json",
+            "count": 100,
+            "sha256": "4708317d94e5e73a3aaba8cd72365748bbb3a5fb9102a37450e0acf7d7ab7dc7"
+        },
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-07.json",
+            "count": 100,
+            "sha256": "e09e0974dfa530f7b438d0223dfb03737521c3a498d316cae3d92af8329527f3"
+        },
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-08.json",
+            "count": 100,
+            "sha256": "17510b18513cf1938624f3f6872202535180af04ec05afe7f5d0025f062ac719"
+        },
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-09.json",
+            "count": 100,
+            "sha256": "cb6284a5fc02ff1ec6b987f42c77617563e3e47801a0f55ef29d14f1b0780889"
+        },
+        {
+            "file": "work/organisations/description-cleanup-1235/batch-10.json",
+            "count": 39,
+            "sha256": "d3f538e0994acd6eb05588e3e583424f251beee5f1ff44d471c03db1effb3179"
+        }
+    ]
+}

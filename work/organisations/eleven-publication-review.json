@@ -1,0 +1,35 @@
+{
+    "date": "2026-10-15",
+    "status": "published-independently-verified",
+    "manifest": "/tmp/zurich-registry-review/main-reviewed-eleven-1108.json",
+    "sha256": "3aba368a76b8bbb8a04a0037d228551162589f26c445b664ebd1e2dfb17d2414",
+    "slugs": [
+        "bastionne",
+        "siresca",
+        "xelon",
+        "zenline",
+        "tom-medications",
+        "simpletrain",
+        "get-local",
+        "smart-me",
+        "moonlake-immunotherapeutics",
+        "chirp-light",
+        "twiliner"
+    ],
+    "primaryReview": "Individual main reviews are recorded in startupticker-bastionne-main-review, startupticker-devices-main-review, startupticker-platforms-main-review, startupticker-software-main-review, startupticker-energy-biotech-main-review, startupticker-chirp-main-review and startupticker-twiliner-main-review. This publication supersedes their earlier unpublished status for these eleven only.",
+    "finalIdentityReview": "Main read current Zenline and SimpleTrain imprints, saved original TOM imprint and federal UID records for Innovation 6 AG and GET LOCAL AG. TOM is listed once under its product brand with the operator named in its description. GET LOCAL identifies the developer parent, not its Swiss licensee. Main current corporate LinkedIn review supports Bastionne Swiss identity; Registered address remains explicit.",
+    "duplicateCheck": "Fresh complete-table exact normalized names, website hosts and shared-address checks at 1104; subsequent full organisation-table alias check at 1108 found no Innovation 6, Cloudpilot or candidate matches. Exact matching alone does not establish absence of unknown aliases.",
+    "sharedAddresses": {
+        "simpletrain": "j970axwn9k2ze77vv7npft86ys8g8xad",
+        "twiliner": "j97aej61tmww2nn4ktfhxxda4d8f5e7s"
+    },
+    "assetCheck": "Main verified all eleven approved hosted logos at 2026-10-15T04:06:57.592Z: SHA256, full pixel decode and CORS passed",
+    "publication": "Supported preview returned eleven; one apply returned the identical eleven. No source packet should be reapplied.",
+    "readback": { "verified": 11, "totalOrganisations": 1119 },
+    "verificationScope": "Independent complete-table comparison of every prepared profile field, website, public location and social link",
+    "remaining": [
+        "Siresca official homepage links a corporate-named LinkedIn /in/ account; current importer permits only company, school and showcase paths. No guessed replacement imported. Website remains present.",
+        "These additions do not complete the outstanding source queues or final whole-directory audit."
+    ],
+    "goalComplete": false
+}

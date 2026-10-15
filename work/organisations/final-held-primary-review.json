@@ -1,0 +1,140 @@
+{
+    "reviewedOn": "2026-10-15",
+    "population": 1171,
+    "scope": "Bounded reassessment of the ten previously held existing identities against current criteria; no new discovery",
+    "productionWrites": 0,
+    "apply": false,
+    "criterion": "Original commissioned and co-developed technology qualifies. Exclusive IP, standalone product sales, wholly in-house development and ownership of dependencies are not requirements. Routine support, resale and configuration alone remain insufficient.",
+    "supersedes": "Held rationales in final-eligibility-population.json at1169; underlying agent ledgers retained unchanged",
+    "rows": [
+        {
+            "slug": "umb",
+            "decision": "keep",
+            "confidence": "high",
+            "finding": "Current first-party VBZ case expressly attributes joint prototype development to UMB, VBZ and IBM and technical implementation to UMB. This is commissioned original software. The earlier requirement for continuing UMB-owned technology was not part of current criteria.",
+            "limits": "Keep PoC status; do not claim a deployed customer production system or ownership of IBM watsonx. No need to attribute former mesoneer products.",
+            "sources": [
+                "https://www.umb.ch/kunden/projekt/detail/fragen-an-die-vbz-der-ki-butler-hilft-dem-kundendienst-bei-der-beantwortung"
+            ],
+            "method": "Official case freshly read via web reader; indexed crawl two months old"
+        },
+        {
+            "slug": "icentic",
+            "decision": "keep",
+            "confidence": "high",
+            "finding": "Current homepage explicitly offers development of complete products and platforms jointly or on commission, distinct from its staffing branch. SME page corroborates turnkey modules and solutions. The earlier client-only objection improperly excluded commissioned development.",
+            "limits": "Do not attribute all current Beppo technology to icentic or claim exclusive product ownership.",
+            "sources": [
+                "https://www.icentic.com/",
+                "https://www.icentic.com/software-development-for-sme/"
+            ],
+            "method": "Both official pages freshly read via web reader"
+        },
+        {
+            "slug": "mecas",
+            "decision": "keep",
+            "confidence": "medium",
+            "finding": "Current official physical-AI account describes collaborative computer-vision, sensor-processing and robotics systems work. Terms separately identify software/full-stack services. Prior directly reviewed founder hiring evidence describes production AI systems. Commissioned technical development is sufficient; a separate proprietary product is not required.",
+            "limits": "Do not infer a released robotics product, foundation model or exclusive IP. Retain the commercial company classification, not university/lab merely from marketing wording.",
+            "sources": [
+                "https://www.mecas.ai/",
+                "https://www.mecas.ai/terms-of-service",
+                "https://www.linkedin.com/posts/marco-adriano-magno_were-hiring-at-mecas-were-growing-fast-activity-7335241214113255424-Jp9g"
+            ],
+            "method": "Fresh official homepage and primary indexed terms read; founder post reused from company-ten-final-review.json, not claimed freshly retrieved"
+        },
+        {
+            "slug": "walkingtoweb",
+            "decision": "exclude-recommendation",
+            "confidence": "high",
+            "finding": "Newer main rendered primary review resolves the former ambiguous shared voice: walkingtoyou develops the databases and blue.project; walkingtoweb is its hosting partner. Shared address/contact or ownership does not transfer software authorship between legal entities.",
+            "limits": "New recommendation only. Not part of the earlier19 approved-or-pending targets; no location removal, rename, organisation deletion or relationship change. Preserve separate walkingtoyou identity.",
+            "sources": [
+                "https://www.walkingtoyou.com/en/about-us",
+                "https://www.walkingtoyou.com/en/blue-project",
+                "https://www.walkingtoweb.com/de/walkingtoweb",
+                "https://www.walkingtoweb.com/crmhosting_en.php"
+            ],
+            "method": "Reconciled walkingtoyou-review.json main Chrome evidence dated2026-10-15; current web-reader about-us attempt failed and hosting read did not reproduce developer text, so do not misrepresent a second independent confirmation"
+        },
+        {
+            "slug": "koch-it",
+            "decision": "held",
+            "confidence": "high",
+            "finding": "Fresh successor announcement explicitly confirms April2026 absorption merger into Adnovum. Original technical activity qualifies; the separate predecessor listing and its old office remain the issue.",
+            "missingFact": "Whether an independently represented current Koch identity or office survives the absorption; preserve records until main decides representation",
+            "sources": [
+                "https://www.adnovum.com/blog/adnovum-strengthens-cybersecurity-and-realigns-solutions",
+                "https://www.adnovum.com/company/contact-locations"
+            ],
+            "method": "Fresh official May2026 announcement read; prior current office review reused"
+        },
+        {
+            "slug": "forte-digital",
+            "decision": "held",
+            "confidence": "high",
+            "finding": "Technical development is not disputed. Current official office roster still lists Norway, Poland, Germany and Denmark without Switzerland; earlier official2024 Swiss opening remains affirmative historical evidence, not current occupancy or closure proof.",
+            "missingFact": "Current Zurich operating presence versus historical Swiss office",
+            "sources": [
+                "https://www.fortedigital.com/de/ueber-uns",
+                "https://fortedigital.com/en/blog/forte-digital-wins-multi-stage-pitch-for-digital-product-development-for-migros"
+            ],
+            "method": "Fresh official About/office roster read; historical opening evidence retained from company-ten-final-review.json"
+        },
+        {
+            "slug": "unimission",
+            "decision": "held",
+            "confidence": "medium",
+            "finding": "Official history explicitly says uNimbus development began in2025. Current cloud product page explains managed infrastructure but does not identify an original software component or technical process. IBM/Green dependencies do not disqualify development; managed infrastructure alone also does not prove it.",
+            "missingFact": "Attributable original uNimbus software or developed technical process beyond deployment and operation of vendor infrastructure",
+            "sources": [
+                "https://www.unimission.ch/uber-uns/",
+                "https://www.unimission.ch/unimbus-die-100-schweizer-cloud-fuer-kmus/"
+            ],
+            "method": "Both current official pages read via web reader"
+        },
+        {
+            "slug": "scheuss-partner",
+            "decision": "held",
+            "confidence": "medium",
+            "finding": "Official Marketplace catalogue describes provisioning, reporting and billing but not who developed the application. Company branding and operation alone cannot settle original or commissioned development attribution.",
+            "missingFact": "Whether Scheuss/publicloud developed or commissioned original Marketplace software, rather than operating a vendor portal",
+            "sources": [
+                "https://www.scheuss-partner.ch/infrastruktur-und-plattform/publicloud-marketplace/",
+                "https://marketplace.publicloud.ch/"
+            ],
+            "method": "Fresh official product-page read; previous portal-shell limitation retained, no bypass or inference from dependencies"
+        },
+        {
+            "slug": "mathys-partner",
+            "decision": "held",
+            "confidence": "medium",
+            "finding": "Own site demonstrates specialist simulations and reports. Federal2024 report page43 lists Mathys glare calculation capability but explicitly describes original tool development for other organisations, not Mathys. It cannot be used as proof of Mathys-developed software.",
+            "missingFact": "An original computational method, software component or engineering process attributable to Mathys; no requirement for a patented or separately sold product",
+            "sources": [
+                "https://simulation.solar/",
+                "https://pubdb.bfe.admin.ch/de/publication/download/11996"
+            ],
+            "method": "Official site and federal PDF text freshly read, targeted Mathys passage checked; site crawl seven months old"
+        },
+        {
+            "slug": "reasoning-labs",
+            "decision": "held",
+            "confidence": "medium",
+            "finding": "Main Chrome review in topicless-review.json resolves the Zurich corporate identity and approves broad AI classification. Withdraw the old no-primary-bridge rationale. Current homepage remains a minimal superintelligence statement, so it does not independently establish a concrete research programme or developed system.",
+            "missingFact": "Specific attributable technical research/development activity, not identity or a narrower topic; no street address inferred",
+            "sources": [
+                "https://reasoninglabs.com/",
+                "https://www.linkedin.com/company/reasoning-labs/about/"
+            ],
+            "method": "Fresh official homepage read plus main rendered corporate identity evidence reused; no claim of independently rereading authenticated LinkedIn"
+        }
+    ],
+    "counts": {
+        "reviewed": 10,
+        "keep": 3,
+        "excludeRecommendation": 1,
+        "heldWithSpecificMissingFact": 6
+    },
+    "action": "Main reviews changed recommendations. No production actions; do not rerun old strict-criterion holds or conflate classification approval with technical eligibility"
+}

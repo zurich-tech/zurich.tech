@@ -1,0 +1,27 @@
+{
+    "date": "2026-10-15",
+    "status": "published-and-independently-verified-frozen",
+    "slug": "newcelx",
+    "sources": [
+        "https://newcelx.com/",
+        "https://newcelx.com/contact/",
+        "https://www.sec.gov/Archives/edgar/data/1783036/000121390026049307/ea0287509-20f_newcelx.htm"
+    ],
+    "finding": "Own current site establishes cell-therapy and small-molecule development and explicitly names Hohstrasse 1 Kloten as headquarters. Do not imply that its Israeli research operates at the Swiss pin.",
+    "identity": "NLS Pharmaceutics is the former Swiss company name; NLS Pharma was checked as historical shorthand. Kadimastem is the merger predecessor and Israeli subsidiary, not another Swiss office. Reviewed alias checks found no existing entries.",
+    "artwork": {
+        "source": "https://newcelx.com/favicon-512.png",
+        "approval": "Main agent visually approved the genuine compact mark under the user's directory-backfill authorization",
+        "sha256": "32ef9334c642c1d801e690cb4b4fb29d58c46f8c9326e0d92496c78039d9782a",
+        "checkedAt": "2026-10-15T04:51:10.247Z",
+        "result": "Decoded 256px image, exact hash and public CORS passed"
+    },
+    "publication": {
+        "manifest": "/tmp/zurich-registry-review/primary-56c0-newcelx-hosted-ready.json",
+        "identityPopulation": 1140,
+        "identityCheckedAt": "2026-10-15T04:50:54.019Z",
+        "result": "Supported dry run followed by one apply; independent full-field, public-address and social-link readback passed",
+        "productionPopulationAfter": 1141,
+        "organisationWrites": 1
+    }
+}

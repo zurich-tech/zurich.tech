@@ -1,0 +1,31 @@
+{
+    "date": "2026-10-15",
+    "manifest": "/tmp/zurich-registry-review/membership-positive-two-ready.json",
+    "published": ["ifz", "chain-iq"],
+    "productionCountAfterIndependentReadback": 1169,
+    "identityCheck": {
+        "checkedAt": "2026-10-15T05:37:53.072Z",
+        "productionCount": 1167,
+        "exactMatches": [],
+        "additionalParentAliasMatches": [],
+        "additionalSearch": "hslu, lucerne, luzern, financial services, chain iq"
+    },
+    "eligibility": {
+        "ifz": "HSLU institute staff and 2025 FinTech study confirm applied collaborative language-model prototypes; not a claim of foundation-model development or a production financial application",
+        "chain-iq": "Own sustainability report describes in-house SmartConnect portal, chatbots and analytics; current digitalization roadmap is not treated as already delivered in full"
+    },
+    "locations": {
+        "ifz": "Existing public Suurstoffi 1 building reused without moving its pin",
+        "chain-iq": "Current written headquarters Neuhofstrasse 24, not the stale map-link address"
+    },
+    "logos": "Main visually approved genuine complete marks; hosted assets verified for hashes, decoded pixels, 192px dimensions and anonymous CORS",
+    "publication": "Supported preview returned two; applied once; fresh full-field organisation, location, address and social-link readback verified both",
+    "excludedFromBatch": "SILF remains pending a legible genuine compact logo",
+    "mapRegressionCheck": {
+        "tests": 59,
+        "failed": 0,
+        "assertions": 8102,
+        "files": ["tests/map-sheet.test.ts", "tests/map-navigation.test.ts", "tests/map.test.ts"],
+        "limitation": "This focused rerun does not replace physical-phone keyboard and safe-area verification"
+    }
+}

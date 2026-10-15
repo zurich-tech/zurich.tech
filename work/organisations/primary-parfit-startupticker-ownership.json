@@ -1,0 +1,3409 @@
+{
+    "checkedAt": "2026-10-15T07:08:00.812Z",
+    "authority": "User assignment: Pasteur owns collective27; Parfit owns main376 plus geography77 except overlapping identities.",
+    "mainReportedPopulation": 1283,
+    "independentlyReadPopulation": 1273,
+    "productionWrites": 0,
+    "pasteur": {
+        "count": 27,
+        "records": [
+            {
+                "name": "Underheard",
+                "articleIds": ["1.6"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Cedreon",
+                "articleIds": ["1.6"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "APXORA",
+                "articleIds": ["1.18"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Ewopharma",
+                "articleIds": ["1.18"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "HyQure BioTech",
+                "articleIds": ["1.18"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Space Pharmaceuticals",
+                "articleIds": ["1.18"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Path2Work",
+                "articleIds": ["1.29"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "ReVerde",
+                "articleIds": ["1.29"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Amela Biosciences",
+                "articleIds": ["1.49"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "dreamleap",
+                "articleIds": ["2.1"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Pavoot",
+                "articleIds": ["2.1"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Alethesis AI",
+                "articleIds": ["2.1"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Auroniq Robotics / YuRo",
+                "articleIds": ["2.1"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Phoenix Technologies / Phoeniqs",
+                "articleIds": ["2.1"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "SwissMed AI",
+                "articleIds": ["2.1"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "IdentityPlane / PurpleSwarm",
+                "articleIds": ["2.5"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Reykur",
+                "articleIds": ["2.5"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Re-Rooted",
+                "articleIds": ["2.6", "2.47"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Theseus Robotics",
+                "articleIds": ["2.8"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Bios Medical",
+                "articleIds": ["2.8"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Schuman Financial",
+                "articleIds": ["2.8"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "BCHAR",
+                "articleIds": ["2.12"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "Separatic",
+                "articleIds": ["2.12"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "EMBR Bio",
+                "articleIds": ["2.28"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "MOD",
+                "articleIds": ["2.30"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "EDWATEC",
+                "articleIds": ["2.37"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            },
+            {
+                "name": "SUNAXER",
+                "articleIds": ["2.42"],
+                "disposition": "unassessed-body-only-lead",
+                "registrySlugs": [],
+                "titleIndexNames": []
+            }
+        ]
+    },
+    "parfit": {
+        "count": 453,
+        "records": [
+            {
+                "name": "Circet Schweiz",
+                "articleIds": ["5.3"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Terra Quantum",
+                "articleIds": ["5.20", "9.42", "10.41", "12.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "GoCalma",
+                "articleIds": ["5.28", "7.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Delta Capacity",
+                "articleIds": ["5.38"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Ahead Health",
+                "articleIds": ["5.39", "18.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Lion7",
+                "articleIds": ["5.46"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SwimTech",
+                "articleIds": ["6.7", "20.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "IKARUS Cycling Factory",
+                "articleIds": ["6.7"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Empyrean",
+                "articleIds": ["6.7"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Bitcoin Suisse",
+                "articleIds": ["6.10", "7.44"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ONELINE",
+                "articleIds": ["6.10"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "lawbuddy",
+                "articleIds": ["6.16"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Novac Solutions",
+                "articleIds": ["7.11"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Frankencoin",
+                "articleIds": ["7.25"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Eldora",
+                "articleIds": ["7.32"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Solar Loop",
+                "articleIds": ["7.40"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Backbone",
+                "articleIds": ["8.6", "9.3", "14.36", "18.21", "19.11"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Range",
+                "articleIds": [
+                    "1.2",
+                    "7.18",
+                    "8.12",
+                    "10.36",
+                    "12.14",
+                    "12.40",
+                    "14.16",
+                    "14.44",
+                    "15.1",
+                    "16.28",
+                    "17.5",
+                    "17.8",
+                    "18.42",
+                    "19.50",
+                    "21.29",
+                    "22.9",
+                    "22.35"
+                ],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "DETECTRA",
+                "articleIds": ["8.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "TUUS Solutions",
+                "articleIds": ["8.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Anyway Systems",
+                "articleIds": ["8.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Rflect",
+                "articleIds": ["8.20"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Computer Vision",
+                "articleIds": ["3.11", "4.11", "8.21"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Emeralgo",
+                "articleIds": ["8.21"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Rydera",
+                "articleIds": ["8.23"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "FocusNow",
+                "articleIds": ["8.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "LOKD",
+                "articleIds": ["8.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Big Sack",
+                "articleIds": ["8.28"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "TVL Capital",
+                "articleIds": ["8.33"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "FOOD2050",
+                "articleIds": ["8.39"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Pick Place",
+                "articleIds": ["8.42"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Apparition Geoservices",
+                "articleIds": ["8.46"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "EM Path",
+                "articleIds": ["8.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "REMA",
+                "articleIds": ["8.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Polytax",
+                "articleIds": ["8.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Idorsia",
+                "articleIds": ["5.41", "7.19", "8.50", "22.36", "23.40"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "maison blanche",
+                "articleIds": ["9.5"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Temenos",
+                "articleIds": ["9.7"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "additiv",
+                "articleIds": ["9.7"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Resilio",
+                "articleIds": ["9.11"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Greenoco",
+                "articleIds": ["9.11"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "GR3N",
+                "articleIds": ["9.14"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Fortyfour",
+                "articleIds": ["9.15"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "TheraPPI",
+                "articleIds": ["9.16"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Qnami",
+                "articleIds": ["9.20", "16.44"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "CENSE",
+                "articleIds": ["9.22"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Wecan",
+                "articleIds": ["9.23", "23.18"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Miraex",
+                "articleIds": ["9.23", "13.25"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "HooRa",
+                "articleIds": ["9.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Coachbetter",
+                "articleIds": ["9.27"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Lean Projects",
+                "articleIds": ["9.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "VERAXA",
+                "articleIds": ["8.36", "9.36"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Curatis",
+                "articleIds": ["9.36"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Reilo",
+                "articleIds": ["9.38"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "smartconext",
+                "articleIds": ["9.39"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Bionomous",
+                "articleIds": ["9.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "DePoly",
+                "articleIds": ["9.49", "15.9"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "icotec",
+                "articleIds": ["10.1"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "NeoCarbons",
+                "articleIds": ["10.6"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Neurosoft Bioelectronics",
+                "articleIds": ["10.10", "10.34", "17.28", "18.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "AMYRA Biotech",
+                "articleIds": ["10.15"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Yuvoi",
+                "articleIds": ["10.15", "12.23"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Cigno",
+                "articleIds": ["10.16"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Komeo",
+                "articleIds": ["10.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Soully",
+                "articleIds": ["10.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Aiving",
+                "articleIds": ["10.19", "18.11"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "curli",
+                "articleIds": ["10.20"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "BE WTR",
+                "articleIds": ["10.22", "22.37"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Tide Ocean",
+                "articleIds": ["10.24"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Mano Games",
+                "articleIds": ["10.24"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Nalgoova Therapeutics",
+                "articleIds": ["10.28"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Accessify",
+                "articleIds": ["10.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "iRewind",
+                "articleIds": ["10.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SQ Innovation",
+                "articleIds": ["10.44", "16.10", "23.43"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Rea Diagnostics",
+                "articleIds": ["10.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "AcceleratorX",
+                "articleIds": ["10.47"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Taurus",
+                "articleIds": ["10.48", "17.40"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Moonlight AI",
+                "articleIds": ["10.50"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Biodelphis",
+                "articleIds": ["11.5"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Skin Euphoria",
+                "articleIds": ["11.7"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SurgExplore",
+                "articleIds": ["11.8"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "PAZZI",
+                "articleIds": ["11.12"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Resilens",
+                "articleIds": ["11.15"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ALLEGRIA Therapeutics",
+                "articleIds": ["11.17", "19.36"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "klaro Solutions",
+                "articleIds": ["11.24"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ERDIG Living Soils",
+                "articleIds": ["11.24"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Smartflyer",
+                "articleIds": ["11.29"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "H55",
+                "articleIds": ["11.29", "16.29"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Cancentus",
+                "articleIds": ["11.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "WolkenVision",
+                "articleIds": ["11.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SOORT",
+                "articleIds": ["11.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "noii",
+                "articleIds": ["11.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "NEOCARB",
+                "articleIds": ["11.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Altoo",
+                "articleIds": ["11.35"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Santhera",
+                "articleIds": ["11.35", "14.9", "18.4"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Westhive",
+                "articleIds": ["11.36"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "rayne",
+                "articleIds": ["11.46"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Parkn'Sleep",
+                "articleIds": ["11.47"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Babylat",
+                "articleIds": ["11.48", "17.44"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Novigenix AI",
+                "articleIds": ["11.48", "14.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Daphne Technology",
+                "articleIds": ["12.1"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ProteQ Health",
+                "articleIds": ["12.2"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Planetary",
+                "articleIds": ["12.5"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Baabuk",
+                "articleIds": ["12.10", "16.6"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Minima",
+                "articleIds": ["12.10"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ONWARD Medical",
+                "articleIds": ["12.12", "16.10", "21.23", "22.49", "23.35"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "VidaSense",
+                "articleIds": ["12.13"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "CONDA.ch",
+                "articleIds": ["5.36", "12.17", "16.6"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "3D Nexum",
+                "articleIds": ["12.20"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Laine Neural Network",
+                "articleIds": ["12.22"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "LightSeeds",
+                "articleIds": ["12.24"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "PharmaSens",
+                "articleIds": ["12.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Bewy",
+                "articleIds": ["12.29", "22.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Lemna Bio",
+                "articleIds": ["12.30", "19.22"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Beech Biotech",
+                "articleIds": ["12.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Sleap.io",
+                "articleIds": ["12.33"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Herbert Ventures",
+                "articleIds": ["12.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Youdera",
+                "articleIds": ["12.35"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Allthings",
+                "articleIds": ["12.36"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Mountly",
+                "articleIds": ["12.37"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Vivior",
+                "articleIds": ["12.38"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Connectome",
+                "articleIds": ["12.39"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Tiny Fish",
+                "articleIds": ["12.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "PreciMune",
+                "articleIds": ["12.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "iGravity",
+                "articleIds": ["12.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Lobby",
+                "articleIds": ["12.50"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "DentalReport",
+                "articleIds": ["13.1"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "H2REMA",
+                "articleIds": ["13.1"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Même Pas Peur",
+                "articleIds": ["13.1"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "The Undiet Plan",
+                "articleIds": ["13.1"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "augo",
+                "articleIds": ["13.3"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "DeltaSpark",
+                "articleIds": ["13.4"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Gaisbock",
+                "articleIds": ["13.10"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "EyeFitU",
+                "articleIds": ["13.12"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Plair",
+                "articleIds": ["13.13"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Eturnity",
+                "articleIds": ["13.14"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Solar Monkey",
+                "articleIds": ["13.14"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Kielo Research",
+                "articleIds": ["13.16"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SolidWatts",
+                "articleIds": ["13.20"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "MESH",
+                "articleIds": ["13.22", "21.23"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "WECHEER",
+                "articleIds": ["13.23"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "PAVE Space",
+                "articleIds": ["3.20", "10.45", "13.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "NanoZymeX",
+                "articleIds": ["13.28", "14.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Orthosens",
+                "articleIds": ["13.29"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Soeder",
+                "articleIds": ["11.7", "13.32"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Umlaut.bio",
+                "articleIds": ["13.35"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Marein",
+                "articleIds": ["13.40"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "MouthGuard",
+                "articleIds": ["13.43"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Taste Match",
+                "articleIds": ["13.44"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Agora Care",
+                "articleIds": ["13.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "circunis",
+                "articleIds": ["13.50"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Bcomp",
+                "articleIds": ["14.3"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SwissBorg",
+                "articleIds": ["14.5"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "docdok.health",
+                "articleIds": ["14.6"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Klepsydra",
+                "articleIds": ["14.7"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Docjo",
+                "articleIds": ["14.9"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "MindMaze",
+                "articleIds": ["14.9", "19.15"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Ionic Wind",
+                "articleIds": ["14.11", "19.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "BlueGreens",
+                "articleIds": ["14.11"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Axiym",
+                "articleIds": ["14.15"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Chain4Travel",
+                "articleIds": ["14.19"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Seprify",
+                "articleIds": ["14.20", "15.23", "21.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Qnomx",
+                "articleIds": ["14.23"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Occlutech",
+                "articleIds": ["14.25"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Compass Financial Technologies",
+                "articleIds": ["14.27"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SaveSpace",
+                "articleIds": ["14.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "IBA Virtual",
+                "articleIds": ["14.36"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Allasso",
+                "articleIds": ["14.38"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "CellKinetica",
+                "articleIds": ["14.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Enlightra",
+                "articleIds": ["14.41", "19.12"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Alithea Genomics",
+                "articleIds": ["14.42"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "IMPLANZ",
+                "articleIds": ["14.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Vivent Biosignals",
+                "articleIds": ["17.16", "21.9"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "GlobalM",
+                "articleIds": ["14.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "on-storage",
+                "articleIds": ["14.48"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Xsensio",
+                "articleIds": ["14.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Connected Health Development",
+                "articleIds": ["14.50"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "STS Digital",
+                "articleIds": ["15.3"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "L.E.S.S.",
+                "articleIds": ["15.4"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "InVirtuoLabs",
+                "articleIds": ["15.8", "16.9"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Neutrality",
+                "articleIds": ["15.9"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Arcarius",
+                "articleIds": ["15.10"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Polaroid Therapeutics",
+                "articleIds": ["15.12"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Clee Medical",
+                "articleIds": ["15.14"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Swiss Rockets",
+                "articleIds": ["15.16"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Enerdrape",
+                "articleIds": ["14.44", "15.19", "17.28"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Bioneris",
+                "articleIds": ["15.19"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "nowon",
+                "articleIds": ["15.21"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Quanthome",
+                "articleIds": ["15.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "FimmCyte",
+                "articleIds": ["15.32"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Alpha Augmented Services",
+                "articleIds": ["15.33"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Avlana",
+                "articleIds": ["15.35"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ExerGo",
+                "articleIds": ["15.37"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "KnowThee",
+                "articleIds": ["15.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Alpi",
+                "articleIds": ["15.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Fume",
+                "articleIds": ["15.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "AeroEx",
+                "articleIds": ["16.5"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Mitipi",
+                "articleIds": ["16.6", "19.21"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Chronic",
+                "articleIds": [
+                    "1.42",
+                    "2.21",
+                    "5.13",
+                    "5.19",
+                    "8.32",
+                    "11.17",
+                    "13.38",
+                    "16.6",
+                    "17.30",
+                    "23.43"
+                ],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Argà MedTech",
+                "articleIds": ["16.10"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "KYLYS",
+                "articleIds": ["16.10"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Umanitek",
+                "articleIds": ["16.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Swiss Cluster",
+                "articleIds": ["9.9", "16.19"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Loxy",
+                "articleIds": ["16.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "tracker.ch",
+                "articleIds": ["16.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Vestir",
+                "articleIds": ["16.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Otter",
+                "articleIds": ["16.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "priorResearch": "/tmp/zurich-registry-review/primary-56c0-startupticker-primary.json",
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Alys Pharmaceuticals",
+                "articleIds": ["16.33"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "iOnctura",
+                "articleIds": ["16.33", "20.2", "23.14"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Visienco",
+                "articleIds": ["16.34", "17.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Mindset Technologies",
+                "articleIds": ["16.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "FluidSolids",
+                "articleIds": ["16.39"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "DiploTools",
+                "articleIds": ["16.45", "18.5"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Terapet",
+                "articleIds": ["16.47"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ORamaVR",
+                "articleIds": ["16.48"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Technis",
+                "articleIds": ["16.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "E-NNO",
+                "articleIds": ["16.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Xer Tech",
+                "articleIds": ["17.2"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "beUnity",
+                "articleIds": ["17.6"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SamanTree Medical",
+                "articleIds": ["17.7"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Largo",
+                "articleIds": ["17.11"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Aesyra",
+                "articleIds": ["17.13"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Comphya",
+                "articleIds": ["17.13", "23.36"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Under Industries",
+                "articleIds": ["17.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Rhovica Neuroimaging",
+                "articleIds": ["17.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Tech5",
+                "articleIds": ["17.27", "20.37"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "GraphEnergy Tech",
+                "articleIds": ["17.28"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Audiospace",
+                "articleIds": ["17.29"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Oviva",
+                "articleIds": ["17.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "FAIRTIQ",
+                "articleIds": ["17.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Cloover",
+                "articleIds": ["17.37"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Frigg",
+                "articleIds": ["17.38"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Advertima",
+                "articleIds": ["17.42"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Undae",
+                "articleIds": ["17.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SIS Medical",
+                "articleIds": ["17.48"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "GreenGT",
+                "articleIds": ["17.50"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Composite Recycling",
+                "articleIds": ["17.50"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "MyBikePlan",
+                "articleIds": ["18.1"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Copresence",
+                "articleIds": ["18.2"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "AlphaLum",
+                "articleIds": ["18.6"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "PLAKATIV",
+                "articleIds": ["18.8"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "FAB STUDIO",
+                "articleIds": ["18.12"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Future Holdings",
+                "articleIds": ["18.16", "22.18"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Holsain",
+                "articleIds": ["22.7"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "TOFWERK",
+                "articleIds": ["18.24"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Delos Analytica",
+                "articleIds": ["18.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Kainjoo",
+                "articleIds": ["18.27"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Pupsic",
+                "articleIds": ["18.27"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ZenChain",
+                "articleIds": ["18.28"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Legacy Healthcare",
+                "articleIds": ["18.29"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "OneTwenty",
+                "articleIds": ["18.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Ason Payroll Engine",
+                "articleIds": ["18.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "CircleUp",
+                "articleIds": ["18.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Techponics",
+                "articleIds": ["18.33"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Punkt",
+                "articleIds": ["18.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Nutrix",
+                "articleIds": ["18.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Gapfruit",
+                "articleIds": ["18.38"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Micromate",
+                "articleIds": ["18.40"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Cancret",
+                "articleIds": ["18.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SpacePNT",
+                "articleIds": ["18.43"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "DiNAQOR",
+                "articleIds": ["18.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "DiNATEQ",
+                "articleIds": ["18.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "YeastUp",
+                "articleIds": ["18.50"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Glice",
+                "articleIds": ["19.1"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Dokspot",
+                "articleIds": ["19.3"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "LumRisk",
+                "articleIds": ["19.4"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Xlife Sciences",
+                "articleIds": ["19.6", "20.8"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Volted.ai",
+                "articleIds": ["19.11"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Levitate Aerospace",
+                "articleIds": ["19.13"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Nomady",
+                "articleIds": ["19.16"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Genknowme",
+                "articleIds": ["19.19"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Oazo Homes",
+                "articleIds": ["19.21"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Lighthouse Tech",
+                "articleIds": ["19.21"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Databaum",
+                "articleIds": ["19.22"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Scriveo",
+                "articleIds": ["19.28"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "PRODUCER",
+                "articleIds": ["3.42", "19.29"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Altiscreen",
+                "articleIds": ["19.32"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "MindGuard",
+                "articleIds": ["19.33"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Swixx Biopharma",
+                "articleIds": ["19.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Artiria Medical",
+                "articleIds": ["19.35", "23.36"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Compremium",
+                "articleIds": ["19.35"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Testmate",
+                "articleIds": ["19.38"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "INERGIO",
+                "articleIds": ["19.40"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Aukera",
+                "articleIds": ["19.42"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ecomade",
+                "articleIds": ["19.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Aurealis",
+                "articleIds": ["20.2"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Ventostream",
+                "articleIds": ["20.6"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "EvlaBio",
+                "articleIds": ["20.6"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SwissHealth Ventures",
+                "articleIds": ["20.16"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "StaffUp",
+                "articleIds": ["20.17"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "MethylX",
+                "articleIds": ["20.19"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Reshape Systems",
+                "articleIds": ["20.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Medropharm",
+                "articleIds": ["20.29"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Pacrim",
+                "articleIds": ["20.29"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Novonexile",
+                "articleIds": ["20.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Arca24",
+                "articleIds": ["20.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Swisspod",
+                "articleIds": ["20.32"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Humbrela",
+                "articleIds": ["20.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SWD",
+                "articleIds": ["20.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Propfy",
+                "articleIds": ["20.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Octiive",
+                "articleIds": ["20.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Arcalignum",
+                "articleIds": ["21.4"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Badger",
+                "articleIds": ["21.4"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Pure-DEL",
+                "articleIds": ["21.8"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "NovaLight",
+                "articleIds": ["21.12"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Novaccess",
+                "articleIds": ["21.12"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Kolbev",
+                "articleIds": ["21.13"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "YURO",
+                "articleIds": ["21.13"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Tasteomics",
+                "articleIds": ["21.19"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Regenosca",
+                "articleIds": ["21.23"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Acurast",
+                "articleIds": ["21.25"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Kollabo",
+                "articleIds": ["21.28"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "enovetic",
+                "articleIds": ["21.28"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "GreenTriangle",
+                "articleIds": ["21.43"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Autonomyo",
+                "articleIds": ["21.44"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "DOPPL",
+                "articleIds": ["21.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Sun Bioscience",
+                "articleIds": ["21.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Healio",
+                "articleIds": ["21.47"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Sharelock",
+                "articleIds": ["21.47"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Delvitech",
+                "articleIds": ["21.48"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Motley",
+                "articleIds": ["22.1"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "BioVersys",
+                "articleIds": ["19.41", "22.2"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "AMINA",
+                "articleIds": ["22.3"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Switchkine",
+                "articleIds": ["22.12"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "sign.mt",
+                "articleIds": ["22.19"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "GAYA Earth",
+                "articleIds": ["22.22"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "chainstaff",
+                "articleIds": ["22.24"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "MYNE",
+                "articleIds": ["22.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Data Migration International",
+                "articleIds": ["22.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "TVP Solar",
+                "articleIds": ["22.44"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Nexthink",
+                "articleIds": ["22.48"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Recoplast",
+                "articleIds": ["23.2"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "QUMEA",
+                "articleIds": ["21.38", "23.3"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Kontera",
+                "articleIds": ["23.5"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Omnitone",
+                "articleIds": ["23.8"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "WWW",
+                "articleIds": ["23.8"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Red Drop",
+                "articleIds": ["23.8"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "maison.work",
+                "articleIds": ["23.10"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Suisselle",
+                "articleIds": ["23.16"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "eFrontiers",
+                "articleIds": ["23.18"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Lawise.ai",
+                "articleIds": ["23.21"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Subsquid",
+                "articleIds": ["23.25"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ELKA Watch",
+                "articleIds": ["23.26"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Shack",
+                "articleIds": ["23.27"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Cryptonow",
+                "articleIds": ["23.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Ikerian",
+                "articleIds": ["23.33"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "RetinAI",
+                "articleIds": ["23.33"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "GradeSens",
+                "articleIds": ["23.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "capzlog.aero",
+                "articleIds": ["23.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Navique",
+                "articleIds": ["23.42"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Nouscom",
+                "articleIds": ["23.44"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ADC Therapeutics",
+                "articleIds": ["23.40"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "YARU",
+                "articleIds": ["23.46"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Moozz",
+                "articleIds": ["23.50"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Alentis",
+                "articleIds": ["1.32", "20.48", "23.29"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "RheoCarti",
+                "articleIds": ["2.7"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Neural Concept",
+                "articleIds": ["2.13", "6.43", "9.2", "10.15", "10.37", "19.14"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Panda Therapeutics",
+                "articleIds": ["3.49"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "HAYA Therapeutics",
+                "articleIds": ["5.27", "10.3"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Terasol",
+                "articleIds": ["6.24"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Bubbles Crèches",
+                "articleIds": ["6.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Creapole",
+                "articleIds": ["9.19"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "hephaistos.bio",
+                "articleIds": ["9.28"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "TUUS",
+                "articleIds": ["8.17", "9.43"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Ecorobotix",
+                "articleIds": ["11.18", "13.48", "23.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Interact Media Group",
+                "articleIds": ["11.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Unita Capital",
+                "articleIds": ["14.34"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Corintis",
+                "articleIds": ["3.20", "6.43", "20.9"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Aspivix",
+                "articleIds": ["2.33", "16.10", "23.19"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SFF Studio",
+                "articleIds": ["1.6", "8.5"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Swiss Champion Fund",
+                "articleIds": ["7.45"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "ACE & Company",
+                "articleIds": ["6.31"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "SwissVC",
+                "articleIds": ["9.41"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Operator Circle",
+                "articleIds": ["14.2"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "VitaminC",
+                "articleIds": ["13.30"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Moonlake Therapeutics",
+                "articleIds": ["6.27"],
+                "status": "unresolved-source-name-needs-identity-or-primary-reconciliation",
+                "registrySlugs": [],
+                "disposition": "unassessed"
+            },
+            {
+                "name": "Humboldt AI",
+                "articleIds": ["5.48"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Neur.on",
+                "articleIds": ["7.15", "14.12"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Swisstastic",
+                "articleIds": ["7.42"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "ClearideBio",
+                "articleIds": ["8.30"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "TrialHer",
+                "articleIds": ["8.37"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "findependent",
+                "articleIds": ["8.45", "15.7"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Sequence",
+                "articleIds": ["9.3", "16.29"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Züripets",
+                "articleIds": ["9.33"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "brutal güet",
+                "articleIds": ["10.7"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Complemedia",
+                "articleIds": ["10.23"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Oxoia",
+                "articleIds": ["10.29", "18.19"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "AMP IT",
+                "articleIds": ["10.31"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "44ai",
+                "articleIds": ["10.33", "22.40"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "FERROSA",
+                "articleIds": ["11.19"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Bug Bounty Switzerland",
+                "articleIds": ["11.21"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Findmee",
+                "articleIds": ["11.27", "22.26"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Lawcodex",
+                "articleIds": ["11.42"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Precise Intelligence",
+                "articleIds": ["11.43"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Ystorian",
+                "articleIds": ["11.43"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "dispoEnergy",
+                "articleIds": ["12.7"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "DigitalSupplAI",
+                "articleIds": ["12.32"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Ark Labs",
+                "articleIds": ["12.42"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Artificialy",
+                "articleIds": ["12.44", "23.29"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Cohaga",
+                "articleIds": ["12.46"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "YourStarter",
+                "articleIds": ["13.9"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "miros",
+                "articleIds": ["13.11"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Idéative",
+                "articleIds": ["13.21"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Coteries",
+                "articleIds": ["13.21"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Nuventus",
+                "articleIds": ["14.8"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Divea",
+                "articleIds": ["14.22", "15.19"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Blockstrom",
+                "articleIds": ["14.24"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Medimaps",
+                "articleIds": ["14.33"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "TECregen",
+                "articleIds": ["14.45", "18.23"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "CLIMATEX",
+                "articleIds": ["15.18"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Kaspar&",
+                "articleIds": ["15.24"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Axy",
+                "articleIds": ["15.34", "20.46"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Nose Switzerland",
+                "articleIds": ["15.34"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Axmed",
+                "articleIds": ["15.39"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Hemora",
+                "articleIds": ["15.50"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "OOVIE",
+                "articleIds": ["16.1"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Poulpigo",
+                "articleIds": ["16.12"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "GuestReady",
+                "articleIds": ["16.43"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Scholé AI",
+                "articleIds": ["17.10"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Credura",
+                "articleIds": ["17.19"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Smood",
+                "articleIds": ["17.33"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "SayNode",
+                "articleIds": ["18.9"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "AiMorphous",
+                "articleIds": ["18.22"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Spacetek",
+                "articleIds": ["18.25", "20.40"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "sun2wheel",
+                "articleIds": ["18.35"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Revario",
+                "articleIds": ["18.36"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "HomeBuddy",
+                "articleIds": ["19.24"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "POSICS",
+                "articleIds": ["19.26"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Vectopia",
+                "articleIds": ["19.26"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Geneva Connection Technologies",
+                "articleIds": ["19.26"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "EM Technologies",
+                "articleIds": ["19.39"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "zevvy",
+                "articleIds": ["19.44"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "DigeHealth",
+                "articleIds": ["19.46"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "EspeRare",
+                "articleIds": ["20.18"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Xcert AI",
+                "articleIds": ["20.35"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Cycloo",
+                "articleIds": ["20.36"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Online Recruiter",
+                "articleIds": ["20.42"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Solarify",
+                "articleIds": ["21.10"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "SmarterChains",
+                "articleIds": ["21.21"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "GlioCART",
+                "articleIds": ["21.30"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Masaba Coffee",
+                "articleIds": ["21.37"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "NNAISENSE",
+                "articleIds": ["21.46"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "SixPeaks",
+                "articleIds": ["22.6"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Lookmove",
+                "articleIds": ["22.30"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Smart Chip Switzerland",
+                "articleIds": ["22.46"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "BOXS",
+                "articleIds": ["23.2"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Peoplegeist",
+                "articleIds": ["23.15"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "General Intuition",
+                "articleIds": ["23.28"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Pretty Good",
+                "articleIds": ["23.32"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Baio Labs",
+                "articleIds": ["1.30"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Ageospatial",
+                "articleIds": ["1.31"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "SWISSto12",
+                "articleIds": ["6.28", "17.35"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            },
+            {
+                "name": "Neology",
+                "articleIds": ["11.22", "23.39"],
+                "status": "prior-geography-screen-only-not-primary-closed",
+                "registrySlugs": [],
+                "disposition": "geographyScreenOnly"
+            }
+        ]
+    },
+    "overlaps": [],
+    "rule": "Do not prepare, research or mutate another owner's identities. Alias discoveries must be reconciled before proceeding. All main frozen publications remain excluded from reimport."
+}
