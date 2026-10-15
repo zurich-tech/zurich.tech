@@ -35,6 +35,8 @@ const instituteReview = v.object({
     sources: v.array(v.string()),
     /** Opt into copying this exact existing parent map asset. */
     parentMapLogoUrl: v.optional(v.string()),
+    /** Opt into copying this exact existing parent dark map asset. */
+    parentMapLogoDarkUrl: v.optional(v.string()),
 });
 
 /** Reviewed profile fields shared by existing and new office addresses. */
@@ -49,6 +51,7 @@ const profile = {
     office: v.string(),
     sources: v.array(v.string()),
     mapLogoUrl: v.optional(v.string()),
+    mapLogoDarkUrl: v.optional(v.string()),
     socials: v.optional(socialLinks),
     topics: v.optional(v.array(v.string())),
     instituteReview: v.optional(instituteReview),
@@ -138,11 +141,15 @@ export const apply = internalMutation({
             for (const source of sources) normalizeUrl(source);
 
             // validate branding and social destinations identically in preview and application
-            const parentLogo = institute
+            const parentLogos = institute
                 ? reviewInstitute({ ...fields, website, instituteReview: institute }, existing)
                 : undefined;
-            if (parentLogo !== undefined) fields.mapLogoUrl = parentLogo;
+            if (parentLogos?.mapLogoUrl !== undefined) fields.mapLogoUrl = parentLogos.mapLogoUrl;
             else if (fields.mapLogoUrl !== undefined) hostedLogo(fields.mapLogoUrl, fields.slug);
+            if (parentLogos?.mapLogoDarkUrl !== undefined)
+                fields.mapLogoDarkUrl = parentLogos.mapLogoDarkUrl;
+            else if (fields.mapLogoDarkUrl !== undefined)
+                hostedLogo(fields.mapLogoDarkUrl, fields.slug);
             const links = reviewedSocials(socials);
             if (fields.topics !== undefined) await validateSpecificTopics(ctx, fields.topics);
 
@@ -252,6 +259,57 @@ export const cleanHeadlines = internalMutation({
         }
 
         return { applied: apply, count: slugs.length, slugs };
+    },
+});
+
+/** Remove one reviewed terminal sentence period without normalizing any other text. */
+export const cleanDescriptions = internalMutation({
+    args: {
+        apply: v.boolean(),
+        organisations: v.array(
+            v.object({
+                id: v.id("organisations"),
+                slug: v.string(),
+                expectedDescription: v.string(),
+                description: v.string(),
+            }),
+        ),
+    },
+    handler: async (ctx, args) => {
+        // require a bounded review with unique record identities
+        if (!args.organisations.length || args.organisations.length > 100)
+            throw new Error("Clean between 1 and 100 reviewed descriptions.");
+        const ids = new Set<Id<"organisations">>();
+        const slugs = new Set<string>();
+        for (const row of args.organisations) {
+            if (ids.has(row.id) || slugs.has(row.slug))
+                throw new Error(`Repeated organisation: ${row.slug}.`);
+            ids.add(row.id);
+            slugs.add(row.slug);
+
+            // sentence punctuation is reviewed explicitly, never inferred from abbreviations
+            if (
+                !row.expectedDescription.endsWith(".") ||
+                row.expectedDescription.endsWith("..") ||
+                !row.description.trim() ||
+                row.description !== row.expectedDescription.slice(0, -1)
+            )
+                throw new Error(`Remove exactly one terminal sentence period: ${row.slug}.`);
+
+            // fail stale reviews before changing the description or its modification time
+            const organisation = await ctx.db.get(row.id);
+            if (!organisation || organisation.slug !== row.slug)
+                throw new Error(`Organisation identity changed: ${row.slug}.`);
+            if (organisation.description !== row.expectedDescription)
+                throw new Error(`Organisation description changed: ${row.slug}.`);
+            if (args.apply)
+                await ctx.db.patch(row.id, {
+                    description: row.description,
+                    updatedAt: Date.now(),
+                });
+        }
+
+        return { applied: args.apply, count: slugs.size, slugs: [...slugs] };
     },
 });
 
@@ -553,7 +611,10 @@ function websiteKey(website: string) {
 
 /** Verify institute evidence and stale identities before permitting shared hosting or parent branding. */
 function reviewInstitute(
-    row: Pick<Doc<"organisations">, "kind" | "slug" | "website" | "mapLogoUrl"> & {
+    row: Pick<
+        Doc<"organisations">,
+        "kind" | "slug" | "website" | "mapLogoUrl" | "mapLogoDarkUrl"
+    > & {
         /** Exact parent and host peers approved by the reviewer. */
         instituteReview: Infer<typeof instituteReview>;
     },
@@ -622,5 +683,15 @@ function reviewInstitute(
     )
         throw new Error(`Institute parent logo changed or conflicts: ${row.slug}.`);
 
-    return review.parentMapLogoUrl;
+    // require the same explicit current-parent match for the independently reviewed dark asset
+    if (
+        review.parentMapLogoDarkUrl !== undefined &&
+        (!review.parentMapLogoDarkUrl ||
+            parent.mapLogoDarkUrl !== review.parentMapLogoDarkUrl ||
+            (row.mapLogoDarkUrl !== undefined &&
+                row.mapLogoDarkUrl !== review.parentMapLogoDarkUrl))
+    )
+        throw new Error(`Institute parent dark logo changed or conflicts: ${row.slug}.`);
+
+    return { mapLogoUrl: review.parentMapLogoUrl, mapLogoDarkUrl: review.parentMapLogoDarkUrl };
 }

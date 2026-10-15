@@ -6,6 +6,128 @@ const apply = makeFunctionReference<"mutation">("organisations/imports:apply");
 const enrich = makeFunctionReference<"mutation">("organisations/imports:enrich");
 const logos = makeFunctionReference<"mutation">("organisations/imports:logos");
 
+/** Seed a reviewed institute with independently reusable parent theme assets. */
+async function instituteFixture() {
+    const { backend, row } = await fixture();
+    const parent = {
+        name: "University",
+        slug: "university",
+        website: "https://university.example/",
+        mapLogoUrl: "/logos/university.png",
+        mapLogoDarkUrl: "/logos/university-dark.png",
+    };
+    const id = await backend.run((ctx) =>
+        ctx.db.insert("organisations", {
+            ...parent,
+            kind: "university",
+            description: "Research",
+            location: "Zurich",
+            updatedAt: 1,
+        }),
+    );
+    const website = "https://university.example/labs/new";
+
+    return {
+        backend,
+        id,
+        row: {
+            ...row,
+            kind: "lab" as const,
+            website,
+            instituteReview: {
+                parentId: id,
+                parentSlug: parent.slug,
+                parentName: parent.name,
+                parentWebsite: parent.website,
+                peers: [{ id, slug: parent.slug, name: parent.name, website: parent.website }],
+                reason: "Distinct research institute",
+                sources: [website],
+                parentMapLogoUrl: parent.mapLogoUrl,
+                parentMapLogoDarkUrl: parent.mapLogoDarkUrl,
+            },
+        },
+    };
+}
+
+test("test_copy_reviewed_parent_dark_logo_with_or_without_light_reuse", async () => {
+    for (const reuseLight of [false, true]) {
+        for (const explicitDark of [false, true]) {
+            const { backend, row } = await instituteFixture();
+            const { parentMapLogoUrl, ...darkReview } = row.instituteReview;
+            const candidate = {
+                ...row,
+                instituteReview: reuseLight ? row.instituteReview : darkReview,
+                ...(explicitDark ? { mapLogoDarkUrl: darkReview.parentMapLogoDarkUrl } : {}),
+            };
+            const before = await backend.run((ctx) => ctx.db.query("organisations").collect());
+            await backend.mutation(apply, { apply: false, organisations: [candidate] });
+            expect(await backend.run((ctx) => ctx.db.query("organisations").collect())).toEqual(
+                before,
+            );
+            await backend.mutation(apply, { apply: true, organisations: [candidate] });
+            const saved = await backend.run((ctx) =>
+                ctx.db
+                    .query("organisations")
+                    .withIndex("by_slug", (q) => q.eq("slug", row.slug))
+                    .unique(),
+            );
+            expect(saved?.mapLogoDarkUrl).toBe(darkReview.parentMapLogoDarkUrl);
+            expect(saved?.mapLogoUrl).toBe(reuseLight ? parentMapLogoUrl : undefined);
+        }
+    }
+});
+
+test("test_reject_stale_missing_empty_conflicting_and_unreviewed_parent_dark_logos", async () => {
+    for (const scenario of ["stale", "missing", "empty", "conflict", "unreviewed"] as const) {
+        const { backend, id, row } = await instituteFixture();
+        if (scenario === "stale" || scenario === "missing") {
+            await backend.run((ctx) =>
+                ctx.db.patch(id, {
+                    mapLogoDarkUrl: scenario === "stale" ? "/logos/changed.png" : undefined,
+                }),
+            );
+        }
+        const { parentMapLogoDarkUrl, ...lightReview } = row.instituteReview;
+        const candidate = {
+            ...row,
+            instituteReview:
+                scenario === "unreviewed"
+                    ? lightReview
+                    : {
+                          ...row.instituteReview,
+                          parentMapLogoDarkUrl: scenario === "empty" ? "" : parentMapLogoDarkUrl,
+                      },
+            ...(scenario === "conflict"
+                ? {
+                      mapLogoDarkUrl: `https://media.zurich.tech/organisations/${row.slug}/${"c".repeat(64)}.png`,
+                  }
+                : {}),
+            ...(scenario === "unreviewed" ? { mapLogoDarkUrl: parentMapLogoDarkUrl } : {}),
+        };
+        const before = await backend.run(async (ctx) => ({
+            organisations: await ctx.db.query("organisations").collect(),
+            addresses: await ctx.db.query("addresses").collect(),
+            locations: await ctx.db.query("locations").collect(),
+        }));
+        for (const isApply of [false, true]) {
+            await expect(
+                backend.mutation(apply, { apply: isApply, organisations: [candidate] }),
+            ).rejects.toThrow(
+                scenario === "unreviewed"
+                    ? `Expected a reviewed hosted logo: ${row.slug}.`
+                    : `Institute parent dark logo changed or conflicts: ${row.slug}.`,
+            );
+            expect(
+                await backend.run(async (ctx) => ({
+                    organisations: await ctx.db.query("organisations").collect(),
+                    addresses: await ctx.db.query("addresses").collect(),
+                    locations: await ctx.db.query("locations").collect(),
+                })),
+            ).toEqual(before);
+        }
+    }
+});
+
 test("test_validate_imported_topics_in_preview_and_apply", async () => {
     const { backend, row } = await fixture();
     await backend.run(async (ctx) => {
@@ -65,11 +187,13 @@ test("test_publish_branded_profiles_and_socials_atomically_with_either_address_f
         const { backend, row } = await fixture();
         const { addressId, ...profile } = row;
         const mapLogoUrl = `https://media.zurich.tech/organisations/${row.slug}/${"a".repeat(64)}.png`;
+        const mapLogoDarkUrl = `https://media.zurich.tech/organisations/${row.slug}/${"b".repeat(64)}.png`;
         const organisations = [
             {
                 ...profile,
                 ...(isNewAddress ? { address: reviewedAddress } : { addressId }),
                 mapLogoUrl,
+                mapLogoDarkUrl,
                 socials: {
                     linkedin: "https://linkedin.com/company/new/?utm_source=site",
                     github: "https://github.com/new/",
@@ -110,7 +234,12 @@ test("test_publish_branded_profiles_and_socials_atomically_with_either_address_f
         }));
         const { _id: ownerId, _creationTime, updatedAt, ...stored } = saved.organisations[1]!;
         const { office, sources, ...fields } = profile;
-        expect(stored).toEqual({ ...fields, website: "https://new.example/", mapLogoUrl });
+        expect(stored).toEqual({
+            ...fields,
+            website: "https://new.example/",
+            mapLogoUrl,
+            mapLogoDarkUrl,
+        });
         expect(saved.addresses).toHaveLength(isNewAddress ? 2 : 1);
         expect(saved.locations[1]).toMatchObject({ ownerId, visibility: "public" });
         expect(
@@ -140,6 +269,9 @@ test("test_reject_bad_import_branding_and_socials_in_preview_and_roll_back_appli
         { mapLogoUrl: `https://media.zurich.tech/organisations/wrong/${"a".repeat(64)}.png` },
         { mapLogoUrl: "https://external.example/logo.png" },
         { mapLogoUrl: "" },
+        { mapLogoDarkUrl: `https://media.zurich.tech/organisations/wrong/${"b".repeat(64)}.png` },
+        { mapLogoDarkUrl: "https://external.example/logo.png" },
+        { mapLogoDarkUrl: "" },
         { socials: { linkedin: "https://linkedin.com/in/someone" } },
         { socials: { github: "https://github.com/new/repository" } },
         { socials: { x: "https://x.com/share" } },
@@ -153,7 +285,7 @@ test("test_reject_bad_import_branding_and_socials_in_preview_and_roll_back_appli
             links: await ctx.db.query("links").collect(),
         }));
         const message =
-            "mapLogoUrl" in invalid
+            "mapLogoUrl" in invalid || "mapLogoDarkUrl" in invalid
                 ? "Expected a reviewed hosted logo: second."
                 : `Invalid ${Object.keys(invalid.socials)[0]} organisation profile: ${Object.values(invalid.socials)[0]}.`;
         for (const isApply of [false, true]) {
