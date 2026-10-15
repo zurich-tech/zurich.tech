@@ -4,6 +4,7 @@ import type {
     Map as GeographicMap,
     SymbolLayerSpecification,
 } from "maplibre-gl";
+import { isHostedLogo } from "../organisations/logos";
 import { logoBackground } from "./colour";
 import { placeName } from "./places";
 import type { MapLocation } from "./queries";
@@ -141,8 +142,17 @@ export async function addBadges(
                 .map((person) => [badgeId(person), person]),
         ).values(),
     ].filter((person) => !map.hasImage(badgeId(person)));
-    // register every initial before starting any image downloads
-    for (const person of missing) map.addImage(badgeId(person), drawBadge(person), { pixelRatio });
+    // draw identical placeholders once; MapLibre copies pixels into each independent image id
+    const initials = new Map<string, ImageData>();
+    for (const person of missing) {
+        const initial = person.name.slice(0, 1).toUpperCase();
+        let image = initials.get(initial);
+        if (!image) {
+            image = drawBadge(person);
+            initials.set(initial, image);
+        }
+        map.addImage(badgeId(person), image, { pixelRatio });
+    }
 
     // bound downloads and decoding rather than flooding a phone with every logo at once
     let next = 0;
@@ -152,7 +162,7 @@ export async function addBadges(
                 const person = missing[next++];
                 const source = person.mapLogoUrl ?? person.logoUrl;
                 if (!source) continue;
-                const image = await loadImage(source);
+                const image = await loadImage(source, isActive);
                 if (image && isActive()) map.updateImage(badgeId(person), drawBadge(person, image));
             }
         }),
@@ -278,18 +288,43 @@ function drawBadge(organisation: Organisation, image?: HTMLImageElement) {
 }
 
 /** Load an image, reporting a failure and returning nothing so the badge shows the initial. */
-async function loadImage(source: string) {
+async function loadImage(source: string, isActive: () => boolean) {
+    try {
+        // use the normal anonymous image request unless its cached response fails
+        try {
+            return await decodeImage(source);
+        } catch (error) {
+            if (!isActive()) return;
+            if (!isHostedLogo(source)) throw error;
+        }
+
+        // refresh only our public logo, then retry decoding once in the same download slot
+        const response = await fetch(source, {
+            mode: "cors",
+            credentials: "omit",
+            cache: "reload",
+        });
+        if (!response.ok) throw new Error(`Map icon reload failed: HTTP ${response.status}`);
+        await response.arrayBuffer();
+        if (!isActive()) return;
+
+        return await decodeImage(source);
+    } catch (error) {
+        if (isActive()) console.error(`Map icon failed to load: ${source}`, error);
+
+        return undefined;
+    }
+}
+
+/** Decode a fresh anonymous image so its pixels can be read by the badge canvas. */
+async function decodeImage(source: string) {
     const image = new Image();
     // request permission to read external logos back from the badge canvas
     image.crossOrigin = "anonymous";
     image.src = source;
-    try {
-        await image.decode();
-        return image;
-    } catch (error) {
-        console.error(`Map icon failed to load: ${source}`, error);
-        return undefined;
-    }
+    await image.decode();
+
+    return image;
 }
 
 /** Create a square canvas for a circle of this diameter at the drawing resolution. */

@@ -1,0 +1,15 @@
+{
+    "description": "Public organisation logo CORS",
+    "phase": "http_response_headers_transform",
+    "action": "rewrite",
+    "expression": "(http.host eq \"media.zurich.tech\" and starts_with(http.request.uri.path, \"/organisations/\") and ends_with(http.request.uri.path, \".png\") and http.request.method in {\"GET\" \"HEAD\"})",
+    "action_parameters": {
+        "headers": {
+            "access-control-allow-origin": {
+                "operation": "set",
+                "value": "*"
+            }
+        }
+    },
+    "enabled": true
+}

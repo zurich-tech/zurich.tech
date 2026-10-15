@@ -1,4 +1,5 @@
 import { Highlight } from "../components/highlight";
+import { Image } from "../components/image";
 import { Organisers } from "./organiser";
 import { EventCounts } from "./counts";
 import { EventBadges, EventTags } from "./tags";
@@ -57,7 +58,7 @@ export function Entry(props: {
                     {(image) => (
                         <a class="entry-image" href={props.href} tabindex="-1" aria-hidden="true">
                             <Show when={image().url} fallback={image().initial}>
-                                {(url) => <img src={url()} alt="" loading="lazy" />}
+                                {(url) => <Image src={url()} alt="" loading="lazy" />}
                             </Show>
                         </a>
                     )}

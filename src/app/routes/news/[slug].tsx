@@ -12,6 +12,7 @@ import { articleTags } from "../../../news/tags";
 import { articleImage } from "../../../news/article";
 import { organisationKinds } from "../../../../convex/organisations/kinds";
 import { Card } from "../../../components/card";
+import { Image } from "../../../components/image";
 import { Entry } from "../../../events/entry";
 import type { ArticlePreview } from "../../../news/model";
 import { Arrow } from "../../../components/arrow";
@@ -147,7 +148,7 @@ export default function Route() {
                                             <div class="article-organisation">
                                                 <Show when={organisation.iconUrl}>
                                                     {(source) => (
-                                                        <img
+                                                        <Image
                                                             class="article-organisation__icon"
                                                             src={source()}
                                                             alt=""

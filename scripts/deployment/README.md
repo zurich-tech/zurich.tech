@@ -39,3 +39,19 @@ Preload only the two shared Latin fonts, using the same hashed assets as the sty
 Establish the public backend connection early, decode images asynchronously and lazy-load directory thumbnails.
 Map markers appear immediately with initials, then upgrade independently as logos finish loading.
 Do not defer visible page content or make the map wait for every logo.
+
+## Public Logo Headers
+
+Organisation logos are public PNGs under `https://media.zurich.tech/organisations/`.
+Both HTML images and map canvases request these assets anonymously so they can share cached responses.
+The image server must return `Access-Control-Allow-Origin: *`, including when a request has no `Origin` header.
+
+`media-headers.json` defines the Cloudflare response-header transform for these public assets only.
+Install it in the zone's `http_response_headers_transform` ruleset, preserving other rules.
+This is infrastructure configuration: the website deployment does not install or update it.
+`media-cors.json` is the bucket's origin-specific CORS configuration; it does not replace the edge rule for cached responses.
+
+Before deploying logo-loading changes, check a real hosted logo with a normal GET, an `Origin: https://zurich.tech` GET and a conditional request.
+Confirm successful image responses include the wildcard header, have an image content type and decode correctly.
+Test the logo in both an HTML image and the map canvas in Chrome.
+If the header is absent, fix the media configuration before release; the client's single cache refresh cannot repair missing server headers.
