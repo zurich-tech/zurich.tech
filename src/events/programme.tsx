@@ -11,6 +11,7 @@ import { Card } from "../components/card";
 import { FilterPills } from "../components/filter-pills";
 import { type OrganiserPerson } from "./organiser";
 import { EventList } from "./list";
+import { previewEvents } from "./preview";
 import "./programme.css";
 import { createSignal, createMemo, createEffect, on, Show } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
@@ -79,7 +80,7 @@ export function Programme(props: {
     // keep homepage series filters relevant to the unfiltered preview
     const availableSeries = createMemo(() => {
         if (!isPreview()) return props.series;
-        const recent = [...entries()].sort(compare).slice(0, props.limit);
+        const recent = previewEvents(entries(), props.limit!, now);
 
         return props.series.filter((item) => recent.some((event) => event.seriesId === item._id));
     });
@@ -114,12 +115,12 @@ export function Programme(props: {
             .sort(compare),
     );
 
-    // read the homepage preview chronologically without changing its selected events
-    const visible = createMemo(() => {
-        const selected = matches().slice(0, props.limit ?? visibleCount());
-
-        return isPreview() ? selected.reverse() : selected;
-    });
+    // keep recurring editions from crowding out the homepage programme
+    const visible = createMemo(() =>
+        isPreview()
+            ? previewEvents(matches(), props.limit!, now)
+            : matches().slice(0, visibleCount()),
+    );
 
     // restart pagination only for filters, keeping background refreshes in place
     createEffect(
@@ -183,11 +184,7 @@ export function Programme(props: {
         <Card
             class={isPreview() ? "programme" : "programme programme--full"}
             heading={props.heading}
-            meta={
-                isPreview()
-                    ? `${Math.min(props.limit!, matches().length)} of ${matches().length}`
-                    : undefined
-            }
+            meta={isPreview() ? `${visible().length} of ${matches().length}` : undefined}
             toolbar={
                 <div class="row-actions">
                     <a class="action-link" href="/series">
