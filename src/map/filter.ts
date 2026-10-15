@@ -1,6 +1,21 @@
 import type { MapLocation } from "./queries";
-import { fold, matchesSearch } from "../search/search";
+import { fold } from "../search/search";
 import { descendantTopics } from "../../convex/topics/hierarchy";
+
+/** Retain only the latest searchable text for each live organisation object. */
+const searchIndex = new WeakMap<
+    MapLocation["organisations"][number],
+    {
+        /** Address used to build this text, including shared-address changes. */
+        address: string;
+        /** Original organisation name. */
+        name: string;
+        /** Original headline, with absent values represented as empty text. */
+        headline: string;
+        /** Folded address, name and headline with their original separators. */
+        normalized: string;
+    }
+>();
 
 /** Retain name highlight subscriptions when only other searchable fields change. */
 export function nameTerms(
@@ -38,6 +53,42 @@ export function expandTopicFilters(
     return result;
 }
 
+/** Count unique organisations per topic family in an already-filtered collection. */
+export function countTopics(
+    locations: readonly MapLocation[],
+    catalogue: readonly { slug: string; parent?: string }[],
+): Record<string, number> {
+    // index known ancestors once, excluding missing parents and rejecting cycles
+    const parents = new Map(catalogue.map((topic) => [topic.slug, topic.parent]));
+    const ancestors = new Map<string, Set<string>>();
+    const organisations = new Map<string, Set<string>>();
+    for (const { slug } of catalogue) {
+        const family = new Set<string>();
+        let current: string | undefined = slug;
+        while (current !== undefined && parents.has(current)) {
+            if (family.has(current))
+                throw new Error(`Topic hierarchy contains a cycle: ${current}.`);
+            family.add(current);
+            current = parents.get(current);
+        }
+        ancestors.set(slug, family);
+        organisations.set(slug, new Set());
+    }
+
+    // propagate each matching organisation's topics without recounting other offices or siblings
+    for (const place of locations) {
+        for (const organisation of place.organisations) {
+            for (const topic of organisation.topics ?? []) {
+                for (const ancestor of ancestors.get(topic) ?? []) {
+                    organisations.get(ancestor)!.add(organisation.id);
+                }
+            }
+        }
+    }
+
+    return Object.fromEntries([...organisations].map(([slug, ids]) => [slug, ids.size]));
+}
+
 /** Match category, topics and text against the same organisation at each shared address. */
 export function filterLocations(
     locations: MapLocation[],
@@ -54,10 +105,7 @@ export function filterLocations(
                 (entry) =>
                     (category === "all" || entry.kind === category) &&
                     (topics === undefined || entry.topics?.some((topic) => topics.has(topic))) &&
-                    matchesSearch(
-                        [place.address, entry.name, entry.headline ?? ""].join(" "),
-                        terms,
-                    ),
+                    (terms.length === 0 || matchesIndexedSearch(place.address, entry, terms)),
             );
 
             return organisations.length === place.organisations.length
@@ -65,4 +113,32 @@ export function filterLocations(
                 : { ...place, organisations };
         })
         .filter((place) => place.organisations.length > 0);
+}
+
+/** Reuse folded text while checking all searchable fields for in-place updates. */
+function matchesIndexedSearch(
+    address: string,
+    entry: MapLocation["organisations"][number],
+    terms: readonly string[],
+) {
+    const headline = entry.headline ?? "";
+    let indexed = searchIndex.get(entry);
+
+    // preserve whole-string folding and invalidate changed fields without relying on ids
+    if (
+        !indexed ||
+        indexed.address !== address ||
+        indexed.name !== entry.name ||
+        indexed.headline !== headline
+    ) {
+        indexed = {
+            address,
+            name: entry.name,
+            headline,
+            normalized: fold([address, entry.name, headline].join(" ")),
+        };
+        searchIndex.set(entry, indexed);
+    }
+
+    return terms.every((term) => indexed.normalized.includes(term));
 }

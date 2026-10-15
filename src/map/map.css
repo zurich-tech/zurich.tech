@@ -15,6 +15,19 @@
     height: calc(100dvh - 56px);
     min-height: 0;
     touch-action: none;
+    opacity: 0;
+    transition: opacity 240ms ease-out;
+}
+
+/* reveal the loaded map once, without animating camera or filter updates */
+.community-map > .map-canvas--ready {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .community-map > .map-canvas {
+        transition: none;
+    }
 }
 
 /* the homepage map fills its hero behind every layer and stays scrollable on touch */
@@ -32,10 +45,6 @@
 .community-map:not(.community-map--hero) .map-attribution {
     background: #edf0f2;
     color: #26364a;
-}
-
-.community-map:not(.community-map--hero) .map-pin {
-    outline-color: #174ed8;
 }
 
 .community-map--hero > .map-canvas {
@@ -134,95 +143,6 @@
     font-size: var(--text-sm);
 }
 
-/* organisation logos pinned to their offices */
-.map-pin {
-    display: flex;
-    max-width: 200px;
-    align-items: center;
-    border: var(--rule) solid #bbc8df;
-    border-radius: 50%;
-    background: var(--map-logo-background, #ffffff);
-    padding: 1px;
-    color: #172b49;
-    box-shadow: 0 1px 4px #081b4b30;
-    cursor: pointer;
-    transition: transform var(--fast) var(--ease);
-}
-
-.map-pin--sponsor,
-.map-pin--sponsor .map-logo {
-    border-radius: 6px;
-}
-
-.map-pin:hover,
-.map-pin:focus-visible,
-.map-pin--selected,
-.map-pin--hovered {
-    z-index: 1;
-    outline: 2px solid #ffffff;
-    outline-offset: 2px;
-    transform: scale(1.08);
-}
-
-.map-pin:active {
-    background: #dce8ff;
-}
-
-.map-pin__logos {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-}
-
-.map-logo {
-    display: grid;
-    width: var(--map-logo-size);
-    height: var(--map-logo-size);
-    place-items: center;
-    border-radius: 50%;
-    background: var(--map-logo-background, #ffffff);
-}
-
-.map-logo img {
-    width: 85%;
-    height: 85%;
-    object-fit: contain;
-}
-
-/* keep shared addresses anchored with a small stacked dot and a generous hit target */
-.map-pin--group,
-.map-pin--group:is(:hover, :focus-visible, :active) {
-    width: 28px;
-    height: 28px;
-    justify-content: center;
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    outline: none;
-}
-
-.map-pin--group .map-logo {
-    width: 20px;
-    height: 20px;
-    background: transparent;
-}
-
-.map-pin__dot {
-    width: 13px;
-    height: 13px;
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-    background: #174ed8;
-    box-shadow:
-        2px -2px 0 1px #8caaf0,
-        4px -4px 0 1px #c3d3f5;
-}
-
-.map-pin--group:is(:hover, :focus-visible, .map-pin--selected, .map-pin--hovered) .map-pin__dot {
-    outline: 2px solid #174ed8;
-    outline-offset: 3px;
-}
-
 .map-tenants {
     display: grid;
     grid-template-columns: repeat(var(--map-tenant-columns), minmax(0, 1fr));
@@ -246,23 +166,6 @@
     margin: 12px 0;
     font-size: 16px;
     overflow-wrap: anywhere;
-}
-
-/* host and sponsor logos stay above every other address */
-.maplibregl-marker:has(> .map-pin) {
-    z-index: 1;
-}
-
-/* displaced logos stay connected to their true position */
-.map-connector {
-    position: absolute;
-    z-index: -1;
-    top: 50%;
-    left: 50%;
-    height: 1px;
-    background: #ffffffb3;
-    transform-origin: left center;
-    pointer-events: none;
 }
 
 /* ================================================================================
@@ -422,8 +325,6 @@
 }
 
 .map-location-row {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 96px;
     display: flex;
     width: 100%;
     align-items: center;

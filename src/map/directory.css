@@ -1,0 +1,13 @@
+.map-virtual-directory {
+    position: relative;
+    width: 100%;
+    overflow-anchor: none;
+}
+
+.map-virtual-directory-row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flow-root;
+    width: 100%;
+}

@@ -36,21 +36,6 @@ export interface MapView {
 export class MapNavigation {
     /** View consumed by the next Back action. */
     private previous: MapView[] = [];
-    /** Selection waiting for its serialized query, category and topics to reach the URL. */
-    private pending?: { context: string; selection: MapSelection; fromResults: boolean };
-
-    /** Defer opening details until the latest typed query is committed. */
-    defer(context: string, selection: MapSelection, fromResults: boolean) {
-        this.pending = { context, selection, fromResults };
-    }
-
-    /** Invalidate old history and consume only a selection for the committed query. */
-    commit(context: string) {
-        const pending = this.pending;
-        this.reset();
-
-        return pending?.context === context ? pending : undefined;
-    }
 
     /** Remember only directory selections and narrowing within the current group. */
     select(view: MapView, target: MapSelection, fromResults: boolean) {
@@ -73,7 +58,6 @@ export class MapNavigation {
     /** Discard a destination after the search, filters or browsing context changes. */
     reset() {
         this.previous = [];
-        this.pending = undefined;
     }
 }
 

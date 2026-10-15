@@ -21,12 +21,11 @@ import {
     createSelector,
     onMount,
     onCleanup,
-    untrack,
     Show,
     For,
 } from "solid-js";
 import { Dynamic, render } from "solid-js/web";
-import type { Map as GeographicMap, Marker, Popup, StyleSpecification } from "maplibre-gl";
+import type { Map as GeographicMap, Popup, StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { getMap, type MapLocation } from "./queries";
@@ -34,8 +33,15 @@ import { Image } from "../components/image";
 import { SocialLinks } from "../components/social";
 import { useSearch } from "../search/local";
 import { searchTerms } from "../search/search";
-import { expandTopicFilters, filterLocations, nameTerms, topicFilters } from "./filter";
+import {
+    countTopics,
+    expandTopicFilters,
+    filterLocations,
+    nameTerms,
+    topicFilters,
+} from "./filter";
 import { MapFilters } from "./filters";
+import { MapDirectory, type MapDirectoryHandle } from "./directory";
 import {
     countOrganisations,
     matchingPlaces,
@@ -44,15 +50,14 @@ import {
     selectPlaces,
 } from "./places";
 import { Highlight } from "../components/highlight";
-import { arrangeLogos } from "./placement";
 import { overview } from "./camera";
 import { sheetDestination, sheetHeights, sheetKey, type SheetDrag } from "./sheet";
 import { MapNavigation, restoreMapFocus } from "./navigation";
-import { logoBackground } from "./colour";
 import { isPreviewPath, type Point } from "./hover";
 import {
     addBadges,
     addOrganisationLayers,
+    filterOrganisations,
     highlightOrganisations,
     showOrganisations,
 } from "./layers";
@@ -140,12 +145,12 @@ export function CommunityMap(props: {
     const organisations = getMap.use(() => (props.isDecorative ? undefined : []));
     const [instance, setInstance] = createSignal<{
         map: GeographicMap;
-        Marker: typeof Marker;
         Popup: typeof Popup;
     }>();
     const [zoom, setZoom] = createSignal(12);
     const [error, setError] = createSignal(false);
     const navigation = new MapNavigation();
+    let directoryHandle: MapDirectoryHandle | undefined;
     const { query, setQuery } = useSearch();
     // retain equivalent searches so whitespace and case changes do not rebuild map results
     const terms = createMemo(() => searchTerms(query()), undefined, {
@@ -153,21 +158,12 @@ export function CommunityMap(props: {
             previous.length === next.length &&
             previous.every((term, index) => term === next[index]),
     });
-    const [search, setSearch] = createSignal(query());
-    let searchTimer: ReturnType<typeof setTimeout> | undefined;
+    const search = query;
 
-    // keep typing immediate while committing expensive map filters after a short pause
-    createEffect(() => {
-        const value = query();
-        clearTimeout(searchTimer);
-        setSearch(value);
-    });
-    onCleanup(() => clearTimeout(searchTimer));
+    /** Filter immediately and retain the query in the URL. */
     function searchMap(value: string) {
         resetNavigation();
-        setSearch(value);
-        clearTimeout(searchTimer);
-        searchTimer = setTimeout(() => setQuery(value), 150);
+        setQuery(value);
     }
     const [groupSearch, setGroupSearch] = createSignal("");
     const groupTerms = createMemo(() => searchTerms(groupSearch()));
@@ -183,25 +179,7 @@ export function CommunityMap(props: {
         if (!isFilterOpen()) return {};
         const candidates = filterLocations(organisations() ?? [], category(), terms());
 
-        return Object.fromEntries(
-            (topics() ?? []).map((entry) => {
-                const matches = filterLocations(
-                    candidates,
-                    "all",
-                    [],
-                    expandTopicFilters([entry.slug], topics()),
-                );
-
-                return [
-                    entry.slug,
-                    new Set(
-                        matches.flatMap((place) =>
-                            place.organisations.map((organisation) => organisation.id),
-                        ),
-                    ).size,
-                ];
-            }),
-        );
+        return countTopics(candidates, topics() ?? []);
     });
     const isFiltered = () => Boolean(terms().length || category() !== "all" || topic().length);
     const [isPanelOpen, setPanelOpen] = createSignal(isFiltered());
@@ -293,10 +271,6 @@ export function CommunityMap(props: {
     const isHovered = createSelector(hovered, (id: string, ids) => ids.includes(id));
     const [selected, setSelected] = createSignal<string[]>([]);
     const [selectedOrganisation, setSelectedOrganisation] = createSignal<string>();
-    const [crowded, setCrowded] = createSignal<Set<string>>(new Set(), {
-        equals: (previous, next) =>
-            previous.size === next.size && [...previous].every((id) => next.has(id)),
-    });
     const [view, setView] = createSignal(0);
     const filtered = createMemo(() =>
         props.isHero
@@ -347,33 +321,18 @@ export function CommunityMap(props: {
 
     // invalidate return destinations for URL changes as well as explicit filter controls
     createEffect(() => {
-        const committedQuery = query();
-        const pending = navigation.commit(JSON.stringify([committedQuery, category(), topic()]));
+        query();
+        category();
+        topic();
+        navigation.reset();
         discardSheetDrag();
         setSelected([]);
         setSelectedOrganisation(undefined);
         setGroupSearch("");
 
-        // start changed searches and filters at the first result, before saving a pending selection
+        // start changed searches and filters at the first result
         const content = panel?.querySelector<HTMLElement>(".map-panel-content");
         if (content) content.scrollTop = 0;
-
-        // open only after invalidation, without subscribing this effect to selection or camera
-        if (pending)
-            untrack(() => {
-                const places = selectPlaces(
-                    pending.fromResults ? filtered() : markers(),
-                    pending.selection.places,
-                    pending.selection.organisation,
-                );
-                if (places.length) select(places, pending.fromResults);
-                // keep keyboard navigation anchored when the committed query removes its target
-                else if (pending.fromResults)
-                    panel
-                        ?.querySelector<HTMLInputElement>(".map-search input")
-                        ?.focus({ preventScroll: true });
-                else instance()?.map.getCanvas().focus({ preventScroll: true });
-            });
     });
     let container!: HTMLDivElement;
     let isDisposed = false;
@@ -573,17 +532,6 @@ export function CommunityMap(props: {
         );
     }
 
-    /** Locate a keyboard or pointer-targeted logo within the map viewport. */
-    function previewLogo(places: MapLocation[], element: HTMLElement, isKeyboard = false) {
-        const marker = element.getBoundingClientRect();
-        const map = container.getBoundingClientRect();
-        showPreview(
-            places,
-            [marker.x + marker.width / 2 - map.x, marker.y + marker.height / 2 - map.y],
-            isKeyboard,
-        );
-    }
-
     /** Show a result beside the desktop directory without moving the map. */
     function previewResult(place: MapLocation, element: HTMLElement, isKeyboard = false) {
         setHovered(place.organisations.map((organisation) => organisation.id));
@@ -626,11 +574,18 @@ export function CommunityMap(props: {
             queueMicrotask(() => {
                 const content = panel.querySelector<HTMLElement>(".map-panel-content");
                 if (content) content.scrollTop = previous.scrollTop;
-                restoreMapFocus(
-                    previous.result,
-                    panel.querySelectorAll<HTMLElement>("button[data-place-id]"),
-                    map?.getCanvas(),
-                );
+                // mount and measure directory targets before restoring keyboard focus
+                const isDirectoryFocus =
+                    previous.result &&
+                    !previous.selection.places.length &&
+                    directoryHandle?.focus(previous.result.places[0], previous.result.organisation);
+                if (!isDirectoryFocus) {
+                    restoreMapFocus(
+                        previous.result,
+                        panel.querySelectorAll<HTMLElement>("button[data-place-id]"),
+                        map?.getCanvas(),
+                    );
+                }
             });
         } else map?.getCanvas().focus({ preventScroll: true });
     }
@@ -697,17 +652,6 @@ export function CommunityMap(props: {
                 ? places[0].organisations[0].id
                 : undefined;
         const ids = places.map((place) => place.id);
-        // commit typed text before a selection can be invalidated by its delayed URL update
-        if (search() !== query()) {
-            clearTimeout(searchTimer);
-            navigation.defer(
-                JSON.stringify([search(), category(), topic()]),
-                { places: ids, organisation },
-                fromResults,
-            );
-            setQuery(search());
-            return;
-        }
         const map = instance()?.map;
 
         // capture the list or group before changing its camera, contents or sheet height
@@ -868,7 +812,7 @@ export function CommunityMap(props: {
                 });
                 map.on("load", () => {
                     addOrganisationLayers(map!, !props.isHero);
-                    setInstance({ map: map!, Marker: library.Marker, Popup: library.Popup });
+                    setInstance({ map: map!, Popup: library.Popup });
                     setZoom(map!.getZoom());
                 });
                 if (!props.isHero) {
@@ -902,207 +846,36 @@ export function CommunityMap(props: {
             });
     });
 
-    // Place host and sponsor logos, moving them apart where they would overlap.
+    // load badges once per catalogue update, independently of searches and camera movement
     createEffect(() => {
         const current = instance();
-        const entries = markers();
-        view();
-        if (!current) return;
+        const places = organisations();
+        if (!current || !places) return;
 
-        // shared addresses always stay at their real position, independent of group size
-        const groups = entries
-            .filter((place) => place.organisations.length > 1)
-            .map((place) => ({
-                id: place.id,
-                ...current.map.project([place.longitude, place.latitude]),
-                place,
-                person: place.organisations[0],
-                size: 24,
-                offset: [0, 0] as [number, number],
-            }))
-            .filter(
-                (marker) =>
-                    marker.x >= 0 &&
-                    marker.y >= 0 &&
-                    marker.x <= container.clientWidth &&
-                    marker.y <= container.clientHeight,
-            );
-
-        const logos = arrangeLogos(
-            entries
-                .filter((place) => place.organisations.length === 1)
-                .flatMap((place) => {
-                    const point = current.map.project([place.longitude, place.latitude]);
-                    return place.organisations.filter(isHighlighted).map((person) => ({
-                        id: `${place.id}:${person.id}`,
-                        ...point,
-                        size: { large: 36, medium: 30, small: 26 }[person.prominence],
-                        place,
-                        person,
-                    }));
-                }),
-            { width: container.clientWidth, height: container.clientHeight },
-            groups,
-        );
-        setCrowded(new Set(logos.crowded.map((logo) => logo.id)));
-        const placedMarkers = [...logos.placed, ...groups].map(
-            ({ place: anchor, person: first, size, offset }) => {
-                const places = [anchor];
-                const isGroup = anchor.organisations.length > 1;
-                const name = isGroup ? placeName(anchor) : first.name;
-                const element = document.createElement("div");
-                const dispose = render(
-                    () => (
-                        <Dynamic
-                            component={props.isHero ? "a" : "button"}
-                            href={props.isHero ? "/map" : undefined}
-                            type={props.isHero ? undefined : "button"}
-                            class="map-pin"
-                            classList={{
-                                "map-pin--group": isGroup,
-                                "map-pin--hero": props.isHero,
-                                "map-pin--sponsor": anchor.organisations.some(
-                                    (person) => person.isSponsor,
-                                ),
-                                "map-pin--hovered": anchor.organisations.some((person) =>
-                                    hovered().includes(person.id),
-                                ),
-                                "map-pin--selected": places.some(
-                                    (place) =>
-                                        selected().includes(place.id) &&
-                                        (!selectedOrganisation() ||
-                                            anchor.organisations.some(
-                                                (person) => person.id === selectedOrganisation(),
-                                            )),
-                                ),
-                            }}
-                            style={{
-                                "--map-logo-size": `${size - 4}px`,
-                            }}
-                            aria-label={`${name}, ${anchor.address}${isGroup ? `, ${organisationCountLabel(anchor.organisations.length)}` : ""}`}
-                            title={props.isHero ? name : undefined}
-                            aria-pressed={
-                                props.isHero
-                                    ? undefined
-                                    : places.some((place) => selected().includes(place.id)) &&
-                                      (!selectedOrganisation() ||
-                                          anchor.organisations.some(
-                                              (person) => person.id === selectedOrganisation(),
-                                          ))
-                            }
-                            onPointerEnter={(
-                                event: PointerEvent & { currentTarget: HTMLElement },
-                            ) => {
-                                if (props.isHero) setHovered([first.id]);
-                                else if (event.pointerType === "mouse")
-                                    previewLogo(places, event.currentTarget);
-                            }}
-                            onPointerLeave={leavePreview}
-                            onFocus={(event: FocusEvent & { currentTarget: HTMLElement }) => {
-                                if (props.isHero) setHovered([first.id]);
-                                else if (event.currentTarget.matches(":focus-visible"))
-                                    previewLogo(places, event.currentTarget, true);
-                            }}
-                            onBlur={leavePreview}
-                            on:click={(event: MouseEvent) => {
-                                event.stopPropagation();
-                                if (!props.isHero) select(places);
-                            }}
-                        >
-                            <span class="map-pin__logos">
-                                <span class="map-logo">
-                                    <Show
-                                        when={isGroup}
-                                        fallback={
-                                            <Show
-                                                when={first.mapLogoUrl ?? first.logoUrl}
-                                                fallback={first.name.slice(0, 1)}
-                                            >
-                                                {(source) => (
-                                                    <Image
-                                                        crossorigin={
-                                                            first.isSponsor
-                                                                ? undefined
-                                                                : "anonymous"
-                                                        }
-                                                        src={source()}
-                                                        alt=""
-                                                        onLoad={(event) => {
-                                                            if (!first.isSponsor) {
-                                                                const image = event.currentTarget;
-                                                                image
-                                                                    .closest<HTMLElement>(
-                                                                        ".map-pin",
-                                                                    )!
-                                                                    .style.setProperty(
-                                                                        "--map-logo-background",
-                                                                        logoBackground(image),
-                                                                    );
-                                                            }
-                                                        }}
-                                                    />
-                                                )}
-                                            </Show>
-                                        }
-                                    >
-                                        <span class="map-pin__dot" aria-hidden="true" />
-                                    </Show>
-                                </span>
-                            </span>
-                        </Dynamic>
-                    ),
-                    element,
-                );
-                // draw a fine connector back to the unchanged geographic anchor
-                const distance = Math.hypot(...offset);
-                if (distance > 0) {
-                    const connector = document.createElement("span");
-                    connector.className = "map-connector";
-                    connector.style.width = `${distance}px`;
-                    connector.style.transform = `rotate(${Math.atan2(-offset[1], -offset[0])}rad)`;
-                    element.prepend(connector);
-                }
-                const marker = new current.Marker({ element, offset })
-                    .setLngLat([anchor.longitude, anchor.latitude])
-                    .addTo(current.map);
-                return { marker, dispose };
-            },
-        );
-        onCleanup(() =>
-            placedMarkers.forEach(({ marker, dispose }) => {
-                marker.remove();
-                dispose();
-            }),
-        );
+        void addBadges(
+            current.map,
+            places.filter(
+                (place) =>
+                    place.organisations.length === 1 &&
+                    (!props.isHero || isHighlighted(place.organisations[0])),
+            ),
+            () => !isDisposed,
+        ).catch((error) => {
+            console.error("Map badges failed to load", error);
+            if (!isDisposed) setError(true);
+        });
     });
 
-    // draw standalone badges and reserve label space for logos and shared addresses
+    // retain geographic data while narrowing the visible layer with style filters
     createEffect(() => {
         const current = instance();
-        const places = markers();
+        const places = organisations() ?? [];
         if (!current) return;
-
-        // show the marker layer now and ignore logo updates after this view is disposed
-        let isStale = false;
-        onCleanup(() => (isStale = true));
-        const badges = props.isHero
-            ? Promise.resolve()
-            : addBadges(
-                  current.map,
-                  places.filter((place) => place.organisations.length === 1),
-                  () => !isDisposed,
-              );
-        const crowdedIds = crowded();
-        showOrganisations(
-            current.map,
-            places,
-            (organisation, place) =>
-                isHighlighted(organisation) && !crowdedIds.has(`${place.id}:${organisation.id}`),
-        );
-        void badges.catch((error) => {
-            console.error("Map badges failed to load", error);
-            if (!isStale) setError(true);
-        });
+        showOrganisations(current.map, places, isHighlighted);
+    });
+    createEffect(() => {
+        const current = instance();
+        if (current) filterOrganisations(current.map, markers());
     });
 
     // Mark hovered and selected organisations above the rest.
@@ -1134,7 +907,11 @@ export function CommunityMap(props: {
         >
             <div classList={{ "map-layout": !props.isHero }}>
                 <div class="community-map" classList={{ "community-map--hero": props.isHero }}>
-                    <div ref={container} class="map-canvas" />
+                    <div
+                        ref={container}
+                        class="map-canvas"
+                        classList={{ "map-canvas--ready": Boolean(instance()) }}
+                    />
                     <Show when={props.isHero}>
                         <a class="map-explore" href="/map" aria-label="Explore the map" />
                     </Show>
@@ -1429,7 +1206,10 @@ export function CommunityMap(props: {
                                                         : "No organisations in this area."}
                                                 </p>
                                             </Show>
-                                            <For each={isFiltered() ? listed() : visible()}>
+                                            <MapDirectory
+                                                places={isFiltered() ? listed() : visible()}
+                                                onReady={(handle) => (directoryHandle = handle)}
+                                            >
                                                 {(place) => {
                                                     const person = place.organisations[0];
                                                     // keep unchanged names mounted when only an address or headline matches
@@ -1562,7 +1342,7 @@ export function CommunityMap(props: {
                                                         </>
                                                     );
                                                 }}
-                                            </For>
+                                            </MapDirectory>
                                         </>
                                     }
                                 >

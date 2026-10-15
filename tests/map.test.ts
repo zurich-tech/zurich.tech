@@ -1,7 +1,6 @@
 import { filterLocations } from "../src/map/filter";
 import { expect, test } from "bun:test";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
-import { arrangeLogos } from "../src/map/placement";
 import { overview } from "../src/map/camera";
 import {
     countOrganisations,
@@ -40,7 +39,7 @@ test("test_reuse_unfiltered_locations_for_empty_and_whitespace_searches", () => 
     expect(filterLocations(locations, "all", [], new Set())).toEqual([]);
 });
 
-test("test_reject_a_deferred_result_excluded_by_the_committed_query_at_a_shared_address", () => {
+test("test_reject_an_organisation_excluded_by_search_at_a_shared_address", () => {
     const locations = groupLocations([office("first"), office("second")]);
     const filtered = filterLocations(locations, "all", ["second"]);
     const ids = [locations[0].id];
@@ -138,6 +137,7 @@ test("test_respect_label_collisions_for_active_markers", () => {
     const context = {
         beginPath() {},
         arc() {},
+        roundRect() {},
         fill() {},
         stroke() {},
         getImageData: () => ({ width: 80, height: 80, data: new Uint8ClampedArray(80 * 80 * 4) }),
@@ -168,10 +168,10 @@ test("test_respect_label_collisions_for_active_markers", () => {
             { id: "organisations", overlap: false, optional: true, offset: [0, 0] },
             { id: "organisations-active", overlap: false, optional: true, offset: [0, 0] },
         ]);
-        // shared dots carry their own focus ring rather than a second logo-sized ring
+        // the source selects a visible ring for ordinary badges, sponsors and shared dots
         expect(
             layers.find((layer) => layer.id === "organisations-active")?.layout?.["icon-image"],
-        ).toEqual(["case", [">", ["get", "count"], 1], "logo-space", "ring-active"]);
+        ).toEqual(["get", "ring"]);
     } finally {
         if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
         else Reflect.deleteProperty(globalThis, "document");
@@ -260,9 +260,11 @@ test("test_keep_large_shared_addresses_as_one_anchored_marker", () => {
                           id: place.id,
                           place: place.id,
                           name: "host",
-                          badge: "badge:host",
+                          badge: "group-dot",
                           count: 76,
-                          isLogo: true,
+                          isLogo: false,
+                          labelOffset: [16 / 12, 0],
+                          ring: "ring-group",
                       }
                     : {
                           id: "single",
@@ -271,13 +273,13 @@ test("test_keep_large_shared_addresses_as_one_anchored_marker", () => {
                           badge: "badge:single",
                           count: 1,
                           isLogo: false,
+                          labelOffset: [20 / 12, 0],
+                          ring: "ring-active",
                       },
         })),
     });
-    expect([...properties.keys()]).toEqual([
-        "organisations:text-offset",
-        "organisations-active:text-offset",
-    ]);
+    // layout is fixed at layer creation rather than mutated on source upload
+    expect([...properties.keys()]).toEqual([]);
 });
 
 test("test_preserve_complete_groups_after_search_and_category_filters", () => {
@@ -370,19 +372,15 @@ test("test_highlight_shared_addresses_from_any_member_and_clear_stale_highlights
     for (const ids of [["first"], ["second"], ["first", "second", "single"], []]) {
         highlightOrganisations(map, places, ids);
         expect(filter).toEqual([
-            "all",
-            ["any", ["!", ["get", "isLogo"]], [">", ["get", "count"], 1]],
+            "in",
+            ["get", "place"],
             [
-                "in",
-                ["get", "place"],
-                [
-                    "literal",
-                    ids.length === 3
-                        ? places.map((place) => place.id)
-                        : ids.length
-                          ? [places[0].id]
-                          : [],
-                ],
+                "literal",
+                ids.length === 3
+                    ? places.map((place) => place.id)
+                    : ids.length
+                      ? [places[0].id]
+                      : [],
             ],
         ]);
     }
@@ -415,7 +413,7 @@ test("test_draw_equal_initials_once_without_merging_organisation_image_ids", asy
         });
         const locations = groupLocations(
             Array.from({ length: 1000 }, (_, index) => ({
-                ...office(`initial-${index}`),
+                ...office(`initial-${index}`, `Baslerstrasse ${String(index).padStart(4, "0")}`),
                 name: index % 2 ? "Beta" : "alpha",
             })),
         );
@@ -488,7 +486,7 @@ test("test_load_external_badges_with_anonymous_cors_before_assigning_source", as
         });
         const places = groupLocations([
             { ...office("external"), logoUrl: "https://logos.example/logo.png" },
-            office("initial"),
+            office("initial", "Baslerstrasse 79"),
         ]);
         const loading = addBadges(map, places, () => true);
         // every marker is available before the pending image has downloaded
@@ -525,7 +523,7 @@ test("test_load_external_badges_with_anonymous_cors_before_assigning_source", as
             map,
             groupLocations(
                 Array.from({ length: 20 }, (_, index) => ({
-                    ...office(`bounded-${index}`),
+                    ...office(`bounded-${index}`, `Baslerstrasse ${index}`),
                     logoUrl: `https://logos.example/${index}.png`,
                 })),
             ),
@@ -705,36 +703,6 @@ test("shared offices merge independent address documents and retain every organi
     expect(shared.longitude).toBe(8.5);
 });
 
-test("separate logos stay put and overlapping logos retain individual anchors", () => {
-    const logos = [
-        { id: "one", x: 100, y: 100, size: 26 },
-        { id: "two", x: 132, y: 100, size: 26 },
-    ];
-    expect(
-        arrangeLogos(logos, { width: 800, height: 600 }).placed.map((logo) => logo.offset),
-    ).toEqual([
-        [0, 0],
-        [0, 0],
-    ]);
-    const shared = arrangeLogos([...logos, { id: "three", x: 100, y: 100, size: 36 }], {
-        width: 800,
-        height: 600,
-    }).placed;
-    expect(shared).toHaveLength(3);
-    expect(shared[2].x).toBe(100);
-    for (let index = 0; index < shared.length; index++) {
-        for (const other of shared.slice(index + 1)) {
-            const logo = shared[index];
-            expect(
-                Math.hypot(
-                    logo.x + logo.offset[0] - other.x - other.offset[0],
-                    logo.y + logo.offset[1] - other.y - other.offset[1],
-                ),
-            ).toBeGreaterThanOrEqual((logo.size + other.size) / 2 + 3);
-        }
-    }
-});
-
 test("shared-address filters match category and search on the same organisation", () => {
     const locations = groupLocations([
         { ...office("zurich.tech"), kind: "community" },
@@ -744,43 +712,4 @@ test("shared-address filters match category and search on the same organisation"
     const startups = filterLocations(locations, "startup", []);
     expect(startups[0].organisations.map((entry) => entry.name)).toEqual(["Symbol"]);
     expect(filterLocations(locations, "all", ["baslerstrasse"])[0].organisations).toHaveLength(2);
-});
-
-test("test_reserve_anchored_groups_when_placing_standalone_sponsors", () => {
-    const group = { id: "group", x: 100, y: 100, size: 36 };
-    const sponsor = { id: "sponsor", x: 100, y: 100, size: 36 };
-    const result = arrangeLogos([sponsor], { width: 390, height: 474 }, [group]);
-    expect(result.crowded).toEqual([]);
-    expect(result.placed).toHaveLength(1);
-    const placed = result.placed[0];
-    expect(Math.hypot(placed.offset[0], placed.offset[1])).toBeGreaterThanOrEqual(39);
-    expect(group).toEqual({ id: "group", x: 100, y: 100, size: 36 });
-});
-
-test("dense edge placement stays within bounds and accounts for every visible organisation", () => {
-    const input = Array.from({ length: 200 }, (_, index) => ({
-        id: String(index),
-        x: 10,
-        y: 10,
-        size: index % 2 ? 26 : 36,
-    }));
-    const result = arrangeLogos(input, { width: 390, height: 474 });
-    expect(result.placed.length + result.crowded.length).toBe(200);
-    expect(result.crowded.length).toBeGreaterThan(0);
-    for (const [index, logo] of result.placed.entries()) {
-        const x = logo.x + logo.offset[0];
-        const y = logo.y + logo.offset[1];
-        expect(x - logo.size / 2).toBeGreaterThanOrEqual(0);
-        expect(y - logo.size / 2).toBeGreaterThanOrEqual(0);
-        expect(x + logo.size / 2).toBeLessThanOrEqual(390);
-        expect(y + logo.size / 2).toBeLessThanOrEqual(474);
-        for (const other of result.placed.slice(index + 1)) {
-            expect(
-                Math.hypot(x - other.x - other.offset[0], y - other.y - other.offset[1]),
-            ).toBeGreaterThanOrEqual((logo.size + other.size) / 2 + 3);
-        }
-    }
-    expect(
-        arrangeLogos([{ id: "offscreen", x: -100, y: 100, size: 36 }], { width: 390, height: 474 }),
-    ).toEqual({ placed: [], crowded: [] });
 });

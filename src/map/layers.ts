@@ -20,8 +20,18 @@ const badgeScales = [
     [14.5, 1],
 ] as const;
 
-/** Space kept clear of labels under each host or sponsor logo, in CSS pixels. */
-const logoSpace = 40;
+/** Fixed diameter of a shared-address marker in CSS pixels. */
+const groupSize = 24;
+
+/** Full-size sponsor and host diameters in CSS pixels. */
+const prominentSizes = { large: 36, medium: 30, small: 26 } as const;
+
+/** Restrict overview dots to ordinary single-organisation markers. */
+const dotsFilter: ExpressionSpecification = [
+    "all",
+    ["==", ["get", "count"], 1],
+    ["!", ["get", "isLogo"]],
+];
 
 /** Label size in CSS pixels. */
 const labelSize = 12;
@@ -43,12 +53,40 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
     map.addImage("ring-active", drawRing(badgeSize + 8, isLabelled ? "#174ed8" : "#ffffff"), {
         pixelRatio,
     });
-    map.addImage("logo-space", new ImageData(logoSpace * pixelRatio, logoSpace * pixelRatio), {
-        pixelRatio,
-    });
+    map.addImage("group-dot", drawGroup(), { pixelRatio });
+    map.addImage("ring-group", drawRing(groupSize + 8, "#174ed8"), { pixelRatio });
     map.addImage("organisation-dot", drawDot(isLabelled ? "#174ed8" : "#ffffff"), {
         pixelRatio,
     });
+
+    // keep prominent selection outlines fixed to the full badge size
+    for (const size of [...Object.values(prominentSizes), badgeSize]) {
+        for (const isSquare of [false, true]) {
+            map.addImage(
+                `ring:${size}:${isSquare}`,
+                drawRing(size + 8, isLabelled ? "#174ed8" : "#ffffff", isSquare),
+                { pixelRatio },
+            );
+        }
+    }
+
+    // offset labels once beside the fixed group, prominent badge or zoom-scaled ordinary badge
+    const labelOffset = [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        ...badgeScales.flatMap(([zoom, scale]) => [
+            zoom,
+            [
+                "case",
+                [">", ["get", "count"], 1],
+                ["literal", [(groupSize / 2 + 4) / labelSize, 0]],
+                ["get", "isLogo"],
+                ["get", "labelOffset"],
+                ["literal", [((badgeSize * scale) / 2 + 4) / labelSize, 0]],
+            ],
+        ]),
+    ] as unknown as ExpressionSpecification;
 
     // draw every organisation, naming it where the label fits
     const organisations: SymbolLayerSpecification = {
@@ -56,29 +94,46 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
         type: "symbol",
         source: "organisations",
         layout: {
-            "icon-image": isLabelled
-                ? ["case", ["get", "isLogo"], "logo-space", ["get", "badge"]]
-                : ["case", ["get", "isLogo"], "logo-space", "organisation-dot"],
+            "icon-image": [
+                "case",
+                [">", ["get", "count"], 1],
+                "group-dot",
+                ["get", "isLogo"],
+                ["get", "badge"],
+                isLabelled ? ["get", "badge"] : "organisation-dot",
+            ],
             "icon-size": [
                 "interpolate",
                 ["linear"],
                 ["zoom"],
                 ...badgeScales.flatMap(([zoom, scale]) => [
                     zoom,
-                    ["case", ["get", "isLogo"], 1, scale],
+                    ["case", ["any", ["get", "isLogo"], [">", ["get", "count"], 1]], 1, scale],
                 ]),
             ] as unknown as ExpressionSpecification,
             "icon-allow-overlap": true,
-            "symbol-sort-key": ["case", ["get", "isLogo"], 0, 1],
-            "text-field": isLabelled ? ["case", ["get", "isLogo"], "", ["get", "name"]] : "",
+            "symbol-sort-key": ["case", ["get", "isLogo"], 2, [">", ["get", "count"], 1], 1, 0],
+            "symbol-z-order": "source",
+            "text-field": isLabelled ? ["get", "name"] : "",
             "text-font": ["Noto Sans Regular"],
             "text-size": labelSize,
             "text-anchor": "left",
+            "text-offset": labelOffset,
             "text-optional": true,
             "text-max-width": 12,
         },
         paint: {
-            "icon-opacity": isLabelled ? ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 1] : 1,
+            "icon-opacity": isLabelled
+                ? [
+                      "interpolate",
+                      ["linear"],
+                      ["zoom"],
+                      12,
+                      ["case", ["any", ["get", "isLogo"], [">", ["get", "count"], 1]], 1, 0],
+                      13,
+                      1,
+                  ]
+                : 1,
             "text-opacity": ["interpolate", ["linear"], ["zoom"], 14, 0, 15, 1],
             "text-color": isLabelled ? "#26364a" : "#ffffff",
             "text-halo-color": isLabelled ? "#edf0f2" : "#174ed8",
@@ -91,10 +146,11 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
         map.addLayer({
             ...organisations,
             id: "organisation-dots",
+            filter: dotsFilter,
             maxzoom: 13,
             layout: {
                 ...organisations.layout,
-                "icon-image": ["case", ["get", "isLogo"], "logo-space", "organisation-dot"],
+                "icon-image": "organisation-dot",
                 "text-field": "",
             },
             paint: { "icon-opacity": ["interpolate", ["linear"], ["zoom"], 12, 1, 13, 0] },
@@ -109,12 +165,15 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
         source: "organisations",
         filter: ["literal", false],
         layout: {
-            "icon-image": ["case", [">", ["get", "count"], 1], "logo-space", "ring-active"],
+            "icon-image": ["get", "ring"],
             "icon-size": [
                 "interpolate",
                 ["linear"],
                 ["zoom"],
-                ...badgeScales.flatMap(([zoom, scale]) => [zoom, scale]),
+                ...badgeScales.flatMap(([zoom, scale]) => [
+                    zoom,
+                    ["case", ["any", ["get", "isLogo"], [">", ["get", "count"], 1]], 1, scale],
+                ]),
             ] as unknown as ExpressionSpecification,
             "icon-allow-overlap": true,
             "icon-ignore-placement": true,
@@ -122,6 +181,7 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
             "text-font": ["Noto Sans Regular"],
             "text-size": labelSize,
             "text-anchor": "left",
+            "text-offset": labelOffset,
             "text-allow-overlap": false,
             "text-optional": true,
         },
@@ -129,7 +189,7 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
     });
 }
 
-/** Show initials immediately, then upgrade each badge independently as its logo arrives. */
+/** Load full-data single-place badges for the map lifetime, never for search results. */
 export async function addBadges(
     map: GeographicMap,
     places: MapLocation[],
@@ -138,6 +198,7 @@ export async function addBadges(
     const missing = [
         ...new Map(
             places
+                .filter((place) => place.organisations.length === 1)
                 .flatMap((place) => place.organisations)
                 .map((person) => [badgeId(person), person]),
         ).values(),
@@ -145,7 +206,7 @@ export async function addBadges(
     // draw identical placeholders once; MapLibre copies pixels into each independent image id
     const initials = new Map<string, ImageData>();
     for (const person of missing) {
-        const initial = person.name.slice(0, 1).toUpperCase();
+        const initial = `${person.name.slice(0, 1).toUpperCase()}:${person.isSponsor ?? false}:${organisationSize(person)}`;
         let image = initials.get(initial);
         if (!image) {
             image = drawBadge(person);
@@ -169,7 +230,7 @@ export async function addBadges(
     );
 }
 
-/** Show one marker per address without displacing any member of a shared address. */
+/** Upload full places when data or highlighting changes, not when the search changes. */
 export function showOrganisations(
     map: GeographicMap,
     places: MapLocation[],
@@ -179,34 +240,47 @@ export function showOrganisations(
     const source = map.getSource<GeoJSONSource>("organisations");
     source?.setData({
         type: "FeatureCollection",
-        features: places.map((place) => ({
-            type: "Feature",
-            geometry: { type: "Point", coordinates: [place.longitude, place.latitude] },
-            properties: {
-                id: place.organisations.length > 1 ? place.id : place.organisations[0].id,
-                place: place.id,
-                name:
-                    place.organisations.length > 1 ? placeName(place) : place.organisations[0].name,
-                badge: badgeId(place.organisations[0]),
-                count: place.organisations.length,
-                isLogo:
-                    place.organisations.length > 1 || isHighlighted(place.organisations[0], place),
-            },
-        })),
-    });
+        features: places.map((place) => {
+            const organisation = place.organisations[0];
+            const isGroup = place.organisations.length > 1;
+            const isLogo = !isGroup && isHighlighted(organisation, place);
+            const size = isGroup ? groupSize : organisationSize(organisation);
 
-    // keep labels beside their anchored badges at every zoom
-    const labelOffset = [
-        "interpolate",
-        ["linear"],
-        ["zoom"],
-        ...badgeScales.flatMap(([zoom, scale]) => [
-            zoom,
-            ["literal", [((badgeSize * scale) / 2 + 4) / labelSize, 0]],
-        ]),
-    ] as unknown as ExpressionSpecification;
-    map.setLayoutProperty("organisations", "text-offset", labelOffset);
-    map.setLayoutProperty("organisations-active", "text-offset", labelOffset);
+            return {
+                type: "Feature",
+                geometry: { type: "Point", coordinates: [place.longitude, place.latitude] },
+                properties: {
+                    id: place.organisations.length > 1 ? place.id : place.organisations[0].id,
+                    place: place.id,
+                    name:
+                        place.organisations.length > 1
+                            ? placeName(place)
+                            : place.organisations[0].name,
+                    badge: isGroup ? "group-dot" : badgeId(organisation),
+                    count: place.organisations.length,
+                    isLogo,
+                    labelOffset: [(size / 2 + 4) / labelSize, 0],
+                    ring: isGroup
+                        ? "ring-group"
+                        : isLogo
+                          ? `ring:${size}:${organisation.isSponsor ?? false}`
+                          : "ring-active",
+                },
+            };
+        }),
+    });
+}
+
+/** Filter visible addresses without replacing source data or changing active selection. */
+export function filterOrganisations(map: GeographicMap, places: MapLocation[]) {
+    const filter: ExpressionSpecification = [
+        "in",
+        ["get", "place"],
+        ["literal", places.map((place) => place.id)],
+    ];
+    map.setFilter("organisations", filter);
+    if (map.getLayer("organisation-dots"))
+        map.setFilter("organisation-dots", ["all", dotsFilter, filter]);
 }
 
 /** Mark these organisations as hovered or selected. */
@@ -217,11 +291,14 @@ export function highlightOrganisations(map: GeographicMap, places: MapLocation[]
         .filter((place) => place.organisations.some((person) => active.has(person.id)))
         .map((place) => place.id);
 
-    map.setFilter("organisations-active", [
-        "all",
-        ["any", ["!", ["get", "isLogo"]], [">", ["get", "count"], 1]],
-        ["in", ["get", "place"], ["literal", addresses]],
-    ]);
+    map.setFilter("organisations-active", ["in", ["get", "place"], ["literal", addresses]]);
+}
+
+/** Return the full badge diameter for a prominent logo or ordinary organisation. */
+function organisationSize(organisation: Organisation) {
+    return organisation.isSponsor || organisation.recognition
+        ? prominentSizes[organisation.prominence]
+        : badgeSize;
 }
 
 /** Return the image id of an organisation's badge. */
@@ -230,13 +307,41 @@ function badgeId(organisation: Organisation) {
 }
 
 /** Draw an open ring marking an active badge. */
-function drawRing(diameter: number, colour: string) {
+function drawRing(diameter: number, colour: string, isSquare = false) {
     const { canvas, context, radius } = createCanvas(diameter);
     context.strokeStyle = colour;
     context.lineWidth = 2 * pixelRatio;
     context.beginPath();
-    context.arc(radius, radius, radius - pixelRatio, 0, Math.PI * 2);
+    if (isSquare)
+        context.roundRect(
+            pixelRatio,
+            pixelRatio,
+            diameter * pixelRatio - 2 * pixelRatio,
+            diameter * pixelRatio - 2 * pixelRatio,
+            8 * pixelRatio,
+        );
+    else context.arc(radius, radius, radius - pixelRatio, 0, Math.PI * 2);
     context.stroke();
+
+    return context.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+/** Draw the white-edged blue stacked marker within fixed shared-address bounds. */
+function drawGroup() {
+    const { canvas, context } = createCanvas(groupSize);
+
+    // reproduce the two offset backing dots and white border from the shared-marker CSS
+    for (const [x, y, radius, colour] of [
+        [15, 9, 8.5, "#c3d3f5"],
+        [13, 11, 8.5, "#8caaf0"],
+        [11, 13, 8.5, "#ffffff"],
+        [11, 13, 6.5, "#174ed8"],
+    ] as const) {
+        context.fillStyle = colour;
+        context.beginPath();
+        context.arc(x * pixelRatio, y * pixelRatio, radius * pixelRatio, 0, Math.PI * 2);
+        context.fill();
+    }
 
     return context.getImageData(0, 0, canvas.width, canvas.height);
 }
@@ -252,18 +357,28 @@ function drawDot(colour: string) {
     return context.getImageData(0, 0, canvas.width, canvas.height);
 }
 
-/** Draw an organisation's icon, or its initial, inside a white circle. */
+/** Draw a complete logo or initial inside a round host badge or rounded sponsor square. */
 function drawBadge(organisation: Organisation, image?: HTMLImageElement) {
-    const { canvas, context, radius } = createCanvas(badgeSize);
+    const { canvas, context, radius } = createCanvas(organisationSize(organisation));
 
     // extend solid logo backgrounds into the disc, retaining a fine outline
     context.fillStyle = "#bbc8df";
     context.beginPath();
-    context.arc(radius, radius, radius, 0, Math.PI * 2);
+    if (organisation.isSponsor)
+        context.roundRect(0, 0, canvas.width, canvas.height, 6 * pixelRatio);
+    else context.arc(radius, radius, radius, 0, Math.PI * 2);
     context.fill();
     context.fillStyle = image ? logoBackground(image) : "#ffffff";
     context.beginPath();
-    context.arc(radius, radius, radius - pixelRatio, 0, Math.PI * 2);
+    if (organisation.isSponsor)
+        context.roundRect(
+            pixelRatio,
+            pixelRatio,
+            canvas.width - 2 * pixelRatio,
+            canvas.height - 2 * pixelRatio,
+            5 * pixelRatio,
+        );
+    else context.arc(radius, radius, radius - pixelRatio, 0, Math.PI * 2);
     context.fill();
 
     // icon clipped to the disc, or the initial when there is none
