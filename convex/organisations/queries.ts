@@ -6,6 +6,7 @@ import type { Doc } from "../_generated/dataModel";
 import { v } from "convex/values";
 
 import { activeSponsors } from "../sponsorships/organisations";
+import { readCatalogue } from "./catalogue";
 
 /** Read published series without fetching the organisation directory. */
 export const series = query({ args: {}, handler: readSeries });
@@ -47,21 +48,25 @@ async function readSeries(ctx: QueryCtx) {
 export const directory = query({
     args: {},
     handler: async (ctx) => {
-        const [sponsors, organisations, series] = await Promise.all([
+        const [sponsors, catalogue, series] = await Promise.all([
             activeSponsors(ctx),
-            ctx.db.query("organisations").collect(),
+            readCatalogue(ctx),
             readSeries(ctx),
         ]);
 
+        const sponsorsByOrganisation = new Map(sponsors.map((row) => [row.organisationId, row]));
+
         return {
             series,
-            organisations: await Promise.all(
-                organisations.map((organisation) =>
-                    readOrganisation(
-                        ctx,
-                        organisation,
-                        sponsors.find((sponsor) => sponsor.organisationId === organisation._id),
-                    ),
+            organisations: catalogue.organisations.map((organisation) =>
+                presentOrganisation(
+                    organisation,
+                    catalogue.profilesByOwner.get(organisation._id) ?? { socials: {} },
+                    (catalogue.locationsByOwner.get(organisation._id) ?? []).map((location) => ({
+                        ...location,
+                        address: catalogue.addressesById.get(location.addressId) ?? null,
+                    })),
+                    sponsorsByOrganisation.get(organisation._id),
                 ),
             ),
         };
@@ -83,6 +88,23 @@ async function readOrganisation(
             .collect(),
     ]);
 
+    const resolvedLocations = await Promise.all(
+        locations.map(async (location) => ({
+            ...location,
+            address: await ctx.db.get(location.addressId),
+        })),
+    );
+
+    return presentOrganisation(organisation, profiles, resolvedLocations, sponsor);
+}
+
+/** Project only public organisation fields for both detail and directory responses. */
+function presentOrganisation(
+    organisation: Doc<"organisations">,
+    profiles: Awaited<ReturnType<typeof readProfiles>>,
+    locations: (Doc<"locations"> & { address: Doc<"addresses"> | null })[],
+    sponsor?: Awaited<ReturnType<typeof activeSponsors>>[number],
+) {
     return {
         _id: organisation._id,
         slug: organisation.slug,
@@ -101,11 +123,6 @@ async function readOrganisation(
         isHost: Boolean(organisation.isHost),
         isSponsor: Boolean(sponsor),
         sponsorTier: sponsor?.tier,
-        locations: await Promise.all(
-            locations.map(async (location) => ({
-                ...location,
-                address: await ctx.db.get(location.addressId),
-            })),
-        ),
+        locations,
     };
 }

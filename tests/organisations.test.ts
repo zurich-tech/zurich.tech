@@ -1,6 +1,73 @@
 import { convexTest, schema, modules, member } from "./backend";
 import { expect, test } from "bun:test";
 import { api } from "../convex/_generated/api";
+import { readCatalogue } from "../convex/organisations/catalogue";
+
+test("test_read_large_catalogue_with_constant_database_calls", async () => {
+    const backend = convexTest(schema, modules);
+    await backend.run(async (ctx) => {
+        const addressId = await ctx.db.insert("addresses", {
+            line1: "Shared campus",
+            locality: "Zurich",
+            countryCode: "CH",
+            latitude: 47.37,
+            longitude: 8.54,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        for (let index = 0; index < 2000; index++) {
+            const ownerId = await ctx.db.insert("organisations", {
+                name: `Organisation ${index}`,
+                slug: `organisation-${index}`,
+                description: "Develops technology",
+                location: "Zurich",
+                website: `https://example.org/${index}`,
+                kind: "company",
+                updatedAt: 1,
+            });
+            await ctx.db.insert("locations", {
+                ownerId,
+                addressId,
+                name: "Office",
+                visibility: "public",
+            });
+            await ctx.db.insert("links", {
+                ownerId,
+                kind: "github",
+                url: `https://github.com/organisation-${index}`,
+                visibility: "public",
+                position: 0,
+                createdAt: 1,
+                updatedAt: 1,
+            });
+        }
+    });
+
+    // enforce constant database fanout instead of relying on the emulator's query limits
+    await backend.run(async (ctx) => {
+        let queries = 0;
+        const db = new Proxy(ctx.db, {
+            get(target, key) {
+                if (key === "get") throw new Error("Catalogue must not perform per-record reads.");
+                if (key === "query")
+                    return (...args: Parameters<typeof ctx.db.query>) => {
+                        queries++;
+                        return target.query(...args);
+                    };
+                return Reflect.get(target, key);
+            },
+        });
+        const catalogue = await readCatalogue({ ...ctx, db });
+        expect(queries).toBe(4);
+        expect(catalogue.organisations.length).toBe(2000);
+    });
+
+    const directory = await backend.query(api.organisations.queries.directory, {});
+    const markers = await backend.query(api.places.map.map, {});
+    expect(directory.organisations.length).toBe(2000);
+    expect(markers.length).toBe(2000);
+    expect(markers.every((marker) => Object.keys(marker.socials).length === 1)).toBe(true);
+});
 
 test("test_read_one_organisation_with_only_public_locations", async () => {
     const backend = convexTest(schema, modules);

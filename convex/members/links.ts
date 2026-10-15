@@ -36,6 +36,12 @@ export async function readProfiles(
     visibility: "public" | "all" = "public",
 ): Promise<Profiles> {
     const links = await readLinks(ctx, ownerId, visibility);
+
+    return presentProfiles(links);
+}
+
+/** Present already ordered, visibility-filtered profile links. */
+export function presentProfiles(links: Doc<"links">[]): Profiles {
     const socials: NonNullable<Profiles["socials"]> = {};
     for (const link of links) {
         if (
