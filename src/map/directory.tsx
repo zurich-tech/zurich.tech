@@ -36,11 +36,10 @@ export function MapDirectory(props: {
     const [scrollElement, setScrollElement] = createSignal<HTMLElement>();
     const [margin, setMargin] = createSignal(0);
     const [focused, setFocused] = createSignal<string>();
-    const keys = createMemo(() =>
-        props.places.map((place) =>
-            JSON.stringify([place.id, place.organisations.map((entry) => entry.id)]),
-        ),
+    const records = createMemo(
+        () => new Map(props.places.map((place) => [directoryKey(place), place])),
     );
+    const keys = createMemo(() => [...records().keys()]);
     const indices = createMemo(() => new Map(keys().map((key, index) => [key, index])));
     // invalidate TanStack's measurement memo even when replacements preserve the row count
     const itemKey = createMemo(() => {
@@ -79,6 +78,17 @@ export function MapDirectory(props: {
     const items = createMemo(
         () => new Map(virtualizer.getVirtualItems().map((item) => [String(item.key), item])),
     );
+    // join cached geometry to current records before creating row lifetimes
+    const rendered = createMemo(() => {
+        const current = records();
+        const rows: MapLocation[] = [];
+        for (const key of items().keys()) {
+            const place = current.get(key);
+            if (place !== undefined) rows.push(place);
+        }
+
+        return rows;
+    });
 
     /** Measure the list offset independently of scrolling and preceding status text. */
     function measureMargin() {
@@ -219,10 +229,16 @@ export function MapDirectory(props: {
             style={{ height: `${virtualizer.getTotalSize()}px` }}
             onKeyDown={navigate}
         >
-            <For each={[...items().keys()]}>
-                {(key) => {
+            <For each={rendered()}>
+                {(place) => {
+                    const key = directoryKey(place);
                     let row!: HTMLDivElement;
-                    const index = () => indices().get(key)!;
+                    const index = () => indices().get(key);
+                    const position = () => {
+                        const current = index();
+
+                        return current === undefined ? undefined : current + 1;
+                    };
                     onMount(() => {
                         rows.set(key, row);
                         virtualizer.measureElement(row);
@@ -237,20 +253,25 @@ export function MapDirectory(props: {
                             tabindex={-1}
                             data-directory-key={key}
                             data-index={index()}
-                            aria-posinset={index() + 1}
+                            aria-posinset={position()}
                             aria-setsize={props.places.length}
                             style={{
                                 transform: `translateY(${(items().get(key)?.start ?? 0) - margin()}px)`,
                             }}
                             onFocusIn={() => setFocused(key)}
                         >
-                            {props.children(props.places[index()])}
+                            {props.children(place)}
                         </div>
                     );
                 }}
             </For>
         </div>
     );
+}
+
+/** Identify a location and its exact displayed tenants independently of its result index. */
+function directoryKey(place: MapLocation): string {
+    return JSON.stringify([place.id, place.organisations.map((entry) => entry.id)]);
 }
 
 /** Read visible enabled tab stops without constructing selectors from organisation identifiers. */
