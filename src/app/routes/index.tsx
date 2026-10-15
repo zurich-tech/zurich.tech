@@ -1,4 +1,3 @@
-import { getSubscriberCount } from "../../statistics/queries";
 import { getMap } from "../../map/queries";
 import { getSponsors } from "../../sponsorships/queries";
 import { getTopics } from "../../topics/queries";
@@ -24,7 +23,6 @@ export const route = {
     preload: () =>
         Promise.all([
             getCalendar(),
-            getSubscriberCount(),
             getHeadlines(),
             getSeries(),
             getJobs(),
@@ -39,7 +37,6 @@ export const route = {
 export default function Route() {
     // read published events and series from the live catalogue
     const entries = getCalendar.use(() => []);
-    const subscribers = getSubscriberCount.use(() => []);
     const articles = getHeadlines.use(() => []);
     const series = getSeries.use(() => []);
     const jobs = getJobs.use(() => []);
@@ -50,14 +47,7 @@ export default function Route() {
             <Seo isHome title="zurich.tech" description={site.description} />
 
             {/* use the city as a compact identifying graphic */}
-            <Hero
-                eventCount={entries()?.length}
-                memberCount={subscribers()}
-                next={(entries() ?? [])
-                    .filter((entry) => entry.status === "scheduled" && entry.startsAt > Date.now())
-                    .sort((left, right) => left.startsAt - right.startsAt)
-                    .at(0)}
-            />
+            <Hero />
 
             {/* keep the programme and community tools in separate readable columns */}
             <div class="bulletin-body">
