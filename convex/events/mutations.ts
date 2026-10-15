@@ -62,6 +62,7 @@ export const save = mutation({
         // Public credits are the sole organiser selection.
         await validatePrimaryOrganiser(ctx, values.primaryOrganiserId);
         values.primaryOrganiserId = args.primaryOrganiserId;
+        values.attribution = args.attribution;
         values.coOrganiserIds = args.coOrganiserIds;
         await validateCoOrganisers(ctx, values.coOrganiserIds);
         values.addressAccess = args.addressAccess;
@@ -471,6 +472,7 @@ export const edit = mutation({
             ownerId: event.ownerId,
             visibility: event.visibility,
             primaryOrganiserId: event.primaryOrganiserId,
+            attribution: event.attribution,
             coOrganiserIds: event.coOrganiserIds,
             addressAccess: event.addressAccess,
             eventId: event._id,

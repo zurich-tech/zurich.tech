@@ -3,6 +3,38 @@ import type { Doc } from "../_generated/dataModel";
 /** One dated aggregate, with uncertainty retained for reconstructed subscription totals. */
 export type Point = { date: string; value: number; isEstimated?: boolean };
 
+/** Cumulative events on a shared calendar, with disjoint organiser counts. */
+export type EventPoint = Point & { ours: number; external: number };
+
+/** Accumulate both organiser groups on the same dates without interpolating missing groups. */
+export function eventHistory(
+    events: { at: number; attribution: "ours" | "external" }[],
+    now: number,
+): EventPoint[] {
+    // group occurrences before accumulating either series
+    const days = new Map<string, { ours: number; external: number }>();
+    for (const event of events) {
+        const day = date(event.at);
+        const counts = days.get(day) ?? { ours: 0, external: 0 };
+        counts[event.attribution]++;
+        days.set(day, counts);
+    }
+    if (!days.has(date(now))) days.set(date(now), { ours: 0, external: 0 });
+
+    // carry each group's total forward, including today's terminal observation
+    let ours = 0;
+    let external = 0;
+
+    return [...days]
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([date, counts]) => {
+            ours += counts.ours;
+            external += counts.external;
+
+            return { date, value: ours + external, ours, external };
+        });
+}
+
 /** Calendar shared by every point in a query. */
 const calendar = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Zurich",

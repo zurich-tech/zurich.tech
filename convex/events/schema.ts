@@ -1,4 +1,5 @@
 import { visibility } from "./visibility";
+import { attribution } from "./attribution";
 import { affiliations } from "../members/affiliations";
 import { recurrence } from "./recurrence";
 import { defineTable } from "convex/server";
@@ -37,6 +38,8 @@ const rsvpStatus = v.union(
 
 /** Stored series. */
 export const series = defineTable({
+    /** Default event attribution; unclaimed series are external. */
+    attribution: v.optional(attribution),
     /** Default public organiser, independent of editing permissions. */
     primaryOrganiserId: v.optional(v.id("members")),
     coOrganiserIds: v.optional(v.array(v.id("members"))),
@@ -50,6 +53,7 @@ export const series = defineTable({
 
 /** Private series edits awaiting publication. */
 export const seriesRevisions = defineTable({
+    attribution: v.optional(attribution),
     primaryOrganiserId: v.optional(v.id("members")),
     coOrganiserIds: v.optional(v.array(v.id("members"))),
     seriesId: v.id("series"),
@@ -62,6 +66,8 @@ export const seriesRevisions = defineTable({
 
 /** Stored events. */
 export const events = defineTable({
+    /** Override series attribution for a separately organised occurrence. */
+    attribution: v.optional(attribution),
     visibility: v.optional(visibility),
     /** Override the series public organiser for this event. */
     primaryOrganiserId: v.optional(v.id("members")),

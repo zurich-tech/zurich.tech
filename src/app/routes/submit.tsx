@@ -271,6 +271,7 @@ export default function Route() {
                 latitude: text("latitude") ? Number(text("latitude")) : undefined,
                 longitude: text("longitude") ? Number(text("longitude")) : undefined,
                 registration: policy,
+                attribution: (text("attribution") || undefined) as "ours" | "external" | undefined,
                 coOrganiserIds:
                     text("coOrganiserMode") === "inherit"
                         ? undefined
@@ -594,6 +595,17 @@ export default function Route() {
                                     <ProgrammeFields draft={draft()} directory={directory()} />
                                 </div>
                                 <div class="editor-column">
+                                    <label>
+                                        Attribution
+                                        <select
+                                            name="attribution"
+                                            value={draft()?.attribution ?? ""}
+                                        >
+                                            <option value="">Default</option>
+                                            <option value="ours">Ours</option>
+                                            <option value="external">Partner</option>
+                                        </select>
+                                    </label>
                                     <OrganiserCard
                                         value={draft()?.primaryOrganiserId}
                                         coOrganisers={draft()?.coOrganiserIds}

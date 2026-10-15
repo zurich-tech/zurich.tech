@@ -1,4 +1,5 @@
 import { visibility } from "./visibility";
+import { attribution } from "./attribution";
 import { affiliations } from "../members/affiliations";
 import type { Doc } from "../_generated/dataModel";
 import { ConvexError, v, type Infer } from "convex/values";
@@ -66,6 +67,7 @@ export type AddressAccess = Infer<typeof addressAccess>;
 
 /** Fields an organiser may edit before publication. */
 export const submissionFields = {
+    attribution: v.optional(attribution),
     visibility: v.optional(visibility),
     addressAccess: v.optional(addressAccess),
     primaryOrganiserId: v.optional(v.id("members")),
@@ -116,6 +118,7 @@ export function eventFields(draft: Pick<Doc<"submissions">, keyof typeof submiss
     const number = ordinal(draft.title);
 
     return {
+        attribution: draft.attribution,
         visibility: draft.visibility,
         primaryOrganiserId: draft.primaryOrganiserId,
         coOrganiserIds: draft.coOrganiserIds,

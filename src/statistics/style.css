@@ -113,6 +113,48 @@ button.stats-metric:hover {
     vector-effect: non-scaling-stroke;
 }
 
+.stats-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
+    font-size: var(--text-sm);
+}
+
+.stats-legend > span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.stats-legend strong {
+    font-variant-numeric: tabular-nums;
+}
+
+.stats-swatch {
+    width: 10px;
+    height: 10px;
+    flex: none;
+}
+
+.stats-swatch--ours {
+    background: var(--color-accent);
+}
+.stats-swatch--external {
+    background: var(--color-soft);
+}
+.stats-area--ours {
+    fill: var(--color-accent);
+    fill-opacity: 0.75;
+}
+.stats-area--external {
+    fill: var(--color-soft);
+    fill-opacity: 0.25;
+}
+.stats-line--total {
+    stroke: var(--color-soft);
+    stroke-width: 1.5;
+}
+
 .stats-point {
     fill: var(--color-accent);
 }

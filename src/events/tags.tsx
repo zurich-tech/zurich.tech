@@ -1,4 +1,3 @@
-import { ExternalTag } from "../components/tag";
 import { getTopics } from "../topics/queries";
 import "./entry.css";
 import { For, Show, type JSX } from "solid-js";
@@ -40,13 +39,12 @@ export function EventTags(props: {
     );
 }
 
-/** Keep event state, partnership and external registration together across views. */
+/** Keep event state and partnership consistent across views. */
 export function EventBadges(props: {
     event: Pick<Doc<"events">, "status" | "startsAt" | "confirmation" | "confirmedAt">;
     now?: number;
     showPast?: boolean;
     isPartner?: boolean;
-    registrationKind?: string;
 }) {
     // Use the same state precedence in list entries and expanded introductions.
     const state = () => {
@@ -73,9 +71,6 @@ export function EventBadges(props: {
             </Show>
             <Show when={props.isPartner}>
                 <span class="tag tag-status tag-upcoming">Partner</span>
-            </Show>
-            <Show when={props.registrationKind === "external"}>
-                <ExternalTag />
             </Show>
         </>
     );

@@ -1,13 +1,15 @@
 import { isListed } from "../events/visibility";
+import { eventAttribution } from "../events/attribution";
 import { query, internalMutation, type QueryCtx } from "../_generated/server";
-import { cumulative, currentPoint, date, growth, subscriberHistory } from "./history";
+import { cumulative, currentPoint, date, growth, subscriberHistory, eventHistory } from "./history";
 
 /** Read totals and dated records without exposing identities through the public query. */
 async function records(ctx: QueryCtx) {
-    const [events, subscriptions, registrations] = await Promise.all([
+    const [events, subscriptions, registrations, series] = await Promise.all([
         ctx.db.query("events").collect(),
         ctx.db.query("subscriptions").collect(),
         ctx.db.query("registrations").collect(),
+        ctx.db.query("series").collect(),
     ]);
     const past = events.filter(
         (event) => isListed(event) && event.status !== "cancelled" && event.startsAt < Date.now(),
@@ -15,9 +17,17 @@ async function records(ctx: QueryCtx) {
 
     const listed = new Set(events.filter(isListed).map((event) => event._id));
     const publicRegistrations = registrations.filter((row) => listed.has(row.eventId));
+    const seriesById = new Map(series.map((item) => [item._id, item]));
+    const attributed = past.map((event) => ({
+        at: event.startsAt,
+        attribution: eventAttribution(
+            event,
+            event.seriesId ? seriesById.get(event.seriesId) : undefined,
+        ),
+    }));
 
     return {
-        past,
+        attributed,
         subscriptions,
         registrations: publicRegistrations,
         totals: {
@@ -48,11 +58,7 @@ export const community = query({
         const current = await records(ctx);
         const now = Date.now();
         const history = {
-            events: currentPoint(
-                cumulative(current.past.map((event) => ({ at: event.startsAt, value: 1 }))),
-                current.totals.events,
-                now,
-            ),
+            events: eventHistory(current.attributed, now),
             subscribers: currentPoint(
                 subscriberHistory(current.subscriptions, now),
                 current.totals.subscribers,

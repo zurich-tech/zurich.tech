@@ -311,7 +311,6 @@ export default function Route() {
                                                 event={event()!}
                                                 showPast
                                                 isPartner={event()?.isPartner}
-                                                registrationKind={event()?.registration.kind}
                                             />
                                         </EventTags>
                                     </div>

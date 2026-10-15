@@ -1,4 +1,5 @@
 import { validateTopics } from "../topics/queries";
+import { attribution } from "./attribution";
 import { validatePrimaryOrganiser, validateCoOrganisers } from "./organisers";
 import { ConvexError, v } from "convex/values";
 import { mutation, query } from "../_generated/server";
@@ -24,6 +25,7 @@ export const workspace = query({
                     ...(draft
                         ? {
                               name: draft.name,
+                              attribution: draft.attribution ?? item.attribution,
                               primaryOrganiserId: draft.primaryOrganiserId,
                               coOrganiserIds: draft.coOrganiserIds,
                               slug: draft.slug,
@@ -42,6 +44,7 @@ export const workspace = query({
 export const upsert = mutation({
     args: {
         id: v.optional(v.id("series")),
+        attribution: v.optional(attribution),
         primaryOrganiserId: v.optional(v.id("members")),
         coOrganiserIds: v.optional(v.array(v.id("members"))),
         publish: v.optional(v.boolean()),
@@ -79,6 +82,7 @@ export const upsert = mutation({
                   .withIndex("by_series", (range) => range.eq("seriesId", id))
                   .unique()
             : null;
+        values.attribution = args.attribution ?? draft?.attribution ?? current?.attribution;
         await validateTopics(ctx, values.topics, [
             ...(current?.topics ?? []),
             ...(draft?.topics ?? []),

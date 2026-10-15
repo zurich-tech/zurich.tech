@@ -136,7 +136,6 @@ export function EventEntry(props: {
                             event={props.event}
                             now={props.now}
                             isPartner={props.event.isPartner}
-                            registrationKind={props.event.registrationKind}
                         />
                         <EventTags series={props.series} />
                         <Show when={props.event.location}>

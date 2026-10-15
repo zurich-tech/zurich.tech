@@ -1,4 +1,5 @@
 import { isListed } from "./visibility";
+import { eventAttribution } from "./attribution";
 import { eventPlace, disclosePlace } from "./place";
 import { publicOrganiser, publicOrganisers, organiserIds } from "./organisers";
 import { readLinks } from "../members/links";
@@ -41,6 +42,7 @@ export const calendar = query({
                             .get(event._id)!
                             .others.map((id) => people.get(id))
                             .filter((person): person is NonNullable<typeof person> => !!person),
+                        event.seriesId ? bySeries.get(event.seriesId) : null,
                     ),
                 ),
         );
@@ -109,7 +111,7 @@ export const event = query({
             checkIn: event.checkIn,
             feedback: event.feedback,
             registration: publicRegistration(event.registration),
-            isPartner: !!event.partnerIds?.length,
+            isPartner: eventAttribution(event, series) === "external" || !!event.partnerIds?.length,
             isFull:
                 event.registration.kind === "native" &&
                 event.registration.capacity !== null &&
@@ -178,15 +180,15 @@ export async function calendarRow(
     event: Doc<"events">,
     organiser?: Awaited<ReturnType<typeof publicOrganiser>>,
     coOrganisers: NonNullable<Awaited<ReturnType<typeof publicOrganiser>>>[] = [],
+    series?: Doc<"series"> | null,
 ) {
+    // reuse the calendar's series lookup for both attribution and organiser credits
+    if (series === undefined) series = event.seriesId ? await ctx.db.get(event.seriesId) : null;
+
     // Reuse batch-resolved credits when available; expand isolated rows on demand.
     const credits =
         organiser === undefined
-            ? await publicOrganisers(
-                  ctx,
-                  event,
-                  event.seriesId ? await ctx.db.get(event.seriesId) : null,
-              )
+            ? await publicOrganisers(ctx, event, series)
             : { organiser, coOrganisers };
     const rows = await ctx.db
         .query("registrations")
@@ -205,7 +207,7 @@ export async function calendarRow(
         location: event.location,
         topics: event.topics,
         registrationKind: event.registration.kind,
-        isPartner: !!event.partnerIds?.length,
+        isPartner: eventAttribution(event, series) === "external" || !!event.partnerIds?.length,
         seriesId: event.seriesId,
         status: event.status,
         confirmation: event.confirmation,

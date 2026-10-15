@@ -46,6 +46,7 @@ export function SeriesAdmin() {
                     id: text("id") ? (text("id") as Id<"series">) : undefined,
                     publish: access.canSeries(text("id") || undefined, "organiser"),
                     name: text("name"),
+                    attribution: text("attribution") as "ours" | "external",
                     coOrganiserIds: values.getAll("coOrganiserId").map(String) as Id<"members">[],
                     primaryOrganiserId: text("primaryOrganiserId")
                         ? (text("primaryOrganiserId") as Id<"members">)
@@ -262,6 +263,13 @@ function SeriesForm(props: {
                 <textarea required name="description" value={props.item?.description ?? ""} />
             </label>
             <TopicFields values={props.item?.topics ?? []} />
+            <label>
+                Attribution
+                <select name="attribution" value={props.item?.attribution ?? "external"}>
+                    <option value="ours">Ours</option>
+                    <option value="external">Partner</option>
+                </select>
+            </label>
             <OrganiserCard
                 value={props.item?.primaryOrganiserId}
                 coOrganisers={props.item?.coOrganiserIds}

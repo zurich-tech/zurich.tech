@@ -3,7 +3,13 @@ import { createMemo, createSignal, For, Show } from "solid-js";
 /** Explore dated totals with pointer, touch and keyboard controls. */
 export function HistoryChart(props: {
     label: string;
-    values: { date: string; value: number; isEstimated?: boolean }[];
+    values: {
+        date: string;
+        value: number;
+        isEstimated?: boolean;
+        ours?: number;
+        external?: number;
+    }[];
 }) {
     const [selected, setSelected] = createSignal<number>();
     const maximum = createMemo(() => {
@@ -37,9 +43,12 @@ export function HistoryChart(props: {
             ...point,
             x: start === end ? 500 : 12 + ((Date.parse(point.date) - start) / (end - start)) * 976,
             y: 276 - (point.value / maximum()) * 252,
+            oursY: point.ours === undefined ? undefined : 276 - (point.ours / maximum()) * 252,
         }));
     });
     const active = () => (selected() === undefined ? undefined : points()[selected()!]);
+    const isStacked = () => points()[0]?.ours !== undefined;
+    const latest = () => points().at(-1);
     const date = (value: string) =>
         new Intl.DateTimeFormat("en-GB", {
             day: "numeric",
@@ -61,6 +70,18 @@ export function HistoryChart(props: {
 
     return (
         <Show when={points().length} fallback={<p class="stats-empty">No data</p>}>
+            <Show when={isStacked()}>
+                <div class="stats-legend" aria-label="Event attribution">
+                    <span>
+                        <i class="stats-swatch stats-swatch--ours" />
+                        Ours <strong>{latest()?.ours?.toLocaleString()}</strong>
+                    </span>
+                    <span>
+                        <i class="stats-swatch stats-swatch--external" />
+                        Partner <strong>{latest()?.external?.toLocaleString()}</strong>
+                    </span>
+                </div>
+            </Show>
             <div class="stats-chart">
                 <div class="stats-scale" aria-hidden="true">
                     <For each={ticks()}>
@@ -109,11 +130,49 @@ export function HistoryChart(props: {
                                 />
                             )}
                         </For>
+                        <Show
+                            when={isStacked()}
+                            fallback={
+                                <polygon
+                                    points={[
+                                        `${points()[0].x},276`,
+                                        ...points().map((point) => `${point.x},${point.y}`),
+                                        `${points().at(-1)!.x},276`,
+                                    ].join(" ")}
+                                    class="stats-area stats-area--ours"
+                                />
+                            }
+                        >
+                            <polygon
+                                points={[
+                                    ...points().map((point) => `${point.x},${point.y}`),
+                                    ...points()
+                                        .toReversed()
+                                        .map((point) => `${point.x},${point.oursY}`),
+                                ].join(" ")}
+                                class="stats-area stats-area--external"
+                            />
+                            <polygon
+                                points={[
+                                    `${points()[0].x},276`,
+                                    ...points().map((point) => `${point.x},${point.oursY}`),
+                                    `${points().at(-1)!.x},276`,
+                                ].join(" ")}
+                                class="stats-area stats-area--ours"
+                            />
+                            <polyline
+                                points={points()
+                                    .map((point) => `${point.x},${point.oursY}`)
+                                    .join(" ")}
+                                class="stats-line"
+                            />
+                        </Show>
                         <polyline
                             points={points()
                                 .map((point) => `${point.x},${point.y}`)
                                 .join(" ")}
                             class="stats-line"
+                            classList={{ "stats-line--total": isStacked() }}
                         />
                         <Show when={points().length === 1}>
                             <circle
@@ -159,6 +218,12 @@ export function HistoryChart(props: {
                                 <strong>
                                     {point().value.toLocaleString()} {props.label.toLowerCase()}
                                 </strong>
+                                <Show when={isStacked()}>
+                                    <span>
+                                        Ours {point().ours?.toLocaleString()} · Partner{" "}
+                                        {point().external?.toLocaleString()}
+                                    </span>
+                                </Show>
                             </div>
                         )}
                     </Show>
