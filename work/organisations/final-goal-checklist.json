@@ -1,1261 +1,188 @@
 {
-    "recordedOn": "2026-10-15",
-    "status": "consolidation-in-progress-not-whole-goal-complete",
-    "verifiedPublished": 1638,
-    "approved46PublicationOverlay": {
-        "reference": "final-approved-46/independent-readback.json",
-        "receipt": "final-approved-46/execution/1792078067357-verified.json",
-        "status": "published-once-independently-checked-against-durable-snapshots",
-        "from": 1592,
-        "to": 1638,
-        "exactProfiles": 46,
-        "exactPublicOffices": 46,
-        "exactSocialLinks": 39,
-        "mappedOrganisations": 1610,
-        "publicOrganisationLocations": 1612,
-        "unmappedOrganisations": 28,
-        "existingRowsUnchanged": true,
-        "reapply": false,
-        "sourceCompletenessClaim": false,
-        "scope": "Independent saved-artifact verification of the approved publication delta only; no new live fetch, no production mutation, no universal source or factual completeness claim"
+    "schemaVersion": 2,
+    "status": "reviewed-bounded-closeout",
+    "generatedAt": "2026-10-15T17:19:59.631Z",
+    "objective": "Finish the bounded Zurich tech registry closeout against the 1,638-record baseline, applying own-technology/manufacturing criteria without padding, reconciling captured primary sources, verifying approved changes and high-signal review, and recording genuine residual limitations.",
+    "historicalChecklist": {
+        "original": "/Users/florian/symbol/zurich.tech/work/organisations/final-goal-checklist.json",
+        "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/historical-307ae3cfbc14341e0c5ee3a9e812b051ea9e18a8879927120c3eb83dac69598c.json",
+        "sha256": "307ae3cfbc14341e0c5ee3a9e812b051ea9e18a8879927120c3eb83dac69598c"
     },
-    "parfitNinePublicationOverlay": {
-        "reference": "final-population-delta-1426.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
+    "evidenceIndex": {
+        "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-evidence-index.json",
+        "sha256": "b96781085dd3fcb7d5bfce3e9e18a6cc39c9baae19a35dfaf2814e302b140acf"
     },
-    "franklinNinePublicationOverlay": {
-        "reference": "final-population-delta-1417.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
+    "population": {
+        "baseline": 1638,
+        "additionsBeforeDrm": 49,
+        "drmAdded": 1,
+        "additions": 50,
+        "organisations": 1688,
+        "mappedOrganisations": 1657,
+        "locations": 1659,
+        "addresses": 1203,
+        "linksAllOwners": 2258,
+        "organisationLinks": 1957,
+        "topics": 34,
+        "withoutPublicLocation": 31,
+        "withoutPublicLinks": 123
     },
-    "campusFivePublicationOverlay": {
-        "reference": "final-population-delta-1408.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
+    "publication": {
+        "status": "verified-no-replay",
+        "receipts": [
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/ab40a37c4179f679fa2603c34cd5115cb24088927cb97c785e488d719e4ef147.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/50bd5a6e1d86a6c993636f3fcbb8cb83b951486de10bc3a8dc23c23664dff130.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/70eb6d1a28499a9eb5ede475d670b8e9f0cdf33def7787a66e9b4b8cc38745b3.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/e6c1f87b5bb1ff8c524c5771ba5876ad84cf565f6980cbf76a94ec8a15a94d21.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/e20517be79b4571ca9ac0e2f5d6cd653216ed5665d1f91d1aaae5f99599a257e.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/63286bff38cd96ad01b3264e79205f5388dcc50d57ae156ff32348baaa156170.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/7b579389811dd7534eb56d6ae4d80351c84d2cc74404f370341a94d5a9db790c.json"
+        ],
+        "finalSnapshot": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/967671d33f44e31af9a579553eee16a8f97ed721c639e433d07a7d6dfc697576.json",
+        "matchesDrmReceiptAfterSnapshot": true,
+        "drmPriorRowsUnchanged": true
     },
-    "materialsTagCorrectionOverlay": {
-        "reference": "materials-tag-verification-1403.json",
-        "status": "two-corrections-applied-once-independently-verified",
-        "reapply": false
+    "facts": {
+        "status": "bounded-assigned-review-complete-corrections-verified",
+        "assigned": 61,
+        "first31ExactCoverage": true,
+        "last30Reviewed": 30,
+        "correctedRecords": 7,
+        "correctedFields": 8,
+        "locationCorrections": 2,
+        "evidence": [
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/a6d4aa3c368d41c65160b48759245b8449a2105e1e2ef47eb3627048ed8946a9.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/734e874b4c8ddf13058fa2d2367e5050f5fcabe400b4b7a93af6068b7c20587e.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/f7452a9d71b209d76997090a198b98b26a6996440254b488b2b1b878fbb04a0a.json"
+        ],
+        "qualification": "NVIDIA and LogicStar are accurately labelled registered addresses. Seven-fact receipt permits documented timestamp/address-copy effects; not an unchanged-every-other-byte claim."
     },
-    "vibroakustikPublicationOverlay": {
-        "reference": "final-population-delta-1403.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
+    "socials": {
+        "status": "bounded-assignment-complete-enrichment-verified",
+        "assigned": 138,
+        "uniqueReviewed": 138,
+        "unreviewed": 0,
+        "enrichmentLinks": 31,
+        "from138Assignment": 19,
+        "fromOlder19": 12,
+        "drmSocialIncludedInPublicationNotEnrichment": 1,
+        "receipts": [
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/27f829374b80ed65bfa6f877f5daa2fad21478dbab569d97304d91c0b185e357.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/85b588ecf07e96c27a615e7687f5b8f82a55c81646a66a6e4eec4ef00558a9fc.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/611360e8969dfba329cf4fcc24800a50599358b1d85d07aa14efea53b05ef14b.json"
+        ],
+        "independentProof": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/a6d4aa3c368d41c65160b48759245b8449a2105e1e2ef47eb3627048ed8946a9.json",
+        "parentReferralDecision": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/236bef48332cfd2a61a623ba0e56405cb4841d0aaa2f0f5d93ab21c33bf1d90e.json",
+        "qualification": "No verified absence claim for unconfirmed accounts. Four Oxford links are officially endorsed group referrals, not subsidiary-owned accounts."
     },
-    "socialEnrichmentOverlay": {
-        "reference": "social-enrichment-verification-1402.json",
-        "status": "eleven-accounts-applied-once-independently-verified",
-        "reapply": false
+    "assets": {
+        "status": "current-url-set-covered",
+        "distinctCurrentUrls": 1675,
+        "priorVerified": 1674,
+        "priorSameDayCached": 1578,
+        "priorFresh": 96,
+        "drmFresh": 1,
+        "drmHashAndCorsPassed": true,
+        "evidence": [
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/78203c4918e342bb092cff2d77f713ea7d26d9535061e464bc50b6fa8af81654.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/d1ead86221a1665a7b602c37c49910c67874283a17a6d3596bbb484d957af181.json"
+        ],
+        "qualification": "Availability/bytes/CORS coverage reuses same-day checks; this is not a fresh visual review of every logo."
     },
-    "residualTrioPublicationOverlay": {
-        "reference": "final-population-delta-1402.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
+    "structure": {
+        "status": "complete-with-explained-shared-parent-referrals",
+        "actionableObservedIssues": 0,
+        "explainedSharedSocialDestinations": 2,
+        "evidence": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/4f8d0e81cb1709aeb46163801f1f6915895538cfb206f426d6ecbe51918ffecb.json",
+        "qualification": "Complete sequential table reads, not atomic. Coordinate envelopes are not canton polygons or fresh address accuracy proof. Legal company IDs are not stored, so legal-ID uniqueness is not certified."
     },
-    "industrialTwentyPublicationOverlay": {
-        "reference": "final-population-delta-1399.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "campusTwoPublicationOverlay": {
-        "reference": "final-population-delta-1379.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "threeLocationRemovalOverlay": {
-        "reference": "company-removal-verification-1377.json",
-        "status": "exact-three-approved-locations-removed-and-independently-verified",
-        "pendingPublicLocations": 0,
-        "reapply": false
-    },
-    "industrialNinePublicationOverlay": {
-        "reference": "final-population-delta-1377.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "campusFourPublicationOverlay": {
-        "reference": "final-population-delta-1368.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "industrialEightPublicationOverlay": {
-        "reference": "final-population-delta-1364.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "industrialThirteenPublicationOverlay": {
-        "reference": "final-population-delta-1356.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "universityResolvedPublicationOverlay": {
-        "reference": "final-population-delta-1343.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "technicalCommunityPublicationOverlay": {
-        "reference": "final-population-delta-1340.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "nexusPublicationOverlay": {
-        "reference": "final-population-delta-1338.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "mavelVnlPublicationOverlay": {
-        "reference": "final-population-delta-1337.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "inactaPublicationOverlay": {
-        "reference": "final-population-delta-1335.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "climefiPublicationOverlay": {
-        "reference": "final-population-delta-1334.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "schlierenPublicationOverlay": {
-        "reference": "final-population-delta-1333.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "communityPublicationOverlay": {
-        "reference": "final-population-delta-1330.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "laboratoryPublicationOverlay": {
-        "reference": "final-population-delta-1327.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "vidbyPublicationOverlay": {
-        "reference": "final-population-delta-1325.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "swissbnPublicationOverlay": {
-        "reference": "final-population-delta-1324.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "craterKlepsydraPublicationOverlay": {
-        "reference": "final-population-delta-1323.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "campusTenPublicationOverlay": {
-        "reference": "final-population-delta-1321.json",
-        "status": "published-once-independently-verified",
-        "reapply": false,
-        "held": "ForzaETH exact public address; CRATER subsequently resolved and published in delta1323"
-    },
-    "runwayTwoPublicationOverlay": {
-        "reference": "final-population-delta-1311.json",
-        "status": "published-once-independently-verified",
-        "reapply": false,
-        "supersedes": "Sanetics and Wonderfill prepared or own-technology hold states"
-    },
-    "immunospongePublicationOverlay": {
-        "reference": "final-population-delta-1309.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "investorThreePublicationOverlay": {
-        "reference": "final-population-delta-1308.json",
-        "from": 1305,
-        "to": 1308,
-        "status": "three-published-once-independently-verified",
-        "reapply": false,
-        "supersedes": "Authena, coatingAI and Calingo prepared states in investor coverage ledger"
-    },
-    "universityThreePublicationOverlay": {
-        "reference": "final-population-delta-1305.json",
-        "from": 1302,
-        "to": 1305,
-        "status": "three-published-once-independently-verified",
-        "reapply": false,
-        "held": "perfusionX compact official artwork"
-    },
-    "campusPublicationOverlay": {
-        "reference": "final-population-delta-1302.json",
-        "from": 1297,
-        "to": 1302,
-        "status": "five-published-once-independently-verified",
-        "reapply": false,
-        "supersedes": "Five prepared campus candidates below; Reykur remains held"
-    },
-    "consolidatedRemovalProposal": {
-        "reference": "company-removal-proposal-1297.json",
-        "pendingPublicLocations": 0,
-        "removedPublicLocations": 20,
-        "verification": "company-removal-verification-1305.json",
-        "status": "exact-20-approved-locations-removed-and-independently-verified",
-        "approval": "User explicitly approved all 20 permanent public-location removals on 2026-10-15. Applied through authenticated admin controls; full before/after comparison verifies all organisations, addresses, links, roles, sponsorships, jobs, events and other locations unchanged",
-        "supersedes": "Historical authorityMismatch and classificationGap for walkingtoweb below"
-    },
-    "campusPreparationReview": {
-        "reference": "primary-df3c-five-main-review.json",
-        "reviewedProfiles": 5,
-        "published": 5,
-        "status": "Published and independently verified; see final-population-delta-1302.json"
-    },
-    "structuralMapAudit": {
-        "reference": "map-audit-1297.json",
-        "status": "passed-read-only",
-        "distinctLogoFiles": 1282,
-        "failedLogoFiles": 0,
-        "closesSemanticOrSourceReview": false
-    },
-    "universityPublicationOverlay": {
-        "reference": "final-population-delta-1297.json",
-        "status": "three-published-once-independently-verified",
-        "reapply": false,
-        "held": "No-Touch Robotics current-activity investigation; do not apply the earlier full four-record manifest"
-    },
-    "industrialPublicationOverlay": {
-        "reference": "final-population-delta-1294.json",
-        "from": 1288,
-        "to": 1294,
-        "status": "six-published-once-independently-verified",
-        "reapply": false,
-        "supersedes": "Historical six industrial artwork/preparation holds below"
-    },
-    "collectiveSourceOverlay": {
-        "reference": "primary-df3c-collective27-review.json",
-        "capturedLabels": 27,
-        "assessedLabels": 27,
-        "unassessedLabels": 0,
-        "represented": 3,
-        "excluded": 13,
-        "preparationPending": 6,
-        "evidenceHolds": 5,
-        "scope": "Finite owned label assessment only; positive candidates still need preparation and main review, not yet imported"
-    },
-    "descriptionCleanupOverlay": {
-        "reference": "description-cleanup-1288.json",
-        "status": "939-applied-once-independently-verified",
-        "remainingTerminalPeriods": 0,
-        "reapply": false,
-        "scope": "Supersedes historical prepared-not-applied punctuation status below; does not complete semantic prose, eligibility or classification review"
-    },
-    "latestPublicationOverlay": {
-        "reference": "final-population-delta-1288.json",
-        "from": 1283,
-        "to": 1288,
-        "slugs": ["rflect", "ahead-health", "bitcoin-suisse", "additiv", "temenos"],
-        "status": "published-once-independently-verified",
-        "reapply": false,
-        "historicalAccounting": "Older source and population checkpoints below retain their original scope and date; this delta does not prove completion of the remaining source or quality reviews"
-    },
-    "latestVerifiedDelta": "final-population-delta-1592.json",
-    "deltaEvidence": "final-population-delta-1273.json",
-    "method": "Read existing durable ledgers and named owner checkpoints only; no repeated source research, production query or mutation",
-    "criteria": "inclusion-criteria.json",
-    "interpretation": {
-        "unansweredSourceGap": "Unenumerated source or captured identity without substantive assessment; not a reasoned hold",
-        "reasonedHold": "Primary evidence assessed and exact missing fact or access blocker recorded; not an exclusion or proof of ineligibility",
-        "publicationPending": "Prepared eligible identity or artwork awaiting main review; not unassessed",
-        "historicalCount": "Must reconcile subsequent publications before reporting as current; counts across sources overlap and must not be summed as unique omissions"
-    },
-    "checklist": [
-        {
-            "scope": "Existing population eligibility",
-            "status": "baseline accounted; verified publication deltas appended",
-            "countsAt1235": {
-                "keep": 1203,
-                "excludeRecommendations": 21,
-                "held": 11,
-                "uncovered": 0
-            },
-            "references": [
-                "final-eligibility-reconciliation-1235.json",
-                "final-population-delta-1245.json",
-                "final-population-delta-1250.json",
-                "final-population-delta-1273.json",
-                "final-held-closure-1245.json"
-            ],
-            "remaining": "11 assessed holds:9 own-technology attribution,1 successor identity,1 current local presence. Exclusion recommendations are not evidence of executed removals. UMB/icentic remain uncertain; client-only engineering alone does not qualify."
+    "sources": {
+        "status": "finite-captured-entries-accounted-not-universal-coverage",
+        "evidence": [
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/c255163024cae7abbf78d8babaf85134f4045ec00d9f2fb3347465c7be36c658.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/fe0c8508a9005ff5af2e7a388b2c98249f69084d70d859542d2b54e925baf9d8.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/a6d4aa3c368d41c65160b48759245b8449a2105e1e2ef47eb3627048ed8946a9.json"
+        ],
+        "supersession": "The independent supersession receipt and publication receipts close stale DrM, first31, seven-facts and second69 pending labels in the earlier source report.",
+        "denominators": {
+            "investorSources": 36,
+            "numericInvestorRosters": 35,
+            "investorAppearances": 2239,
+            "universityCapturedOccurrences": 1850,
+            "campusAppearances": 555,
+            "campusIdentities": 537,
+            "digitalswitzerland": 144,
+            "swissFintech": 339,
+            "swissmemOccurrences": 354,
+            "vacancies": 209,
+            "employers": 93,
+            "swissBiotechCapturedUrls": 1725,
+            "newsPages": 46,
+            "newsArticleAppearances": 2300,
+            "historicalAppearances": 223,
+            "historicalNormalizedNames": 207
         },
-        {
-            "scope": "Incubators and campuses",
-            "status": "finite accessible roster dispositioned; evidence/access holds remain",
-            "capturedAppearances": 555,
-            "identityGroups": 537,
-            "references": [
-                "primary-df3c-incubators.json#/finitePassClosure",
-                "primary-df3c-final-dispositions.json",
-                "campus-artwork-review.json"
-            ],
-            "remaining": "Impact Hub login-only members and unpublished Trust Square tenants remain source access limits; Tenity public portfolio is non-exhaustive. Specific evidence holds are distinct from these coverage limits. Historical prepared/frozen statuses require later publication overlays, not requeueing."
-        },
-        {
-            "scope": "digitalswitzerland and Swiss Fintech",
-            "status": "accessible lists enumerated and assessed",
-            "capturedAppearances": {
-                "digitalswitzerland": 144,
-                "swissFintech": 339
-            },
-            "notAssessedAtOwnedCloseout": 0,
-            "references": [
-                "membership-final-source-accounting.json",
-                "membership-retained31-audit.json",
-                "membership-holds-final-review.json",
-                "membership-ifz-chain-publication-review.json",
-                "hwz-main-review.json"
-            ],
-            "remaining": "Reasoned locality, identity, development-attribution and artwork holds remain. Historical preparation counts are not current omissions: published IFZ/ChainIQ/HWZ and other frozen batches must remain represented."
-        },
-        {
-            "scope": "Universities and applied programmes",
-            "status": "central captures available; archive and residual assessment gaps not closed by selected imports",
-            "historicalCaptured": {
-                "ETH": 700,
-                "UZH": 187,
-                "ZHAWEngineering": 52,
-                "growCurrent": 20
-            },
-            "references": [
-                "primary-sweep.json#/currentOwnerSourceMatrix",
-                "primary-sweep.json#/universityAccounting",
-                "university-twelve-main-review.json",
-                "primary-fifteen-publication-review.json"
-            ],
-            "remaining": "ETH/UZH departmental archives targeted rather than exhaustive; RUNWAY complete roster unavailable; grow former-member archive and nested ZHAW centres not fully enumerated in cited checkpoint. Prior open/excluded rows need latest owner dispositions before a current unassessed count can be claimed."
-        },
-        {
-            "scope": "Investor portfolios",
-            "status": "finite reconciliation advanced; latest import overlays required",
-            "ownerCheckpoint": "/tmp/zurich-registry-review/primary-9297-current-accounting.json",
-            "checkpointAt": "2026-10-15T05:36:55.638Z",
-            "historicalRemainingGroups": {
-                "specificEvidenceGap": 105,
-                "positivePreparationOrReview": 8,
-                "furtherBoundedReview": 0
-            },
-            "references": [
-                "portfolio-six-main-review.json",
-                "portfolio-two-main-review.json",
-                "coverage-plan.json"
-            ],
-            "remaining": "These are reasoned gaps/preparation, not105 unassessed companies. Subsequent verified portfolio5 and CARERO/Neho supersede pending entries; do not subtract blindly because appearances overlap. ZKB examples are not a complete underlying portfolio."
-        },
-        {
-            "scope": "Industry and employers",
-            "status": "complete captures and partial reviews coexist",
-            "references": [
-                "coverage-plan.json#/sourceAccounting",
-                "job-sources.json",
-                "industrial-twenty-seven-artwork-review.json"
-            ],
-            "remaining": "Swiss Biotech1725-entry capture does not prove all entries assessed. Historical possible-local405/Swissmem277/SwissDevJobs37 checkpoints require owner reconciliation, not a current total. Swissmem rendered-directory access failure is a genuine source limit. Latest industrial21 published; six artwork holds remain in the27-case review."
-        },
-        {
-            "scope": "Startupticker",
-            "status": "capture complete within agreed window; final reviewer accounting must be joined",
-            "window": ["2024-10-15", "2026-10-15"],
-            "pages": 46,
-            "uniqueArticles": 2290,
-            "matchedTeasers": 2290,
-            "references": [
-                "startupticker-review.json",
-                "primary-parfit-startupticker-reconciliation.json",
-                "primary-parfit-startupticker-body-review.json",
-                "primary-parfit-startupticker-final-checks.json"
-            ],
-            "remaining": "Article capture is not company eligibility completion. Join Parfit pages1-23 and Franklin24-46 final dispositions, including roundup bodies, before declaring all articles reviewed."
-        },
-        {
-            "scope": "Descriptions, classifications, map and final quality",
-            "status": "local reviewed work exists; final publication-state checks remain distinct",
-            "references": [
-                "description-cleanup-1235.json",
-                "final-classification-1235.json",
-                "final-code-review-1250.json",
-                "map-review.json",
-                "mobile-final-review.json",
-                "map-performance-review.json"
-            ],
-            "remaining": "939 exact-description cleanup entries in10 bounded batches are prepared, not applied; stale guards remain mandatory. Baseline17 topicless exceptions are not a fresh1273 count. Main structural/asset audit checkpoint1191 must not be relabelled1273. Actual browser focus QA is recorded separately from mocked tests; physical-phone validation remains unperformed."
-        }
+        "qualification": "Appearances are not globally unique organisations. Geographic directory screening is not company-primary verification or proof of no local branch."
+    },
+    "retainedMaterialLimits": [
+        "Almirall and Novocure exact company-to-entrance linkage remains held.",
+        "Cytiva, Parexel, Allega, Blockpit, Securrency/DTCC Digital, Fireblocks, onCyt Microbiology and Apricot Therapeutics retain the bounded location/identity limitations recorded in source closeout; no new checks performed here.",
+        "Infosec Global occupancy at103 versus130 remains a recorded material uncertainty.",
+        "Swiss Biotech1725 captured versus1726 initial header remains an enumeration discrepancy; directory-headquarters screening does not prove absence of all local branches.",
+        "Investor samples, inaccessible/private rosters, unnamed historical cohorts and uncertified university denominators cannot support universal coverage claims."
     ],
-    "supersededClaims": [
-        "primary-sweep old BIO69/Wyss29 unmatched-unassessed pagination followup is superseded by later finite campus dispositions",
-        "source-audit1063 and completion508 are historical checkpoints, not current population totals",
-        "coverage-plan historical130 unresolved portfolio appearances is older than the named owner checkpoint; neither is a current confirmed omission count"
+    "publicSourceLimits": [
+        "Impact Hub Zurich: Public captured examples do not expose private member list; authorised access required for hidden names.",
+        "Trust Square: 16 captured names do not prove complete tenancy; no unpublished roster invented.",
+        "RUNWAY alumni: 8 named entries assessed; marketing142/149 cumulative ventures does not supply a named denominator.",
+        "Lakestar: 33 displayed names, not complete portfolio; private login not accessed.",
+        "Tenity: 102 displayed names enumerated; source itself disclaims completeness.",
+        "ZKB: 12 identified relationships; no public full portfolio enumerated.",
+        "Session.vc: Current site exposes People, not portfolio; biographies not treated as holdings.",
+        "Uebermorgen / d11z: 6 sector-only Uebermorgen entries and7 d11z stealth companies; no invented names.",
+        "D-MATL Crystallography: Expired certificate recorded; no bypass. Not proven private.",
+        "D-MATL Polymer Physics: Session Verification in reader and Chrome; not an extraction-only failure.",
+        "S-GE BIO-Europe2024: 24of33 names recovered; historical endpoint404 and bounded historical lookup exhausted. Not9 exclusions or proof archive is private.",
+        "ZHAW Digital Health Lab Day: Official-post recovery names4of8. Remaining names not recovered; no private-access assertion.",
+        "FutureHealth Lausanne2025: 5of15 recovered; historical link redirects to2026. No complete historical roster recovered."
     ],
-    "nextConsolidation": "Resolve owner-listed unfinished primary/identity work and publication match hints; do not reopen assessed holds or rerun production audit solely to update counts",
-    "wholeGoalComplete": false,
-    "productionWrites": 0,
-    "sourceCodeEdits": 0,
-    "ownerConsolidation": {
-        "checkedOn": "2026-10-15",
-        "status": "finite accounting checkpoint; source plan remains incomplete",
-        "populationOverlay": {
-            "baseline": 1235,
-            "verifiedAdditions": 38,
-            "total": 1273,
-            "uniqueSlugs": 1273,
-            "frozenManifests": [
-                "primary-db05-closure-ten-hosted-ready.json",
-                "primary-9297-finite-five-hosted-ready.json",
-                "primary-9297-following-two-hosted-ready.json",
-                "primary-30c4-swissmem21-ready.json"
-            ],
-            "noProductionRead": true
-        },
-        "portfolio": {
-            "file": "/tmp/zurich-registry-review/primary-9297-reconciliation-sixty-seventh-checkpoint.json",
-            "counts": {
-                "totalAppearances": 659,
-                "totalExactNames": 652,
-                "unresolvedCanonicalGroups": 87,
-                "unresolvedExactNames": 88,
-                "unresolvedAppearances": 89,
-                "closedAppearances": 570,
-                "dedupeSuggestions": 0,
-                "importerReady": 0
-            },
-            "sourceCounts": {
-                "backbone-ventures": {
-                    "total": 31,
-                    "closed": 30,
-                    "unresolved": 1
-                },
-                "collateral-good": {
-                    "total": 11,
-                    "closed": 10,
-                    "unresolved": 1
-                },
-                "emerald": {
-                    "total": 73,
-                    "closed": 72,
-                    "unresolved": 1
-                },
-                "evolution-equity": {
-                    "total": 50,
-                    "closed": 47,
-                    "unresolved": 3
-                },
-                "groundshift": {
-                    "total": 9,
-                    "closed": 7,
-                    "unresolved": 2
-                },
-                "hbm-partners": {
-                    "total": 84,
-                    "closed": 81,
-                    "unresolved": 3
-                },
-                "lakestar": {
-                    "total": 10,
-                    "closed": 8,
-                    "unresolved": 2
-                },
-                "momenta": {
-                    "total": 1,
-                    "closed": 1,
-                    "unresolved": 0
-                },
-                "nextech-invest": {
-                    "total": 56,
-                    "closed": 54,
-                    "unresolved": 2
-                },
-                "redalpine": {
-                    "total": 73,
-                    "closed": 68,
-                    "unresolved": 5
-                },
-                "sictic": {
-                    "total": 190,
-                    "closed": 129,
-                    "unresolved": 61
-                },
-                "spicehaus": {
-                    "total": 20,
-                    "closed": 17,
-                    "unresolved": 3
-                },
-                "tx-ventures": {
-                    "total": 23,
-                    "closed": 20,
-                    "unresolved": 3
-                },
-                "uebermorgen-ventures": {
-                    "total": 26,
-                    "closed": 24,
-                    "unresolved": 2
-                },
-                "zkb": {
-                    "total": 2,
-                    "closed": 2,
-                    "unresolved": 0
-                }
-            },
-            "reasonedEvidenceHoldGroups": 84,
-            "furtherPrimaryValidation": [
-                {
-                    "names": ["Jurata AG"],
-                    "state": "verified-primary-evidence-external-review"
-                },
-                {
-                    "names": ["Klepsydra Technologies GmbH"],
-                    "state": "profile-evidence-complete-federal-flag-review"
-                },
-                {
-                    "names": ["vidby AG"],
-                    "state": "primary-local-research-lead-awaiting-original-validation"
-                }
-            ],
-            "exactNamePublicationMatches": [],
-            "limitation": "87 unresolved groups are84 evidence-hold groups and3 explicit validation/review cases, not87 unassessed identities. Owner retains sourceCoverageComplete=false."
-        },
-        "universities": {
-            "file": "/tmp/zurich-registry-review/primary-db05-closure-ledger.json",
-            "fullScope": {
-                "total": 1565,
-                "represented": 665,
-                "notIncluded": 442,
-                "preparedAwaitingMain": 46,
-                "eligiblePreparationIncomplete": 0,
-                "unresolvedEvidence": 412
-            },
-            "sources": {
-                "pioneer-eth": {
-                    "total": 163,
-                    "represented": 73,
-                    "notIncluded": 22,
-                    "preparedAwaitingMain": 3,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 65
-                },
-                "pioneer-foundation": {
-                    "total": 106,
-                    "represented": 50,
-                    "notIncluded": 11,
-                    "preparedAwaitingMain": 1,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 44
-                },
-                "eth-infk": {
-                    "total": 57,
-                    "represented": 32,
-                    "notIncluded": 9,
-                    "preparedAwaitingMain": 2,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 14
-                },
-                "eth-bsse": {
-                    "total": 20,
-                    "represented": 6,
-                    "notIncluded": 13,
-                    "preparedAwaitingMain": 0,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 1
-                },
-                "eth-loc": {
-                    "total": 6,
-                    "represented": 2,
-                    "notIncluded": 3,
-                    "preparedAwaitingMain": 1,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 0
-                },
-                "uzh-ifi": {
-                    "total": 23,
-                    "represented": 8,
-                    "notIncluded": 2,
-                    "preparedAwaitingMain": 1,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 12
-                },
-                "startfeld": {
-                    "total": 142,
-                    "represented": 7,
-                    "notIncluded": 93,
-                    "preparedAwaitingMain": 4,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 38
-                },
-                "eth-ife": {
-                    "total": 7,
-                    "represented": 5,
-                    "notIncluded": 1,
-                    "preparedAwaitingMain": 0,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 1
-                },
-                "eth-iis": {
-                    "total": 5,
-                    "represented": 2,
-                    "notIncluded": 1,
-                    "preparedAwaitingMain": 1,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 1
-                },
-                "uzh-spacehub": {
-                    "total": 10,
-                    "represented": 5,
-                    "notIncluded": 1,
-                    "preparedAwaitingMain": 0,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 4
-                },
-                "uzh-eth-ini": {
-                    "total": 16,
-                    "represented": 6,
-                    "notIncluded": 5,
-                    "preparedAwaitingMain": 0,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 5
-                },
-                "eth-bel": {
-                    "total": 4,
-                    "represented": 4,
-                    "notIncluded": 0,
-                    "preparedAwaitingMain": 0,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 0
-                },
-                "eth-bpl": {
-                    "total": 4,
-                    "represented": 1,
-                    "notIncluded": 3,
-                    "preparedAwaitingMain": 0,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 0
-                },
-                "eth-relab": {
-                    "total": 1,
-                    "represented": 1,
-                    "notIncluded": 0,
-                    "preparedAwaitingMain": 0,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 0
-                },
-                "uzh-2026-report-2025-cohort": {
-                    "total": 4,
-                    "represented": 3,
-                    "notIncluded": 0,
-                    "preparedAwaitingMain": 0,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 1
-                },
-                "eth-central": {
-                    "total": 700,
-                    "represented": 336,
-                    "notIncluded": 194,
-                    "preparedAwaitingMain": 22,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 148
-                },
-                "uzh-central": {
-                    "total": 187,
-                    "represented": 84,
-                    "notIncluded": 53,
-                    "preparedAwaitingMain": 5,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 45
-                },
-                "glatec": {
-                    "total": 54,
-                    "represented": 23,
-                    "notIncluded": 12,
-                    "preparedAwaitingMain": 2,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 17
-                },
-                "eth-infk-alumni-pdf": {
-                    "total": 56,
-                    "represented": 17,
-                    "notIncluded": 19,
-                    "preparedAwaitingMain": 4,
-                    "eligiblePreparationIncomplete": 0,
-                    "unresolvedEvidence": 16
-                }
-            },
-            "freshAssessmentScope": "Previously superseded Zug exclusions plus named corrections; all other specific primary reviews are inherited with exact provenance, not claimed freshly reread",
-            "unassessedLabelCount": 0,
-            "exactNamePublicationMatchesInPreviouslyPrepared": [
-                {
-                    "name": "Diramics",
-                    "slug": "diramics",
-                    "previousStatus": "verified-local-technology-prepared"
-                },
-                {
-                    "name": "LLMify",
-                    "slug": "llmify",
-                    "previousStatus": "verified-local-technology-prepared"
-                }
-            ],
-            "limitation": "Source occurrences overlap.412 unresolvedEvidence is a reasoned owner category, not412 proven omissions; prior reviews inherited with provenance. Published ten must not remain pending."
-        },
-        "industry": [
-            {
-                "file": "/tmp/zurich-registry-review/primary-30c4-swissmem277-closure-current.json",
-                "sourceTotal": 277,
-                "ownerWorkCounts": {
-                    "candidate-hold": 164,
-                    "excluded-current-evidence": 14,
-                    "represented": 24,
-                    "prepared-main-review": 6,
-                    "source-gap": 67,
-                    "preparation-pending": 1,
-                    "other-owner-prepared": 1
-                },
-                "ownerDispositionCounts": {
-                    "hold-identity": 11,
-                    "hold-local-operation": 55,
-                    "hold-own-technology": 62,
-                    "excluded-current-evidence": 14,
-                    "represented": 24,
-                    "prepared-main-review": 6,
-                    "hold-primary-access": 52,
-                    "hold-parent-coverage": 20,
-                    "hold-readable-official-logo": 1,
-                    "hold-technical-scope": 2,
-                    "hold-address-and-readable-logo": 1,
-                    "hold-primary-page-content": 15,
-                    "hold-main-artwork-review": 6,
-                    "eligible-preparation-pending": 1,
-                    "hold-own-technology-attribution": 1,
-                    "hold-own-brand-artwork": 1,
-                    "hold-category": 4,
-                    "other-owner-prepared": 1
-                },
-                "exactNamePublicationMatches": [],
-                "unassessedLabelCount": 0,
-                "caution": "Specific missing facts/access attempts are owner dispositions, not independently reread primary pages. Exact-name matches require identity corroboration before changing an owner decision."
-            },
-            {
-                "file": "/tmp/zurich-registry-review/primary-30c4-jobs37-closure-current.json",
-                "sourceTotal": 37,
-                "ownerWorkCounts": {
-                    "source-gap": 9,
-                    "excluded-current-evidence": 5,
-                    "candidate-hold": 22,
-                    "prepared-main-review": 1
-                },
-                "ownerDispositionCounts": {
-                    "hold-primary-access": 6,
-                    "excluded-current-evidence": 5,
-                    "hold-own-technology": 8,
-                    "hold-primary-page-content": 3,
-                    "hold-local-operation": 10,
-                    "hold-other-owner-reconciliation": 1,
-                    "hold-identity": 1,
-                    "prepared-main-review": 1,
-                    "hold-category": 2
-                },
-                "exactNamePublicationMatches": [],
-                "unassessedLabelCount": 0,
-                "caution": "Specific missing facts/access attempts are owner dispositions, not independently reread primary pages. Exact-name matches require identity corroboration before changing an owner decision."
-            }
+    "code": {
+        "status": "deployed-and-verified",
+        "commits": [
+            "591007dab4786aa9961861e7a9d6079ab1258c38",
+            "0b9b77b003a9ad7e40f94b6e0f85abe9445de517"
         ],
-        "startuptickerParfit": {
-            "file": "primary-parfit-startupticker-reconciliation.json",
-            "sourceNames": 848,
-            "accounting": {
-                "mainReportedRegistryCount": 1273,
-                "localSnapshotRegistryCount": 1273,
-                "unresolvedSourceNames": 376,
-                "geographyScreenOnly": 77,
-                "confirmedDuplicateSourceRows": 10,
-                "reviewedNoiseMentions": 11,
-                "namesRetainedDespiteNoisyMentions": 2,
-                "wholeNameRowsDiscardedAsNoise": 0,
-                "note": "Unresolved source names include identity and primary-verification work, not verified omissions. Noise is counted at article mention level; both names still identify genuine companies elsewhere."
-            },
-            "exactNameMatchesInOpenRows": [],
-            "limitation": "379 unresolved source names and80 geography-only screens remain unfinished primary/identity reconciliation in this checkpoint, not reasoned evidence holds. Exact-name hints do not close legal aliases automatically."
+        "deployment": {
+            "url": "https://github.com/zurich-tech/zurich.tech/actions/runs/38766775087",
+            "headSha": "0b9b77b003a9ad7e40f94b6e0f85abe9445de517",
+            "status": "completed",
+            "conclusion": "success"
         },
-        "startuptickerFranklin": {
-            "file": "/tmp/zurich-registry-review/primary-56c0-startupticker-finite-closure.json",
-            "groupCounts": {
-                "frozenPublished": 10,
-                "alreadyPresentOrRetained": 21,
-                "outsideReadPrimaryLocation": 32,
-                "reasonedExclusions": 9,
-                "primaryPositiveNeedsPreparation": 34,
-                "boundedAccessOrIntegrity": 34,
-                "remainingEvidenceHolds": 96
-            },
-            "bodyReviewComplete": true,
-            "primaryVerificationComplete": false,
-            "limitation": "214 original noncollective bodies/236 identities plus167 separately recorded collective bodies; older preparation counts require publication overlay, not a claim all2290 articles primary-closed."
-        },
-        "genuineUnansweredGaps": [
-            "Swiss Biotech405 possible-local rows remain explicitly unassessed in latest named checkpoint, subject to current alias/publication reconciliation",
-            "Startupticker379 unresolved identities and80 geography-only screens need completion or explicit owner decisions",
-            "Programme full287-row venture archive reconciliation not proven complete by latest located coverage record; RUNWAY complete roster unavailable",
-            "Impact Hub login-only membership and unpublished Trust Square tenants remain source access limits",
-            "Other industry/cantonal directories and full underlying ZKB roster lack a demonstrated exhaustive finite closure in these reports"
+        "savedTests": [
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/d22f3d67b46034acf1113a2db0dfda5792e86fe186987650c7e04288ee79d442.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/3f1d6a014213afee088210500bc348b71ad2c99cee2a007d49344cb166943858.json"
         ],
-        "conclusion": "Accounting distinguishes reviewed holds from unfinished work. It does not substantiate whole-goal completion. Existing population review and source-discovery coverage are separate denominators.",
-        "verifiedPacketOverlays": [
-            {
-                "packet": "primary-db05-closure-ready.json",
-                "previousReadyIdentities": 12,
-                "nowPublished": 10,
-                "remainingArtworkHolds": ["aerotain", "systaim"],
-                "evidence": "university-twelve-main-review.json",
-                "frozenSlugs": [
-                    "swijin",
-                    "vir2sense",
-                    "sensiqol",
-                    "diramics",
-                    "llmify",
-                    "mb-cyber-security",
-                    "compagos",
-                    "vesifact",
-                    "shl-medical",
-                    "spinningbytes"
-                ]
-            },
-            {
-                "packet": "primary-9297-finite-five-hosted-ready.json",
-                "nowPublished": 5,
-                "remainingInExactPacket": 0,
-                "evidence": "portfolio-six-main-review.json"
-            },
-            {
-                "packet": "primary-9297-following-two-hosted-ready.json",
-                "nowPublished": 2,
-                "remainingInExactPacket": 0,
-                "evidence": "portfolio-two-main-review.json"
-            },
-            {
-                "packet": "primary-30c4-swissmem21-ready.json",
-                "previousArtworkReview": 27,
-                "nowPublished": 21,
-                "remainingArtworkHolds": 6,
-                "evidence": "industrial-twenty-seven-artwork-review.json"
-            }
-        ],
-        "countLimit": "Packet overlays are definitive. Source-row name-only matching is deliberately conservative; do not label unchanged historical aggregate counts current1273 or add overlapping queues. No source assessment is silently closed on name similarity.",
-        "startuptickerLatestCorrection": {
-            "evidence": "primary-parfit-startupticker-owner-closeout.json",
-            "unassessed": 376,
-            "geographyOnly": 77,
-            "status": "unfinished assessment, returned to owner; not closed evidence holds"
-        },
-        "campus1429": {
-            "reference": "primary-df3c-source-closeout.json",
-            "capturedAppearances": 555,
-            "assessedIdentities": 537,
-            "represented": 313,
-            "excluded": 178,
-            "explicitEvidenceHolds": 44,
-            "hostAttributed": 2,
-            "readyUnpublished": 0,
-            "unassessed": 0,
-            "limits": "Finite captured inventory only; evidence holds are not eligible additions or proven exclusions"
-        },
-        "universityAssessment1428": {
-            "reference": "primary-db05-resume-dispositions-1428.json",
-            "claimedAssessedAppearances": 1850,
-            "claimedUnassessed": 0,
-            "mainPublicationReview": "62 prepared profiles under semantic and duplicate review; no publication yet",
-            "independentlyAudited": false
-        }
+        "qualification": "Deployment status independently rechecked with GitHub. Production desktop/mobile visuals and repeated search recovery were checked separately; research records do not require a new application deployment."
     },
-    "productScenarioEvidence": "mobile-final-review.json#/finalEvidenceConsolidation",
-    "finalRemovalReview": {
-        "reviewedOn": "2026-10-15",
-        "actions": 0,
-        "approvalRequestedAgain": false,
-        "approval": "No affirmative action-time user response found in available conversation context or current durable authority. main-eligibility-review.json explicitly records confirmation requested and no removal executed. This is not an exhaustive historical conversation search; treat approval as unproven, not inferred from research/import authorization.",
-        "authorityMismatch": "company-eligibility-exclusions.json contains19 operations,20 exclusion decisions including already-unmapped Wittwer. Newer1235 population review contains21 exclusions including walkingtoweb:19+walkingtoweb yields20 pending locations. The exact20 operation manifest is not yet consolidated in the named current authority.",
-        "existing19": [
-            {
-                "slug": "webunique",
-                "locationId": "px75zsh7cmrgbq4wjkmppywqhs8g8rf4",
-                "expected": {
-                    "ownerId": "p174hgnh052sch9vhg3rwwef4s8g9w88",
-                    "addressId": "j977x10he9m6mpz41batdxafw98g8xgy",
-                    "visibility": "public",
-                    "name": "Published contact address"
-                }
-            },
-            {
-                "slug": "beebase",
-                "locationId": "px70t4cqaw6rtsw3mf86b3k8zn8g9dfx",
-                "expected": {
-                    "ownerId": "p177ve51peb4724s5s2163v6y98g9gp2",
-                    "addressId": "j97825hvh94myamp7t7y8fzst58g98sc",
-                    "visibility": "public",
-                    "name": "Contact address"
-                }
-            },
-            {
-                "slug": "citrus",
-                "locationId": "px7988f5b81jd9ae029z3a5q458g8vh1",
-                "expected": {
-                    "ownerId": "p171z3gvm9fbe7kk579aq2v4pn8g9b8m",
-                    "addressId": "j973sk82skt58n762tk488wpxs8g8db0",
-                    "visibility": "public",
-                    "name": "Zurich office"
-                }
-            },
-            {
-                "slug": "consys",
-                "locationId": "px7dmabk23kqxzv662kfrfx0xh8g8hre",
-                "expected": {
-                    "ownerId": "p17eva7z3s0hran0yqtdn372wx8g8h21",
-                    "addressId": "j971yze0djvk1v9caqyrkfjgjx8f4ths",
-                    "visibility": "public",
-                    "name": "Consys"
-                }
-            },
-            {
-                "slug": "creative-matters",
-                "locationId": "px7c21jj81ngz7eyjvmjzdb2h58g9xj6",
-                "expected": {
-                    "ownerId": "p17d6twb92tycbp4xrhgfewamx8g9xac",
-                    "addressId": "j971yze0djvk1v9caqyrkfjgjx8f4ths",
-                    "visibility": "public",
-                    "name": "creative matters, Winterthur"
-                }
-            },
-            {
-                "slug": "data-purpose",
-                "locationId": "px7c8z4jtcc8qgepns43scne9x8g86g1",
-                "expected": {
-                    "ownerId": "p17fb9kbr3bbxt4k1tztfynvqd8g836q",
-                    "addressId": "j97fe503wsay6zyayw2xzejv498g9f72",
-                    "visibility": "public",
-                    "name": "Contact address"
-                }
-            },
-            {
-                "slug": "digitalmaterial",
-                "locationId": "px75xpv32ep78qse63d83zvads8g864h",
-                "expected": {
-                    "ownerId": "p17ecewqcdws202nrp5d0sfdr58g9zzm",
-                    "addressId": "j978a2p6y1sbf3q6sz0dkznwh58g9gh8",
-                    "visibility": "public",
-                    "name": "Contact address"
-                }
-            },
-            {
-                "slug": "evolyze",
-                "locationId": "px71avxvdd43mweb5csje35dc98g8rjm",
-                "expected": {
-                    "ownerId": "p1753x3nrbvyfndway1z8ffhr18g9yks",
-                    "addressId": "j9790mjfj2f8fcbnavqfj793p98g8w7z",
-                    "visibility": "public",
-                    "name": "evolyze GmbH"
-                }
-            },
-            {
-                "slug": "helvetic-it-solution",
-                "locationId": "px74b2cha1p5y6c0af4vnn9fex8g9fk3",
-                "expected": {
-                    "ownerId": "p17frxxxwwez0sf7t3bqcb7x258g86q3",
-                    "addressId": "j97a3f83a3w80szswrkm1939m18g9e6n",
-                    "visibility": "public",
-                    "name": "Contact address"
-                }
-            },
-            {
-                "slug": "incendia",
-                "locationId": "px73250p7kn6xj90r0fgd7r9t58g9449",
-                "expected": {
-                    "ownerId": "p171faq79ghzdhgkm210e210618g9en5",
-                    "addressId": "j973hm9313mvkesrr2rf6v7c7n8g9xjk",
-                    "visibility": "public",
-                    "name": "Office"
-                }
-            },
-            {
-                "slug": "intecso",
-                "locationId": "px78bqv4m5jfw64caahre5smqh8g8k6m",
-                "expected": {
-                    "ownerId": "p170qqmav2b28k99am4fkwtmmd8g83gz",
-                    "addressId": "j97evt47xrqws6h8rv7y4602q98g91sf",
-                    "visibility": "public",
-                    "name": "Office"
-                }
-            },
-            {
-                "slug": "itivity",
-                "locationId": "px7ef20tqvt5zq18arf1daj5v98g8jxb",
-                "expected": {
-                    "ownerId": "p17ddm7715s30qndq2y270ecks8g8629",
-                    "addressId": "j971pptx11rkavsjwj5rzzgeks8g9zwn",
-                    "visibility": "public",
-                    "name": "Office"
-                }
-            },
-            {
-                "slug": "nomasis",
-                "locationId": "px7fefvxy49710qwz2mdmarr3h8g9nvx",
-                "expected": {
-                    "ownerId": "p178rt0zhq8xdg9cmtqz4xvpp18g8tyv",
-                    "addressId": "j9778svm6d2wbhxp87ecedc1jx8g8vxq",
-                    "visibility": "public",
-                    "name": "Office"
-                }
-            },
-            {
-                "slug": "onmit",
-                "locationId": "px7637e3h205f8tnrvqc2r9jzx8g8yc1",
-                "expected": {
-                    "ownerId": "p171s9rs0bsn18esdjref2spad8g818p",
-                    "addressId": "j97d5sa543w3357781t3r0808n8g8ark",
-                    "visibility": "public",
-                    "name": "Office"
-                }
-            },
-            {
-                "slug": "pront",
-                "locationId": "px78wf8b88cy2pbrkd928ne2ch8g9jbd",
-                "expected": {
-                    "ownerId": "p17dqr5qrk75sfa3e2s7k22s3n8g8k7a",
-                    "addressId": "j970avpe5thp93jq071adsgnzs8g9wg5",
-                    "visibility": "public",
-                    "name": "Office"
-                }
-            },
-            {
-                "slug": "relyz",
-                "locationId": "px78x0bfsmzzyacr4qbetxxm758g9w6n",
-                "expected": {
-                    "ownerId": "p17535y7nqbqtp59s2wp00re9x8g8haz",
-                    "addressId": "j97cwmc7mp2asp5k3f2t97jy4d8g9qpk",
-                    "visibility": "public",
-                    "name": "Office"
-                }
-            },
-            {
-                "slug": "swiss-infosec",
-                "locationId": "px75khm1yc4fk5c277et83hes58g9h5w",
-                "expected": {
-                    "ownerId": "p1779h27bm8qv9cbsd7rvyw0rs8g9n8k",
-                    "addressId": "j9719mg9xwd578drt4exs0mvvn8f52p6",
-                    "visibility": "public",
-                    "name": "Swiss Infosec, Zürich"
-                }
-            },
-            {
-                "slug": "won-data",
-                "locationId": "px7ez4s1xcas7d93w4f21kdmd58g8w9w",
-                "expected": {
-                    "ownerId": "p17caxktpgqwwz07sm50ygdwxh8g82v4",
-                    "addressId": "j97b01xbzeswmb6rby8yt4s2gs8g9azj",
-                    "visibility": "public",
-                    "name": "Data centre"
-                }
-            },
-            {
-                "slug": "zurichnetgroup",
-                "locationId": "px76cjzdn52s5y1y4wgdny5c318g92v6",
-                "expected": {
-                    "ownerId": "p17f6k23mre9v2z05c233nj77h8g8p75",
-                    "addressId": "j978xpn51ce7ykvjzy2vnrzkbs8g86vw",
-                    "visibility": "public",
-                    "name": "Office"
-                }
-            }
-        ],
-        "twentiethCandidate": [
-            {
-                "slug": "walkingtoweb",
-                "organisationId": "p17cyb9vka0q1tepxx3tbavntn8g9920",
-                "reason": "Newer main rendered primary review resolves the former ambiguous shared voice: walkingtoyou develops the databases and blue.project; walkingtoweb is its hosting partner. Shared address/contact or ownership does not transfer software authorship between legal entities.",
-                "publicLocations": [
-                    {
-                        "locationId": "px71t7ghzjdgph80fvshkdsays8g9vnn",
-                        "addressId": "j97fbb624jjsmwb1ngk8t443jx8g8nqj",
-                        "label": "Postal address"
-                    }
-                ]
-            }
-        ],
-        "classificationGap": "walkingtoweb remains uncertain in company-eligibility-audit.json and absent from the19 operations despite newer main attribution evidence assigning development to walkingtoyou and hosting to walkingtoweb. Reconcile the authority before treating the20 as one exact approved set; do not silently extend an older19-target approval.",
-        "alreadyUnmapped": "wittwer-it-services: exclusion already recorded and prior public-location removal verified; no additional operation",
-        "preserveWithdrawals": [
-            "wetalkwithyou",
-            "cross-works",
-            "stutz-medien",
-            "cyberlink",
-            "trias-pharma",
-            "blackpoints"
-        ],
-        "implementation": {
-            "file": "convex/places/locations.ts:110",
-            "operation": "places/locations:remove",
-            "effect": "Hard-deletes only the locations row after owner/admin authorization. Organisation, address, links and other relationships are not deleted. Location disappears from profile as well as map.",
-            "irreversible": "No soft-delete, trash, undo or restore mutation in this path. Original location ID and row are deleted; regard this as permanent deletion for action-time approval.",
-            "recoverableContent": "A new public location can be manually recreated through save from retained evidence, but save creates a new location ID and address row; this is reconstruction, not restoration of original identity or shared-address reference.",
-            "guardGap": "remove accepts only id; expected owner/address/visibility/name are review preconditions, not transactional stale guards. Fresh exact-target validation is required immediately before main acts; this review performed none.",
-            "ui": "src/organisations/locations.tsx:67 shows destructive confirmation; no action taken"
-        },
-        "conclusion": "Do not execute or ask a duplicate approval question from this review. Main should reconcile19+walkingtoWEB authority and inspect the existing unanswered request; no approval inferred and no fresh production snapshot requested here."
+    "completion": {
+        "finiteCapturedSourceAccounting": true,
+        "assignedFactAndSocialReviewsReturned": true,
+        "verifiedPublicationThroughDrm": true,
+        "freshAggregateStructuralAudit": true,
+        "universalFirstPartyUniverseEnumerated": false,
+        "allMaterialFactsResolved": false,
+        "allOptionalSocialAccountsKnown": false,
+        "repositoryConsolidated": true
     },
-    "digiskyWekaPublicationOverlay": {
-        "population": 1428,
-        "record": "final-population-delta-1428.json",
-        "verified": 2,
-        "reapply": false
-    },
-    "zephyrPublicationOverlay": {
-        "population": 1429,
-        "record": "final-population-delta-1429.json",
-        "verified": 1,
-        "reapply": false
-    },
-    "parfit53PublicationOverlay": {
-        "reference": "final-population-delta-1482.json",
-        "status": "published-once-independently-verified",
-        "reapply": false
-    },
-    "consolidated107PublicationOverlay": {
-        "recordedOn": "2026-10-15",
-        "from": 1482,
-        "to": 1589,
-        "status": "published-once-independently-verified",
-        "reapply": false,
-        "slugs": [
-            "frentix",
-            "faitron",
-            "jls-digital",
-            "revonode",
-            "gwc",
-            "goold",
-            "iraye",
-            "ai-retailer-systems",
-            "scanco-medical",
-            "pom-consulting",
-            "apricot-bio",
-            "entracers",
-            "micos-engineering",
-            "kinderlabor",
-            "thenti",
-            "unomr",
-            "builtstop",
-            "whimsical-wolff-games",
-            "gyrotools",
-            "qendra",
-            "snyk",
-            "covalx",
-            "brickwork-ventures",
-            "dagsmejan",
-            "traildevils",
-            "biosimo",
-            "incolab",
-            "6c-tools",
-            "qiio",
-            "photrack",
-            "limmat-scientific",
-            "lumentum-switzerland",
-            "continis",
-            "jurata",
-            "gastric-imaging-analysis",
-            "green-tox",
-            "emott",
-            "envibee",
-            "alpine-white",
-            "cleondris",
-            "mimicry",
-            "sophia-edu-labs",
-            "biomasker",
-            "sunne-tech",
-            "ht-discover",
-            "augel",
-            "aerotain",
-            "sublimd",
-            "starmind",
-            "mojo-innovation",
-            "enantios",
-            "yasai",
-            "systaim",
-            "perfusionx",
-            "flatable",
-            "andritz-soutec",
-            "crealet",
-            "efcooling",
-            "g-elements",
-            "luwa",
-            "meteolabor",
-            "nyffenegger-armaturen",
-            "packsys-global",
-            "rex-royal",
-            "swisschuck",
-            "werner-mathis",
-            "triag-international",
-            "smart-energy-link",
-            "dizmo",
-            "mystrom",
-            "sequans-switzerland",
-            "azzera",
-            "axelera-ai",
-            "gotcourts",
-            "reilo",
-            "oneline",
-            "rayne",
-            "lobby",
-            "eyefitu",
-            "alpha-augmented-services",
-            "frigg-eco",
-            "dinateq",
-            "oazo-homes",
-            "producer",
-            "mindguard",
-            "maison-work",
-            "jurilo",
-            "perlin-bioworks",
-            "ace-company",
-            "biogen-international",
-            "centenara-labs",
-            "enable-biotech",
-            "jantar",
-            "metriopharm",
-            "polypeptide",
-            "santersus",
-            "stallergenes-greer",
-            "steelcobelimed",
-            "biotech-concepts",
-            "cellis",
-            "cube-rm",
-            "julio-moran-laboratories",
-            "ophtapharm",
-            "primex-pharmaceuticals",
-            "rahn",
-            "rgcc-international",
-            "sjp-biotec"
+    "review": {
+        "baselineSemanticCoverage": 1638,
+        "additionsIndividuallyReviewed": 50,
+        "publicLocationRemovals": ["unimission", "icentic", "mathys-partner"],
+        "organisationRecordsPreserved": true,
+        "evidence": [
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-population-review.json",
+            "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-semantic-closeout.json"
         ],
-        "review": "remaining-fresh-preflight.json",
-        "before": "/tmp/zurich-registry-review/remaining-fresh-snapshot.json",
-        "selections": [
-            "work/organisations/remaining-release-1482-1/published-1.json",
-            "work/organisations/remaining-release-1482-1/published-2.json"
-        ],
-        "hosted": "work/organisations/remaining-release-1482-1/hosted.json",
-        "verification": "Supported preview100 and apply100 once; independent complete four-table readback verified100 at1582. Supported preview7 and apply7 once; independent complete four-table readback verified7 at1589. Assets103 served-byte SHA and CORS verified; four existing ETH parent assets retained.",
-        "scope": "Final whole-registry semantic review remains incomplete; original1482 shards unchanged, these107 are a separate reviewed publication delta",
-        "held": 25
-    },
-    "heldThreePublicationOverlay": {
-        "recordedOn": "2026-10-15",
-        "from": 1589,
-        "to": 1592,
-        "status": "published-once-independently-verified",
-        "reapply": false,
-        "slugs": ["uthereal", "jourdan-software-engineering", "sydra"],
-        "review": "held-three-main-review.json",
-        "selection": "/tmp/zurich-registry-review/main-held-three-ready.json",
-        "before": "/tmp/zurich-registry-review/main-held-three-before.json",
-        "hosted": "/tmp/zurich-registry-review/held-three-hosted.json",
-        "verification": "Supported preview3 and apply3 once; independent complete four-table readback verified3 at total1592",
-        "scope": "Three previously held logos resolved and primary evidence adopted; original1482 final review remains incomplete",
-        "remainingFrozenHolds": 22
+        "qualification": "Review membership and documented adjudications, not a claim that every fact was freshly verified. Earlier excluded locations remain unmapped."
     }
 }

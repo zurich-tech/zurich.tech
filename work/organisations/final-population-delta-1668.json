@@ -1,0 +1,51 @@
+{
+    "recordedOn": "2026-10-15",
+    "status": "published-once-and-readback-verified",
+    "from": 1650,
+    "to": 1668,
+    "mappedOrganisations": 1637,
+    "publicOrganisationLocations": 1639,
+    "addedProfiles": 18,
+    "addedLocations": 18,
+    "addedAddresses": 15,
+    "addedSocialLinks": 12,
+    "archive": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations",
+    "batches": [
+        {
+            "directory": "faraday-five-publication",
+            "slugs": ["seven-senders", "caidya", "nala-earth", "interhome", "blink"],
+            "receipt": "execution/1792081938308-verified.json",
+            "payloadSha256": "fcdf0b351b97ee33789abfb008c9bdccf3d25ca8adbb7f505fb9c2800ed9482d"
+        },
+        {
+            "directory": "final-five-publication",
+            "slugs": ["velia", "msd", "connectors", "oncoteq", "micreos"],
+            "receipt": "execution/1792082002057-verified.json"
+        },
+        {
+            "directory": "institutional-five-publication",
+            "slugs": ["zhaw-ike", "zhaw-ine", "zhaw-icls", "uzh-dqbm", "eth-energy-science-center"],
+            "receipt": "execution/1792082080598-f4f50cfc-64af-488b-9c3d-5345d7e62277-verified.json"
+        },
+        {
+            "directory": "historical-three-publication",
+            "slugs": ["eyeon", "collabree", "innunity"],
+            "receipt": "execution/1792082200258-verified.json",
+            "payloadSha256": "0e2a645d7f59e7b7f1ea21ce594e3a1d239044c3a16a461a84ba01887094df69"
+        }
+    ],
+    "verification": "Fresh complete production tables and importer dry runs preceded each application. Every profile field, exact location, coordinates, social link and hosted logo was read back. All pre-existing organisations, addresses, locations and links remained unchanged across each batch",
+    "visualReview": "Main inspected logo previews for all four batches and MSD search, location, logo, topics and social link in production Chrome",
+    "assetVerification": {
+        "receipt": "population-1668-assets.json",
+        "distinctAssets": 1655,
+        "reusedSuccessfulChecks": 1578,
+        "priorCheckedAt": "2026-10-15T14:00:48.245Z",
+        "freshSuccessfulChecks": 77,
+        "scope": "All current logo variants have successful HTTP, image dimensions and media-host CORS checks; fresh checks also decode full pixels and verify content-addressed hashes"
+    },
+    "after": "historical-three-publication/execution/1792082200220-after-snapshot.json",
+    "reapply": false,
+    "wholeGoalComplete": false,
+    "remaining": "Older candidate preparation, specific existing-profile evidence limitations and bounded missing-social reviews remain active; no universal completeness claim"
+}

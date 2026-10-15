@@ -1,0 +1,119 @@
+{
+    "historical": {
+        "original": "/Users/florian/symbol/zurich.tech/work/organisations/final-goal-checklist.json",
+        "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/historical-307ae3cfbc14341e0c5ee3a9e812b051ea9e18a8879927120c3eb83dac69598c.json",
+        "sha256": "307ae3cfbc14341e0c5ee3a9e812b051ea9e18a8879927120c3eb83dac69598c"
+    },
+    "evidence": [
+        {
+            "path": "/tmp/zurich-registry-review/combined-13/execution/1792081229707-verified.json",
+            "sha256": "ab40a37c4179f679fa2603c34cd5115cb24088927cb97c785e488d719e4ef147",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/ab40a37c4179f679fa2603c34cd5115cb24088927cb97c785e488d719e4ef147.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/faraday-five-publication/execution/1792081938308-verified.json",
+            "sha256": "50bd5a6e1d86a6c993636f3fcbb8cb83b951486de10bc3a8dc23c23664dff130",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/50bd5a6e1d86a6c993636f3fcbb8cb83b951486de10bc3a8dc23c23664dff130.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/final-five-publication/execution/1792082002057-verified.json",
+            "sha256": "70eb6d1a28499a9eb5ede475d670b8e9f0cdf33def7787a66e9b4b8cc38745b3",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/70eb6d1a28499a9eb5ede475d670b8e9f0cdf33def7787a66e9b4b8cc38745b3.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/institutional-five-publication/execution/1792082080598-f4f50cfc-64af-488b-9c3d-5345d7e62277-verified.json",
+            "sha256": "e6c1f87b5bb1ff8c524c5771ba5876ad84cf565f6980cbf76a94ec8a15a94d21",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/e6c1f87b5bb1ff8c524c5771ba5876ad84cf565f6980cbf76a94ec8a15a94d21.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/historical-three-publication/execution/1792082200258-verified.json",
+            "sha256": "e20517be79b4571ca9ac0e2f5d6cd653216ed5665d1f91d1aaae5f99599a257e",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/e20517be79b4571ca9ac0e2f5d6cd653216ed5665d1f91d1aaae5f99599a257e.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/older19-publication/execution/1792082753784-verified.json",
+            "sha256": "63286bff38cd96ad01b3264e79205f5388dcc50d57ae156ff32348baaa156170",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/63286bff38cd96ad01b3264e79205f5388dcc50d57ae156ff32348baaa156170.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/drm-publication/execution/1792084401113-verified.json",
+            "sha256": "7b579389811dd7534eb56d6ae4d80351c84d2cc74404f370341a94d5a9db790c",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/7b579389811dd7534eb56d6ae4d80351c84d2cc74404f370341a94d5a9db790c.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/social-seven-publication/execution/1792083334085-d552137d-375e-4645-b023-01d36d4f723a-verified.json",
+            "sha256": "27f829374b80ed65bfa6f877f5daa2fad21478dbab569d97304d91c0b185e357",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/27f829374b80ed65bfa6f877f5daa2fad21478dbab569d97304d91c0b185e357.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/social-final-publication/execution/1792083699444-ca94b22b-cd90-43ad-bccf-5f4ef1aa7261-verified.json",
+            "sha256": "85b588ecf07e96c27a615e7687f5b8f82a55c81646a66a6e4eec4ef00558a9fc",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/85b588ecf07e96c27a615e7687f5b8f82a55c81646a66a6e4eec4ef00558a9fc.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/social-holds-publication/execution/1792084057806-4e10a58a-6c8a-4b69-aeec-0d39985b4114-verified.json",
+            "sha256": "611360e8969dfba329cf4fcc24800a50599358b1d85d07aa14efea53b05ef14b",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/611360e8969dfba329cf4fcc24800a50599358b1d85d07aa14efea53b05ef14b.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/final-closeout-independent-supersessions.json",
+            "sha256": "a6d4aa3c368d41c65160b48759245b8449a2105e1e2ef47eb3627048ed8946a9",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/a6d4aa3c368d41c65160b48759245b8449a2105e1e2ef47eb3627048ed8946a9.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/final-source-closeout.json",
+            "sha256": "c255163024cae7abbf78d8babaf85134f4045ec00d9f2fb3347465c7be36c658",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/c255163024cae7abbf78d8babaf85134f4045ec00d9f2fb3347465c7be36c658.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/final-source-reconciliation-1687.json",
+            "sha256": "fe0c8508a9005ff5af2e7a388b2c98249f69084d70d859542d2b54e925baf9d8",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/fe0c8508a9005ff5af2e7a388b2c98249f69084d70d859542d2b54e925baf9d8.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/final-aggregate-snapshot.json",
+            "sha256": "967671d33f44e31af9a579553eee16a8f97ed721c639e433d07a7d6dfc697576",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/967671d33f44e31af9a579553eee16a8f97ed721c639e433d07a7d6dfc697576.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/final-aggregate-structural-audit.json",
+            "sha256": "4f8d0e81cb1709aeb46163801f1f6915895538cfb206f426d6ecbe51918ffecb",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/4f8d0e81cb1709aeb46163801f1f6915895538cfb206f426d6ecbe51918ffecb.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/population-1687-assets.json",
+            "sha256": "78203c4918e342bb092cff2d77f713ea7d26d9535061e464bc50b6fa8af81654",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/78203c4918e342bb092cff2d77f713ea7d26d9535061e464bc50b6fa8af81654.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/final-drm-asset-verification.json",
+            "sha256": "d1ead86221a1665a7b602c37c49910c67874283a17a6d3596bbb484d957af181",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/d1ead86221a1665a7b602c37c49910c67874283a17a6d3596bbb484d957af181.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/oxford-social-main-adjudication.json",
+            "sha256": "236bef48332cfd2a61a623ba0e56405cb4841d0aaa2f0f5d93ab21c33bf1d90e",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/236bef48332cfd2a61a623ba0e56405cb4841d0aaa2f0f5d93ab21c33bf1d90e.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/location-ui-verified.json",
+            "sha256": "f7452a9d71b209d76997090a198b98b26a6996440254b488b2b1b878fbb04a0a",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/f7452a9d71b209d76997090a198b98b26a6996440254b488b2b1b878fbb04a0a.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/final-seven-corrections/1792083638860-verify.json",
+            "sha256": "734e874b4c8ddf13058fa2d2367e5050f5fcabe400b4b7a93af6068b7c20587e",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/734e874b4c8ddf13058fa2d2367e5050f5fcabe400b4b7a93af6068b7c20587e.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/directory-mounted-regression.json",
+            "sha256": "d22f3d67b46034acf1113a2db0dfda5792e86fe186987650c7e04288ee79d442",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/d22f3d67b46034acf1113a2db0dfda5792e86fe186987650c7e04288ee79d442.json"
+        },
+        {
+            "path": "/tmp/zurich-registry-review/map-directory-peirce-regressions.json",
+            "sha256": "3f1d6a014213afee088210500bc348b71ad2c99cee2a007d49344cb166943858",
+            "archivedPath": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/final-checklist-archive/3f1d6a014213afee088210500bc348b71ad2c99cee2a007d49344cb166943858.json"
+        }
+    ]
+}

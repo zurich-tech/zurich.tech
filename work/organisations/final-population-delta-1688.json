@@ -1,0 +1,17 @@
+{
+    "recordedOn": "2026-10-15",
+    "status": "published-once-and-readback-verified",
+    "from": 1687,
+    "to": 1688,
+    "addedProfiles": 1,
+    "addedLocations": 1,
+    "addedAddresses": 1,
+    "addedSocialLinks": 1,
+    "slugs": ["drm"],
+    "archive": "/Users/florian/symbol/zurich.tech-research-2026-10-15/work/organisations/drm-publication",
+    "receipt": "execution/1792084401113-verified.json",
+    "after": "execution/1792084401079-after-snapshot.json",
+    "payloadSha256": "daa563c65f7929110fb4d462d351b7d7074825a8c76d7153f1bb9a0c1254c077",
+    "verification": "Fresh duplicate checks and supported importer dry run; exact profile, address, location and social readback; all existing rows unchanged; authentic logo visually reviewed and hosted bytes and CORS verified",
+    "reapply": false
+}
