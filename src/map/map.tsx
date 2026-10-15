@@ -14,7 +14,17 @@ import { organisationKinds } from "../../convex/organisations/kinds";
 import { descendantTopics } from "../../convex/topics/hierarchy";
 import { useSearchParams } from "@solidjs/router";
 import { getTopics } from "../topics/queries";
-import { createEffect, createMemo, createSignal, onMount, onCleanup, Show, For } from "solid-js";
+import {
+    createEffect,
+    createMemo,
+    createSignal,
+    createSelector,
+    onMount,
+    onCleanup,
+    untrack,
+    Show,
+    For,
+} from "solid-js";
 import { Dynamic, render } from "solid-js/web";
 import type { Map as GeographicMap, Marker, Popup, StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -24,13 +34,20 @@ import { Image } from "../components/image";
 import { SocialLinks } from "../components/social";
 import { useSearch } from "../search/local";
 import { searchTerms } from "../search/search";
-import { expandTopicFilters, filterLocations, topicFilters } from "./filter";
+import { expandTopicFilters, filterLocations, nameTerms, topicFilters } from "./filter";
 import { MapFilters } from "./filters";
-import { matchingPlaces, placeName, selectPlaces } from "./places";
+import {
+    countOrganisations,
+    matchingPlaces,
+    organisationCountLabel,
+    placeName,
+    selectPlaces,
+} from "./places";
 import { Highlight } from "../components/highlight";
 import { arrangeLogos } from "./placement";
 import { overview } from "./camera";
-import { sheetHeights, sheetPosition } from "./sheet";
+import { sheetDestination, sheetHeights, sheetKey, type SheetDrag } from "./sheet";
+import { MapNavigation, restoreMapFocus } from "./navigation";
 import { logoBackground } from "./colour";
 import { isPreviewPath, type Point } from "./hover";
 import {
@@ -128,7 +145,14 @@ export function CommunityMap(props: {
     }>();
     const [zoom, setZoom] = createSignal(12);
     const [error, setError] = createSignal(false);
-    const { query, setQuery, terms } = useSearch();
+    const navigation = new MapNavigation();
+    const { query, setQuery } = useSearch();
+    // retain equivalent searches so whitespace and case changes do not rebuild map results
+    const terms = createMemo(() => searchTerms(query()), undefined, {
+        equals: (previous, next) =>
+            previous.length === next.length &&
+            previous.every((term, index) => term === next[index]),
+    });
     const [search, setSearch] = createSignal(query());
     let searchTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -140,6 +164,7 @@ export function CommunityMap(props: {
     });
     onCleanup(() => clearTimeout(searchTimer));
     function searchMap(value: string) {
+        resetNavigation();
         setSearch(value);
         clearTimeout(searchTimer);
         searchTimer = setTimeout(() => setQuery(value), 150);
@@ -178,25 +203,59 @@ export function CommunityMap(props: {
             }),
         );
     });
-    const isFiltered = () => Boolean(query() || category() !== "all" || topic().length);
+    const isFiltered = () => Boolean(terms().length || category() !== "all" || topic().length);
     const [isPanelOpen, setPanelOpen] = createSignal(isFiltered());
     const [isExpanded, setExpanded] = createSignal(false);
     const [dragHeight, setDragHeight] = createSignal<number>();
     let panel!: HTMLElement;
     let handle!: HTMLButtonElement;
-    let drag: { y: number; height: number; heights: number[] } | undefined;
+    let drag: SheetDrag | undefined;
     let didDrag = false;
     let suppressHandleClick = false;
+
+    /** Prevent an obsolete gesture from settling a newly selected or filtered view. */
+    function discardSheetDrag() {
+        suppressHandleClick ||= didDrag;
+        drag = undefined;
+        didDrag = false;
+        setDragHeight(undefined);
+    }
+
+    /** Discard return destinations and gestures when the browsing context changes. */
+    function resetNavigation() {
+        navigation.reset();
+        discardSheetDrag();
+    }
+
+    /** Change sheet size without discarding its selection or return destination. */
+    function showSheet(isOpen: boolean, isExpanded = false) {
+        discardSheetDrag();
+        setPanelOpen(isOpen);
+        setExpanded(isExpanded);
+        queueMicrotask(() => {
+            const place = selectedPlaces()[0];
+            if (place) focusLocation(place, 0);
+        });
+    }
 
     /** Begin a sheet gesture only when the mobile handle is visible. */
     function startSheet(y: number) {
         if (!handle?.offsetHeight) return;
-        const filters = panel.querySelector<HTMLElement>(".map-filters")!;
-        const controls = filters.getBoundingClientRect().bottom - panel.getBoundingClientRect().top;
+        suppressHandleClick = false;
+        const tools = panel.querySelector<HTMLElement>(".map-directory-tools")!;
+        const content = panel.querySelector<HTMLElement>(".map-panel-content");
+        const padding = parseFloat(getComputedStyle(panel).paddingBottom);
+        const controls = tools.offsetHeight + padding;
+        const viewport = panel.parentElement!.clientHeight;
+
+        // compact content remains measurable when the results are collapsed
+        const contentHeight = hasCompactContent() && content ? content.scrollHeight : undefined;
         drag = {
             y,
             height: panel.clientHeight,
-            heights: sheetHeights(panel.parentElement!.clientHeight, controls + 8),
+            heights: sheetHeights(viewport, controls, contentHeight),
+            isOpen: isPanelOpen(),
+            isExpanded: isExpanded(),
         };
         didDrag = false;
     }
@@ -214,19 +273,24 @@ export function CommunityMap(props: {
     /** Settle the sheet, then keep an active selection in the remaining map area. */
     function finishSheet(y: number, cancelled = false) {
         if (!drag) return;
-        if (didDrag) {
-            const position = sheetPosition(drag.heights, drag.height, cancelled ? 0 : y - drag.y);
-            setPanelOpen(position > 0);
-            setExpanded(position === 2);
+        const shouldFocus = !cancelled && didDrag;
+        // restore the exact starting state when the browser interrupts a gesture
+        if (cancelled || didDrag) {
+            const destination = sheetDestination(drag, y, cancelled);
+            setPanelOpen(destination.isOpen);
+            setExpanded(destination.isExpanded);
         }
         drag = undefined;
+        didDrag = false;
         setDragHeight(undefined);
-        queueMicrotask(() => {
-            const place = selectedPlaces()[0];
-            if (place) focusLocation(place, 0);
-        });
+        if (shouldFocus)
+            queueMicrotask(() => {
+                const place = selectedPlaces()[0];
+                if (place) focusLocation(place, 0);
+            });
     }
     const [hovered, setHovered] = createSignal<string[]>([]);
+    const isHovered = createSelector(hovered, (id: string, ids) => ids.includes(id));
     const [selected, setSelected] = createSignal<string[]>([]);
     const [selectedOrganisation, setSelectedOrganisation] = createSignal<string>();
     const [crowded, setCrowded] = createSignal<Set<string>>(new Set(), {
@@ -239,8 +303,7 @@ export function CommunityMap(props: {
             ? (organisations() ?? [])
             : filterLocations(organisations() ?? [], category(), terms(), selectedTopics()),
     );
-    const organisationCount = () =>
-        filtered().reduce((sum, place) => sum + place.organisations.length, 0);
+    const organisationCount = createMemo(() => countOrganisations(filtered()));
     const markers = createMemo(() => matchingPlaces(organisations() ?? [], filtered()));
 
     // list organisations alphabetically without separating supporters from other results
@@ -273,11 +336,45 @@ export function CommunityMap(props: {
             ? listed().filter((place) => bounds.contains([place.longitude, place.latitude]))
             : listed();
     });
+    const visibleCount = createMemo(() => countOrganisations(visible()));
 
     // narrow the selected places to the chosen organisation
     const selectedPlaces = createMemo(() =>
         selectPlaces(organisations() ?? [], selected(), selectedOrganisation()),
     );
+    const hasCompactContent = () =>
+        countOrganisations(selectedPlaces()) === 1 || (isFiltered() && listed().length <= 1);
+
+    // invalidate return destinations for URL changes as well as explicit filter controls
+    createEffect(() => {
+        const committedQuery = query();
+        const pending = navigation.commit(JSON.stringify([committedQuery, category(), topic()]));
+        discardSheetDrag();
+        setSelected([]);
+        setSelectedOrganisation(undefined);
+        setGroupSearch("");
+
+        // start changed searches and filters at the first result, before saving a pending selection
+        const content = panel?.querySelector<HTMLElement>(".map-panel-content");
+        if (content) content.scrollTop = 0;
+
+        // open only after invalidation, without subscribing this effect to selection or camera
+        if (pending)
+            untrack(() => {
+                const places = selectPlaces(
+                    pending.fromResults ? filtered() : markers(),
+                    pending.selection.places,
+                    pending.selection.organisation,
+                );
+                if (places.length) select(places, pending.fromResults);
+                // keep keyboard navigation anchored when the committed query removes its target
+                else if (pending.fromResults)
+                    panel
+                        ?.querySelector<HTMLInputElement>(".map-search input")
+                        ?.focus({ preventScroll: true });
+                else instance()?.map.getCanvas().focus({ preventScroll: true });
+            });
+    });
     let container!: HTMLDivElement;
     let isDisposed = false;
     let backButton: HTMLButtonElement | undefined;
@@ -436,7 +533,8 @@ export function CommunityMap(props: {
                                         type="button"
                                         onClick={() => select(places)}
                                     >
-                                        View all {places[0].organisations.length} organisations{" "}
+                                        View all{" "}
+                                        {organisationCountLabel(places[0].organisations.length)}{" "}
                                         <ArrowRight size={16} />
                                     </button>
                                 </section>
@@ -509,11 +607,32 @@ export function CommunityMap(props: {
         closePreview();
     });
 
-    /** Return keyboard focus to the map after dismissing location details. */
+    /** Restore the originating view and result focus, or canvas focus for map selections. */
     function closeDetails() {
-        setSelected([]);
+        discardSheetDrag();
+        const previous = navigation.back();
+        const map = instance()?.map;
+        setSelected(previous?.selection.places ?? []);
+        setSelectedOrganisation(previous?.selection.organisation);
+        setGroupSearch(previous?.groupSearch ?? "");
         setHovered([]);
-        instance()?.map.getCanvas().focus({ preventScroll: true });
+
+        // restore camera synchronously so bounds dependent rows exist before restoring scroll
+        if (previous) {
+            setPanelOpen(previous.isOpen);
+            setExpanded(previous.isExpanded);
+            map?.jumpTo(previous.camera);
+            setView((value) => value + 1);
+            queueMicrotask(() => {
+                const content = panel.querySelector<HTMLElement>(".map-panel-content");
+                if (content) content.scrollTop = previous.scrollTop;
+                restoreMapFocus(
+                    previous.result,
+                    panel.querySelectorAll<HTMLElement>("button[data-place-id]"),
+                    map?.getCanvas(),
+                );
+            });
+        } else map?.getCanvas().focus({ preventScroll: true });
     }
 
     /** Preserve existing map filters in shareable topic destinations. */
@@ -531,6 +650,7 @@ export function CommunityMap(props: {
 
     /** Apply a topic from details and return to the matching organisation list. */
     function filterTopic(slug: string) {
+        resetNavigation();
         closePreview();
         setSelected([]);
         setSelectedOrganisation(undefined);
@@ -539,8 +659,8 @@ export function CommunityMap(props: {
         setPanelOpen(true);
         setParams({ topic: slug }, { scroll: false });
         queueMicrotask(() =>
-            container
-                .querySelector<HTMLElement>(".map-directory-panel input[type=search]")
+            panel
+                .querySelector<HTMLInputElement>(".map-search input")
                 ?.focus({ preventScroll: true }),
         );
     }
@@ -570,20 +690,61 @@ export function CommunityMap(props: {
     }
 
     /** Keep selection shared between the markers and the directory. */
-    function select(places: MapLocation[]) {
+    function select(places: MapLocation[], fromResults = false) {
+        discardSheetDrag();
+        const organisation =
+            places.length === 1 && places[0].organisations.length === 1
+                ? places[0].organisations[0].id
+                : undefined;
+        const ids = places.map((place) => place.id);
+        // commit typed text before a selection can be invalidated by its delayed URL update
+        if (search() !== query()) {
+            clearTimeout(searchTimer);
+            navigation.defer(
+                JSON.stringify([search(), category(), topic()]),
+                { places: ids, organisation },
+                fromResults,
+            );
+            setQuery(search());
+            return;
+        }
+        const map = instance()?.map;
+
+        // capture the list or group before changing its camera, contents or sheet height
+        if (map) {
+            navigation.select(
+                {
+                    result: fromResults ? { places: ids, organisation } : undefined,
+                    camera: {
+                        center: map.getCenter().toArray(),
+                        zoom: map.getZoom(),
+                        bearing: map.getBearing(),
+                        pitch: map.getPitch(),
+                        padding: { ...map.getPadding() },
+                    },
+                    selection: { places: selected(), organisation: selectedOrganisation() },
+                    groupSearch: groupSearch(),
+                    scrollTop:
+                        panel.querySelector<HTMLElement>(".map-panel-content")?.scrollTop ?? 0,
+                    isOpen: isPanelOpen(),
+                    isExpanded: isExpanded(),
+                },
+                { places: ids, organisation },
+                fromResults,
+            );
+        }
+
         closePreview();
         setGroupSearch("");
         setPanelOpen(true);
         setExpanded(false);
         panel?.querySelector<HTMLInputElement>(".map-search input")?.blur();
-        setSelectedOrganisation(
-            places.length === 1 && places[0].organisations.length === 1
-                ? places[0].organisations[0].id
-                : undefined,
-        );
-        setSelected(places.map((place) => place.id));
+        setSelectedOrganisation(organisation);
+        setSelected(ids);
         const first = places[0];
         queueMicrotask(() => {
+            const content = panel.querySelector<HTMLElement>(".map-panel-content");
+            if (content) content.scrollTop = 0;
             if (first) focusLocation(first, 400);
             backButton?.focus({ preventScroll: true });
         });
@@ -591,6 +752,7 @@ export function CommunityMap(props: {
 
     /** Fit the full city extent on every screen size and restore it on reset. */
     function frame() {
+        resetNavigation();
         setSelected([]);
         const camera = overview(
             Boolean(props.isHero),
@@ -817,7 +979,7 @@ export function CommunityMap(props: {
                             style={{
                                 "--map-logo-size": `${size - 4}px`,
                             }}
-                            aria-label={`${name}, ${anchor.address}${isGroup ? `, ${anchor.organisations.length} organisations` : ""}`}
+                            aria-label={`${name}, ${anchor.address}${isGroup ? `, ${organisationCountLabel(anchor.organisations.length)}` : ""}`}
                             title={props.isHero ? name : undefined}
                             aria-pressed={
                                 props.isHero
@@ -857,7 +1019,7 @@ export function CommunityMap(props: {
                                                 fallback={first.name.slice(0, 1)}
                                             >
                                                 {(source) => (
-                                                    <img
+                                                    <Image
                                                         crossorigin={
                                                             first.isSponsor
                                                                 ? undefined
@@ -962,7 +1124,9 @@ export function CommunityMap(props: {
                     closeDetails();
                 } else if (event.key === "Escape" && isPanelOpen()) {
                     event.stopPropagation();
+                    discardSheetDrag();
                     setPanelOpen(false);
+                    setExpanded(false);
                     setHovered([]);
                     instance()?.map.getCanvas().focus({ preventScroll: true });
                 }
@@ -1032,6 +1196,10 @@ export function CommunityMap(props: {
                             "is-open": isPanelOpen(),
                             "is-expanded": isExpanded(),
                             "is-dragging": dragHeight() !== undefined,
+                            "has-selection": selectedPlaces().length > 0,
+                            "has-single-organisation": countOrganisations(selectedPlaces()) === 1,
+                            "has-no-results": isFiltered() && organisationCount() === 0,
+                            "has-single-result": isFiltered() && listed().length === 1,
                         }}
                         style={{
                             "--sheet-height":
@@ -1039,148 +1207,170 @@ export function CommunityMap(props: {
                         }}
                         aria-label="Map explorer"
                     >
-                        <button
-                            ref={handle}
-                            class="map-sheet-handle"
-                            type="button"
-                            aria-label={
-                                isPanelOpen()
-                                    ? isExpanded()
-                                        ? "Collapse map results"
-                                        : "Expand map results"
-                                    : "Open map results"
-                            }
-                            aria-expanded={isPanelOpen()}
-                            aria-controls="map-results-panel"
-                            onPointerDown={(event) => {
-                                if (event.button !== 0) return;
-                                startSheet(event.clientY);
-                                event.currentTarget.setPointerCapture(event.pointerId);
-                            }}
-                            onPointerMove={(event) => moveSheet(event.clientY)}
-                            onPointerUp={(event) => {
-                                suppressHandleClick = didDrag;
-                                finishSheet(event.clientY);
-                            }}
-                            onPointerCancel={(event) => finishSheet(event.clientY, true)}
-                            onClick={() => {
-                                if (suppressHandleClick) {
-                                    suppressHandleClick = false;
-                                    return;
-                                }
-                                const expanded = isPanelOpen() && !isExpanded();
-                                setPanelOpen(!isExpanded());
-                                setExpanded(expanded);
-                                queueMicrotask(() => {
-                                    const place = selectedPlaces()[0];
-                                    if (place) focusLocation(place, 0);
-                                });
-                            }}
-                        >
-                            <span />
-                        </button>
-                        <header class="map-directory-heading">
-                            <Show when={selectedPlaces().length}>
-                                <button
-                                    class="map-panel-action map-back"
-                                    type="button"
-                                    ref={backButton}
-                                    aria-label="Back to results"
-                                    title="Back to results"
-                                    onClick={closeDetails}
-                                >
-                                    <ArrowLeft size={18} />
-                                </button>
-                            </Show>
-                            <h1>Explore Zurich</h1>
-                            <a
-                                class="map-panel-action"
-                                href="/manage"
-                                aria-label="Add your organisation"
-                                title="Add your organisation"
-                            >
-                                <Plus size={18} />
-                            </a>
+                        <div class="map-directory-tools">
                             <button
-                                class="map-panel-action"
+                                ref={handle}
+                                class="map-sheet-handle"
                                 type="button"
                                 aria-label={
-                                    isPanelOpen() ? "Collapse results" : "Browse organisations"
+                                    isPanelOpen() ? "Close map results" : "Open map results"
                                 }
-                                title={isPanelOpen() ? "Collapse results" : "Browse organisations"}
+                                title={`${isPanelOpen() ? "Close" : "Open"} map results; drag or use arrow keys to resize`}
                                 aria-expanded={isPanelOpen()}
                                 aria-controls="map-results-panel"
-                                onClick={() => {
-                                    setPanelOpen(!isPanelOpen());
-                                    setExpanded(false);
-                                    setSelected([]);
-                                    setHovered([]);
-                                }}
-                            >
-                                {isPanelOpen() ? <X size={18} /> : <List size={18} />}
-                            </button>
-                        </header>
-                        <label class="map-search">
-                            <Search size={18} aria-hidden="true" />
-                            <input
-                                class="field__control"
-                                type="search"
-                                aria-label="Search organisations or addresses"
-                                value={search()}
-                                placeholder="Search organisations or addresses"
-                                onFocus={() => {
-                                    if (handle?.offsetHeight) {
-                                        setPanelOpen(true);
-                                        setExpanded(true);
-                                    }
-                                }}
-                                onInput={(event) => {
-                                    searchMap(event.currentTarget.value);
-                                    setSelected([]);
-                                    setPanelOpen(true);
-                                }}
-                            />
-                        </label>
-                        <div class="map-filters">
-                            <MapFilters
-                                onOpenChange={(isOpen) => {
-                                    setFilterOpen(isOpen);
-                                    if (isOpen) closePreview();
-                                }}
-                                category={category()}
-                                topics={topic()}
-                                catalogue={topics() ?? []}
-                                counts={topicCounts()}
-                                onChange={(kind, selected) => {
-                                    setParams(
-                                        {
-                                            kind: kind === "all" ? undefined : kind,
-                                            topic: selected.join(",") || undefined,
-                                        },
-                                        { replace: true, scroll: false },
+                                aria-keyshortcuts="ArrowUp ArrowDown Home End"
+                                onKeyDown={(event) => {
+                                    const destination = sheetKey(
+                                        event.key,
+                                        isPanelOpen(),
+                                        isExpanded(),
                                     );
-                                    setSelected([]);
-                                    setHovered([]);
-                                    closePreview();
-                                    setPanelOpen(true);
+                                    if (!destination) return;
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    showSheet(destination.isOpen, destination.isExpanded);
                                 }}
-                            />
-                            <button
-                                type="button"
-                                class="map-browse"
+                                onPointerDown={(event) => {
+                                    if (event.button !== 0) return;
+                                    // prevent native link dragging beneath the moving sheet
+                                    event.preventDefault();
+                                    event.currentTarget.focus({ preventScroll: true });
+                                    startSheet(event.clientY);
+                                    event.currentTarget.setPointerCapture(event.pointerId);
+                                }}
+                                onPointerMove={(event) => moveSheet(event.clientY)}
+                                onPointerUp={(event) => {
+                                    suppressHandleClick ||= didDrag;
+                                    finishSheet(event.clientY);
+                                }}
+                                onPointerCancel={(event) => {
+                                    suppressHandleClick = false;
+                                    finishSheet(event.clientY, true);
+                                }}
                                 onClick={() => {
-                                    setSelected([]);
-                                    setPanelOpen(true);
+                                    if (suppressHandleClick) {
+                                        suppressHandleClick = false;
+                                        return;
+                                    }
+                                    showSheet(!isPanelOpen());
                                 }}
                             >
-                                <List size={14} /> {organisationCount()} organisation
-                                {organisationCount() === 1 ? "" : "s"}
+                                <span aria-hidden="true" />
                             </button>
+                            <header class="map-directory-heading">
+                                <Show when={selectedPlaces().length}>
+                                    <button
+                                        class="map-panel-action map-back"
+                                        type="button"
+                                        ref={backButton}
+                                        aria-label="Back to results"
+                                        title="Back to results"
+                                        onClick={closeDetails}
+                                    >
+                                        <ArrowLeft size={18} />
+                                    </button>
+                                </Show>
+                                <h1>Explore Zurich</h1>
+                                <a
+                                    class="map-panel-action map-add"
+                                    href="/manage"
+                                    aria-label="Add your organisation"
+                                    title="Add your organisation"
+                                >
+                                    <Plus size={18} />
+                                </a>
+                                <button
+                                    class="map-panel-action map-toggle"
+                                    type="button"
+                                    aria-label={
+                                        isPanelOpen() ? "Collapse results" : "Browse organisations"
+                                    }
+                                    title={
+                                        isPanelOpen() ? "Collapse results" : "Browse organisations"
+                                    }
+                                    aria-expanded={isPanelOpen()}
+                                    aria-controls="map-results-panel"
+                                    onClick={() => {
+                                        resetNavigation();
+                                        setPanelOpen(!isPanelOpen());
+                                        setExpanded(false);
+                                        setSelected([]);
+                                        setHovered([]);
+                                    }}
+                                >
+                                    {isPanelOpen() ? <X size={18} /> : <List size={18} />}
+                                </button>
+                            </header>
+                            <label class="map-search">
+                                <Search size={18} aria-hidden="true" />
+                                <input
+                                    class="field__control"
+                                    type="search"
+                                    aria-label="Search organisations or addresses"
+                                    value={search()}
+                                    placeholder="Search organisations or addresses"
+                                    onFocus={() => {
+                                        if (handle?.offsetHeight) {
+                                            setPanelOpen(true);
+                                            setExpanded(true);
+                                        }
+                                    }}
+                                    onInput={(event) => {
+                                        searchMap(event.currentTarget.value);
+                                        setSelected([]);
+                                        setPanelOpen(true);
+                                    }}
+                                />
+                            </label>
+                            <div class="map-filters">
+                                <MapFilters
+                                    onOpenChange={(isOpen) => {
+                                        setFilterOpen(isOpen);
+                                        if (isOpen) closePreview();
+                                    }}
+                                    category={category()}
+                                    topics={topic()}
+                                    catalogue={topics() ?? []}
+                                    counts={topicCounts()}
+                                    onChange={(kind, selected) => {
+                                        resetNavigation();
+                                        setParams(
+                                            {
+                                                kind: kind === "all" ? undefined : kind,
+                                                topic: selected.join(",") || undefined,
+                                            },
+                                            { replace: true, scroll: false },
+                                        );
+                                        setSelected([]);
+                                        setHovered([]);
+                                        closePreview();
+                                        setPanelOpen(true);
+                                    }}
+                                />
+                                <button
+                                    type="button"
+                                    class="map-browse"
+                                    aria-label={organisationCountLabel(organisationCount())}
+                                    title={organisationCountLabel(organisationCount())}
+                                    onClick={() => {
+                                        resetNavigation();
+                                        setSelected([]);
+                                        setPanelOpen(true);
+                                    }}
+                                >
+                                    <List size={14} /> {organisationCount()}
+                                    <span class="map-browse-label">
+                                        organisation{organisationCount() === 1 ? "" : "s"}
+                                    </span>
+                                </button>
+                            </div>
                         </div>
-                        <Show when={isPanelOpen()}>
+                        <Show when={isPanelOpen() || hasCompactContent()}>
                             <div
                                 id="map-results-panel"
                                 class="map-panel-content"
+                                aria-hidden={!isPanelOpen()}
+                                inert={!isPanelOpen()}
                                 onScroll={closePreview}
                                 onTouchStart={(event) => {
                                     if (
@@ -1218,13 +1408,13 @@ export function CommunityMap(props: {
                                                 when={
                                                     organisations() === undefined ||
                                                     (!isFiltered() &&
-                                                        visible().length !== organisationCount())
+                                                        visibleCount() !== organisationCount())
                                                 }
                                             >
                                                 <p class="map-results" role="status">
                                                     {organisations() === undefined
                                                         ? "Loading locations…"
-                                                        : `${visible().length} of ${organisationCount()} organisations in view`}
+                                                        : `${visibleCount()} of ${organisationCountLabel(organisationCount())} in view`}
                                                 </p>
                                             </Show>
                                             <Show
@@ -1240,117 +1430,138 @@ export function CommunityMap(props: {
                                                 </p>
                                             </Show>
                                             <For each={isFiltered() ? listed() : visible()}>
-                                                {(place) => (
-                                                    <>
-                                                        <button
-                                                            class="map-location-row"
-                                                            classList={{
-                                                                "is-hovered":
-                                                                    place.organisations.some(
-                                                                        (person) =>
-                                                                            hovered().includes(
-                                                                                person.id,
-                                                                            ),
+                                                {(place) => {
+                                                    const person = place.organisations[0];
+                                                    // keep unchanged names mounted when only an address or headline matches
+                                                    const highlights = createMemo<
+                                                        readonly string[]
+                                                    >(
+                                                        (previous) =>
+                                                            nameTerms(
+                                                                person.name,
+                                                                terms(),
+                                                                previous,
+                                                            ),
+                                                        [],
+                                                    );
+
+                                                    return (
+                                                        <>
+                                                            <button
+                                                                class="map-location-row"
+                                                                classList={{
+                                                                    "is-hovered": isHovered(
+                                                                        person.id,
                                                                     ),
-                                                            }}
-                                                            onPointerEnter={(event) =>
-                                                                previewResult(
-                                                                    place,
-                                                                    event.currentTarget,
-                                                                )
-                                                            }
-                                                            onPointerLeave={leavePreview}
-                                                            onFocus={(event) =>
-                                                                previewResult(
-                                                                    place,
-                                                                    event.currentTarget,
-                                                                    true,
-                                                                )
-                                                            }
-                                                            onBlur={leavePreview}
-                                                            type="button"
-                                                            onClick={() => select([place])}
-                                                        >
-                                                            <span class="map-row-logo">
-                                                                <Show
-                                                                    when={
-                                                                        place.organisations[0]
-                                                                            .mapLogoUrl ??
-                                                                        place.organisations[0]
-                                                                            .logoUrl
-                                                                    }
-                                                                    fallback={place.organisations[0].name.slice(
-                                                                        0,
-                                                                        1,
-                                                                    )}
-                                                                >
-                                                                    {(source) => (
-                                                                        <Image
-                                                                            loading="lazy"
-                                                                            src={source()}
-                                                                            darkSrc={
-                                                                                place
-                                                                                    .organisations[0]
-                                                                                    .mapLogoDarkUrl
-                                                                            }
-                                                                            alt=""
-                                                                        />
-                                                                    )}
-                                                                </Show>
-                                                            </span>
-                                                            <span class="map-row-copy">
-                                                                <strong>
-                                                                    <Highlight
-                                                                        text={place.organisations
-                                                                            .map(
-                                                                                (person) =>
-                                                                                    person.name,
-                                                                            )
-                                                                            .join(" · ")}
-                                                                        terms={terms()}
-                                                                    />
-                                                                </strong>
-                                                                <small>
+                                                                }}
+                                                                onPointerEnter={(event) =>
+                                                                    previewResult(
+                                                                        place,
+                                                                        event.currentTarget,
+                                                                    )
+                                                                }
+                                                                onPointerLeave={leavePreview}
+                                                                onFocus={(event) =>
+                                                                    previewResult(
+                                                                        place,
+                                                                        event.currentTarget,
+                                                                        true,
+                                                                    )
+                                                                }
+                                                                onBlur={leavePreview}
+                                                                type="button"
+                                                                data-place-id={place.id}
+                                                                data-organisation-id={
+                                                                    place.organisations[0].id
+                                                                }
+                                                                onClick={() =>
+                                                                    select([place], true)
+                                                                }
+                                                            >
+                                                                <span class="map-row-logo">
                                                                     <Show
                                                                         when={
                                                                             place.organisations[0]
-                                                                                .recognition
+                                                                                .mapLogoUrl ??
+                                                                            place.organisations[0]
+                                                                                .logoUrl
                                                                         }
+                                                                        fallback={place.organisations[0].name.slice(
+                                                                            0,
+                                                                            1,
+                                                                        )}
                                                                     >
-                                                                        {(recognition) => (
-                                                                            <span class="map-recognition">
-                                                                                {recognition()}
-                                                                            </span>
+                                                                        {(source) => (
+                                                                            <Image
+                                                                                loading="lazy"
+                                                                                src={source()}
+                                                                                darkSrc={
+                                                                                    place
+                                                                                        .organisations[0]
+                                                                                        .mapLogoDarkUrl
+                                                                                }
+                                                                                alt=""
+                                                                            />
                                                                         )}
                                                                     </Show>
-                                                                    {
-                                                                        organisationKinds[
-                                                                            place.organisations[0]
-                                                                                .kind
-                                                                        ]
-                                                                    }
-                                                                    {" · "}
-                                                                    {place.address
-                                                                        .split(", ")
-                                                                        .at(-1)}
-                                                                </small>
-                                                                <Show
-                                                                    when={
-                                                                        place.organisations[0]
-                                                                            .headline
-                                                                    }
-                                                                >
-                                                                    <span class="map-row-headline">
+                                                                </span>
+                                                                <span class="map-row-copy">
+                                                                    <strong>
+                                                                        <Highlight
+                                                                            text={place.organisations
+                                                                                .map(
+                                                                                    (person) =>
+                                                                                        person.name,
+                                                                                )
+                                                                                .join(" · ")}
+                                                                            terms={highlights()}
+                                                                        />
+                                                                    </strong>
+                                                                    <small>
+                                                                        <Show
+                                                                            when={
+                                                                                place
+                                                                                    .organisations[0]
+                                                                                    .recognition
+                                                                            }
+                                                                        >
+                                                                            {(recognition) => (
+                                                                                <span class="map-recognition">
+                                                                                    {recognition()}
+                                                                                </span>
+                                                                            )}
+                                                                        </Show>
                                                                         {
+                                                                            organisationKinds[
+                                                                                place
+                                                                                    .organisations[0]
+                                                                                    .kind
+                                                                            ]
+                                                                        }
+                                                                        {" · "}
+                                                                        {place.address
+                                                                            .split(", ")
+                                                                            .at(-1)}
+                                                                    </small>
+                                                                    <Show
+                                                                        when={
                                                                             place.organisations[0]
                                                                                 .headline
                                                                         }
-                                                                    </span>
-                                                                </Show>
-                                                            </span>
-                                                        </button>
-                                                    </>
-                                                )}
+                                                                    >
+                                                                        <span class="map-row-headline">
+                                                                            {
+                                                                                place
+                                                                                    .organisations[0]
+                                                                                    .headline
+                                                                            }
+                                                                        </span>
+                                                                    </Show>
+                                                                </span>
+                                                            </button>
+                                                        </>
+                                                    );
+                                                }}
                                             </For>
                                         </>
                                     }
@@ -1374,22 +1585,17 @@ export function CommunityMap(props: {
                                                 />
                                             </label>
                                             <p class="map-results" role="status">
-                                                {filterLocations(
-                                                    selectedPlaces(),
-                                                    "all",
-                                                    groupTerms(),
-                                                ).reduce(
-                                                    (count, place) =>
-                                                        count + place.organisations.length,
-                                                    0,
+                                                {countOrganisations(
+                                                    filterLocations(
+                                                        selectedPlaces(),
+                                                        "all",
+                                                        groupTerms(),
+                                                    ),
                                                 )}{" "}
                                                 of{" "}
-                                                {selectedPlaces().reduce(
-                                                    (count, place) =>
-                                                        count + place.organisations.length,
-                                                    0,
-                                                )}{" "}
-                                                organisations
+                                                {organisationCountLabel(
+                                                    countOrganisations(selectedPlaces()),
+                                                )}
                                             </p>
                                         </Show>
                                         <PlaceDetails

@@ -3,7 +3,13 @@ import { expect, test } from "bun:test";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
 import { arrangeLogos } from "../src/map/placement";
 import { overview } from "../src/map/camera";
-import { matchingPlaces, placeName, selectPlaces } from "../src/map/places";
+import {
+    countOrganisations,
+    matchingPlaces,
+    organisationCountLabel,
+    placeName,
+    selectPlaces,
+} from "../src/map/places";
 import { searchTerms } from "../src/search/search";
 import {
     addBadges,
@@ -14,6 +20,50 @@ import {
 import { cornerColour } from "../src/map/colour";
 import { isPreviewPath } from "../src/map/hover";
 import type { Map as GeographicMap, SymbolLayerSpecification } from "maplibre-gl";
+
+test("test_label_zero_single_and_multiple_organisation_counts", () => {
+    expect([0, 1, 2, 996].map(organisationCountLabel)).toEqual([
+        "0 organisations",
+        "1 organisation",
+        "2 organisations",
+        "996 organisations",
+    ]);
+});
+
+test("test_reuse_unfiltered_locations_for_empty_and_whitespace_searches", () => {
+    const locations = groupLocations([office("first"), office("second")]);
+    for (const query of ["", " ", "  \t  "]) {
+        expect(filterLocations(locations, "all", searchTerms(query))).toBe(locations);
+    }
+
+    // an unknown selected topic must still narrow to no results, never use the fast path
+    expect(filterLocations(locations, "all", [], new Set())).toEqual([]);
+});
+
+test("test_reject_a_deferred_result_excluded_by_the_committed_query_at_a_shared_address", () => {
+    const locations = groupLocations([office("first"), office("second")]);
+    const filtered = filterLocations(locations, "all", ["second"]);
+    const ids = [locations[0].id];
+
+    // the address still matches, but the previously clicked organisation no longer does
+    expect(selectPlaces(filtered, ids, "first")).toEqual([]);
+    expect(selectPlaces(filtered, ids, "second")).toEqual(filtered);
+});
+
+test("test_count_organisations_once_across_offices_and_filtered_views", () => {
+    // retain separate offices while counting the same organisation only once
+    const locations = groupLocations([
+        office("first"),
+        { ...office("first", "Other street 1"), latitude: 47.4 },
+        office("second"),
+    ]);
+
+    expect(locations).toHaveLength(2);
+    expect(countOrganisations(locations)).toBe(2);
+    expect(countOrganisations(filterLocations(locations, "all", ["first"]))).toBe(1);
+    expect(countOrganisations(locations.filter((place) => place.latitude === 47.4))).toBe(1);
+    expect(countOrganisations([])).toBe(0);
+});
 
 test("test_frame_initial_and_reset_views_with_the_same_viewport_geometry", () => {
     expect(overview(false, 1200, 800, false)).toEqual({
@@ -338,6 +388,55 @@ test("test_highlight_shared_addresses_from_any_member_and_clear_stale_highlights
     }
 });
 
+test("test_draw_equal_initials_once_without_merging_organisation_image_ids", async () => {
+    const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+    const drawn: string[] = [];
+    const images = new Map<string, { initial: string }>();
+    let initial = "";
+    const context = {
+        beginPath() {},
+        arc() {},
+        fill() {},
+        fillText(value: string) {
+            initial = value;
+            drawn.push(value);
+        },
+        getImageData: () => ({ initial }),
+    };
+    const map = {
+        hasImage: (id: string) => images.has(id),
+        addImage: (id: string, image: { initial: string }) => images.set(id, image),
+    } as unknown as GeographicMap;
+
+    try {
+        Object.defineProperty(globalThis, "document", {
+            configurable: true,
+            value: { createElement: () => ({ getContext: () => context }) },
+        });
+        const locations = groupLocations(
+            Array.from({ length: 1000 }, (_, index) => ({
+                ...office(`initial-${index}`),
+                name: index % 2 ? "Beta" : "alpha",
+            })),
+        );
+        await addBadges(map, locations, () => true);
+        await addBadges(map, locations, () => true);
+
+        expect(drawn).toEqual(["A", "B"]);
+        expect(images).toEqual(
+            new Map(
+                Array.from({ length: 1000 }, (_, index) => [
+                    `badge:initial-${index}`,
+                    { initial: index % 2 ? "B" : "A" },
+                ]),
+            ),
+        );
+    } finally {
+        if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+        else Reflect.deleteProperty(globalThis, "document");
+    }
+});
+
 test("test_load_external_badges_with_anonymous_cors_before_assigning_source", async () => {
     // model the browser's canvas restriction when an image was not requested with CORS
     const originalImage = Object.getOwnPropertyDescriptor(globalThis, "Image");
@@ -445,6 +544,133 @@ test("test_load_external_badges_with_anonymous_cors_before_assigning_source", as
         else Reflect.deleteProperty(globalThis, "document");
     }
 });
+
+test.each([
+    ["normal", 1, 0, 1, []],
+    ["recovered", 2, 1, 1, []],
+    ["remote", 1, 0, 0, ["decode failed"]],
+    ["nonmatching", 1, 0, 0, ["decode failed"]],
+    ["http", 1, 1, 0, ["Map icon reload failed: HTTP 503"]],
+    ["network", 1, 1, 0, ["reload failed"]],
+    ["body", 1, 1, 0, ["body failed"]],
+    ["retry", 2, 1, 0, ["decode failed"]],
+    ["cancel-initial", 1, 0, 0, []],
+    ["cancel-reload", 1, 1, 0, []],
+    ["cancel-retry", 2, 1, 0, []],
+] as const)(
+    "test_bound_hosted_badge_recovery_%s",
+    async (scenario, decodes, reloads, upgrades, errors) => {
+        const originals = ["Image", "document", "fetch"].map(
+            (name) => [name, Object.getOwnPropertyDescriptor(globalThis, name)] as const,
+        );
+        const originalError = console.error;
+        const hosted = `https://media.zurich.tech/organisations/example/${"a".repeat(64)}.png`;
+        const source =
+            scenario === "remote"
+                ? "https://remote.example/logo.png"
+                : scenario === "nonmatching"
+                  ? `${hosted}?version=1`
+                  : hosted;
+        const requests: string[][] = [];
+        const fetches: [string, RequestInit][] = [];
+        const failures: [string, string][] = [];
+        const updates: string[] = [];
+        let isActive = true;
+        let decoded = 0;
+        let consumed = false;
+        class BadgeImage {
+            crossOrigin = "";
+            width = 32;
+            height = 32;
+            set src(value: string) {
+                requests.push([this.crossOrigin, value]);
+            }
+            async decode() {
+                decoded++;
+                if (scenario === "normal") return;
+                if (decoded === 1) {
+                    if (scenario === "cancel-initial") isActive = false;
+                    throw new Error("decode failed");
+                }
+                expect(consumed).toBe(true);
+                if (scenario === "cancel-retry") isActive = false;
+                if (scenario === "retry") throw new Error("decode failed");
+            }
+        }
+        const pixels = { width: 64, height: 64, data: new Uint8ClampedArray(64 * 64 * 4) };
+        const context = {
+            beginPath() {},
+            arc() {},
+            fill() {},
+            save() {},
+            clip() {},
+            restore() {},
+            fillText() {},
+            drawImage() {},
+            getImageData: () => pixels,
+        };
+        const images = new Map<string, unknown>();
+        const map = {
+            hasImage: (id: string) => images.has(id),
+            addImage: (id: string, image: unknown) => images.set(id, image),
+            updateImage: (id: string) => updates.push(id),
+        } as unknown as GeographicMap;
+
+        // exercise recovery through the public badge path, including disposal during awaited work
+        try {
+            Object.defineProperty(globalThis, "Image", { configurable: true, value: BadgeImage });
+            Object.defineProperty(globalThis, "document", {
+                configurable: true,
+                value: { createElement: () => ({ getContext: () => context }) },
+            });
+            Object.defineProperty(globalThis, "fetch", {
+                configurable: true,
+                value: async (url: string, options: RequestInit) => {
+                    fetches.push([url, options]);
+                    if (scenario === "network") throw new Error("reload failed");
+                    return {
+                        ok: scenario !== "http",
+                        status: scenario === "http" ? 503 : 200,
+                        async arrayBuffer() {
+                            if (scenario === "body") throw new Error("body failed");
+                            if (scenario === "cancel-reload") isActive = false;
+                            consumed = true;
+                            return new ArrayBuffer(0);
+                        },
+                    };
+                },
+            });
+            console.error = (message, error: Error) => failures.push([message, error.message]);
+            const places = groupLocations([{ ...office("recover"), mapLogoUrl: source }]);
+            await addBadges(map, places, () => isActive);
+            await addBadges(map, places, () => isActive);
+
+            // retain initials on final failure, never repeat recovery for an already registered badge
+            expect(requests).toEqual(Array.from({ length: decodes }, () => ["anonymous", source]));
+            expect(fetches).toEqual(
+                Array.from({ length: reloads }, () => [
+                    source,
+                    {
+                        mode: "cors",
+                        credentials: "omit",
+                        cache: "reload",
+                    },
+                ]),
+            );
+            expect(updates).toEqual(Array.from({ length: upgrades }, () => "badge:recover"));
+            expect([...images.keys()]).toEqual(["badge:recover"]);
+            expect(failures).toEqual(
+                errors.map((error) => [`Map icon failed to load: ${source}`, error]),
+            );
+        } finally {
+            console.error = originalError;
+            for (const [name, original] of originals) {
+                if (original) Object.defineProperty(globalThis, name, original);
+                else Reflect.deleteProperty(globalThis, name);
+            }
+        }
+    },
+);
 
 /** Create a public office record for grouping scenarios. */
 function office(id: string, line1 = "Baslerstrasse 77"): LocatedOrganisation {

@@ -1,5 +1,20 @@
 import type { MapLocation } from "./queries";
 
+/** Format an organisation count for visible and accessible labels. */
+export function organisationCountLabel(count: number) {
+    return `${count} organisation${count === 1 ? "" : "s"}`;
+}
+
+/** Count distinct organisations without counting their additional offices twice. */
+export function countOrganisations(places: readonly MapLocation[]) {
+    const ids = new Set<string>();
+    for (const place of places) {
+        for (const organisation of place.organisations) ids.add(organisation.id);
+    }
+
+    return ids.size;
+}
+
 /** Name a shared address only when exactly one space is recorded there. */
 export function placeName(place: MapLocation) {
     const spaces = place.organisations.filter((organisation) => organisation.kind === "space");

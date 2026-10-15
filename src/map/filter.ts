@@ -1,6 +1,21 @@
 import type { MapLocation } from "./queries";
-import { matchesSearch } from "../search/search";
+import { fold, matchesSearch } from "../search/search";
 import { descendantTopics } from "../../convex/topics/hierarchy";
+
+/** Retain name highlight subscriptions when only other searchable fields change. */
+export function nameTerms(
+    name: string,
+    terms: readonly string[],
+    previous: readonly string[] = [],
+): readonly string[] {
+    const normalized = fold(name);
+    const matching = terms.filter((term) => normalized.includes(term));
+
+    return matching.length === previous.length &&
+        matching.every((term, index) => term === previous[index])
+        ? previous
+        : matching;
+}
 
 /** Read unique topic filters while preserving existing single-topic URLs. */
 export function topicFilters(value: string | undefined): string[] {
@@ -30,6 +45,9 @@ export function filterLocations(
     terms: readonly string[],
     topics?: ReadonlySet<string>,
 ): MapLocation[] {
+    // preserve the original collection when nothing narrows it
+    if (category === "all" && terms.length === 0 && topics === undefined) return locations;
+
     return locations
         .map((place) => {
             const organisations = place.organisations.filter(
