@@ -308,12 +308,41 @@ test("test_name_registration_verification_by_event_and_action", () => {
             "Confirm registration",
             "Confirm your email address to finish submitting your registration. We’ll then email you your registration status.",
             "ZurichNLP #22\nMonday, 12 October 2026 · 18:00 · Zurich time\nhttps://zurich.tech/events/zurichnlp-22",
-            "Expires in one hour. If you didn’t request this, ignore this email.",
             `Confirm registration: ${url}`,
+            "Expires in one hour. If you didn’t request this, ignore this email.",
+            involvement("none", { html: "", text: "" }).text,
             "zurich.tech: https://zurich.tech",
             "Legal: https://zurich.tech/legal",
         ].join("\n\n"),
     );
+});
+
+test("test_frame_verification_details_and_place_security_note_before_participation", () => {
+    const url = "https://zurich.tech/confirm?token=private-token";
+    for (const entry of [event, undefined]) {
+        const email = verificationEmail(url, entry);
+        expect(
+            email.html.match(/href="https:\/\/zurich.tech\/confirm\?token=private-token"/g),
+        ).toHaveLength(1);
+        expect(email.html.indexOf(url)).toBeLessThan(email.html.indexOf("Expires in one hour"));
+        expect(email.html.indexOf("Expires in one hour")).toBeLessThan(
+            email.html.indexOf("Get involved"),
+        );
+        expect(email.html).not.toContain(profilePlaceholder.html);
+        expect(email.text).not.toContain(profilePlaceholder.text);
+        expect(email.html).not.toContain("Share the Event");
+        expect(email.html).not.toContain("Sign Up");
+    }
+
+    const registration = verificationEmail(url, event);
+    expect(registration.html).toContain("margin:24px 0 0;padding:20px;border-left:3px");
+    const restricted = verificationEmail(url, {
+        ...event,
+        address: "Private venue address",
+        addressAccess: { kind: "confirmed" },
+    });
+    expect(restricted.html).not.toContain("Private venue address");
+    expect(restricted.text).not.toContain("Private venue address");
 });
 
 test("test_preserve_non_event_email_subjects", () => {
@@ -321,6 +350,34 @@ test("test_preserve_non_event_email_subjects", () => {
         "Confirm your subscription",
     );
     expect(signInEmail("123456").subject).toBe("Your zurich.tech sign-in code");
+});
+
+test("test_share_typography_and_one_masthead_across_email_families", () => {
+    const emails = [
+        signInEmail("123456"),
+        verificationEmail("https://zurich.tech/confirm?token=test"),
+        verificationEmail("https://zurich.tech/confirm?token=test", event),
+        newsletterEmail(newsletterEdition([event], [])),
+        campaignEmail({ subject: "Community update", message: "Hello everyone." }),
+        ...[
+            "New event",
+            ...Object.values(registrationCopy).map((copy) => copy.title),
+            "Registration received",
+            "Event reminder",
+            "Event updated",
+            "Event confirmed",
+            "Event cancelled",
+            "Thank you",
+        ].map((title) => eventEmail(event, title)),
+    ];
+
+    for (const email of emails) {
+        expect(email.html.match(/class="mail-title"/g)).toHaveLength(1);
+        expect(email.html.match(/\/branding\/mail.png/g)).toHaveLength(1);
+        expect(email.html.match(/class="mail-footer"/g)).toHaveLength(1);
+        expect(email.html).toContain("font:16px/1.6 Arial,Helvetica,sans-serif");
+        expect(email.html).toContain(".mail-title{font-size:24px!important}");
+    }
 });
 
 test("test_name_weekly_newsletter_consistently", () => {

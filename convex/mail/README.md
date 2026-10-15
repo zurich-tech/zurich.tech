@@ -23,6 +23,16 @@ The email domain owns these records:
 `templates.ts` and `layout.ts` render both product and written emails.
 Individual confirmations use messages directly; sign-in codes are sent without being retained.
 
+## Presentation
+
+Every template uses the same masthead, content width, typography, primary action and footer.
+Registration verification and status updates share the same event panel.
+Verification places the action before the expiry notice, followed by Discord and volunteer links.
+It does not infer account state, share private verification links or add sponsor and job listings before confirmation.
+Sign-in codes and operational notices remain focused on their immediate purpose.
+Invitations, confirmed registrations, reminders, thank-you messages, series announcements, written campaigns and newsletters include participation links, sponsors and jobs when available.
+Jobs follow sponsors, with at most two jobs per organisation.
+
 ## Membership
 
 New verified account signups, event registrations and explicit subscriptions enable all four email preferences.

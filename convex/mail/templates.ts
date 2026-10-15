@@ -58,6 +58,16 @@ export function eventDetails(event: Event, includeSummary = false) {
     return `<h2 style="margin:0 0 6px;font:500 22px/1.25 ${mono};letter-spacing:0"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(time)}</p>${eventLocation(event)}${includeSummary && event.summary ? paragraph(event.summary) : ""}${isTentative(event) && event.status !== "cancelled" ? paragraph("Tentative · Awaiting event confirmation") : ""}`;
 }
 
+/** Frame event details consistently in registration and operational emails. */
+function eventPanel(event: Event, includeSummary = false) {
+    return `<div style="margin:24px 0 0;padding:20px;border-left:3px solid ${palette.brand};background:#f4f7ff">${eventDetails(event, includeSummary)}</div>`;
+}
+
+/** Keep expiry and security guidance subordinate to the primary action. */
+function securityNote(value: string) {
+    return `<p style="margin:20px 0 0;color:${palette.soft};font-size:14px;line-height:1.6">${escapeHtml(value)}</p>`;
+}
+
 /** Group the venue and its permitted address as one location. */
 function eventLocation(event: Event) {
     const address = emailAddress(event);
@@ -294,7 +304,7 @@ export function eventEmail(
             preview: `${eventTime(event.startsAt)}${event.location ? ` · ${event.location}` : ""}. ${description ?? ""}`,
             body: isInvitation
                 ? `${description ? paragraph(description) : ""}${options.summary && event.summary ? paragraph(event.summary) : ""}${programme.html}${sectionHeading("When & where")}<p style="margin:16px 0 0;font-weight:600">${escapeHtml(eventTime(event.startsAt))}</p>${eventLocation(event)}${isTentative(event) ? paragraph("Tentative · Awaiting event confirmation") : ""}`
-                : `${description ? paragraph(description) : ""}<div style="margin-top:24px;padding:20px;border-left:3px solid ${palette.brand};background:#f4f7ff">${eventDetails(event, options.summary)}</div>${programme.html}`,
+                : `${description ? paragraph(description) : ""}${eventPanel(event, options.summary)}${programme.html}`,
             afterAction:
                 (options.passUrl
                     ? `${sectionHeading("Your check-in pass")}<p style="margin:16px 0;font-size:14px;color:${palette.soft}">Show this code at the door, or open your pass using the button above.</p><img src="${escapeHtml(options.passUrl)}" alt="Your check-in QR code. Use View pass if images are unavailable." width="216" height="216" style="display:block;width:216px;max-width:100%;height:auto;background:#ffffff;border:12px solid #ffffff" />`
@@ -349,7 +359,7 @@ export function signInEmail(code: string) {
         html: layout({
             title: "Your sign-in code",
             preview: "Use this code to sign in. It expires in 10 minutes.",
-            body: `${paragraph("Enter this code on the sign-in page to continue.")}<p style="margin:24px 0;padding:20px;background:#f4f7ff;border-left:3px solid ${palette.brand};font:700 32px/1.4 ${mono};letter-spacing:0">${escapeHtml(code)}</p>${paragraph(expiry)}`,
+            body: `${paragraph("Enter this code on the sign-in page to continue.")}<p style="margin:24px 0;padding:20px;background:#f4f7ff;border-left:3px solid ${palette.brand};font:700 32px/1.4 ${mono};letter-spacing:0">${escapeHtml(code)}</p>${securityNote(expiry)}`,
         }),
     };
 }
@@ -361,14 +371,18 @@ export function verificationEmail(url: string, event?: Event) {
     const description = event
         ? "Confirm your email address to finish submitting your registration. We’ll then email you your registration status."
         : "Confirm your email address to receive zurich.tech emails. You can change your preferences or unsubscribe at any time.";
+    // verification precedes identity resolution, so never assume an account or emit placeholders
+    const participation = involvement("none", { html: "", text: "" });
+
     return {
         subject: event ? `${event.title}: Confirm your registration` : "Confirm your subscription",
         text: [
             title,
             description,
             event ? eventText(event) : undefined,
-            expiry,
             `${title}: ${url}`,
+            expiry,
+            participation.text,
             `zurich.tech: ${siteOrigin()}`,
             `Legal: ${siteOrigin()}/legal`,
         ]
@@ -377,8 +391,9 @@ export function verificationEmail(url: string, event?: Event) {
         html: layout({
             title,
             preview: description,
-            body: `${paragraph(description)}${event ? eventDetails(event) : ""}${paragraph(expiry)}`,
+            body: `${paragraph(description)}${event ? eventPanel(event) : ""}`,
             action: { label: title, url },
+            afterAction: securityNote(expiry) + participation.html,
         }),
     };
 }
