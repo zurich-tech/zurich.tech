@@ -564,6 +564,10 @@ export default function Route() {
                             {/* side column */}
                             <aside class="detail-aside">
                                 <VenueCard venue={visibleEvent()!.venue} />
+                                <Share
+                                    title={title()}
+                                    url={`${site.url}/events/${encodeURIComponent(slug())}`}
+                                />
                                 <Show when={event()!.organiser || event()!.coOrganisers?.length}>
                                     <Card
                                         title={
@@ -616,10 +620,6 @@ export default function Route() {
                                         </For>
                                     </Card>
                                 </Show>
-                                <Share
-                                    title={title()}
-                                    url={`${site.url}/events/${encodeURIComponent(slug())}`}
-                                />
                             </aside>
                         </div>
 
