@@ -1,34 +1,260 @@
 {
     "recordedOn": "2026-10-15",
     "status": "consolidation-in-progress-not-whole-goal-complete",
-    "verifiedPublished": 1283,
-    "latestVerifiedDelta": {
-        "from": 1273,
-        "to": 1283,
-        "count": 10,
-        "status": "published-once-independently-verified-frozen",
-        "owner": "Franklin",
-        "manifest": "/tmp/zurich-registry-review/primary-56c0-finite10-hosted-ready.json",
-        "sha256": "5b69d27fd234157a75d084073e0fea6778c5e9e9209740f2503376d42eb365c7",
-        "slugs": [
-            "neuronomics",
-            "josepha",
-            "redslim",
-            "zwei-wealth",
-            "amina-bank",
-            "inrate",
-            "properti",
-            "happypot",
-            "localfish",
-            "foodfor-labs"
-        ],
-        "verificationProvenance": "Main agent reports independent full readback10 at1283, primary review, fresh alias deduplication,10 verified hosted assets and2 unchanged reused addresses; not independently rerun by this reviewer",
-        "localCheck": "Read exact manifest and independently matched supplied SHA256",
-        "coverageEffect": "Frozen published identities supersede any historical prepared/held status for the same reviewed identities; do not requeue. Previous1273 owner accounting remains timestamped historical evidence, not a rerun1283 census.",
+    "verifiedPublished": 1638,
+    "approved46PublicationOverlay": {
+        "reference": "final-approved-46/independent-readback.json",
+        "receipt": "final-approved-46/execution/1792078067357-verified.json",
+        "status": "published-once-independently-checked-against-durable-snapshots",
+        "from": 1592,
+        "to": 1638,
+        "exactProfiles": 46,
+        "exactPublicOffices": 46,
+        "exactSocialLinks": 39,
+        "mappedOrganisations": 1610,
+        "publicOrganisationLocations": 1612,
+        "unmappedOrganisations": 28,
+        "existingRowsUnchanged": true,
         "reapply": false,
-        "productionQueries": 0,
-        "productionWrites": 0
+        "sourceCompletenessClaim": false,
+        "scope": "Independent saved-artifact verification of the approved publication delta only; no new live fetch, no production mutation, no universal source or factual completeness claim"
     },
+    "parfitNinePublicationOverlay": {
+        "reference": "final-population-delta-1426.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "franklinNinePublicationOverlay": {
+        "reference": "final-population-delta-1417.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "campusFivePublicationOverlay": {
+        "reference": "final-population-delta-1408.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "materialsTagCorrectionOverlay": {
+        "reference": "materials-tag-verification-1403.json",
+        "status": "two-corrections-applied-once-independently-verified",
+        "reapply": false
+    },
+    "vibroakustikPublicationOverlay": {
+        "reference": "final-population-delta-1403.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "socialEnrichmentOverlay": {
+        "reference": "social-enrichment-verification-1402.json",
+        "status": "eleven-accounts-applied-once-independently-verified",
+        "reapply": false
+    },
+    "residualTrioPublicationOverlay": {
+        "reference": "final-population-delta-1402.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "industrialTwentyPublicationOverlay": {
+        "reference": "final-population-delta-1399.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "campusTwoPublicationOverlay": {
+        "reference": "final-population-delta-1379.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "threeLocationRemovalOverlay": {
+        "reference": "company-removal-verification-1377.json",
+        "status": "exact-three-approved-locations-removed-and-independently-verified",
+        "pendingPublicLocations": 0,
+        "reapply": false
+    },
+    "industrialNinePublicationOverlay": {
+        "reference": "final-population-delta-1377.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "campusFourPublicationOverlay": {
+        "reference": "final-population-delta-1368.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "industrialEightPublicationOverlay": {
+        "reference": "final-population-delta-1364.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "industrialThirteenPublicationOverlay": {
+        "reference": "final-population-delta-1356.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "universityResolvedPublicationOverlay": {
+        "reference": "final-population-delta-1343.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "technicalCommunityPublicationOverlay": {
+        "reference": "final-population-delta-1340.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "nexusPublicationOverlay": {
+        "reference": "final-population-delta-1338.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "mavelVnlPublicationOverlay": {
+        "reference": "final-population-delta-1337.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "inactaPublicationOverlay": {
+        "reference": "final-population-delta-1335.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "climefiPublicationOverlay": {
+        "reference": "final-population-delta-1334.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "schlierenPublicationOverlay": {
+        "reference": "final-population-delta-1333.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "communityPublicationOverlay": {
+        "reference": "final-population-delta-1330.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "laboratoryPublicationOverlay": {
+        "reference": "final-population-delta-1327.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "vidbyPublicationOverlay": {
+        "reference": "final-population-delta-1325.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "swissbnPublicationOverlay": {
+        "reference": "final-population-delta-1324.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "craterKlepsydraPublicationOverlay": {
+        "reference": "final-population-delta-1323.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "campusTenPublicationOverlay": {
+        "reference": "final-population-delta-1321.json",
+        "status": "published-once-independently-verified",
+        "reapply": false,
+        "held": "ForzaETH exact public address; CRATER subsequently resolved and published in delta1323"
+    },
+    "runwayTwoPublicationOverlay": {
+        "reference": "final-population-delta-1311.json",
+        "status": "published-once-independently-verified",
+        "reapply": false,
+        "supersedes": "Sanetics and Wonderfill prepared or own-technology hold states"
+    },
+    "immunospongePublicationOverlay": {
+        "reference": "final-population-delta-1309.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "investorThreePublicationOverlay": {
+        "reference": "final-population-delta-1308.json",
+        "from": 1305,
+        "to": 1308,
+        "status": "three-published-once-independently-verified",
+        "reapply": false,
+        "supersedes": "Authena, coatingAI and Calingo prepared states in investor coverage ledger"
+    },
+    "universityThreePublicationOverlay": {
+        "reference": "final-population-delta-1305.json",
+        "from": 1302,
+        "to": 1305,
+        "status": "three-published-once-independently-verified",
+        "reapply": false,
+        "held": "perfusionX compact official artwork"
+    },
+    "campusPublicationOverlay": {
+        "reference": "final-population-delta-1302.json",
+        "from": 1297,
+        "to": 1302,
+        "status": "five-published-once-independently-verified",
+        "reapply": false,
+        "supersedes": "Five prepared campus candidates below; Reykur remains held"
+    },
+    "consolidatedRemovalProposal": {
+        "reference": "company-removal-proposal-1297.json",
+        "pendingPublicLocations": 0,
+        "removedPublicLocations": 20,
+        "verification": "company-removal-verification-1305.json",
+        "status": "exact-20-approved-locations-removed-and-independently-verified",
+        "approval": "User explicitly approved all 20 permanent public-location removals on 2026-10-15. Applied through authenticated admin controls; full before/after comparison verifies all organisations, addresses, links, roles, sponsorships, jobs, events and other locations unchanged",
+        "supersedes": "Historical authorityMismatch and classificationGap for walkingtoweb below"
+    },
+    "campusPreparationReview": {
+        "reference": "primary-df3c-five-main-review.json",
+        "reviewedProfiles": 5,
+        "published": 5,
+        "status": "Published and independently verified; see final-population-delta-1302.json"
+    },
+    "structuralMapAudit": {
+        "reference": "map-audit-1297.json",
+        "status": "passed-read-only",
+        "distinctLogoFiles": 1282,
+        "failedLogoFiles": 0,
+        "closesSemanticOrSourceReview": false
+    },
+    "universityPublicationOverlay": {
+        "reference": "final-population-delta-1297.json",
+        "status": "three-published-once-independently-verified",
+        "reapply": false,
+        "held": "No-Touch Robotics current-activity investigation; do not apply the earlier full four-record manifest"
+    },
+    "industrialPublicationOverlay": {
+        "reference": "final-population-delta-1294.json",
+        "from": 1288,
+        "to": 1294,
+        "status": "six-published-once-independently-verified",
+        "reapply": false,
+        "supersedes": "Historical six industrial artwork/preparation holds below"
+    },
+    "collectiveSourceOverlay": {
+        "reference": "primary-df3c-collective27-review.json",
+        "capturedLabels": 27,
+        "assessedLabels": 27,
+        "unassessedLabels": 0,
+        "represented": 3,
+        "excluded": 13,
+        "preparationPending": 6,
+        "evidenceHolds": 5,
+        "scope": "Finite owned label assessment only; positive candidates still need preparation and main review, not yet imported"
+    },
+    "descriptionCleanupOverlay": {
+        "reference": "description-cleanup-1288.json",
+        "status": "939-applied-once-independently-verified",
+        "remainingTerminalPeriods": 0,
+        "reapply": false,
+        "scope": "Supersedes historical prepared-not-applied punctuation status below; does not complete semantic prose, eligibility or classification review"
+    },
+    "latestPublicationOverlay": {
+        "reference": "final-population-delta-1288.json",
+        "from": 1283,
+        "to": 1288,
+        "slugs": ["rflect", "ahead-health", "bitcoin-suisse", "additiv", "temenos"],
+        "status": "published-once-independently-verified",
+        "reapply": false,
+        "historicalAccounting": "Older source and population checkpoints below retain their original scope and date; this delta does not prove completion of the remaining source or quality reviews"
+    },
+    "latestVerifiedDelta": "final-population-delta-1592.json",
     "deltaEvidence": "final-population-delta-1273.json",
     "method": "Read existing durable ledgers and named owner checkpoints only; no repeated source research, production query or mutation",
     "criteria": "inclusion-criteria.json",
@@ -619,6 +845,25 @@
             "unassessed": 376,
             "geographyOnly": 77,
             "status": "unfinished assessment, returned to owner; not closed evidence holds"
+        },
+        "campus1429": {
+            "reference": "primary-df3c-source-closeout.json",
+            "capturedAppearances": 555,
+            "assessedIdentities": 537,
+            "represented": 313,
+            "excluded": 178,
+            "explicitEvidenceHolds": 44,
+            "hostAttributed": 2,
+            "readyUnpublished": 0,
+            "unassessed": 0,
+            "limits": "Finite captured inventory only; evidence holds are not eligible additions or proven exclusions"
+        },
+        "universityAssessment1428": {
+            "reference": "primary-db05-resume-dispositions-1428.json",
+            "claimedAssessedAppearances": 1850,
+            "claimedUnassessed": 0,
+            "mainPublicationReview": "62 prepared profiles under semantic and duplicate review; no publication yet",
+            "independentlyAudited": false
         }
     },
     "productScenarioEvidence": "mobile-final-review.json#/finalEvidenceConsolidation",
@@ -854,5 +1099,163 @@
             "ui": "src/organisations/locations.tsx:67 shows destructive confirmation; no action taken"
         },
         "conclusion": "Do not execute or ask a duplicate approval question from this review. Main should reconcile19+walkingtoWEB authority and inspect the existing unanswered request; no approval inferred and no fresh production snapshot requested here."
+    },
+    "digiskyWekaPublicationOverlay": {
+        "population": 1428,
+        "record": "final-population-delta-1428.json",
+        "verified": 2,
+        "reapply": false
+    },
+    "zephyrPublicationOverlay": {
+        "population": 1429,
+        "record": "final-population-delta-1429.json",
+        "verified": 1,
+        "reapply": false
+    },
+    "parfit53PublicationOverlay": {
+        "reference": "final-population-delta-1482.json",
+        "status": "published-once-independently-verified",
+        "reapply": false
+    },
+    "consolidated107PublicationOverlay": {
+        "recordedOn": "2026-10-15",
+        "from": 1482,
+        "to": 1589,
+        "status": "published-once-independently-verified",
+        "reapply": false,
+        "slugs": [
+            "frentix",
+            "faitron",
+            "jls-digital",
+            "revonode",
+            "gwc",
+            "goold",
+            "iraye",
+            "ai-retailer-systems",
+            "scanco-medical",
+            "pom-consulting",
+            "apricot-bio",
+            "entracers",
+            "micos-engineering",
+            "kinderlabor",
+            "thenti",
+            "unomr",
+            "builtstop",
+            "whimsical-wolff-games",
+            "gyrotools",
+            "qendra",
+            "snyk",
+            "covalx",
+            "brickwork-ventures",
+            "dagsmejan",
+            "traildevils",
+            "biosimo",
+            "incolab",
+            "6c-tools",
+            "qiio",
+            "photrack",
+            "limmat-scientific",
+            "lumentum-switzerland",
+            "continis",
+            "jurata",
+            "gastric-imaging-analysis",
+            "green-tox",
+            "emott",
+            "envibee",
+            "alpine-white",
+            "cleondris",
+            "mimicry",
+            "sophia-edu-labs",
+            "biomasker",
+            "sunne-tech",
+            "ht-discover",
+            "augel",
+            "aerotain",
+            "sublimd",
+            "starmind",
+            "mojo-innovation",
+            "enantios",
+            "yasai",
+            "systaim",
+            "perfusionx",
+            "flatable",
+            "andritz-soutec",
+            "crealet",
+            "efcooling",
+            "g-elements",
+            "luwa",
+            "meteolabor",
+            "nyffenegger-armaturen",
+            "packsys-global",
+            "rex-royal",
+            "swisschuck",
+            "werner-mathis",
+            "triag-international",
+            "smart-energy-link",
+            "dizmo",
+            "mystrom",
+            "sequans-switzerland",
+            "azzera",
+            "axelera-ai",
+            "gotcourts",
+            "reilo",
+            "oneline",
+            "rayne",
+            "lobby",
+            "eyefitu",
+            "alpha-augmented-services",
+            "frigg-eco",
+            "dinateq",
+            "oazo-homes",
+            "producer",
+            "mindguard",
+            "maison-work",
+            "jurilo",
+            "perlin-bioworks",
+            "ace-company",
+            "biogen-international",
+            "centenara-labs",
+            "enable-biotech",
+            "jantar",
+            "metriopharm",
+            "polypeptide",
+            "santersus",
+            "stallergenes-greer",
+            "steelcobelimed",
+            "biotech-concepts",
+            "cellis",
+            "cube-rm",
+            "julio-moran-laboratories",
+            "ophtapharm",
+            "primex-pharmaceuticals",
+            "rahn",
+            "rgcc-international",
+            "sjp-biotec"
+        ],
+        "review": "remaining-fresh-preflight.json",
+        "before": "/tmp/zurich-registry-review/remaining-fresh-snapshot.json",
+        "selections": [
+            "work/organisations/remaining-release-1482-1/published-1.json",
+            "work/organisations/remaining-release-1482-1/published-2.json"
+        ],
+        "hosted": "work/organisations/remaining-release-1482-1/hosted.json",
+        "verification": "Supported preview100 and apply100 once; independent complete four-table readback verified100 at1582. Supported preview7 and apply7 once; independent complete four-table readback verified7 at1589. Assets103 served-byte SHA and CORS verified; four existing ETH parent assets retained.",
+        "scope": "Final whole-registry semantic review remains incomplete; original1482 shards unchanged, these107 are a separate reviewed publication delta",
+        "held": 25
+    },
+    "heldThreePublicationOverlay": {
+        "recordedOn": "2026-10-15",
+        "from": 1589,
+        "to": 1592,
+        "status": "published-once-independently-verified",
+        "reapply": false,
+        "slugs": ["uthereal", "jourdan-software-engineering", "sydra"],
+        "review": "held-three-main-review.json",
+        "selection": "/tmp/zurich-registry-review/main-held-three-ready.json",
+        "before": "/tmp/zurich-registry-review/main-held-three-before.json",
+        "hosted": "/tmp/zurich-registry-review/held-three-hosted.json",
+        "verification": "Supported preview3 and apply3 once; independent complete four-table readback verified3 at total1592",
+        "scope": "Three previously held logos resolved and primary evidence adopted; original1482 final review remains incomplete",
+        "remainingFrozenHolds": 22
     }
 }

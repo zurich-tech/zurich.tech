@@ -1,0 +1,313 @@
+{
+    "checkedAt": "2026-10-15T15:33:11.195Z",
+    "scope": "Independent offline readback of durable production artifacts; no live fetch or mutation",
+    "before": {
+        "organisations": 1592,
+        "locations": 1566,
+        "publicOrganisationLocations": 1566,
+        "geocodedPublicOrganisationLocations": 1566,
+        "mappedOrganisations": 1564,
+        "unmappedOrganisations": 28,
+        "addresses": 1130,
+        "links": 2149
+    },
+    "after": {
+        "organisations": 1638,
+        "locations": 1612,
+        "publicOrganisationLocations": 1612,
+        "geocodedPublicOrganisationLocations": 1612,
+        "mappedOrganisations": 1610,
+        "unmappedOrganisations": 28,
+        "addresses": 1164,
+        "links": 2188
+    },
+    "delta": {
+        "organisations": 46,
+        "locations": 46,
+        "publicOrganisationLocations": 46,
+        "geocodedPublicOrganisationLocations": 46,
+        "mappedOrganisations": 46,
+        "unmappedOrganisations": 0,
+        "addresses": 34,
+        "links": 39
+    },
+    "batch": {
+        "exactProfiles": 46,
+        "exactPublicOffices": 46,
+        "exactAddresses": 46,
+        "exactSocialLinks": 39,
+        "exactLogoManifestAndUploadReceipts": 46,
+        "rmSocialsOmitted": true,
+        "slugs": [
+            "adlyte",
+            "uet-ecodyne",
+            "legic",
+            "sirin-orbital-systems",
+            "zimmer-biomet",
+            "planzer-informatik",
+            "vereign",
+            "novum",
+            "resolve",
+            "omnimedica",
+            "feramic",
+            "maegerle",
+            "ssm",
+            "besi-switzerland",
+            "ventoo",
+            "roger",
+            "cytokinetics",
+            "labster",
+            "hunziker-betatech",
+            "muller-tb-technologies",
+            "stadler-winterthur",
+            "bossard",
+            "aleph-farms",
+            "guuru",
+            "arviem",
+            "bibus",
+            "iepco",
+            "oetiker",
+            "thales-alenia-space-switzerland",
+            "ptc-switzerland",
+            "bracker",
+            "indrivetec",
+            "reichle-de-massari",
+            "tyrolit-hydrostress",
+            "servophil",
+            "ledcity",
+            "dassault-systemes",
+            "knorr-bremse-rail-systems",
+            "rwm-schweiz",
+            "yunex-traffic-switzerland",
+            "iudexnc",
+            "ejay-yelsi",
+            "raquest",
+            "vivenu",
+            "politanalytics",
+            "kaduu"
+        ]
+    },
+    "existingRowsUnchanged": {
+        "organisations": 1592,
+        "locations": 1566,
+        "addresses": 1130,
+        "links": 2149
+    },
+    "sourceCompletenessClaim": false,
+    "limitations": [
+        "Four production tables were read sequentially, not as one atomic snapshot",
+        "Logo upload receipts and saved hashes checked; no fresh hosted-byte or live production fetch in this independent pass",
+        "This verifies the approved publication delta, not universal source coverage or all historical facts"
+    ],
+    "productionWrites": 0,
+    "files": [
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792078053443-apply-snapshot.json",
+            "sha256": "7a1349cf1fe1d3531b066e937e18779b6e82b8a5a32114d4136c2a9df29ae2f4"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792078067277-after-snapshot.json",
+            "sha256": "85d1111299a8cb38142ca3a88589039c393b14c83e16ac69bd66f7ed0a5d017c"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792078067357-verified.json",
+            "sha256": "5df56d011f974d854f39813346b11843981a432680fa1235f7ae85438bc94430"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792078061912-applied.json",
+            "sha256": "6e0cafdeee3c5187fdd2a242f9e6d1ba44d0bac76c87f6afd6a0745287a77d86"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/import.json",
+            "sha256": "0ec0b74401272a029d8c1b3c6868b565d580fd6f390871c00a810094d2456bfc"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/logos.json",
+            "sha256": "3801096a60c789e66ec539d8429f840741d9731aa35ec820bf82746e18204fc6"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077924154-logo-adlyte.json",
+            "sha256": "fafa05c64e5e5e4c0df6e923ba3902807ab7a213a548ee623065e59e6f3e17b1"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077925670-logo-uet-ecodyne.json",
+            "sha256": "d72eb3805c36488c8a656100f8dfaf554681739b74de312d8accdae406bfdd44"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077927308-logo-legic.json",
+            "sha256": "c906352da7e1735e5b0a12aa6acaa45890387a9426a2a4f853cf98146accbeca"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077929015-logo-sirin-orbital-systems.json",
+            "sha256": "651a385065610264a4f487d0eee75a53c42c3d27233d6d28f6d104e6351edbe0"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077930437-logo-zimmer-biomet.json",
+            "sha256": "46274549627ec65f52c465cebd8810e1007316b56a71a264efc246f6be2d7812"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077931776-logo-planzer-informatik.json",
+            "sha256": "003bf76c9dc5047dfeee0914823050aa5e3fe25eed3430e7fa92617317d8fbc4"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077933085-logo-vereign.json",
+            "sha256": "68dee25ea9ce4aee19bd27f3151ada19ffae782e598f8d2da667f1ef648d274d"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077934646-logo-novum.json",
+            "sha256": "9050ad3ea14105d2aa14b27e5a88f2b72e3bf5bbbf8f2d9d6815d144f415e01d"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077936129-logo-resolve.json",
+            "sha256": "80cf42302d51f97760e429aa0d06444b60746696619ccdcefe7d18785f507fb8"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077937402-logo-omnimedica.json",
+            "sha256": "6b66c92099ef95ebe6a137733d219bd8787084ea632a193ed94f2216770a7591"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077938760-logo-feramic.json",
+            "sha256": "59d5ce8af7e8052e9242b4ddff96dddae73c49f621371409f8bbdc66f5abccd3"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077940098-logo-maegerle.json",
+            "sha256": "8a9f3ff93e45f5eafcbc891c7a36acf6996554a76b893f5f8ccdf068a5697edb"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077943339-logo-ssm.json",
+            "sha256": "0c4e480bca6c65616251946555f90dd68ef3f022ccff42825d25059938066093"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077944637-logo-besi-switzerland.json",
+            "sha256": "bb014cb277c512832362a2ec1987ee937f1dbced77f371d87f36defa889244ab"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077946026-logo-ventoo.json",
+            "sha256": "7e78530fe0157cb3260a86a50bd4e333415098102f184693ac8cbd81ae462435"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077947694-logo-roger.json",
+            "sha256": "d4c1bb7a9c307df200eb8e5d2c35433d7cbeebfa00cecb0627782c945ff9d6ca"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077949004-logo-cytokinetics.json",
+            "sha256": "f395d69cc1da61d40bc0652dc204f5015490fed681969b25ccca4a29492da957"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077950487-logo-labster.json",
+            "sha256": "d09793d5dd536c986daea3ba48224f0152dfd396381971728d9123abdc2d6e62"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077952207-logo-hunziker-betatech.json",
+            "sha256": "d4efb872231e44f7dc3af6d3837103f84a4f127c098dd4ea15a431d6c95187a8"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077953502-logo-muller-tb-technologies.json",
+            "sha256": "ef4f70f4e2eb1835e653a10ac12d5aa03821834396673574b3388ea2d4b158b3"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077954746-logo-stadler-winterthur.json",
+            "sha256": "dd1f7b4a25f0143e69701bbcf00f482020215b2b5ec7789fde3b6cc331238279"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077956142-logo-bossard.json",
+            "sha256": "bf3baf347268acb341842c6c38fa4aea5dfceab4f6552c437334b2628115cf57"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077957657-logo-aleph-farms.json",
+            "sha256": "8a180eec6ab1042e2beb457867e4f9465a1dac4a595c321f5cef9d66a55ae1ba"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077958992-logo-guuru.json",
+            "sha256": "1321ebf079ffdd7f8b2ed59487eff0d5009524e0a5f2ac2879228af83ac9ec07"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077960762-logo-arviem.json",
+            "sha256": "28c3184bb1737b92b07c5f87a60db6932e49e9b80e489a3b1ef8ea614e8bb96c"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077962169-logo-bibus.json",
+            "sha256": "e72f08da547e0fd4013c68b658bbbfd8c8f3d85a42aa2a00508cf51b31378353"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077963626-logo-iepco.json",
+            "sha256": "af4aee07a66ba71bb8f925822d85c855e4b4b4cca2e85a889e0d6384c99f5ca0"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077964875-logo-oetiker.json",
+            "sha256": "82ad64a1f35fa210e25ff65dd5b639395a642f576e093fddabf64b2e56c4f12a"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077966111-logo-thales-alenia-space-switzerland.json",
+            "sha256": "ce8813fa38736ea1ae000c80dc5fd7108e4d36845ec91cf97b5ecb748f0ea318"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077967914-logo-ptc-switzerland.json",
+            "sha256": "52b3d99166e01e78aff559e1176b061bc297004975763c2cd9773ebb74ef7bec"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077970943-logo-bracker.json",
+            "sha256": "a6489b73aaf0bd706cb1dcfd8c137e4a0fcbb7a82103b875cf1ef30972fb6270"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077972398-logo-indrivetec.json",
+            "sha256": "aaacd07c36c9be2b3711664f2180fc430d1fc58067f9da58735e01767eb82f52"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077974049-logo-reichle-de-massari.json",
+            "sha256": "ee0758eb1cb50f58574a24aebc7c01c38a7b6587ffb5646d50a192ad3b8a7f3f"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077975522-logo-tyrolit-hydrostress.json",
+            "sha256": "ab3d68085418e48848cfcdbd15241a5e41bd2bfa5be2287251dd3a7cf161f3f0"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077976958-logo-servophil.json",
+            "sha256": "2c6a82523a5cfc10c2bbc4858f194aeda3965bc770c898747bf0c7284f37debc"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077978577-logo-ledcity.json",
+            "sha256": "aab8b7b4eea48e35d29b9ff6257af3b8ab6fac365bb11b9aab397195ad65c4f5"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077979955-logo-dassault-systemes.json",
+            "sha256": "0bcd04c40c24d9635b27656d12deeaa0f98817434f9345cdedb0c0cd729f4759"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077981519-logo-knorr-bremse-rail-systems.json",
+            "sha256": "44d37422ef6b9261a430c6822c95bc7362b916617c8868ceeba4acb60d532317"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077982961-logo-rwm-schweiz.json",
+            "sha256": "2c49ab9003c8258f9e73ede5b2bf437e4abbac62b32584a3671ac8a846a797e4"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077984178-logo-yunex-traffic-switzerland.json",
+            "sha256": "90d35f9e128f3610c1062739a7ccac58f1fe31fb911082168789130f1e7428f9"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077985759-logo-iudexnc.json",
+            "sha256": "55fe81aa0b57dbaebfdf8bb834eebca0a1edab47977508d1a48872a20e33ed26"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077987028-logo-ejay-yelsi.json",
+            "sha256": "4f9bbc13de0f0b8e0d030183997b66c37bdad790a4f4e08bd5cb0f879d7b1cbd"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077988390-logo-raquest.json",
+            "sha256": "f3a263987abc02c4b1337706401b2c65c0ddbcd22bb10cd3a23e2c4a7d859930"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077989691-logo-vivenu.json",
+            "sha256": "22b686ae9369bd841100be8f3a948331620c30b34d117fd659bdcfec43115042"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077990980-logo-politanalytics.json",
+            "sha256": "0476df3fe634dbc8edf51433c6cf841323ab27e1e48b220d51e14ade22355762"
+        },
+        {
+            "path": "/Users/florian/symbol/zurich.tech/work/organisations/final-approved-46/execution/1792077992296-logo-kaduu.json",
+            "sha256": "69eb0158a2377e9a2de6daa88368fe0acb79d25b5b2f31e61b18c279274e163b"
+        }
+    ]
+}

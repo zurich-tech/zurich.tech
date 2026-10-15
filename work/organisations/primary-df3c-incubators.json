@@ -1,4 +1,10 @@
 {
+    "currentReconciliation": {
+        "record": "primary-df3c-campus-reconciliation-1297.json",
+        "currentPopulation": 1305,
+        "checkedOn": "2026-10-15",
+        "note": "Original evidence below is historical. Use the linked current reconciliation for counts, publication matches and specific remaining facts. All 25 Innovation Park primary cases assessed and 22 other-owner placeholders resolved; profile preparation and evidence holds remain. No requeue of frozen publications."
+    },
     "checkedAt": "2026-10-15T00:00:00.701Z",
     "registryCount": 975,
     "owner": "Pasteur",

@@ -1,9 +1,10 @@
 {
-    "version": "2026-10-15-own-technology",
+    "version": "2026-10-15-technology-development-or-manufacturing",
     "authority": "Explicit user instruction superseding the earlier service-engineering eligibility rule.",
     "scope": "Every current company and startup listing, including historical imports and pending proposals.",
     "companyAndStartup": {
-        "required": "Primary-source evidence that the organisation demonstrably develops or produces relevant technology of its own, with a supported local presence.",
+        "required": "Primary-source evidence that the organisation demonstrably develops relevant technology or manufactures relevant technology, with a supported local presence. Local R&D is not required where local technology production is verified.",
+        "manufacturingClarification": "The user explicitly confirmed that manufacturing counts as technology production. Include relevant electronics, machinery, engineered materials, robotics and instruments produced locally, without claiming local R&D unless verified. Manufacturing for customers does not by itself make an organisation a client-only consultancy. Pure resale, distribution and generic services remain excluded; ordinary nontechnical production alone does not establish relevance.",
         "excludedAbsentOwnTechnology": [
             "Ordinary IT support",
             "Reselling third-party technology",
@@ -19,7 +20,7 @@
     "actions": {
         "pendingServices": "Stop pending service imports until reassessed against this version.",
         "wittwer-it-services": "User specifically authorised removal of the map location using the supported location removal path, preserving the organisation and relationships.",
-        "otherExclusions": "Prepare exact public-location-only removals for main review; do not execute without approval.",
+        "otherExclusions": "User explicitly authorised main to reason through and directly execute evidence-supported exclusion decisions on 2026-10-15, without asking for each removal. Remove only public location rows through the supported path after fresh identity/location checks; preserve organisation records and relationships. Missing evidence alone is not an exclusion.",
         "preservation": "Never delete organisations, profiles, links, memberships, sponsors, addresses or other relationships as part of this sweep."
     },
     "activeStatus": {
