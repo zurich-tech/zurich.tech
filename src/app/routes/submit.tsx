@@ -119,15 +119,18 @@ export default function Route() {
     const currentEvent = () => workspace()?.statuses.find((event) => event.id === draft()?.eventId);
     const isPublished = () => eventStatus() === "scheduled" || eventStatus() === "finished";
     const isCancelled = () => eventStatus() === "cancelled";
-    const canPublish = () =>
-        params.edit && draft()?.eventId
-            ? authority.canEvent(draft()!.eventId, "organiser")
+    const canPublish = () => {
+        const eventId = draft()?.eventId;
+
+        return params.edit && eventId
+            ? authority.canEvent(eventId, "organiser")
             : !!authority.current()?.isAdmin ||
-              !!authority
-                  .current()
-                  ?.grants.some(
-                      (grant) => grant.scope.kind === "series" && grant.role === "organiser",
-                  );
+                  !!authority
+                      .current()
+                      ?.grants.some(
+                          (grant) => grant.scope.kind === "series" && grant.role === "organiser",
+                      );
+    };
     const initialSeries = () =>
         typeof params.series === "string"
             ? params.series
@@ -361,7 +364,7 @@ export default function Route() {
                 }
                 description="Create and edit zurich.tech events."
             />
-            <Page>
+            <Page class="admin-content admin-editor-page">
                 <PageHeader
                     title={params.edit ? "Edit event" : "New event"}
                     actions={
@@ -377,15 +380,16 @@ export default function Route() {
                                 {saveActions()}
                             </Show>
                             <Show
+                                keyed
                                 when={
                                     authority.current()?.isAdmin && params.edit
-                                        ? draft()
+                                        ? draft()?._id
                                         : undefined
                                 }
                             >
-                                {(item) => (
+                                {(id) => (
                                     <DeleteRecord
-                                        id={item()._id}
+                                        id={id}
                                         name="event"
                                         onDeleted={async () => {
                                             await revalidate();
@@ -397,10 +401,20 @@ export default function Route() {
                             <a class="action-link" href="/admin">
                                 Back
                             </a>
-                            <Show when={params.edit && draft()?.eventId && isPublished()}>
-                                <a class="action-link" href={`/events/${draft()!.slug}`}>
-                                    View event
-                                </a>
+                            <Show
+                                keyed
+                                when={
+                                    params.edit &&
+                                    draft()?.eventId &&
+                                    isPublished() &&
+                                    draft()?.slug
+                                }
+                            >
+                                {(slug) => (
+                                    <a class="action-link" href={`/events/${slug}`}>
+                                        View event
+                                    </a>
+                                )}
                             </Show>
                             <Show
                                 when={
@@ -597,71 +611,80 @@ export default function Route() {
                                             params.edit ? currentEvent()?.confirmedAt : undefined
                                         }
                                     />
-                                    <Show
-                                        when={
-                                            canPublish() &&
-                                            isPublished() &&
-                                            currentEvent() &&
-                                            isTentative(currentEvent()!)
-                                        }
-                                    >
-                                        <Card title="Tentative">
-                                            <div class="form-actions">
-                                                <Show
-                                                    when={
-                                                        currentEvent()?.confirmation
-                                                            ?.isApprovalRequired &&
-                                                        !currentEvent()?.approvedAt
-                                                    }
-                                                >
-                                                    <button
-                                                        class="button"
-                                                        type="button"
-                                                        disabled={isPending()}
-                                                        onClick={() => void transition("approve")}
-                                                    >
-                                                        Approve event
-                                                    </button>
-                                                </Show>
-                                                <button
-                                                    class="button"
-                                                    type="button"
-                                                    disabled={isPending()}
-                                                    onClick={() => void transition("confirm")}
-                                                >
-                                                    Confirm now
-                                                </button>
-                                            </div>
-                                            <Show when={currentEvent()?.approvedAt}>
-                                                <p>Team approval recorded</p>
+                                    <Show keyed when={currentEvent()}>
+                                        {(event) => (
+                                            <Show
+                                                when={
+                                                    canPublish() &&
+                                                    isPublished() &&
+                                                    isTentative(event)
+                                                }
+                                            >
+                                                <Card title="Tentative">
+                                                    <div class="form-actions">
+                                                        <Show
+                                                            when={
+                                                                event.confirmation
+                                                                    ?.isApprovalRequired &&
+                                                                !event.approvedAt
+                                                            }
+                                                        >
+                                                            <button
+                                                                class="button"
+                                                                type="button"
+                                                                disabled={isPending()}
+                                                                onClick={() =>
+                                                                    void transition("approve")
+                                                                }
+                                                            >
+                                                                Approve event
+                                                            </button>
+                                                        </Show>
+                                                        <button
+                                                            class="button"
+                                                            type="button"
+                                                            disabled={isPending()}
+                                                            onClick={() =>
+                                                                void transition("confirm")
+                                                            }
+                                                        >
+                                                            Confirm now
+                                                        </button>
+                                                    </div>
+                                                    <Show when={event.approvedAt}>
+                                                        <p>Team approval recorded</p>
+                                                    </Show>
+                                                </Card>
                                             </Show>
-                                        </Card>
+                                        )}
                                     </Show>
                                     <Show
+                                        keyed
                                         when={
-                                            currentEvent()?.scheduleId &&
                                             authority.canSeries(
                                                 currentEvent()?.seriesId,
                                                 "organiser",
-                                            )
+                                            ) && currentEvent()?.scheduleId
                                         }
                                     >
-                                        <a
-                                            class="action-link"
-                                            href={`/admin?section=series&schedule=${currentEvent()!.scheduleId}`}
-                                        >
-                                            Edit series schedule
-                                        </a>
+                                        {(scheduleId) => (
+                                            <a
+                                                class="action-link"
+                                                href={`/admin?section=series&schedule=${scheduleId}`}
+                                            >
+                                                Edit series schedule
+                                            </a>
+                                        )}
                                     </Show>
                                 </div>
                             </div>
                             <FormMessage error={error()} success={success()} />
                         </Editor>
-                        <Show when={canPublish() && isPublished() && currentEvent()}>
-                            <EventMail eventId={currentEvent()!.id} />
+                        <Show keyed when={canPublish() && isPublished() && currentEvent()?.id}>
+                            {(eventId) => <EventMail eventId={eventId} />}
                         </Show>
-                        <Show when={!canPublish() && isPublished() && currentEvent()}>
-                            <Campaigns eventId={currentEvent()!.id} />
+                        <Show keyed when={!canPublish() && isPublished() && currentEvent()?.id}>
+                            {(eventId) => <Campaigns eventId={eventId} />}
                         </Show>
                     </Show>
                 </Show>
