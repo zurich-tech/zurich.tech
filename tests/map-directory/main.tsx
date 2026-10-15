@@ -4,6 +4,7 @@ import { MapDirectory, type MapDirectoryHandle } from "../../src/map/directory";
 import { filterLocations } from "../../src/map/filter";
 import type { MapLocation } from "../../src/map/queries";
 import { searchTerms } from "../../src/search/search";
+import { Highlight } from "../../src/components/highlight";
 
 /** Exercise actual mounted Solid rows through shrinking, empty and reordered result sets. */
 function Regression() {
@@ -12,6 +13,8 @@ function Regression() {
     const [isReplaced, setReplaced] = createSignal(false);
     const [status, setStatus] = createSignal("Ready");
     const [failures, setFailures] = createSignal(0);
+    const [selected, setSelected] = createSignal<string>();
+    const [hovered, setHovered] = createSignal<string>();
     let handle: MapDirectoryHandle;
     let root!: HTMLDivElement;
 
@@ -79,8 +82,12 @@ function Regression() {
         for (let round = 0; round < 100; round++) {
             for (const value of sequence) {
                 setQuery(value);
+                setSelected(listed()[0]?.organisations[0].id);
+                setHovered(listed().at(-1)?.organisations[0].id);
                 if (round < 50) await paint();
                 else await Promise.resolve();
+                setSelected(undefined);
+                setHovered(undefined);
                 verify();
                 checks++;
             }
@@ -123,11 +130,16 @@ function Regression() {
                 <p>Directory results</p>
                 <MapDirectory places={listed()} onReady={(value) => (handle = value)}>
                     {(place) => {
-                        const person = place.organisations[0];
-
+                        // subscribe the invocation itself to updates after shrinking the result set
+                        selected();
+                        hovered();
                         return (
                             <button
-                                data-organisation-id={person.id}
+                                data-organisation-id={place.organisations[0].id}
+                                classList={{
+                                    selected: selected() === place.organisations[0].id,
+                                    hovered: hovered() === place.organisations[0].id,
+                                }}
                                 style={{
                                     display: "block",
                                     width: "100%",
@@ -135,9 +147,19 @@ function Regression() {
                                     "min-height": "65px",
                                 }}
                             >
-                                <strong>{person.name}</strong>
+                                <strong>
+                                    <Highlight
+                                        text={place.organisations[0].name}
+                                        terms={searchTerms(query())}
+                                    />
+                                </strong>
+                                <small>
+                                    {query()
+                                        ? `${place.organisations[0].name} matches ${query()}`
+                                        : place.organisations[0].name}
+                                </small>
                                 <br />
-                                {person.headline}
+                                {place.organisations[0].headline}
                                 <br />
                                 {place.address}
                             </button>

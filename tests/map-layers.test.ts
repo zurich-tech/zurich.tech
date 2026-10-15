@@ -31,15 +31,21 @@ beforeEach(() => {
             createElement: () => {
                 const canvas = { width: 0, height: 0, getContext: () => context };
                 const shapes: string[] = [];
+                const fills: string[] = [];
+                const rectangles: number[][] = [];
                 const context = {
+                    fillStyle: "",
                     beginPath() {},
                     arc() {
                         shapes.push("round");
                     },
-                    roundRect() {
+                    roundRect(...dimensions: number[]) {
                         shapes.push("square");
+                        rectangles.push(dimensions);
                     },
-                    fill() {},
+                    fill() {
+                        fills.push(context.fillStyle);
+                    },
                     stroke() {},
                     fillText() {},
                     save() {},
@@ -50,6 +56,8 @@ beforeEach(() => {
                         width: canvas.width,
                         height: canvas.height,
                         shapes: [...shapes],
+                        fills: [...fills],
+                        rectangles: [...rectangles],
                         data: new Uint8ClampedArray(canvas.width * canvas.height * 4),
                     }),
                 };
@@ -214,10 +222,14 @@ test.each([true, false])(
                 },
             ]) {
                 expect(evaluate(layer.layout?.["icon-image"], properties, zoom)).toBe(
-                    properties.badge,
+                    isLabelled || properties.isLogo ? properties.badge : "organisation-dot",
                 );
-                expect(evaluate(layer.layout?.["icon-size"], properties, zoom)).toBe(1);
-                expect(evaluate(layer.paint?.["icon-opacity"], properties, zoom)).toBe(1);
+                expect(evaluate(layer.layout?.["icon-size"], properties, zoom)).toBe(
+                    isLabelled || properties.isLogo ? 1 : 0.4,
+                );
+                expect(evaluate(layer.paint?.["icon-opacity"], properties, zoom)).toBe(
+                    isLabelled || properties.isLogo ? 1 : 0.55,
+                );
                 expect(evaluate(active.layout?.["icon-image"], properties, zoom)).toBe(
                     properties.ring,
                 );
@@ -282,6 +294,11 @@ test("test_draw_only_single_place_badges_with_sponsor_shapes_and_prominence_size
             width: size * 2,
             height: size * 2,
             shapes: ["square", "square"],
+            fills: ["#174ed8", "#ffffff"],
+            rectangles: [
+                [0, 0, size * 2, size * 2, 12],
+                [4, 4, size * 2 - 8, size * 2 - 8, 8],
+            ],
         });
         expect(mock.images.get(`badge:host-${prominence}`)).toMatchObject({
             width: size * 2,
@@ -293,6 +310,34 @@ test("test_draw_only_single_place_badges_with_sponsor_shapes_and_prominence_size
                 (feature) => feature.properties!.id === `sponsor-${prominence}`,
             )?.properties?.ring,
         ).toBe(`ring:${size}:true`);
+    }
+});
+
+test("test_show_prominent_names_before_ordinary_labels_and_keep_hero_groups_quiet", () => {
+    for (const isLabelled of [true, false]) {
+        const mock = mockMap();
+        addOrganisationLayers(mock.map, isLabelled);
+        const layer = mock.layers.find((entry) => entry.id === "organisations")!;
+        for (const isLogo of [false, true]) {
+            const properties = { name: "Example", isLogo, count: 1, badge: "badge:example" };
+            expect(evaluate(layer.layout?.["text-field"], properties, 12)).toBe(
+                isLabelled && isLogo ? "Example" : "",
+            );
+            expect(evaluate(layer.paint?.["text-opacity"], properties, 12)).toBe(isLogo ? 1 : 0);
+            expect(evaluate(layer.layout?.["text-field"], properties, 15)).toBe(
+                isLabelled ? "Example" : "",
+            );
+            if (!isLabelled) {
+                for (const count of [1, 2, 30]) {
+                    const feature = { ...properties, isLogo: false, count };
+                    expect(evaluate(layer.layout?.["icon-image"], feature, 12)).toBe(
+                        "organisation-dot",
+                    );
+                    expect(evaluate(layer.layout?.["icon-size"], feature, 12)).toBe(0.4);
+                    expect(evaluate(layer.paint?.["icon-opacity"], feature, 12)).toBe(0.55);
+                }
+            }
+        }
     }
 });
 

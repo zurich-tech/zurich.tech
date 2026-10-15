@@ -97,24 +97,39 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
             "icon-image": [
                 "case",
                 [">", ["get", "count"], 1],
-                "group-dot",
+                isLabelled ? "group-dot" : "organisation-dot",
                 ["get", "isLogo"],
                 ["get", "badge"],
                 isLabelled ? ["get", "badge"] : "organisation-dot",
             ],
-            "icon-size": [
-                "interpolate",
-                ["linear"],
-                ["zoom"],
-                ...badgeScales.flatMap(([zoom, scale]) => [
-                    zoom,
-                    ["case", ["any", ["get", "isLogo"], [">", ["get", "count"], 1]], 1, scale],
-                ]),
-            ] as unknown as ExpressionSpecification,
+            "icon-size": isLabelled
+                ? ([
+                      "interpolate",
+                      ["linear"],
+                      ["zoom"],
+                      ...badgeScales.flatMap(([zoom, scale]) => [
+                          zoom,
+                          [
+                              "case",
+                              ["any", ["get", "isLogo"], [">", ["get", "count"], 1]],
+                              1,
+                              scale,
+                          ],
+                      ]),
+                  ] as unknown as ExpressionSpecification)
+                : ["case", ["get", "isLogo"], 1, 0.4],
             "icon-allow-overlap": true,
             "symbol-sort-key": ["case", ["get", "isLogo"], 2, [">", ["get", "count"], 1], 1, 0],
             "symbol-z-order": "source",
-            "text-field": isLabelled ? ["get", "name"] : "",
+            "text-field": isLabelled
+                ? [
+                      "step",
+                      ["zoom"],
+                      ["case", ["get", "isLogo"], ["get", "name"], ""],
+                      14,
+                      ["get", "name"],
+                  ]
+                : "",
             "text-font": ["Noto Sans Regular"],
             "text-size": labelSize,
             "text-anchor": "left",
@@ -133,8 +148,20 @@ export function addOrganisationLayers(map: GeographicMap, isLabelled: boolean) {
                       13,
                       1,
                   ]
-                : 1,
-            "text-opacity": ["interpolate", ["linear"], ["zoom"], 14, 0, 15, 1],
+                : ["case", ["get", "isLogo"], 1, 0.55],
+            "text-opacity": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                11,
+                0,
+                12,
+                ["case", ["get", "isLogo"], 1, 0],
+                14,
+                ["case", ["get", "isLogo"], 1, 0],
+                15,
+                1,
+            ],
             "text-color": isLabelled ? "#26364a" : "#ffffff",
             "text-halo-color": isLabelled ? "#edf0f2" : "#174ed8",
             "text-halo-width": 1.5,
@@ -361,8 +388,9 @@ function drawDot(colour: string) {
 function drawBadge(organisation: Organisation, image?: HTMLImageElement) {
     const { canvas, context, radius } = createCanvas(organisationSize(organisation));
 
-    // extend solid logo backgrounds into the disc, retaining a fine outline
-    context.fillStyle = "#bbc8df";
+    // distinguish sponsors with a stronger square outline while hosts retain a fine round edge
+    const border = (organisation.isSponsor ? 2 : 1) * pixelRatio;
+    context.fillStyle = organisation.isSponsor ? "#174ed8" : "#bbc8df";
     context.beginPath();
     if (organisation.isSponsor)
         context.roundRect(0, 0, canvas.width, canvas.height, 6 * pixelRatio);
@@ -372,18 +400,18 @@ function drawBadge(organisation: Organisation, image?: HTMLImageElement) {
     context.beginPath();
     if (organisation.isSponsor)
         context.roundRect(
-            pixelRatio,
-            pixelRatio,
-            canvas.width - 2 * pixelRatio,
-            canvas.height - 2 * pixelRatio,
-            5 * pixelRatio,
+            border,
+            border,
+            canvas.width - 2 * border,
+            canvas.height - 2 * border,
+            4 * pixelRatio,
         );
     else context.arc(radius, radius, radius - pixelRatio, 0, Math.PI * 2);
     context.fill();
 
     // icon clipped to the disc, or the initial when there is none
     if (image) {
-        const size = radius * 1.5;
+        const size = radius * (organisation.isSponsor ? 1.3 : 1.5);
         const scale = Math.min(size / image.width, size / image.height);
         const width = image.width * scale;
         const height = image.height * scale;
