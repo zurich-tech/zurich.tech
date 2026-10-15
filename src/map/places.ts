@@ -5,6 +5,28 @@ export function organisationCountLabel(count: number) {
     return `${count} organisation${count === 1 ? "" : "s"}`;
 }
 
+/** Format unique organisations in view against the filtered total. */
+export function mapCount(visible: number, total: number) {
+    const format = new Intl.NumberFormat("en-GB");
+
+    return visible === total
+        ? format.format(total)
+        : `${format.format(visible)} / ${format.format(total)}`;
+}
+
+/** Choose up to three verified logos, putting sponsors and the address host first. */
+export function stackOrganisations(place: MapLocation) {
+    return place.organisations
+        .filter((organisation) => organisation.mapLogoUrl ?? organisation.logoUrl)
+        .sort(
+            (left, right) =>
+                Number(Boolean(right.isSponsor)) - Number(Boolean(left.isSponsor)) ||
+                Number(right.recognition === "Host") - Number(left.recognition === "Host") ||
+                left.name.localeCompare(right.name),
+        )
+        .slice(0, 3);
+}
+
 /** Count distinct organisations without counting their additional offices twice. */
 export function countOrganisations(places: readonly MapLocation[]) {
     const ids = new Set<string>();

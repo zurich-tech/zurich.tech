@@ -4,6 +4,8 @@ import { groupLocations, type LocatedOrganisation } from "../convex/places/group
 import { overview } from "../src/map/camera";
 import {
     countOrganisations,
+    mapCount,
+    stackOrganisations,
     matchingPlaces,
     organisationCountLabel,
     placeName,
@@ -27,6 +29,41 @@ test("test_label_zero_single_and_multiple_organisation_counts", () => {
         "2 organisations",
         "996 organisations",
     ]);
+});
+
+test("test_compact_visible_and_filtered_counts_without_duplicate_totals", () => {
+    expect(
+        [
+            [0, 0],
+            [1, 1],
+            [1656, 1656],
+            [1147, 1656],
+            [0, 12],
+        ].map(([visible, total]) => mapCount(visible, total)),
+    ).toEqual(["0", "1", "1,656", "1,147 / 1,656", "0 / 12"]);
+});
+
+test("test_rank_three_shared_address_logos_without_mutating_the_directory", () => {
+    const entries = [
+        { ...office("Zeta"), logoUrl: "https://example.com/z.png" },
+        { ...office("Host"), recognition: "Host", logoUrl: "https://example.com/h.png" },
+        {
+            ...office("Sponsor"),
+            isSponsor: true,
+            recognition: "Gold sponsor",
+            logoUrl: "https://example.com/s.png",
+        },
+        { ...office("Alpha"), logoUrl: "https://example.com/a.png" },
+        office("No logo"),
+    ];
+    const place = groupLocations(entries)[0];
+    const original = place.organisations.map((person) => person.name);
+    expect(stackOrganisations(place).map((person) => person.name)).toEqual([
+        "Sponsor",
+        "Host",
+        "Alpha",
+    ]);
+    expect(place.organisations.map((person) => person.name)).toEqual(original);
 });
 
 test("test_reuse_unfiltered_locations_for_empty_and_whitespace_searches", () => {
@@ -171,7 +208,23 @@ test("test_respect_label_collisions_for_active_markers", () => {
         // the source selects a visible ring for ordinary badges, sponsors and shared dots
         expect(
             layers.find((layer) => layer.id === "organisations-active")?.layout?.["icon-image"],
-        ).toEqual(["get", "ring"]);
+        ).toEqual([
+            "step",
+            ["zoom"],
+            ["get", "ring"],
+            14,
+            [
+                "case",
+                [
+                    "all",
+                    [">", ["get", "count"], 1],
+                    ["!", ["get", "isSponsor"]],
+                    ["!=", ["get", "badge"], "group-dot"],
+                ],
+                "ring-stack",
+                ["get", "ring"],
+            ],
+        ]);
     } finally {
         if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
         else Reflect.deleteProperty(globalThis, "document");
@@ -260,11 +313,12 @@ test("test_keep_large_shared_addresses_as_one_anchored_marker", () => {
                           id: place.id,
                           place: place.id,
                           name: "host",
-                          badge: "group-dot",
+                          badge: "badge:host",
                           count: 76,
-                          isLogo: false,
-                          labelOffset: [16 / 12, 0],
-                          ring: "ring-group",
+                          isLogo: true,
+                          isSponsor: true,
+                          labelOffset: [28 / 12, 0],
+                          ring: "ring:48:true",
                       }
                     : {
                           id: "single",
@@ -273,6 +327,7 @@ test("test_keep_large_shared_addresses_as_one_anchored_marker", () => {
                           badge: "badge:single",
                           count: 1,
                           isLogo: false,
+                          isSponsor: false,
                           labelOffset: [20 / 12, 0],
                           ring: "ring-active",
                       },

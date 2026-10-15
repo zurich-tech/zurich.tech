@@ -2,6 +2,20 @@ import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { sheetDestination, sheetHeights, sheetKey, sheetPosition } from "../src/map/sheet";
 
+test("test_keep_counts_informational_and_toggle_results_without_discarding_selection", () => {
+    const source = readFileSync(new URL("../src/map/map.tsx", import.meta.url), "utf8");
+    const count = source.split('class="map-count"')[1].split("</span>")[0];
+    const toggle = source.split('class="map-panel-action map-toggle"')[1].split("</button>")[0];
+
+    // keep the count inert and use the same state-preserving action as the mobile handle
+    expect(count).not.toContain("onClick");
+    expect(toggle).toContain("showSheet(!isPanelOpen())");
+    expect(toggle).toContain("<ChevronDown size={18} />");
+    expect(toggle).not.toContain("setSelected");
+    expect(source).toContain('class="map-results-footer"');
+    expect(source).not.toContain('class="map-panel-action map-add"');
+});
+
 test("test_escape_clears_expansion_and_pending_drag_before_returning_focus", () => {
     const source = readFileSync(new URL("../src/map/map.tsx", import.meta.url), "utf8");
     const escape = source

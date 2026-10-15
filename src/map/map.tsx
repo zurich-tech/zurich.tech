@@ -1,7 +1,6 @@
 import {
     Search,
-    List,
-    X,
+    ChevronDown,
     Plus,
     ArrowLeft,
     ArrowUpRight,
@@ -44,6 +43,7 @@ import { MapFilters } from "./filters";
 import { MapDirectory, type MapDirectoryHandle } from "./directory";
 import {
     countOrganisations,
+    mapCount,
     matchingPlaces,
     organisationCountLabel,
     placeName,
@@ -57,6 +57,7 @@ import { isPreviewPath, type Point } from "./hover";
 import {
     addBadges,
     addOrganisationLayers,
+    resizeOrganisationLayers,
     filterOrganisations,
     highlightOrganisations,
     showOrganisations,
@@ -344,6 +345,13 @@ export function CommunityMap(props: {
     let previewOrigin: Point | undefined;
     let previewSource: HTMLElement | undefined;
     let pointer: Point | undefined;
+    let nextPreview: { key: string; timer: ReturnType<typeof setTimeout> } | undefined;
+
+    /** Cancel a pending switch when the pointer leaves its target or enters the card. */
+    function cancelPreviewSwitch() {
+        clearTimeout(nextPreview?.timer);
+        nextPreview = undefined;
+    }
 
     /** Protect slow and diagonal movement from the marker to the card. */
     function isApproachingPreview() {
@@ -366,6 +374,7 @@ export function CommunityMap(props: {
     /** Remove the preview and its mounted content together. */
     function closePreview() {
         keepPreview();
+        cancelPreviewSwitch();
         preview?.remove();
         disposePreview?.();
         preview = undefined;
@@ -378,6 +387,7 @@ export function CommunityMap(props: {
 
     /** Allow the pointer to cross the gap between a marker and its preview. */
     function leavePreview() {
+        cancelPreviewSwitch();
         if (!preview) closePreview();
         else {
             keepPreview();
@@ -399,7 +409,7 @@ export function CommunityMap(props: {
     function showPreview(
         places: MapLocation[],
         point: [number, number],
-        isKeyboard = false,
+        isImmediate = false,
         sidebar?: HTMLElement,
     ) {
         const current = instance();
@@ -414,10 +424,24 @@ export function CommunityMap(props: {
                 )
                 .join(";");
         if (key === previewKey) {
+            cancelPreviewSwitch();
             if (preview) keepPreview();
             return;
         }
-        if (!isKeyboard && isApproachingPreview()) return;
+        // protect crossing the gap, but let a deliberate hover choose a neighbouring marker
+        if (!isImmediate && isApproachingPreview()) {
+            if (nextPreview?.key !== key) {
+                cancelPreviewSwitch();
+                nextPreview = {
+                    key,
+                    timer: setTimeout(() => {
+                        closePreview();
+                        showPreview(places, point, true, sidebar);
+                    }, 150),
+                };
+            }
+            return;
+        }
         closePreview();
         previewKey = key;
         previewSource = sidebar;
@@ -443,9 +467,15 @@ export function CommunityMap(props: {
                         <div
                             role="region"
                             aria-label="Organisation preview"
-                            onPointerEnter={keepPreview}
+                            onPointerEnter={() => {
+                                cancelPreviewSwitch();
+                                keepPreview();
+                            }}
                             onPointerLeave={leavePreview}
-                            onFocusIn={keepPreview}
+                            onFocusIn={() => {
+                                cancelPreviewSwitch();
+                                keepPreview();
+                            }}
                             onFocusOut={(event) => {
                                 if (
                                     !event.currentTarget.contains(
@@ -528,7 +558,7 @@ export function CommunityMap(props: {
                     preview.setLngLat(current.map.unproject([point[0], top]));
                 }
             },
-            isKeyboard ? 0 : 180,
+            isImmediate ? 0 : 180,
         );
     }
 
@@ -756,11 +786,13 @@ export function CommunityMap(props: {
             const width = container.clientWidth;
             const height = container.clientHeight;
             if (width === previousWidth && height === previousHeight) return;
+            const isWidthChanged = width !== previousWidth;
             previousWidth = width;
             previousHeight = height;
 
             closePreview();
             map?.resize();
+            if (instance() && isWidthChanged) resizeOrganisationLayers(map!, !props.isHero, width);
             if (props.isHero) frame();
             else if (selectedPlaces()[0]) focusLocation(selectedPlaces()[0], 0);
             setView((value) => value + 1);
@@ -811,7 +843,7 @@ export function CommunityMap(props: {
                     if (map!.areTilesLoaded()) setError(false);
                 });
                 map.on("load", () => {
-                    addOrganisationLayers(map!, !props.isHero);
+                    addOrganisationLayers(map!, !props.isHero, container.clientWidth);
                     setInstance({ map: map!, Popup: library.Popup });
                     setZoom(map!.getZoom());
                 });
@@ -854,11 +886,7 @@ export function CommunityMap(props: {
 
         void addBadges(
             current.map,
-            places.filter(
-                (place) =>
-                    place.organisations.length === 1 &&
-                    (!props.isHero || isHighlighted(place.organisations[0])),
-            ),
+            places.filter((place) => !props.isHero || place.organisations.some(isHighlighted)),
             () => !isDisposed,
         ).catch((error) => {
             console.error("Map badges failed to load", error);
@@ -1035,48 +1063,16 @@ export function CommunityMap(props: {
                                 <span aria-hidden="true" />
                             </button>
                             <header class="map-directory-heading">
-                                <Show when={selectedPlaces().length}>
-                                    <button
-                                        class="map-panel-action map-back"
-                                        type="button"
-                                        ref={backButton}
-                                        aria-label="Back to results"
-                                        title="Back to results"
-                                        onClick={closeDetails}
-                                    >
-                                        <ArrowLeft size={18} />
-                                    </button>
-                                </Show>
                                 <h1>Explore Zurich</h1>
-                                <a
-                                    class="map-panel-action map-add"
-                                    href="/manage"
-                                    aria-label="Add your organisation"
-                                    title="Add your organisation"
+                                <span
+                                    class="map-count"
+                                    title="Organisations in view / matching filters"
+                                    aria-label={`${visibleCount()} organisations in view, ${organisationCount()} matching filters`}
                                 >
-                                    <Plus size={18} />
-                                </a>
-                                <button
-                                    class="map-panel-action map-toggle"
-                                    type="button"
-                                    aria-label={
-                                        isPanelOpen() ? "Collapse results" : "Browse organisations"
-                                    }
-                                    title={
-                                        isPanelOpen() ? "Collapse results" : "Browse organisations"
-                                    }
-                                    aria-expanded={isPanelOpen()}
-                                    aria-controls="map-results-panel"
-                                    onClick={() => {
-                                        resetNavigation();
-                                        setPanelOpen(!isPanelOpen());
-                                        setExpanded(false);
-                                        setSelected([]);
-                                        setHovered([]);
-                                    }}
-                                >
-                                    {isPanelOpen() ? <X size={18} /> : <List size={18} />}
-                                </button>
+                                    {organisations() === undefined
+                                        ? "…"
+                                        : mapCount(visibleCount(), organisationCount())}
+                                </span>
                             </header>
                             <label class="map-search">
                                 <Search size={18} aria-hidden="true" />
@@ -1125,20 +1121,17 @@ export function CommunityMap(props: {
                                     }}
                                 />
                                 <button
+                                    class="map-panel-action map-toggle"
                                     type="button"
-                                    class="map-browse"
-                                    aria-label={organisationCountLabel(organisationCount())}
-                                    title={organisationCountLabel(organisationCount())}
-                                    onClick={() => {
-                                        resetNavigation();
-                                        setSelected([]);
-                                        setPanelOpen(true);
-                                    }}
+                                    aria-label={
+                                        isPanelOpen() ? "Collapse results" : "Expand results"
+                                    }
+                                    title={isPanelOpen() ? "Collapse results" : "Expand results"}
+                                    aria-expanded={isPanelOpen()}
+                                    aria-controls="map-results-panel"
+                                    onClick={() => showSheet(!isPanelOpen())}
                                 >
-                                    <List size={14} /> {organisationCount()}
-                                    <span class="map-browse-label">
-                                        organisation{organisationCount() === 1 ? "" : "s"}
-                                    </span>
+                                    <ChevronDown size={18} />
                                 </button>
                             </div>
                         </div>
@@ -1181,17 +1174,9 @@ export function CommunityMap(props: {
                                     when={selectedPlaces().length}
                                     fallback={
                                         <>
-                                            <Show
-                                                when={
-                                                    organisations() === undefined ||
-                                                    (!isFiltered() &&
-                                                        visibleCount() !== organisationCount())
-                                                }
-                                            >
+                                            <Show when={organisations() === undefined}>
                                                 <p class="map-results" role="status">
-                                                    {organisations() === undefined
-                                                        ? "Loading locations…"
-                                                        : `${visibleCount()} of ${organisationCountLabel(organisationCount())} in view`}
+                                                    Loading locations…
                                                 </p>
                                             </Show>
                                             <Show
@@ -1306,7 +1291,16 @@ export function CommunityMap(props: {
                                                                             }
                                                                         >
                                                                             {(recognition) => (
-                                                                                <span class="map-recognition">
+                                                                                <span
+                                                                                    class="map-recognition"
+                                                                                    data-sponsor={
+                                                                                        place
+                                                                                            .organisations[0]
+                                                                                            .isSponsor
+                                                                                            ? recognition()
+                                                                                            : undefined
+                                                                                    }
+                                                                                >
                                                                                     {recognition()}
                                                                                 </span>
                                                                             )}
@@ -1343,10 +1337,28 @@ export function CommunityMap(props: {
                                                     );
                                                 }}
                                             </MapDirectory>
+                                            <footer class="map-results-footer">
+                                                <a href="/manage">
+                                                    <Plus size={16} />
+                                                    Add organisation
+                                                </a>
+                                            </footer>
                                         </>
                                     }
                                 >
                                     <div class="map-details">
+                                        <div class="map-detail-navigation">
+                                            <button
+                                                class="map-back"
+                                                type="button"
+                                                ref={backButton}
+                                                aria-label="Back to results"
+                                                onClick={closeDetails}
+                                            >
+                                                <ArrowLeft size={16} />
+                                                Results
+                                            </button>
+                                        </div>
                                         <Show when={!selectedOrganisation()}>
                                             <h2 class="map-place__name">
                                                 {placeName(selectedPlaces()[0])}
@@ -1470,11 +1482,25 @@ function PlaceDetails(detail: {
                                         >
                                             <small>{organisation.location}</small>
                                         </Show>
+                                        <Show
+                                            when={
+                                                organisation.recognition &&
+                                                (organisation.isSponsor || !detail.isCompact)
+                                            }
+                                        >
+                                            <small
+                                                class="map-recognition"
+                                                data-sponsor={
+                                                    organisation.isSponsor
+                                                        ? organisation.recognition
+                                                        : undefined
+                                                }
+                                            >
+                                                {organisation.recognition}
+                                            </small>
+                                        </Show>
                                         <Show when={!detail.isCompact}>
                                             <small>{organisationKinds[organisation.kind]}</small>
-                                            <Show when={organisation.recognition}>
-                                                <small>{organisation.recognition}</small>
-                                            </Show>
                                             <Show when={organisation.headline}>
                                                 <span>{organisation.headline}</span>
                                             </Show>

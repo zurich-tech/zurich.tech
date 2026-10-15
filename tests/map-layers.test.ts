@@ -12,6 +12,7 @@ import {
     addOrganisationLayers,
     filterOrganisations,
     highlightOrganisations,
+    resizeOrganisationLayers,
     showOrganisations,
 } from "../src/map/layers";
 
@@ -98,6 +99,7 @@ function mockMap() {
     const filters: [string, unknown][] = [];
     const images = new Map<string, { width: number; height: number; shapes: string[] }>();
     const updates: string[] = [];
+    const layouts: [string, string, unknown][] = [];
     const map = {
         addSource: (id: string, source: SourceSpecification) => {
             sources[id] = source;
@@ -107,6 +109,11 @@ function mockMap() {
         }),
         addLayer: (layer: SymbolLayerSpecification) => layers.push(layer),
         getLayer: (id: string) => layers.find((layer) => layer.id === id),
+        setLayoutProperty: (id: string, property: string, value: unknown) => {
+            layouts.push([id, property, value]);
+            const layer = layers.find((layer) => layer.id === id)!;
+            Object.assign(layer.layout!, { [property]: value });
+        },
         setFilter: (id: string, filter: unknown) => filters.push([id, filter]),
         hasImage: (id: string) => images.has(id),
         addImage: (id: string, image: { width: number; height: number; shapes: string[] }) =>
@@ -114,8 +121,80 @@ function mockMap() {
         updateImage: (id: string) => updates.push(id),
     } as unknown as GeographicMap;
 
-    return { map, sources, layers, uploads, filters, images, updates };
+    return { map, sources, layers, uploads, filters, images, updates, layouts };
 }
+
+test.each([true, false])(
+    "test_resize_only_sponsor_layouts_at_700px_labelled_%s",
+    async (isLabelled) => {
+        const mock = mockMap();
+        addOrganisationLayers(mock.map, isLabelled, 699);
+        const places = groupLocations([
+            office("ordinary"),
+            { ...office("host"), recognition: "Host" },
+            office("tenant", "shared"),
+            ...(["large", "medium", "small"] as const).map((prominence) => ({
+                ...office(`sponsor-${prominence}`, prominence === "large" ? "shared" : prominence),
+                prominence,
+                isSponsor: true,
+            })),
+        ]);
+        await addBadges(mock.map, places, () => true);
+        showOrganisations(mock.map, places, (person) => Boolean(person.recognition));
+        const images = [...mock.images];
+        const source = structuredClone(mock.uploads);
+        const initial = structuredClone(mock.layers);
+
+        // cross the breakpoint in both directions without changing image or source state
+        for (const width of [699, 700, 1200, 390]) {
+            resizeOrganisationLayers(mock.map, isLabelled, width);
+            const scale = width < 700 ? 0.75 : 1;
+            expect(
+                validateStyleMin({
+                    version: 8,
+                    glyphs: "https://example.com/{fontstack}/{range}.pbf",
+                    sources: mock.sources,
+                    layers: mock.layers,
+                }),
+            ).toEqual([]);
+            for (const feature of mock.uploads[0].features) {
+                const properties = feature.properties!;
+                for (const zoom of [0, 10, 12, 13, 14, 14.5, 18]) {
+                    for (const id of ["organisations", "organisations-active"]) {
+                        const layout = mock.layers.find((layer) => layer.id === id)!.layout!;
+                        if (properties.isSponsor) {
+                            const size = Number(String(properties.ring).split(":")[1]);
+                            expect(evaluate(layout["icon-size"], properties, zoom)).toBe(scale);
+                            expect(evaluate(layout["text-offset"], properties, zoom)).toEqual([
+                                ((size / 2 + 4) * scale) / 12,
+                                0,
+                            ]);
+                            expect((mock.images.get(properties.badge)!.width / 2) * scale).toBe(
+                                size * scale,
+                            );
+                            expect((mock.images.get(properties.ring)!.width / 2) * scale).toBe(
+                                (size + 8) * scale,
+                            );
+                        } else {
+                            const original = initial.find((layer) => layer.id === id)!.layout!;
+                            expect(evaluate(layout["icon-size"], properties, zoom)).toEqual(
+                                evaluate(original["icon-size"], properties, zoom),
+                            );
+                            expect(evaluate(layout["text-offset"], properties, zoom)).toEqual(
+                                evaluate(original["text-offset"], properties, zoom),
+                            );
+                        }
+                    }
+                }
+            }
+            expect([...mock.images]).toEqual(images);
+            expect(mock.uploads).toEqual(source);
+            expect(mock.updates).toEqual([]);
+            expect(mock.filters).toEqual([]);
+        }
+        expect(mock.layouts).toHaveLength(16);
+    },
+);
 
 /** Evaluate the actual MapLibre expression, failing loudly on invalid syntax. */
 function evaluate(expression: unknown, properties: Record<string, unknown>, zoom = 10) {
@@ -174,6 +253,7 @@ test("test_filter_exact_addresses_without_source_uploads_or_active_selection_cha
         badge: "group-dot",
         count: 2,
         isLogo: false,
+        isSponsor: false,
         labelOffset: [16 / 12, 0],
         ring: "ring-group",
     });
@@ -209,6 +289,7 @@ test.each([true, false])(
                 {
                     count: 2,
                     isLogo: false,
+                    isSponsor: false,
                     badge: "group-dot",
                     ring: "ring-group",
                     labelOffset: [16 / 12, 0],
@@ -216,6 +297,7 @@ test.each([true, false])(
                 {
                     count: 1,
                     isLogo: true,
+                    isSponsor: true,
                     badge: "badge:sponsor",
                     ring: "ring:36:true",
                     labelOffset: [22 / 12, 0],
@@ -290,14 +372,16 @@ test("test_draw_only_single_place_badges_with_sponsor_shapes_and_prominence_size
         ["medium", 30],
         ["small", 26],
     ] as const) {
+        const sponsorSize = { large: 48, medium: 44, small: 40 }[prominence];
         expect(mock.images.get(`badge:sponsor-${prominence}`)).toMatchObject({
-            width: size * 2,
-            height: size * 2,
-            shapes: ["square", "square"],
-            fills: ["#174ed8", "#ffffff"],
+            width: sponsorSize * 2,
+            height: sponsorSize * 2,
+            shapes: ["square", "square", "square"],
+            fills: ["#ffffff", "#174ed8", "#ffffff"],
             rectangles: [
-                [0, 0, size * 2, size * 2, 12],
-                [4, 4, size * 2 - 8, size * 2 - 8, 8],
+                [4, 4, sponsorSize * 2 - 8, sponsorSize * 2 - 8, 16],
+                [8, 8, sponsorSize * 2 - 16, sponsorSize * 2 - 16, 12],
+                [14, 14, sponsorSize * 2 - 28, sponsorSize * 2 - 28, 8],
             ],
         });
         expect(mock.images.get(`badge:host-${prominence}`)).toMatchObject({
@@ -309,7 +393,7 @@ test("test_draw_only_single_place_badges_with_sponsor_shapes_and_prominence_size
             mock.uploads[0].features.find(
                 (feature) => feature.properties!.id === `sponsor-${prominence}`,
             )?.properties?.ring,
-        ).toBe(`ring:${size}:true`);
+        ).toBe(`ring:${sponsorSize}:true`);
     }
 });
 
@@ -319,7 +403,13 @@ test("test_show_prominent_names_before_ordinary_labels_and_keep_hero_groups_quie
         addOrganisationLayers(mock.map, isLabelled);
         const layer = mock.layers.find((entry) => entry.id === "organisations")!;
         for (const isLogo of [false, true]) {
-            const properties = { name: "Example", isLogo, count: 1, badge: "badge:example" };
+            const properties = {
+                name: "Example",
+                isLogo,
+                isSponsor: false,
+                count: 1,
+                badge: "badge:example",
+            };
             expect(evaluate(layer.layout?.["text-field"], properties, 12)).toBe(
                 isLabelled && isLogo ? "Example" : "",
             );
@@ -339,6 +429,94 @@ test("test_show_prominent_names_before_ordinary_labels_and_keep_hero_groups_quie
             }
         }
     }
+});
+
+test("test_distinguish_sponsor_tiers_and_keep_names_visible_at_overview_zoom", async () => {
+    const mock = mockMap();
+    addOrganisationLayers(mock.map, true);
+    const tiers = [
+        ["Gold sponsor", "#c99a20"],
+        ["Silver sponsor", "#75879e"],
+        ["Bronze sponsor", "#bf6c32"],
+    ] as const;
+    const places = groupLocations(
+        tiers.map(([recognition], index) => ({
+            ...office(`tier-${index}`),
+            name: "Same initial",
+            isSponsor: true,
+            recognition,
+            prominence: "large" as const,
+        })),
+    );
+    await addBadges(mock.map, places, () => true);
+
+    // equal initials and host prominence must not reuse a different tier's coloured image
+    for (const [index, [, colour]] of tiers.entries()) {
+        expect(mock.images.get(`badge:tier-${index}`)).toMatchObject({
+            fills: ["#ffffff", colour, "#ffffff"],
+        });
+    }
+    const layer = mock.layers.find((entry) => entry.id === "organisations")!;
+    const sponsor = { isSponsor: true, isLogo: true, name: "Sponsor" };
+    expect(evaluate(layer.paint?.["text-opacity"], sponsor, 10)).toBe(1);
+    expect(evaluate(layer.layout?.["text-size"], sponsor, 10)).toBe(13);
+});
+
+test("test_keep_shared_sponsors_visible_and_reveal_ordinary_stacks_only_close_up", async () => {
+    const mock = mockMap();
+    const requested: string[] = [];
+    Object.defineProperty(globalThis, "Image", {
+        configurable: true,
+        value: class {
+            width = 32;
+            height = 32;
+            src = "";
+            async decode() {
+                requested.push(this.src);
+            }
+        },
+    });
+    const places = groupLocations([
+        ...["Alpha", "Beta", "Gamma", "Delta"].map((name) => ({
+            ...office(name, "ordinary"),
+            logoUrl: `https://example.com/${name}.png`,
+        })),
+        { ...office("Tenant", "sponsored"), logoUrl: "https://example.com/tenant.png" },
+        {
+            ...office("Sponsor", "sponsored"),
+            logoUrl: "https://example.com/sponsor.png",
+            isSponsor: true,
+            recognition: "Gold sponsor",
+        },
+    ]);
+    addOrganisationLayers(mock.map, true);
+    await addBadges(mock.map, places, () => true);
+    showOrganisations(mock.map, places, (person) => Boolean(person.recognition));
+    const layer = mock.layers.find((entry) => entry.id === "organisations")!;
+    const ordinary = mock.uploads[0].features[0].properties!;
+    const sponsored = mock.uploads[0].features[1].properties!;
+    expect(evaluate(layer.layout?.["icon-image"], ordinary, 13)).toBe("group-dot");
+    expect(evaluate(layer.layout?.["icon-image"], ordinary, 14)).toBe(`stack:${places[0].id}`);
+    expect(evaluate(layer.layout?.["icon-image"], sponsored, 10)).toBe("badge:Sponsor");
+    expect(evaluate(layer.layout?.["icon-image"], sponsored, 16)).toBe("badge:Sponsor");
+    expect(sponsored.name).toBe("Sponsor");
+    expect(sponsored.ring).toBe("ring:40:true");
+    const active = mock.layers.find((entry) => entry.id === "organisations-active")!;
+    expect(evaluate(active.layout?.["icon-image"], sponsored, 16)).toBe("ring:40:true");
+    expect(requested.sort()).toEqual(
+        ["Alpha", "Beta", "Delta", "sponsor"]
+            .map((name) => `https://example.com/${name}.png`)
+            .sort(),
+    );
+    expect(mock.images.has(`stack:${places[1].id}`)).toBe(false);
+    expect(mock.images.get("badge:Sponsor")).toMatchObject({
+        shapes: ["square", "square", "square"],
+    });
+    expect(mock.images.get("group-dot")).toMatchObject({ shapes: ["round"] });
+
+    // repeated filter or view work must not redownload or recreate the shared images
+    await addBadges(mock.map, places, () => true);
+    expect(requested).toHaveLength(4);
 });
 
 test("test_select_filtered_addresses_including_sponsors_and_groups_without_stale_rings", () => {

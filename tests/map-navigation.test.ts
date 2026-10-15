@@ -2,6 +2,19 @@ import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { MapNavigation, restoreMapFocus, type MapView } from "../src/map/navigation";
 
+test("test_keep_back_navigation_outside_the_fixed_search_header", () => {
+    const source = readFileSync(new URL("../src/map/map.tsx", import.meta.url), "utf8");
+    const heading = source.slice(
+        source.indexOf('<header class="map-directory-heading">'),
+        source.indexOf("</header>", source.indexOf('<header class="map-directory-heading">')),
+    );
+    expect(heading).not.toContain("map-back");
+    const details = source.slice(source.indexOf('<div class="map-details">'));
+    expect(details).toContain('class="map-detail-navigation"');
+    expect(details).toContain("ref={backButton}");
+    expect(details).toContain("onClick={closeDetails}");
+});
+
 test("test_topic_activation_refocuses_panel_search_after_details_or_preview_close", async () => {
     // execute the component's actual handler, including its deferred focus callback
     const source = readFileSync(new URL("../src/map/map.tsx", import.meta.url), "utf8");
