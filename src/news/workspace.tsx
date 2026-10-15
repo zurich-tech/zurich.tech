@@ -24,7 +24,7 @@ export function NewsAdmin() {
     return (
         <Card
             title="News"
-            class="admin-table-card"
+            class="admin-table-card news-workspace"
             toolbar={
                 <>
                     <a class="action-link" href="/news/edit">
@@ -54,20 +54,28 @@ export function NewsAdmin() {
                 />
             </TableToolbar>
             <div class="table-scroll">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Title</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Actions</th>
+                <table class="admin-table" role="table">
+                    <thead role="rowgroup">
+                        <tr role="row">
+                            <th scope="col" role="columnheader">
+                                Title
+                            </th>
+                            <th scope="col" role="columnheader">
+                                Type
+                            </th>
+                            <th scope="col" role="columnheader">
+                                Status
+                            </th>
+                            <th scope="col" role="columnheader">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody role="rowgroup">
                         <For each={posts()}>
                             {(post) => (
-                                <tr>
-                                    <td>
+                                <tr role="row">
+                                    <td role="cell">
                                         {post.published ? (
                                             <a href={`/news/${post.slug}`}>
                                                 {post.published.title}
@@ -76,8 +84,10 @@ export function NewsAdmin() {
                                             post.draft.title
                                         )}
                                     </td>
-                                    <td>{post.draft.kind === "link" ? "Link" : "Post"}</td>
-                                    <td>
+                                    <td role="cell">
+                                        {post.draft.kind === "link" ? "Link" : "Post"}
+                                    </td>
+                                    <td role="cell">
                                         <span
                                             class="tag tag-status"
                                             classList={{ "tag-upcoming": !!post.published }}
@@ -85,7 +95,7 @@ export function NewsAdmin() {
                                             {post.published ? "Published" : "Draft"}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td role="cell">
                                         <div class="admin-actions" aria-label="Actions">
                                             <a
                                                 class="action-link"
@@ -99,8 +109,10 @@ export function NewsAdmin() {
                             )}
                         </For>
                         <Show when={workspace() && !posts().length}>
-                            <tr>
-                                <td colSpan={4}>No news</td>
+                            <tr role="row">
+                                <td role="cell" colSpan={4}>
+                                    No news
+                                </td>
                             </tr>
                         </Show>
                     </tbody>

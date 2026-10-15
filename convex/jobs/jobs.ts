@@ -351,16 +351,42 @@ export async function jobAllowance(
         .query("sponsorships")
         .withIndex("by_organisation", (q) => q.eq("organisationId", organisationId))
         .collect();
-    const now = Date.now();
+    // load relationships once and share the calculation with bulk workspace reads
+    const active = sponsors.filter((sponsor) => sponsor.status === "active");
+    const terms = new Map(
+        await Promise.all(
+            active.map(
+                async (sponsor) => [sponsor._id, await readTerms(ctx, sponsor._id)] as const,
+            ),
+        ),
+    );
+    const jobs = active.length
+        ? await ctx.db
+              .query("jobs")
+              .withIndex("by_organisation", (q) => q.eq("organisationId", organisationId))
+              .collect()
+        : [];
+
+    return calculateJobAllowance(sponsors, terms, jobs, Date.now(), excludeId);
+}
+
+/** Calculate current sponsor capacity from one organisation's ordered agreements and jobs. */
+export function calculateJobAllowance(
+    sponsors: readonly Doc<"sponsorships">[],
+    termsBySponsor: ReadonlyMap<string, Doc<"sponsorshipTerms">[]>,
+    jobs: readonly Doc<"jobs">[],
+    now: number,
+    excludeId?: Doc<"jobs">["_id"],
+) {
+    // select the first eligible agreement, including publicly recognised future terms
     for (const sponsor of sponsors) {
-        if (sponsor.status !== "active") continue;
-        const term = await jobTerm(ctx, sponsor);
+        if (sponsor.status !== "active" || !("organisationId" in sponsor)) continue;
+        const terms = termsBySponsor.get(sponsor._id) ?? [];
+        const term = selectTerm(terms, now) ?? selectTerm(terms, now, true);
         if (!term || term.endsAt <= now) continue;
+
+        // count only live slots, excluding the vacancy being edited or renewed
         const limit = tiers.find((tier) => tier.id === term.tier)!.jobs;
-        const jobs = await ctx.db
-            .query("jobs")
-            .withIndex("by_organisation", (q) => q.eq("organisationId", organisationId))
-            .collect();
         const used = jobs.filter(
             (job) =>
                 job._id !== excludeId &&
@@ -377,6 +403,7 @@ export async function jobAllowance(
             available: limit === null ? null : Math.max(0, limit - used),
         };
     }
+
     return null;
 }
 

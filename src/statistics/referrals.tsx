@@ -1,4 +1,5 @@
 import { createResource, createSignal, For, Show } from "solid-js";
+import { RefreshCw } from "lucide-solid";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
@@ -114,7 +115,7 @@ export function Referrals() {
                             title="Refresh arrivals"
                             onClick={() => void refetch()}
                         >
-                            ↻
+                            <RefreshCw size={16} aria-hidden="true" />
                         </button>
                     </>
                 }

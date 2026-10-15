@@ -7,17 +7,676 @@
 }
 
 /* keep workspace sections unframed and align their tools with their content */
-.admin-page > .card {
-    border: 0;
+.site-shell--admin {
+    max-width: 1400px;
 }
 
-.admin-page .card-title {
+.page.admin-page {
+    grid-template-columns: 184px minmax(0, 1100px);
+    gap: 32px;
+    padding: 24px var(--gutter) 48px;
+    align-items: start;
+    font: 400 14px / 1.5 var(--font-text);
+}
+
+.admin-sidebar {
+    position: sticky;
+    top: 24px;
+    display: grid;
+    gap: 24px;
+    min-width: 0;
+    max-height: calc(100dvh - 48px);
+    overflow-y: auto;
+}
+
+.admin-sidebar h1 {
+    font: 600 20px / 1.4 var(--font-mono);
+    padding: 4px 10px;
     letter-spacing: 0;
 }
 
-.admin-page > .card > .card-heading,
-.admin-page > .card > .card-body {
-    padding-inline: 0;
+.admin-destinations {
+    display: grid;
+    gap: 20px;
+}
+
+.admin-nav-group {
+    display: grid;
+    gap: 2px;
+}
+
+.admin-nav-group p {
+    padding: 0 10px 6px;
+    color: var(--color-soft);
+    font-size: var(--text-xs);
+    font-weight: 500;
+}
+
+.admin-nav-group a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 36px;
+    padding: 7px 10px;
+    border-radius: 4px;
+    color: var(--color-soft);
+    font: 500 14px / 1.5 var(--font-text);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.admin-nav-group a:hover {
+    background: var(--color-wash);
+    color: var(--color-ink);
+}
+
+.admin-nav-group a:focus-visible,
+.admin-mobile-navigation select:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.admin-nav-group a[aria-current="page"] {
+    background: var(--color-accent-wash);
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+.admin-nav-group svg {
+    flex: none;
+}
+
+.admin-mobile-navigation {
+    display: none;
+}
+
+.admin-content {
+    display: grid;
+    align-content: start;
+    gap: 24px;
+    min-width: 0;
+    width: 100%;
+    max-width: 1100px;
+}
+
+/* share operational spacing with standalone editors without adding a sidebar */
+.page.admin-editor-page {
+    max-width: 1100px;
+    margin-inline: auto;
+    padding: 24px var(--gutter) 48px;
+    font: 400 14px / 1.5 var(--font-text);
+}
+
+.admin-editor-page > .page-header {
+    border: 0;
+    padding: 0;
+    gap: 12px 16px;
+}
+
+.admin-editor-page .page-header h1 {
+    font: 600 24px / 1.4 var(--font-text);
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+}
+
+.admin-editor-page .page-header p {
+    font-size: 14px;
+}
+
+.admin-editor-page :is(.editor-columns, .editor-column) {
+    gap: 24px;
+}
+
+.admin-editor-page .news-editor-fields {
+    gap: 20px;
+}
+
+.admin-editor-page .news-editor-grid {
+    gap: 16px;
+}
+
+/* flatten section wrappers at every depth, including mail and card--sections */
+.admin-content .card {
+    --card-inset: 0px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.admin-content .card .card {
+    border-top: 1px solid var(--color-line);
+    padding-top: 16px;
+}
+
+.admin-content .card > .card-heading {
+    min-height: 36px;
+    gap: 8px 16px;
+    padding: 0 0 12px;
+    border-bottom: 0;
+}
+
+.admin-content .card > .card-body {
+    gap: 16px;
+    padding: 0;
+}
+
+.admin-content .card-title {
+    font: 600 20px / 1.4 var(--font-text);
+    letter-spacing: 0;
+}
+
+.admin-content .card .card .card-title {
+    font-size: 16px;
+}
+
+.admin-content :is(h2, h3, h4, legend) {
+    font-family: var(--font-text);
+    letter-spacing: 0;
+}
+
+.admin-content .card--sections > .card-body {
+    gap: 0;
+}
+
+.admin-content .card-section {
+    padding: 16px 0;
+}
+
+.admin-content .card-section:first-child {
+    padding-top: 0;
+}
+
+.admin-content .card-section:last-child {
+    padding-bottom: 0;
+}
+
+.admin-content .admin-table {
+    background: var(--color-raised);
+    font: 400 14px / 1.5 var(--font-text);
+}
+
+/* outrank shared first/last cell resets without changing tables outside admin */
+.admin-page .admin-content .admin-table :is(th, td) {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: middle;
+}
+
+.admin-content .admin-table th {
+    background: var(--color-wash);
+    color: var(--color-soft);
+    font: 600 12px / 1.5 var(--font-text);
+    letter-spacing: 0;
+}
+
+.admin-page .admin-content .admin-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.admin-content .admin-table td:first-child {
+    font-weight: 500;
+}
+
+.admin-content .card-toolbar {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+}
+
+.admin-content :is(.button, .action-link, .text-link) {
+    font-family: var(--font-text);
+    font-size: 14px;
+    letter-spacing: 0;
+}
+
+.admin-content .button {
+    min-height: 36px;
+    padding-inline: 12px;
+    white-space: normal;
+}
+
+.admin-content .button:not(.button--primary) {
+    border-color: var(--color-line);
+}
+
+.admin-content :is(.mail-settings dt, .card-heading > span, .form-section h3) {
+    font-family: var(--font-text);
+    letter-spacing: 0;
+}
+
+.admin-content .table-scroll {
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+}
+
+.admin-content .editor {
+    width: 100%;
+    max-width: 880px;
+    gap: 20px;
+}
+
+.admin-editor-page > .editor {
+    max-width: none;
+}
+
+.admin-content .editor .form-section {
+    padding-block: 0;
+    gap: 12px;
+}
+
+.admin-content .editor .form-section + .form-section {
+    padding-top: 16px;
+}
+
+.admin-content .mail-workspace {
+    gap: 16px;
+}
+
+/* keep operational totals consistent with the audience overview */
+.admin-content .statistics {
+    gap: 20px 32px;
+}
+
+.admin-content .statistics > div {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.admin-content .statistics dt {
+    font: 400 14px / 1.5 var(--font-text);
+}
+
+.admin-content .statistics dd {
+    font: 600 22px / 1.4 var(--font-text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+}
+
+/* space preview settings that live outside an editor form */
+.admin-content .mail-section > label:has(> select) {
+    display: grid;
+    gap: 8px;
+    width: 100%;
+    max-width: 360px;
+    min-width: 0;
+    font: 500 14px / 1.5 var(--font-text);
+}
+
+.admin-content .mail-section > label > select {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    background: var(--color-raised);
+    color: var(--color-ink);
+    font: 400 16px / 1.5 var(--font-text);
+}
+
+.admin-content .mail-section > label > select:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.admin-content .table-toolbar {
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+.admin-content .table-toolbar__search {
+    min-width: min(100%, 240px);
+}
+
+/* fit location, agreement and schedule fields to their available panel width */
+.admin-content :is(.form-columns, .sponsorship-fields) {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+.admin-content :is(.editor, .form-columns, .sponsorship-fields) > * {
+    min-width: 0;
+}
+
+.admin-content .editor label:not(.checkbox) {
+    gap: 6px;
+}
+
+.admin-content :is(.editor legend, .form-section > h3, .mail-section h3) {
+    font: 600 16px / 1.5 var(--font-text);
+    letter-spacing: 0;
+}
+
+.admin-content .editor > fieldset {
+    gap: 16px;
+    padding-top: 16px;
+}
+
+/* let ungrouped content topics fill the editor instead of sizing to their labels */
+.admin-content .form-columns > .topic-choice {
+    grid-column: 1 / -1;
+}
+
+.admin-content .editor fieldset.topic-fields,
+.admin-content .topic-fields > div:not(.interest-groups),
+.admin-content .topic-fields > div:not(.interest-groups) > .interest-group {
+    width: 100%;
+    min-width: 0;
+}
+
+.admin-content .topic-fields > div:not(.interest-groups) .choice-grid {
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    gap: 8px 16px;
+}
+
+.admin-content .topic-fields .checkbox {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.admin-content .editor :is(.topic-fields, .survey-choice) > legend {
+    font: 600 16px / 1.5 var(--font-text);
+    letter-spacing: 0;
+}
+
+.admin-content .co-organiser-row {
+    flex-wrap: wrap;
+}
+
+.admin-content .co-organiser-row > span {
+    flex: 1 1 180px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.admin-content .form-actions {
+    gap: 8px 12px;
+    padding-top: 16px;
+}
+
+/* wrap record names, identifiers and grouped actions without clipping editors or suggestions */
+.admin-content
+    :is(.card-title, .admin-context, .editor p, .location-actions, .mail-section-heading) {
+    overflow-wrap: anywhere;
+}
+
+.admin-content :is(.mail-section-heading, .mail-buttons, .sponsorship-history > header) {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+}
+
+.admin-content :is(.mail-control, .mail-section, .sponsorship-history) {
+    gap: 16px;
+    padding-top: 16px;
+}
+
+.admin-content :is(.mail-control, .mail-section-heading, .location-actions) > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.admin-content .mail-control {
+    flex-wrap: wrap;
+}
+
+.admin-content .markdown-editor__preview {
+    overflow-wrap: anywhere;
+}
+
+.admin-content .markdown-editor__preview pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.admin-content :is(button, a, summary):focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+    .page.admin-page {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+        padding-top: 20px;
+    }
+
+    .admin-sidebar {
+        position: static;
+        grid-template-columns: 70px minmax(0, 1fr);
+        align-items: center;
+        gap: 16px;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .admin-sidebar h1 {
+        padding: 0;
+        font-size: 20px;
+    }
+
+    .admin-destinations {
+        display: none;
+    }
+
+    .admin-mobile-navigation {
+        position: relative;
+        display: block;
+        min-width: 0;
+    }
+
+    .admin-mobile-navigation select {
+        appearance: none;
+        width: 100%;
+        min-height: 44px;
+        border: 1px solid var(--color-line);
+        border-radius: 4px;
+        padding: 8px 36px 8px 12px;
+        background: var(--color-raised);
+        color: var(--color-ink);
+        font: 400 16px / 1.5 var(--font-text);
+    }
+
+    .admin-mobile-navigation > svg {
+        position: absolute;
+        right: 12px;
+        top: 14px;
+        pointer-events: none;
+    }
+
+    .admin-content .card-title {
+        font-size: 20px;
+    }
+
+    .admin-content :is(.button, .action-link, .text-link),
+    .admin-content
+        :is(.admin-table, .admin-actions, .row-actions, .entry-actions)
+        .button:not(.button--primary),
+    .admin-content :is(input:not([type="checkbox"], [type="radio"], [type="hidden"]), select) {
+        min-height: 44px;
+    }
+
+    .admin-content :is(.action-link, .text-link) {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .admin-content
+        :is(input:not([type="checkbox"], [type="radio"], [type="hidden"]), select, textarea) {
+        font-size: 16px;
+    }
+
+    .admin-content .card-toolbar {
+        justify-content: flex-start;
+    }
+
+    .admin-page .admin-content .admin-table :is(th, td) {
+        padding-inline: 14px;
+    }
+
+    /* make small editor actions and suggestion rows usable by touch */
+    .admin-content :is(.checkbox, summary, .selection-options li, .address-field__results li) {
+        min-height: 44px;
+    }
+
+    .admin-content :is(.selection-values button, .markdown-editor__tools .action-link),
+    .admin-content .filter-pills > :is(button, a) {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .admin-content .selection-values button {
+        width: 44px;
+        height: 44px;
+    }
+
+    .admin-content :is(.selection-options li, .address-field__results li) {
+        padding-block: 12px;
+        overflow-wrap: anywhere;
+    }
+
+    .admin-content .mail-section-heading {
+        align-items: flex-start;
+    }
+}
+
+/* give phone editors compact choices and a separate row for their actions */
+@media (max-width: 640px) {
+    /* preserve table headings for assistive technology while giving titles a full row */
+    .admin-content :is(.news-workspace, .admin-event-card, .admin-attendees) .admin-table,
+    .admin-content :is(.news-workspace, .admin-event-card, .admin-attendees) tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-content :is(.news-workspace, .admin-event-card, .admin-attendees) thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .admin-content .news-workspace tbody tr {
+        display: grid;
+        grid-template-columns: auto auto minmax(0, 1fr);
+        align-items: center;
+        gap: 4px 12px;
+        padding: 14px;
+        border-bottom: 1px solid var(--color-line);
+    }
+
+    .admin-content :is(.news-workspace, .admin-event-card, .admin-attendees) tbody tr:last-child {
+        border-bottom: 0;
+    }
+
+    .admin-page
+        .admin-content
+        :is(.news-workspace, .admin-event-card, .admin-attendees)
+        .admin-table
+        td {
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        overflow-wrap: anywhere;
+        text-align: left;
+    }
+
+    .admin-content .news-workspace td:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .admin-content .news-workspace td:last-child:not(:first-child) {
+        justify-self: end;
+    }
+
+    .admin-content :is(.news-workspace, .admin-event-card) td:first-child > a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+    }
+
+    /* let event metadata wrap as a group while keeping dates and actions legible */
+    .admin-content .admin-event-card tbody tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 12px;
+        padding: 14px;
+        border-bottom: 1px solid var(--color-line);
+    }
+
+    .admin-content .admin-event-card td:is(:first-child, :last-child) {
+        flex: 0 0 100%;
+    }
+
+    .admin-content .admin-event-card td:nth-child(2) {
+        white-space: nowrap;
+    }
+
+    .admin-content .admin-event-card td:nth-child(3) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .admin-content .admin-event-card td:nth-child(4) {
+        flex: 1 1 130px;
+    }
+
+    .admin-content :is(.admin-event-card, .admin-attendees) .admin-actions {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+    }
+
+    /* keep optional answers and admission actions below the attendee identity */
+    .admin-content .admin-attendees tbody tr {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+        padding: 14px;
+        border-bottom: 1px solid var(--color-line);
+    }
+
+    .admin-content .topic-fields > div:not(.interest-groups) .choice-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+    }
+
+    .admin-content .card:has(.editor, .news-editor-fields) > .card-heading > .card-title {
+        flex-basis: 100%;
+    }
+
+    .admin-content .card:has(.editor, .news-editor-fields) > .card-heading > .card-toolbar {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .admin-editor-page .page-header__actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    /* retain the email list's existing grid rather than borders around every cell */
+    .admin-content .mail-campaigns tr {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px 12px;
+        padding: 14px;
+    }
+
+    .admin-page .admin-content .mail-campaigns td {
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .admin-content .mail-campaigns tr:last-child {
+        border-bottom: 0;
+    }
 }
 
 .admin-navigation .card-heading {

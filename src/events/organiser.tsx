@@ -143,19 +143,23 @@ export function OrganiserField(props: {
                     </For>
                 </select>
             </label>
-            <label>
-                Co-organisers
-                <select
-                    name="coOrganiserMode"
-                    value={inherits() ? "inherit" : "custom"}
-                    onChange={(event) => setInherits(event.currentTarget.value === "inherit")}
-                >
-                    <Show when={props.inherit}>
+            {/* only offer a mode choice when a series can supply the credits */}
+            <Show
+                when={props.inherit}
+                fallback={<input type="hidden" name="coOrganiserMode" value="custom" />}
+            >
+                <label>
+                    Co-organisers
+                    <select
+                        name="coOrganiserMode"
+                        value={inherits() ? "inherit" : "custom"}
+                        onChange={(event) => setInherits(event.currentTarget.value === "inherit")}
+                    >
                         <option value="inherit">Use series co-organisers</option>
-                    </Show>
-                    <option value="custom">Choose co-organisers</option>
-                </select>
-            </label>
+                        <option value="custom">Choose co-organisers</option>
+                    </select>
+                </label>
+            </Show>
             <Show when={!inherits()}>
                 <For each={others()}>
                     {(id, index) => (
@@ -193,24 +197,27 @@ export function OrganiserField(props: {
                         </div>
                     )}
                 </For>
-                <select
-                    aria-label="Add co-organiser"
-                    value=""
-                    onChange={(event) => {
-                        if (event.currentTarget.value)
-                            setOthers([...others(), event.currentTarget.value]);
-                        event.currentTarget.value = "";
-                    }}
-                >
-                    <option value="">Add co-organiser…</option>
-                    <For
-                        each={choices().filter(
-                            (person) => person.id !== primary() && !others().includes(person.id),
-                        )}
+                <label>
+                    {props.inherit ? "Add co-organiser" : "Co-organisers"}
+                    <select
+                        value=""
+                        onChange={(event) => {
+                            if (event.currentTarget.value)
+                                setOthers([...others(), event.currentTarget.value]);
+                            event.currentTarget.value = "";
+                        }}
                     >
-                        {(person) => <option value={person.id}>{person.name}</option>}
-                    </For>
-                </select>
+                        <option value="">Add co-organiser…</option>
+                        <For
+                            each={choices().filter(
+                                (person) =>
+                                    person.id !== primary() && !others().includes(person.id),
+                            )}
+                        >
+                            {(person) => <option value={person.id}>{person.name}</option>}
+                        </For>
+                    </select>
+                </label>
             </Show>
             <span>Public credits only. This does not grant editing access.</span>
         </div>

@@ -24,7 +24,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Edit news" description="Write and publish news." />
-            <Page>
+            <Page class="admin-content admin-editor-page">
                 <Show when={workspace.error}>
                     <Card title="News">
                         <FormMessage

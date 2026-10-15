@@ -2,7 +2,7 @@ import { convexTest, schema, modules, member } from "./backend";
 import { expect, test } from "bun:test";
 import { api } from "../convex/_generated/api";
 import type { FunctionArgs } from "convex/server";
-import { demographicOptions } from "../convex/members/demographics";
+import { demographicOptions, surveyQuestions } from "../convex/members/demographics";
 
 /** Create a signed-in member with no public address. */
 async function setup(backend = convexTest(schema, modules)) {
@@ -220,19 +220,15 @@ test("test_exclude_retired_questions_from_audience_reports", async () => {
 
     // report only current questions even when an account retains an annual answer
     const client = backend.withIdentity({ subject: "admin" });
-    const report = await client.query(api.members.audience.summary, {});
-    expect(report.map((question) => question.field)).toEqual([
-        "eventsAttended",
-        "eventFrequency",
-        "roles",
-        "languages",
-        "experience",
-        "education",
-        "age",
-        "residence",
-        "citizenships",
-        "motivations",
-    ]);
+    const report = await client.query(api.members.audience.report, {});
+    expect(report.questions.map((question) => question.field)).toEqual([...surveyQuestions]);
+    expect({ ...report, questions: undefined }).toEqual({
+        total: 1,
+        respondents: 1,
+        finished: 0,
+        fullyAnswered: 0,
+        questions: undefined,
+    });
 });
 
 test("test_roundtrip_optional_event_attendance_answers", async () => {

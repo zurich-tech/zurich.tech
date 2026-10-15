@@ -120,6 +120,22 @@ test("test_report_single_and_empty_audience_groups", () => {
     });
 });
 
+test("test_exclude_blank_answers_without_counting_multi_selects_twice", () => {
+    // blank values are unanswered; repeated selections still represent one respondent
+    expect(
+        summarise(
+            ["", "  ", [], [""], null, undefined, ["CH", "CH"]],
+            [{ value: "CH", label: "Switzerland" }],
+        ),
+    ).toEqual({
+        responses: 1,
+        total: 7,
+        withheld: 1,
+        groups: [{ label: "Switzerland", count: 1, percentage: 100 }],
+    });
+    expect(summarise([], [])).toEqual({ responses: 0, total: 0, withheld: 0, groups: [] });
+});
+
 // Only explicit, distinct motivations may be stored; an empty list clears the answer.
 test("community motivations reject unknown and duplicate choices", () => {
     expect(() => validateMotivations([])).not.toThrow();

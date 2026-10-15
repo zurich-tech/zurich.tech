@@ -90,8 +90,10 @@ export function NewsletterSchedule() {
                             <div>
                                 <dt>Next edition</dt>
                                 <dd>
-                                    {value().events.length} events · {value().news} stories ·{" "}
-                                    {value().jobs} jobs
+                                    {value().events.length}{" "}
+                                    {value().events.length === 1 ? "event" : "events"} ·{" "}
+                                    {value().news} {value().news === 1 ? "story" : "stories"} ·{" "}
+                                    {value().jobs} {value().jobs === 1 ? "job" : "jobs"}
                                 </dd>
                                 <span>Empty weeks are skipped</span>
                             </div>

@@ -2,6 +2,7 @@ import { countries } from "./countries";
 import { allLanguages, languages } from "./languages";
 import { v } from "convex/values";
 import { query, mutation } from "../_generated/server";
+import type { QueryCtx } from "../_generated/server";
 import { requireAccount, requireAdmin } from "../auth/access";
 import {
     demographics,
@@ -11,6 +12,9 @@ import {
     validateParticipation,
     validateMotivations,
     motivationOptions,
+    participationOptions,
+    surveyQuestions,
+    surveyAnswer,
     surveyQuestion,
     answerQuestion,
 } from "./demographics";
@@ -149,8 +153,9 @@ export function summarise(
     values: (string | string[] | null | undefined)[],
     options: readonly { value: string; label: string }[],
 ) {
-    const answered = values.filter(
-        (value) => value != null && (!Array.isArray(value) || value.length > 0),
+    // blank legacy values are not responses; explicit null remains a declined answer
+    const answered = values.filter((value) =>
+        Array.isArray(value) ? value.some((item) => item.trim().length > 0) : !!value?.trim(),
     );
     const responses = answered.length;
     const withheld = values.filter((value) => value === null).length;
@@ -175,21 +180,45 @@ export function summarise(
 export const summary = query({
     args: {},
     handler: async (ctx) => {
-        await requireAdmin(ctx);
-        const accounts = (await ctx.db.query("accounts").collect()).filter(
-            (account) => account.status === "active",
-        );
-        // retain the common choices and include additional languages only when reported
-        const reportedLanguages = new Set([
-            ...languages.map((language) => language.value),
-            ...accounts.flatMap((account) => account.demographics?.languages ?? []),
-        ]);
-        const languageOptions = allLanguages.filter((language) =>
-            reportedLanguages.has(language.value),
-        );
-        const background = (
-            Object.keys(demographicLabels) as (keyof typeof demographicLabels)[]
-        ).map((field) => ({
+        const report = await audience(ctx);
+
+        return report.questions;
+    },
+});
+
+/** Read survey participation totals and every question's responses. */
+export const report = query({
+    args: {},
+    handler: audience,
+});
+
+/** Aggregate private answers for active administrators. */
+async function audience(ctx: QueryCtx) {
+    await requireAdmin(ctx);
+    const accounts = (await ctx.db.query("accounts").collect()).filter(
+        (account) => account.status === "active",
+    );
+    // include archived interests when they still have answers
+    const reportedInterests = new Set(accounts.flatMap((account) => account.interests ?? []));
+    const topics = (await ctx.db.query("topics").collect())
+        .filter((topic) => topic.isActive || reportedInterests.has(topic.slug))
+        .sort((a, b) => a.name.localeCompare(b.name));
+    // retain reported subjects even when their catalogue entry has been removed
+    const interestOptions = topics.map((topic) => ({ value: topic.slug, label: topic.name }));
+    for (const slug of reportedInterests) {
+        if (!interestOptions.some((option) => option.value === slug))
+            interestOptions.push({ value: slug, label: slug });
+    }
+    // retain the common choices and include additional languages only when reported
+    const reportedLanguages = new Set([
+        ...languages.map((language) => language.value),
+        ...accounts.flatMap((account) => account.demographics?.languages ?? []),
+    ]);
+    const languageOptions = allLanguages.filter((language) =>
+        reportedLanguages.has(language.value),
+    );
+    const background = (Object.keys(demographicLabels) as (keyof typeof demographicLabels)[]).map(
+        (field) => ({
             field,
             label: demographicLabels[field],
             multiple: field === "roles" || field === "languages",
@@ -197,35 +226,78 @@ export const summary = query({
                 accounts.map((account) => account.demographics?.[field]),
                 field === "languages" ? languageOptions : demographicOptions[field],
             ),
-        }));
-        return [
-            ...background,
-            ...(["residence", "citizenships"] as const).map((field) => {
-                // include every reported country without hundreds of empty rows
-                const totals = summarise(
-                    accounts.map((account) => account.demographics?.[field]),
-                    countries,
-                );
-                return {
-                    field,
-                    label:
-                        field === "residence"
-                            ? "Where do you live?"
-                            : "Which countries are you a citizen of?",
-                    multiple: field === "citizenships",
-                    ...totals,
-                    groups: totals.groups.filter((group) => group.count > 0),
-                };
-            }),
-            {
-                field: "motivations",
-                label: "What brings you here?",
-                multiple: true,
-                ...summarise(
-                    accounts.map((account) => account.motivations),
-                    motivationOptions,
-                ),
-            },
-        ];
-    },
-});
+        }),
+    );
+    const questions = [
+        {
+            field: "interests",
+            label: "What are you interested in?",
+            multiple: true,
+            ...summarise(
+                accounts.map((account) => account.interests),
+                interestOptions,
+            ),
+        },
+        ...background,
+        ...(["residence", "citizenships"] as const).map((field) => {
+            // include every reported country without hundreds of empty rows
+            const totals = summarise(
+                accounts.map((account) => account.demographics?.[field]),
+                countries,
+            );
+            return {
+                field,
+                label:
+                    field === "residence"
+                        ? "Where do you live?"
+                        : "Which countries are you a citizen of?",
+                multiple: field === "citizenships",
+                ...totals,
+            };
+        }),
+        {
+            field: "participation",
+            label: "How would you like to get involved?",
+            multiple: true,
+            ...summarise(
+                accounts.map((account) => account.participation),
+                participationOptions,
+            ),
+        },
+        {
+            field: "motivations",
+            label: "What brings you here?",
+            multiple: true,
+            ...summarise(
+                accounts.map((account) => account.motivations),
+                motivationOptions,
+            ),
+        },
+    ].sort(
+        (a, b) =>
+            surveyQuestions.indexOf(a.field as (typeof surveyQuestions)[number]) -
+            surveyQuestions.indexOf(b.field as (typeof surveyQuestions)[number]),
+    );
+
+    // finishing is explicit and may include skips; full answers are counted independently
+    const answeredCounts = accounts.map((account) => {
+        const answers = {
+            demographics: account.demographics ?? {},
+            interests: account.interests ?? [],
+            participation: account.participation ?? [],
+            motivations: account.motivations ?? [],
+        };
+
+        return surveyQuestions.filter((question) =>
+            surveyAnswer(answers, question).some((value) => value.trim().length > 0),
+        ).length;
+    });
+
+    return {
+        total: accounts.length,
+        respondents: answeredCounts.filter((count) => count > 0).length,
+        finished: accounts.filter((account) => account.surveyCompletedAt !== undefined).length,
+        fullyAnswered: answeredCounts.filter((count) => count === surveyQuestions.length).length,
+        questions,
+    };
+}

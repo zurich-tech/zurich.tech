@@ -7,6 +7,10 @@ import { Topbar } from "./topbar";
 export function Shell(props: { children?: JSX.Element }) {
     const location = useLocation();
     const isRouting = useIsRouting();
+    const isWorkspace = () =>
+        ["/admin", "/news/edit", "/submit", "/jobs/submit"].includes(
+            location.pathname.replace(/\/$/, ""),
+        );
 
     // update the document-owned canonical link during client navigation
     onMount(() => {
@@ -18,7 +22,7 @@ export function Shell(props: { children?: JSX.Element }) {
     });
 
     return (
-        <div class="site-shell">
+        <div class="site-shell" classList={{ "site-shell--admin": isWorkspace() }}>
             {/* site */}
             <Topbar />
             <Show when={isRouting()}>
@@ -30,7 +34,9 @@ export function Shell(props: { children?: JSX.Element }) {
             >
                 {props.children}
             </main>
-            <Footer />
+            <Show when={!isWorkspace()}>
+                <Footer />
+            </Show>
         </div>
     );
 }

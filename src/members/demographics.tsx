@@ -377,61 +377,151 @@ function LanguageFields(props: { values: Answers }) {
     );
 }
 
-/** Team-only charts contain aggregate counts rather than member identities. */
+/** Administrator-only charts contain aggregate counts rather than member identities. */
 export function Audience() {
-    const [summary] = createResource(async () =>
-        (await memberClient()).query(api.members.audience.summary, {}),
+    const [summary, { refetch }] = createResource(async () =>
+        (await memberClient()).query(api.members.audience.report, {}),
     );
+    const [question, setQuestion] = createSignal("");
+    const [isShowingEmpty, setShowingEmpty] = createSignal(false);
+
+    // do not read a rejected resource value, which throws past the inline retry state
+    const report = () => (summary.error ? undefined : summary.latest);
 
     return (
-        <Card title="Audience">
+        <Card title="Audience" class="audience-report">
             <p class="survey-intro">
-                Optional, self-reported answers from active accounts. These results describe
-                respondents, not every member.
+                Self-reported survey answers. Percentages use each question's respondents, not all
+                accounts.
             </p>
+            <Show when={report()}>
+                {(data) => (
+                    <dl class="audience-totals">
+                        <div>
+                            <dt>Active accounts</dt>
+                            <dd>{data().total}</dd>
+                        </div>
+                        <div>
+                            <dt>Survey respondents</dt>
+                            <dd>
+                                {data().respondents} / {data().total}
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Finished, including skips</dt>
+                            <dd>
+                                {data().finished} / {data().total}
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Answered every question</dt>
+                            <dd>
+                                {data().fullyAnswered} / {data().total}
+                            </dd>
+                        </div>
+                    </dl>
+                )}
+            </Show>
+            <Show when={report() && report()!.total > 0}>
+                <div class="audience-toolbar">
+                    <label>
+                        <span class="sr-only">Survey question</span>
+                        <select
+                            value={question()}
+                            onChange={(event) => setQuestion(event.currentTarget.value)}
+                        >
+                            <option value="">All questions</option>
+                            <For each={report()?.questions}>
+                                {(chart) => <option value={chart.field}>{chart.label}</option>}
+                            </For>
+                        </select>
+                    </label>
+                    <label class="checkbox">
+                        <input
+                            type="checkbox"
+                            checked={isShowingEmpty()}
+                            onChange={(event) => setShowingEmpty(event.currentTarget.checked)}
+                        />
+                        Include zero responses
+                    </label>
+                </div>
+            </Show>
+            <Show when={summary.loading}>
+                <p role="status">Loading audience…</p>
+            </Show>
             <Show when={summary.error}>
-                <p class="form-error">
+                <p class="form-error" role="alert">
                     {errorMessage(summary.error, "Could not load audience stats.")}
                 </p>
+                <button
+                    type="button"
+                    class="button"
+                    disabled={summary.loading}
+                    onClick={() => void refetch()}
+                >
+                    Retry
+                </button>
             </Show>
-            <div class="audience-charts">
-                <For each={summary()}>
-                    {(chart) => (
-                        <section>
-                            <h3>{chart.label}</h3>
-                            <p class="text-soft">
-                                {chart.responses} respondents · {chart.total} active accounts
-                            </p>
-                            <Show when={chart.multiple}>
-                                <p class="text-soft">
-                                    Multiple selections; percentages may exceed 100%.
+            <Show when={report()?.total === 0}>
+                <Empty title="No active accounts" />
+            </Show>
+            <Show when={report() && report()!.total > 0}>
+                <div class="audience-charts">
+                    <For
+                        each={report()?.questions.filter(
+                            (chart) => !question() || chart.field === question(),
+                        )}
+                    >
+                        {(chart) => (
+                            <section>
+                                <h3>{chart.label}</h3>
+                                <p class="audience-caption">
+                                    <strong>
+                                        {chart.responses} / {chart.total}
+                                    </strong>{" "}
+                                    respondents
+                                    <Show when={chart.multiple}> · Multiple answers</Show>
                                 </p>
-                            </Show>
-                            <Show
-                                when={chart.responses > 0}
-                                fallback={<Empty title="No responses" />}
-                            >
-                                <For each={chart.groups}>
-                                    {(group) => (
-                                        <div class="audience-bar">
-                                            <span>{group.label}</span>
-                                            <span>
-                                                {group.count} · {group.percentage}%
-                                            </span>
-                                            <meter
-                                                min="0"
-                                                max={Math.max(chart.responses, 1)}
-                                                value={group.count}
-                                                aria-label={`${group.label}: ${group.count}`}
-                                            />
-                                        </div>
-                                    )}
-                                </For>
-                            </Show>
-                        </section>
-                    )}
-                </For>
-            </div>
+                                <p class="audience-caption">
+                                    {chart.total - chart.responses - chart.withheld} no answer
+                                    <Show when={chart.withheld > 0}>
+                                        {" "}
+                                        · {chart.withheld} declined
+                                    </Show>
+                                </p>
+                                <Show
+                                    when={chart.responses > 0}
+                                    fallback={<Empty title="No responses" />}
+                                >
+                                    <For
+                                        each={chart.groups.filter(
+                                            (group) => isShowingEmpty() || group.count > 0,
+                                        )}
+                                    >
+                                        {(group) => (
+                                            <div class="audience-bar">
+                                                <span>{group.label}</span>
+                                                <span>
+                                                    <strong>{group.count}</strong>{" "}
+                                                    <span class="text-soft">
+                                                        {group.percentage}%
+                                                    </span>
+                                                </span>
+                                                <meter
+                                                    min="0"
+                                                    max={Math.max(chart.responses, 1)}
+                                                    value={group.count}
+                                                    aria-label={`${group.label}: ${group.count} of ${chart.responses} respondents (${group.percentage}%)`}
+                                                />
+                                            </div>
+                                        )}
+                                    </For>
+                                </Show>
+                            </section>
+                        )}
+                    </For>
+                </div>
+            </Show>
         </Card>
     );
 }

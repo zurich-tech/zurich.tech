@@ -144,7 +144,7 @@ export default function Route() {
                 }
                 description="Publish a tech vacancy in Zurich."
             />
-            <Page>
+            <Page class="admin-content admin-editor-page">
                 <PageHeader
                     title={
                         params.edit
@@ -181,7 +181,14 @@ export default function Route() {
                                     {workspace()?.isAdmin ? "Save & preview" : "Submit for review"}
                                 </button>
                             </Show>
-                            <a class="action-link" href="/manage?section=jobs">
+                            <a
+                                class="action-link"
+                                href={
+                                    workspace()?.isAdmin
+                                        ? "/admin?section=jobs"
+                                        : "/manage?section=jobs"
+                                }
+                            >
                                 Back
                             </a>
                         </>
