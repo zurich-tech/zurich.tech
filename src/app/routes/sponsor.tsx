@@ -48,7 +48,7 @@ export default function Route() {
         <>
             <Seo
                 title="Sponsor"
-                description={reach.map(({ value, label }) => `${value} ${label}`).join(". ")}
+                description="Help fund tech events in Zurich. Sponsorships pay for venues, food and event costs."
             />
             <Page class="sponsor-page">
                 {/* pitch with the primary action */}

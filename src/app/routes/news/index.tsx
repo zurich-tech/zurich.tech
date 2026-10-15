@@ -24,10 +24,7 @@ export default function Route() {
 
     return (
         <>
-            <Seo
-                title="News"
-                description="Startup funding, technology and community news from Zurich."
-            />
+            <Seo title="News" description="Startup funding, research and tech news from Zurich." />
             <Page>
                 <div class="listing-layout">
                     {/* articles */}

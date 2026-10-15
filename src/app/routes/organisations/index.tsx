@@ -65,7 +65,7 @@ export default function Route() {
         <>
             <Seo
                 title="Organisations"
-                description="Companies, labs, communities, and spaces in Zurich’s tech community."
+                description="Find tech companies, research labs, investors and other organisations around Zurich."
             />
             <Page>
                 <div class="listing-layout">

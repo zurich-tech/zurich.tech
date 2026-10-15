@@ -20,7 +20,7 @@ export default function Route() {
         <>
             <Seo
                 title="Events"
-                description="Upcoming tech events in Zurich and the community archive."
+                description="Find upcoming tech events in Zurich and browse past talks and meetups."
             />
             <Page>
                 <div class="listing-layout">

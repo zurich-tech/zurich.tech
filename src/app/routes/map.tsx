@@ -5,10 +5,7 @@ import { Seo } from "../seo";
 export default function Route() {
     return (
         <>
-            <Seo
-                title="Map"
-                description="Explore the institutions and sponsors in the zurich.tech community."
-            />
+            <Seo title="Map" description="Explore Zurich's tech community on a map." />
             <CommunityMap />
         </>
     );

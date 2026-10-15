@@ -23,12 +23,12 @@ export default function Route() {
         <>
             <Seo
                 title="About"
-                description="A registered nonprofit bringing people together around tech in and around Zurich."
+                description="Meet the volunteers behind zurich.tech and the sponsors who help fund our events."
             />
             <Page>
                 <PageHeader
                     title="About"
-                    summary="zurich.tech is a volunteer-run non-profit association for the people building technology in Zurich. It started as ZurichNLP in 2023, grew into ZurichAI, and now runs talks, paper clubs, dinners and hackathons across the city."
+                    summary="We run talks, paper clubs, dinners and hackathons for people in tech around Zurich. We're a volunteer-run non-profit. We started with ZurichNLP in 2023, expanded into ZurichAI, and now cover topics from AI to robotics and hardware."
                 />
                 <Card
                     title="Team"

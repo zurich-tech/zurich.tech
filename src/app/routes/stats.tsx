@@ -24,7 +24,10 @@ export default function Route() {
 
     return (
         <>
-            <Seo title="Stats" description="Community growth at zurich.tech." />
+            <Seo
+                title="Stats"
+                description="zurich.tech events, members and registrations over time."
+            />
             <Page class="stats-page">
                 <PageHeader title="Stats" />
                 <Show when={statistics()}>
