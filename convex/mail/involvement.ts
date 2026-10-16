@@ -19,13 +19,13 @@ function invitation(
 ) {
     const actions = links
         .map(
-            (link) =>
-                `<a href="${escapeHtml(link.url)}" style="color:${palette.brand};text-decoration:underline;margin-right:18px">${escapeHtml(link.label)}</a>`,
+            (link, index) =>
+                `<a href="${escapeHtml(link.url)}" style="display:inline-block;color:${palette.brand};text-decoration:underline${index < links.length - 1 ? ";margin-right:10px" : ""}">${escapeHtml(link.label)}</a>`,
         )
         .join(" ");
 
     return {
-        html: `<p style="margin:14px 0"><a href="${escapeHtml(url)}" style="color:${palette.brand};font-weight:600;text-decoration:underline">${escapeHtml(label)}</a><br><span style="color:${palette.soft};font-size:14px">${escapeHtml(description)}</span>${actions ? `<br><span style="font-size:14px">${actions}</span>` : ""}</p>`,
+        html: `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;font-size:14px;line-height:1.5"><tr><td width="116" valign="baseline" style="vertical-align:baseline;padding:10px 12px 0 0"><a href="${escapeHtml(url)}" style="color:${palette.brand};font-weight:600;text-decoration:underline">${escapeHtml(label)}</a></td><td valign="baseline" style="vertical-align:baseline;padding:10px 0 0;color:${palette.soft}">${escapeHtml(description)}${actions ? `<div style="margin-top:4px">${actions}</div>` : ""}</td></tr></table>`,
         text: [
             `${label}: ${url}`,
             description,

@@ -86,14 +86,42 @@ const jobs: NonNullable<Parameters<typeof newsletterEdition>[2]> = [
 const pass = qrcode(0, "M");
 pass.addData(registration);
 pass.make();
-const edition = newsletterEdition([event], sponsors, jobs, {
-    date: Date.parse("2026-10-05T06:00:00Z"),
+// exercise the current public edition's density without querying production or sending email
+const newsletterEvents = [
+    {
+        title: "The Builders Run #6",
+        slug: "builders-run-6",
+        startsAt: Date.parse("2026-10-23T05:00:00Z"),
+        location: "Zürich",
+        summary:
+            "An 8 km morning run with Daniel Stadelmann and Edo Treccani, followed by optional coffee.",
+    },
+    {
+        title: "Autoresearch Log #1",
+        slug: "autoresearch-log-1",
+        startsAt: Date.parse("2026-10-23T16:00:00Z"),
+        location: "J floor",
+        summary:
+            "Maksym Andriushchenko (ELLIS Institute Tübingen) on automating LLM post-training, followed by paper discussions and demos.",
+    },
+    {
+        title: "ZurichCV #15",
+        slug: "zurichcv-15",
+        startsAt: Date.parse("2026-10-29T17:00:00Z"),
+        location: "ETH AI Center",
+        summary:
+            "Said Gürbüz (ETH Zurich) on controllable desktop environments for computer use agents, and Lorenzo Steno (Seldon Technologies) on building RL environments for computer use.",
+    },
+];
+const edition = newsletterEdition(newsletterEvents, sponsors, jobs, {
+    date: Date.parse("2026-10-16T06:00:00Z"),
     news: [
         {
-            title: "A new chapter for Zurich tech",
-            slug: "introducing-zurich-tech",
+            title: "ETH builds architectural elements with bacteria",
+            slug: "eth-biocement",
+            date: Date.parse("2026-10-14T08:00:00Z"),
             description:
-                "Meet the volunteer-run association bringing Zurich’s technology communities together.",
+                "ETH Zurich researchers developed a printable mixture of sand, bacteria and natural gels to make architectural elements, including a facade component. After printing, daily mineralisation baths let the bacteria form calcium carbonate crystals that bind the sand together. The material hardens at room temperature over two to five days, without firing it in a kiln.",
         },
     ],
 });

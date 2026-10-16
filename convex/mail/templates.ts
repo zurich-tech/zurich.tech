@@ -7,7 +7,16 @@ import { isTentative } from "../events/conditions";
 import type { Recurrence } from "../events/recurrence";
 import type { AddressAccess } from "../events/fields";
 import type { Confirmation } from "../events/fields";
-import { layout, paragraph, escapeHtml, sectionHeading, palette, mono, socials } from "./layout";
+import {
+    layout,
+    paragraph,
+    escapeHtml,
+    sectionHeading,
+    palette,
+    mono,
+    text,
+    socials,
+} from "./layout";
 import { involvement, sharing } from "./involvement";
 import { tiers } from "../../src/sponsorships/plans";
 import type { activeSponsors } from "../sponsorships/organisations";
@@ -20,6 +29,9 @@ import { programmeContent, type Programme } from "./programme";
 const emailLogos: Record<string, string> = {
     "/sponsors/eth-ai-center.svg": "/sponsors/eth-ai-center.png",
 };
+
+/** Shared headline typography for digest listings. */
+const listingFont = `500 18px/1.4 ${mono}`;
 
 /** Public event details included in email. */
 type Event = {
@@ -56,6 +68,7 @@ function emailAddress(event: Event) {
 export function eventDetails(event: Event, includeSummary = false) {
     const url = `${siteOrigin()}/events/${event.slug}`;
     const time = eventTime(event.startsAt);
+
     return `<h2 style="margin:0 0 6px;font:500 22px/1.25 ${mono};letter-spacing:0"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(event.title)}</a></h2><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(time)}</p>${eventLocation(event)}${includeSummary && event.summary ? paragraph(event.summary) : ""}${isTentative(event) && event.status !== "cancelled" ? paragraph("Tentative · Awaiting event confirmation") : ""}`;
 }
 
@@ -426,21 +439,52 @@ export function newsletterEdition(
         addressAccess: undefined,
     }));
 
-    // render event listings with the same typography as individual notifications
+    // align event dates and headlines in one unboxed digest grid
     const events = listings
-        .map(
-            (entry) =>
-                `<div style="padding:20px 0">${eventDetails(entry, true)}<p style="margin:12px 0 0"><a href="${escapeHtml(`${siteOrigin()}/events/${entry.slug}`)}" style="color:${palette.brand};text-decoration:underline">View event &rarr;</a></p></div>`,
-        )
+        .map((entry, index) => {
+            const time = new Date(entry.startsAt).toLocaleTimeString("en-GB", {
+                timeZone: "Europe/Zurich",
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+            const details = [
+                time,
+                entry.location,
+                isTentative(entry) && entry.status !== "cancelled"
+                    ? "Tentative · Awaiting event confirmation"
+                    : undefined,
+            ]
+                .filter(Boolean)
+                .join(" · ");
+
+            return digestListing(
+                entry.title,
+                `${siteOrigin()}/events/${entry.slug}`,
+                entry.startsAt,
+                entry.summary ?? "",
+                details,
+                index > 0,
+            );
+        })
         .join("");
 
-    // use the same sponsor ordering and job selection as event emails
+    // retain the shared sponsor ordering and job selection across email families
     const additions = emailListings(sponsors, jobs, false);
 
     // render published stories without a generic introduction
-    const news = options.news ?? [];
-    const stories = news.map((story) => ({
-        html: `<div style="padding:20px 0"><h3 style="margin:0;font:500 20px/1.3 ${mono}"><a href="${escapeHtml(`${siteOrigin()}${newsPath(story)}`)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(story.title)}</a></h3>${paragraph(story.description)}<a href="${escapeHtml(`${siteOrigin()}${newsPath(story)}`)}" style="color:${palette.brand}">Read story &rarr;</a></div>`,
+    const news = (options.news ?? []).map((story) => ({
+        ...story,
+        description: newsSentence(story.description),
+    }));
+    const stories = news.map((story, index) => ({
+        html: digestListing(
+            story.title,
+            `${siteOrigin()}${newsPath(story)}`,
+            story.date,
+            story.description,
+            "",
+            index > 0,
+        ),
         text: `${story.title}\n${story.description}\n${siteOrigin()}${newsPath(story)}`,
     }));
     const participation = involvement();
@@ -449,9 +493,7 @@ export function newsletterEdition(
         date: options.date,
         preview: listings[0]?.title ?? news[0]?.title ?? jobs[0]?.title,
         html:
-            (events
-                ? `${sectionHeading("Upcoming events", `${siteOrigin()}/events`)}${events}`
-                : "") +
+            (events ? `${sectionHeading("Events", `${siteOrigin()}/events`)}${events}` : "") +
             (stories.length
                 ? `${sectionHeading("News", `${siteOrigin()}/news`)}${stories.map((story) => story.html).join("")}`
                 : "") +
@@ -466,6 +508,39 @@ export function newsletterEdition(
             additions.text,
         ].join("\n\n"),
     };
+}
+
+/** Render an email-safe date column beside a digest headline and short description. */
+function digestListing(
+    title: string,
+    url: string,
+    date: number,
+    description: string,
+    details: string,
+    isSeparated: boolean,
+) {
+    const day = new Date(date).toLocaleDateString("en-GB", {
+        timeZone: "Europe/Zurich",
+        day: "numeric",
+    });
+    const month = new Date(date).toLocaleDateString("en-GB", {
+        timeZone: "Europe/Zurich",
+        month: "short",
+    });
+    const border = isSeparated ? `border-top:1px solid ${palette.line};` : "";
+
+    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;${border}"><tr><td width="52" valign="top" style="padding:18px 0;color:${palette.soft};font:13px/1.5 ${mono}"><span style="font-size:22px;line-height:1.2">${day}</span><br>${month}</td><td valign="top" style="padding:18px 0 18px 16px"><h3 style="margin:0;font:${listingFont}"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(title)}</a></h3>${details ? `<p style="margin:5px 0 0;color:${palette.soft};font:13px/1.5 ${text}">${escapeHtml(details)}</p>` : ""}${description ? `<p style="margin:8px 0 0;font:14px/1.6 ${text}">${escapeHtml(description)}</p>` : ""}</td></tr></table>`;
+}
+
+/** Extract the opening sentence for a newsletter without splitting decimal numbers. */
+export function newsSentence(description: string): string {
+    const sentences = new Intl.Segmenter("en", { granularity: "sentence" });
+
+    for (const sentence of sentences.segment(description.trim())) {
+        return sentence.segment.trim().replace(/\s+/g, " ");
+    }
+
+    return "";
 }
 
 /** Select at most two jobs per organisation, retaining the newest-first input order. */
@@ -512,16 +587,19 @@ function jobListing(
     const url = `${siteOrigin()}/jobs/${job.slug}`;
     const details = [job.company.name, locationsLabel(job.locations)].filter(Boolean).join(" · ");
     const facts = jobFacts(job);
-    const heading = `<h3 style="margin:0 0 6px;font:500 20px/1.25 ${mono};letter-spacing:0"><a style="color:${palette.ink};text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:${palette.soft};font-size:14px">${escapeHtml(details)}</p>`;
+    const heading = `<h3 style="margin:0 0 6px;font:${listingFont};letter-spacing:0"><a style="color:${palette.ink};text-decoration:none" href="${escapeHtml(url)}">${escapeHtml(job.title)}</a></h3><p style="margin:0;color:${palette.soft};font-size:13px">${escapeHtml(details)}</p>`;
 
-    // keep company logos beside the heading without narrowing the description
+    // use the same 52px column and 16px gutter as event and news listings
     const logo = job.company.logoUrl;
-    const header = logo
-        ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed"><tr><td width="76" valign="top"><a href="${escapeHtml(url)}"><img src="${escapeHtml(new URL(emailLogos[logo] ?? logo, siteOrigin()).href)}" alt="${escapeHtml(job.company.name)}" width="60" height="60" style="display:block;width:60px;height:60px;object-fit:contain;border:0" /></a></td><td valign="top">${heading}</td></tr></table>`
-        : heading;
+    const image = logo
+        ? `<a href="${escapeHtml(url)}"><img src="${escapeHtml(new URL(emailLogos[logo] ?? logo, siteOrigin()).href)}" alt="${escapeHtml(job.company.name)}" width="52" height="52" style="display:block;width:52px;height:52px;object-fit:contain;border:0" /></a>`
+        : "";
+    const description = isCompact
+        ? ""
+        : `<p style="margin:6px 0 0;color:${palette.soft};font-size:13px">${escapeHtml(facts.join(" · "))}</p><p style="margin:8px 0 0;font:14px/1.6 ${text}">${escapeHtml(job.summary)} <a href="${escapeHtml(url)}" style="color:${palette.brand}">View role &rarr;</a></p>`;
 
     return {
-        html: `<div style="padding:20px 0">${header}${isCompact ? "" : `<p style="margin:8px 0 0;color:${palette.soft};font-size:14px">${escapeHtml(facts.join(" · "))}</p>${paragraph(job.summary)}<a href="${escapeHtml(url)}" style="color:${palette.brand}">View role &rarr;</a>`}</div>`,
+        html: `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed"><tr><td width="52" valign="top" style="padding:16px 0">${image}</td><td valign="top" style="padding:16px 0 16px 16px">${heading}${description}</td></tr></table>`,
         text: isCompact
             ? `${job.title}\n${details}\n${url}`
             : `${job.title}\n${details}\n${facts.join(" · ")}\n${job.summary}\n${url}`,
@@ -601,7 +679,7 @@ export function seriesEmail(
               ? `Day ${Number(rule.start.slice(-2))}`
               : "";
     const timing = [cadence, days, rule.time, "Zurich time"].filter(Boolean).join(" · ");
-    const dates = `From ${rule.start}${rule.end ? ` until ${rule.end}` : ""}`;
+    const dates = `From ${editionDate(Date.parse(`${rule.start}T12:00:00Z`))}${rule.end ? ` until ${editionDate(Date.parse(`${rule.end}T12:00:00Z`))}` : ""}`;
     const url = `${siteOrigin()}/series/${series.slug}`;
     const links = [
         { label: "Email preferences", url: `${siteOrigin()}/settings?section=notifications` },

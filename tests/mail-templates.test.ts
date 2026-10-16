@@ -11,6 +11,7 @@ import {
     eventEmail,
     newsletterEmail,
     newsletterEdition,
+    newsSentence,
     campaignEmail,
     seriesEmail,
     registrationCopy,
@@ -249,6 +250,34 @@ test("test_include_company_logos_without_changing_plain_text_jobs", () => {
     expect(illustrated.html).toContain('alt="Research &amp; Co"');
     expect(textOnly.html).not.toContain("<img");
     expect(illustrated.text).toBe(textOnly.text);
+    expect(illustrated.html).toContain('width="52" valign="top"');
+    expect(textOnly.html).toContain('width="52" valign="top"');
+    expect(illustrated.html).toContain("padding:16px 0 16px 16px");
+});
+
+test("test_keep_participation_rows_baseline_aligned", () => {
+    const html = involvement("complete").html;
+    expect(html.match(/valign="baseline"/g)).toHaveLength(8);
+    expect(html).not.toContain("margin-right:18px");
+});
+
+test("test_format_series_dates_for_readers", () => {
+    const email = seriesEmail(
+        { name: "Builders", slug: "builders", description: "Monthly talks." },
+        {
+            frequency: "monthly",
+            interval: 1,
+            weekdays: [],
+            start: "2026-10-12",
+            end: "2027-02-12",
+            time: "18:00",
+            timezone: "Europe/Zurich",
+            excluded: [],
+        },
+        "https://zurich.tech/unsubscribe",
+    );
+    expect(email.html).toContain("From 12 October 2026 until 12 February 2027");
+    expect(email.text).toContain("From 12 October 2026 until 12 February 2027");
 });
 
 test("test_start_newsletter_with_content_without_an_intro", () => {
@@ -447,6 +476,35 @@ test("test_render_news_involvement_and_one_primary_action_without_duplicate_rule
             message: "[Register](https://zurich.tech/events/example)",
         }).html,
     ).not.toContain("Visit zurich.tech");
+});
+
+test("test_limit_newsletter_stories_to_the_opening_sentence", () => {
+    const description = "Researchers raised USD 5.4 million. A second sentence.\n\nMore detail.";
+    expect(newsSentence(description)).toBe("Researchers raised USD 5.4 million.");
+    expect(newsSentence("A single summary without punctuation")).toBe(
+        "A single summary without punctuation",
+    );
+    expect(newsSentence("  ")).toBe("");
+    const edition = newsletterEdition([], [], [], {
+        news: [{ title: "Research", slug: "research", date: Date.UTC(2026, 9, 14), description }],
+    });
+    expect(edition.html).toContain("Researchers raised USD 5.4 million.");
+    expect(edition.text).toContain("Researchers raised USD 5.4 million.");
+    expect(edition.html).not.toContain("A second sentence");
+    expect(edition.text).not.toContain("More detail");
+});
+
+test("test_align_digest_dates_without_event_panels", () => {
+    const edition = newsletterEdition(
+        [{ ...event, location: "ETH AI Center", summary: "Two talks." }],
+        [],
+        [],
+    );
+    expect(edition.html).toContain('width="52" valign="top"');
+    expect(edition.html).toContain("18:00 · ETH AI Center");
+    expect(edition.html).toContain("Two talks.");
+    expect(edition.html).not.toContain("background:#f4f7ff");
+    expect(edition.html).not.toContain("View event");
 });
 
 test("test_escape_event_copy_and_keep_pass_usable_without_images", () => {
