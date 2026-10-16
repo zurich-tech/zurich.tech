@@ -10,6 +10,7 @@ export const content = v.object({
     category: v.optional(v.literal("funding")),
     url: v.optional(v.string()),
     image: v.optional(v.string()),
+    video: v.optional(v.string()),
     topics: v.array(v.string()),
     authors: v.array(v.id("members")),
     organisations: v.array(v.id("organisations")),

@@ -16,6 +16,7 @@ import { Markdown } from "../components/markdown";
 import { MarkdownEditor } from "../components/markdown-editor";
 import { errorMessage } from "../components/errors";
 import { SocialCopy } from "./social";
+import { NewsMedia } from "./media";
 import { getArticles, getArticle, getHeadlines } from "./queries";
 import "./article.css";
 
@@ -293,6 +294,15 @@ export function NewsEditor(props: {
                                     }
                                 />
                             </Field>
+                            <Field label="Video URL">
+                                <Input
+                                    type="url"
+                                    value={content().video ?? ""}
+                                    onInput={(event) =>
+                                        update("video", event.currentTarget.value || undefined)
+                                    }
+                                />
+                            </Field>
                             <TopicFields
                                 values={content().topics}
                                 onChange={(values) => update("topics", values)}
@@ -419,10 +429,8 @@ export function NewsEditor(props: {
                     </button>
                 }
             >
-                <Show when={content().image}>
-                    <img class="news-image" src={content().image} alt="" />
-                </Show>
                 <p>{content().description}</p>
+                <NewsMedia image={content().image} video={content().video} />
                 <Markdown source={content().body} />
                 <Show when={content().kind === "link" && content().url}>
                     <a

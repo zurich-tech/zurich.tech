@@ -6,6 +6,109 @@
     border-bottom: 0;
 }
 
+/* give photographed stories room without inventing covers for text briefs */
+.news-index .news-card,
+.news-index .listing-sidebar > .card,
+.news-detail .card {
+    border: 0;
+    background: transparent;
+}
+
+.news-index .news-card > .card-heading,
+.news-index .news-card > .card-body,
+.news-detail .card > .card-heading,
+.news-detail .card > .card-body {
+    padding-inline: 0;
+}
+
+.news-index .news-card > .card-heading {
+    padding-top: 0;
+}
+
+.news-topics {
+    display: none;
+}
+
+.news-topics-desktop > .card {
+    border: 0;
+}
+
+.news-topics .card {
+    border: 0;
+}
+
+.news-topics .card-heading {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .news-topics {
+        display: block;
+        border-bottom: var(--rule) solid var(--color-line);
+    }
+
+    .news-topics summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-block: var(--space-3);
+        cursor: pointer;
+        list-style: none;
+    }
+
+    .news-topics summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .news-topics[open] summary svg {
+        transform: rotate(180deg);
+    }
+
+    .news-topics-desktop {
+        display: none;
+    }
+}
+
+.news-story {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-6);
+    border-bottom: var(--rule) solid var(--color-line);
+}
+
+.news-story__copy {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+    min-width: 0;
+}
+
+.news-story__copy h2 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+}
+
+.news-story__copy h2 a {
+    color: inherit;
+}
+
+.news-story__copy h2 a:hover {
+    color: var(--color-accent);
+}
+
+.news-story__copy p {
+    color: var(--color-soft);
+}
+
+.news-story__date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-soft);
+    font: var(--text-xs) / 1.5 var(--font-mono);
+}
+
 /* team edit links appear with the row they belong to */
 @media (hover: hover) {
     .news-row .entry-actions {
@@ -50,41 +153,126 @@
     font: 500 var(--text-xs) / 1.5 var(--font-mono);
 }
 
-.news-article > .article-content {
+.page.news-detail {
+    max-width: 728px;
+    margin-inline: auto;
     gap: var(--space-6);
-    padding-block: var(--space-6);
 }
 
-.article-content .markdown {
+.article-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.article-related > a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding-block: var(--space-4);
+    border-bottom: var(--rule) solid var(--color-line);
+    color: inherit;
+    font-weight: 500;
+}
+
+.article-related > a:hover {
+    color: var(--color-accent);
+}
+
+.article-related > a svg {
+    flex-shrink: 0;
+}
+
+.article-header {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.article-header h1 {
+    font: 600 1.75rem / 1.25 var(--font-text);
+    text-wrap: balance;
+}
+
+.article-deck {
+    font-size: var(--text-md);
+    line-height: 1.55;
+    color: var(--color-soft);
+}
+
+.news-article {
+    display: grid;
+    gap: var(--space-6);
+}
+
+.news-article > .markdown {
+    font-size: var(--text-md);
+    line-height: 1.7;
+}
+
+.article-footer {
+    display: grid;
     gap: var(--space-5);
+    padding-block: var(--space-5);
+    border-block: var(--rule) solid var(--color-line);
 }
 
-/* the original story as the header's one action */
+.article-footer > .card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: baseline;
+}
+
+.article-footer > .card > :is(.card-heading, .card-body) {
+    padding: 0;
+    border: 0;
+}
+
+.article-footer .card-title {
+    font: 500 var(--text-sm) / 1.5 var(--font-text);
+}
+
+.article-organisations {
+    display: grid;
+    gap: var(--space-4);
+}
+
+/* lead readers to the original report after the brief */
 .article-source {
     justify-self: start;
-    margin-top: var(--space-4);
+    color: var(--color-accent);
 }
 
-/* the organisation behind the story with its icon, facts and links */
+/* keep organisation context subordinate to the story */
 .article-organisation {
     display: grid;
-    grid-template-columns: 64px minmax(0, 1fr);
-    align-items: start;
-    gap: var(--space-5);
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.article-organisation.article-organisation--text {
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.article-organisation__name {
+    font-weight: 600;
+    color: inherit;
 }
 
 .article-organisation__icon {
-    width: 64px;
-    height: 64px;
-    border: var(--rule) solid var(--color-line);
+    width: 40px;
+    height: 40px;
     background: #ffffff;
-    padding: var(--space-2);
+    padding: var(--space-1);
     object-fit: contain;
 }
 
 .article-organisation__copy {
     display: grid;
-    gap: var(--space-2);
+    gap: 0;
 }
 
 .article-organisation__meta {
@@ -99,9 +287,68 @@
 }
 
 .news-image {
+    display: block;
     width: 100%;
-    max-height: 460px;
-    object-fit: cover;
+    height: auto;
+}
+
+video.news-image {
+    aspect-ratio: 16 / 9;
+    background: #000000;
+    object-fit: contain;
+}
+
+.news-video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000000;
+}
+
+.news-video iframe,
+.news-video__play,
+.news-video__play img {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.news-video__play {
+    display: block;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+}
+
+.news-video__play img {
+    object-fit: contain;
+}
+
+.news-video__play span {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #000000cc;
+    color: #ffffff;
+}
+
+@media (max-width: 600px) {
+    .article-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .article-deck {
+        font-size: var(--text-md);
+    }
+
+    .article-footer > .card {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-2);
+    }
 }
 
 /* ================================================================================

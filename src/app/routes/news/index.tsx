@@ -25,18 +25,20 @@ export default function Route() {
     return (
         <>
             <Seo title="News" description="Startup funding, research and tech news from Zurich." />
-            <Page>
+            <Page class="news-index">
                 <div class="listing-layout">
                     {/* articles */}
                     <ArticleList articles={articles() ?? []} tag={tag()} isSearchable isPage />
 
                     {/* topics and suggestions */}
                     <aside class="listing-sidebar">
-                        <TopicList articles={articles() ?? []} selected={tag()} />
+                        <div class="news-topics-desktop">
+                            <TopicList articles={articles() ?? []} selected={tag()} />
+                        </div>
                         <Card title="Suggest a story" class="offer-card">
                             <p>
-                                Raised a round, shipped something, or opened an office in Zurich?
-                                Tell us on Discord and we'll share it.
+                                Built something worth sharing? Send us a demo, a paper or a
+                                substantial launch from Zurich.
                             </p>
                             <a
                                 class="button button--primary"

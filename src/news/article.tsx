@@ -1,18 +1,21 @@
 import { useSearch } from "../search/local";
 import "./article.css";
 import { NewsActions } from "./actions";
+import { NewsMedia } from "./media";
 import { EditLink } from "../auth/edit";
-import { articleTags, TagPills } from "./tags";
+import { articleTags, TagPills, TopicList } from "./tags";
+import { ChevronDown } from "lucide-solid";
 import { type Article, type ArticlePreview } from "./model";
 import { For, Show, createEffect, createMemo, createSignal, on } from "solid-js";
 import { pageSize } from "../app/site";
 import "../events/programme.css";
 
-import { matchesSearch, searchTerms, searchExcerpt } from "../search/search";
+import { matchesSearch, searchTerms } from "../search/search";
 import { Entry } from "../events/entry";
 import { Highlight } from "../components/highlight";
 import { Card } from "../components/card";
 import { TableToolbar } from "../components/toolbar";
+import { timeZone } from "../app/site";
 
 /** Article list properties. */
 type ArticleListProps = {
@@ -36,6 +39,9 @@ type ArticleListProps = {
 export function ArticleList(props: ArticleListProps) {
     const { query, setQuery } = useSearch();
     const terms = createMemo(() => searchTerms(query()));
+    const selectedTopic = createMemo(() =>
+        props.articles.flatMap(articleTags).find((tag) => tag.slug === props.tag),
+    );
 
     // filter all visible article fields
     const matches = createMemo(() => {
@@ -71,6 +77,22 @@ export function ArticleList(props: ArticleListProps) {
             <Show when={props.isSearchable}>
                 <TableToolbar onSearch={setQuery} value={query()} placeholder="Search news…" />
             </Show>
+            {/* keep topic filters reachable before the archive on smaller screens */}
+            <Show when={props.isPage}>
+                <details
+                    class="news-topics"
+                    onClick={(event) => {
+                        if ((event.target as Element).closest("a"))
+                            event.currentTarget.open = false;
+                    }}
+                >
+                    <summary>
+                        {selectedTopic()?.name ?? "Topics"}{" "}
+                        <ChevronDown size={16} aria-hidden="true" />
+                    </summary>
+                    <TopicList articles={props.articles} selected={props.tag} />
+                </details>
+            </Show>
             {/* articles */}
             <Show
                 when={articles().length > 0}
@@ -79,43 +101,95 @@ export function ArticleList(props: ArticleListProps) {
                 <div class="news-list">
                     <For each={articles()}>
                         {(article) => (
-                            <Entry
-                                class="news-row"
-                                date={article.date}
-                                datePlacement="below"
-                                href={`/news/${article.slug}`}
-                                image={props.isCompact ? undefined : articleImage(article)}
-                                actions={
-                                    !props.isCompact ? (
-                                        <EditLink team href={`/news/edit?id=${article.id}`} />
-                                    ) : undefined
-                                }
-                                description={
-                                    <Highlight
-                                        text={
-                                            terms().length
-                                                ? searchExcerpt(
-                                                      `${article.description} ${"body" in article ? article.body : ""}`,
-                                                      terms(),
-                                                  )
-                                                : article.description
+                            <Show
+                                when={props.isPage}
+                                fallback={
+                                    <Entry
+                                        class="news-row"
+                                        date={article.date}
+                                        datePlacement="below"
+                                        href={`/news/${article.slug}`}
+                                        image={props.isCompact ? undefined : articleImage(article)}
+                                        actions={
+                                            !props.isCompact ? (
+                                                <EditLink
+                                                    team
+                                                    href={`/news/edit?id=${article.id}`}
+                                                />
+                                            ) : undefined
                                         }
-                                        terms={terms()}
+                                        description={
+                                            <Highlight text={article.description} terms={terms()} />
+                                        }
+                                        meta={
+                                            <div class="entry-tags">
+                                                <For each={articleTags(article)}>
+                                                    {(tag) => (
+                                                        <a
+                                                            class="tag"
+                                                            href={`/news?tag=${tag.slug}`}
+                                                        >
+                                                            {tag.name}
+                                                        </a>
+                                                    )}
+                                                </For>
+                                            </div>
+                                        }
+                                        title={<Highlight text={article.title} terms={terms()} />}
                                     />
                                 }
-                                meta={
-                                    <div class="entry-tags">
-                                        <For each={articleTags(article)}>
-                                            {(tag) => (
-                                                <a class="tag" href={`/news?tag=${tag.slug}`}>
-                                                    {tag.name}
-                                                </a>
-                                            )}
-                                        </For>
+                            >
+                                <article class="news-story">
+                                    <div class="news-story__copy">
+                                        <div class="news-story__date">
+                                            <time dateTime={new Date(article.date).toISOString()}>
+                                                {new Date(article.date).toLocaleDateString(
+                                                    "en-GB",
+                                                    {
+                                                        day: "numeric",
+                                                        month: "short",
+                                                        year: "numeric",
+                                                        timeZone,
+                                                    },
+                                                )}
+                                            </time>
+                                            <EditLink team href={`/news/edit?id=${article.id}`} />
+                                        </div>
+                                        <h2>
+                                            <a href={`/news/${article.slug}`}>
+                                                <Highlight text={article.title} terms={terms()} />
+                                            </a>
+                                        </h2>
+                                        <p>
+                                            <Highlight text={article.description} terms={terms()} />
+                                        </p>
+                                        <div class="entry-tags">
+                                            <For each={articleTags(article)}>
+                                                {(tag) => (
+                                                    <a
+                                                        class="tag"
+                                                        href={`/news?tag=${encodeURIComponent(tag.slug)}`}
+                                                    >
+                                                        {tag.name}
+                                                    </a>
+                                                )}
+                                            </For>
+                                        </div>
                                     </div>
-                                }
-                                title={<Highlight text={article.title} terms={terms()} />}
-                            />
+                                    <NewsMedia image={article.image} video={article.video} />
+                                    <Show when={article.url}>
+                                        <a
+                                            class="action-link article-source"
+                                            href={article.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            Read on{" "}
+                                            {new URL(article.url!).hostname.replace(/^www\./, "")}
+                                        </a>
+                                    </Show>
+                                </article>
+                            </Show>
                         )}
                     </For>
                 </div>

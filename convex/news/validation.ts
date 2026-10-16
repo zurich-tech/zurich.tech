@@ -2,6 +2,7 @@ import { ConvexError, type Infer } from "convex/values";
 import { validateTopics } from "../topics/queries";
 import type { QueryCtx } from "../_generated/server";
 import { content } from "./content";
+import { videoEmbed } from "../../src/news/video";
 
 /** Apply the same content rules to editor saves and imported articles. */
 export async function validateContent(
@@ -27,7 +28,7 @@ export async function validateContent(
     )
         throw new ConvexError("Check the title, summary and body lengths.");
     if (value.kind === "link" && !value.url) throw new ConvexError("Enter the original URL.");
-    for (const url of [value.url, value.image].filter(Boolean)) {
+    for (const url of [value.url, value.image, value.video].filter(Boolean)) {
         let parsed: URL;
         try {
             parsed = new URL(url!);
@@ -42,6 +43,7 @@ export async function validateContent(
         value.topics.some((tag) => !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag))
     )
         throw new ConvexError("Use up to 12 tags, with words separated by hyphens.");
+    if (value.video) videoEmbed(value.video);
     if (value.kind === "post" && !value.authors.length && !value.organisations.length)
         throw new ConvexError("Select an author or organisation.");
     for (const id of value.authors) {

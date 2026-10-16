@@ -15,6 +15,8 @@ test("news detail matches the feed and excludes drafts and private authors", asy
             title: "Published",
             description: "One sentence.",
             body: "Context.",
+            image: "https://example.com/project.jpg",
+            video: "https://example.com/demo.mp4",
             kind: "post" as const,
             topics: [],
             authors: [author],
@@ -97,6 +99,8 @@ test("news imports preserve dates, credit organisations and protect subsequent e
                 title: "Introduction",
                 description: "Our community.",
                 body: "Welcome.",
+                image: "https://example.com/project.jpg",
+                video: "https://example.com/demo.mp4",
                 kind: "post" as const,
                 authors: [],
                 organisations: ["zurich-tech"],
@@ -135,6 +139,14 @@ test("news imports preserve dates, credit organisations and protect subsequent e
         },
     ]);
     const editor = backend.withIdentity({ subject: "editor" });
+    await expect(
+        editor.mutation(api.news.mutations.save, {
+            id: post._id,
+            slug: post.slug,
+            expectedUpdatedAt: post.updatedAt,
+            content: { ...post.draft, video: "javascript:alert(1)" },
+        }),
+    ).rejects.toThrow("Use an HTTP or HTTPS URL.");
     await editor.mutation(api.news.mutations.save, {
         id: post._id,
         slug: post.slug,

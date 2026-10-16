@@ -33,6 +33,18 @@ export async function readArticles() {
             throw new Error(`Posts require a body and no external URL in ${filename}.`);
         }
 
+        // preserve optional photographs from the original story
+        const image = metadata.image;
+        const video = metadata.video;
+        for (const field of ["image", "video"]) {
+            const media = metadata[field];
+            if (media === undefined) continue;
+            if (typeof media !== "string") throw new Error(`Invalid ${field} in ${filename}.`);
+            const parsed = new URL(media);
+            if (parsed.protocol !== "https:" || parsed.username || parsed.password)
+                throw new Error(`Invalid ${field} URL in ${filename}.`);
+        }
+
         // keep references explicit: public member handles and organisation slugs
         const references: Record<string, string[]> = {};
         for (const field of ["authors", "organisations"]) {
@@ -79,6 +91,8 @@ export async function readArticles() {
             ...(kind === "link" ? { url: String(url) } : {}),
             title: String(metadata.title),
             description: String(metadata.subtitle),
+            ...(image ? { image: String(image) } : {}),
+            ...(video ? { video: String(video) } : {}),
             authors: references.authors,
             organisations: references.organisations,
             date,

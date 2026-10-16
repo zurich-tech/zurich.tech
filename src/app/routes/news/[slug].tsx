@@ -9,17 +9,16 @@ import { isCurrentYear } from "../../../events/time";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { articleTags } from "../../../news/tags";
-import { articleImage } from "../../../news/article";
+import { NewsMedia } from "../../../news/media";
 import { organisationKinds } from "../../../../convex/organisations/kinds";
 import { Card } from "../../../components/card";
 import { Image } from "../../../components/image";
-import { Entry } from "../../../events/entry";
 import type { ArticlePreview } from "../../../news/model";
 import { Arrow } from "../../../components/arrow";
 import "../../../news/article.css";
 import { Markdown } from "../../../components/markdown";
 import { NotFound } from "../../notfound";
-import { Page, ItemHeader } from "../../page";
+import { Page } from "../../page";
 import { Seo } from "../../seo";
 
 import { routeParam } from "../../params";
@@ -32,7 +31,7 @@ export const route = {
     },
 };
 
-/** Read an authored news article in the shared card layout. */
+/** Read a story with its source, organisations and related coverage. */
 export default function Route() {
     const access = useAccess();
     const params = useParams();
@@ -64,15 +63,14 @@ export default function Route() {
                         image={post().image}
                         isArticle
                     />
-                    <Page>
-                        <a class="eyebrow" href="/news">
-                            <Arrow direction="left" /> News
-                        </a>
-                        <ItemHeader
-                            title={post().title}
-                            summary={post().description}
-                            actions={<EditLink team href={`/news/edit?id=${post().id}`} />}
-                        >
+                    <Page class="news-detail">
+                        <div class="article-navigation">
+                            <a class="eyebrow" href="/news">
+                                <Arrow direction="left" /> News
+                            </a>
+                            <EditLink team href={`/news/edit?id=${post().id}`} />
+                        </div>
+                        <header class="article-header">
                             <div class="article-metadata">
                                 <div class="article-byline">
                                     <time dateTime={new Date(post().date).toISOString()}>
@@ -109,12 +107,19 @@ export default function Route() {
                                     </For>
                                 </div>
                             </div>
-
-                            {/* the original story is the main destination for linked news */}
+                            <h1>{post().title}</h1>
+                            <p class="article-deck">{post().description}</p>
+                        </header>
+                        {/* keep the story in one reading column */}
+                        <article class="news-article" aria-label={post().title}>
+                            <NewsMedia image={post().image} video={post().video} />
+                            <Show when={post().body}>
+                                <Markdown source={post().body} />
+                            </Show>
                             <Show when={post().url}>
                                 {(url) => (
                                     <a
-                                        class="button button--primary article-source"
+                                        class="action-link article-source"
                                         href={url()}
                                         target="_blank"
                                         rel="noreferrer"
@@ -124,28 +129,19 @@ export default function Route() {
                                     </a>
                                 )}
                             </Show>
-                        </ItemHeader>
-                        <div class="detail-layout">
-                            <div class="detail-content">
-                                {/* authored text, when the story has any */}
-                                <Show when={post().body || post().image}>
-                                    <article class="card news-article" aria-label={post().title}>
-                                        <div class="card-body article-content">
-                                            <Show when={post().image}>
-                                                <img class="news-image" src={post().image} alt="" />
-                                            </Show>
-                                            <Show when={post().body}>
-                                                <Markdown source={post().body} />
-                                            </Show>
-                                        </div>
-                                    </article>
-                                </Show>
-
-                                {/* who the story is about */}
-                                <For each={post().organisations}>
-                                    {(organisation) => (
-                                        <Card title={organisation.name}>
-                                            <div class="article-organisation">
+                        </article>
+                        <footer class="article-footer">
+                            <Show when={post().organisations.length}>
+                                <div class="article-organisations">
+                                    <For each={post().organisations}>
+                                        {(organisation) => (
+                                            <div
+                                                class="article-organisation"
+                                                classList={{
+                                                    "article-organisation--text":
+                                                        !organisation.iconUrl,
+                                                }}
+                                            >
                                                 <Show when={organisation.iconUrl}>
                                                     {(source) => (
                                                         <Image
@@ -156,21 +152,19 @@ export default function Route() {
                                                     )}
                                                 </Show>
                                                 <div class="article-organisation__copy">
+                                                    <a
+                                                        class="article-organisation__name"
+                                                        href={`/organisations/${organisation.slug}`}
+                                                    >
+                                                        {organisation.name}
+                                                    </a>
                                                     <p class="article-organisation__meta">
                                                         {organisationKinds[organisation.kind]} ·{" "}
                                                         {organisation.location}
                                                     </p>
-                                                    <p>
-                                                        {organisation.description ||
-                                                            organisation.headline}
-                                                    </p>
-                                                    <div class="article-organisation__links">
-                                                        <a
-                                                            class="action-link"
-                                                            href={`/organisations/${organisation.slug}`}
-                                                        >
-                                                            Profile <Arrow />
-                                                        </a>
+                                                </div>
+                                                <div class="article-organisation__links">
+                                                    <Show when={organisation.website}>
                                                         <a
                                                             class="action-link"
                                                             href={organisation.website}
@@ -179,41 +173,33 @@ export default function Route() {
                                                         >
                                                             Website <Arrow direction="external" />
                                                         </a>
-                                                    </div>
+                                                    </Show>
                                                 </div>
                                             </div>
-                                        </Card>
-                                    )}
-                                </For>
-
-                                {/* stories about the same organisations, then the same topics */}
-                                <Show when={related(post(), articles() ?? []).length}>
-                                    <Card title="More news" titleHref="/news">
-                                        <div class="news-list">
-                                            <For each={related(post(), articles() ?? [])}>
-                                                {(item) => (
-                                                    <Entry
-                                                        class="news-row"
-                                                        date={item.date}
-                                                        datePlacement="below"
-                                                        href={`/news/${item.slug}`}
-                                                        image={articleImage(item)}
-                                                        title={item.title}
-                                                        description={item.description}
-                                                    />
-                                                )}
-                                            </For>
-                                        </div>
-                                    </Card>
-                                </Show>
-                            </div>
-                            <aside class="detail-aside">
-                                <Share
-                                    title={post().title}
-                                    url={`https://zurich.tech/news/${post().slug}`}
-                                />
-                            </aside>
-                        </div>
+                                        )}
+                                    </For>
+                                </div>
+                            </Show>
+                            <Share
+                                title={post().title}
+                                url={`https://zurich.tech/news/${post().slug}`}
+                            />
+                        </footer>
+                        {/* stories about the same organisations, then the same topics */}
+                        <Show when={related(post(), articles() ?? []).length}>
+                            <Card title="More news" titleHref="/news">
+                                <div class="article-related">
+                                    <For each={related(post(), articles() ?? [])}>
+                                        {(item) => (
+                                            <a href={`/news/${item.slug}`}>
+                                                <span>{item.title}</span>
+                                                <Arrow direction="right" />
+                                            </a>
+                                        )}
+                                    </For>
+                                </div>
+                            </Card>
+                        </Show>
                     </Page>
                 </>
             )}
