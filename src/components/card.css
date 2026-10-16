@@ -13,7 +13,7 @@
     display: flex;
     min-height: 52px;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: baseline;
     gap: var(--space-2) var(--space-4);
     border-bottom: var(--rule) solid var(--color-line);
     padding: var(--space-2) var(--card-inset);
@@ -23,14 +23,14 @@
     flex: 1 1 auto;
     min-width: 0;
     font: 500 var(--text-xl) / 1.25 var(--font-mono);
-    letter-spacing: -0.035em;
+    letter-spacing: 0;
 }
 
 /* a section heading that titles its page takes the one page-title size */
 h1.card-title {
     font-size: var(--text-3xl);
     line-height: 1.05;
-    letter-spacing: -0.05em;
+    letter-spacing: 0;
 }
 
 .card-heading:has(> h1.card-title) {
@@ -39,7 +39,7 @@ h1.card-title {
 
 .card-title a {
     display: inline-flex;
-    align-items: center;
+    align-items: baseline;
     gap: var(--space-2);
     transition: color var(--fast) var(--ease);
 }
@@ -73,9 +73,18 @@ h1.card-title {
     display: flex;
     min-width: 0;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: baseline;
     justify-content: flex-end;
     gap: var(--space-2) var(--space-4);
+}
+
+/* preserve the text baseline through nested action groups */
+.card-toolbar .row-actions {
+    align-items: baseline;
+}
+
+.card-toolbar .row-actions > .action-link:has(> svg:only-child) {
+    align-self: center;
 }
 
 .card-body {

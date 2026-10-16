@@ -1,4 +1,5 @@
 import { getMap } from "../../map/queries";
+import { getSubscriberCount } from "../../statistics/queries";
 import { getSponsors } from "../../sponsorships/queries";
 import { getTopics } from "../../topics/queries";
 import { site } from "../site";
@@ -30,6 +31,7 @@ export const route = {
             getMap(),
             getSponsors(),
             getTopics(),
+            getSubscriberCount(),
         ]),
 };
 
