@@ -1,5 +1,5 @@
 import { Show, createSignal } from "solid-js";
-import { Play } from "lucide-solid";
+import { ArrowUpRight, Play } from "lucide-solid";
 import { videoEmbed } from "./video";
 
 /** Display original media; load video players only when requested. */
@@ -71,6 +71,16 @@ export function NewsMedia(props: { image?: string; video?: string; caption?: str
                             </div>
                         )}
                     </Show>
+                </Show>
+                <Show when={embed()}>
+                    <a
+                        class="news-media__source"
+                        href={props.video}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Watch video <ArrowUpRight size={14} aria-hidden="true" />
+                    </a>
                 </Show>
                 <Show when={props.caption}>
                     <figcaption>{props.caption}</figcaption>

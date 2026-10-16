@@ -8,4 +8,7 @@ url: "https://voliro.com/blog/voliro-secures-23m-via-series-a-extension-to-moder
 authors: []
 organisations: ["voliro"]
 topics: ["robotics"]
+image: "https://cdn.voliro.com/wp-content/uploads/2025/06/Voliro-executive-team-2025-scaled.jpg"
 ---
+
+Image: voliro.com

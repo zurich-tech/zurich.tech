@@ -8,4 +8,7 @@ url: "https://www.gravisrobotics.com/series-a"
 authors: []
 organisations: ["gravis-robotics"]
 topics: ["robotics"]
+image: "https://cdn.prod.website-files.com/69016a2658231cb1d2ca58c5/6a8302d6fd1bf75297e62153__2026_07_Softbank_Photography_Excavator_Develon_Digging_Aerial_95%203.jpg"
 ---
+
+Image: Gravis Robotics

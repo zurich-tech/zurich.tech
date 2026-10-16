@@ -7,4 +7,7 @@ url: "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/tiny-oled-pixels-
 authors: []
 organisations: ["eth-zurich"]
 topics: ["hardware"]
+image: "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/tiny-oled-pixels-can-be-manufactured-like-microchips/_jcr_content/wide_content/image_817794067/image.imageformat.1286.1819680163.jpg"
 ---
+
+Image: ETH Zurich / research authors

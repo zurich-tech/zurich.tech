@@ -8,4 +8,7 @@ url: "https://blog.covalo.com/personal-care/5-years-in-covalo-secures-3.5m-to-bu
 authors: []
 organisations: ["covalo"]
 topics: ["data-engineering"]
+image: "https://blog.covalo.com/hs-fs/hubfs/founders_photo_landscape.jpg?width=4024&height=2271&name=founders_photo_landscape.jpg"
 ---
+
+Image: Covalo

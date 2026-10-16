@@ -8,4 +8,7 @@ url: "https://www.veezoo.com/blog/veezoo-raises-6-million-series-a"
 authors: []
 organisations: ["veezoo"]
 topics: ["data-engineering"]
+image: "https://www.veezoo.com/blog/images/veezoo-raises-6-million-series-a.png"
 ---
+
+Image: Veezoo

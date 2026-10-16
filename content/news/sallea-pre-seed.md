@@ -7,4 +7,7 @@ date: "2024-10-16"
 url: "https://sallea.ch/pre-seed-announcement-turning-lab-grown-meat-into-a-multi-billion-dollar-market-with-sallea/"
 authors: []
 topics: ["biotech"]
+image: "https://sallea.ch/wp-content/uploads/2024/10/Teampicture-funding-announcement-pre-seed-scaled.jpg"
 ---
+
+Image: sallea.ch

@@ -8,4 +8,7 @@ url: "https://rss.globenewswire.com/news-release/2026/01/22/3223820/0/en/google-
 authors: []
 organisations: ["sparkli"]
 topics: ["software-engineering"]
+image: "https://ml-eu.globenewswire.com/Resource/Download/c6b81a40-81ef-48d6-a75f-af2cbd47897e/sparkli-founders-l-to-r-mynseok-kang-lax-poojary-and-lucie-marchand.jpeg"
 ---
+
+Image: Sparkli / company-issued GlobeNewswire release

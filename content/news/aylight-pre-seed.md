@@ -8,4 +8,7 @@ url: "https://aylight.io/news/preseed-funding/"
 authors: []
 organisations: ["aylight"]
 topics: ["hardware"]
+image: "https://aylight.io/media/preseed-founders.jpg"
 ---
+
+Image: Aylight

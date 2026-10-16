@@ -8,4 +8,7 @@ url: "https://btry.ch/fundingannouncement/"
 authors: []
 organisations: ["btry"]
 topics: ["hardware"]
+image: "https://btry.ch/wp-content/uploads/2025/11/0007520-Edit-scaled.jpg"
 ---
+
+Image: btry.ch

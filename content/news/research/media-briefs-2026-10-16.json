@@ -1,0 +1,158 @@
+{
+    "reviewedAt": "2026-10-16",
+    "counts": {
+        "stories": 6,
+        "storiesWithVerifiedVideoUrl": 4,
+        "storiesWithoutVerifiedVideoUrl": 2
+    },
+    "verification": "Original page HTML inspected for source, video and ETH video-player attributes; two direct MP4 endpoints returned HTTP 200 video/mp4. Three YouTube oEmbed responses confirmed titles and ETH channels. Six poster/photo URLs were fetched, decoded and visually inspected. Videos were not watched end-to-end; this does not claim browser playback QA or that every clip is live-action footage. No production writes.",
+    "stories": [
+        {
+            "slug": "eth-walking-hand",
+            "status": "video_url_verified",
+            "title": "ETH teaches a robotic hand to walk on its fingers",
+            "description": "ETH Zurich's Soft Robotics Lab trained a self-contained robotic hand to crawl across 14 surfaces, recover from falls and interact with objects while supporting its own weight. Separate learned policies control each skill: keyboard commands require manual alignment, while pushing a cube uses an overhead camera.",
+            "body": "",
+            "image": "https://srl-ethz.github.io/website-fingers-as-legs/assets/research-film-poster.jpg",
+            "video": "https://srl-ethz.github.io/website-fingers-as-legs/assets/research-film.mp4",
+            "source": "https://srl-ethz.github.io/website-fingers-as-legs/",
+            "credit": "ETH Zurich Soft Robotics Lab",
+            "date": "2026-09-15",
+            "dateEvidence": "https://arxiv.org/abs/2609.17172",
+            "mediaEvidence": {
+                "video": "HTML video#research-film > source; HTTP 200 video/mp4, 21450179 bytes.",
+                "image": "Exact video poster attribute; visually shows the hand on outdoor concrete.",
+                "alternatives": [
+                    {
+                        "video": "https://srl-ethz.github.io/website-fingers-as-legs/assets/recovery.mp4",
+                        "image": "https://srl-ethz.github.io/website-fingers-as-legs/assets/recovery-poster.jpg"
+                    },
+                    {
+                        "video": "https://srl-ethz.github.io/website-fingers-as-legs/assets/keyboard.mp4",
+                        "image": "https://srl-ethz.github.io/website-fingers-as-legs/assets/keyboard-poster.jpg"
+                    },
+                    {
+                        "video": "https://srl-ethz.github.io/website-fingers-as-legs/assets/pushing.mp4",
+                        "image": "https://srl-ethz.github.io/website-fingers-as-legs/assets/pushing-poster.jpg"
+                    }
+                ]
+            },
+            "caveat": "Date is original paper submission, not the undated project site's launch. Alternative clips found in HTML but not separately endpoint-tested."
+        },
+        {
+            "slug": "eth-biocement",
+            "status": "video_url_verified",
+            "title": "ETH builds architectural elements with bacteria",
+            "description": "ETH researchers combined sand, bacteria and 3D printing to make architectural elements that harden at room temperature over two to five days. They also demonstrated robotic biocement spraying at the 2025 Venice Architecture Biennale; that process still needs mechanical testing, and ammonium by-products complicate environmental claims.",
+            "body": "",
+            "image": "https://ethz.ch/bin/ethz/components/previewImage/youtube/L-v83ikx2-k.jpg",
+            "video": "https://www.youtube.com/watch?v=L-v83ikx2-k",
+            "source": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/when-bacteria-become-masons.html",
+            "credit": "Video: Kai Hsun Yeh and Kevin Seav / ETH Zurich",
+            "date": "2026-10-14",
+            "mediaEvidence": {
+                "video": "Original ETH data-video-url embeds L-v83ikx2-k; YouTube oEmbed title Design Strategies For Microbial Biocement Structures, author ETH Zürich (@ethzurich).",
+                "image": "Exact ETH data-image-placeholder; HTTP 200 image/jpeg. Visually shows a nozzle printing the material.",
+                "existingCover": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/when-bacteria-become-masons/_jcr_content/articleLeadImage/image.imageformat.carousel.5667570.jpg",
+                "existingCoverCredit": "Kai-Hsun Yeh / ETH Zurich"
+            },
+            "caveat": "October date is the ETH report, not the 2025 Venice demonstration. Not a proven load-bearing or environmentally superior concrete replacement."
+        },
+        {
+            "slug": "uzh-dapevo",
+            "status": "no_verified_video",
+            "title": "UZH keeps visual tracking running when camera frames drop out",
+            "description": "DAPEVO combines camera frames with event-camera measurements to estimate motion when conventional images become sparse or unreliable. In the UZH-FPV benchmark, keeping only one in six frames increased mean trajectory error from 1.00 to 1.36 metres; the result is from a research preprint, not a deployed navigation product.",
+            "body": "",
+            "image": "/news/dapevo.webp",
+            "video": null,
+            "source": "https://arxiv.org/abs/2609.30947",
+            "credit": "Luca Gandolfi and co-authors / UZH Robotics and Perception Group",
+            "date": "2026-09-25",
+            "mediaEvidence": {
+                "figureSource": "https://rpg.ifi.uzh.ch/research_vo.html",
+                "image": "Official lab HTML identifies the source as paper Figure 1. Rendered WebP visually inspected: RGB frames, event images, tracked-patch correspondences, low-light weighting annotation and 0/100/200 ms timeline are legible at full size. No invented labels or reconstructed content.",
+                "video": "DAPEVO-specific lab entry and arXiv abstract expose no video. Adjacent lab video links belong to other papers and must not be substituted.",
+                "originalImage": "https://rpg.ifi.uzh.ch/img/papers/arXiv26_Gandolfi.svg",
+                "preparedAsset": {
+                    "path": "public/news/dapevo.webp",
+                    "width": 1558,
+                    "height": 1558,
+                    "bytes": 323824,
+                    "sha256": "aa5864f0780fb6379df92f6bc389efe5a6f98b68b91b84b30176ea3af30172ee",
+                    "originalBytes": 5285835,
+                    "originalSha256": "b73f2ec5c0e75d25bbe46eecdb8f658cf8251b83974da2acee7a15e625e1d3f2",
+                    "processing": "Existing sharp: rasterise original SVG at 150 dpi, fit inside 1600x1600, WebP quality 88; flatten transparency to white for legibility. No crop or content alterations.",
+                    "credit": "Luca Gandolfi and co-authors / UZH Robotics and Perception Group",
+                    "paper": "https://arxiv.org/abs/2609.30947"
+                }
+            },
+            "caveat": "Original research diagram, not a photo or video. Preserve square aspect ratio and show uncropped; fine labels need full-size viewing rather than a tiny feed thumbnail."
+        },
+        {
+            "slug": "stellar-alpina-pre-seed",
+            "status": "no_verified_video",
+            "title": "Stellar Alpina hot-fires its first rotating detonation engine",
+            "description": "Stellar Alpina built its test infrastructure and completed an Engine 0 firing campaign within 82 days of incorporation. Its original announcement reports eight detonative hotfires and footage of up to five stable detonation waves; the tests are an early hardware milestone, not a demonstration of a flight-ready propulsion system.",
+            "body": "",
+            "image": "https://ml-eu.globenewswire.com/Resource/Download/399f639c-6901-41df-be7a-9e44efbaedde/engine-0-hotfiring.png",
+            "video": null,
+            "source": "https://www.globenewswire.com/news-release/2026/05/28/3302542/0/en/Stellar-Alpina-Raises-CHF-3-5M-to-Build-Detonation-Based-Propulsion-for-Mobility-After-Launch.html",
+            "credit": "Stellar Alpina; photographer not named for this hotfire image",
+            "date": "2026-05-28",
+            "mediaEvidence": {
+                "image": "Original company-issued release links attachment Engine 0 Hotfire; fetched, decoded and visually inspected, showing engine exhaust on a test stand.",
+                "video": "No actual video URL found in original release, current company article, homepage or targeted co-founder post.",
+                "companyArticle": "https://stellar-alpina.ch/articles/stellar-alpina-completed-europe-s-first-commercial-rdre-hotfire-and-raises-4-5m-within-82-days",
+                "cofounderPost": "https://www.linkedin.com/posts/patrick-egli-081289341_82-days-thats-how-long-it-took-us-to-go-activity-7467882798851301376-HutD"
+            },
+            "caveat": "Preserve May 28 original announcement date. Current company article displays July 7; neither proves the exact firing date. Footage is mentioned but no playable link verified. Daniel Kunz credit applies to the founders photograph, not automatically this hotfire image."
+        },
+        {
+            "slug": "eth-autobike-prototype",
+            "status": "video_url_verified",
+            "title": "ETH students demonstrate an autonomous bicycle",
+            "description": "ETH students built AutoBike to move shared bicycles between stations without a rider. Retractable support wheels stabilise the prototype, while lidar and a stereo camera support navigation; the project's demonstration shows it detecting pedestrians, planning a route around them and steering toward a goal.",
+            "body": "",
+            "image": "https://autobike.ethz.ch/assets/images/general/pointcloud_poster.jpg",
+            "video": "https://autobike.ethz.ch/assets/videos/lidar-pointcloud-web.mp4",
+            "source": "https://autobike.ethz.ch/",
+            "credit": "AutoBike / ETH Zurich",
+            "date": "2026-08-17",
+            "mediaEvidence": {
+                "video": "Exact project-page source under Autonomously Navigating Around People; HTTP 200 video/mp4, 6321586 bytes.",
+                "image": "Exact paired poster attribute; HTTP 200 image/jpeg. Visually shows lidar point-cloud and planned path, not a live-action photograph.",
+                "originalDateSource": "https://www.hesaitech.com/the-bike-that-rides-itself-back-how-autobike-uses-hesai-lidar-to-explore-smarter-bike-sharing/",
+                "laterReport": {
+                    "source": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/autonomous-bike-eth-students-redefine-bike-sharing.html",
+                    "date": "2026-10-06",
+                    "video": "https://www.youtube.com/watch?v=iipwVT6o1L4",
+                    "image": "https://ethz.ch/bin/ethz/components/previewImage/youtube/iipwVT6o1L4.jpg",
+                    "credit": "Nicole Davidson / ETH Zurich",
+                    "verification": "Exact ETH player attributes; YouTube oEmbed confirms Autonomous Bike: ETH Students Rethink Bike Sharing, ETH Zürich channel. Poster visually shows students with prototype."
+                }
+            },
+            "caveat": "Retain existing August story date; project page has no publication date. October ETH film is later supporting media, not a newly dated duplicate. Project hero uses a rendered poster; prefer verified demonstration above."
+        },
+        {
+            "slug": "winduction-charging-prototype",
+            "status": "video_url_verified",
+            "title": "Winduction demonstrates bus charging through tyres",
+            "description": "Winduction's prototype charges an electric bus from a ground plate through coils integrated into its tyres, reducing the gap across which power must be transferred. The ETH spin-off aims to recharge buses at stops with smaller onboard batteries; passenger trials are planned for 2028, rather than already operating commercially.",
+            "body": "",
+            "image": "https://ethz.ch/bin/ethz/components/previewImage/youtube/ILbjjcFFEVE.jpg",
+            "video": "https://www.youtube.com/watch?v=ILbjjcFFEVE",
+            "source": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/tyres-instead-of-a-plug-electric-buses-that-charge-during-operation.html",
+            "credit": "ETH News for Industry",
+            "date": "2026-10-05",
+            "mediaEvidence": {
+                "video": "Exact ETH data-video-url; YouTube oEmbed confirms Laden während der Fahrt, author ETH News for Industry (@ethnewsforindustry5940).",
+                "image": "Exact ETH data-image-placeholder; HTTP 200 image/jpeg. Visually shows an animated bus/charging scene.",
+                "photoAlternative": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/tyres-instead-of-a-plug-electric-buses-that-charge-during-operation/_jcr_content/articleLeadImage/image.imageformat.carousel.1205193102.jpg",
+                "photoCredit": "Winduction",
+                "photoSubject": "Founders Laurin Schwitter, Sylvain Fricker and Sonam Bhuka in front of the electric bus, identified by ETH caption."
+            },
+            "caveat": "Verified official video includes an animated poster; not verified as wholly live-action prototype footage. Do not describe animated charging as observed field-trial performance."
+        }
+    ]
+}

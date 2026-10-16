@@ -1,0 +1,51 @@
+{
+    "reviewedAt": "2026-10-16",
+    "selection": [
+        {
+            "slug": "mimic-industrial-manipulation",
+            "source": "https://www.mimicrobotics.com/blog/video-action-models-for-data-efficient-industrial-manipulation",
+            "date": "2026-09-23",
+            "image": "https://d2304w8u5eg7y4.cloudfront.net/videos/industrial-franka-kitting-poster.webp",
+            "imageCredit": "mimic robotics",
+            "note": "Visually reviewed the original experiment's video poster in Chrome. The 95% result is specific to soft-part kitting, evaluated over 40 rollouts. Eight hours excludes backbone pretraining. Distinct from the existing financing articles; July's FLUX-mimic preview is background, not misdated as September news."
+        },
+        {
+            "slug": "eth-biocement",
+            "source": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/when-bacteria-become-masons.html",
+            "date": "2026-10-14",
+            "imageCredit": "Kai-Hsun Yeh / ETH Zurich",
+            "note": "Research report includes older demonstrations. Copy explicitly dates the Venice installation to 2025 and does not claim a commercial or proven low-carbon cement replacement."
+        },
+        {
+            "slug": "uzh-dapevo",
+            "source": "https://arxiv.org/abs/2609.30947",
+            "date": "2026-09-25",
+            "note": "Original preprint date, not the lab's September 28 announcement. Benchmark results are attributed, not described as a deployed product. No verified cover image added."
+        },
+        {
+            "slug": "eth-walking-hand",
+            "source": "https://srl-ethz.github.io/website-fingers-as-legs/",
+            "paper": "https://arxiv.org/abs/2609.17172",
+            "date": "2026-09-15",
+            "imageCredit": "ETH Zurich Soft Robotics Lab",
+            "note": "Explicit user example, one day outside the past-month window. Preserve original date. Task-specific policies; object pushing uses an overhead camera."
+        }
+    ],
+    "updated": {
+        "slug": "stellar-alpina-pre-seed",
+        "source": "https://stellar-alpina.ch/articles/stellar-alpina-completed-europe-s-first-commercial-rdre-hotfire-and-raises-4-5m-within-82-days",
+        "date": "2026-05-28",
+        "note": "Existing funding story reframed around the demonstrated engine hotfire, with the company's original photograph. Same milestone and round, not a second story. Preserve May announcement date; current company article displays July 7. CHF 3.5M and approximately USD 4.5M refer to the same round."
+    },
+    "notSelected": [
+        {
+            "source": "https://www.anybotics.com/news/autonomous-door-opening-for-anymal/",
+            "reason": "Useful capability, but passage through equipped automated doors is a weaker fit than the selected technical demonstrations; do not imply manipulation of arbitrary door handles."
+        },
+        {
+            "source": "https://arxiv.org/abs/2610.06019",
+            "reason": "Simulation-only learning benchmark result; retained as a research lead, not added to pad the selection."
+        }
+    ],
+    "checks": "Compared slugs and primary URLs with all 217 production posts, then validated the three new imports. Existing Stellar record edited in place; Apiax unpublished. No emails sent."
+}

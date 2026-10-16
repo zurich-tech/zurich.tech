@@ -1,11 +1,24 @@
 # News
 
-Put the funding announcement in the headline.
-Use exactly one short sentence for the description: company name, present-tense verb, what it builds.
+## Format
+
+Use a short headline, one concise paragraph, original media and a direct source link for linked news briefs.
+Put the paragraph in `subtitle`; leave the body empty unless essential context cannot fit in the paragraph.
+Do not repeat the summary below the media or rewrite the original article.
+For demos, use the original playable HTTPS video URL in `video` and its still poster in `image`.
+The feed, detail page and editor preview use the same media component, with controls and inline playback.
+Direct video files and YouTube or Vimeo links are supported; hosted players load only after clicking Play.
+Keep `image` for social previews and email clients, which cannot reliably play video.
+Put media credits and a short description of what is shown in `caption`, not in the article body.
+Use photographs for stories without a useful demo; do not substitute a screenshot for a playable video.
+Withdrawn sources live in `withdrawn/`, outside the import catalogue, with the decision recorded in `research/`.
+
+Put the concrete achievement in the headline.
+For funding, explain what the company builds and the concrete work the round supports in one short paragraph.
 Write “Exclaim develops robots to maintain AI data centers.”
 Avoid substitutes such as “the Zurich startup” or “the ETH spin-off”, progressive constructions such as “is developing”, and investor lists in the description.
 Omit promotional quotes, unsupported superlatives and predictions.
-Use direct headline verbs: “raises”, “acquires”, “opens” and “releases”.
+Use direct headline verbs: “raises”, “acquires”, “demonstrates” and “releases”.
 Use “to acquire” or “to sell” for signed deals pending completion at the announcement date; avoid “agrees to” and “announces an agreement to”.
 
 ## Funding briefs
@@ -20,7 +33,7 @@ Use reporting to verify the funding facts, not as the default reader destination
 Choose only relevant existing topic slugs.
 Leave authors empty for external briefs; they are curated links, not articles credited to our team.
 
-A brief has frontmatter and may include one or two factual context sentences in its body:
+A brief has frontmatter and usually an empty body:
 
 ```yaml
 ---
@@ -80,10 +93,24 @@ Use Greater Zurich Area, ETH AI Center, ETH Zurich and relevant company/founder 
 Use EPFL selectively for work with a Zurich connection or exceptional technical relevance.
 Social feeds and search indexes are incomplete; never describe this archive as a complete registry of private financing.
 
-For non-funding news, prefer usable software, model or hardware releases; significant real deployments; substantial technical infrastructure; and acquisitions with a concrete local consequence.
+For non-funding news, prefer demonstrated hardware, usable software or model releases, substantial technical infrastructure and research results with a concrete artifact or experiment.
+An acquisition is not newsworthy here merely because a local company changes ownership.
 Require both a substantive Zurich connection and a technology angle.
 Zurich-based companies, local research groups and developments with a specific local consequence qualify.
 Incidental Zurich team involvement in a global product update does not qualify on its own.
 Skip routine partnerships, awards, hiring posts, event promotion and generic research publicity.
+Skip office openings, routine certifications, customer wins and funding for studies that have not produced results.
+The bar is significant fundraising or a significant product, technical or company milestone, not simply a recent company announcement.
+A demonstrated rocket-engine firing qualifies; a new office or an unspecified investment does not.
 State what changed in the headline and give one concrete sentence of context.
 Distinguish plans, pilots, released artifacts and operational systems explicitly.
+
+## Images
+
+Every story needs a relevant cover image before publication.
+Prefer a real project, product, experiment or demo image from the original announcement.
+For funding stories, a verified photograph of the team is appropriate when no useful product image exists.
+Set its HTTPS URL in the `image` field and record its source, subject and credit with the research notes.
+Do not use an unrelated stock photograph, generated illustration or company logo as a cover.
+Do not present a current team photograph as the team at an older funding announcement.
+Existing image-free stories need a researched backfill, not placeholder artwork.

@@ -1,0 +1,622 @@
+{
+    "date": "2026-10-16",
+    "scope": "All 33 non-funding Markdown source records currently in content/news, excluding README. This is not a fresh production inventory; main reports nine withdrawals already applied. Funding-category records excluded.",
+    "policy": "Prioritize demonstrated technical milestones. Permit exceptional quantified company transactions, clearly labelled as acquisitions rather than funding or technical breakthroughs. Product backgrounds alone do not rescue vague ownership announcements.",
+    "counts": {
+        "reviewed": 33,
+        "alreadyWithdrawn": 9,
+        "proposedRemove": 3,
+        "retain": 21
+    },
+    "records": [
+        {
+            "slug": "mimic-industrial-manipulation",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Concrete manipulation experiment: 95% of 40 trials; eight hours robot demonstrations excludes earlier video pretraining.",
+            "sources": [
+                "https://www.mimicrobotics.com/blog/video-action-models-for-data-efficient-industrial-manipulation"
+            ],
+            "reviewBasis": "Prior original-source review and saved research reused",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://d2304w8u5eg7y4.cloudfront.net/videos/industrial-franka-kitting-poster.webp",
+                "review": "present-not-reinspected",
+                "evidence": "content/news/research/technical-2026-10-16.json",
+                "action": "Preserve original media; review captions and cropping"
+            }
+        },
+        {
+            "slug": "zurimed-acquisition",
+            "verdict": "remove",
+            "action": "already-withdrawn-no-action",
+            "reason": "Acquisition of already commercialized FiberLocker, not a new technical or clinical result. Buyer announced August 31; target reposted September 1.",
+            "sources": [
+                "https://zurimed.com/eu/zurimed-to-be-acquired-by-stryker/",
+                "https://investors.stryker.com/press-releases/news-details/2026/Stryker-signs-definitive-agreement-to-acquire-ZuriMED-to-enhance-its-shoulder-offering/default.aspx"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://zurimed.com/eu/wp-content/uploads/sites/2/2026/09/Step_6.1_Patch_Rounded_Final-1.webp",
+                "review": "verified-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#zurimed-acquisition",
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "blatten-seismic-reconstruction",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Specific reconstruction study combining observations, seismic signals and simulations; distinguish 2025 event from 2026 research publication.",
+            "sources": ["https://www.nature.com/articles/s43247-026-03983-1"],
+            "reviewBasis": "Prior original-source review and saved research reused",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "conditional-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#blatten-seismic-reconstruction",
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "scandit-checkout-vision",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Released per-checkout vision system processes existing camera feeds locally and correlates items with transactions; concrete new product, not only a customer win.",
+            "sources": ["https://www.scandit.com/blog/scandit-enters-loss-prevention-market/"],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "conditional-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#scandit-checkout-vision",
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "eth-ibm-quantum-system",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Specific funded installation/operation agreement for Nighthawk-based System Two at CSCS; substantial research infrastructure. Retain as planned, not operational or Zurich-city installation.",
+            "sources": [
+                "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/eth-zurich-to-host-a-new-ibm-quantum-computer.html"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "unresolved",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#eth-ibm-quantum-system",
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "apertus-lumo",
+            "verdict": "remove",
+            "action": "propose-withdrawal",
+            "reason": "Model selection and opt-in research feedback are live, but this is downstream integration rather than a new model release or demonstrated research result. Preserve original Apertus release instead.",
+            "sources": ["https://proton.me/blog/lumo-apertus-partnership"],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "unresolved",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#apertus-lumo",
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "eth-oled-lithography",
+            "verdict": "retain",
+            "action": "retain-with-copy-update",
+            "reason": "Published material and fabricated test structures. Fluorescent image and electrically driven OLED test are distinct; neither is a complete addressable display.",
+            "sources": [
+                "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/tiny-oled-pixels-can-be-manufactured-like-microchips.html"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": {
+                "mediaCaption": "Microscopic fluorescent test image, 300 by 430 micrometres; not an electrically driven display. Graphic: Lo SW et al., Nature 2026",
+                "dateNote": "Keep September 16: cited Nature paper date. ETH explanatory article published September 23; no date correction required."
+            },
+            "media": {
+                "currentSourceImage": "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/tiny-oled-pixels-can-be-manufactured-like-microchips/_jcr_content/wide_content/image_817794067/image.imageformat.1286.1819680163.jpg",
+                "review": "verified-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#eth-oled-lithography",
+                "action": "Preserve original media; review captions and cropping"
+            }
+        },
+        {
+            "slug": "sensirion-air-quality-modules",
+            "verdict": "retain",
+            "action": "retain-with-copy-update",
+            "reason": "Commercial sensor modules and evaluation kit, with new miniaturized MEMS particulate sensing and multiple environmental measurements; concrete hardware release.",
+            "sources": [
+                "https://www.eqs-news.com/news/corporate/sensirion-launches-sen68-and-sen69c-for-comprehensive-indoor-air-quality-monitoring/96530e2e-8a82-462f-892f-172f41cd1a17_en"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": {
+                "title": "Sensirion releases multi-sensor SEN68 and SEN69C modules",
+                "subtitle": "The modules combine MEMS particulate sensing with humidity, temperature, VOC, NOx and formaldehyde measurements; SEN69C adds CO2, and an evaluation kit is available."
+            },
+            "media": {
+                "currentSourceImage": null,
+                "review": "verified-original-product-composite",
+                "imageURL": "https://nwr.eqs-cockpit.com/fncls2.ssx?fn=download2_file&code_str=DOTNJGMCOX",
+                "sourceURL": "https://www.eqs-news.com/news/corporate/sensirion-launches-sen68-and-sen69c-for-comprehensive-indoor-air-quality-monitoring/96530e2e-8a82-462f-892f-172f41cd1a17_en",
+                "sourceLocator": "Additional features: Sensirion_PressRelease_SEN68,69C_Visual",
+                "subject": "SEN6x family sensor module with illustrative air-quality meter and promotional text",
+                "credit": "Sensirion",
+                "httpStatus": 200,
+                "width": 1200,
+                "height": 630,
+                "sha256": "f74d1f141c1888f7178d50428128d45d0518591e5f0366fe2edffc873dfec4e2",
+                "visualReviewed": true,
+                "caveats": [
+                    "Original issuer-supplied release attachment, not a guessed URL",
+                    "Composite is branded SEN6x; do not claim the pictured casing uniquely identifies SEN68 or SEN69C",
+                    "Background meter is illustrative; do not imply it is a Sensirion-manufactured finished product or a demonstrated deployment",
+                    "Contains promotional text; preserve module visibility in framing",
+                    "Public press availability does not itself establish reuse licensing"
+                ],
+                "suggestedCaption": "SEN6x sensor platform. Image: Sensirion",
+                "action": "Usable original product-family illustration with accurate caption; a clean model-specific photograph would be preferable but is not established in this bounded check"
+            }
+        },
+        {
+            "slug": "climeworks-mammoth-upgrade",
+            "verdict": "retain",
+            "action": "retain-with-copy-update",
+            "reason": "Quantified real-world collector improvements reported by manufacturer; significant technical result if explicitly attributed and limited to upgraded containers.",
+            "sources": [
+                "https://climeworks.com/news/climeworks-announces-key-performance-improvements-at-mammoth"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": {
+                "title": "Climeworks reports doubled capture in upgraded Mammoth collectors",
+                "subtitle": "Climeworks says sorbent and plant-design changes more than doubled capture performance in upgraded containers and cut their operating costs by over 50%; these are not whole-plant removal totals."
+            },
+            "media": {
+                "currentSourceImage": null,
+                "review": "no-verified-image-in-this-audit",
+                "evidence": null,
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "deepjudge-chatgpt-plugin",
+            "verdict": "remove",
+            "action": "already-withdrawn-no-action",
+            "reason": "Actually available integration, but limited connector launch is below the requested significance bar; do not call it unreleased.",
+            "sources": ["https://www.deepjudge.ai/news/deepjudge-openai-for-legal"],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "unresolved",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#deepjudge-chatgpt-plugin",
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "ontinue-acquisition",
+            "verdict": "remove",
+            "action": "already-withdrawn-no-action",
+            "reason": "Proposed combination and future SOC integration; no newly demonstrated technical capability or disclosed transaction value.",
+            "sources": [
+                "https://www.ontinue.com/quorum-cyber-announces-intent-to-acquire-ontinue/"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "conditional-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#ontinue-acquisition",
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "eth-biocement",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Fabricated material/architectural experiments; preserve older Venice 2025 demonstration date and unresolved mechanical properties.",
+            "sources": [
+                "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/when-bacteria-become-masons.html"
+            ],
+            "reviewBasis": "Prior original-source review and saved research reused",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/when-bacteria-become-masons/_jcr_content/articleLeadImage/image.imageformat.carousel.5667570.jpg",
+                "review": "present-not-reinspected",
+                "evidence": "content/news/research/technical-2026-10-16.json",
+                "action": "Preserve original media; review captions and cropping"
+            }
+        },
+        {
+            "slug": "knime-business-hub-1-19",
+            "verdict": "remove",
+            "action": "already-withdrawn-no-action",
+            "reason": "Real released job pools and remote data controls, but routine incremental enterprise release rather than a major standalone milestone.",
+            "sources": ["https://docs.knime.com/hub/latest/business_hub_release_notes/1.19/"],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "unresolved",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#knime-business-hub-1-19",
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "planlabs-acquisition",
+            "verdict": "remove",
+            "action": "already-withdrawn-no-action",
+            "reason": "Acquisition adds mechanical engineering to a future roadmap. Power Studio's electrical launch is Endra's separate achievement; Planlabs integration was not released.",
+            "sources": [
+                "https://www.prnewswire.co.uk/news-releases/endra-unveils-power-studio-the-first-ai-platform-purpose-built-for-electrical-engineering-acquires-planlabs-to-build-out-the-mechanical-discipline-302881013.html"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "unresolved",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#planlabs-acquisition",
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "numab-nm26-acquisition",
+            "verdict": "retain",
+            "action": "retain-with-copy-update",
+            "reason": "Retain as exceptional USD 1.25B programme transaction for Phase-2-ready NM26 through Yellow Jersey, not a sale of all Numab or new financing. No Phase 2 result claimed.",
+            "sources": [
+                "https://www.numab.com/wp-content/uploads/240528_PRR_Numab-Therapeutics-Announces-JnJ-to-Acquire-YJT.pdf",
+                "https://www.investor.jnj.com/investor-news/news-details/2024/Johnson--Johnson-to-Obtain-Rights-to-a-Clinical-Stage-Bispecific-Antibody-to-Address-Distinct-Patient-Needs-in-Atopic-Dermatitis/default.aspx"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": {
+                "title": "Johnson & Johnson to acquire Numab's NM26 programme for USD 1.25B",
+                "subtitle": "The transaction buys Yellow Jersey Therapeutics and global rights to NM26, an investigational antibody targeting IL-4R alpha and IL-31 that is ready to enter Phase 2 studies."
+            },
+            "media": {
+                "currentSourceImage": null,
+                "review": "no-verified-image-in-this-audit",
+                "evidence": null,
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            },
+            "sourceLimitation": "Numab PDF text extraction failed; used original buyer announcement corroboration, not an assumed PDF reading."
+        },
+        {
+            "slug": "anapaya-colt-scion",
+            "verdict": "retain",
+            "action": "retain-with-copy-update",
+            "reason": "Commercially available private/global SCION networking across three continents after a two-year proof of concept; concrete service rollout with path control, not merely signing a partnership.",
+            "sources": [
+                "https://www.anapaya.net/news/colt-becomes-first-network-provider-to-bring-scion-to-enterprises-across-europe-north-america-and-asia-anapaya"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": {
+                "subtitle": "Following a two-year proof of concept, Colt makes managed SCION private and global networking commercially available, letting enterprises specify and audit end-to-end network paths."
+            },
+            "media": {
+                "currentSourceImage": null,
+                "review": "unresolved",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#anapaya-colt-scion",
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "daedalean-acquisition",
+            "verdict": "retain",
+            "action": "retain-with-copy-update",
+            "reason": "Retain as exceptional CHF 180M cash-and-stock transaction involving Zurich-developed safety-critical aviation AI; signed agreement, not completed at announcement.",
+            "sources": ["https://www.destinus.com/post/destinus-acquires-daedalean"],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": {
+                "subtitle": "The CHF 180M cash-and-stock agreement would bring Zurich-based Daedalean's safety-critical aviation AI into Destinus; closing was expected by the end of 2025."
+            },
+            "media": {
+                "currentSourceImage": null,
+                "review": "no-verified-image-in-this-audit",
+                "evidence": null,
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "winduction-charging-prototype",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Physical tyre-coupled charging prototype; distinguish demonstration from passenger trials planned for 2028.",
+            "sources": [
+                "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/tyres-instead-of-a-plug-electric-buses-that-charge-during-operation.html"
+            ],
+            "reviewBasis": "Prior original-source review and saved research reused",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/tyres-instead-of-a-plug-electric-buses-that-charge-during-operation/_jcr_content/articleLeadImage/image.imageformat.carousel.1205193102.jpg",
+                "review": "verified-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#winduction-charging-prototype",
+                "action": "Preserve original media; review captions and cropping"
+            }
+        },
+        {
+            "slug": "eth-autobike-prototype",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Demonstrated student robot bicycle with lidar and support wheels; no commercial bike-sharing deployment claim.",
+            "sources": [
+                "https://www.hesaitech.com/the-bike-that-rides-itself-back-how-autobike-uses-hesai-lidar-to-explore-smarter-bike-sharing/"
+            ],
+            "reviewBasis": "Prior original-source review and saved research reused",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://www.hesaitech.com/wp-content/uploads/2026/07/a7e020ec-db9a-4e90-b6fb-84e9a2bcdaa7.jpg",
+                "review": "verified-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#eth-autobike-prototype",
+                "action": "Preserve original media; review captions and cropping"
+            }
+        },
+        {
+            "slug": "akenza-acquisition",
+            "verdict": "remove",
+            "action": "already-withdrawn-no-action",
+            "reason": "Ownership announcement with gradual future integration, no new device, deployment result or platform release.",
+            "sources": [
+                "https://www.vega.com/en-dk/company/news-and-events/news/2026/vega-and-akenza-join-forces"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://www.vega.com/-/media/images/news-events/news/corporate-news/akenza-x-vega-news-bild02.jpg?mw=500&hash=F2A1F9EDB5080603E449E70C6208120A",
+                "review": "verified-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#akenza-acquisition",
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "introducing-zurich-tech",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Retain as owned community announcement, explicitly outside the external technical-news selection test.",
+            "sources": ["content/news/introducing-zurich-tech.md"],
+            "reviewBasis": "Authored source read",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "unresolved",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#introducing-zurich-tech",
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "eth-legume-texturing",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Physical directional-freezing experiments on whole-legume preparations, not generic sustainability publicity.",
+            "sources": [
+                "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/food-innovation-in-your-kitchen-giving-peas-beans-and-lentils-a-new-bite.html"
+            ],
+            "reviewBasis": "Prior original-source review and saved research reused",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/food-innovation-in-your-kitchen-giving-peas-beans-and-lentils-a-new-bite/_jcr_content/articleLeadImage/image.imageformat.carousel.290536107.jpg",
+                "review": "verified-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#eth-legume-texturing",
+                "action": "Preserve original media; review captions and cropping"
+            }
+        },
+        {
+            "slug": "neura-robotics-zurich",
+            "verdict": "remove",
+            "action": "already-withdrawn-no-action",
+            "reason": "Substantive local R&D relocation, but this announcement is a site opening rather than a robot demonstration or release.",
+            "sources": ["https://neura-robotics.com/expansion-to-switzerland/"],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "no-verified-image-in-this-audit",
+                "evidence": null,
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "metafuels-demonstration-plant",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Physical demonstration plant inaugurated at PSI in Villigen; retain as demonstrator, not commercial fuel production at scale.",
+            "sources": [
+                "https://www.psi.ch/en/news/media-releases/demonstration-plant-for-sustainable-aviation-fuel-inaugurated"
+            ],
+            "reviewBasis": "Prior original-source review and saved research reused",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://www.psi.ch/sites/default/files/styles/primer_full_image_xxl/public/2026-08/20260820_saf_einweihung_0013_1.jpg.webp?itok=ql_c67Gu",
+                "review": "verified-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#metafuels-demonstration-plant",
+                "action": "Preserve original media; review captions and cropping"
+            }
+        },
+        {
+            "slug": "climeworks-mammoth",
+            "verdict": "retain",
+            "action": "retain-with-copy-update",
+            "reason": "First CO2 capture at commissioned plant is operational infrastructure; nameplate annual capacity must not be represented as achieved annual removal.",
+            "sources": [
+                "https://climeworks.com/press-release/climeworks-switches-on-worlds-largest-direct-air-capture-plant-mammoth"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": {
+                "subtitle": "Mammoth begins capturing CO2 in Iceland with 12 of 72 collector containers installed; its planned 36,000-tonne annual nameplate capacity is not measured annual removal."
+            },
+            "media": {
+                "currentSourceImage": null,
+                "review": "no-verified-image-in-this-audit",
+                "evidence": null,
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "uzh-dapevo",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Concrete benchmarked event/frame visual odometry method; preprint and benchmark limitations remain explicit.",
+            "sources": ["https://arxiv.org/abs/2609.30947"],
+            "reviewBasis": "Prior original-source review and saved research reused",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "unresolved",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#uzh-dapevo",
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "eth-walking-hand",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Demonstrated battery/computer-equipped robotic hand and task-specific policies, not general autonomous manipulation.",
+            "sources": ["https://srl-ethz.github.io/website-fingers-as-legs/"],
+            "reviewBasis": "Prior original-source review and saved research reused",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://srl-ethz.github.io/website-fingers-as-legs/assets/terrains/weathered-stone-1920.webp",
+                "review": "present-not-reinspected",
+                "evidence": "content/news/research/technical-2026-10-16.json",
+                "action": "Preserve original media; review captions and cropping"
+            }
+        },
+        {
+            "slug": "lakera-acquisition",
+            "verdict": "remove",
+            "action": "propose-withdrawal",
+            "reason": "Specific existing security technology and future center of excellence are described, but no transaction value or new technical result is established by the original release. Recommend remove, not an assertion that Lakera lacks substantive technology.",
+            "sources": [
+                "https://www.checkpoint.com/press-releases/check-point-acquires-lakera-to-deliver-end-to-end-ai-security-for-enterprises/"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "no-verified-image-in-this-audit",
+                "evidence": null,
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "araris-acquisition",
+            "verdict": "retain",
+            "action": "retain-with-copy-update",
+            "reason": "Retain as exceptional quantified company milestone: USD 400M at closing plus up to USD 740M contingent milestones for the AraLinQ ADC platform; Zurich R&D continues. Not funding or clinical efficacy proof.",
+            "sources": ["https://www.taiho.co.jp/en/release/files/pdf/20250317.pdf"],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": {
+                "title": "Taiho to acquire Araris for USD 400M upfront",
+                "subtitle": "The deal adds Araris's antibody-drug conjugate platform and three preclinical candidates, with up to USD 740M in additional milestone payments; research continues in Zurich."
+            },
+            "media": {
+                "currentSourceImage": null,
+                "review": "no-verified-image-in-this-audit",
+                "evidence": null,
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "uzh-digitaltransfer",
+            "verdict": "remove",
+            "action": "already-withdrawn-no-action",
+            "reason": "Public educational video collection, not a new technical artifact, research result or significant product.",
+            "sources": ["https://www.dsi.uzh.ch/en/current/news/2026/digitaltransfer.html"],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "unresolved",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#uzh-digitaltransfer",
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "apertus-release",
+            "verdict": "retain",
+            "action": "retain",
+            "reason": "Downloadable 8B and 70B models with open weights and documented training resources constitute a major usable artifact release.",
+            "sources": [
+                "https://ethz.ch/en/news-and-events/eth-news/news/2025/09/press-release-apertus-a-fully-open-transparent-multilingual-language-model.html"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "no-verified-image-in-this-audit",
+                "evidence": null,
+                "action": "Backfill original product/experiment media; do not use logos or stock"
+            }
+        },
+        {
+            "slug": "zuriq-infineon-quantum-chips",
+            "verdict": "remove",
+            "action": "propose-withdrawal",
+            "reason": "October announcement expands cooperation. Its nine-ion 3x3 demonstration is explicitly previous development; do not redate that achievement as a new October result.",
+            "sources": ["https://www.infineon.com/press-release/2026/infpr202610-004"],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": "https://assets.infineon.com/is/image/infineon/qpu-chip-ifx-zuriq.jpg:asset-680-16x9?qlt=55,0&resMode=sharp2&op_usm=1.75,0.3,2,0",
+                "review": "verified-candidate",
+                "evidence": "content/news/research/covers-recent-2026-10-16.json#zuriq-infineon-quantum-chips",
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        },
+        {
+            "slug": "climeworks-innovation-center",
+            "verdict": "remove",
+            "action": "already-withdrawn-no-action",
+            "reason": "Real prototyping and reliability facilities are described, not merely desks; nevertheless remove under main's tighter preference for delivered technical results over facility-opening stories.",
+            "sources": [
+                "https://climeworks.com/press-release/climeworks-launches-the-largest-dac-innovation-center"
+            ],
+            "reviewBasis": "Original source read during this audit",
+            "proposed": null,
+            "media": {
+                "currentSourceImage": null,
+                "review": "no-verified-image-in-this-audit",
+                "evidence": null,
+                "action": "Do not spend time backfilling a withdrawn story"
+            }
+        }
+    ],
+    "actions": {
+        "alreadyAppliedDoNotRepeat": [
+            "zurimed-acquisition",
+            "deepjudge-chatgpt-plugin",
+            "ontinue-acquisition",
+            "knime-business-hub-1-19",
+            "planlabs-acquisition",
+            "akenza-acquisition",
+            "neura-robotics-zurich",
+            "uzh-digitaltransfer",
+            "climeworks-innovation-center"
+        ],
+        "proposedWithdrawals": [
+            "apertus-lumo",
+            "lakera-acquisition",
+            "zuriq-infineon-quantum-chips"
+        ],
+        "largeTransactionsRetained": [
+            "araris-acquisition",
+            "numab-nm26-acquisition",
+            "daedalean-acquisition"
+        ],
+        "retainedBorderlineRollout": "anapaya-colt-scion",
+        "mediaReadyThisAudit": ["sensirion-air-quality-modules"],
+        "mainOwnsMedia": ["apertus-release", "scandit-checkout-vision"]
+    },
+    "limitations": [
+        "No production writes or independent production readback. Withdrawal state is main's reported UI result.",
+        "Retain is an editorial recommendation, not confirmation that all media are ready. Existing cover and technical research are reused with their original limitations.",
+        "Three older quantified acquisitions are retained as company milestones, not new technical demonstrations. Lakera's original release does not disclose a value; no external rumored price used.",
+        "Anapaya web extractor failed twice; direct HTML fetch succeeded HTTP 200 and showed commercial availability after two-year proof of concept.",
+        "Sensirion source is the issuer's syndicated press release; product-family image was followed from its attachment redirect and visually inspected."
+    ]
+}

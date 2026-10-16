@@ -8,4 +8,7 @@ url: "https://www.loftdynamics.com/loft-dynamics-secures-24m-series-b-to-transfo
 authors: []
 organisations: ["loft-dynamics"]
 topics: ["graphics"]
+image: "https://www.loftdynamics.com/wp-content/uploads/2025/08/Loft-Dynamics-Series-B-Press-Release-1920x800.jpg"
 ---
+
+Image: www.loftdynamics.com

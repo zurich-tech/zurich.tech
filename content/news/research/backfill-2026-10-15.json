@@ -1,0 +1,57 @@
+{
+    "reviewedAt": "2026-10-15",
+    "scope": "Additional July to October stories checked against the production archive. This is a targeted backfill, not an exhaustive news census.",
+    "articles": [
+        {
+            "slug": "ahead-health-seed-extension",
+            "localConnection": "Company announcement identifies Zurich headquarters; existing ahead-health registry entry.",
+            "sources": [
+                "https://www.aheadhealth.com/ch/en/insights/ahead-health-launches-germany-netherlands-10-million-funding",
+                "https://three.vc/blog/why-we-invested-in-ahead-health/"
+            ],
+            "notes": "Company confirms USD 10M on 29 July; investor calls it a seed extension. Preserve original publication date, not the 14 October page update. Separate from January's USD 6M round."
+        },
+        {
+            "slug": "kove-medical-funding-2026",
+            "localConnection": "UZH and University Hospital Zurich spin-off; existing kove-medical registry entry.",
+            "sources": [
+                "https://innovation.uzh.ch/en/stories/news/impact-news.html",
+                "https://www.eu-startups.com/2026/08/reducing-preterm-birth-risks-in-foetal-surgery-kove-medical-secures-e1-7-million/",
+                "https://kovemedical.com/"
+            ],
+            "notes": "31 August is the earliest verified public report in this review; UZH corroborates CHF 1.6M on 3 September. Omit disputed stage labels. Device is preclinical, not an approved treatment."
+        },
+        {
+            "slug": "zurimed-acquisition",
+            "localConnection": "Company lists Lengghalde 5, 8008 Zurich; existing zurimed registry entry.",
+            "sources": ["https://zurimed.com/eu/zurimed-to-be-acquired-by-stryker/"],
+            "notes": "Company announcement is dated 1 September, earlier than UZH's 8 September recap. Signed definitive agreement, not a claim that closing had completed."
+        },
+        {
+            "slug": "eth-autobike-prototype",
+            "localConnection": "ETH Zurich Autonomous Systems Lab student project, demonstrated on campus.",
+            "sources": [
+                "https://www.hesaitech.com/the-bike-that-rides-itself-back-how-autobike-uses-hesai-lidar-to-explore-smarter-bike-sharing/"
+            ],
+            "notes": "Use supplier's 17 August case study, not October media coverage as a new launch date. Student proof of concept, not a deployed bike-sharing service."
+        },
+        {
+            "slug": "winduction-charging-prototype",
+            "localConnection": "ETH spin-off building test infrastructure in Winterthur; existing winduction registry entry.",
+            "sources": [
+                "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/tyres-instead-of-a-plug-electric-buses-that-charge-during-operation.html"
+            ],
+            "notes": "Use article's explicit 5 October date rather than the index listing's 4 October. Prototype demonstrated; 2028 passenger pilot remains planned."
+        }
+    ],
+    "excluded": [
+        {
+            "name": "Jaipur Robotics",
+            "reason": "Verified Manno and Bengaluru operations, no substantive Zurich operation established in this review."
+        },
+        {
+            "name": "Zurich Insurance / Beazley",
+            "reason": "Insurance acquisition without a specific local technology development."
+        }
+    ]
+}

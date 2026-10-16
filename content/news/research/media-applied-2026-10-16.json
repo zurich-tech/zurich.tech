@@ -1,0 +1,170 @@
+{
+    "reviewedAt": "2026-10-16",
+    "verified": [
+        {
+            "slug": "eth-walking-hand",
+            "title": "ETH teaches a robotic hand to walk on its fingers",
+            "image": "https://srl-ethz.github.io/website-fingers-as-legs/assets/research-film-poster.jpg",
+            "video": "https://srl-ethz.github.io/website-fingers-as-legs/assets/research-film.mp4",
+            "caption": "Video: ETH Zurich Soft Robotics Lab",
+            "date": "2026-09-15"
+        },
+        {
+            "slug": "eth-biocement",
+            "title": "ETH builds architectural elements with bacteria",
+            "image": "https://ethz.ch/bin/ethz/components/previewImage/youtube/L-v83ikx2-k.jpg",
+            "video": "https://www.youtube.com/watch?v=L-v83ikx2-k",
+            "caption": "Video: Kai Hsun Yeh and Kevin Seav / ETH Zurich",
+            "date": "2026-10-14"
+        },
+        {
+            "slug": "uzh-dapevo",
+            "title": "UZH keeps visual tracking running when camera frames drop out",
+            "image": "https://zurich.tech/news/dapevo.webp",
+            "video": null,
+            "caption": "Image: Luca Gandolfi and co-authors / UZH Robotics and Perception Group",
+            "date": "2026-09-25"
+        },
+        {
+            "slug": "stellar-alpina-pre-seed",
+            "title": "Stellar Alpina hot-fires its first rotating detonation engine",
+            "image": "https://ml-eu.globenewswire.com/Resource/Download/399f639c-6901-41df-be7a-9e44efbaedde/engine-0-hotfiring.png",
+            "video": null,
+            "caption": "Image: Stellar Alpina; photographer not named for this hotfire image",
+            "date": "2026-05-28"
+        },
+        {
+            "slug": "eth-autobike-prototype",
+            "title": "ETH students demonstrate an autonomous bicycle",
+            "image": "https://autobike.ethz.ch/assets/images/general/pointcloud_poster.jpg",
+            "video": "https://autobike.ethz.ch/assets/videos/lidar-pointcloud-web.mp4",
+            "caption": "Video: AutoBike / ETH Zurich",
+            "date": "2026-08-17"
+        },
+        {
+            "slug": "winduction-charging-prototype",
+            "title": "Winduction demonstrates bus charging through tyres",
+            "image": "https://ethz.ch/bin/ethz/components/previewImage/youtube/ILbjjcFFEVE.jpg",
+            "video": "https://www.youtube.com/watch?v=ILbjjcFFEVE",
+            "caption": "Video: ETH News for Industry",
+            "date": "2026-10-05"
+        },
+        {
+            "slug": "mimic-industrial-manipulation",
+            "title": "FLUX-mimic learns to sort car parts",
+            "image": "https://d2304w8u5eg7y4.cloudfront.net/videos/industrial-franka-kitting-poster.webp",
+            "video": "https://d2304w8u5eg7y4.cloudfront.net/videos/industrial-franka-kitting.mp4",
+            "caption": "Soft-part kitting experiment. Video: mimic robotics",
+            "date": "2026-09-23"
+        },
+        {
+            "slug": "blatten-seismic-reconstruction",
+            "title": "WSL and ETH reconstruct the Blatten avalanche",
+            "image": null,
+            "video": null,
+            "caption": null,
+            "date": "2026-09-07"
+        },
+        {
+            "slug": "eth-ibm-quantum-system",
+            "title": "ETH plans an IBM quantum system at CSCS",
+            "image": "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/eth-zurich-to-host-a-new-ibm-quantum-computer/_jcr_content/articleLeadImage/image.imageformat.carousel.918189442.jpg",
+            "video": null,
+            "caption": "IBM Quantum System Two. Image: IBM",
+            "date": "2026-09-10"
+        },
+        {
+            "slug": "anapaya-colt-scion",
+            "title": "Colt launches Anapaya-based SCION networking across three continents",
+            "image": "https://www.anapaya.net/hs-fs/hubfs/Console-banner-homepage-1124.webp?width=1826&height=439&name=Console-banner-homepage-1124.webp",
+            "video": null,
+            "caption": "Anapaya Console network-management interface. Image: Anapaya",
+            "date": "2026-10-06"
+        },
+        {
+            "slug": "climeworks-mammoth",
+            "title": "Climeworks starts operating Mammoth",
+            "image": "https://climeworks.com/glide/containers/images/mammoth/mammoth_dec_2023/dji_20231227102452_0100_d.jpg/8972f3f8bedbec008751586453437063/dji_20231227102452_0100_d.jpg",
+            "video": null,
+            "caption": "Mammoth's process hall and early collector installation, photographed during construction. Image: Climeworks",
+            "date": "2024-05-08"
+        },
+        {
+            "slug": "araris-acquisition",
+            "title": "Taiho agrees to buy Araris for USD 400M plus milestones",
+            "image": "https://www.ararisbiotech.com/img/araris-figure-2022.svg",
+            "video": null,
+            "caption": "Araris's antibody-drug conjugation process, shown schematically. Image: Araris Biotech",
+            "date": "2025-03-17"
+        },
+        {
+            "slug": "numab-nm26-acquisition",
+            "title": "Numab to sell NM26 programme for USD 1.25B",
+            "image": null,
+            "video": null,
+            "caption": null,
+            "date": "2024-05-28"
+        },
+        {
+            "slug": "daedalean-acquisition",
+            "title": "Destinus to acquire Daedalean for CHF 180M",
+            "image": null,
+            "video": null,
+            "caption": null,
+            "date": "2025-08-05"
+        },
+        {
+            "slug": "apertus-release",
+            "title": "ETH Zurich and EPFL release Apertus",
+            "image": "https://www.cscs.ch/fileadmin/_processed_/f/0/csm__V1A9284_copy_27fd2b93da.jpg",
+            "video": null,
+            "caption": "Alps at CSCS in Lugano during its September 2024 inauguration. Source: CSCS",
+            "date": "2025-09-02"
+        },
+        {
+            "slug": "etfbook-funding-2026",
+            "title": "ETFBOOK raises USD 13M",
+            "image": "https://framerusercontent.com/images/cA9rnVn32SCPI8FqLiADaEWkF4.png?lossless=1&width=1920&height=1225",
+            "video": null,
+            "caption": "ETFBOOK analytics dashboard. Image: ETFBOOK",
+            "date": "2026-09-16"
+        },
+        {
+            "slug": "piomic-growth-financing",
+            "title": "Piomic Medical raises USD 25M growth financing",
+            "image": "https://www.piomic.com/_astro/COMS-Product-Application_Connect.B5ljJpIg_2kL45r.webp",
+            "video": null,
+            "caption": "COMS One therapy unit and adapter. Image: Piomic Medical",
+            "date": "2026-09-18"
+        },
+        {
+            "slug": "novago-series-b",
+            "title": "NovaGo Therapeutics raises CHF 24M Series B",
+            "image": null,
+            "video": null,
+            "caption": null,
+            "date": "2026-09-02"
+        },
+        {
+            "slug": "scandit-checkout-vision",
+            "title": "Scandit launches self-checkout loss prevention",
+            "image": "https://assets.scandit.com/1277x719/31fd321769/focus-self-checkout.jpg",
+            "video": "https://vimeo.com/1226513141",
+            "caption": "Self-checkout loss-prevention demo. Video: Scandit",
+            "date": "2026-09-15"
+        },
+        {
+            "slug": "sensirion-air-quality-modules",
+            "title": "Sensirion releases SEN68 and SEN69C air-quality modules",
+            "image": "https://nwr.eqs-cockpit.com/fncls2.ssx?fn=download2_file&code_str=DOTNJGMCOX",
+            "video": null,
+            "caption": "SEN6x sensor platform. Image: Sensirion",
+            "date": "2026-09-22"
+        }
+    ],
+    "datesAndRelationshipsPreserved": true,
+    "removedAdditionalUnspecifiedInvestments": [
+        "vyzn-buildify-investment",
+        "assaia-united-investment"
+    ]
+}

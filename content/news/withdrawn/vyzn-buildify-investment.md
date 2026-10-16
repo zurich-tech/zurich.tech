@@ -8,6 +8,9 @@ url: "https://www.vyzn.tech/blog/"
 authors: []
 organisations: ["vyzn"]
 topics: ["software-engineering", "climate-tech"]
+image: "https://www.vyzn.tech/blog-images/6421421d-a0a1-47f5-af7b-243bf0fe4acc-717c7282.thumb.webp"
 ---
 
 The investment amount was not disclosed.
+
+Image: vyzn

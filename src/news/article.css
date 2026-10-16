@@ -304,6 +304,14 @@
     color: var(--color-soft);
 }
 
+.news-media__source {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+    font-size: var(--text-xs);
+}
+
 video.news-image {
     aspect-ratio: 16 / 9;
     background: #000000;

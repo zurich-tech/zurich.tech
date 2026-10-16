@@ -1,0 +1,1907 @@
+{
+    "version": 1,
+    "status": "partial_review_saved",
+    "checkedAt": "2026-10-16",
+    "scope": {
+        "snapshot": "/tmp/zurich-news-final.json",
+        "snapshotSha256": "85b9ee64568fad2f12203355547a0d641cfb818d3201788e629bb3e42317dfb4",
+        "published": 213,
+        "excludedNewest": 35,
+        "cutoffSlug": "eth-autobike-prototype",
+        "exclusions": "Newest 35; mimic-seed and mimic-pre-seed reserved for main; one older post already carrying an image. No assigned flux record."
+    },
+    "counts": {
+        "assigned": 175,
+        "reviewed": 32,
+        "ready": 20,
+        "unresolved": 155,
+        "reviewedUnresolved": 12,
+        "awaitingReview": 143,
+        "captureRecordsRetained": 169
+    },
+    "limits": [
+        "Bounded partial visual review saved at user-requested stopping point, not a completed archive audit.",
+        "Unreviewed metadata leads are not included in this durable manifest; unresolved rows are not approved for publication.",
+        "No reproduction licence inferred from public availability; credit identifies publisher unless photographer explicitly established.",
+        "Do not label later team photographs as the historical funding team."
+    ],
+    "assets": [
+        {
+            "id": "gravis-robotics-series-a",
+            "imageUrl": "https://cdn.prod.website-files.com/69016a2658231cb1d2ca58c5/6a8302d6fd1bf75297e62153__2026_07_Softbank_Photography_Excavator_Develon_Digging_Aerial_95%203.jpg",
+            "sourceUrl": "https://www.gravisrobotics.com/series-a",
+            "subject": "Gravis autonomous excavator working on a soil site, aerial photograph.",
+            "credit": "Gravis Robotics",
+            "photographer": null,
+            "storySlugs": ["gravis-robotics-series-a"],
+            "evidence": {
+                "method": "Original image fetched and decoded; visually inspected in a four-image contact sheet on 2026-10-16.",
+                "caption": "Gravis Robotics autonomous machinery",
+                "context": "Reshaping the Physical World: Gravis Robotics Raises $200M for Construction Autonomy 17 August 2026"
+            },
+            "caveat": "Use as the announcement's supplied photograph, not as proof of photograph capture date. Photographer and reuse licence not established."
+        },
+        {
+            "id": "aylight-pre-seed",
+            "imageUrl": "https://aylight.io/media/preseed-founders.jpg",
+            "sourceUrl": "https://aylight.io/news/preseed-funding/",
+            "subject": "Aylight co-founders Dmitry Kazakov and Bahareh Marzban seated outdoors; names established by the announcement caption.",
+            "credit": "Aylight",
+            "photographer": null,
+            "storySlugs": ["aylight-pre-seed"],
+            "evidence": {
+                "method": "Original image fetched and decoded; visually inspected in a four-image contact sheet on 2026-10-16.",
+                "caption": "Aylight co-founders Dmitry Kazakov and Bahareh Marzban",
+                "context": "Aylight's co-founders (left to right): Dmitry Kazakov and Bahareh Marzban."
+            },
+            "caveat": "Use as the announcement's supplied photograph, not as proof of photograph capture date. Photographer and reuse licence not established."
+        },
+        {
+            "id": "covalo-seed-extension",
+            "imageUrl": "https://blog.covalo.com/hs-fs/hubfs/founders_photo_landscape.jpg?width=4024&height=2271&name=founders_photo_landscape.jpg",
+            "sourceUrl": "https://blog.covalo.com/personal-care/5-years-in-covalo-secures-3.5m-to-build-the-data-backbone-of-personal-care",
+            "subject": "Covalo co-founders Timo von Bargen (left) and Yann Chilvers (right), paired portrait photographs; names established by announcement caption.",
+            "credit": "Covalo",
+            "photographer": null,
+            "storySlugs": ["covalo-seed-extension"],
+            "evidence": {
+                "method": "Original image fetched and decoded; visually inspected in a four-image contact sheet on 2026-10-16.",
+                "caption": "Timo von Bargen (left) and Yann Chilvers (right)",
+                "context": "Text continues below image Timo von Bargen, Co-Founder and Co-CEO (left), and Yann Chilvers, Co-Founder and Co-CEO (right)."
+            },
+            "caveat": "Use as the announcement's supplied photograph, not as proof of photograph capture date. Photographer and reuse licence not established."
+        },
+        {
+            "id": "sparkli-pre-seed",
+            "imageUrl": "https://ml-eu.globenewswire.com/Resource/Download/c6b81a40-81ef-48d6-a75f-af2cbd47897e/sparkli-founders-l-to-r-mynseok-kang-lax-poojary-and-lucie-marchand.jpeg",
+            "sourceUrl": "https://rss.globenewswire.com/news-release/2026/01/22/3223820/0/en/google-alums-raise-5m-pre-seed-for-sparkli-the-first-multimodal-ai-native-learning-engine-for-children.html",
+            "subject": "Sparkli founders Mynseok Kang, Lax Poojary and Lucie Marchand in an office; names and left-to-right order supplied by original attachment filename.",
+            "credit": "Sparkli / company-issued GlobeNewswire release",
+            "photographer": null,
+            "storySlugs": ["sparkli-pre-seed"],
+            "evidence": {
+                "method": "Original image fetched and decoded; visually inspected in a four-image contact sheet on 2026-10-16.",
+                "caption": "",
+                "context": ""
+            },
+            "caveat": "Use as the announcement's supplied photograph, not as proof of photograph capture date. Photographer and reuse licence not established."
+        },
+        {
+            "id": "gravis-funding-2025",
+            "imageUrl": "https://cdn.prod.website-files.com/69016a2658231cb1d2ca58c5/6928fd3161893c9c0d1ac719_03_Gravis_Robotics_DE_Truck_Loading.jpg",
+            "sourceUrl": "https://www.gravisrobotics.com/press-release",
+            "subject": "Autonomous excavator loading a dump truck, aerial site photograph.",
+            "credit": "www.gravisrobotics.com",
+            "photographer": null,
+            "storySlugs": ["gravis-funding-2025"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": ""
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "btry-seed-2025",
+            "imageUrl": "https://btry.ch/wp-content/uploads/2025/11/0007520-Edit-scaled.jpg",
+            "sourceUrl": "https://btry.ch/fundingannouncement/",
+            "subject": "BTRY team photographed on a staircase.",
+            "credit": "btry.ch",
+            "photographer": null,
+            "storySlugs": ["btry-seed-2025"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": ""
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "voliro-series-a-extension",
+            "imageUrl": "https://cdn.voliro.com/wp-content/uploads/2025/06/Voliro-executive-team-2025-scaled.jpg",
+            "sourceUrl": "https://voliro.com/blog/voliro-secures-23m-via-series-a-extension-to-modernize-infrastructure-with-aerial-robotics/",
+            "subject": "Voliro executive team group photograph supplied with the 2025 funding announcement.",
+            "credit": "voliro.com",
+            "photographer": null,
+            "storySlugs": ["voliro-series-a-extension"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": "Voliro Secures $23M via Series A Extension to Modernize Infrastructure with Aerial Robotics"
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "voliro-series-a",
+            "imageUrl": "https://cdn.voliro.com/wp-content/uploads/2024/09/Voliro-exec-team-2024-web.jpeg",
+            "sourceUrl": "https://voliro.com/blog/voliro-secures-12m-in-series-a-funding-to-transform-industrial-inspections-with-aerial-robotics/",
+            "subject": "Voliro executive team portrait montage supplied with the 2024 funding announcement.",
+            "credit": "voliro.com",
+            "photographer": null,
+            "storySlugs": ["voliro-series-a"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": "Voliro secures $12M in Series A funding to transform industrial inspections with aerial robotics"
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "sallea-pre-seed",
+            "imageUrl": "https://sallea.ch/wp-content/uploads/2024/10/Teampicture-funding-announcement-pre-seed-scaled.jpg",
+            "sourceUrl": "https://sallea.ch/pre-seed-announcement-turning-lab-grown-meat-into-a-multi-billion-dollar-market-with-sallea/",
+            "subject": "Three Sallea team members photographed together in an office.",
+            "credit": "sallea.ch",
+            "photographer": null,
+            "storySlugs": ["sallea-pre-seed"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": ""
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "zuriq-seed-2025",
+            "imageUrl": "https://zuriq.com/content/images/size/w2000/2025/01/DKP_7318.jpg",
+            "sourceUrl": "https://zuriq.com/all/zuriq-raises-3-8m-chf-in-first-financing-round-from-vc-consortium/",
+            "subject": "Three ZuriQ team members seated in an office.",
+            "credit": "zuriq.com",
+            "photographer": null,
+            "storySlugs": ["zuriq-seed-2025"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": "ZuriQ raises 3.8M CHF in first financing round from VC consortium"
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "swissdrones-series-b",
+            "imageUrl": "https://cdn.prod.website-files.com/61f8e81acca71a492b5ea903/66430ce3dc6a85d2c05e03c3_6513d55d770158671eadec61_swissdrones%20Home%203.jpeg",
+            "sourceUrl": "https://www.swissdrones.com/post/aerial-intelligence-company-swissdrones-successfully-closes-series-b-growth-funding",
+            "subject": "SwissDrones unmanned helicopter and operator in a mountain landscape.",
+            "credit": "www.swissdrones.com",
+            "photographer": null,
+            "storySlugs": ["swissdrones-series-b"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": "Aerial Intelligence Company SwissDrones Successfully Closes Series B Growth Funding"
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "fotokite-series-b",
+            "imageUrl": "https://fotokite.com/wp-content/uploads/2022/01/Fotokite-pelican-cases-red.jpg",
+            "sourceUrl": "https://fotokite.com/fotokite-secures-investment-round-achieves-strong-growth-and-expands-global-reach/",
+            "subject": "Rows of red Fotokite equipment transport cases.",
+            "credit": "fotokite.com",
+            "photographer": null,
+            "storySlugs": ["fotokite-series-b"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": null
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "grensol-seed",
+            "imageUrl": "https://grensolgroup.com/wp-content/uploads/2025/07/IMG_9835-1160x700.jpeg",
+            "sourceUrl": "https://grensolgroup.com/grensol-successfully-closes-chf-1-8-million-equity-seed-round-to-accelerate-recycling-innovation/",
+            "subject": "Grensol group photographed with workshop equipment.",
+            "credit": "grensolgroup.com",
+            "photographer": null,
+            "storySlugs": ["grensol-seed"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": ""
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "loft-dynamics-series-b",
+            "imageUrl": "https://www.loftdynamics.com/wp-content/uploads/2025/08/Loft-Dynamics-Series-B-Press-Release-1920x800.jpg",
+            "sourceUrl": "https://www.loftdynamics.com/loft-dynamics-secures-24m-series-b-to-transform-pilot-training-with-vr/",
+            "subject": "Loft Dynamics helicopter simulator cockpit in use.",
+            "credit": "www.loftdynamics.com",
+            "photographer": null,
+            "storySlugs": ["loft-dynamics-series-b"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": "Loft Dynamics Secures $24M Series B to Transform Pilot Training with VR"
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "boost-series-b",
+            "imageUrl": "https://boostinc.com/wp-content/uploads/2025/06/IMG_0972-scaled-1.jpeg",
+            "sourceUrl": "https://boostinc.com/boost-inc-closes-e16m-series-b-round-to-accelerate-international-growth-in-unattended-retail/",
+            "subject": "Boost representative seated on a vending machine.",
+            "credit": "boostinc.com",
+            "photographer": null,
+            "storySlugs": ["boost-series-b"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": "pascal-uffer-boostbox-media"
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "microcaps-series-a",
+            "imageUrl": "https://microcaps.ch/wp-content/uploads/2023/06/Studio-Fotosession-427_edited-scaled.jpg",
+            "sourceUrl": "https://microcaps.ch/2024/06/05/microcaps-ag-secures-chf-9-3-million-in-series-a-financing-round-to-expand-production-capacity/",
+            "subject": "Microcaps fragrance flask photographed against a dark background.",
+            "credit": "microcaps.ch",
+            "photographer": null,
+            "storySlugs": ["microcaps-series-a"],
+            "evidence": {
+                "method": "Fetched original image, decoded and visually inspected in labelled 16-image contact sheet on 2026-10-16.",
+                "caption": "water-based perfume flask containing fine fragrance"
+            },
+            "caveat": "Illustrative company-supplied photograph. Do not infer capture date or identify people beyond source evidence; photographer and reuse licence not established."
+        },
+        {
+            "id": "assaia-series-b",
+            "imageUrl": "https://cdn.prod.website-files.com/64d4ec99f563be2a023c8891/6936fe637a96638e3217a70f_DSCF2006.jpeg",
+            "sourceUrl": "https://www.assaia.com/resources/assaia-raises-26-6-million-in-series-b-funding-to-enhance-global-ai-leadership-in-airport-operations",
+            "subject": "Six people photographed together, supplied with Assaia's Series B announcement.",
+            "credit": "Assaia",
+            "photographer": null,
+            "storySlugs": ["assaia-series-b"],
+            "evidence": {
+                "method": "Original image fetched, decoded and visually inspected in labelled 12-image contact sheet on 2026-10-16."
+            },
+            "caveat": "Supplied with this announcement; do not infer capture date or reuse as a historical team portrait for another round. Photographer and reuse licence not established."
+        },
+        {
+            "id": "veezoo-series-a",
+            "imageUrl": "https://www.veezoo.com/blog/images/veezoo-raises-6-million-series-a.png",
+            "sourceUrl": "https://www.veezoo.com/blog/veezoo-raises-6-million-series-a",
+            "subject": "Three people photographed together in an office, supplied with Veezoo's Series A announcement.",
+            "credit": "Veezoo",
+            "photographer": null,
+            "storySlugs": ["veezoo-series-a"],
+            "evidence": {
+                "method": "Original image fetched, decoded and visually inspected in labelled 12-image contact sheet on 2026-10-16."
+            },
+            "caveat": "Supplied with this announcement; do not infer capture date or reuse as a historical team portrait for another round. Photographer and reuse licence not established."
+        },
+        {
+            "id": "lakera-series-a",
+            "imageUrl": "https://mma.prnewswire.com/media/2467779/Founders_3.jpg?p=twitter",
+            "sourceUrl": "https://www.prnewswire.com/news-releases/lakera-raises-20m-series-a-to-secure-generative-ai-applications-302204874.html",
+            "subject": "Three Lakera founders photographed together, supplied as Founders_3.jpg in the company's funding release.",
+            "credit": "Lakera / company-issued PR Newswire release",
+            "photographer": null,
+            "storySlugs": ["lakera-series-a"],
+            "evidence": {
+                "method": "Original image fetched, decoded and visually inspected in labelled 12-image contact sheet on 2026-10-16."
+            },
+            "caveat": "Supplied with this announcement; do not infer capture date or reuse as a historical team portrait for another round. Photographer and reuse licence not established."
+        },
+        {
+            "id": "netfabric-pre-seed",
+            "imageUrl": "https://netfabric.ai/news/news-article-5/Blog_PreSeed_hu_1c7456e9bb00a565.webp",
+            "sourceUrl": "https://netfabric.ai/news/news-article-5/",
+            "subject": "Six people photographed together in an office, supplied with NetFabric's pre-seed announcement.",
+            "credit": "NetFabric",
+            "photographer": null,
+            "storySlugs": ["netfabric-pre-seed"],
+            "evidence": {
+                "method": "Original image fetched, decoded and visually inspected in labelled 12-image contact sheet on 2026-10-16."
+            },
+            "caveat": "Supplied with this announcement; do not infer capture date or reuse as a historical team portrait for another round. Photographer and reuse licence not established."
+        }
+    ],
+    "records": [
+        {
+            "slug": "gravis-robotics-series-a",
+            "sourceUrl": "https://www.gravisrobotics.com/series-a",
+            "organisations": ["p177p038cm72w7ef4pwmpxet3d8f4gx7"],
+            "sourceHost": "www.gravisrobotics.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Actual image visually inspected; photograph subject matches original announcement.",
+            "assetId": "gravis-robotics-series-a"
+        },
+        {
+            "slug": "aisot-seed-extension",
+            "sourceUrl": "https://aisot.com/blog/media-release-aisot-technologies-closes-chf-2-million-seed-extension-strengthening-growth-in-ai-driven-portfolio-intelligence",
+            "organisations": [],
+            "sourceHost": "aisot.com",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Visually inspected: generic dice spelling FUNDING, not company product/team photography."
+        },
+        {
+            "slug": "exclaim-robotics-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/founderfulvc_495m-pre-seed-for-exclaim-robotics-to-activity-7490333185432637441-oxTy",
+            "organisations": ["p17ca8ewewbdk6rnpyzts8sdy98f5z2a"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "ahead-health-seed-extension",
+            "sourceUrl": "https://www.aheadhealth.com/ch/en/insights/ahead-health-launches-germany-netherlands-10-million-funding",
+            "organisations": ["p1738ssbgm71930naqsxpb1pe18gany5"],
+            "sourceHost": "www.aheadhealth.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "zuriq-seed",
+            "sourceUrl": "https://zuriq.com/fundraise/zuriq-raises-25-5-million/",
+            "organisations": ["p172n7djytsk22phamhaf4eyvx8f5ppk"],
+            "sourceHost": "zuriq.com",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Visually inspected: dark technical image with bright points; exact subject and capture provenance require confirmation before using as a photo."
+        },
+        {
+            "slug": "microagi-seed",
+            "sourceUrl": "https://www.microagi.ai/articles/seed",
+            "organisations": ["p17788gtkccxrkbng4a578hvq18f5fsc"],
+            "sourceHost": "www.microagi.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "aylight-pre-seed",
+            "sourceUrl": "https://aylight.io/news/preseed-funding/",
+            "organisations": ["p171dp0w4b2qbqf3cy088cf8wd8f5kar"],
+            "sourceHost": "aylight.io",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Actual image visually inspected; photograph subject matches original announcement.",
+            "assetId": "aylight-pre-seed"
+        },
+        {
+            "slug": "onesoil-funding",
+            "sourceUrl": "https://www.linkedin.com/posts/onesoil_onesoil-secures-1m-to-expand-ai-powered-activity-7473292584942174208-9awP",
+            "organisations": [],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "neura-robotics-series-c",
+            "sourceUrl": "https://neura-robotics.com/record-series-c/",
+            "organisations": ["p1766t5rk2v3gy3nba39v0d4nh8f511e"],
+            "sourceHost": "neura-robotics.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "avian-pre-seed",
+            "sourceUrl": "https://www.globenewswire.com/news-release/2026/05/20/3298436/0/en/avian-raises-2-6m-to-scale-ai-thermal-monitoring-for-the-world-s-most-fire-prone-industrial-sites.html",
+            "organisations": ["p17chawyy77cm42xsqj454bz058f4jy5"],
+            "sourceHost": "www.globenewswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "mosaic-soc-pre-seed",
+            "sourceUrl": "https://www.globenewswire.com/news-release/2026/04/30/3284763/0/en/mosaic-soc-raises-3-8m-to-bring-real-time-spatial-intelligence-to-every-consumer-device.html",
+            "organisations": ["p17ce8bbmh72b9n529mnxmr2sn8f4w36"],
+            "sourceHost": "www.globenewswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "bubble-robotics-pre-seed",
+            "sourceUrl": "https://www.bubble-robotics.com/blog/bubble-robotics-raises-5m-to-build-the-oceans-autonomous-workforce",
+            "organisations": [],
+            "sourceHost": "www.bubble-robotics.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "covalo-seed-extension",
+            "sourceUrl": "https://blog.covalo.com/personal-care/5-years-in-covalo-secures-3.5m-to-build-the-data-backbone-of-personal-care",
+            "organisations": ["p17eykx2djzxt54xsh9ad164g58f4skj"],
+            "sourceHost": "blog.covalo.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Actual image visually inspected; photograph subject matches original announcement.",
+            "assetId": "covalo-seed-extension"
+        },
+        {
+            "slug": "rivia-series-a",
+            "sourceUrl": "https://www.linkedin.com/posts/rivia-sa_big-news-from-the-rivia-team-weve-activity-7439945722034184192-9JEb",
+            "organisations": ["p17b2dfkvh26gymxhxhqtq6dk58f5tcr"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "hyperscale-power-seed",
+            "sourceUrl": "https://www.hyperscale-power.com/news/seed-round",
+            "organisations": ["p1754tjasqte7by54z4gd8qse18f4qrr"],
+            "sourceHost": "www.hyperscale-power.com",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Inspected: financing graphic dominates, with small people cutout. Find a full authentic photo instead."
+        },
+        {
+            "slug": "metafuels-funding",
+            "sourceUrl": "https://metafuels.ch/knowledge-base/24m-for-climate-neutral-flight/",
+            "organisations": ["p178tbfthpat0gcnw7eyk089y58f5bgg"],
+            "sourceHost": "metafuels.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "optiml-seed",
+            "sourceUrl": "https://www.optiml.com/fr/company-news/announcing-our-e8m-seed-round/",
+            "organisations": ["p1726zxqd7b8bdwaj5ak2rzygd8f56a8"],
+            "sourceHost": "www.optiml.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "scyai-pre-seed",
+            "sourceUrl": "https://tech.eu/2026/02/13/scyai-secures-eur2m-and-launches-ai-risk-platform-for-real-assets/",
+            "organisations": [],
+            "sourceHost": "tech.eu",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "sparkli-pre-seed",
+            "sourceUrl": "https://rss.globenewswire.com/news-release/2026/01/22/3223820/0/en/google-alums-raise-5m-pre-seed-for-sparkli-the-first-multimodal-ai-native-learning-engine-for-children.html",
+            "organisations": ["p1741kq0cckbfcbgj1pe9abr3h8f5b25"],
+            "sourceHost": "rss.globenewswire.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Actual image visually inspected; photograph subject matches original announcement.",
+            "assetId": "sparkli-pre-seed"
+        },
+        {
+            "slug": "liom-series-a-extension",
+            "sourceUrl": "https://apnews.com/press-release/globenewswire-mobile/liom-achieves-breakthrough-in-miniaturization-of-its-non-invasive-biomarker-monitoring-tech-platform-and-extends-series-a-funding-to-chf-38-million-9044bab697be80afc02ca1b38015bf43",
+            "organisations": ["p177aqc2zybwv3sz3c06vbb6xs8f4kpb"],
+            "sourceHost": "apnews.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "soverli-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/ivan-puddu_great-news-im-excited-to-officially-share-activity-7406276507364380672-7Ey1",
+            "organisations": ["p17f437bn8qnt61n4jaqnv7q8d8f41e0"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "neura-robotics-zurich",
+            "sourceUrl": "https://neura-robotics.com/expansion-to-switzerland/",
+            "organisations": ["p1766t5rk2v3gy3nba39v0d4nh8f511e"],
+            "sourceHost": "neura-robotics.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "assaia-series-b",
+            "sourceUrl": "https://www.assaia.com/resources/assaia-raises-26-6-million-in-series-b-funding-to-enhance-global-ai-leadership-in-airport-operations",
+            "organisations": ["p17a1j963yg7f1afss2pkecxx58f555s"],
+            "sourceHost": "www.assaia.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original announcement photograph visually inspected; appropriate subject.",
+            "assetId": "assaia-series-b"
+        },
+        {
+            "slug": "climeworks-innovation-center",
+            "sourceUrl": "https://climeworks.com/press-release/climeworks-launches-the-largest-dac-innovation-center",
+            "organisations": ["p176ykqk6trf2yd5y6r0976atd8f5gz9"],
+            "sourceHost": "climeworks.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "gravis-funding-2025",
+            "sourceUrl": "https://www.gravisrobotics.com/press-release",
+            "organisations": ["p177p038cm72w7ef4pwmpxet3d8f4gx7"],
+            "sourceHost": "www.gravisrobotics.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "gravis-funding-2025"
+        },
+        {
+            "slug": "oncobit-funding-2025",
+            "sourceUrl": "https://oncobit.com/en/news/oncobit-completes-a-capital-increase/",
+            "organisations": [],
+            "sourceHost": "oncobit.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "enshift-series-a",
+            "sourceUrl": "https://onecreation.org/300-per-cent-growth-and-successful-series-a-financing-round-for-enshift/?lang=en",
+            "organisations": [],
+            "sourceHost": "onecreation.org",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "cerrion-series-a",
+            "sourceUrl": "https://www.linkedin.com/posts/cerrion_we-are-excited-to-announce-that-we-have-raised-activity-7399058035282870272-oSD7",
+            "organisations": ["p177h0jp50f3kawkb5eb771bk58f45df"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "flexion-series-a",
+            "sourceUrl": "https://flexion.ai/news/flexion-raises-50m-to-build-the-brain-of-humanoid-robots-at-scale",
+            "organisations": ["p179nb77v02789qvr6qckjgqtd8f5jhg"],
+            "sourceHost": "flexion.ai",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Visually inspected: studio-styled humanoid image; cannot establish photograph versus rendered artwork."
+        },
+        {
+            "slug": "albatross-funding-2025",
+            "sourceUrl": "https://www.globenewswire.com/news-release/2025/11/18/3190043/0/en/albatross-raises-12-5-million-to-reinvent-real-time-product-discovery-for-the-modern-web.html",
+            "organisations": ["p17bv5err6651ek5brnx2q29118f4b94"],
+            "sourceHost": "www.globenewswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "virometix-funding-2025",
+            "sourceUrl": "https://virometix.com/wp-content/uploads/2025/11/Virometix-Phase-1-V-212-announcement-VFinal.pdf",
+            "organisations": [],
+            "sourceHost": "virometix.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Announcement is PDF; no standalone photo reviewed."
+        },
+        {
+            "slug": "forgis-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/forgisai_what-if-you-could-play-a-chess-match-against-activity-7394719300949004289-WNFW",
+            "organisations": ["p17f2hvv9wvz2drq1mvqkjmfds8f4f1h"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "omnilex-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/omnilex-ai_omnilex-raises-45m-to-build-the-future-activity-7393920833687015424-kTVQ",
+            "organisations": ["p172dmyw38pbwa4kckm0zf9xm98f5jw9"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "motley-pre-seed",
+            "sourceUrl": "https://motley.ai/blog-posts/motley-raises-1-5m-to-launch-first-ai-business-reporting-platform/",
+            "organisations": [],
+            "sourceHost": "motley.ai",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Inspected: three portrait cards over decorative graphic; seek original full team photograph."
+        },
+        {
+            "slug": "btry-seed-2025",
+            "sourceUrl": "https://btry.ch/fundingannouncement/",
+            "organisations": ["p17ezt3hmmfwep2thtxdqvhb4d8f491n"],
+            "sourceHost": "btry.ch",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "btry-seed-2025"
+        },
+        {
+            "slug": "arcoris-bio-seed",
+            "sourceUrl": "https://arcorisbio.com/2025/11/06/arcoris-bio-raises-chf-6-3-million-seed-round-to-advance-next-generation-biomarker-technology-for-digital-pathology/",
+            "organisations": [],
+            "sourceHost": "arcorisbio.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "sunflower-labs-series-b",
+            "sourceUrl": "https://sunflower-labs.com/post/press-release-2025-11-04",
+            "organisations": ["p1765jh74g43hx0cbm38m1ys018f5h4x"],
+            "sourceHost": "sunflower-labs.com",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Visually inspected: drone/landscape/brand composite; seek original product photograph rather than promotional composite."
+        },
+        {
+            "slug": "deepjudge-series-a",
+            "sourceUrl": "https://www.deepjudge.ai/news/future-of-legal-ai-is-here-it-lives-in-your-knowledge",
+            "organisations": ["p179gd9ng1bmvczdfwtrvrxhts8f5ca5"],
+            "sourceHost": "www.deepjudge.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "obligate-funding-2025",
+            "sourceUrl": "https://www.linkedin.com/posts/obligatecom_obligate-raises-3m-to-accelerate-growth-activity-7389604221916188672-IIho",
+            "organisations": ["p178s2qjjfx7q0tm7h9x6zp2x18f5c89"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "tethys-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/redstone-venture-capital_tethys-robotics-secures-35-million-in-pre-seed-activity-7389573529396006912-_Q2t",
+            "organisations": ["p1754ha11zmf4t5v9zsjgde6gh8f439z"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "qala-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/qala-technologies_qala-qalaag-datavisibility-activity-7389209446884872193-OetC/",
+            "organisations": [],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "chipmind-pre-seed",
+            "sourceUrl": "https://www.chipmind.ai/post/chipmind-featured-in-forbes-ai-chip-development",
+            "organisations": ["p173g0adtnx82ypjwz5xbezw3s8f4fpk"],
+            "sourceHost": "www.chipmind.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "viboo-funding-2025",
+            "sourceUrl": "https://viboo.io/en/blog/viboo-schliesst-finanzierungsrunde-uber-3-3-mio-eu-mit-fuhrendem-proptech-investor-ab",
+            "organisations": ["p171nvgbww7v33jhq0e2ebwjhx8f4909"],
+            "sourceHost": "viboo.io",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "arqh-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/merantix-capital_arqh-has-announced-the-closing-of-its-38-activity-7378690619210219522-SODs",
+            "organisations": ["p175zaf8xka675g29k1xe31bjd8f56s2"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "a-metal-seed",
+            "sourceUrl": "https://www.a-metal.com/news/seed-finanzierungsrunde",
+            "organisations": ["p17feckqt2synsfmsnbek85mnd8f4cdh"],
+            "sourceHost": "www.a-metal.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "deskbird-series-b",
+            "sourceUrl": "https://www.deskbird.com/press-releases/23-million-series-b",
+            "organisations": [],
+            "sourceHost": "www.deskbird.com",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Visually inspected: text-dominated funding graphic, not a photo."
+        },
+        {
+            "slug": "auterion-series-b",
+            "sourceUrl": "https://auterion.com/auterion-raises-130-million-series-b-as-their-ai-enabled-software-powering-low-cost-commercial-hardware-at-scale-transforms-warfare/",
+            "organisations": ["p17e8j8sp2qardphzjpg9q746h8f4e11"],
+            "sourceHost": "auterion.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "veezoo-series-a",
+            "sourceUrl": "https://www.veezoo.com/blog/veezoo-raises-6-million-series-a",
+            "organisations": ["p17929vpv2cm9g5ejmw4fz7m698f5hy7"],
+            "sourceHost": "www.veezoo.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original announcement photograph visually inspected; appropriate subject.",
+            "assetId": "veezoo-series-a"
+        },
+        {
+            "slug": "unbound-potential-pre-seed",
+            "sourceUrl": "https://www.startupticker.ch/en/news/14-million-to-make-the-fastest-to-produce-battery-in-the-world-a-reality",
+            "organisations": [],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "lakera-acquisition",
+            "sourceUrl": "https://www.checkpoint.com/press-releases/check-point-acquires-lakera-to-deliver-end-to-end-ai-security-for-enterprises/",
+            "organisations": [],
+            "sourceHost": "www.checkpoint.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "bloom-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/bloomlabs-inc_bloom-is-changing-the-future-of-mobile-app-activity-7372295587024510976-Ahqa",
+            "organisations": ["p17a3an96ky181dz3mkaff28458f4jx8"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "cutiss-series-c-extension",
+            "sourceUrl": "https://cutiss.swiss/cutiss-closes-chf-56m-series-c-round-and-signs-agreement-with-leading-european-burn-center/",
+            "organisations": [],
+            "sourceHost": "cutiss.swiss",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Visually inspected: building photograph largely obscured by funding text overlay; seek original unobscured photo."
+        },
+        {
+            "slug": "cellvie-funding-2025",
+            "sourceUrl": "https://cellvie.bio/news-and-publications/cellvie-secures-5-million-in-fresh-capital-from-existing-and-new-investors",
+            "organisations": [],
+            "sourceHost": "cellvie.bio",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "apertus-release",
+            "sourceUrl": "https://ethz.ch/en/news-and-events/eth-news/news/2025/09/press-release-apertus-a-fully-open-transparent-multilingual-language-model.html",
+            "organisations": ["p17a07tc54822vapysmqfm7c2s8f447w"],
+            "sourceHost": "ethz.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "zenline-pre-seed",
+            "sourceUrl": "https://www.tryzenline.ai/blog/ai-startup-zenline-bags-1-aai-startup-zenline-bags-1-6m-in-fundingi-6m-in-funding",
+            "organisations": [],
+            "sourceHost": "www.tryzenline.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "loft-dynamics-series-b",
+            "sourceUrl": "https://www.loftdynamics.com/loft-dynamics-secures-24m-series-b-to-transform-pilot-training-with-vr/",
+            "organisations": ["p17a752g45kt9wwe1breqa21718f4ynv"],
+            "sourceHost": "www.loftdynamics.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "loft-dynamics-series-b"
+        },
+        {
+            "slug": "evulpo-series-a",
+            "sourceUrl": "https://www.startupticker.ch/en/news/evulpo-sichert-sich-8-8-millionen-franken-zur-weiterentwicklung-der-edtech-plattform",
+            "organisations": ["p17e4a543y9mxeqcma78e87bqd8f44ca"],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "mabylon-funding-2025",
+            "sourceUrl": "https://www.globenewswire.com/de/news-release/2025/08/12/3131451/0/en/Mabylon-AG-Raises-CHF-30-Million-to-Advance-Peanut-Allergy-Lead-Program-MY006-to-Clinical-Proof-of-Concept.html",
+            "organisations": [],
+            "sourceHost": "www.globenewswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "daedalean-acquisition",
+            "sourceUrl": "https://www.destinus.com/post/destinus-acquires-daedalean",
+            "organisations": [],
+            "sourceHost": "www.destinus.com",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Visually inspected: Destinus and Daedalean wordmarks only, not a photo."
+        },
+        {
+            "slug": "work-id-funding-2025",
+            "sourceUrl": "https://www.startupticker.ch/en/news/4-millionen-franken-fuer-den-start-von-work-id",
+            "organisations": [],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "freename-series-a",
+            "sourceUrl": "https://freename.com/blog/freename-secures-6.5-million-series-a",
+            "organisations": [],
+            "sourceHost": "freename.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "modulos-pre-series-a",
+            "sourceUrl": "https://www.modulos.ai/press-releases/modulos-raises-8-7m-ai-governance-platform/",
+            "organisations": ["p178pwd5xj6xg29zdeynys34x18f5cez"],
+            "sourceHost": "www.modulos.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "candi-funding-2025",
+            "sourceUrl": "https://www.candi.solar/our-news/candi-solar-raises-24-million",
+            "organisations": [],
+            "sourceHost": "www.candi.solar",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "medyria-funding-2025",
+            "sourceUrl": "https://www.startupticker.ch/en/news/medyria-secures-chf-1-5-million-to-accelerate-development-of-its-medical-device",
+            "organisations": [],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "vvardis-funding-july-2025",
+            "sourceUrl": "https://www.linkedin.com/posts/vvardis_saveteethsavelives-innovation-healthcare-activity-7350915910993383424-VC6U",
+            "organisations": [],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "scanvio-funding-2025",
+            "sourceUrl": "https://www.linkedin.com/posts/scanvio-medical_seedround-ai-ultrasound-activity-7350835393212149760-TbBj",
+            "organisations": ["p179mjzfyd0h68kec1qeak73dh8f4ea9"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "grensol-seed",
+            "sourceUrl": "https://grensolgroup.com/grensol-successfully-closes-chf-1-8-million-equity-seed-round-to-accelerate-recycling-innovation/",
+            "organisations": [],
+            "sourceHost": "grensolgroup.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "grensol-seed"
+        },
+        {
+            "slug": "askearth-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/askearth_big-news-at-askearth-weve-closed-an-activity-7348961432257912832-uTCS",
+            "organisations": ["p1772wd0dr81ex4jthrpwdvp0n8f5gph"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "evlabio-seed",
+            "sourceUrl": "https://www.htgf.de/en/evlabio-raises-e21-million-seed-funding/",
+            "organisations": [],
+            "sourceHost": "www.htgf.de",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "nautica-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/rethinkventures_logistics-maritime-robotics-activity-7346441339221241856-1PPD",
+            "organisations": ["p179ppqkj067vphdff6q1tkew98f4env"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "climeworks-funding-2025",
+            "sourceUrl": "https://climeworks.com/press-release/climeworks-raises-usd-162m-to-scale-up-technology",
+            "organisations": ["p176ykqk6trf2yd5y6r0976atd8f5gz9"],
+            "sourceHost": "climeworks.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "rtdt-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/rtdt-laboratories-ag_weve-just-raised-4m-to-accelerate-our-activity-7345707897701511168-TWuh",
+            "organisations": ["p17e20wsedn1d36k99t0p7w2hn8f41k7"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "boost-series-b",
+            "sourceUrl": "https://boostinc.com/boost-inc-closes-e16m-series-b-round-to-accelerate-international-growth-in-unattended-retail/",
+            "organisations": [],
+            "sourceHost": "boostinc.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "boost-series-b"
+        },
+        {
+            "slug": "voliro-series-a-extension",
+            "sourceUrl": "https://voliro.com/blog/voliro-secures-23m-via-series-a-extension-to-modernize-infrastructure-with-aerial-robotics/",
+            "organisations": ["p175m07xz3mfsts9p40rb29gds8f5sf5"],
+            "sourceHost": "voliro.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "voliro-series-a-extension"
+        },
+        {
+            "slug": "odne-series-a1",
+            "sourceUrl": "https://odne.co/odne-announces-closing-of-chf-4-2-million-series-a1-financing-round-to-fund-the-us-market-launch/",
+            "organisations": [],
+            "sourceHost": "odne.co",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Inspected: genuine Odne product photograph but only 300x197 source captured; seek original higher resolution."
+        },
+        {
+            "slug": "proxima-fusion-series-a",
+            "sourceUrl": "https://www.proximafusion.com/press-news/proxima-fusion-raises-eu130m-series-a-to-build-worlds-first-stellarator-based-fusion-power-plant-in-the-2030s",
+            "organisations": [],
+            "sourceHost": "www.proximafusion.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "positrigo-funding-2025",
+            "sourceUrl": "https://www.positrigo.com/positrigo-closes-financing-round-and-appoints-new-board-members/",
+            "organisations": ["p17etrrwqj1nk3h8srby1dxb2d8f4d45"],
+            "sourceHost": "www.positrigo.com",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Visually inspected: generic business growth-chart image, not established company/product photography."
+        },
+        {
+            "slug": "jua-series-a",
+            "sourceUrl": "https://jua.ai/blog/series-a-announcement/",
+            "organisations": ["p179vsnkpxbsfd2131cerf47ys8f499v"],
+            "sourceHost": "jua.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "seito-funding-2025",
+            "sourceUrl": "https://www.seitobio.ch/copy-of-press-releases",
+            "organisations": [],
+            "sourceHost": "www.seitobio.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "glycoera-series-b",
+            "sourceUrl": "https://www.glycoera.com/2025/05/glycoera-ag-raises-130-million-to-advance-novel-pipeline-of-extracellular-protein-degraders-for-the-treatment-of-autoimmune-diseases/",
+            "organisations": [],
+            "sourceHost": "www.glycoera.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "loki-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/loki-robotics_were-excited-to-announce-our-16m-pre-seed-activity-7330207779019755522-OuiK",
+            "organisations": ["p17bwp0t29fkn3swfpdrxmexch8f57jg"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "scalera-seed",
+            "sourceUrl": "https://www.scalera.ai/en/investors",
+            "organisations": ["p17ewmvt916x9vbbgq9erv2wmn8f4v6q"],
+            "sourceHost": "www.scalera.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "araris-acquisition",
+            "sourceUrl": "https://www.taiho.co.jp/en/release/files/pdf/20250317.pdf",
+            "organisations": [],
+            "sourceHost": "www.taiho.co.jp",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Announcement is PDF; no standalone photo reviewed."
+        },
+        {
+            "slug": "nunu-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/y-combinator_nunuai-has-raised-6m-in-seed-funding-to-activity-7306414280621338624-d3CR",
+            "organisations": ["p17epv9hpbnkdsa6fbxd1p5ejx8f4a74"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "beekeeper-financing-2025",
+            "sourceUrl": "https://alpana-ventures.ch/hsbc-innovation-banking-supports-beekeeper-with-35m-in-funding/",
+            "organisations": [],
+            "sourceHost": "alpana-ventures.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "validation-cloud-series-a",
+            "sourceUrl": "https://www.validationcloud.io/post/validation-cloud-raises-15m-series-a-to-bring-data-x-ai-to-web3",
+            "organisations": [],
+            "sourceHost": "www.validationcloud.io",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "oxyprem-funding-2025",
+            "sourceUrl": "https://www.startupticker.ch/en/news/frische-millionen-von-der-crowd",
+            "organisations": [],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "duramon-seed-extension",
+            "sourceUrl": "https://ethz.ch/content/dam/ethz/special-interest/baug/department/news/bilder/2025/03/250328-Start-up-duramon-raises-1-million-Swiss-Francs/2025_Duramon.pdf",
+            "organisations": ["p178gzq66527gc624cechty7bx8f48vs"],
+            "sourceHost": "ethz.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Announcement is PDF; no standalone photo reviewed."
+        },
+        {
+            "slug": "unique-series-a",
+            "sourceUrl": "https://www.unique.ai/en/blog/unique-secures-usd-30-million-series-a-to-pioneer-agentic-ai-workforce-in-financial-services-2",
+            "organisations": ["p17dj6w7fbezpq78pk2f1mmetx8f5w1h"],
+            "sourceHost": "www.unique.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "amnis-series-b",
+            "sourceUrl": "https://amnistreasury.com/blog/amnis-closed-series-b-funding-round/",
+            "organisations": ["p179a8e58cy1zrwgsme0t3ptk18f4gmf"],
+            "sourceHost": "amnistreasury.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "cellx-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/geoffreybesnier_cellx-closes-17m-funding-round-excited-activity-7299803283525652482-6itz",
+            "organisations": [],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "roompricegenie-investment-2025",
+            "sourceUrl": "https://roompricegenie.com/roompricegenie-announce-new-funding-and-ceo/",
+            "organisations": ["p178b07waxgw1mj16anmdymk9x8f5jv8"],
+            "sourceHost": "roompricegenie.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "raisenow-funding-2025",
+            "sourceUrl": "https://de.linkedin.com/posts/raisenow_12-millionen-f%C3%BCr-fundraising-tech-raisenow-activity-7297202146976935936-QEbM",
+            "organisations": ["p17bk0sax2tn48kkjmd8xpd5dn8f4mmw"],
+            "sourceHost": "de.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "etfbook-series-a",
+            "sourceUrl": "https://etfbook.com/company/announcements/etfbook-series-a-blackfin-capital-partners",
+            "organisations": [],
+            "sourceHost": "etfbook.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "vvardis-funding-february-2025",
+            "sourceUrl": "https://www.linkedin.com/posts/orbimed-advisors_orbimed-is-excited-to-announce-our-35m-investment-activity-7296178211514732547-4JDs",
+            "organisations": [],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "nextesy-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/dario-fazlic_nextesy-sichert-sich-33-millionen-franken-activity-7295412000107429891-VUbF",
+            "organisations": [],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "saeki-funding-2025",
+            "sourceUrl": "https://www.globenewswire.com/news-release/2025/02/05/3021227/0/en/manufacture-the-impossible-saeki-raises-6-7m-to-transform-large-scale-manufacturing.html",
+            "organisations": ["p17576e3vx7fdcp2d77jeefq1d8f481s"],
+            "sourceHost": "www.globenewswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "logicstar-pre-seed",
+            "sourceUrl": "https://logicstar.ai/blog/logicstar-ai-raised-a-3m-round-led-by-northzone",
+            "organisations": [],
+            "sourceHost": "logicstar.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "akina-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/springboard-health-angels_huge-congratulations-to-our-portfolio-company-activity-7292152349660237825-12Je",
+            "organisations": ["p174qjpmrgqw18hg165p9e4tyx8f5vzw"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "oxyle-seed",
+            "sourceUrl": "https://oxyle.com/blog/oxyle-raises-usd16m-to-lead-the-fight-against-forever-chemicals-contaminating-our-water/",
+            "organisations": ["p17e3p7e76nvymjqpyga3r5qqx8f50cm"],
+            "sourceHost": "oxyle.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "zuriq-seed-2025",
+            "sourceUrl": "https://zuriq.com/all/zuriq-raises-3-8m-chf-in-first-financing-round-from-vc-consortium/",
+            "organisations": ["p172n7djytsk22phamhaf4eyvx8f5ppk"],
+            "sourceHost": "zuriq.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "zuriq-seed-2025"
+        },
+        {
+            "slug": "qcella-pre-seed",
+            "sourceUrl": "https://qcella.com/2025/01/21/qcella-announces-the-closing-of-its-chf-1-3-million-pre-seed-financing-round/",
+            "organisations": [],
+            "sourceHost": "qcella.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "metafuels-funding-2025",
+            "sourceUrl": "https://metafuels.ch/knowledge-base/e-saf-leader-metafuels-raises-9-million-round-to-industrialise-production-of-sustainable-aviation-fuel/",
+            "organisations": ["p178tbfthpat0gcnw7eyk089y58f5bgg"],
+            "sourceHost": "metafuels.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "borobotics-funding-2025",
+            "sourceUrl": "https://www.thinkgeoenergy.com/geothermal-drilling-automation-startup-borobotics-raises-chf-1-3m-funding/",
+            "organisations": ["p172zv1j51jt5casmpn3emen018f4wk6"],
+            "sourceHost": "www.thinkgeoenergy.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "sygnum-funding-2025",
+            "sourceUrl": "https://www.sygnum.com/news/sygnum-completes-usd-58m-strategic-growth-round-achieves-unicorn-status-with-1bn-valuation/",
+            "organisations": ["p1709xg678tpgh0pg2pkzercw98f51h4"],
+            "sourceHost": "www.sygnum.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "numab-series-c-extension",
+            "sourceUrl": "https://www.numab.com/wp-content/uploads/250109_PR_Numab-SeriesC-Top-up-Financing.pdf",
+            "organisations": [],
+            "sourceHost": "www.numab.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "nevermined-funding-2025",
+            "sourceUrl": "https://www.globenewswire.com/news-release/2025/01/09/3007256/0/en/Nevermined-Raises-4M-to-Build-the-PayPal-for-AI-Commerce.html",
+            "organisations": [],
+            "sourceHost": "www.globenewswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "tiun-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/sandrozweig_exciting-news-for-tiun-we-have-raised-25m-activity-7275118625496158208-s-c2",
+            "organisations": [],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "embotech-series-b",
+            "sourceUrl": "https://embotech.com/news/story-financinground",
+            "organisations": ["p171nfpc19x7ah9yh6qbnecw6d8f5p9q"],
+            "sourceHost": "embotech.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "anybotics-2024",
+            "sourceUrl": "https://www.anybotics.com/news/anybotics-raises-additional-60-million-to-drive-u-s-expansion/",
+            "organisations": ["p171jm97fr6c3m8jsw1xd7akqs8f4ne6"],
+            "sourceHost": "www.anybotics.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "relai-series-a",
+            "sourceUrl": "https://relai.app/blog/we-raised-12-million-to-orange-pill-europe/",
+            "organisations": [],
+            "sourceHost": "relai.app",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "liom-series-a",
+            "sourceUrl": "https://www.newswire.com/news/liom-cracks-holy-grail-of-non-invasive-glucose-monitoring-and-secures-22477555",
+            "organisations": ["p177aqc2zybwv3sz3c06vbb6xs8f4kpb"],
+            "sourceHost": "www.newswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "brighty-funding-2024",
+            "sourceUrl": "https://www.globenewswire.com/news-release/2024/12/03/2990863/0/en/brighty-raises-10-million-to-enable-crypto-payments-in-the-real-world.html",
+            "organisations": [],
+            "sourceHost": "www.globenewswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "schuman-seed",
+            "sourceUrl": "https://schuman.io/blog/schuman-financial-is-bringing-european-finance-on-chain/",
+            "organisations": [],
+            "sourceHost": "schuman.io",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "kyan-health-series-a",
+            "sourceUrl": "https://www.globenewswire.com/news-release/2024/11/26/2987537/0/en/Kyan-Health-raises-16-7M-to-upgrade-workplace-wellness-with-AI-powered-preventative-care.html",
+            "organisations": ["p17bk02bjsdewtha2h8h61m2fd8f5cer"],
+            "sourceHost": "www.globenewswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "oncobit-pre-series-a",
+            "sourceUrl": "https://oncobit.com/en/news/oncobit-closes-1-5m-pre-series-a-financing-round/",
+            "organisations": [],
+            "sourceHost": "oncobit.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "calvin-risk-seed",
+            "sourceUrl": "https://www.calvin-risk.com/blog/innovating-the-ai-governance-and-risk-management-market-our-recent-funding-and-work",
+            "organisations": ["p17emh58n9ncnsbkkev6h8mqfx8f5fbp"],
+            "sourceHost": "www.calvin-risk.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "wyden-series-b",
+            "sourceUrl": "https://www.wyden.io/news/wyden-secures-usd-16-9-million-in-series-b-funding-round/",
+            "organisations": ["p175becrpnsx8f74mh8s1ht2qx8f4kw3"],
+            "sourceHost": "www.wyden.io",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "localstack-series-a",
+            "sourceUrl": "https://blog.localstack.cloud/series-a-announcement/",
+            "organisations": ["p1731ajsy3qyx71gvmz2myx22s8f5111"],
+            "sourceHost": "blog.localstack.cloud",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "gelato-series-a-extension",
+            "sourceUrl": "https://gelato.cloud/blog/gelato-raises-series-a-announces-ink-layer2-kraken",
+            "organisations": [],
+            "sourceHost": "gelato.cloud",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "terralayr-funding-2024",
+            "sourceUrl": "https://www.startupticker.ch/en/news/energy-storage-start-up-terralayr-raises-chf67-million",
+            "organisations": ["p17f1xstxhndtjvgcr7tzafwq98f5mhm"],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "sallea-pre-seed",
+            "sourceUrl": "https://sallea.ch/pre-seed-announcement-turning-lab-grown-meat-into-a-multi-billion-dollar-market-with-sallea/",
+            "organisations": [],
+            "sourceHost": "sallea.ch",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "sallea-pre-seed"
+        },
+        {
+            "slug": "albatross-seed",
+            "sourceUrl": "https://www.startupticker.ch/en/news/chf-2-8-million-to-improve-ecommerce-recommendations",
+            "organisations": ["p17bv5err6651ek5brnx2q29118f4b94"],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "candi-debt-2024",
+            "sourceUrl": "https://www.candi.solar/our-news/candi-solar-secures-an-additional-18-million",
+            "organisations": [],
+            "sourceHost": "www.candi.solar",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "somagenetix-series-a",
+            "sourceUrl": "https://www.somagenetix.com/post/somagenetix-ag-secures-chf-10-million-in-series-a-financing-to-advance-lentiviral-gene-therapy-for-c",
+            "organisations": [],
+            "sourceHost": "www.somagenetix.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "voliro-series-a",
+            "sourceUrl": "https://voliro.com/blog/voliro-secures-12m-in-series-a-funding-to-transform-industrial-inspections-with-aerial-robotics/",
+            "organisations": ["p175m07xz3mfsts9p40rb29gds8f5sf5"],
+            "sourceHost": "voliro.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "voliro-series-a"
+        },
+        {
+            "slug": "lightium-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/lightium_lightium-secures-7-million-seed-funding-activity-7242442312553811969-UEeb",
+            "organisations": ["p17bft343wtabv4aav6cn54y5s8f5zdj"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "immunos-series-c",
+            "sourceUrl": "https://www.immunostherapeutics.com/news-media/",
+            "organisations": [],
+            "sourceHost": "www.immunostherapeutics.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "corflow-series-b",
+            "sourceUrl": "https://corflow.com/wp-content/uploads/2024/09/CorFlow-Series-B-Press-Release-EvE-FINAL.pdf",
+            "organisations": [],
+            "sourceHost": "corflow.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Announcement is PDF; no standalone photo reviewed."
+        },
+        {
+            "slug": "cerrion-funding-2024",
+            "sourceUrl": "https://www.linkedin.com/posts/cerrion_today-were-super-excited-to-announce-our-activity-7239997227509678080-Niqi",
+            "organisations": ["p177h0jp50f3kawkb5eb771bk58f45df"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "swiss-mile-seed",
+            "sourceUrl": "https://rivr.ai/stories/from-research-to-global-impact-the-journey-from-swiss-mile-to-rivr",
+            "organisations": ["p170gj60j965n3gk6ajgzjqp818f43ty"],
+            "sourceHost": "rivr.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "flowit-seed",
+            "sourceUrl": "https://www.vipartners.ch/news/flowit-ag-successfully-closes-oversubscribed-first-funding-round-4-mio-chf",
+            "organisations": [],
+            "sourceHost": "www.vipartners.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "optiml-pre-seed-extension",
+            "sourceUrl": "https://www.linkedin.com/posts/optiml-zh_proptech-funding-saas-activity-7231959476281495554-H2aP",
+            "organisations": ["p1726zxqd7b8bdwaj5ak2rzygd8f56a8"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "apheros-pre-seed",
+            "sourceUrl": "https://apheros.ch/en/news/press-release-preseed",
+            "organisations": ["p17ee9jjfvhnrxq5rp1tve7qs18f48w4"],
+            "sourceHost": "apheros.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "sanos-funding-2024",
+            "sourceUrl": "https://www.startupticker.ch/en/news/7-millionen-euro-fuer-health-tech-sanos",
+            "organisations": [],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "onchainlabs-seed",
+            "sourceUrl": "https://www.startupticker.ch/en/news/onchainlabs-secures-chf-5m-in-seed-round",
+            "organisations": [],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "nunu-pre-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/jan-schnyder_excited-to-announce-our-2m-pre-seed-round-activity-7226260050128846848-a2pA",
+            "organisations": ["p17epv9hpbnkdsa6fbxd1p5ejx8f4a74"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "knime-funding-2024",
+            "sourceUrl": "https://siliconangle.com/2024/08/06/open-source-data-science-platform-knime-raises-30m/",
+            "organisations": ["p170nfh2dfc9w6dxhcf45knnt58f485s"],
+            "sourceHost": "siliconangle.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "lakera-series-a",
+            "sourceUrl": "https://www.prnewswire.com/news-releases/lakera-raises-20m-series-a-to-secure-generative-ai-applications-302204874.html",
+            "organisations": [],
+            "sourceHost": "www.prnewswire.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original announcement photograph visually inspected; appropriate subject.",
+            "assetId": "lakera-series-a"
+        },
+        {
+            "slug": "netfabric-pre-seed",
+            "sourceUrl": "https://netfabric.ai/news/news-article-5/",
+            "organisations": ["p1744g4ay3bxmjjvfx5kfawb9d8f457r"],
+            "sourceHost": "netfabric.ai",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original announcement photograph visually inspected; appropriate subject.",
+            "assetId": "netfabric-pre-seed"
+        },
+        {
+            "slug": "scrona-funding-2024",
+            "sourceUrl": "https://www.prnewswire.com/news-releases/scrona-ag-introduces-digital-gen3-printhead-platform-to-kickstart-industrialization-of-its-high-resolution-printing-technology-302191511.html",
+            "organisations": ["p17629h2dnerherfg4p6fsbrax8f5kew"],
+            "sourceHost": "www.prnewswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Announcement fetch failed; alternative first-party photo and visual review pending."
+        },
+        {
+            "slug": "caplena-pre-series-a",
+            "sourceUrl": "https://caplena.com/en/blog/caplena-3m-pre-series-a-funding",
+            "organisations": ["p178cdt5mg41k68mc17s9hrr4n8f5yt7"],
+            "sourceHost": "caplena.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "circleg-funding-2024",
+            "sourceUrl": "https://www.startupticker.ch/en/news/circleg-receives-total-investment-of-chf-6-million",
+            "organisations": [],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Capture not retained; image review pending."
+        },
+        {
+            "slug": "libattion-funding-2024",
+            "sourceUrl": "https://libattion.com/libattion-raises-14-million-euro/",
+            "organisations": ["p174k41k2hwmtk0vtja9n87d758f4ncv"],
+            "sourceHost": "libattion.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Capture not retained; image review pending."
+        },
+        {
+            "slug": "enantios-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/enantiosch_deeptech-pharmainnovation-enantios-activity-7211998924063080449-75cm",
+            "organisations": [],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Capture not retained; image review pending."
+        },
+        {
+            "slug": "skycell-series-d-extension",
+            "sourceUrl": "https://blog.skycell.ch/blog/skycell-closes-us116-million-series-d",
+            "organisations": ["p17av61hxhnn4dxbxpnt35v7a18f5j4f"],
+            "sourceHost": "blog.skycell.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Capture not retained; image review pending."
+        },
+        {
+            "slug": "deepjudge-seed",
+            "sourceUrl": "https://www.deepjudge.ai/news/deepjudge-raises-10-7m-seed-round-led-by-coatue-and-announces-knowledge-assistant",
+            "organisations": ["p179gd9ng1bmvczdfwtrvrxhts8f5ca5"],
+            "sourceHost": "www.deepjudge.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Capture not retained; image review pending."
+        },
+        {
+            "slug": "taskbase-series-a",
+            "sourceUrl": "https://www.mediahuis.com/en/news/mediahuis-invests-in-swiss-ai-education-technology-company-taskbase",
+            "organisations": ["p17br67rebyz8w2cz0p9t9g11h8f47we"],
+            "sourceHost": "www.mediahuis.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Capture not retained; image review pending."
+        },
+        {
+            "slug": "drone-harmony-funding-2024",
+            "sourceUrl": "https://www.linkedin.com/posts/droneharmony_investment-growth-expansion-activity-7207305778355970049-nt9u",
+            "organisations": ["p173jge7avkvk2hf0hf25y935n8f5zfz"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "rivia-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/rivia-sa_zurich-based-rivia-raises-3-million-to-address-activity-7206581452451237889-_EXk",
+            "organisations": ["p17b2dfkvh26gymxhxhqtq6dk58f5tcr"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "candi-series-c",
+            "sourceUrl": "https://www.candi.solar/our-news/candi-solar-secures-38-million-funding",
+            "organisations": [],
+            "sourceHost": "www.candi.solar",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "topadur-funding-2024",
+            "sourceUrl": "https://www.startupticker.ch/en/news/oshen-supports-topadur-in-the-development-of-a-treatment-for-alopecia",
+            "organisations": [],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "synthara-funding-2024",
+            "sourceUrl": "https://synthara.ai/announcement/synthara-raises-over-usd-11m-to-expand-the-embedded-computing-market-and-enable-ai-applications/",
+            "organisations": ["p17cmgdwy512hdw7fh0z93ze5x8f5z9r"],
+            "sourceHost": "synthara.ai",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "microcaps-series-a",
+            "sourceUrl": "https://microcaps.ch/2024/06/05/microcaps-ag-secures-chf-9-3-million-in-series-a-financing-round-to-expand-production-capacity/",
+            "organisations": [],
+            "sourceHost": "microcaps.ch",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "microcaps-series-a"
+        },
+        {
+            "slug": "ethonai-series-a",
+            "sourceUrl": "https://www.indexventures.com/perspectives/ethonai-series-a/",
+            "organisations": ["p1729xf49ysm11j9d5yzh1hkg18f4scm"],
+            "sourceHost": "www.indexventures.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "numab-nm26-acquisition",
+            "sourceUrl": "https://www.numab.com/wp-content/uploads/240528_PRR_Numab-Therapeutics-Announces-JnJ-to-Acquire-YJT.pdf",
+            "organisations": [],
+            "sourceHost": "www.numab.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "cutiss-series-c",
+            "sourceUrl": "https://cutiss.swiss/wp-content/uploads/2024/05/PR_CUTISS_Series-C-first-closing_17-May-2024_Final-1.pdf",
+            "organisations": [],
+            "sourceHost": "cutiss.swiss",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Announcement is PDF; no standalone photo reviewed."
+        },
+        {
+            "slug": "swissdrones-series-b",
+            "sourceUrl": "https://www.swissdrones.com/post/aerial-intelligence-company-swissdrones-successfully-closes-series-b-growth-funding",
+            "organisations": ["p171f579j7pjbb57t8v3hjmk558f545m"],
+            "sourceHost": "www.swissdrones.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "swissdrones-series-b"
+        },
+        {
+            "slug": "8inks-pre-seed",
+            "sourceUrl": "https://www.startupticker.ch/en/news/8inks-raises-eur-3-million-to-reduce-battery-production-costs",
+            "organisations": ["p17cbj5tyer7hd4a7abmgstezd8f5ae2"],
+            "sourceHost": "www.startupticker.ch",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "climeworks-mammoth",
+            "sourceUrl": "https://climeworks.com/press-release/climeworks-switches-on-worlds-largest-direct-air-capture-plant-mammoth",
+            "organisations": ["p176ykqk6trf2yd5y6r0976atd8f5gz9"],
+            "sourceHost": "climeworks.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "memo-series-c-extension",
+            "sourceUrl": "https://memo-therapeutics.com/2024/05/07/memo-therapeutics-increase-series-c-financing-to-chf-45-million/",
+            "organisations": [],
+            "sourceHost": "memo-therapeutics.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "anapaya-funding-2024",
+            "sourceUrl": "https://www.anapaya.net/news/anapaya-secures-chf-10-million-to-drive-international-expansion-and-accelerate-growth-in-switzerland",
+            "organisations": ["p170g6jaktfes7g90nxwn34b658f43fx"],
+            "sourceHost": "www.anapaya.net",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "fotokite-series-b",
+            "sourceUrl": "https://fotokite.com/fotokite-secures-investment-round-achieves-strong-growth-and-expands-global-reach/",
+            "organisations": ["p175kvx6cgp6q411spvmhm7mj18f5yqm"],
+            "sourceHost": "fotokite.com",
+            "status": "ready",
+            "reviewed": true,
+            "reason": "Original company-hosted image visually inspected and suitable for the story subject.",
+            "assetId": "fotokite-series-b"
+        },
+        {
+            "slug": "testresults-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/spicehauspartners_we-are-happy-to-announce-our-newest-investment-activity-7183835089984716800-fUCe",
+            "organisations": ["p1795sv4cwsfesy3wcq7qc5z4x8f5ybf"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "ledcity-funding-2024",
+            "sourceUrl": "https://www.linkedin.com/posts/ledcity-ag_ledcity-funding-growth-activity-7183080505892823041-SISH",
+            "organisations": [],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "hemotune-series-b2",
+            "sourceUrl": "https://www.hemotune.com/hemotune-raises-chf-14-million-series-b2-funding-for-clinical-trials-with-the-hemosystem/",
+            "organisations": [],
+            "sourceHost": "www.hemotune.com",
+            "status": "unresolved",
+            "reviewed": true,
+            "reason": "Inspected: clinical-room image; not established as hemotune's equipment or own research rather than stock. Do not publish without provenance."
+        },
+        {
+            "slug": "odne-series-a1-2024",
+            "sourceUrl": "https://odne.co/wp-content/uploads/2024/03/2024-02-12_Press-Release-SeriesA-2.pdf",
+            "organisations": [],
+            "sourceHost": "odne.co",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Announcement is PDF; no standalone photo reviewed."
+        },
+        {
+            "slug": "food-brewer-seed",
+            "sourceUrl": "https://de.linkedin.com/posts/food-brewer_frisches-geld-f%C3%BCr-kakao-und-kaffeepulver-activity-7168931609121841152-Ov_4",
+            "organisations": [],
+            "sourceHost": "de.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "chiral-seed-2024",
+            "sourceUrl": "https://www.lastwatchdog.com/news-alert-chiral-announces-3-8m-funding-round-to-advance-nanomaterial-chip-manufacturing/",
+            "organisations": ["p1727j7q5gtrqdbj2jpv4bf3nx8f4stg"],
+            "sourceHost": "www.lastwatchdog.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "validation-cloud-funding-2024",
+            "sourceUrl": "https://www.validationcloud.io/post/announcing-validation-clouds-5-8m-fundraise",
+            "organisations": [],
+            "sourceHost": "www.validationcloud.io",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "jua-seed",
+            "sourceUrl": "https://www.linkedin.com/posts/juaai_jua-raises-16m-to-build-a-foundational-ai-activity-7161271477726535680-DQCN",
+            "organisations": ["p179vsnkpxbsfd2131cerf47ys8f499v"],
+            "sourceHost": "www.linkedin.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "limmatech-series-a-extension",
+            "sourceUrl": "https://lmtbio.com/wp-content/uploads/2024/02/20240131_Series-A-extension-PR_final.pdf",
+            "organisations": [],
+            "sourceHost": "lmtbio.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Announcement is PDF; no standalone photo reviewed."
+        },
+        {
+            "slug": "sygnum-funding-2024",
+            "sourceUrl": "https://www.sygnum.com/news/sygnum-raises-more-than-usd-40-million/",
+            "organisations": ["p1709xg678tpgh0pg2pkzercw98f51h4"],
+            "sourceHost": "www.sygnum.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "No image extracted from announcement; targeted first-party follow-up pending."
+        },
+        {
+            "slug": "rivero-series-a",
+            "sourceUrl": "https://rivero.tech/blog/rivero-raises-7-million-in-series",
+            "organisations": ["p172q742tzaxj63jq8t0ecwq458f4y30"],
+            "sourceHost": "rivero.tech",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        },
+        {
+            "slug": "spiden-financing-2024",
+            "sourceUrl": "https://www.newswire.com/news/spiden-announces-breakthrough-in-non-invasive-glucose-monitoring-adds-22212918",
+            "organisations": ["p177aqc2zybwv3sz3c06vbb6xs8f4kpb"],
+            "sourceHost": "www.newswire.com",
+            "status": "unresolved",
+            "reviewed": false,
+            "reason": "Image candidates not visually reviewed; no approval."
+        }
+    ]
+}

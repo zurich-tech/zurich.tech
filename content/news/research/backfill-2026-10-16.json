@@ -1,0 +1,93 @@
+{
+    "window": { "from": "2026-09-16", "to": "2026-10-16" },
+    "reviewedAt": "2026-10-16",
+    "discovery": [
+        "https://www.startupticker.ch/en/news",
+        "https://www.startupticker.ch/en/news?page=2",
+        "https://www.startupticker.ch/en/news?page=3",
+        "https://ethz.ch/en/news-and-events/eth-news/news/2026/09.html",
+        "https://ethz.ch/en/news-and-events/eth-news/news/2026/10.html"
+    ],
+    "originalSelection": [
+        "rivero-elevator-investment",
+        "zuriq-infineon-quantum-chips",
+        "anapaya-colt-scion",
+        "apiax-acquisition",
+        "akenza-acquisition",
+        "apertus-lumo",
+        "albatross-offerup",
+        "innunity-venture-kick",
+        "aurachain-growth-investment",
+        "deeppsy-precise-mdd",
+        "scanvio-assist-ce"
+    ],
+    "selection": [
+        "zuriq-infineon-quantum-chips",
+        "anapaya-colt-scion",
+        "akenza-acquisition",
+        "apertus-lumo"
+    ],
+    "withdrawn": [
+        {
+            "slug": "apiax-acquisition",
+            "reason": "Routine acquisition with undisclosed terms; no substantial technical achievement."
+        },
+        {
+            "slug": "rivero-elevator-investment",
+            "reason": "Undisclosed investment; no demonstrated significant raise."
+        },
+        {
+            "slug": "aurachain-growth-investment",
+            "reason": "Undisclosed investment; no demonstrated significant raise."
+        },
+        {
+            "slug": "scanvio-assist-ce",
+            "reason": "Certification announcement explicitly rejected by the user."
+        },
+        {
+            "slug": "innunity-venture-kick",
+            "reason": "Small programme award, not significant fundraising."
+        },
+        {
+            "slug": "deeppsy-precise-mdd",
+            "reason": "Funding for a planned study, not a demonstrated technical or product milestone."
+        },
+        {
+            "slug": "albatross-offerup",
+            "reason": "Customer partnership rather than a substantial new product or technical result."
+        }
+    ],
+    "reviewOutcome": "Withdrew seven entries from production and removed their import files after applying the user's stricter editorial bar. Retained drafts for recovery, with no emails sent.",
+    "notes": [
+        "Checked all 206 existing production posts for duplicate stories; 13 already fall in this window.",
+        "Nine entries link directly to company or fund announcements, including the Albatross-issued GlobeNewswire release.",
+        "Scanvio links to its press release reproduced by Startupticker. Omitted the unverified world-first claim. The older company contact page still carries a pre-certification notice.",
+        "DeepPsy links to Startupticker's report, dated 7 October. Funding belongs to the independently conducted PRECISE MDD trial, not a company equity round; do not imply proven clinical benefit.",
+        "Innunity uses Venture Kick's 1 October date, not Startupticker's 2 October coverage. The total CHF 150,000 is not described as a new equity round.",
+        "Aurachain uses its 30 September announcement, not 5 October coverage. No organisation reference exists in the current registry; left empty rather than inventing one.",
+        "Akenza uses 1 October, corroborated by contemporary coverage; the search engine misinterprets the numeric date as January.",
+        "The selected files are the entire import scope; older untracked articles are not included."
+    ],
+    "excluded": [
+        {
+            "story": "LogObject acquires Planik",
+            "reason": "Original company announcement dated 8 September, outside window despite 24 September coverage."
+        },
+        {
+            "story": "ETH autonomous bicycle",
+            "reason": "August prototype already published; October recap is not a new event."
+        },
+        {
+            "story": "Namespace, UniSieve, Klarent, Winduction, Piomic, Prevision, Cotierra, ETFBOOK, Planlabs, Ontinue, DeepJudge, Sensirion, ETH OLED lithography",
+            "reason": "Already published; no duplicate imports."
+        },
+        {
+            "story": "Aseptuva seed financing",
+            "reason": "September retrospective explicitly describes financing from the previous year."
+        },
+        {
+            "story": "Routine awards, executive appointments, accelerator cohorts and company profiles",
+            "reason": "Excluded from this substantive-announcement selection."
+        }
+    ]
+}

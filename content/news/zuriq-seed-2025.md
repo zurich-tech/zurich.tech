@@ -8,4 +8,7 @@ url: "https://zuriq.com/all/zuriq-raises-3-8m-chf-in-first-financing-round-from-
 authors: []
 organisations: ["zuriq"]
 topics: ["hardware"]
+image: "https://zuriq.com/content/images/size/w2000/2025/01/DKP_7318.jpg"
 ---
+
+Image: zuriq.com

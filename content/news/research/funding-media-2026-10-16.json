@@ -1,0 +1,152 @@
+{
+    "reviewedAt": "2026-10-16",
+    "status": "reviewed_recent_subset",
+    "snapshot": {
+        "path": "/tmp/zurich-news-audit-live.json",
+        "sha256": "2c03be288a1a4bdd5261785d6fcd99efd9b485265a4ca096c614b4692523e459",
+        "published": 214,
+        "fundingWithoutImageOrVideo": 154
+    },
+    "scope": {
+        "priorityWindow": {
+            "from": "2026-09-16",
+            "through": "2026-10-16"
+        },
+        "missingInPriorityWindow": ["piomic-growth-financing", "etfbook-funding-2026"],
+        "additionalSubstantialRound": "novago-series-b",
+        "note": "Both image-less funding records in the priority window reviewed, plus one older substantial round. Not an audit of all historical funding or all 175 earlier archive assignments."
+    },
+    "counts": {
+        "reviewedStories": 3,
+        "readyProductCovers": 2,
+        "unresolvedOlderCover": 1,
+        "productionWrites": 0
+    },
+    "limits": [
+        "Current official product imagery illustrates the products, not the financing event or clinical outcomes.",
+        "Original product renders and screenshots are allowed; stock photos, logos and small CEO-headshot substitutes are not approved covers.",
+        "Images fetched, decoded and visually inspected; exact original URLs retained.",
+        "Credit identifies supplying company, not an inferred reproduction licence.",
+        "Refresh expected-field checks before publication; no production changes made."
+    ],
+    "stories": [
+        {
+            "slug": "etfbook-funding-2026",
+            "id": "rh715apszhnhqk6qnbd992znw18g55zq",
+            "status": "ready",
+            "date": "2026-09-16",
+            "expected": {
+                "image": null,
+                "video": null,
+                "title": "ETFBOOK raises USD 13M",
+                "description": "ETFBOOK develops data and analytics software for exchange-traded funds.",
+                "body": ""
+            },
+            "title": "ETFBOOK raises USD 13M",
+            "description": "ETFBOOK raised USD 13 million to expand its ETF data and analytics platform into the Americas and Asia-Pacific. Its APIs and web application combine fund holdings, flows and trading data; the company plans to broaden market coverage and add analytics tools.",
+            "body": "",
+            "image": "https://framerusercontent.com/images/cA9rnVn32SCPI8FqLiADaEWkF4.png?lossless=1&width=1920&height=1225",
+            "video": null,
+            "source": "https://etfbook.com/company/announcements/funding-round-with-expedition-growth-and-blackfin",
+            "imageSource": "https://etfbook.com/",
+            "credit": "ETFBOOK",
+            "subject": "Official ETFBOOK product visual showing the AuM & Flows dashboard and a monthly net-flows bar chart on a laptop.",
+            "evidence": {
+                "imageDimensions": {
+                    "width": 1920,
+                    "height": 1225
+                },
+                "visual": "Decoded original visually inspected: ETFBOOK navigation, AuM & Flows heading and green monthly net-flow bars are visible. Original screenshot presented in the company's laptop mockup.",
+                "provenance": "Exact img src/srcset on official homepage, alongside ETF data and analytics product sections.",
+                "date": "Funding announcement dated September 16, 2026."
+            },
+            "caveat": "Official product screenshot/mockup, not a live market-data feed or a photo of the funding event. Preserve full UI image without cropping."
+        },
+        {
+            "slug": "piomic-growth-financing",
+            "id": "rh7dvyrtsdnpdvy8sdad5kh7rs8g4nh2",
+            "status": "ready",
+            "date": "2026-09-18",
+            "expected": {
+                "image": null,
+                "video": null,
+                "title": "Piomic Medical raises USD 25M growth financing",
+                "description": "Piomic Medical develops a wound-healing system that combines light and magnetic stimulation.",
+                "body": ""
+            },
+            "title": "Piomic Medical raises USD 25M growth financing",
+            "description": "Piomic secured USD 25 million in growth financing to complete clinical studies and prepare a US approval filing for COMS One, its portable system combining optical and magnetic stimulation for hard-to-heal wounds. The funding supports the MAVERICKS and NAZARÉ trials; the device remains investigational in the United States.",
+            "body": "",
+            "image": "https://www.piomic.com/_astro/COMS-Product-Application_Connect.B5ljJpIg_2kL45r.webp",
+            "video": null,
+            "source": "https://www.piomic.com/news/swisscanto-leads-usd-25m-growth-financing-for-piomic-medical/",
+            "imageSource": "https://www.piomic.com/our-product/",
+            "credit": "Piomic Medical",
+            "subject": "COMS One product-application image showing a hand connecting the therapy unit to its wound adapter.",
+            "evidence": {
+                "imageDimensions": {
+                    "width": 1200,
+                    "height": 633
+                },
+                "visual": "Decoded original visually inspected: a hand pressing the real device into the adapter tray. No investment text, logo-only composition or generic clinical stock scene.",
+                "provenance": "Exact original asset referenced by the official product page in its COMS One Product Application section.",
+                "date": "Financing announcement dated September 18, 2026.",
+                "alternatives": [
+                    {
+                        "image": "https://www.piomic.com/_astro/header_product_our-product_1B.DbE5rfb8_Z2v9kNa.webp",
+                        "width": 2048,
+                        "height": 720,
+                        "subject": "Official product-page header showing COMS One strapped to a leg.",
+                        "note": "Visually verified but lower contrast and unusually wide; prefer application close-up."
+                    }
+                ],
+                "rejected": "1254x1254 official financing composite inspected; device visible but USD 25M and financing text dominate."
+            },
+            "caveat": "Official product demonstration, not evidence of clinical efficacy, regulatory approval or a patient outcome."
+        },
+        {
+            "slug": "novago-series-b",
+            "id": "rh76tn45bz8e1jqenwnmkedmxs8g5w53",
+            "status": "cover_unresolved",
+            "date": "2026-09-02",
+            "expected": {
+                "image": null,
+                "video": null,
+                "title": "NovaGo Therapeutics raises CHF 24M Series B",
+                "description": "NovaGo Therapeutics develops antibody treatments for spinal cord injuries and other central nervous system diseases.",
+                "body": ""
+            },
+            "title": "NovaGo Therapeutics raises CHF 24M Series B",
+            "description": "NovaGo Therapeutics raised CHF 24 million in a Series B to advance its antibody programme for acute spinal cord injury. The financing supports a randomised, double-blind proof-of-concept study enrolling 120 patients in Germany, Spain and Switzerland; the treatment targets Nogo-A, a protein that inhibits nerve regeneration.",
+            "body": "",
+            "image": null,
+            "video": null,
+            "source": "https://www.prnewswire.co.uk/news-releases/novago-therapeutics-closes-usd-30-million-series-b-financing-to-advance-proof-of-concept-study-in-acute-spinal-cord-injury-302866193.html",
+            "imageSource": "https://www.novagotherapeutics.com/about-us/",
+            "credit": "NovaGo Therapeutics",
+            "subject": "Stefan Moese, NovaGo Therapeutics CEO, in the company's official profile portrait.",
+            "evidence": {
+                "imageDimensions": {
+                    "width": 306,
+                    "height": 429
+                },
+                "visual": "Photographic head-and-shoulders portrait of CEO in glasses and a dark suit.",
+                "identity": "Original About page HTML associates exact image with Stefan Moese PhD Chief Executive Officer; funding release independently names him as CEO.",
+                "date": "Company-issued release dated September 2, 2026; CHF 24M and USD 30M are the same round.",
+                "retrieval": "Web extraction failed for company page; CLI retrieval successfully returned actual company HTML and image. Not treated as access denial."
+            },
+            "caveat": "Small CEO portrait withdrawn as a cover substitute; older story needs an appropriate product, research or team visual.",
+            "previouslyVerifiedPortrait": "https://www.novagotherapeutics.com/wp-content/uploads/2026/07/StefanMoese_headshot.jpg"
+        }
+    ],
+    "notExpanded": [
+        {
+            "slug": "assaia-united-investment",
+            "reason": "Undisclosed older investment; not prioritised over substantial disclosed rounds."
+        },
+        {
+            "slug": "kove-medical-funding-2026",
+            "reason": "Older CHF 1.6M story. Official technology/team pages inspected, but no portrait visually approved or funding paragraph prepared in this subset. Remains unresolved; no claim of completed media review."
+        }
+    ]
+}

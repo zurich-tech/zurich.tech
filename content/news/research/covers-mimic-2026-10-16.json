@@ -1,0 +1,28 @@
+{
+    "reviewedAt": "2026-10-16",
+    "applied": [
+        {
+            "slug": "mimic-industrial-manipulation",
+            "source": "https://www.mimicrobotics.com/blog/video-action-models-for-data-efficient-industrial-manipulation",
+            "image": "https://d2304w8u5eg7y4.cloudfront.net/videos/industrial-franka-kitting-poster.webp",
+            "subject": "Original video poster showing the autonomous soft-part kitting experiment",
+            "credit": "mimic robotics",
+            "verification": "Visually inspected source image and local desktop/mobile article; production record independently checked."
+        },
+        {
+            "slug": "mimic-seed",
+            "source": "https://www.globenewswire.com/news-release/2025/11/03/3179052/0/en/mimic-robotics-raises-16-million-to-deploy-frontier-physical-AI-across-industries.html",
+            "image": "https://ml-eu.globenewswire.com/Resource/Download/7fda54ed-ad30-4e39-9a12-777c210c1897/mimic-team-photo-1-.jpg",
+            "subject": "Team photograph supplied with mimic's November 2025 funding release",
+            "credit": "mimic robotics",
+            "verification": "Visually inspected source photo; saved and published through the authenticated website editor; public image visibly loaded."
+        }
+    ],
+    "unresolved": [
+        {
+            "slug": "mimic-pre-seed",
+            "source": "https://www.linkedin.com/posts/mimicrobotics_eth-spinout-mimic-raises-25m-for-ai-powered-activity-7193495746732556288-618p",
+            "reason": "Still needs a verified contemporaneous photo or accurately captioned product image. Do not reuse the November 2025 team as the May 2024 team."
+        }
+    ]
+}

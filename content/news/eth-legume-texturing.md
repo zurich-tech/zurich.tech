@@ -7,4 +7,7 @@ url: "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/food-innovation-i
 authors: []
 organisations: ["eth-zurich"]
 topics: ["biotech"]
+image: "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/food-innovation-in-your-kitchen-giving-peas-beans-and-lentils-a-new-bite/_jcr_content/articleLeadImage/image.imageformat.carousel.290536107.jpg"
 ---
+
+Image: Andrea Bach / ETH Zurich
