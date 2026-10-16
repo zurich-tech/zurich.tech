@@ -1,4 +1,5 @@
 import { isListed } from "../events/visibility";
+import { newsDate, newsPath } from "../../src/news/path";
 import { ConvexError, v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import { query, type QueryCtx } from "../_generated/server";
@@ -158,7 +159,7 @@ export const search = query({
                     ]
                         .filter(Boolean)
                         .join(" "),
-                    href: `/news/${post.slug}`,
+                    href: newsPath({ slug: post.slug, date: newsDate(post) }),
                     kind: "News",
                 });
         for (const row of jobs) {

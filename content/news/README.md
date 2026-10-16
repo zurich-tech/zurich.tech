@@ -2,9 +2,13 @@
 
 ## Format
 
-Use a short headline, one concise paragraph, original media and a direct source link for linked news briefs.
-Put the paragraph in `subtitle`; leave the body empty unless essential context cannot fit in the paragraph.
-Do not repeat the summary below the media or rewrite the original article.
+Use a short headline, one to three substantive paragraphs, original media and a direct source link.
+Explain what happened, how the technology works and what the result or next step actually is.
+A generic company description is not a news brief.
+Summarise the original reporting in our own words, retaining qualifications and distinguishing company claims from demonstrated results.
+Do not pad a thin announcement to meet a length target; omit it if there is not enough substance.
+Put the paragraphs in a multiline `subtitle`; leave the body empty unless it adds essential context.
+Do not repeat the summary below the media or reproduce extended passages from the source.
 For demos, use the original playable HTTPS video URL in `video` and its still poster in `image`.
 The feed, detail page and editor preview use the same media component, with controls and inline playback.
 Direct video files and YouTube or Vimeo links are supported; hosted players load only after clicking Play.
@@ -14,7 +18,7 @@ Use photographs for stories without a useful demo; do not substitute a screensho
 Withdrawn sources live in `withdrawn/`, outside the import catalogue, with the decision recorded in `research/`.
 
 Put the concrete achievement in the headline.
-For funding, explain what the company builds and the concrete work the round supports in one short paragraph.
+For funding, explain what the company builds and the concrete work the round supports.
 Write “Exclaim develops robots to maintain AI data centers.”
 Avoid substitutes such as “the Zurich startup” or “the ETH spin-off”, progressive constructions such as “is developing”, and investor lists in the description.
 Omit promotional quotes, unsupported superlatives and predictions.
@@ -40,7 +44,10 @@ A brief has frontmatter and usually an empty body:
 kind: link
 category: funding
 title: "Company raises USD 25M Series A"
-subtitle: "Company develops robots to maintain AI data centers."
+subtitle: |-
+    Company has raised USD 25M to bring its maintenance robots into production. The robots inspect server racks and identify equipment that needs attention without taking the whole room offline.
+
+    The funding will support manufacturing and deployment of the first production units. Describe the demonstrated capabilities and remaining limitations here, using the actual announcement rather than promotional claims.
 date: "2026-08-17"
 url: "https://example.com/announcement"
 authors: []
@@ -79,7 +86,9 @@ Use the original announcement date; a repost, updated page or report publication
 Include announced financing of at least 1M in CHF, EUR or USD, preserving the original currency.
 Exclude grants, awards, undisclosed amounts that cannot meet the threshold, and secondary share sales from fundraising.
 Do not confuse cumulative funding with the size of a new round.
-Set `category: "funding"` for financing announcements and use `topics` for the actual technology; Funding is not a member interest.
+Use the news editor's single Tags selector for both Funding and the relevant technology topics.
+Funding is a news label, not a member interest.
+Existing import sources retain their funding category field for compatibility; new editor saves store all labels together.
 Keep one or two specific technology topics rather than tagging every financing as Startups.
 Record verification sources and unresolved cases in `research/<year>.json`.
 Keep private investment separate from grants, and identify debt or convertible financing explicitly.
@@ -102,7 +111,7 @@ Skip routine partnerships, awards, hiring posts, event promotion and generic res
 Skip office openings, routine certifications, customer wins and funding for studies that have not produced results.
 The bar is significant fundraising or a significant product, technical or company milestone, not simply a recent company announcement.
 A demonstrated rocket-engine firing qualifies; a new office or an unspecified investment does not.
-State what changed in the headline and give one concrete sentence of context.
+State what changed in the headline and explain the mechanism, evidence and limits in the brief.
 Distinguish plans, pilots, released artifacts and operational systems explicitly.
 
 ## Images

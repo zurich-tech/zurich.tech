@@ -8,8 +8,8 @@ import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 import { Arrow } from "../../components/arrow";
 import { tiers, personalTiers } from "../../sponsorships/plans";
 import { Page, PageHeader } from "../page";
-import { Card } from "../../components/card";
 import { Seo } from "../seo";
+import "../sponsor-route.css";
 
 /** Start sponsor requests when navigation is preloaded, before rendering the page. */
 export const route = {
@@ -26,7 +26,7 @@ const reach = [
 /** Plans from smallest to largest, as read left to right. */
 const plans = [...tiers].reverse();
 
-/** One compared benefit and its value in each plan; absent benefits read as a dash. */
+/** One compared benefit and its value in each plan; absent benefits are explicitly labelled. */
 const benefits: { label: string; value: (tier: (typeof tiers)[number]) => string | undefined }[] = [
     {
         label: "Active job listings",
@@ -50,7 +50,7 @@ export default function Route() {
                 title="Sponsor"
                 description="Help fund tech events in Zurich. Sponsorships pay for venues, food and event costs."
             />
-            <Page class="sponsor-page">
+            <Page class="sponsorship-route publication">
                 {/* pitch with the primary action */}
                 <PageHeader
                     title="Sponsor zurich.tech"
@@ -69,37 +69,57 @@ export default function Route() {
                 />
 
                 {/* reach in large numerals */}
-                <ul class="sponsor-reach">
+                <ul class="sponsorship-reach" aria-label="Our community">
                     <For each={reach}>
                         {(item) => (
                             <li>
                                 <strong>{item.value}</strong>
-                                <span class="sponsor-reach-label">{item.label}</span>
+                                <span>{item.label}</span>
                             </li>
                         )}
                     </For>
                 </ul>
 
-                {/* plans compared side by side */}
-                <Card title="Plans" class="sponsor-plans-card">
-                    <div class="plan-table" role="table" aria-label="Sponsorship plans">
-                        <div class="plan-row plan-row--head" role="row">
-                            <span role="columnheader" class="plan-corner">
-                                Per year, invoiced annually
-                            </span>
-                            <For each={plans}>
-                                {(tier) => (
-                                    <div
-                                        role="columnheader"
-                                        class="plan-head"
-                                        classList={{ "is-featured": tier.id === "silver" }}
-                                    >
-                                        <h3>{tier.name}</h3>
-                                        <p class="tier-price">
+                {/* keep each plan's price, benefits and inquiry together */}
+                <section class="sponsorship-options" aria-labelledby="sponsorship-plans">
+                    <header class="sponsorship-section-heading">
+                        <h2 id="sponsorship-plans">Company sponsorship</h2>
+                        <p>Per year, invoiced annually</p>
+                    </header>
+                    <div class="sponsorship-plans">
+                        <For each={plans}>
+                            {(tier) => (
+                                <article
+                                    class="sponsorship-plan"
+                                    classList={{ "sponsorship-plan--silver": tier.id === "silver" }}
+                                    aria-labelledby={`sponsorship-${tier.id}`}
+                                >
+                                    <header class="sponsorship-plan-heading">
+                                        <h3 id={`sponsorship-${tier.id}`}>{tier.name}</h3>
+                                        <p class="sponsorship-price">
                                             <span>CHF</span>
-                                            {tier.price.toLocaleString("de-CH")}
+                                            <strong>{tier.price.toLocaleString("de-CH")}</strong>
+                                            <span>/ year</span>
                                         </p>
-                                        <p class="plan-intro">{tier.purpose}</p>
+                                        <p class="sponsorship-purpose">{tier.purpose}</p>
+                                    </header>
+                                    <dl class="sponsorship-benefits">
+                                        <For each={benefits}>
+                                            {(benefit) => (
+                                                <div>
+                                                    <dt>{benefit.label}</dt>
+                                                    <dd
+                                                        classList={{
+                                                            "is-unavailable": !benefit.value(tier),
+                                                        }}
+                                                    >
+                                                        {benefit.value(tier) ?? "Not included"}
+                                                    </dd>
+                                                </div>
+                                            )}
+                                        </For>
+                                    </dl>
+                                    <div class="sponsorship-plan-action">
                                         <a
                                             class="button"
                                             classList={{ "button--primary": tier.id === "silver" }}
@@ -111,57 +131,37 @@ export default function Route() {
                                             Choose {tier.name}
                                         </a>
                                     </div>
-                                )}
-                            </For>
-                        </div>
-                        <For each={benefits}>
-                            {(benefit) => (
-                                <div class="plan-row" role="row">
-                                    <span role="rowheader" class="plan-benefit">
-                                        {benefit.label}
-                                    </span>
-                                    <For each={plans}>
-                                        {(tier) => (
-                                            <span
-                                                role="cell"
-                                                class="plan-cell"
-                                                classList={{
-                                                    "is-featured": tier.id === "silver",
-                                                    "is-empty": !benefit.value(tier),
-                                                }}
-                                            >
-                                                {benefit.value(tier) ?? "—"}
-                                            </span>
-                                        )}
-                                    </For>
-                                </div>
+                                </article>
                             )}
                         </For>
                     </div>
-                </Card>
+                </section>
 
                 {/* personal support as one strip */}
                 <For each={personalTiers}>
                     {(tier) => (
-                        <Card
-                            title={`Or become a ${tier.name.toLowerCase()}`}
-                            class="plan-personal"
+                        <section
+                            class="sponsorship-personal"
+                            aria-labelledby={`personal-${tier.id}`}
                         >
-                            <div class="plan-personal__body">
-                                <p class="tier-price">
-                                    <span>CHF</span>
-                                    {tier.price}
-                                    <span>/ year</span>
-                                </p>
+                            <div>
+                                <h2 id={`personal-${tier.id}`}>
+                                    Become a {tier.name.toLowerCase()}
+                                </h2>
                                 <p>
                                     {tier.recognition}, and a {tier.name.toLowerCase()} badge on
                                     your profile.
                                 </p>
-                                <button class="button" disabled>
-                                    Coming soon
-                                </button>
                             </div>
-                        </Card>
+                            <p class="sponsorship-price">
+                                <span>CHF</span>
+                                <strong>{tier.price}</strong>
+                                <span>/ year</span>
+                            </p>
+                            <button class="button" disabled>
+                                Coming soon
+                            </button>
+                        </section>
                     )}
                 </For>
 

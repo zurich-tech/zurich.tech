@@ -3,6 +3,41 @@ import { AsyncLocalStorage } from "node:async_hooks";
 import { RequestContext } from "solid-js/web";
 import { cachedPublic } from "../src/data/cache";
 
+/** Reuse canonical paths before middleware enters Solid's SSR request context. */
+test("test_cache_middleware_paths_with_an_explicit_request_event", async () => {
+    const previousCaches = globalThis.caches;
+    const saved = new Map<string, string>();
+    globalThis.caches = {
+        open: async () => ({
+            match: async (key: string) =>
+                saved.has(key) ? new Response(saved.get(key)) : undefined,
+            put: async (key: string, response: Response) => {
+                saved.set(key, await response.text());
+            },
+        }),
+    } as unknown as CacheStorage;
+    const event = {
+        request: new Request("https://example.com/news/story"),
+        response: { headers: new Headers() },
+        locals: {},
+    } as NonNullable<Parameters<typeof cachedPublic>[2]>;
+
+    try {
+        let reads = 0;
+        const read = async () => {
+            reads++;
+            return "/news/2026/10/16/story";
+        };
+        const key = 'deployment:news/routes:canonical:{"slug":"story"}';
+        expect(await cachedPublic(key, read, event)).toBe("/news/2026/10/16/story");
+        expect(await cachedPublic(key, read, event)).toBe("/news/2026/10/16/story");
+        expect(reads).toBe(1);
+        expect(event.response.headers.get("server-timing")).toContain('desc="hit"');
+    } finally {
+        globalThis.caches = previousCaches;
+    }
+});
+
 /** Return current content before a background cache write finishes. */
 test("public cache does not wait for storage when the request owns background work", async () => {
     const globals = globalThis as typeof globalThis & { [RequestContext]?: unknown };

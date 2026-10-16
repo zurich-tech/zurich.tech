@@ -1,8 +1,13 @@
 import { CountryFields } from "./countries";
+import { ArrowDownWideNarrow, ListOrdered } from "lucide-solid";
+import { rankAnswers } from "./audience";
 import { TopicFields } from "../topics/fields";
 import { Empty } from "../components/empty";
 import { createResource, createSignal, For, Show } from "solid-js";
 import { Selection } from "../components/selection";
+import { FilterSelect } from "../components/filter-select";
+import { HistoryChart } from "../statistics/chart";
+import "../statistics/style.css";
 import { allLanguages } from "../../convex/members/languages";
 import { api } from "../../convex/_generated/api";
 import {
@@ -384,6 +389,19 @@ export function Audience() {
     );
     const [question, setQuestion] = createSignal("");
     const [isShowingEmpty, setShowingEmpty] = createSignal(false);
+    const [sorts, setSorts] = createSignal<Record<string, boolean>>({});
+
+    // preserve ordered scales while ranking categorical answers by default
+    const isPopular = (field: string) =>
+        sorts()[field] ??
+        ![
+            "eventsAttended",
+            "eventFrequency",
+            "eventsPerYear",
+            "experience",
+            "education",
+            "age",
+        ].includes(field);
 
     // do not read a rejected resource value, which throws past the inline retry state
     const report = () => (summary.error ? undefined : summary.latest);
@@ -399,24 +417,42 @@ export function Audience() {
                     <dl class="audience-totals">
                         <div>
                             <dt>Active accounts</dt>
-                            <dd>{data().total}</dd>
+                            <dd>
+                                {data().total}
+                                <div class="audience-signups">
+                                    <HistoryChart label="Accounts" values={data().signupHistory} />
+                                    <div class="audience-signup-dates">
+                                        <span>{data().signupHistory[0]?.date}</span>
+                                        <span>{data().signupHistory.at(-1)?.date}</span>
+                                    </div>
+                                </div>
+                                <p class="audience-chart-note">
+                                    Signup dates of currently active accounts
+                                </p>
+                            </dd>
                         </div>
                         <div>
                             <dt>Survey respondents</dt>
                             <dd>
-                                {data().respondents} / {data().total}
-                            </dd>
-                        </div>
-                        <div>
-                            <dt>Finished, including skips</dt>
-                            <dd>
-                                {data().finished} / {data().total}
-                            </dd>
-                        </div>
-                        <div>
-                            <dt>Answered every question</dt>
-                            <dd>
-                                {data().fullyAnswered} / {data().total}
+                                <div class="audience-total-value">
+                                    <span>
+                                        {data().respondents} / {data().total}
+                                    </span>
+                                    <span class="audience-total-percent">
+                                        {data().total
+                                            ? Math.round((data().respondents / data().total) * 100)
+                                            : 0}
+                                        %
+                                    </span>
+                                </div>
+                                <SurveyParticipation
+                                    total={data().total}
+                                    respondents={data().respondents}
+                                    complete={data().fullyAnswered}
+                                />
+                                <p class="audience-chart-note">
+                                    {data().finished} finished, including skips
+                                </p>
                             </dd>
                         </div>
                     </dl>
@@ -424,18 +460,18 @@ export function Audience() {
             </Show>
             <Show when={report() && report()!.total > 0}>
                 <div class="audience-toolbar">
-                    <label>
-                        <span class="sr-only">Survey question</span>
-                        <select
-                            value={question()}
-                            onChange={(event) => setQuestion(event.currentTarget.value)}
-                        >
-                            <option value="">All questions</option>
-                            <For each={report()?.questions}>
-                                {(chart) => <option value={chart.field}>{chart.label}</option>}
-                            </For>
-                        </select>
-                    </label>
+                    <FilterSelect
+                        label="Survey question"
+                        value={question()}
+                        onChange={setQuestion}
+                        options={[
+                            { value: "", label: "All questions" },
+                            ...(report()?.questions ?? []).map((chart) => ({
+                                value: chart.field,
+                                label: chart.label,
+                            })),
+                        ]}
+                    />
                     <label class="checkbox">
                         <input
                             type="checkbox"
@@ -474,29 +510,53 @@ export function Audience() {
                     >
                         {(chart) => (
                             <section>
-                                <h3>{chart.label}</h3>
-                                <p class="audience-caption">
-                                    <strong>
-                                        {chart.responses} / {chart.total}
-                                    </strong>{" "}
-                                    respondents
-                                    <Show when={chart.multiple}> · Multiple answers</Show>
-                                </p>
-                                <p class="audience-caption">
-                                    {chart.total - chart.responses - chart.withheld} no answer
-                                    <Show when={chart.withheld > 0}>
-                                        {" "}
-                                        · {chart.withheld} declined
-                                    </Show>
-                                </p>
+                                <header class="audience-question-heading">
+                                    <h3>{chart.label}</h3>
+                                    <div class="audience-question-actions">
+                                        <button
+                                            type="button"
+                                            class="audience-sort"
+                                            aria-label={`Sort ${chart.label} by popularity`}
+                                            aria-pressed={isPopular(chart.field)}
+                                            title={
+                                                isPopular(chart.field)
+                                                    ? "Popular order; switch to natural order"
+                                                    : "Natural order; switch to popular order"
+                                            }
+                                            onClick={() =>
+                                                setSorts((previous) => ({
+                                                    ...previous,
+                                                    [chart.field]: !isPopular(chart.field),
+                                                }))
+                                            }
+                                        >
+                                            <Show
+                                                when={isPopular(chart.field)}
+                                                fallback={
+                                                    <ListOrdered size={16} aria-hidden="true" />
+                                                }
+                                            >
+                                                <ArrowDownWideNarrow size={16} aria-hidden="true" />
+                                            </Show>
+                                        </button>
+                                        <span
+                                            class="audience-response-count"
+                                            title={`${chart.responses} of ${chart.total} respondents`}
+                                            aria-label={`${chart.responses} of ${chart.total} respondents`}
+                                        >
+                                            {chart.responses} / {chart.total}
+                                        </span>
+                                    </div>
+                                </header>
                                 <Show
                                     when={chart.responses > 0}
                                     fallback={<Empty title="No responses" />}
                                 >
                                     <For
-                                        each={chart.groups.filter(
-                                            (group) => isShowingEmpty() || group.count > 0,
-                                        )}
+                                        each={(isPopular(chart.field)
+                                            ? rankAnswers(chart.groups)
+                                            : chart.groups
+                                        ).filter((group) => isShowingEmpty() || group.count > 0)}
                                     >
                                         {(group) => (
                                             <div class="audience-bar">
@@ -523,5 +583,43 @@ export function Audience() {
                 </div>
             </Show>
         </Card>
+    );
+}
+
+/** Divide accounts into disjoint answer states on one shared scale. */
+function SurveyParticipation(props: { total: number; respondents: number; complete: number }) {
+    const segments = () => [
+        { label: "All answered", count: props.complete, color: "var(--color-brand)" },
+        { label: "Some answered", count: props.respondents - props.complete, color: "#6b94d4" },
+        { label: "Unanswered", count: props.total - props.respondents, color: "#c8cbd0" },
+    ];
+
+    return (
+        <div class="audience-participation">
+            <div
+                class="audience-stack"
+                role="img"
+                aria-label={segments()
+                    .map((segment) => `${segment.label}: ${segment.count}`)
+                    .join(", ")}
+            >
+                <For each={segments().filter((segment) => segment.count > 0)}>
+                    {(segment) => (
+                        <span style={{ "flex-grow": segment.count, background: segment.color }} />
+                    )}
+                </For>
+            </div>
+            <ul class="audience-stack-legend">
+                <For each={segments()}>
+                    {(segment) => (
+                        <li>
+                            <i style={{ background: segment.color }} aria-hidden="true" />
+                            <span>{segment.label}</span>
+                            <strong>{segment.count}</strong>
+                        </li>
+                    )}
+                </For>
+            </ul>
+        </div>
     );
 }

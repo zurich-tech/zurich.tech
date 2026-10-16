@@ -72,18 +72,22 @@ export function NewsMedia(props: { image?: string; video?: string; caption?: str
                         )}
                     </Show>
                 </Show>
-                <Show when={embed()}>
-                    <a
-                        class="news-media__source"
-                        href={props.video}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Watch video <ArrowUpRight size={14} aria-hidden="true" />
-                    </a>
-                </Show>
-                <Show when={props.caption}>
-                    <figcaption>{props.caption}</figcaption>
+                <Show when={props.caption || embed()}>
+                    <figcaption>
+                        <Show when={props.caption}>
+                            <span>{props.caption}</span>
+                        </Show>
+                        <Show when={embed()}>
+                            <a
+                                class="news-media__source"
+                                href={props.video}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Watch video <ArrowUpRight size={14} aria-hidden="true" />
+                            </a>
+                        </Show>
+                    </figcaption>
                 </Show>
             </figure>
         </Show>

@@ -29,22 +29,17 @@ const groups = [
     },
 ];
 
-/** Close every page with the brand, navigation and the newsletter in one compact band. */
+/** Close every page with aligned brand, navigation and newsletter columns. */
 export function Footer() {
     return (
         <footer class="site-footer">
-            <div class="site-footer__body">
-                {/* identity, association and channels */}
-                <div class="site-footer__brand">
-                    <A class="site-footer__wordmark" href="/" aria-label="zurich.tech home">
-                        <span aria-hidden="true" innerHTML={wordmark} />
-                    </A>
-                    <p>A volunteer-run non-profit for people in tech around Zurich.</p>
-                    <SocialLinks name={site.name} profiles={site.socials} email={site.email} />
-                </div>
-
-                {/* weekly email */}
-                <Newsletter />
+            {/* identity, association and channels */}
+            <div class="site-footer__brand">
+                <A class="site-footer__wordmark" href="/" aria-label="zurich.tech home">
+                    <span aria-hidden="true" innerHTML={wordmark} />
+                </A>
+                <p>A non-profit for tech in Zurich.</p>
+                <SocialLinks name={site.name} profiles={site.socials} email={site.email} />
             </div>
 
             {/* secondary navigation */}
@@ -60,6 +55,8 @@ export function Footer() {
                     )}
                 </For>
             </div>
+            {/* weekly email */}
+            <Newsletter />
         </footer>
     );
 }

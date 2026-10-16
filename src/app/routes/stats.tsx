@@ -28,7 +28,7 @@ export default function Route() {
                 title="Stats"
                 description="zurich.tech events, members and registrations over time."
             />
-            <Page class="stats-page">
+            <Page class="stats-page publication">
                 <PageHeader title="Stats" />
                 <Show when={statistics()}>
                     {(current) => (

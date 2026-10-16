@@ -3,6 +3,8 @@ import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { v } from "convex/values";
 import { requireTeam } from "../auth/access";
+import { tagSlugs } from "./tags";
+import { newsDate, newsPath } from "../../src/news/path";
 
 /** Read published news only; drafts never enter the public response. */
 export const list = query({
@@ -44,12 +46,13 @@ export const detail = query({
 
 /** Expand public author, organisation and topic references identically on both read paths. */
 async function publishedPost(ctx: QueryCtx, post: Doc<"posts">, topics: Doc<"topics">[]) {
-    const content = post.published!;
+    const { category, ...content } = post.published!;
     const authors = await Promise.all(content.authors.map((id) => ctx.db.get(id)));
     const organisations = await Promise.all(content.organisations.map((id) => ctx.db.get(id)));
     return {
         id: post._id,
         slug: post.slug,
+        path: newsPath({ slug: post.slug, date: newsDate(post) }),
         ...content,
         date: content.date ?? post.publishedAt!,
         authors: await Promise.all(
@@ -81,7 +84,7 @@ async function publishedPost(ctx: QueryCtx, post: Doc<"posts">, topics: Doc<"top
                 website: organisation.website,
                 iconUrl: organisation.mapLogoUrl ?? organisation.logoUrl,
             })),
-        topics: articleTopics(content.topics, topics),
+        topics: articleTopics(tagSlugs(post.published!), topics),
     };
 }
 

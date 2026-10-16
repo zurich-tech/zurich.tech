@@ -102,7 +102,7 @@ export default function Route() {
                 title={account.user() ? "Signed in" : "Sign in"}
                 description="Sign in to zurich.tech."
             />
-            <Page class="sign-in-page">
+            <Page class="sign-in-page publication">
                 <Card
                     title={account.user() ? "Signed in" : "Sign in"}
                     heading="h1"

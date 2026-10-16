@@ -67,7 +67,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Series" description="Tech event series in Zurich." />
-            <Page class="series-catalogue">
+            <Page class="series-catalogue publication">
                 <PageHeader
                     title="Series"
                     actions={

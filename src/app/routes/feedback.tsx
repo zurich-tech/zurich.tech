@@ -11,7 +11,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Feedback" description="Private event feedback." />
-            <Page>
+            <Page class="publication">
                 <ReceivedFeedback
                     eventId={
                         typeof params.event === "string"

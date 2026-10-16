@@ -54,9 +54,20 @@
 .site-topbar {
     position: relative;
     z-index: 20;
-    border-bottom: var(--rule) solid var(--color-line);
     background: var(--color-paper);
     color: var(--color-ink);
+}
+
+/* keep the header rule on the same edges as the hero and page content */
+.site-topbar::after {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 0;
+    left: var(--gutter);
+    height: var(--rule);
+    background: var(--color-line);
+    content: "";
+    pointer-events: none;
 }
 
 .site-topbar__body {
@@ -318,6 +329,7 @@
 .hero {
     position: relative;
     isolation: isolate;
+    margin-inline: var(--gutter);
     display: flex;
     min-height: clamp(300px, 29vw, 420px);
     flex-direction: column;
@@ -351,18 +363,15 @@
    Footer
    ================================================================================ */
 
-/* pair the brand and weekly email above compact navigation */
+/* align identity, navigation and subscription within the shared content edges */
 .site-footer {
-    margin-top: var(--space-12);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.3fr);
+    gap: var(--space-8) var(--space-12);
+    margin: var(--space-12) var(--gutter) 0;
+    padding: var(--space-8) var(--space-6);
     background: var(--color-brand);
     color: var(--color-on-brand);
-}
-
-.site-footer__body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--space-8);
-    padding: var(--space-8) var(--gutter) var(--space-6);
 }
 
 .site-footer__brand {
@@ -370,6 +379,8 @@
     align-content: start;
     justify-items: start;
     gap: var(--space-3);
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .site-footer__brand p {
@@ -401,17 +412,17 @@
 .site-footer__navigation {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4) var(--space-8);
-    margin: 0 var(--gutter);
-    padding: var(--space-5) 0;
-    border-top: 1px solid color-mix(in srgb, var(--color-on-brand) 25%, transparent);
+    gap: var(--space-6);
+    grid-column: 2;
+    grid-row: 1;
+    align-content: start;
 }
 
 .site-footer__group {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--space-2) var(--space-4);
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: var(--space-2);
 }
 
 .site-footer h2 {
@@ -442,6 +453,12 @@
     display: grid;
     align-content: start;
     gap: var(--space-3);
+}
+
+.site-footer .newsletter {
+    grid-column: 3;
+    grid-row: 1;
+    min-width: 0;
 }
 
 .site-footer .newsletter h2 {
@@ -530,14 +547,32 @@
     color: var(--color-on-brand);
 }
 
-@media (max-width: 700px) {
-    .site-footer__body,
-    .site-footer__navigation {
-        grid-template-columns: minmax(0, 1fr);
+@media (max-width: 900px) {
+    .site-footer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .site-footer__group h2 {
-        flex-basis: 100%;
+    .site-footer .newsletter {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        border-top: var(--rule) solid color-mix(in srgb, var(--color-on-brand) 25%, transparent);
+        padding-top: var(--space-6);
+    }
+}
+
+@media (max-width: 500px) {
+    .site-footer {
+        grid-template-columns: minmax(0, 1fr);
+        padding: var(--space-6) var(--space-4);
+    }
+
+    .site-footer__navigation {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .site-footer .newsletter {
+        grid-row: 3;
     }
 }
 
@@ -573,15 +608,15 @@
     margin-bottom: calc(var(--space-8) * -1 + var(--space-3));
 }
 
-/* utility pages open with the same boxed title block as every other page */
+/* align page titles with their content and separate them with a single rule */
 .page-header {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-3) var(--space-4);
-    border: var(--rule) solid var(--color-line);
-    padding: var(--space-4) var(--space-5) var(--space-5);
+    border-bottom: var(--rule) solid var(--color-line);
+    padding-block: 0 var(--space-5);
 }
 
 .page-header__copy {
@@ -593,7 +628,7 @@
 
 .page-header h1 {
     font: 500 var(--text-3xl) / 1.05 var(--font-mono);
-    letter-spacing: -0.05em;
+    letter-spacing: 0;
 }
 
 .page-header p {
@@ -614,19 +649,82 @@
     display: none;
 }
 
+/* public sections share the page grid without additional enclosing boxes */
+.publication {
+    --column-gap: var(--space-12);
+    --section-gap: var(--space-12);
+}
+
+.publication .card:not(.dialog .card) {
+    --card-inset: 0px;
+    border: 0;
+    background: transparent;
+}
+
+.publication .card:not(.dialog .card) > :is(.card-heading, .card-body) {
+    padding-inline: 0;
+}
+
+.publication .card:not(.dialog .card) > .card-heading {
+    min-height: 0;
+    padding-block: 0 var(--space-4);
+}
+
+/* let the parent grid own the space between sections */
+.publication .card:not(.dialog .card, .item-header) > .card-body {
+    padding-bottom: 0;
+}
+
+.publication .card:not(.dialog .card) > .card-heading > .card-title {
+    letter-spacing: 0;
+}
+
+/* list titles use the same reading face; section headings retain the brand type */
+.publication
+    :is(
+        .event-title,
+        .job-title,
+        .directory-row__title strong,
+        .team-person h2,
+        .organisation-entry-copy h2,
+        .contribute-options h3
+    ) {
+    font-family: var(--font-text);
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+/* distinguish a specific item from a directory or section heading */
+.publication :is(.item-header h1.card-title, .article-header h1) {
+    font: 600 var(--text-2xl) / 1.25 var(--font-text);
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
+}
+
+/* indicate a selected facet without pushing its label off the content baseline */
+.publication .facet-list a.selected {
+    box-shadow: none;
+    font-weight: 600;
+}
+
+.publication .facet-list a.selected small {
+    color: var(--color-accent);
+}
+
 /* main column with a sidebar of supporting sections */
 .listing-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
     align-items: start;
-    gap: var(--space-10) var(--column-gap);
+    gap: var(--section-gap, var(--space-10)) var(--column-gap);
 }
 
 .listing-sidebar {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     min-width: 0;
-    gap: var(--space-10);
+    gap: var(--section-gap, var(--space-10));
 }
 
 @media (max-width: 900px) {
@@ -640,7 +738,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
     align-items: start;
-    gap: var(--space-10) var(--column-gap);
+    gap: var(--section-gap, var(--space-10)) var(--column-gap);
 }
 
 .detail-content,
@@ -649,7 +747,7 @@
     grid-template-columns: minmax(0, 1fr);
     min-width: 0;
     align-content: start;
-    gap: var(--space-10);
+    gap: var(--section-gap, var(--space-10));
 }
 
 .detail-aside .button:not(.dialog .button) {
@@ -710,7 +808,7 @@
     }
 
     .page-header {
-        padding: var(--space-3) var(--space-4) var(--space-4);
+        padding-bottom: var(--space-4);
     }
 
     .page-header h1 {

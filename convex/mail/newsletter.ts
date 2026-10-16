@@ -1,4 +1,5 @@
 import { isListed } from "../events/visibility";
+import { newsDate } from "../../src/news/path";
 import { openJobs } from "../jobs/jobs";
 import { select } from "./audiences";
 import { recipientsLocked } from "./policy";
@@ -167,7 +168,7 @@ export function digestEvents(events: Doc<"events">[], now: number) {
     );
 }
 
-/** Select up to three newly published stories, excluding drafts and future-dated content. */
+/** Select up to five newly published stories, excluding drafts and future-dated content. */
 export function digestNews(posts: Doc<"posts">[], now: number) {
     return posts
         .filter(
@@ -182,9 +183,10 @@ export function digestNews(posts: Doc<"posts">[], now: number) {
             (left, right) =>
                 right.publishedAt! - left.publishedAt! || left.slug.localeCompare(right.slug),
         )
-        .slice(0, 3)
+        .slice(0, 5)
         .map((post) => ({
             slug: post.slug,
+            date: newsDate(post),
             title: post.published!.title,
             description: post.published!.description,
         }));

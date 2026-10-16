@@ -103,6 +103,8 @@ import type * as news_content from "../news/content.js";
 import type * as news_imports from "../news/imports.js";
 import type * as news_mutations from "../news/mutations.js";
 import type * as news_queries from "../news/queries.js";
+import type * as news_routes from "../news/routes.js";
+import type * as news_tags from "../news/tags.js";
 import type * as news_validation from "../news/validation.js";
 import type * as organisations_catalogue from "../organisations/catalogue.js";
 import type * as organisations_headlines from "../organisations/headlines.js";
@@ -234,6 +236,8 @@ declare const fullApi: ApiFromModules<{
   "news/imports": typeof news_imports;
   "news/mutations": typeof news_mutations;
   "news/queries": typeof news_queries;
+  "news/routes": typeof news_routes;
+  "news/tags": typeof news_tags;
   "news/validation": typeof news_validation;
   "organisations/catalogue": typeof organisations_catalogue;
   "organisations/headlines": typeof organisations_headlines;

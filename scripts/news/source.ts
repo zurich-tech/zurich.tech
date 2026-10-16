@@ -64,7 +64,7 @@ export async function readArticles() {
             references[field] = values;
         }
 
-        // keep news categories separate from technology topics and member interests
+        // accept the funding field used by existing import sources
         const category = metadata.category;
         if (category !== undefined && category !== "funding")
             throw new Error(`Invalid category in ${filename}.`);

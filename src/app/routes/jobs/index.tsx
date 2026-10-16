@@ -5,13 +5,14 @@ import { useSearch } from "../../../search/local";
 import { matchesSearch } from "../../../search/search";
 import { EditLink } from "../../../auth/edit";
 import { pageSize } from "../../site";
-import { getJobs } from "../../../jobs/queries";
+import { getJobs, type Job } from "../../../jobs/queries";
 
 import { createSignal, createMemo, createEffect, on, For, Show } from "solid-js";
 
 import { Arrow } from "../../../components/arrow";
 import { TableToolbar } from "../../../components/toolbar";
-import { FilterPills } from "../../../components/filter-pills";
+import { FilterSelect } from "../../../components/filter-select";
+import { X } from "lucide-solid";
 import { Card } from "../../../components/card";
 import { Page } from "../../page";
 import { Seo } from "../../seo";
@@ -27,8 +28,15 @@ export const route = {
 
 /** Browse current, reviewed local vacancies. */
 export default function Route() {
-    // load approved jobs and retain the selected filters
     const jobs = getJobs.use(() => []);
+
+    // initialise filters and derived lists from the same resolved server snapshot
+    return <Show when={jobs()}>{(listings) => <JobList jobs={listings()} />}</Show>;
+}
+
+/** Filter and display a resolved collection of public vacancies. */
+function JobList(props: { jobs: Job[] }) {
+    const jobs = () => props.jobs;
     const [params, setParams] = useSearchParams();
     const company = () => (typeof params.company === "string" ? params.company : "");
     const companies = createMemo(() =>
@@ -68,13 +76,37 @@ export default function Route() {
                 title="Jobs"
                 description="Tech jobs in Zurich. Browse roles, salaries and remote options from local companies."
             />
-            <Page>
+            <Page class="publication">
                 <div class="listing-layout">
                     <Card
                         title="Jobs"
                         heading="h1"
                         class="listing-card"
-                        toolbar={<EditLink href="/admin?section=jobs" label="Manage" />}
+                        toolbar={
+                            <>
+                                <button
+                                    type="button"
+                                    class="job-filters__clear"
+                                    title="Clear filters"
+                                    aria-label="Clear filters"
+                                    disabled={
+                                        workplace() === "all" &&
+                                        engagement() === "all" &&
+                                        topic() === "all" &&
+                                        !company()
+                                    }
+                                    onClick={() => {
+                                        setWorkplace("all");
+                                        setEngagement("all");
+                                        setTopic("all");
+                                        setParams({ company: undefined });
+                                    }}
+                                >
+                                    <X size={16} aria-hidden="true" />
+                                </button>
+                                <EditLink href="/admin?section=jobs" label="Manage" />
+                            </>
+                        }
                     >
                         {/* filter the published vacancies */}
                         <TableToolbar
@@ -82,55 +114,60 @@ export default function Route() {
                             onSearch={setSearch}
                             placeholder="Search roles, companies or technologies…"
                         >
-                            <div class="listing-pills">
-                                <FilterPills
+                            <div class="job-filters">
+                                <FilterSelect
                                     label="Workplace"
-                                    value={
-                                        workplace() === "all" &&
-                                        (engagement() !== "all" || topic() !== "all" || !!company())
-                                            ? ""
-                                            : workplace()
-                                    }
-                                    onChange={(value) => {
-                                        setWorkplace(value === workplace() ? "all" : value);
-                                        if (value === "all") {
-                                            setEngagement("all");
-                                            setTopic("all");
-                                            setParams({ company: undefined });
-                                        }
-                                    }}
+                                    value={workplace()}
+                                    onChange={setWorkplace}
                                     options={[
-                                        { value: "all", label: "All" },
+                                        { value: "all", label: "All workplaces" },
                                         ...Object.entries(workplaces).map(([value, label]) => ({
                                             value,
                                             label,
                                         })),
                                     ]}
                                 />
-                                <FilterPills
+                                <FilterSelect
                                     label="Employment"
                                     value={engagement()}
-                                    onChange={(value) =>
-                                        setEngagement(value === engagement() ? "all" : value)
-                                    }
+                                    onChange={setEngagement}
                                     options={[
+                                        { value: "all", label: "All employment" },
                                         ...Object.entries(engagements).map(([value, label]) => ({
                                             value,
                                             label,
                                         })),
                                     ]}
                                 />
-                                <FilterPills
+                                <FilterSelect
                                     label="Topics"
                                     value={topic()}
-                                    onChange={(value) =>
-                                        setTopic(value === topic() ? "all" : value)
-                                    }
-                                    options={(topics() ?? [])
-                                        .filter((topic) =>
-                                            jobs()?.some((job) => job.topics.includes(topic.slug)),
-                                        )
-                                        .map((topic) => ({ value: topic.slug, label: topic.name }))}
+                                    onChange={setTopic}
+                                    options={[
+                                        { value: "all", label: "All topics" },
+                                        ...(topics() ?? [])
+                                            .filter((topic) =>
+                                                jobs()?.some((job) =>
+                                                    job.topics.includes(topic.slug),
+                                                ),
+                                            )
+                                            .map((topic) => ({
+                                                value: topic.slug,
+                                                label: topic.name,
+                                            })),
+                                    ]}
+                                />
+                                <FilterSelect
+                                    label="Company"
+                                    value={company()}
+                                    onChange={(value) => setParams({ company: value || undefined })}
+                                    options={[
+                                        { value: "", label: "All companies" },
+                                        ...companies().map((item) => ({
+                                            value: item.slug,
+                                            label: item.name,
+                                        })),
+                                    ]}
                                 />
                             </div>
                         </TableToolbar>

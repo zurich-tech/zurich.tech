@@ -13,7 +13,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Check-in" description="Private event checkin." />
-            <Page>
+            <Page class="publication">
                 <Show
                     when={typeof params.event === "string"}
                     fallback={

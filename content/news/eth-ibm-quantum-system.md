@@ -1,7 +1,13 @@
 ---
 kind: "link"
-title: "ETH plans an IBM quantum system at CSCS"
-subtitle: "ETH Zurich and IBM agreed to install an IBM Quantum System Two with a Nighthawk processor at CSCS in Lugano. The three-year arrangement gives Swiss researchers and selected companies access to the system, with operation expected by the end of 2026."
+title: "ETH and IBM agree to install a quantum computer at CSCS"
+subtitle: |-
+    ETH Zurich and IBM have agreed to install and operate an IBM Quantum System Two with a Nighthawk processor at CSCS in Lugano for three years.
+    The system will sit alongside the Alps supercomputer, with access coordinated by ETH for Swiss universities and selected companies.
+
+    IBM will install, maintain and operate the machine; ETH and CSCS will provide power, cooling and security.
+    Operation is expected by the end of 2026, with cloud access to IBM quantum computers available in the meantime.
+    The installation is funded through an offset agreement between Lockheed Martin and armasuisse.
 date: "2026-09-10"
 url: "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/eth-zurich-to-host-a-new-ibm-quantum-computer.html"
 authors: []

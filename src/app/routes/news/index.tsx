@@ -25,7 +25,7 @@ export default function Route() {
     return (
         <>
             <Seo title="News" description="Startup funding, research and tech news from Zurich." />
-            <Page class="news-index">
+            <Page class="news-index publication">
                 <div class="listing-layout">
                     {/* articles */}
                     <ArticleList articles={articles() ?? []} tag={tag()} isSearchable isPage />

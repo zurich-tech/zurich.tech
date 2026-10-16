@@ -1,4 +1,26 @@
-/* filters sit in one row of scrolling groups */
+/* switch views without expanding the page heading toolbar */
+.programme-views {
+    display: flex;
+    gap: var(--space-1);
+}
+
+.programme-views button {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+    color: var(--color-soft);
+    cursor: pointer;
+}
+
+.programme-views button[aria-pressed="true"] {
+    background: var(--color-accent-wash);
+    color: var(--color-accent);
+}
+
+/* group status tabs and bounded catalogue controls */
 .programme-tagbar {
     display: flex;
     min-width: 0;
@@ -9,6 +31,67 @@
 
 .programme-tagbar > .pill-strip {
     flex: 0 1 auto;
+}
+
+/* keep long series names in bounded controls rather than a scrolling row of tabs */
+.programme-selects {
+    display: flex;
+    flex: 1 1 240px;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    min-width: 0;
+}
+
+.programme-selects .filter-select {
+    min-width: 0;
+    max-width: 220px;
+    flex: 1 1 auto;
+}
+
+/* keep photos inside their event row, aligned with the event title */
+.event-list {
+    container-type: inline-size;
+}
+
+.event-list > li:has(.event-photos) {
+    border-bottom: var(--rule) solid var(--color-line);
+}
+
+.event-list > li:has(.event-photos) .entry,
+.event-list > li:has(+ li > .programme-today),
+.event-list > li:last-child {
+    border-bottom: 0;
+}
+
+.event-photos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin: 0 0 var(--space-5) calc(60px + var(--space-5));
+}
+
+.event-photos img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+}
+
+@media (max-width: 700px) {
+    .programme-selects {
+        justify-content: flex-start;
+    }
+}
+
+@container (max-width: 560px) {
+    .event-photos {
+        margin-left: calc(48px + var(--space-4));
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .event-photos img:not(:first-child) {
+        display: none;
+    }
 }
 
 /* an active topic filter reads as a removable chip */

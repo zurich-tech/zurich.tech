@@ -30,7 +30,7 @@ button.stats-metric:hover {
 
 .stats-label {
     color: var(--color-soft);
-    font: 500 var(--text-xs) / 1.4 var(--font-mono);
+    font: 500 var(--text-sm) / 1.4 var(--font-text);
 }
 
 .stats-metric[aria-pressed="true"] .stats-label {
@@ -39,7 +39,7 @@ button.stats-metric:hover {
 
 .stats-value > strong {
     font: 500 var(--text-4xl) / 1 var(--font-mono);
-    letter-spacing: -0.06em;
+    letter-spacing: 0;
     font-variant-numeric: tabular-nums;
 }
 
@@ -205,7 +205,11 @@ button.stats-metric:hover {
     }
 
     .stats-value > strong {
-        font-size: clamp(22px, 7vw, 36px);
+        font-size: var(--text-2xl);
+    }
+
+    .stats-change {
+        flex-direction: column;
     }
 
     .stats-plot svg,

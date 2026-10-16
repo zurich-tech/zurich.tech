@@ -3,6 +3,7 @@ import { mutation } from "../_generated/server";
 import { requireTeam } from "../auth/access";
 import { content } from "./content";
 import { validateContent } from "./validation";
+import { newsDate } from "../../src/news/path";
 
 /** Save a draft without changing the published snapshot. */
 export const save = mutation({
@@ -23,7 +24,7 @@ export const save = mutation({
             ["edit", "manage", "new"].includes(args.slug)
         )
             throw new ConvexError("Enter a valid slug.");
-        if (existing?.publishedAt && existing.slug !== args.slug)
+        if (existing?.publishedAt !== undefined && existing.slug !== args.slug)
             throw new ConvexError("Published URLs cannot be changed.");
         const duplicate = await ctx.db
             .query("posts")
@@ -33,6 +34,8 @@ export const save = mutation({
             throw new ConvexError("This slug is already used.");
 
         const value = await validateContent(ctx, args.content, existing?.draft.topics);
+        // freeze legacy dates before a saved draft can replace their original snapshot
+        const date = existing?.publishedAt !== undefined ? newsDate(existing) : undefined;
         const updatedAt = Math.max(Date.now(), (existing?.updatedAt ?? 0) + 1);
         const id = existing
             ? existing._id
@@ -42,7 +45,7 @@ export const save = mutation({
                   createdBy: account.memberId,
                   updatedAt,
               });
-        if (existing) await ctx.db.patch(id, { slug: args.slug, draft: value, updatedAt });
+        if (existing) await ctx.db.patch(id, { slug: args.slug, draft: value, date, updatedAt });
         return { id, updatedAt };
     },
 });
@@ -58,9 +61,17 @@ export const publish = mutation({
             throw new ConvexError("The draft changed. Reload before publishing.");
         if (args.isPublished && post.draft.kind === "post" && !post.draft.body.trim())
             throw new ConvexError("Write the post before publishing.");
+        // choose the original date once, including backfills and legacy withdrawals
+        const date =
+            post.publishedAt !== undefined
+                ? newsDate(post)
+                : args.isPublished
+                  ? (post.draft.date ?? Date.now())
+                  : undefined;
         const updatedAt = Math.max(Date.now(), post.updatedAt + 1);
         await ctx.db.patch(post._id, {
             published: args.isPublished ? post.draft : undefined,
+            date,
             publishedAt: args.isPublished ? (post.publishedAt ?? Date.now()) : post.publishedAt,
             updatedAt,
         });
@@ -77,7 +88,7 @@ export const remove = mutation({
         if (!post) throw new ConvexError("Post not found.");
         if (post.updatedAt !== args.expectedUpdatedAt)
             throw new ConvexError("The draft changed. Reload before deleting.");
-        if (post.publishedAt)
+        if (post.publishedAt !== undefined)
             throw new ConvexError("Unpublish this post to remove it from the feed.");
         await ctx.db.delete(args.id);
     },

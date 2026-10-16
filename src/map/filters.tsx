@@ -13,7 +13,7 @@ import { Portal } from "solid-js/web";
 import { organisationKinds } from "../../convex/organisations/kinds";
 import { descendantTopics } from "../../convex/topics/hierarchy";
 import { selectSpecificTopic } from "../topics/selection";
-import "./filters.css";
+import "../components/filters.css";
 
 /** A selectable catalogue topic, retaining archived selections for removal. */
 export type MapFilterTopic = { slug: string; name: string; parent?: string; isActive: boolean };
@@ -201,9 +201,9 @@ export function MapFilters(props: MapFiltersProps) {
     });
 
     return (
-        <div class="map-filter-controls" ref={controls}>
+        <div class="filter-controls" ref={controls}>
             {/* Filter triggers */}
-            <div class="map-filters__controls">
+            <div class="filter-menu__controls">
                 <button
                     type="button"
                     ref={typeButton}
@@ -225,14 +225,14 @@ export function MapFilters(props: MapFiltersProps) {
                 >
                     <Tags size={15} aria-hidden="true" /> Topics{" "}
                     <Show when={props.topics.length}>
-                        <span class="map-filters__count">{props.topics.length}</span>
+                        <span class="filter-menu__count">{props.topics.length}</span>
                     </Show>
                     <ChevronDown size={14} aria-hidden="true" />
                 </button>
             </div>
             {/* Explicit selections remain visible when the panel is closed */}
             <Show when={props.category !== "all" || props.topics.length}>
-                <ul class="map-filters__chips" aria-label="Selected filters">
+                <ul class="filter-menu__chips" aria-label="Selected filters">
                     <Show when={props.category !== "all"}>
                         <li>
                             <span>
@@ -281,7 +281,7 @@ export function MapFilters(props: MapFiltersProps) {
                     <div
                         ref={panel}
                         id={`${id}-panel`}
-                        class="map-filters__panel"
+                        class="filter-menu__panel"
                         role="dialog"
                         aria-label={open() === "type" ? "Filter by type" : "Filter by topics"}
                         style={position()}
@@ -293,7 +293,7 @@ export function MapFilters(props: MapFiltersProps) {
                             }
                         }}
                     >
-                        <div class="map-filters__heading">
+                        <div class="filter-menu__heading">
                             <strong>{open() === "type" ? "Type" : "Topics"}</strong>
                             <button
                                 type="button"
@@ -308,7 +308,7 @@ export function MapFilters(props: MapFiltersProps) {
                             when={open() === "type"}
                             fallback={
                                 <>
-                                    <div class="map-filters__search">
+                                    <div class="filter-menu__search">
                                         <Search size={16} aria-hidden="true" />
                                         <input
                                             ref={input}
@@ -364,7 +364,7 @@ export function MapFilters(props: MapFiltersProps) {
                                     </div>
                                     <div
                                         id={`${id}-options`}
-                                        class="map-filters__options"
+                                        class="filter-menu__options"
                                         role="listbox"
                                         aria-label="Topics"
                                         aria-multiselectable="true"
@@ -380,7 +380,7 @@ export function MapFilters(props: MapFiltersProps) {
                                                                 aria-selected={props.topics.includes(
                                                                     topic.slug,
                                                                 )}
-                                                                class="map-filters__option"
+                                                                class="filter-menu__option"
                                                                 classList={{
                                                                     "is-active":
                                                                         matches()[active()]
@@ -398,7 +398,7 @@ export function MapFilters(props: MapFiltersProps) {
                                                                 }}
                                                             >
                                                                 <span
-                                                                    class="map-filters__check"
+                                                                    class="filter-menu__check"
                                                                     aria-hidden="true"
                                                                 >
                                                                     <Show
@@ -417,7 +417,7 @@ export function MapFilters(props: MapFiltersProps) {
                                                                         ] !== undefined
                                                                     }
                                                                 >
-                                                                    <span class="map-filters__count">
+                                                                    <span class="filter-menu__count">
                                                                         {props.counts?.[topic.slug]}
                                                                     </span>
                                                                 </Show>
@@ -429,15 +429,15 @@ export function MapFilters(props: MapFiltersProps) {
                                         </For>
                                     </div>
                                     <Show when={!matches().length}>
-                                        <p class="map-filters__empty" role="status">
+                                        <p class="filter-menu__empty" role="status">
                                             No topics found
                                         </p>
                                     </Show>
                                 </>
                             }
                         >
-                            <fieldset class="map-filters__types">
-                                <legend class="map-filters__sr-only">Type</legend>
+                            <fieldset class="filter-menu__types">
+                                <legend class="filter-menu__sr-only">Type</legend>
                                 <For each={kinds}>
                                     {(kind) => (
                                         <label>

@@ -5,9 +5,10 @@ import { matchesSearch } from "../search/search";
 import { TableToolbar } from "../components/toolbar";
 import { EventCalendar } from "./month";
 import { pageSize } from "../app/site";
-import { usePlanning, type CalendarEntry } from "./queries";
+import { usePlanning, type CalendarEntry, type GalleryAlbum } from "./queries";
 
 import { Card } from "../components/card";
+import { FilterSelect } from "../components/filter-select";
 import { FilterPills } from "../components/filter-pills";
 import { type OrganiserPerson } from "./organiser";
 import { EventList } from "./list";
@@ -15,6 +16,7 @@ import { previewEvents } from "./preview";
 import "./programme.css";
 import { createSignal, createMemo, createEffect, on, Show } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
+import { CalendarDays, List, Plus } from "lucide-solid";
 
 /** Browse events in a single aligned calendar, filtered by period, year and series. */
 export function Programme(props: {
@@ -25,6 +27,8 @@ export function Programme(props: {
     isCalendarEnabled?: boolean;
     /** Events to filter and paginate. */
     entries: CalendarEntry[];
+    /** Approved photos for the full event list. */
+    albums?: GalleryAlbum[];
     /** Maximum listings before linking to the full programme. */
     limit?: number;
     /** Heading level within the containing page. */
@@ -155,7 +159,7 @@ export function Programme(props: {
                     }}
                 />
             </Show>
-            <Show when={!props.seriesId}>
+            <Show when={!props.seriesId && isPreview()}>
                 <FilterPills
                     label="Event series"
                     value={series()}
@@ -169,13 +173,38 @@ export function Programme(props: {
                     onChange={(value) => setSeries(value === series() ? "all" : value)}
                 />
             </Show>
-            <Show when={!isPreview() && !isCalendar()}>
-                <FilterPills
-                    label="Event year"
-                    value={year()}
-                    options={years().map((value) => ({ value, label: value }))}
-                    onChange={(value) => setParams({ year: value === year() ? undefined : value })}
-                />
+            <Show when={!isPreview()}>
+                <div class="programme-selects">
+                    <Show when={!props.seriesId}>
+                        <FilterSelect
+                            label="Series"
+                            value={series()}
+                            onChange={setSeries}
+                            options={[
+                                { value: "all", label: "All series" },
+                                ...availableSeries().map((item) => ({
+                                    value: item._id,
+                                    label: item.name,
+                                })),
+                            ]}
+                        />
+                    </Show>
+                    <Show when={!isCalendar()}>
+                        <FilterSelect
+                            label="Year"
+                            value={year()}
+                            onChange={(value) =>
+                                setParams({
+                                    year: value === "all" ? undefined : value,
+                                })
+                            }
+                            options={[
+                                { value: "all", label: "All years" },
+                                ...years().map((value) => ({ value, label: value })),
+                            ]}
+                        />
+                    </Show>
+                </div>
             </Show>
         </div>
     );
@@ -187,36 +216,51 @@ export function Programme(props: {
             meta={isPreview() ? `${visible().length} of ${matches().length}` : undefined}
             toolbar={
                 <div class="row-actions">
-                    <a class="action-link" href="/series">
-                        Series
-                    </a>
-                    <a class="action-link" href="/contribute#events">
-                        Suggest an event
-                    </a>
+                    <Show when={isPreview()}>
+                        <a class="action-link" href="/series">
+                            Series
+                        </a>
+                        <a class="action-link" href="/contribute#events">
+                            Suggest an event
+                        </a>
+                    </Show>
                     <Show when={planning.canCreate(props.seriesId)}>
                         <a
                             class="action-link"
+                            aria-label="New event"
+                            title="New event"
                             href={props.seriesId ? `/submit?series=${props.seriesId}` : "/submit"}
                         >
-                            New event
+                            <Plus size={18} aria-hidden="true" />
                         </a>
                     </Show>
                     <Show when={props.isCalendarEnabled}>
-                        <FilterPills
-                            label="Event view"
-                            value={isCalendar() ? "calendar" : "list"}
-                            options={[
-                                { value: "list", label: "List" },
-                                { value: "calendar", label: "Calendar" },
-                            ]}
-                            onChange={(view) =>
-                                setParams({
-                                    view: view === "list" ? undefined : view,
-                                    period: undefined,
-                                    year: undefined,
-                                })
-                            }
-                        />
+                        <div class="programme-views" role="group" aria-label="Event view">
+                            <button
+                                type="button"
+                                title="List"
+                                aria-label="List"
+                                aria-pressed={!isCalendar()}
+                                onClick={() => setParams({ view: undefined })}
+                            >
+                                <List size={18} aria-hidden="true" />
+                            </button>
+                            <button
+                                type="button"
+                                title="Calendar"
+                                aria-label="Calendar"
+                                aria-pressed={isCalendar()}
+                                onClick={() =>
+                                    setParams({
+                                        view: "calendar",
+                                        period: undefined,
+                                        year: undefined,
+                                    })
+                                }
+                            >
+                                <CalendarDays size={18} aria-hidden="true" />
+                            </button>
+                        </div>
                     </Show>
                 </div>
             }
@@ -264,6 +308,7 @@ export function Programme(props: {
                         {/* render the current page with venue and upcoming tags */}
                         <EventList
                             events={visible()}
+                            albums={props.albums}
                             series={props.series}
                             now={now}
                             terms={isPreview() ? [] : terms()}

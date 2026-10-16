@@ -8,9 +8,9 @@ const maxAge = 30;
 export async function cachedPublic<T extends Value>(
     key: string,
     read: () => Promise<T>,
+    event = getRequestEvent(),
 ): Promise<T> {
     const started = performance.now();
-    const event = getRequestEvent();
     if (!event || typeof caches === "undefined") return read();
 
     // Keep the cache private to the Worker, outside browser and HTML response caching.

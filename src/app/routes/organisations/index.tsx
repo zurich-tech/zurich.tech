@@ -67,7 +67,7 @@ export default function Route() {
                 title="Organisations"
                 description="Find tech companies, research labs, investors and other organisations around Zurich."
             />
-            <Page>
+            <Page class="publication">
                 <div class="listing-layout">
                     <Card
                         title="Organisations"

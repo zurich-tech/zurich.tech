@@ -781,18 +781,18 @@
     }
 
     /* keep selections in one scrollable row instead of displacing the results */
-    .map-directory-tools .map-filters__chips {
+    .map-directory-tools .filter-menu__chips {
         flex-wrap: nowrap;
         overflow-x: auto;
         overscroll-behavior-x: contain;
     }
 
-    .map-directory-tools .map-filters__chips li {
+    .map-directory-tools .filter-menu__chips li {
         flex-shrink: 0;
         max-width: none;
     }
 
-    .map-directory-tools .map-filters__chips li > span {
+    .map-directory-tools .filter-menu__chips li > span {
         white-space: nowrap;
     }
 
@@ -932,23 +932,23 @@
         gap: 4px;
     }
 
-    .map-directory-tools .map-filter-controls {
+    .map-directory-tools .filter-controls {
         display: contents;
     }
 
-    .map-directory-tools .map-filters__controls {
+    .map-directory-tools .filter-menu__controls {
         grid-column: 1;
         grid-row: 1;
         flex-wrap: nowrap;
         gap: 4px;
     }
 
-    .map-directory-tools .map-filters__controls button {
+    .map-directory-tools .filter-menu__controls button {
         padding-inline: 6px;
         gap: 4px;
     }
 
-    .map-directory-tools .map-filters__controls button > svg:first-child {
+    .map-directory-tools .filter-menu__controls button > svg:first-child {
         display: none;
     }
 
@@ -958,7 +958,7 @@
         white-space: nowrap;
     }
 
-    .map-directory-tools .map-filters__chips {
+    .map-directory-tools .filter-menu__chips {
         grid-column: 1 / -1;
         grid-row: 2;
         margin-top: 0;

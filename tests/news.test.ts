@@ -1,6 +1,116 @@
 import { convexTest, schema, modules, member } from "./backend";
 import { expect, test } from "bun:test";
 import { api, internal } from "../convex/_generated/api";
+import { newsTags, isNewsTag } from "../convex/news/tags";
+import { articleParagraphs, articleTopics } from "../src/news/model";
+
+/** Source line wrapping does not create extra visible paragraphs. */
+test("test_render_news_paragraphs", () => {
+    expect(articleParagraphs(" First sentence.\nSecond sentence.\n\n Next paragraph. ")).toEqual([
+        "First sentence. Second sentence.",
+        "Next paragraph.",
+    ]);
+    expect(articleParagraphs("")).toEqual([]);
+});
+
+/** Resolve mixed news labels without adding them to the member-interest catalogue. */
+test("test_resolve_news_and_technology_tags", () => {
+    expect(
+        articleTopics(
+            ["funding", "research", "robotics"],
+            [{ slug: "robotics", name: "Robotics" }],
+        ),
+    ).toEqual([
+        { slug: "funding", name: "Funding" },
+        { slug: "research", name: "Research" },
+        { slug: "robotics", name: "Robotics" },
+    ]);
+    expect(() => articleTopics(["unknown"], [])).toThrow("Unknown article topic: unknown.");
+});
+
+/** Preserve funding labels on older published snapshots without mutating them on read. */
+test("test_read_legacy_funding_as_a_tag", async () => {
+    const backend = convexTest(schema, modules);
+    const id = await backend.run(async (ctx) => {
+        const author = await member(ctx, { name: "Editor", searchText: "", visibility: "public" });
+        const content = {
+            title: "Funding",
+            description: "A funding announcement.",
+            body: "",
+            kind: "link" as const,
+            category: "funding" as const,
+            topics: ["funding"],
+            authors: [],
+            organisations: [],
+            url: "https://example.com/announcement",
+        };
+        return ctx.db.insert("posts", {
+            slug: "funding",
+            draft: content,
+            published: content,
+            publishedAt: 1,
+            updatedAt: 1,
+            createdBy: author,
+        });
+    });
+    const article = await backend.query(api.news.queries.detail, { slug: "funding" });
+    expect(article?.topics).toEqual([{ slug: "funding", name: "Funding" }]);
+    expect(article).not.toHaveProperty("category");
+    expect((await backend.run((ctx) => ctx.db.get(id)))?.published?.category).toBe("funding");
+});
+
+/** Preserve unified tags through draft saving, publishing and public queries. */
+test("test_publish_news_tags", async () => {
+    const backend = convexTest(schema, modules);
+    await backend.run(async (ctx) => {
+        const id = await member(ctx, { name: "Editor", searchText: "", visibility: "public" });
+        await ctx.db.insert("accounts", {
+            authId: "editor",
+            memberId: id,
+            status: "active",
+            isAdmin: true,
+            isTeam: true,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    const editor = backend.withIdentity({ subject: "editor" });
+    for (const tag of Object.keys(newsTags) as (keyof typeof newsTags)[]) {
+        expect(isNewsTag(tag)).toBe(true);
+        const description = "A substantial result. ".repeat(30) + "\n\nThe measured outcome.";
+        const saved = await editor.mutation(api.news.mutations.save, {
+            slug: tag,
+            content: {
+                title: newsTags[tag],
+                description,
+                body: "",
+                kind: "link",
+                url: "https://example.com/research",
+                topics: [tag],
+                authors: [],
+                organisations: [],
+            },
+        });
+        await editor.mutation(api.news.mutations.publish, {
+            id: saved.id,
+            isPublished: true,
+            expectedUpdatedAt: saved.updatedAt,
+        });
+        const article = await backend.query(api.news.queries.detail, { slug: tag });
+        expect({ topics: article?.topics, description: article?.description }).toEqual({
+            topics: [{ slug: tag, name: newsTags[tag] }],
+            description,
+        });
+    }
+    expect(isNewsTag("general")).toBe(false);
+    expect(isNewsTag("toString")).toBe(false);
+    expect(
+        (await backend.query(api.news.queries.headlines, {}))
+            .flatMap((post) => post.topics.map((tag) => tag.slug))
+            .sort(),
+    ).toEqual(Object.keys(newsTags).sort());
+    expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toEqual([]);
+});
 
 /** Both public read paths expose published content only, including author privacy. */
 test("news detail matches the feed and excludes drafts and private authors", async () => {
@@ -37,7 +147,14 @@ test("news detail matches the feed and excludes drafts and private authors", asy
             updatedAt: 11,
             createdBy: author,
         });
-        return { id, slug: "published", ...content, date: 10, authors: [] };
+        return {
+            id,
+            slug: "published",
+            path: "/news/1970/01/01/published",
+            ...content,
+            date: 10,
+            authors: [],
+        };
     });
     expect(await backend.query(api.news.queries.list, {})).toEqual([expected]);
     const { body, ...preview } = expected;
@@ -176,6 +293,9 @@ test("news imports preserve dates, credit organisations and protect subsequent e
     });
     expect((await backend.query(api.news.queries.list, {}))[0].date).toBe(date);
     expect((await backend.query(api.news.queries.detail, { slug: post.slug }))?.date).toBe(date);
+    expect((await backend.query(api.news.queries.detail, { slug: post.slug }))?.path).toBe(
+        "/news/1970/01/01/introduction",
+    );
     const published = (await backend.run((ctx) => ctx.db.get(post._id)))!;
     expect(published.publishedAt).toBe(1234);
     await expect(

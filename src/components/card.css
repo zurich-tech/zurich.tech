@@ -151,10 +151,6 @@ h1.card-title {
     letter-spacing: 0;
 }
 
-.plan-intro {
-    color: var(--color-soft);
-}
-
 .plan-benefits {
     display: grid;
     gap: var(--space-4);
@@ -250,7 +246,8 @@ h1.card-title {
     }
 
     .card.item-header > .card-heading > .card-title {
-        flex-basis: 100%;
+        flex: 1 1 0;
+        min-width: 0;
     }
 
     .item-header > .card-heading > .card-toolbar {

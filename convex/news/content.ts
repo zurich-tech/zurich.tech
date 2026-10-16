@@ -7,6 +7,7 @@ export const content = v.object({
     description: v.string(),
     body: v.string(),
     kind: v.union(v.literal("post"), v.literal("link")),
+    // preserve existing snapshots; new saves store every label in topics
     category: v.optional(v.literal("funding")),
     url: v.optional(v.string()),
     image: v.optional(v.string()),

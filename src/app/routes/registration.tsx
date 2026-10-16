@@ -55,7 +55,7 @@ export default function Route() {
                 }
                 description="Manage your event registration."
             />
-            <Page>
+            <Page class="publication">
                 <Show
                     when={currentTicket()}
                     fallback={

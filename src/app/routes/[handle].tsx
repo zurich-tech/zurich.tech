@@ -39,7 +39,7 @@ function HandleTarget(props: { handle: string }) {
             <Match when={handle() !== undefined}>
                 <>
                     <Seo title={title()} description="zurich.tech handle lookup." />
-                    <Page width="narrow">
+                    <Page class="publication" width="narrow">
                         <PageHeader summary={member()?.summary} title={title()} />
 
                         {/* target */}

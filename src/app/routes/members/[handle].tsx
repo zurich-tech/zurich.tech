@@ -49,7 +49,7 @@ export default function Route() {
             <Match when={member() !== undefined}>
                 <>
                     <Seo title={title()} description={`@${handle()} on zurich.tech.`} />
-                    <Page>
+                    <Page class="publication">
                         <a class="eyebrow" href="/members">
                             <Arrow direction="left" /> Members
                         </a>

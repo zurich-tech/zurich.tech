@@ -2,6 +2,7 @@ import { PageCommands } from "../../../search/actions";
 import { useAccess } from "../../../auth/edit";
 import { EditLink } from "../../../auth/edit";
 import { Share } from "../../../components/share";
+import { Card } from "../../../components/card";
 import { timeZone } from "../../site";
 import { getArticle, getHeadlines } from "../../../news/queries";
 
@@ -11,9 +12,10 @@ import { For, Show } from "solid-js";
 import { articleTags } from "../../../news/tags";
 import { NewsMedia } from "../../../news/media";
 import { organisationKinds } from "../../../../convex/organisations/kinds";
-import { Card } from "../../../components/card";
+import { ArticleList } from "../../../news/article";
 import { Image } from "../../../components/image";
-import type { ArticlePreview } from "../../../news/model";
+import { articleParagraphs, type ArticlePreview } from "../../../news/model";
+import { isNewsTag } from "../../../../convex/news/tags";
 import { Arrow } from "../../../components/arrow";
 import "../../../news/article.css";
 import { Markdown } from "../../../components/markdown";
@@ -59,151 +61,159 @@ export default function Route() {
                     />
                     <Seo
                         title={post().title}
-                        description={post().description}
+                        description={articleParagraphs(post().description)[0] ?? ""}
                         image={post().image}
                         isArticle
                     />
-                    <Page class="news-detail">
+                    <Page class="news-detail publication">
                         <div class="article-navigation">
                             <a class="eyebrow" href="/news">
                                 <Arrow direction="left" /> News
                             </a>
                             <EditLink team href={`/news/edit?id=${post().id}`} />
                         </div>
-                        <header class="article-header">
-                            <div class="article-metadata">
-                                <div class="article-byline">
-                                    <time dateTime={new Date(post().date).toISOString()}>
-                                        {new Date(post().date).toLocaleDateString("en-GB", {
-                                            day: "numeric",
-                                            month: "long",
-                                            year: isCurrentYear(post().date)
-                                                ? undefined
-                                                : "numeric",
-                                            timeZone,
-                                        })}
-                                    </time>
-                                    <For each={post().authors}>
-                                        {(author) => (
-                                            <Show
-                                                when={author.url}
-                                                fallback={<span>{author.name}</span>}
-                                            >
-                                                <a href={author.url}>{author.name}</a>
-                                            </Show>
-                                        )}
-                                    </For>
-                                </div>
-                                <div class="entry-tags detail-tags">
-                                    <For each={articleTags(post())}>
-                                        {(tag) => (
-                                            <a
-                                                class="tag"
-                                                href={`/news?tag=${encodeURIComponent(tag.slug)}`}
-                                            >
-                                                {tag.name}
-                                            </a>
-                                        )}
-                                    </For>
-                                </div>
-                            </div>
-                            <h1>{post().title}</h1>
-                            <p class="article-deck">{post().description}</p>
-                        </header>
-                        {/* keep the story in one reading column */}
-                        <article class="news-article" aria-label={post().title}>
-                            <NewsMedia
-                                image={post().image}
-                                video={post().video}
-                                caption={post().caption}
-                            />
-                            <Show when={post().body}>
-                                <Markdown source={post().body} />
-                            </Show>
-                            <Show when={post().url}>
-                                {(url) => (
-                                    <a
-                                        class="action-link article-source"
-                                        href={url()}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        Read on {new URL(url()).hostname.replace(/^www\./, "")}{" "}
-                                        <Arrow direction="external" />
-                                    </a>
-                                )}
-                            </Show>
-                        </article>
-                        <footer class="article-footer">
-                            <Show when={post().organisations.length}>
-                                <div class="article-organisations">
-                                    <For each={post().organisations}>
-                                        {(organisation) => (
-                                            <div
-                                                class="article-organisation"
-                                                classList={{
-                                                    "article-organisation--text":
-                                                        !organisation.iconUrl,
-                                                }}
-                                            >
-                                                <Show when={organisation.iconUrl}>
-                                                    {(source) => (
-                                                        <Image
-                                                            class="article-organisation__icon"
-                                                            src={source()}
-                                                            alt=""
-                                                        />
-                                                    )}
-                                                </Show>
-                                                <div class="article-organisation__copy">
-                                                    <a
-                                                        class="article-organisation__name"
-                                                        href={`/organisations/${organisation.slug}`}
+                        <div class="detail-layout">
+                            <div class="article-main">
+                                <header class="article-header">
+                                    <div class="article-metadata">
+                                        <div class="article-byline">
+                                            <time dateTime={new Date(post().date).toISOString()}>
+                                                {new Date(post().date).toLocaleDateString("en-GB", {
+                                                    day: "numeric",
+                                                    month: "long",
+                                                    year: isCurrentYear(post().date)
+                                                        ? undefined
+                                                        : "numeric",
+                                                    timeZone,
+                                                })}
+                                            </time>
+                                            <For each={post().authors}>
+                                                {(author) => (
+                                                    <Show
+                                                        when={author.url}
+                                                        fallback={<span>{author.name}</span>}
                                                     >
-                                                        {organisation.name}
-                                                    </a>
-                                                    <p class="article-organisation__meta">
-                                                        {organisationKinds[organisation.kind]} ·{" "}
-                                                        {organisation.location}
-                                                    </p>
-                                                </div>
-                                                <div class="article-organisation__links">
-                                                    <Show when={organisation.website}>
-                                                        <a
-                                                            class="action-link"
-                                                            href={organisation.website}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                        >
-                                                            Website <Arrow direction="external" />
-                                                        </a>
+                                                        <a href={author.url}>{author.name}</a>
                                                     </Show>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </For>
-                                </div>
-                            </Show>
-                            <Share
-                                title={post().title}
-                                url={`https://zurich.tech/news/${post().slug}`}
-                            />
-                        </footer>
-                        {/* stories about the same organisations, then the same topics */}
-                        <Show when={related(post(), articles() ?? []).length}>
-                            <Card title="More news" titleHref="/news">
-                                <div class="article-related">
-                                    <For each={related(post(), articles() ?? [])}>
-                                        {(item) => (
-                                            <a href={`/news/${item.slug}`}>
-                                                <span>{item.title}</span>
-                                                <Arrow direction="right" />
-                                            </a>
-                                        )}
-                                    </For>
-                                </div>
-                            </Card>
-                        </Show>
+                                                )}
+                                            </For>
+                                        </div>
+                                        <div class="entry-tags detail-tags">
+                                            <For each={articleTags(post())}>
+                                                {(tag) => (
+                                                    <a
+                                                        class="tag"
+                                                        href={`/news?tag=${encodeURIComponent(tag.slug)}`}
+                                                    >
+                                                        {tag.name}
+                                                    </a>
+                                                )}
+                                            </For>
+                                        </div>
+                                        <Show when={post().url}>
+                                            {(url) => (
+                                                <a
+                                                    class="action-link article-source"
+                                                    href={url()}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
+                                                    {new URL(url()).hostname.replace(/^www\./, "")}
+                                                </a>
+                                            )}
+                                        </Show>
+                                    </div>
+                                    <h1>{post().title}</h1>
+                                </header>
+                                {/* keep the story in one reading column */}
+                                <article class="news-article" aria-label={post().title}>
+                                    <div class="article-deck">
+                                        <For each={articleParagraphs(post().description)}>
+                                            {(paragraph) => <p>{paragraph}</p>}
+                                        </For>
+                                    </div>
+                                    <NewsMedia
+                                        image={post().image}
+                                        video={post().video}
+                                        caption={post().caption}
+                                    />
+                                    <Show when={post().body}>
+                                        <Markdown source={post().body} />
+                                    </Show>
+                                </article>
+                            </div>
+                            <aside class="detail-aside article-sidebar">
+                                <Share
+                                    title={post().title}
+                                    url={`https://zurich.tech${post().path}`}
+                                />
+                                <Show when={post().organisations.length}>
+                                    <Card title="Entities">
+                                        <div class="article-organisations">
+                                            <For each={post().organisations}>
+                                                {(organisation) => (
+                                                    <div
+                                                        class="article-organisation"
+                                                        classList={{
+                                                            "article-organisation--text":
+                                                                !organisation.iconUrl,
+                                                        }}
+                                                    >
+                                                        <Show when={organisation.iconUrl}>
+                                                            {(source) => (
+                                                                <Image
+                                                                    class="article-organisation__icon"
+                                                                    src={source()}
+                                                                    alt=""
+                                                                />
+                                                            )}
+                                                        </Show>
+                                                        <div class="article-organisation__copy">
+                                                            <a
+                                                                class="article-organisation__name"
+                                                                href={`/organisations/${organisation.slug}`}
+                                                            >
+                                                                {organisation.name}
+                                                            </a>
+                                                            <p class="article-organisation__meta">
+                                                                {
+                                                                    organisationKinds[
+                                                                        organisation.kind
+                                                                    ]
+                                                                }{" "}
+                                                                · {organisation.location}
+                                                            </p>
+                                                        </div>
+                                                        <div class="article-organisation__links">
+                                                            <Show when={organisation.website}>
+                                                                <a
+                                                                    class="action-link"
+                                                                    href={organisation.website}
+                                                                    target="_blank"
+                                                                    rel="noreferrer"
+                                                                >
+                                                                    Website{" "}
+                                                                    <Arrow direction="external" />
+                                                                </a>
+                                                            </Show>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </For>
+                                        </div>
+                                    </Card>
+                                </Show>
+                                {/* keep recent related coverage beside the story */}
+                                <Show when={related(post(), articles() ?? []).length}>
+                                    <ArticleList
+                                        title="More news"
+                                        articles={related(post(), articles() ?? [])}
+                                        isFeed
+                                        limit={2}
+                                    />
+                                </Show>
+                            </aside>
+                        </div>
                     </Page>
                 </>
             )}
@@ -211,10 +221,12 @@ export default function Route() {
     );
 }
 
-/** Pick up to four other stories, those about the same organisations first, then shared topics. */
+/** Pick two recent related stories, preferring shared organisations when dates match. */
 function related(post: ArticlePreview, articles: ArticlePreview[]): ArticlePreview[] {
     const organisations = new Set(post.organisations.map((organisation) => organisation.slug));
-    const topics = new Set(post.topics.map((topic) => topic.slug));
+    const topics = new Set(
+        post.topics.map((topic) => topic.slug).filter((slug) => !isNewsTag(slug)),
+    );
     const score = (other: ArticlePreview) =>
         other.organisations.some((organisation) => organisations.has(organisation.slug))
             ? 2
@@ -224,6 +236,6 @@ function related(post: ArticlePreview, articles: ArticlePreview[]): ArticlePrevi
 
     return articles
         .filter((other) => other.slug !== post.slug && score(other) > 0)
-        .sort((left, right) => score(right) - score(left) || right.date - left.date)
-        .slice(0, 4);
+        .sort((left, right) => right.date - left.date || score(right) - score(left))
+        .slice(0, 2);
 }

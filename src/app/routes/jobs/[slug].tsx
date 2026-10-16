@@ -36,7 +36,7 @@ export default function Route() {
                             )}
                         />
                     </Show>
-                    <Page>
+                    <Page class="publication">
                         <a class="eyebrow" href="/jobs">
                             <Arrow direction="left" /> Jobs
                         </a>

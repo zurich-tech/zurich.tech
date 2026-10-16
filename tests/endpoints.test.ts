@@ -908,7 +908,7 @@ test("global search uses published content and returns safe highlights", async (
     expect(await search("Secretlane")).toEqual([]);
     expect(await search("Unreleasedsecret")).toEqual([]);
     const result = (await search("robotics")).find(
-        (item) => item.href === "/news/robotics-announcement",
+        (item) => item.href === "/news/1970/01/01/robotics-announcement",
     )!;
     expect(result.kind).toBe("News");
     expect(

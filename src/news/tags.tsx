@@ -49,7 +49,7 @@ export function TopicList(props: { articles: ArticlePreview[]; selected?: string
 
     return (
         <FacetList
-            title="Topics"
+            title="Tags"
             facets={[
                 {
                     label: "All news",
@@ -68,10 +68,7 @@ export function TopicList(props: { articles: ArticlePreview[]; selected?: string
     );
 }
 
-/** Combine the announcement category and technology topics for display and filtering. */
+/** Read the unified tags used for display and filtering. */
 export function articleTags(article: ArticlePreview) {
-    return [
-        ...(article.category === "funding" ? [{ slug: "funding", name: "Funding" }] : []),
-        ...article.topics,
-    ];
+    return article.topics;
 }

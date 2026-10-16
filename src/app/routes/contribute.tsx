@@ -14,7 +14,7 @@ export default function Route() {
                 title="Contribute"
                 description="Suggest a speaker, give a talk, organise an event or help spread the word about zurich.tech."
             />
-            <Page>
+            <Page class="publication">
                 <PageHeader
                     title="Contribute"
                     summary="Give a talk, help with an event, or tell a friend."

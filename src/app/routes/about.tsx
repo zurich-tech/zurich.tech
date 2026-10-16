@@ -25,11 +25,8 @@ export default function Route() {
                 title="About"
                 description="Meet the volunteers behind zurich.tech and the sponsors who help fund our events."
             />
-            <Page>
-                <PageHeader
-                    title="About"
-                    summary="We run talks, paper clubs, dinners and hackathons for people in tech around Zurich. We're a volunteer-run non-profit. We started with ZurichNLP in 2023, expanded into ZurichAI, and now cover topics from AI to robotics and hardware."
-                />
+            <Page class="publication">
+                <PageHeader title="About" />
                 <Card
                     title="Team"
                     toolbar={<EditLink href="/admin?section=people" label="Manage" />}

@@ -1,14 +1,38 @@
-.map-filter-controls {
+.filter-controls {
     min-width: 0;
 }
-.map-filters__controls,
-.map-filters__chips {
+
+/* catalogue pickers use the map panel with a full-height form trigger */
+.filter-controls.filter-select > button {
+    width: 100%;
+    min-height: 44px;
+    justify-content: space-between;
+    padding-inline: var(--space-3);
+}
+
+.filter-select > button > span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.filter-menu__option.filter-select__option:not(.is-child) > span:nth-child(2) {
+    font-weight: 400;
+}
+
+.filter-select__check {
+    width: 16px;
+    flex-shrink: 0;
+    color: var(--color-accent);
+}
+.filter-menu__controls,
+.filter-menu__chips {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
-.map-filter-controls button,
-.map-filters__panel button {
+.filter-controls button,
+.filter-menu__panel button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -24,27 +48,27 @@
     letter-spacing: 0;
     cursor: pointer;
 }
-.map-filter-controls button[aria-expanded="true"],
-.map-filter-controls button:hover,
-.map-filters__panel button:hover {
+.filter-controls button[aria-expanded="true"],
+.filter-controls button:hover,
+.filter-menu__panel button:hover {
     background: var(--color-wash);
 }
-.map-filter-controls button:focus-visible,
-.map-filters__panel button:focus-visible,
-.map-filters__search:focus-within {
+.filter-controls button:focus-visible,
+.filter-menu__panel button:focus-visible,
+.filter-menu__search:focus-within {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
 }
-.map-filter-controls svg,
-.map-filters__panel svg {
+.filter-controls svg,
+.filter-menu__panel svg {
     flex-shrink: 0;
 }
-.map-filters__chips {
+.filter-menu__chips {
     list-style: none;
     margin: 8px 0 0;
     padding: 0;
 }
-.map-filters__chips li {
+.filter-menu__chips li {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -55,12 +79,12 @@
     background: var(--color-wash);
     font-size: 12px;
 }
-.map-filters__chips li > span {
+.filter-menu__chips li > span {
     min-width: 0;
     overflow-wrap: anywhere;
 }
-.map-filters__chips button,
-.map-filters__heading button {
+.filter-menu__chips button,
+.filter-menu__heading button {
     flex-shrink: 0;
     width: 32px;
     min-height: 32px;
@@ -68,7 +92,7 @@
     border: 0;
     background: transparent;
 }
-.map-filters__panel {
+.filter-menu__panel {
     position: fixed;
     z-index: 1000;
     box-sizing: border-box;
@@ -84,7 +108,7 @@
     font: 14px / 1.4 var(--font-text);
     letter-spacing: 0;
 }
-.map-filters__heading {
+.filter-menu__heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -92,10 +116,10 @@
     padding: 4px 8px 4px 12px;
     flex-shrink: 0;
 }
-.map-filters__heading strong {
+.filter-menu__heading strong {
     font-size: 14px;
 }
-.map-filters__search {
+.filter-menu__search {
     display: flex;
     align-items: center;
     gap: 7px;
@@ -104,7 +128,7 @@
     border: 1px solid var(--color-line);
     flex-shrink: 0;
 }
-.map-filters__search input {
+.filter-menu__search input {
     min-width: 0;
     width: 100%;
     height: 36px;
@@ -116,16 +140,16 @@
     font: inherit;
     font-size: 16px;
 }
-.map-filters__search input:focus-visible {
+.filter-menu__search input:focus-visible {
     outline: none;
 }
-.map-filters__options {
+.filter-menu__options {
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: 0 4px 4px;
 }
-.map-filters__option {
+.filter-menu__option {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -134,23 +158,23 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-.map-filters__option.is-child {
+.filter-menu__option.is-child {
     padding-left: 20px;
 }
-.map-filters__option:not(.is-child) > span:nth-child(2) {
+.filter-menu__option:not(.is-child) > span:nth-child(2) {
     font-weight: 600;
 }
-.map-filters__option > span:nth-child(2) {
+.filter-menu__option > span:nth-child(2) {
     min-width: 0;
     overflow-wrap: anywhere;
 }
-.map-filters__option:hover,
-.map-filters__option.is-active {
+.filter-menu__option:hover,
+.filter-menu__option.is-active {
     background: var(--color-wash);
     outline: 1px solid var(--color-line);
     outline-offset: -1px;
 }
-.map-filters__check {
+.filter-menu__check {
     display: inline-flex;
     flex-shrink: 0;
     align-items: center;
@@ -161,22 +185,22 @@
     border: 1px solid var(--color-soft);
     border-radius: 2px;
 }
-.map-filters__option[aria-selected="true"] .map-filters__check {
+.filter-menu__option[aria-selected="true"] .filter-menu__check {
     background: var(--color-brand);
     border-color: var(--color-brand);
     color: var(--color-on-brand);
 }
-.map-filters__count {
+.filter-menu__count {
     margin-left: auto;
     color: var(--color-soft);
     font-size: 12px;
     font-variant-numeric: tabular-nums;
 }
-.map-filters__empty {
+.filter-menu__empty {
     margin: 8px 12px 12px;
     color: var(--color-soft);
 }
-.map-filters__types {
+.filter-menu__types {
     display: grid;
     border: 0;
     margin: 0;
@@ -184,7 +208,7 @@
     min-width: 0;
     overflow-y: auto;
 }
-.map-filters__types label {
+.filter-menu__types label {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -192,11 +216,11 @@
     padding: 3px 4px;
     cursor: pointer;
 }
-.map-filters__types input {
+.filter-menu__types input {
     margin: 0;
     accent-color: var(--color-brand);
 }
-.map-filters__sr-only {
+.filter-menu__sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -206,8 +230,8 @@
     white-space: nowrap;
 }
 @media (pointer: coarse) {
-    .map-filters__option,
-    .map-filters__types label {
+    .filter-menu__option,
+    .filter-menu__types label {
         min-height: 44px;
     }
 }

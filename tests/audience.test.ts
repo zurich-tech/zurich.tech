@@ -3,6 +3,43 @@ import { convexTest, schema, modules, member } from "./backend";
 import { api } from "../convex/_generated/api";
 import { surveyQuestions } from "../convex/members/demographics";
 import type { Doc } from "../convex/_generated/dataModel";
+import { date } from "../convex/statistics/history";
+
+test("test_accumulate_currently_active_signups_by_zurich_day", async () => {
+    const backend = convexTest(schema, modules);
+    await backend.run(async (ctx) => {
+        const memberId = await member(ctx, {
+            name: "Admin",
+            searchText: "admin",
+            visibility: "private",
+        });
+        for (const [authId, createdAt, status] of [
+            ["admin", Date.parse("2026-01-01T12:00:00Z"), "active"],
+            ["second", Date.parse("2026-01-01T23:30:00Z"), "active"],
+            ["third", Date.parse("2026-01-02T12:00:00Z"), "active"],
+            ["disabled", Date.parse("2026-01-03T12:00:00Z"), "disabled"],
+        ] as const) {
+            await ctx.db.insert("accounts", {
+                authId,
+                memberId,
+                createdAt,
+                updatedAt: createdAt,
+                status,
+                isAdmin: authId === "admin",
+                isTeam: false,
+            });
+        }
+    });
+    const report = await backend
+        .withIdentity({ subject: "admin" })
+        .query(api.members.audience.report, {});
+    expect(report.signupHistory).toEqual([
+        { date: "2026-01-01", value: 1 },
+        { date: "2026-01-02", value: 3 },
+        { date: date(Date.now()), value: 3 },
+    ]);
+    expect(report.total).toBe(3);
+});
 
 test("test_restrict_empty_audience_report_to_active_administrators", async () => {
     const backend = convexTest(schema, modules);
@@ -44,6 +81,10 @@ test("test_restrict_empty_audience_report_to_active_administrators", async () =>
 
     expect({ ...report, questions: undefined }).toEqual({
         total: 2,
+        signupHistory: [
+            { date: "1970-01-01", value: 2 },
+            { date: date(Date.now()), value: 2 },
+        ],
         respondents: 0,
         finished: 0,
         fullyAnswered: 0,
@@ -133,10 +174,15 @@ test("test_report_all_questions_with_distinct_completion_and_response_denominato
         "fullyAnswered",
         "questions",
         "respondents",
+        "signupHistory",
         "total",
     ]);
     expect({ ...report, questions: undefined }).toEqual({
         total: 5,
+        signupHistory: [
+            { date: "1970-01-01", value: 5 },
+            { date: date(Date.now()), value: 5 },
+        ],
         respondents: 2,
         finished: 2,
         fullyAnswered: 1,

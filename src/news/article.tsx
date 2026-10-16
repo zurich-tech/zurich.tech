@@ -5,7 +5,7 @@ import { NewsMedia } from "./media";
 import { EditLink } from "../auth/edit";
 import { articleTags, TagPills, TopicList } from "./tags";
 import { ChevronDown } from "lucide-solid";
-import { type Article, type ArticlePreview } from "./model";
+import { articleParagraphs, type Article, type ArticlePreview } from "./model";
 import { For, Show, createEffect, createMemo, createSignal, on } from "solid-js";
 import { pageSize } from "../app/site";
 import "../events/programme.css";
@@ -23,6 +23,10 @@ type ArticleListProps = {
     articles: (Article | ArticlePreview)[];
     /** Use the collection heading as the page title. */
     isPage?: boolean;
+    /** Show full briefs and media outside the news index. */
+    isFeed?: boolean;
+    /** Override the collection heading. */
+    title?: string;
     /** Show only titles and subtitles in the homepage sidebar. */
     isCompact?: boolean;
     /** Whether to show article search. */
@@ -38,7 +42,7 @@ type ArticleListProps = {
 /** Render dated articles with optional search. */
 export function ArticleList(props: ArticleListProps) {
     const { query, setQuery } = useSearch();
-    const terms = createMemo(() => searchTerms(query()));
+    const terms = createMemo(() => searchTerms(props.isFeed ? "" : query()));
     const selectedTopic = createMemo(() =>
         props.articles.flatMap(articleTags).find((tag) => tag.slug === props.tag),
     );
@@ -65,11 +69,11 @@ export function ArticleList(props: ArticleListProps) {
         <Card
             heading={props.isPage ? "h1" : "h2"}
             class={props.isCompact ? "news-card news-overview" : "news-card"}
-            title={props.isPage || props.isCompact ? "News" : "Articles"}
-            toolbar={<NewsActions isCompact={props.isCompact} />}
+            title={props.title ?? (props.isPage || props.isCompact ? "News" : "Articles")}
+            toolbar={props.isFeed ? undefined : <NewsActions isCompact={props.isCompact} />}
             titleHref={props.titleHref ?? (props.isPage ? undefined : "/news")}
         >
-            <Show when={!props.isSearchable}>
+            <Show when={!props.isSearchable && !props.isFeed}>
                 <div class="news-filters">
                     <TagPills articles={props.articles} selected={props.tag} />
                 </div>
@@ -87,7 +91,7 @@ export function ArticleList(props: ArticleListProps) {
                     }}
                 >
                     <summary>
-                        {selectedTopic()?.name ?? "Topics"}{" "}
+                        {selectedTopic()?.name ?? "Tags"}{" "}
                         <ChevronDown size={16} aria-hidden="true" />
                     </summary>
                     <TopicList articles={props.articles} selected={props.tag} />
@@ -102,13 +106,13 @@ export function ArticleList(props: ArticleListProps) {
                     <For each={articles()}>
                         {(article) => (
                             <Show
-                                when={props.isPage}
+                                when={props.isPage || props.isFeed}
                                 fallback={
                                     <Entry
                                         class="news-row"
                                         date={article.date}
                                         datePlacement="below"
-                                        href={`/news/${article.slug}`}
+                                        href={article.path}
                                         image={props.isCompact ? undefined : articleImage(article)}
                                         actions={
                                             !props.isCompact ? (
@@ -156,13 +160,29 @@ export function ArticleList(props: ArticleListProps) {
                                             <EditLink team href={`/news/edit?id=${article.id}`} />
                                         </div>
                                         <h2>
-                                            <a href={`/news/${article.slug}`}>
+                                            <a href={article.path}>
                                                 <Highlight text={article.title} terms={terms()} />
                                             </a>
                                         </h2>
-                                        <p>
-                                            <Highlight text={article.description} terms={terms()} />
-                                        </p>
+                                        <div class="news-story__description">
+                                            <For each={articleParagraphs(article.description)}>
+                                                {(paragraph) => (
+                                                    <p>
+                                                        <Highlight
+                                                            text={paragraph}
+                                                            terms={terms()}
+                                                        />
+                                                    </p>
+                                                )}
+                                            </For>
+                                        </div>
+                                    </div>
+                                    <NewsMedia
+                                        image={article.image}
+                                        video={article.video}
+                                        caption={article.caption}
+                                    />
+                                    <div class="news-story__metadata">
                                         <div class="entry-tags">
                                             <For each={articleTags(article)}>
                                                 {(tag) => (
@@ -175,23 +195,20 @@ export function ArticleList(props: ArticleListProps) {
                                                 )}
                                             </For>
                                         </div>
+                                        <Show when={article.url}>
+                                            <a
+                                                class="action-link article-source"
+                                                href={article.url}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
+                                                {new URL(article.url!).hostname.replace(
+                                                    /^www\./,
+                                                    "",
+                                                )}
+                                            </a>
+                                        </Show>
                                     </div>
-                                    <NewsMedia
-                                        image={article.image}
-                                        video={article.video}
-                                        caption={article.caption}
-                                    />
-                                    <Show when={article.url}>
-                                        <a
-                                            class="action-link article-source"
-                                            href={article.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                        >
-                                            Read on{" "}
-                                            {new URL(article.url!).hostname.replace(/^www\./, "")}
-                                        </a>
-                                    </Show>
                                 </article>
                             </Show>
                         )}

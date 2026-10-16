@@ -3,30 +3,38 @@ import { X } from "lucide-solid";
 import "./selection.css";
 
 /** A catalogue choice with optional search aliases. */
-export type SelectionOption = { value: string; label: string; aliases?: string };
+export type SelectionOption<Value extends string = string> = {
+    value: Value;
+    label: string;
+    aliases?: string;
+};
 
 /** Search catalogue values without accepting arbitrary text as an answer. */
-export function Selection(props: {
+export function Selection<Value extends string>(props: {
     label: string;
     name: string;
-    options: readonly SelectionOption[];
-    values: string[];
+    options: readonly SelectionOption<Value>[];
+    values: Value[];
+    /** Bound rendered results for large searchable catalogues. */
+    limit?: number;
     isMultiple?: boolean;
-    onChange?: (values: string[]) => void;
+    onChange?: (values: Value[]) => void;
 }) {
     const id = createUniqueId();
-    const [selected, setSelected] = createSignal<string[]>([]);
+    const [selected, setSelected] = createSignal<Value[]>([]);
     const [search, setSearch] = createSignal("");
     const [isOpen, setOpen] = createSignal(false);
     const [active, setActive] = createSignal(0);
     const matches = createMemo(() =>
-        props.options.filter(
-            (option) =>
-                !selected().includes(option.value) &&
-                normalise(`${option.label} ${option.value} ${option.aliases ?? ""}`).includes(
-                    normalise(search()),
-                ),
-        ),
+        props.options
+            .filter(
+                (option) =>
+                    !selected().includes(option.value) &&
+                    normalise(`${option.label} ${option.value} ${option.aliases ?? ""}`).includes(
+                        normalise(search()),
+                    ),
+            )
+            .slice(0, props.limit),
     );
 
     // hydrate stored selections separately from unfinished searches
@@ -38,7 +46,7 @@ export function Selection(props: {
     });
 
     /** Publish only explicit selections and removals. */
-    function update(values: string[]) {
+    function update(values: Value[]) {
         setSelected(values);
         props.onChange?.(values);
         setSearch("");
@@ -46,7 +54,7 @@ export function Selection(props: {
     }
 
     /** Select an entry while retaining keyboard focus. */
-    function choose(value: string) {
+    function choose(value: Value) {
         update(props.isMultiple ? [...selected(), value] : [value]);
         setOpen(!!props.isMultiple);
     }
@@ -85,6 +93,7 @@ export function Selection(props: {
             <div class="selection-search">
                 <input
                     id={id}
+                    class="field__control"
                     type="text"
                     role="combobox"
                     autocomplete="off"

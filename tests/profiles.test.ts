@@ -222,12 +222,13 @@ test("test_exclude_retired_questions_from_audience_reports", async () => {
     const client = backend.withIdentity({ subject: "admin" });
     const report = await client.query(api.members.audience.report, {});
     expect(report.questions.map((question) => question.field)).toEqual([...surveyQuestions]);
-    expect({ ...report, questions: undefined }).toEqual({
+    expect({ ...report, questions: undefined, signupHistory: undefined }).toEqual({
         total: 1,
         respondents: 1,
         finished: 0,
         fullyAnswered: 0,
         questions: undefined,
+        signupHistory: undefined,
     });
 });
 

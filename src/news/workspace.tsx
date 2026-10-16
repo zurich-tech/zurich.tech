@@ -7,6 +7,7 @@ import { Card } from "../components/card";
 import { TableToolbar } from "../components/toolbar";
 import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
+import { newsDate, newsPath } from "./path";
 
 /** Browse team drafts and published posts in the standard admin table. */
 export function NewsAdmin() {
@@ -77,7 +78,12 @@ export function NewsAdmin() {
                                 <tr role="row">
                                     <td role="cell">
                                         {post.published ? (
-                                            <a href={`/news/${post.slug}`}>
+                                            <a
+                                                href={newsPath({
+                                                    slug: post.slug,
+                                                    date: newsDate(post),
+                                                })}
+                                            >
                                                 {post.published.title}
                                             </a>
                                         ) : (

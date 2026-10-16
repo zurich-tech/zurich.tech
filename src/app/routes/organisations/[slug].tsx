@@ -41,7 +41,7 @@ export default function Route() {
                         title={item().name}
                         description={item().headline ?? `${item().name} on zurich.tech.`}
                     />
-                    <Page class="organisation-page">
+                    <Page class="organisation-page publication">
                         <a class="eyebrow" href="/organisations">
                             <Arrow direction="left" /> Organisations
                         </a>

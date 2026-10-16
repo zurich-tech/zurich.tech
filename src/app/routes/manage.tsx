@@ -20,7 +20,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Manage" description="Manage organisations, jobs and sponsorships." />
-            <Page>
+            <Page class="publication">
                 <Card title="Manage" heading="h1" class="admin-navigation">
                     <SectionTabs
                         label="Management sections"

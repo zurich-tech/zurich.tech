@@ -43,7 +43,7 @@ export default function Route() {
     const photos = getGallery.use(() => []);
 
     return (
-        <div class="bulletin">
+        <div class="bulletin publication">
             <Seo isHome title="zurich.tech" description={site.description} />
 
             {/* use the city as a compact identifying graphic */}

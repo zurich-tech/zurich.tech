@@ -63,7 +63,7 @@ test("test_place_a_compact_drag_bar_above_the_full_width_mobile_search", () => {
 
     const compact = css.split("/* keep the count beside both triggers")[1];
     expect(compact.match(/\.map-browse \{([^}]+)\}/)![1]).toContain("grid-row: 1;");
-    expect(compact.match(/\.map-filters__chips \{([^}]+)\}/)![1]).toContain("grid-row: 2;");
+    expect(compact.match(/\.filter-menu__chips \{([^}]+)\}/)![1]).toContain("grid-row: 2;");
 });
 
 test("test_open_and_close_with_one_activation_and_expose_keyboard_resizing", () => {

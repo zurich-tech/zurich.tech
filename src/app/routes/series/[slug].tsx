@@ -27,7 +27,7 @@ export default function Route() {
                 {(item) => (
                     <>
                         <Seo title={item().name} description={item().description} />
-                        <Page>
+                        <Page class="publication">
                             <a class="eyebrow" href="/series">
                                 <Arrow direction="left" /> Series
                             </a>
@@ -51,13 +51,15 @@ export default function Route() {
                             />
                             <div class="detail-layout">
                                 <div class="detail-content">
-                                    <Programme
-                                        entries={events() ?? []}
-                                        series={seriesList()!}
-                                        seriesId={item()._id}
-                                        isCalendarEnabled
-                                        isPlanningEnabled
-                                    />
+                                    <Show when={events()}>
+                                        <Programme
+                                            entries={events() ?? []}
+                                            series={seriesList()!}
+                                            seriesId={item()._id}
+                                            isCalendarEnabled
+                                            isPlanningEnabled
+                                        />
+                                    </Show>
                                 </div>
                                 <aside class="detail-aside">
                                     <Contribute />

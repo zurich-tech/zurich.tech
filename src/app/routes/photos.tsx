@@ -23,7 +23,7 @@ export default function Route() {
                 title="Photos"
                 description="Photos from zurich.tech talks, meetups and community events."
             />
-            <Page class="photos-page">
+            <Page class="photos-page publication">
                 <div class="listing-layout">
                     <div class="listing-main">
                         <Gallery albums={albums() ?? []} isPage />

@@ -46,6 +46,7 @@ export function isPublicPage(request: Request) {
     // exclude editor paths even though they share public collection prefixes
     return (
         publicPaths.has(url.pathname) ||
+        /^\/news\/\d{4}\/\d{2}\/\d{2}\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(url.pathname) ||
         /^\/(events|news|jobs|series|members|organisations)\/(?!edit$|submit$)[a-z0-9][a-z0-9-]*$/.test(
             url.pathname,
         )

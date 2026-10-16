@@ -38,7 +38,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Welcome" description="Complete your optional community profile." />
-            <Page class="survey-page">
+            <Page class="survey-page publication">
                 <PageHeader title="Welcome" summary="Help us make better events for everyone." />
                 <Show
                     when={account.user()}

@@ -28,7 +28,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Members" description="zurich.tech members." />
-            <Page>
+            <Page class="publication">
                 <div class="listing-layout">
                     {/* members */}
                     <MemberDirectory members={members() ?? []} />

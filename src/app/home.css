@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
     align-items: start;
-    gap: var(--space-10) var(--column-gap);
+    gap: var(--section-gap) var(--column-gap);
     padding: var(--space-8) var(--gutter) 0;
 }
 
@@ -12,7 +12,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     min-width: 0;
-    gap: var(--space-10);
+    gap: var(--section-gap);
 }
 
 /* jobs preview */

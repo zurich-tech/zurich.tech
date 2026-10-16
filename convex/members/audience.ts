@@ -1,4 +1,5 @@
 import { countries } from "./countries";
+import { cumulative, currentPoint } from "../statistics/history";
 import { allLanguages, languages } from "./languages";
 import { v } from "convex/values";
 import { query, mutation } from "../_generated/server";
@@ -295,6 +296,11 @@ async function audience(ctx: QueryCtx) {
 
     return {
         total: accounts.length,
+        signupHistory: currentPoint(
+            cumulative(accounts.map((account) => ({ at: account.createdAt, value: 1 }))),
+            accounts.length,
+            Date.now(),
+        ),
         respondents: answeredCounts.filter((count) => count > 0).length,
         finished: accounts.filter((account) => account.surveyCompletedAt !== undefined).length,
         fullyAnswered: answeredCounts.filter((count) => count === surveyQuestions.length).length,

@@ -43,7 +43,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Payment" description="Your zurich.tech payment." />
-            <Page width="narrow">
+            <Page class="publication" width="narrow">
                 <Card title="Payment" heading="h1">
                     <Switch fallback={<p>Open your payment confirmation to view its status.</p>}>
                         <Match

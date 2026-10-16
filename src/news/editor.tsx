@@ -1,8 +1,11 @@
 import { civilTime } from "../events/time";
-import { TopicFields } from "../topics/fields";
-import { FormSection } from "../components/form";
+import { getTopics } from "../topics/queries";
+import { Selection } from "../components/selection";
+import { newsTags, tagSlugs } from "../../convex/news/tags";
 import { useUnsavedChanges } from "../components/unsaved";
 import { createSignal, For, Show } from "solid-js";
+import { articleParagraphs } from "./model";
+import { newsDate, newsPath } from "./path";
 import { useNavigate, useSearchParams, revalidate } from "@solidjs/router";
 import type { FunctionReturnType } from "convex/server";
 import type { Doc } from "../../convex/_generated/dataModel";
@@ -31,6 +34,7 @@ export function NewsEditor(props: {
     onSave: () => Promise<unknown>;
 }) {
     const initial = props.workspace.posts.find((post) => post._id === props.id);
+    const topics = getTopics.use(() => []);
     const [id, setId] = createSignal(initial?._id);
     const [version, setVersion] = createSignal(initial?.updatedAt);
     const [published, setPublished] = createSignal(
@@ -253,38 +257,25 @@ export function NewsEditor(props: {
                                     changes to apply it.
                                 </small>
                             </Field>
-                            <Field label="Category">
-                                <Select
-                                    value={content().category ?? ""}
-                                    onChange={(event) =>
-                                        update(
-                                            "category",
-                                            event.currentTarget.value === "funding"
-                                                ? "funding"
-                                                : undefined,
-                                        )
-                                    }
-                                >
-                                    <option value="">General news</option>
-                                    <option value="funding">Funding</option>
-                                </Select>
-                            </Field>
                         </div>
                         <Field label="Summary">
                             <Textarea
-                                rows={2}
-                                maxLength={500}
+                                rows={5}
+                                maxLength={2000}
                                 value={content().description}
                                 onInput={(event) =>
                                     update("description", event.currentTarget.value)
                                 }
                             />
                         </Field>
-                        <MarkdownEditor
-                            label={content().kind === "link" ? "Commentary" : "Body"}
-                            value={content().body}
-                            onChange={(value) => update("body", value)}
-                        />
+                        <details class="news-editor-details" open={!!initial?.draft.body}>
+                            <summary>Additional text</summary>
+                            <MarkdownEditor
+                                label="Details"
+                                value={content().body}
+                                onChange={(value) => update("body", value)}
+                            />
+                        </details>
                         <div class="news-editor-grid">
                             <Field label="Image URL">
                                 <Input
@@ -313,66 +304,56 @@ export function NewsEditor(props: {
                                     }
                                 />
                             </Field>
-                            <TopicFields
-                                values={content().topics}
-                                onChange={(values) => update("topics", values)}
+                        </div>
+                        <Selection
+                            label="Tags"
+                            name="tags"
+                            isMultiple
+                            options={[
+                                ...Object.entries(newsTags).map(([value, label]) => ({
+                                    value,
+                                    label,
+                                })),
+                                ...(topics() ?? [])
+                                    .filter(
+                                        (topic) =>
+                                            topic.isActive || content().topics.includes(topic.slug),
+                                    )
+                                    .filter((topic) => !Object.hasOwn(newsTags, topic.slug))
+                                    .map((topic) => ({ value: topic.slug, label: topic.name })),
+                            ]}
+                            values={tagSlugs(content())}
+                            onChange={(values) => {
+                                update("category", undefined);
+                                update("topics", values);
+                            }}
+                        />
+                        <div class="news-editor-grid">
+                            <Selection
+                                label="Authors"
+                                name="authors"
+                                isMultiple
+                                limit={30}
+                                options={props.workspace.members.map((member) => ({
+                                    value: member.id,
+                                    label: member.name,
+                                }))}
+                                values={content().authors}
+                                onChange={(values) => update("authors", values)}
+                            />
+                            <Selection
+                                label="Organisations"
+                                name="organisations"
+                                isMultiple
+                                limit={30}
+                                options={props.workspace.organisations.map((organisation) => ({
+                                    value: organisation.id,
+                                    label: organisation.name,
+                                }))}
+                                values={content().organisations}
+                                onChange={(values) => update("organisations", values)}
                             />
                         </div>
-                        <FormSection title="Authors">
-                            <div class="news-options">
-                                <For each={props.workspace.members}>
-                                    {(member) => (
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={content().authors.includes(member.id)}
-                                                onChange={(event) =>
-                                                    update(
-                                                        "authors",
-                                                        event.currentTarget.checked
-                                                            ? [...content().authors, member.id]
-                                                            : content().authors.filter(
-                                                                  (id) => id !== member.id,
-                                                              ),
-                                                    )
-                                                }
-                                            />
-                                            {member.name}
-                                        </label>
-                                    )}
-                                </For>
-                            </div>
-                        </FormSection>
-                        <FormSection title="Organisations">
-                            <div class="news-options">
-                                <For each={props.workspace.organisations}>
-                                    {(organisation) => (
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={content().organisations.includes(
-                                                    organisation.id,
-                                                )}
-                                                onChange={(event) =>
-                                                    update(
-                                                        "organisations",
-                                                        event.currentTarget.checked
-                                                            ? [
-                                                                  ...content().organisations,
-                                                                  organisation.id,
-                                                              ]
-                                                            : content().organisations.filter(
-                                                                  (id) => id !== organisation.id,
-                                                              ),
-                                                    )
-                                                }
-                                            />
-                                            {organisation.name}
-                                        </label>
-                                    )}
-                                </For>
-                            </div>
-                        </FormSection>
                         <div class="news-actions">
                             {actions()}
                             <button
@@ -452,7 +433,11 @@ export function NewsEditor(props: {
                 }
             >
                 <Show when={isPreview()}>
-                    <p>{content().description}</p>
+                    <div class="article-deck">
+                        <For each={articleParagraphs(content().description)}>
+                            {(paragraph) => <p>{paragraph}</p>}
+                        </For>
+                    </div>
                     <NewsMedia
                         image={content().image}
                         video={content().video}
@@ -476,7 +461,7 @@ export function NewsEditor(props: {
                     <SocialCopy
                         title={post().title}
                         description={post().description}
-                        url={`https://zurich.tech/news/${slug()}`}
+                        url={`https://zurich.tech${newsPath({ slug: slug(), date: initial?.publishedAt !== undefined ? newsDate(initial) : post().date! })}`}
                     />
                 )}
             </Show>

@@ -421,11 +421,20 @@ test("test_keep_event_states_clear_and_sensitive_addresses_out_of_public_edition
 test("test_render_news_involvement_and_one_primary_action_without_duplicate_rules", () => {
     const edition = newsletterEdition([event], [], [], {
         date: event.startsAt,
-        news: [{ slug: "news", title: "Research & community", description: "A published story." }],
+        news: [
+            {
+                slug: "news",
+                date: Date.UTC(2026, 9, 12),
+                title: "Research & community",
+                description: "A published story.",
+            },
+        ],
     });
     const email = newsletterEmail(edition, "https://zurich.tech/unsubscribe?token=example");
     expect(email.html).toContain("Research &amp; community");
     expect(email.text).toContain("Research & community");
+    expect(email.html).toContain("https://zurich.tech/news/2026/10/12/news");
+    expect(email.text).toContain("https://zurich.tech/news/2026/10/12/news");
     expect(email.html).toContain("Get involved");
     expect(email.html).toContain("12 October 2026");
     expect(email.html).not.toContain("border-bottom:2px");

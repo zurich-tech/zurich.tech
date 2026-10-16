@@ -3,6 +3,7 @@ import { validateTopics } from "../topics/queries";
 import type { QueryCtx } from "../_generated/server";
 import { content } from "./content";
 import { videoEmbed } from "../../src/news/video";
+import { isNewsTag, tagSlugs } from "./tags";
 
 /** Apply the same content rules to editor saves and imported articles. */
 export async function validateContent(
@@ -11,19 +12,30 @@ export async function validateContent(
     previous: string[] = [],
 ) {
     // validate URLs and bounded text before storing content
+    const { category, ...fields } = input;
     const value = {
-        ...input,
+        ...fields,
         title: input.title.trim(),
-        topics: [...new Set(input.topics.map((tag) => tag.trim().toLowerCase()).filter(Boolean))],
+        topics: [
+            ...new Set(
+                tagSlugs(input)
+                    .map((tag) => tag.trim().toLowerCase())
+                    .filter(Boolean),
+            ),
+        ],
     };
-    await validateTopics(ctx, value.topics, previous);
+    await validateTopics(
+        ctx,
+        value.topics.filter((tag) => !isNewsTag(tag)),
+        previous,
+    );
     if (value.date !== undefined && !Number.isFinite(new Date(value.date).getTime()))
         throw new ConvexError("Enter a valid publication date.");
 
     if (
         !value.title ||
         value.title.length > 200 ||
-        value.description.length > 500 ||
+        value.description.length > 2000 ||
         value.body.length > 50000 ||
         (value.caption?.length ?? 0) > 500
     )

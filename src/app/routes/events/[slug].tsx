@@ -242,7 +242,7 @@ export default function Route() {
                                 : []),
                         ]}
                     />
-                    <Page class="event-page">
+                    <Page class="event-page publication">
                         <a class="eyebrow" href="/events">
                             <Arrow direction="left" /> Events
                         </a>

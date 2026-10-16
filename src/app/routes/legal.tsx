@@ -7,7 +7,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Legal" description="Privacy, credits and licences for zurich.tech." />
-            <Page width="narrow">
+            <Page class="publication" width="narrow">
                 <PageHeader title="Legal" />
                 <Card title="Privacy" id="privacy">
                     <div class="markdown">

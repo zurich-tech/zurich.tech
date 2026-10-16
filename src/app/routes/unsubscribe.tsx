@@ -56,7 +56,7 @@ export default function Route() {
                 title="Unsubscribe"
                 description="Manage your zurich.tech newsletter subscription."
             />
-            <Page width="narrow">
+            <Page class="publication" width="narrow">
                 <Card title="Unsubscribe" heading="h1">
                     <div class="confirmation-panel">
                         <Show

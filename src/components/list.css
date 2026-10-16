@@ -3,7 +3,7 @@
     display: grid;
     gap: var(--space-1);
     border-bottom: var(--rule) solid var(--color-line);
-    padding: var(--space-4) 0;
+    padding: var(--space-5) 0;
 }
 
 .directory-row:last-child {

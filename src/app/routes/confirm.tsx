@@ -63,7 +63,7 @@ export default function Route() {
                 }
                 description="Confirm your zurich.tech email address."
             />
-            <Page width="narrow">
+            <Page class="publication" width="narrow">
                 <Card
                     title={
                         currentVerification()?.status === "confirmed"

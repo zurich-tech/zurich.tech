@@ -317,6 +317,8 @@ test("test_select_only_recent_published_news_for_the_digest", async () => {
             ["second", now - 4, now - 4, true],
             ["third", now - 5, now - 5, true],
             ["fourth", now - 6, now - 6, true],
+            ["fifth", now - 7, now - 7, true],
+            ["sixth", now - 8, now - 8, true],
         ] as const) {
             const published = {
                 title: slug,
@@ -340,8 +342,9 @@ test("test_select_only_recent_published_news_for_the_digest", async () => {
         return ctx.db.query("posts").collect();
     });
     expect(digestNews(posts, now)).toEqual(
-        ["recent", "second", "third"].map((slug) => ({
+        ["recent", "second", "third", "fourth", "fifth"].map((slug) => ({
             slug,
+            date: posts.find((post) => post.slug === slug)!.published!.date!,
             title: slug,
             description: "Published copy",
         })),

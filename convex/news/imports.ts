@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { internalMutation } from "../_generated/server";
 import { content } from "./content";
 import { validateContent } from "./validation";
+import { tagSlugs } from "./tags";
 
 /** Import reviewed sources without replacing website edits or sending communications. */
 export const apply = internalMutation({
@@ -71,8 +72,15 @@ export const apply = internalMutation({
             if (existing) {
                 const matches = (snapshot: typeof existing.published) =>
                     snapshot &&
-                    (Object.keys(content.fields) as (keyof typeof value)[]).every(
-                        (key) => JSON.stringify(snapshot[key]) === JSON.stringify(value[key]),
+                    (
+                        Object.keys(content.fields).filter(
+                            (key) => key !== "category",
+                        ) as (keyof typeof value)[]
+                    ).every(
+                        (key) =>
+                            JSON.stringify(
+                                key === "topics" ? tagSlugs(snapshot) : snapshot[key],
+                            ) === JSON.stringify(value[key]),
                     );
                 if (
                     existing.publishedAt !== article.date ||
@@ -89,6 +97,7 @@ export const apply = internalMutation({
                         slug: article.slug,
                         draft: value,
                         published: value,
+                        date: value.date ?? article.date,
                         publishedAt: article.date,
                         createdBy: args.recordedBy,
                         updatedAt: Date.now(),

@@ -1,4 +1,5 @@
 import { locationsLabel, jobFacts } from "../../src/jobs/format";
+import { newsPath } from "../../src/news/path";
 import { markdown, excerpt } from "./markdown";
 import type { openJobs } from "../jobs/jobs";
 import { notificationChanges } from "../events/changes";
@@ -439,8 +440,8 @@ export function newsletterEdition(
     // render published stories without a generic introduction
     const news = options.news ?? [];
     const stories = news.map((story) => ({
-        html: `<div style="padding:20px 0"><h3 style="margin:0;font:500 20px/1.3 ${mono}"><a href="${escapeHtml(`${siteOrigin()}/news/${story.slug}`)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(story.title)}</a></h3>${paragraph(story.description)}<a href="${escapeHtml(`${siteOrigin()}/news/${story.slug}`)}" style="color:${palette.brand}">Read story &rarr;</a></div>`,
-        text: `${story.title}\n${story.description}\n${siteOrigin()}/news/${story.slug}`,
+        html: `<div style="padding:20px 0"><h3 style="margin:0;font:500 20px/1.3 ${mono}"><a href="${escapeHtml(`${siteOrigin()}${newsPath(story)}`)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(story.title)}</a></h3>${paragraph(story.description)}<a href="${escapeHtml(`${siteOrigin()}${newsPath(story)}`)}" style="color:${palette.brand}">Read story &rarr;</a></div>`,
+        text: `${story.title}\n${story.description}\n${siteOrigin()}${newsPath(story)}`,
     }));
     const participation = involvement();
 
@@ -528,7 +529,7 @@ function jobListing(
 }
 
 /** Published article copy frozen into one newsletter edition. */
-export type NewsletterStory = { title: string; slug: string; description: string };
+export type NewsletterStory = { title: string; slug: string; date: number; description: string };
 
 /** Render a weekly edition with the recipient's notification links. */
 export function newsletterEmail(

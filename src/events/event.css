@@ -2,22 +2,6 @@
    Overview: title, practical facts and admission
    ================================================================================ */
 
-/* copy on the left, attendance on the right, aligned with the columns below */
-.event-page > .event-overview,
-.event-page .detail-content > .card,
-.event-page .detail-aside > .card {
-    border: 0;
-}
-
-.event-page .card-heading,
-.event-page .card-body {
-    padding-inline: 0;
-}
-
-.event-page .card-title {
-    letter-spacing: 0;
-}
-
 .event-overview > .card-heading {
     border-bottom: 0;
     padding-top: 0;

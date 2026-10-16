@@ -70,7 +70,7 @@ export default function Route() {
     return (
         <>
             <Seo title="Account" description="Your zurich.tech profile and email preferences." />
-            <Page class="account-page">
+            <Page class="account-page publication">
                 <PageHeader
                     title="Account"
                     actions={
