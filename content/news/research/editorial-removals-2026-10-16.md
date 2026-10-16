@@ -2,7 +2,9 @@
 
 Withdraw `blatten-seismic-reconstruction`: the user rejected it as outside the desired editorial bar.
 Withdraw `assaia-united-investment`: no disclosed investment amount; do not reimport it as funding news.
-Both were unpublished from development on 16 October 2026; production was not changed in this pass.
+Both were unpublished from development on 16 October 2026.
+The subsequent production audit found Blatten still published and unpublished it through the editor.
+Production readback confirmed it has no published revision; Assaia and the other thirteen withdrawn stories were already unpublished.
 
 Retain `eth-ibm-quantum-system` as a concrete infrastructure commitment, not an operational system.
 ETH's original announcement confirms a three-year installation and operation agreement, identified funding and expected operation by the end of 2026.

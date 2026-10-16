@@ -6,6 +6,7 @@ subtitle: "ETFBOOK raised USD 13 million to expand its ETF data and analytics pl
 date: "2026-09-16"
 url: "https://etfbook.com/company/announcements/funding-round-with-expedition-growth-and-blackfin"
 authors: []
+organisations: ["etfbook"]
 topics: ["data-engineering"]
 image: "https://framerusercontent.com/images/cA9rnVn32SCPI8FqLiADaEWkF4.png?lossless=1&width=1920&height=1225"
 caption: "ETFBOOK analytics dashboard. Image: ETFBOOK"

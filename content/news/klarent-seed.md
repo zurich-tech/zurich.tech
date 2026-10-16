@@ -11,6 +11,7 @@ subtitle: |-
 date: "2026-10-09"
 url: "https://klarent.ai/blogs/klarent-secures-8m-seed-funding/"
 authors: []
+organisations: ["klarent"]
 topics: ["software-engineering", "agents"]
 image: "https://klarent.ai/_astro/klarent-blog-seed-funding.D545s7MQ_uTdV5.webp"
 caption: "Klarent co-founders Asheem Panakkat and Momchil Ivanov. Photo: Klarent"

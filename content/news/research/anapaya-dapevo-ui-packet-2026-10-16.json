@@ -1,0 +1,97 @@
+{
+    "reviewedAt": "2026-10-16",
+    "scope": "Separate follow-up to recent-ui-packet-2026-10-16.json; only Anapaya and DAPEVO.",
+    "counts": {
+        "stories": 2,
+        "changedFields": 3,
+        "paragraphsPerStory": 2
+    },
+    "application": [
+        "Main applies only listed changes after comparing current UI values with before.",
+        "Snapshot is /tmp/zurich-production-news.json, not a fresh live read. Preserve all other fields; do not overwrite concurrent edits.",
+        "The first packet ready10 is unchanged. Its mimic/biocement statuses and attribution were corrected to already-applied-by-main.",
+        "No live writes, commits, deployment or importer invoked in this task."
+    ],
+    "freshReadUrls": [
+        "https://www.anapaya.net/news/colt-becomes-first-network-provider-to-bring-fully-managed-scion-to-enterprises-across-europe-north-america-and-asia-anapaya",
+        "https://arxiv.org/abs/2609.30947"
+    ],
+    "records": [
+        {
+            "slug": "anapaya-colt-scion",
+            "id": "rh78mgdr9y041sv1635xw05f6d8gbzf4",
+            "status": "ready-for-main-ui-application",
+            "sourceFile": "content/news/anapaya-colt-scion.md",
+            "snapshotUpdatedAt": 1792141844519,
+            "changes": {
+                "description": {
+                    "before": "Colt launched commercial SCION connectivity across Europe, North America and Asia after a two-year proof of concept with Anapaya. The service lets enterprises specify and audit the paths their network traffic takes.",
+                    "after": "Colt launched a fully managed SCION networking service across Europe, North America and Asia using Zurich-based Anapaya's technology.\nCommercial availability follows a two-year proof of concept, including testing with financial-sector organisations.\nThe service lets customers define, audit and enforce the paths their traffic takes, giving them control over routing for sensitive or regulated communications.\n\nColt offers two configurations: SCION private connects customers to existing private ecosystems and extranets, while SCION Global provides a WAN for an organisation's backbone network.\nThe release describes security and resilience benefits but provides no quantified performance benchmark or service-availability measurements."
+                },
+                "url": {
+                    "before": "https://www.anapaya.net/news/colt-becomes-first-network-provider-to-bring-scion-to-enterprises-across-europe-north-america-and-asia-anapaya",
+                    "after": "https://www.anapaya.net/news/colt-becomes-first-network-provider-to-bring-fully-managed-scion-to-enterprises-across-europe-north-america-and-asia-anapaya"
+                }
+            },
+            "preserve": {
+                "date": 1791288000000,
+                "organisations": ["p170g6jaktfes7g90nxwn34b658f43fx"],
+                "organisationSlugs": ["anapaya"],
+                "topics": ["telecom", "security"],
+                "image": "https://www.anapaya.net/hs-fs/hubfs/Console-banner-homepage-1124.webp?width=1826&height=439&name=Console-banner-homepage-1124.webp",
+                "caption": "Anapaya Console network-management interface. Image: Anapaya",
+                "body": "",
+                "authors": []
+            },
+            "verification": {
+                "method": "Fresh Chrome accessibility-page read this turn after web open failed.",
+                "attemptedUrl": "https://www.anapaya.net/news/colt-becomes-first-network-provider-to-bring-scion-to-enterprises-across-europe-north-america-and-asia-anapaya",
+                "readUrl": "https://www.anapaya.net/news/colt-becomes-first-network-provider-to-bring-fully-managed-scion-to-enterprises-across-europe-north-america-and-asia-anapaya",
+                "locators": [
+                    "Article header: OCT 8, 2026",
+                    "Opening dateline: London, UK, October 6th 2026",
+                    "Commercial availability paragraph and two SCION solutions list",
+                    "About Anapaya: Zurich headquarters"
+                ],
+                "evidence": "Managed service and two-year proof of concept; route definition/audit/enforcement; private ecosystems versus global backbone WAN. Preserve original October 6 announcement date, not October 8 repost date.",
+                "limits": "Vendor announcement, not independent security testing. No quantitative performance or availability evidence in the release.",
+                "media": "Existing Console image retained from prior retained-media-2026-10-16.json research; not an image of a Colt deployment. No new media or video verification."
+            }
+        },
+        {
+            "slug": "uzh-dapevo",
+            "id": "rh79tvhk2sy4304k8mznhp4qh98gcrnh",
+            "status": "ready-for-main-ui-application",
+            "sourceFile": "content/news/uzh-dapevo.md",
+            "snapshotUpdatedAt": 1792141790753,
+            "changes": {
+                "description": {
+                    "before": "DAPEVO combines conventional frames with event-camera measurements to estimate motion when images become sparse or unreliable. In the UZH-FPV benchmark, keeping only one in six frames increased mean trajectory error from 1.00 to 1.36 metres. The work is available as a research preprint.",
+                    "after": "UZH researchers developed DAPEVO to estimate camera motion from conventional images and asynchronous event-camera measurements.\nIt tracks corresponding patches in both inputs separately, then uses a learned gate to combine their evidence before refining the motion estimate.\nEvent-only observations allow tracking to continue between sparse or unavailable conventional frames.\n\nOn the UZH-FPV benchmark, retaining only one in six conventional frames increased DAPEVO's mean absolute trajectory error from 1.00 to 1.36 metres.\nIn the same experiment, errors for the DPVO and RAMP-VO comparison methods rose by factors of 3.7 and 3.1 respectively.\nThese are reported benchmark results from a research preprint, not evidence of a deployed navigation system or uninterrupted tracking under all camera failures."
+                }
+            },
+            "preserve": {
+                "date": 1790337600000,
+                "organisations": ["p17c9q75qs1fdyt1bv4fshqeq18f519z"],
+                "organisationSlugs": ["uzh"],
+                "topics": ["computer-vision", "robotics"],
+                "image": "https://zurich.tech/news/dapevo.webp",
+                "caption": "Image: Luca Gandolfi and co-authors / UZH Robotics and Perception Group",
+                "body": "",
+                "authors": []
+            },
+            "verification": {
+                "method": "Fresh web open of arXiv abstract and submission history this turn.",
+                "readUrl": "https://arxiv.org/abs/2609.30947",
+                "locators": [
+                    "Abstract, correspondence fusion and learned scalar gate",
+                    "Abstract, event-only observations and UZH-FPV results",
+                    "Submission history: v1, 25 Sep 2026"
+                ],
+                "evidence": "Independent image/event correspondences fused before motion refinement; 1.00 to 1.36 m ATE at one-in-six frames; baseline error multipliers 3.7 and 3.1.",
+                "limits": "Preprint claims, not deployed navigation. Full PDF not reread. UZH affiliation and existing figure provenance retained from prior technical-2026-10-16.json and media-briefs-2026-10-16.json.",
+                "media": "Existing lab-derived diagram retained. No DAPEVO video verified; do not substitute adjacent lab videos."
+            }
+        }
+    ]
+}

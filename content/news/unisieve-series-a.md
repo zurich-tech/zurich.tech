@@ -11,7 +11,8 @@ subtitle: |-
 date: "2026-10-08"
 url: "https://unisieve.com/resources/unisieve-raises-9m-to-scale-high-precision-membrane-solution-for-industrial-separations"
 authors: []
-topics: ["climate-tech"]
+organisations: ["unisieve"]
+topics: ["climate-tech", "materials"]
 image: "https://framerusercontent.com/images/o07q0aDNk3nHRmnzeL6rXtKg9Ds.jpg?width=994&height=830"
 caption: "UniSieve's propylene-recovery pilot system beside petrochemical process equipment. Photo: UniSieve"
 ---

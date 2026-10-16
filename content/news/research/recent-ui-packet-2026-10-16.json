@@ -1,0 +1,440 @@
+{
+    "reviewedAt": "2026-10-16",
+    "window": {
+        "from": "2026-09-16",
+        "to": "2026-10-16"
+    },
+    "snapshot": {
+        "path": "/tmp/zurich-production-news.json",
+        "sha256": "04db94106416cc194e1cf28a4fa3ac90a304e0e25813a24f5a19125df5bb6a8a"
+    },
+    "records": [
+        {
+            "slug": "introducing-zurich-tech",
+            "id": "rh72bt1y283xtjkysqt8tvksn98eeca2",
+            "status": "excluded-authored-announcement",
+            "changes": {}
+        },
+        {
+            "slug": "sensirion-air-quality-modules",
+            "id": "rh70fdbnv1h3fa0616dyc93hx58f9bpa",
+            "sourceFile": "content/news/sensirion-air-quality-modules.md",
+            "snapshotUpdatedAt": 1792141931908,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["sensirion"],
+            "sourceUrl": "https://www.eqs-news.com/news/corporate/sensirion-launches-sen68-and-sen69c-for-comprehensive-indoor-air-quality-monitoring/96530e2e-8a82-462f-892f-172f41cd1a17_en",
+            "changes": {
+                "description": {
+                    "before": "The SEN68 and SEN69C modules combine particulate sensing with humidity, temperature, VOC, NOx and formaldehyde measurements. SEN69C adds CO2 sensing; an evaluation kit is available for developers.",
+                    "after": "Sensirion released the SEN68 and SEN69C modules for indoor air-quality equipment, combining particulate sensing with humidity, temperature, VOC, NOx and formaldehyde measurements.\nSEN69C adds CO2 sensing.\nBoth use the new SPS6x miniaturised MEMS particulate-sensing component to fit multiple measurements into a compact module.\n\nThe modules and SEK-SEN69C evaluation kit are available through distributors.\nThe kit exposes the measurements and onboard algorithms for prototyping, but requires a separate SEK-SensorBridge to operate.\nThese are components for products such as room sensors and air purifiers, not a finished building-monitoring installation."
+                },
+                "organisations": {
+                    "before": [],
+                    "after": ["p179p21hqzzzag1hpxsa88esvx8f5qnh"]
+                },
+                "topics": {
+                    "before": ["hardware"],
+                    "after": ["electronics"]
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "Issuer release, 22.09.2026; product and evaluation-kit paragraphs, About Sensirion.",
+                "evidence": "SPS6x MEMS component; SEK-SensorBridge required; distributor availability; Stafa headquarters.",
+                "media": "Existing SEN6x composite retained. Prior visual verification: editorial-audit-2026-10-16.json, same slug. Fresh web attachment fetch failed; no fresh visual or playback QA."
+            }
+        },
+        {
+            "slug": "eth-oled-lithography",
+            "id": "rh7c3e2ckj2jcg2kasefrrwvvh8f8zea",
+            "sourceFile": "content/news/eth-oled-lithography.md",
+            "snapshotUpdatedAt": 1792138903700,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["eth-zurich"],
+            "sourceUrl": "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/tiny-oled-pixels-can-be-manufactured-like-microchips.html",
+            "changes": {
+                "description": {
+                    "before": "ETH researchers demonstrate light-emitting polymers that withstand lithographic processing, a step towards smaller OLED displays.",
+                    "after": "ETH Zurich researchers developed light-emitting polymers that also act as photoresists, allowing OLED materials to be patterned with chipmaking techniques.\nReactive groups on the outside of each molecule cross-link under UV light, while a protective shell shields its light-emitting core from processing chemicals.\n\nThe team produced a 300 by 430 micrometre fluorescent test image and, separately, an electrically powered ETH logo measuring 1 by 2.4 millimetres.\nThe fluorescent image is not a display, and a working screen still requires electronics to control individual pixels independently."
+                },
+                "caption": {
+                    "before": null,
+                    "after": "Microscopic fluorescent test image, 300 by 430 micrometres; not an electrically driven display. Image: Lo SW et al., Nature 2026 / ETH Zurich"
+                },
+                "organisations": {
+                    "before": [],
+                    "after": ["p17a07tc54822vapysmqfm7c2s8f447w"]
+                },
+                "topics": {
+                    "before": ["hardware"],
+                    "after": ["electronics", "materials"]
+                },
+                "body": {
+                    "before": "Image: ETH Zurich / research authors",
+                    "after": ""
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "ETH: Photoresists for lithography; Protective shell, luminescent core; test-image paragraphs; Reference.",
+                "evidence": "UV cross-linking and core protection; separate fluorescent and electrically powered demonstrations; individually addressed screen remains future work.",
+                "additionalSource": "https://www.nature.com/articles/s41586-026-11042-0",
+                "dateEvidence": "Nature page explicitly says Published: 16 September 2026. ETH article is September 23; preserve earlier paper date.",
+                "media": "Fresh ETH image link resolves to the existing microscopic test-image URL. Caption provenance: Lo SW et al., Nature 2026. No new visual QA; no video established."
+            }
+        },
+        {
+            "slug": "klarent-seed",
+            "id": "rh79bs9fr051p6nqqhedr129cs8g4txh",
+            "sourceFile": "content/news/klarent-seed.md",
+            "snapshotUpdatedAt": 1792138769796,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["klarent"],
+            "sourceUrl": "https://klarent.ai/blogs/klarent-secures-8m-seed-funding/",
+            "changes": {
+                "description": {
+                    "before": "Klarent develops AI agents that write and maintain software tests for web and mobile applications.",
+                    "after": "Zurich-based Klarent raised USD 8 million in seed funding to expand into the US, grow its engineering team and develop its web and mobile testing platform.\nFounded by former Google engineers Asheem Panakkat and Momchil Ivanov, the company names JD Sports, NZZ and Sixt among its customers.\n\nIts agents use language models to write and adapt deterministic test code, rather than relying on an AI model to execute each test.\nKlarent combines this automation with human review of results, aiming to reduce the work of maintaining tests as applications change."
+                },
+                "image": {
+                    "before": "https://klarent.ai/_astro/klarent-blog-seed-funding.D545s7MQ.webp",
+                    "after": "https://klarent.ai/_astro/klarent-blog-seed-funding.D545s7MQ_uTdV5.webp"
+                },
+                "caption": {
+                    "before": null,
+                    "after": "Klarent co-founders Asheem Panakkat and Momchil Ivanov. Photo: Klarent"
+                },
+                "organisations": {
+                    "before": [],
+                    "after": ["p17fms12h17d1220zzwt4qxgt98g5ehy"]
+                },
+                "body": {
+                    "before": "Image: Klarent",
+                    "after": ""
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "Published on 9 Oct 2026; Deterministic Autonomy; funding-use and About Klarent paragraphs.",
+                "evidence": "USD 8M seed; US expansion and engineering; LLM-authored deterministic code; human review; Zurich headquarters.",
+                "media": "Richer local caption and responsive image URL predate this pass. Prior evidence: funding-media-2026-10-16.json and retained-media-2026-10-16.json; no fresh endpoint/visual check."
+            }
+        },
+        {
+            "slug": "unisieve-series-a",
+            "id": "rh7a0pw70ge0d3bb4vc0xfg7ah8g4amp",
+            "sourceFile": "content/news/unisieve-series-a.md",
+            "snapshotUpdatedAt": 1792138807611,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["unisieve"],
+            "sourceUrl": "https://unisieve.com/resources/unisieve-raises-9m-to-scale-high-precision-membrane-solution-for-industrial-separations",
+            "changes": {
+                "description": {
+                    "before": "UniSieve develops membranes for industrial gas separation and carbon capture.",
+                    "after": "Zurich-based UniSieve raised USD 9 million in Series A funding, bringing its total funding to USD 25 million.\nThe company will use the capital to scale deployment of its gas-separation membranes and adapt them to additional industrial applications.\n\nThe membranes separate molecules through precisely sized pores, offering an alternative to energy-intensive thermal separation.\nUniSieve says its systems have reached pre-commercial maturity in olefin separation and carbon capture at emission sources, with field-tested performance and repeatable manufacturing supporting the move towards broader commercial deployment."
+                },
+                "caption": {
+                    "before": null,
+                    "after": "UniSieve's propylene-recovery pilot system beside petrochemical process equipment. Photo: UniSieve"
+                },
+                "organisations": {
+                    "before": [],
+                    "after": ["p17bhtn9hycvsksz6tvwrh4jc98g4zxh"]
+                },
+                "topics": {
+                    "before": ["climate-tech"],
+                    "after": ["climate-tech", "materials"]
+                },
+                "body": {
+                    "before": "Image: UniSieve",
+                    "after": ""
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "Zürich, 8th October 2026; Scaling deployment and expanding into new industrial applications; About UniSieve.",
+                "evidence": "USD 9M Series A, USD 25M cumulative; pre-commercial olefins and point-source carbon capture; deployment expansion. Pore-mechanism sentence retained from prior local research, not newly verified on technology page.",
+                "media": "Existing pilot photo retained; caption from prior funding-media-2026-10-16.json. No fresh visual QA."
+            }
+        },
+        {
+            "slug": "namespace-series-b",
+            "id": "rh71h2qzkwb0vqjbtgyaszn9w58g4dd4",
+            "sourceFile": "content/news/namespace-series-b.md",
+            "snapshotUpdatedAt": 1792138842744,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["namespace"],
+            "sourceUrl": "https://namespace.so/blog/series-b",
+            "changes": {
+                "description": {
+                    "before": "Namespace builds compute infrastructure for coding, builds and tests across Linux, macOS and Windows.",
+                    "after": "Namespace has raised USD 42M to expand its infrastructure for building and testing software. The platform runs development environments, GitHub Actions and build workloads on its own server racks, with support for Linux, Windows and macOS.\n\nThe funding will support product development and additional data-centre capacity, including a larger fleet of Mac hardware for iOS and macOS builds. Namespace reports more than 1,000 customers and eightfold revenue growth over the past year. The round brings its total funding to USD 65M, seven months after its Series A."
+                },
+                "image": {
+                    "before": "https://namespace.so/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fvideo-poster.abd19cc5.jpg&w=3840&q=75",
+                    "after": "https://namespace.so/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fteam.94baa3d0.jpg&w=3840&q=75"
+                },
+                "caption": {
+                    "before": null,
+                    "after": "Namespace's team at its 2026 offsite in Portugal. Photo: Namespace"
+                },
+                "body": {
+                    "before": "Image: Namespace",
+                    "after": ""
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "October 5, 2026; opening financing and use-of-funds paragraphs; The next 100 billion commits.",
+                "evidence": "USD 42M Series B, USD 65M total; own server racks; three operating systems; company-reported revenue/customer figures.",
+                "media": "Team-photo replacement and Portugal caption inherited from funding-media-2026-10-16.json; not newly visually reviewed. Larger Mac fleet detail retained from earlier source research."
+            }
+        },
+        {
+            "slug": "cotierra-funding-2026",
+            "id": "rh7eyvrq2w9x76qha6zrv1s7m18g4k8r",
+            "sourceFile": "content/news/cotierra-funding-2026.md",
+            "snapshotUpdatedAt": 1792138874862,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["cotierra"],
+            "sourceUrl": "https://www.cotierra.com/",
+            "changes": {
+                "title": {
+                    "before": "Cotierra raises USD 3M",
+                    "after": "Cotierra raises EUR 2.6M"
+                },
+                "description": {
+                    "before": "Cotierra builds reactors and monitoring software that turn agricultural residues into biochar.",
+                    "after": "Cotierra raised EUR 2.6M to expand decentralised biochar production from pilots into repeatable, multi-year commercial deployments, initially in coffee supply chains.\nThe Zurich company combines reactors that turn agricultural residues into biochar near their source with software to operate, monitor and verify production.\n\nIts system tracks production and application of biochar, which returns carbon-rich material to agricultural soils.\nThe financing announcement describes plans to expand across regions and agricultural supply chains; it does not quantify achieved carbon removal or crop-yield improvements."
+                },
+                "caption": {
+                    "before": null,
+                    "after": "Biochar in a bulk bag with a shovel. Photo: Cotierra"
+                },
+                "organisations": {
+                    "before": [],
+                    "after": ["p17bgca8ee3n7ew50xk9ydm6gx8g4qnf"]
+                },
+                "body": {
+                    "before": "Image: Cotierra",
+                    "after": ""
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "Paulig investor release, 29.9.2026, opening three paragraphs and About Cotierra; Cotierra homepage, solution/monitoring sections.",
+                "additionalSource": "https://www.pauliggroup.com/news/pauligs-venture-arm-pinc-co-leads-eur26-million-investment-in-cotierra-to-strengthen-coffee-supply-chain-resilience",
+                "evidence": "EUR 2.6M financing; Zurich; reactors plus monitoring; move from pilots to commercial deployments.",
+                "currencyDecision": "Use explicitly published EUR 2.6M, not a conversion of USD 3M. Earlier USD figure traces to prior research/social reporting, not reverified here; this does not establish a second round. Preserve September 29 and company homepage reader destination.",
+                "media": "Existing biochar bag photograph retained; subject/credit from covers-recent-2026-10-16.json. No fresh image inspection."
+            }
+        },
+        {
+            "slug": "prevision-medicine-seed",
+            "id": "rh7d2p1bcysr3nhd2pfgf55xhh8g5vze",
+            "sourceFile": "content/news/prevision-medicine-seed.md",
+            "snapshotUpdatedAt": 1792138884172,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["prevision-medicine"],
+            "sourceUrl": "https://previsionmedicine.com/news/press-release-prevision-medicine-raises-5-4m-in-seed-funding-round",
+            "changes": {
+                "description": {
+                    "before": "Prevision Medicine develops tests that measure how a patient's living cancer cells respond to different treatments.",
+                    "after": "Prevision Medicine has raised USD 5.4M to commercialise its cancer-treatment testing platform. Instead of relying only on how similar patients responded, the test exposes living cells from a patient's tumour to a library of treatments and measures their response.\n\nThe Zurich company plans to use the funding for regulatory clearances, reimbursement coverage and expansion across Europe. Its PrevisionOne test is intended to help clinicians evaluate treatment options for blood cancers and solid tumours, using measurements from the individual patient's cells."
+                },
+                "caption": {
+                    "before": null,
+                    "after": "Prevision Medicine team. Photo: Prevision Medicine"
+                },
+                "organisations": {
+                    "before": [],
+                    "after": ["p173n7vz75xktn72z90xa56mb18g4878"]
+                },
+                "body": {
+                    "before": "Image: Prevision Medicine",
+                    "after": ""
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "September 24, 2026; opening funding paragraph; functional-testing and capital-deployment paragraphs; About Prevision and laboratory address.",
+                "evidence": "USD 5.4M; live tumour-cell testing; regulatory/reimbursement and European expansion plans; Zurich HQ and ETH Honggerberg lab. Do not adopt issuer superiority claims.",
+                "media": "Existing team image retained; caption from prior funding-media-2026-10-16.json; not freshly inspected."
+            }
+        },
+        {
+            "slug": "piomic-growth-financing",
+            "id": "rh7dvyrtsdnpdvy8sdad5kh7rs8g4nh2",
+            "sourceFile": "content/news/piomic-growth-financing.md",
+            "snapshotUpdatedAt": 1792141906708,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["piomic"],
+            "sourceUrl": "https://www.piomic.com/news/swisscanto-leads-usd-25m-growth-financing-for-piomic-medical/",
+            "changes": {
+                "organisations": {
+                    "before": [],
+                    "after": ["p17aa5nb0zprxvxdwshkez9mxx8g5xaz"]
+                },
+                "topics": {
+                    "before": ["biotech", "hardware"],
+                    "after": ["medtech", "photonics"]
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "Published on 18 Sep 2026; financing bullets; About Piomic; Important Regulatory Disclaimers.",
+                "evidence": "USD 25M growth financing; optical/magnetic stimulation; named studies and filing plans; investigational in US. Existing factual paragraph retained; only entity and specific topics changed.",
+                "media": "Existing COMS One product image retained; prior funding-media-2026-10-16.json verification."
+            }
+        },
+        {
+            "slug": "etfbook-funding-2026",
+            "id": "rh715apszhnhqk6qnbd992znw18g55zq",
+            "sourceFile": "content/news/etfbook-funding-2026.md",
+            "snapshotUpdatedAt": 1792141899986,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["etfbook"],
+            "sourceUrl": "https://etfbook.com/company/announcements/funding-round-with-expedition-growth-and-blackfin",
+            "changes": {
+                "organisations": {
+                    "before": [],
+                    "after": ["p17e2a8x0fyd10897n9ytzzys18g54r7"]
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "Company announcement title confirms USD 13M and Americas/APAC expansion; page opened successfully.",
+                "evidence": "Existing detailed description retained without additions; APIs/holdings/flows details rely on prior funding-media-2026-10-16.json research. Only missing organisation link changes.",
+                "media": "Existing dashboard retained; prior funding-media-2026-10-16.json verification."
+            }
+        },
+        {
+            "slug": "winduction-charging-prototype",
+            "id": "rh7ccm5w58h0079hqyjmg3bsjd8gb6ck",
+            "sourceFile": "content/news/winduction-charging-prototype.md",
+            "snapshotUpdatedAt": 1792141812474,
+            "status": "ready-for-ui-review",
+            "organisationSlugs": ["winduction"],
+            "sourceUrl": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/tyres-instead-of-a-plug-electric-buses-that-charge-during-operation.html",
+            "changes": {
+                "description": {
+                    "before": "Winduction's prototype charges an electric bus from a ground plate through coils integrated into its tyres, reducing the gap across which power must be transferred. The ETH spin-off aims to recharge buses at stops with smaller onboard batteries; passenger trials are planned for 2028, rather than already operating commercially.",
+                    "after": "Winduction demonstrated an electric bus charging from a ground plate through coils in its tyres.\nMoving the receiving coils into the wheel reduces the transmission gap compared with underbody charging.\nThe system needs specially developed steel-free tyres because conventional steel belts would absorb energy from the magnetic field as heat.\n\nThe company is building a laboratory and test bus stop in Winterthur before integrating the components for operation outside its private test area.\nPassenger trials are planned for 2028, with Swiss transport operators still in discussions.\nSmaller batteries and lower route costs are intended benefits, not results from a completed passenger-service trial."
+                },
+                "caption": {
+                    "before": "Video: ETH News for Industry",
+                    "after": "Wheel-based charging concept; the video includes animation. Video: ETH News for Industry"
+                }
+            },
+            "verification": {
+                "fresh": true,
+                "locator": "ETH 05.10.2026; Much smaller batteries and less power loss; Bus tyres without steel; Pilot operation at Zurich Airport from 2028.",
+                "evidence": "Wheel coils and steel-free tyres; Winterthur testing; passenger pilot only planned for 2028. No achieved route savings or established public service claimed.",
+                "media": "Original YouTube video/poster retained from media-briefs-2026-10-16.json; animated-poster caveat made explicit in caption. Fresh YouTube oEmbed failed; no fresh playback check."
+            }
+        },
+        {
+            "slug": "anapaya-colt-scion",
+            "id": "rh78mgdr9y041sv1635xw05f6d8gbzf4",
+            "sourceFile": "content/news/anapaya-colt-scion.md",
+            "snapshotUpdatedAt": 1792141844519,
+            "status": "no-change",
+            "organisationSlugs": ["anapaya"],
+            "sourceUrl": "https://www.anapaya.net/news/colt-becomes-first-network-provider-to-bring-scion-to-enterprises-across-europe-north-america-and-asia-anapaya",
+            "changes": {},
+            "verification": {
+                "fresh": false,
+                "locator": "Current primary URL attempted but web tool returned inaccessible.",
+                "evidence": "No source changes. Previously verified only: retained-media-2026-10-16.json and backfill-2026-10-16.json. Existing paragraph and console image remain; fuller technical verification is a gap."
+            }
+        },
+        {
+            "slug": "eth-biocement",
+            "id": "rh7ekawcyt60awy40gkm6y80m18gdkm2",
+            "sourceFile": "content/news/eth-biocement.md",
+            "snapshotUpdatedAt": 1792141783798,
+            "status": "already-applied-by-main",
+            "organisationSlugs": ["eth-zurich"],
+            "sourceUrl": "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/when-bacteria-become-masons.html",
+            "changes": {},
+            "verification": {
+                "fresh": true,
+                "locator": "ETH 14.10.2026; Two ways of making biogenic building materials; Fully digital manufacturing; environmental and load-bearing limitations.",
+                "evidence": "Primary page read before main confirmed publication. No further action; main owns final copy.",
+                "media": "Previous media-briefs-2026-10-16.json verification only."
+            }
+        },
+        {
+            "slug": "uzh-dapevo",
+            "id": "rh79tvhk2sy4304k8mznhp4qh98gcrnh",
+            "sourceFile": "content/news/uzh-dapevo.md",
+            "snapshotUpdatedAt": 1792141790753,
+            "status": "no-change",
+            "organisationSlugs": ["uzh"],
+            "sourceUrl": "https://arxiv.org/abs/2609.30947",
+            "changes": {},
+            "verification": {
+                "fresh": false,
+                "evidence": "Not reopened this turn. Existing local description already equals production snapshot. Previously verified only: technical-2026-10-16.json and media-briefs-2026-10-16.json. No invented video or entity changes."
+            }
+        },
+        {
+            "slug": "mimic-industrial-manipulation",
+            "id": "rh7043cx0fzpfjnxkg0vcbbvt58gdmck",
+            "sourceFile": "content/news/mimic-industrial-manipulation.md",
+            "snapshotUpdatedAt": 1792141748617,
+            "status": "already-applied-by-main",
+            "organisationSlugs": ["mimic"],
+            "sourceUrl": "https://www.mimicrobotics.com/blog/video-action-models-for-data-efficient-industrial-manipulation",
+            "changes": {},
+            "verification": {
+                "fresh": true,
+                "locator": "September 23, 2026; Industrial Dataset; From video representations to robot actions; High success with limited action data.",
+                "evidence": "Primary page read before main said it was independently handled; no further work or queued changes.",
+                "media": "Previous local provenance only; main independently verified and applied."
+            }
+        }
+    ],
+    "purpose": "Editorially reviewed local changes for main UI application only; not applied to any deployment and not a blanket publication authorization.",
+    "application": [
+        "Review only records with status ready-for-ui-review; changes contains exact before/after fields, with absent old fields represented by null.",
+        "Refresh the UI record first; if current content differs from before, reconcile instead of overwriting another editor.",
+        "Description maps to Markdown subtitle. Empty body intentionally removes legacy credit text now in caption. Preserve unspecified fields, funding label/category, date, publication state, media and authors.",
+        "Organisation IDs come from work/organisations/final-classification-1210.json; select matching canonical slugs in UI and confirm IDs still resolve.",
+        "Do not run the all-catalogue importer for these updates: it rejects differing published records and includes unrelated sources.",
+        "Mimic and ETH biocement are already handled by main. Blatten is expressly rejected and its unpublication belongs to main. DAPEVO local copy matched the supplied snapshot when this packet was prepared; subsequent changes are in anapaya-dapevo-ui-packet-2026-10-16.json."
+    ],
+    "counts": {
+        "recentIncludingAuthored": 15,
+        "external": 14,
+        "ready": 10,
+        "missingEntityLinks": 8
+    },
+    "freshSourceUrls": [
+        "https://www.eqs-news.com/news/corporate/sensirion-launches-sen68-and-sen69c-for-comprehensive-indoor-air-quality-monitoring/96530e2e-8a82-462f-892f-172f41cd1a17_en",
+        "https://ethz.ch/en/news-and-events/eth-news/news/2026/09/tiny-oled-pixels-can-be-manufactured-like-microchips.html",
+        "https://www.nature.com/articles/s41586-026-11042-0",
+        "https://klarent.ai/blogs/klarent-secures-8m-seed-funding/",
+        "https://unisieve.com/resources/unisieve-raises-9m-to-scale-high-precision-membrane-solution-for-industrial-separations",
+        "https://namespace.so/blog/series-b",
+        "https://www.cotierra.com/",
+        "https://www.pauliggroup.com/news/pauligs-venture-arm-pinc-co-leads-eur26-million-investment-in-cotierra-to-strengthen-coffee-supply-chain-resilience",
+        "https://previsionmedicine.com/news/press-release-prevision-medicine-raises-5-4m-in-seed-funding-round",
+        "https://www.piomic.com/news/swisscanto-leads-usd-25m-growth-financing-for-piomic-medical/",
+        "https://etfbook.com/company/announcements/funding-round-with-expedition-growth-and-blackfin",
+        "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/tyres-instead-of-a-plug-electric-buses-that-charge-during-operation.html",
+        "https://ethz.ch/en/news-and-events/eth-news/news/2026/10/when-bacteria-become-masons.html",
+        "https://www.mimicrobotics.com/blog/video-action-models-for-data-efficient-industrial-manipulation"
+    ],
+    "previousOnlyStoryUrls": [
+        "https://www.anapaya.net/news/colt-becomes-first-network-provider-to-bring-scion-to-enterprises-across-europe-north-america-and-asia-anapaya",
+        "https://arxiv.org/abs/2609.30947"
+    ],
+    "gaps": [
+        "No live inventory refresh, mutations, importer, commit or deployment performed.",
+        "Media provenance reused explicitly; shell endpoint check failed with ENOTFOUND ethz.ch. Public media availability does not establish reuse licensing.",
+        "No newly discovered playable funding demo was verified. Preserve original photos rather than fabricate video links.",
+        "Snapshot counts 15 recent items including authored announcement, not 15 external stories. Blatten absent from this window selection; do not restore it.",
+        "Current registry IDs and media reachability should be confirmed by the main UI operator before publication."
+    ]
+}
