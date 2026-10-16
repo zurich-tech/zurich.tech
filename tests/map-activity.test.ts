@@ -16,7 +16,7 @@ test("test_read_map_news_without_drafts_or_unrelated_stories", async () => {
             kind: "startup",
             updatedAt: 1,
         });
-        await ctx.db.insert("organisations", {
+        const second = await ctx.db.insert("organisations", {
             name: "Empty",
             description: "Robotics",
             location: "Zurich",
@@ -48,6 +48,14 @@ test("test_read_map_news_without_drafts_or_unrelated_stories", async () => {
                 createdBy: author,
             });
         }
+        // link the newest story to both tenants to exercise exact shared totals
+        const newest = await ctx.db
+            .query("posts")
+            .withIndex("by_slug", (q) => q.eq("slug", "story-3"))
+            .unique();
+        await ctx.db.patch(newest!._id, {
+            published: { ...newest!.published!, organisations: [organisation, second] },
+        });
     });
 
     expect(
@@ -75,9 +83,98 @@ test("test_read_map_news_without_drafts_or_unrelated_stories", async () => {
             jobCount: 0,
             jobs: [],
         },
-        { slug: "empty", newsCount: 0, news: [], jobCount: 0, jobs: [] },
+        {
+            slug: "empty",
+            newsCount: 1,
+            news: [
+                {
+                    title: "Story 3",
+                    date: Date.UTC(2026, 9, 3),
+                    image: "https://example.com/robot.jpg",
+                    path: "/news/2026/09/03/story-3",
+                },
+            ],
+            jobCount: 0,
+            jobs: [],
+        },
+    ]);
+    expect(
+        await backend.query(api.places.map.activity, {
+            slugs: ["example", "empty", "example", "missing"],
+            combined: true,
+        }),
+    ).toEqual([
+        {
+            slug: null,
+            newsCount: 3,
+            jobCount: 0,
+            jobs: [],
+            news: [
+                {
+                    title: "Story 3",
+                    date: Date.UTC(2026, 9, 3),
+                    image: "https://example.com/robot.jpg",
+                    path: "/news/2026/09/03/story-3",
+                    organisation: "Example, Empty",
+                },
+                {
+                    title: "Story 2",
+                    date: Date.UTC(2026, 9, 2),
+                    image: "https://example.com/robot.jpg",
+                    path: "/news/2026/09/02/story-2",
+                    organisation: "Example",
+                },
+            ],
+        },
     ]);
     expect(await backend.query(api.places.map.activity, { slugs: [] })).toEqual([]);
+
+    // include another tenant's own story before applying the two-story limit
+    await backend.run(async (ctx) => {
+        const second = await ctx.db
+            .query("organisations")
+            .withIndex("by_slug", (q) => q.eq("slug", "empty"))
+            .unique();
+        const story = await ctx.db
+            .query("posts")
+            .withIndex("by_slug", (q) => q.eq("slug", "story-4"))
+            .unique();
+        await ctx.db.patch(story!._id, {
+            published: { ...story!.published!, organisations: [second!._id] },
+        });
+    });
+    expect(
+        await backend.query(api.places.map.activity, {
+            slugs: ["example", "empty"],
+            combined: true,
+        }),
+    ).toEqual([
+        {
+            slug: null,
+            newsCount: 4,
+            jobCount: 0,
+            jobs: [],
+            news: [
+                {
+                    title: "Story 4",
+                    date: Date.UTC(2026, 9, 4),
+                    image: "https://example.com/robot.jpg",
+                    path: "/news/2026/09/04/story-4",
+                    organisation: "Empty",
+                },
+                {
+                    title: "Story 3",
+                    date: Date.UTC(2026, 9, 3),
+                    image: "https://example.com/robot.jpg",
+                    path: "/news/2026/09/03/story-3",
+                    organisation: "Example, Empty",
+                },
+            ],
+        },
+    ]);
+    expect(
+        await backend.query(api.places.map.activity, { slugs: ["missing"], combined: true }),
+    ).toEqual([]);
 });
 
 /** Match the job board's visibility and exclude closed, stale, expired and unapproved roles. */
@@ -166,6 +263,25 @@ test("test_read_only_open_map_jobs", async () => {
                     workplace: "onsite" as const,
                 })),
             ],
+        },
+    ]);
+    const combined = await backend.query(api.places.map.activity, {
+        slugs: ["example", "example"],
+        combined: true,
+    });
+    expect(combined).toEqual([
+        {
+            slug: null,
+            newsCount: 0,
+            news: [],
+            jobCount: 4,
+            jobs: ["one", "two"].map((title) => ({
+                title,
+                path: `/jobs/${title}`,
+                locations: [{ locality: "Zurich", countryCode: "CH" }],
+                workplace: "onsite",
+                organisation: "Example",
+            })),
         },
     ]);
 });

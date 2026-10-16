@@ -28,9 +28,7 @@ import type { Map as GeographicMap, Popup, StyleSpecification } from "maplibre-g
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { getMap, type MapLocation } from "./queries";
-import { publicClient } from "../auth/convex";
-import { api } from "../../convex/_generated/api";
-import { MapActivity, type OrganisationActivity } from "./activity";
+import { MapActivity, SharedActivity, createActivity } from "./activity";
 import { Image } from "../components/image";
 import { SocialLinks } from "../components/social";
 import { useSearch } from "../search/local";
@@ -56,7 +54,7 @@ import { Highlight } from "../components/highlight";
 import { overview } from "./camera";
 import { sheetDestination, sheetHeights, sheetKey, type SheetDrag } from "./sheet";
 import { MapNavigation, restoreMapFocus } from "./navigation";
-import { isPreviewPath, pickOrganisation, type Point } from "./hover";
+import { isPreviewPath, pickOrganisation, sharedPreview, type Point } from "./hover";
 import {
     addBadges,
     addOrganisationLayers,
@@ -421,6 +419,7 @@ export function CommunityMap(props: {
         const current = instance();
         if (props.isHero || isFilterOpen() || !current || current.map.isMoving()) return;
         const isSidebar = Boolean(sidebar);
+        const isShared = places[0].organisations.length > 1;
         const key =
             (isSidebar ? "sidebar:" : "marker:") +
             places
@@ -468,6 +467,19 @@ export function CommunityMap(props: {
                     tenants.length > 7
                         ? Math.ceil(tenants.length / 2)
                         : Math.max(1, tenants.length);
+                const [tenant, setTenant] = createSignal<MapLocation["organisations"][number]>();
+                let sharedBody!: HTMLDivElement;
+                let browseTenants!: HTMLButtonElement;
+
+                /** Start each tenant's details at the top without moving the logo grid. */
+                function chooseTenant(person?: MapLocation["organisations"][number]) {
+                    // retain keyboard focus when removing the overview button with its details
+                    if (!person && sharedBody.contains(document.activeElement))
+                        browseTenants.focus();
+                    sharedBody.scrollTop = 0;
+                    setTenant(person);
+                }
+
                 disposePreview = render(
                     () => (
                         <div
@@ -504,34 +516,100 @@ export function CommunityMap(props: {
                                 }
                             >
                                 <section class="map-place map-place--shared">
-                                    <h2 class="map-place__name">{placeName(places[0])}</h2>
-                                    <p class="map-place__address">{places[0].address}</p>
-                                    <div
-                                        class="map-tenants"
-                                        style={{ "--map-tenant-columns": columns }}
-                                        aria-label="Organisations at this address"
-                                    >
-                                        <For each={tenants}>
-                                            {(person) => (
-                                                <Image
-                                                    src={person.mapLogoUrl ?? person.logoUrl}
-                                                    alt={person.name}
-                                                    title={person.name}
-                                                    width={32}
-                                                    height={32}
-                                                />
-                                            )}
-                                        </For>
+                                    <div class="map-shared-heading">
+                                        <h2 class="map-place__name">{placeName(places[0])}</h2>
+                                        <p class="map-place__address">{places[0].address}</p>
+                                        <div
+                                            class="map-tenants"
+                                            style={{ "--map-tenant-columns": columns }}
+                                            aria-label="Organisations at this address"
+                                        >
+                                            <For each={tenants}>
+                                                {(person) => (
+                                                    <a
+                                                        class="map-tenant"
+                                                        classList={{
+                                                            "is-active": tenant()?.id === person.id,
+                                                        }}
+                                                        href={
+                                                            person.website ||
+                                                            `/organisations/${person.slug}`
+                                                        }
+                                                        target={
+                                                            person.website ? "_blank" : undefined
+                                                        }
+                                                        rel={
+                                                            person.website
+                                                                ? "noopener noreferrer"
+                                                                : undefined
+                                                        }
+                                                        aria-label={
+                                                            person.website
+                                                                ? `${person.name} website (opens in a new tab)`
+                                                                : `View ${person.name}`
+                                                        }
+                                                        onPointerEnter={() => chooseTenant(person)}
+                                                        onFocus={() => chooseTenant(person)}
+                                                    >
+                                                        <Image
+                                                            src={
+                                                                person.mapLogoUrl ?? person.logoUrl
+                                                            }
+                                                            alt={person.name}
+                                                            width={32}
+                                                            height={32}
+                                                        />
+                                                    </a>
+                                                )}
+                                            </For>
+                                        </div>
+                                        <button
+                                            ref={browseTenants}
+                                            class="map-browse"
+                                            type="button"
+                                            onClick={() => select(places)}
+                                        >
+                                            View all{" "}
+                                            {organisationCountLabel(places[0].organisations.length)}{" "}
+                                            <ArrowRight size={16} />
+                                        </button>
                                     </div>
-                                    <button
-                                        class="map-browse"
-                                        type="button"
-                                        onClick={() => select(places)}
-                                    >
-                                        View all{" "}
-                                        {organisationCountLabel(places[0].organisations.length)}{" "}
-                                        <ArrowRight size={16} />
-                                    </button>
+                                    <div class="map-shared-body" ref={sharedBody}>
+                                        <Show
+                                            when={tenant()}
+                                            fallback={
+                                                <SharedActivity
+                                                    slugs={places[0].organisations.map(
+                                                        (organisation) => organisation.slug,
+                                                    )}
+                                                />
+                                            }
+                                            keyed
+                                        >
+                                            {(person) => (
+                                                <div class="map-tenant-preview">
+                                                    <button
+                                                        type="button"
+                                                        class="map-browse"
+                                                        onClick={() => chooseTenant()}
+                                                    >
+                                                        <ArrowLeft size={14} /> Address overview
+                                                    </button>
+                                                    <PlaceDetails
+                                                        places={[
+                                                            {
+                                                                ...places[0],
+                                                                organisations: [person],
+                                                            },
+                                                        ]}
+                                                        topics={topics() ?? []}
+                                                        topicHref={topicHref}
+                                                        onTopic={filterTopic}
+                                                    />
+                                                </div>
+                                            )}
+                                        </Show>
+                                    </div>
                                 </section>
                             </Show>
                         </div>
@@ -542,17 +620,35 @@ export function CommunityMap(props: {
                     closeButton: false,
                     closeOnClick: false,
                     focusAfterOpen: false,
-                    offset: isSidebar ? [-1, 0] : 18,
+                    offset: isShared ? 0 : isSidebar ? [-1, 0] : 18,
                     maxWidth: "min(320px, calc(100vw - 32px))",
-                    className: isSidebar ? "map-preview map-preview--sidebar" : "map-preview",
-                    anchor: isSidebar ? "top-left" : undefined,
+                    className: `map-preview${isSidebar ? " map-preview--sidebar" : ""}${isShared ? " map-preview--shared" : ""}`,
+                    anchor: isSidebar || isShared ? "top-left" : undefined,
                 })
                     .setLngLat(position)
                     .setDOMContent(element)
                     .addTo(current.map);
 
+                // keep shared controls stationary and reserve room for asynchronously loaded details
+                if (isShared) {
+                    const alignPreview = () => {
+                        if (!preview) return;
+                        const frame = sharedPreview(
+                            { x: point[0], y: point[1] },
+                            container.getBoundingClientRect(),
+                        );
+                        preview
+                            .getElement()
+                            .style.setProperty("--map-preview-height", `${frame.height}px`);
+                        preview.getElement().style.width = `${frame.width}px`;
+                        preview.setLngLat(current.map.unproject([frame.left, frame.top]));
+                    };
+                    previewResize = new ResizeObserver(alignPreview);
+                    previewResize.observe(container);
+                    alignPreview();
+                }
                 // align with the row unless the card needs to move up to stay on screen
-                if (sidebar) {
+                else if (sidebar) {
                     preview
                         .getElement()
                         .style.setProperty(
@@ -1434,9 +1530,6 @@ function PlaceDetails(detail: {
     topicHref: (slug: string) => string;
     onTopic: (slug: string) => void;
 }) {
-    const [activity, setActivity] = createSignal<OrganisationActivity[]>([]);
-    const [activityError, setActivityError] = createSignal(false);
-    const [attempt, setAttempt] = createSignal(0);
     const activitySlugs = createMemo(
         () =>
             [
@@ -1453,26 +1546,11 @@ function PlaceDetails(detail: {
         },
     );
 
-    // fetch only opened addresses, retaining the result when their local search changes
-    createEffect(() => {
-        const slugs = activitySlugs();
-        attempt();
-        let isActive = true;
-        setActivity([]);
-        setActivityError(false);
-        void publicClient()
-            .query(api.places.map.activity, { slugs })
-            .then((result) => {
-                if (isActive) setActivity(result);
-            })
-            .catch((error: unknown) => {
-                console.error("Could not load map news and jobs.", error);
-                if (isActive) setActivityError(true);
-            });
-        onCleanup(() => {
-            isActive = false;
-        });
-    });
+    const {
+        activity,
+        error: activityError,
+        retry,
+    } = createActivity(activitySlugs, () => activitySlugs().length > 1);
 
     /** Resolve unique labels and omit ancestors already represented by a specific subject. */
     function labels(values: readonly string[] = []) {
@@ -1489,6 +1567,13 @@ function PlaceDetails(detail: {
 
     return (
         <>
+            <Show when={activity().find((entry) => entry.slug === null)}>
+                {(entry) => (
+                    <div class="map-place map-place--shared">
+                        <MapActivity activity={entry()} />
+                    </div>
+                )}
+            </Show>
             <For each={detail.places}>
                 {(place) => (
                     <section class="map-place">
@@ -1631,7 +1716,7 @@ function PlaceDetails(detail: {
             <Show when={activityError()}>
                 <p class="map-activity-error" role="status">
                     News and jobs couldn’t load.{" "}
-                    <button type="button" onClick={() => setAttempt((value) => value + 1)}>
+                    <button type="button" onClick={retry}>
                         Retry
                     </button>
                 </p>

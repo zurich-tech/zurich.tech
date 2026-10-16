@@ -265,7 +265,7 @@ test("test_filter_exact_addresses_without_source_uploads_or_active_selection_cha
     ).toEqual({
         id: shared.id,
         place: shared.id,
-        name: "Shared address",
+        name: "first, second",
         badge: "group-dot",
         count: 2,
         isLogo: false,

@@ -19,8 +19,32 @@ import {
     showOrganisations,
 } from "../src/map/layers";
 import { cornerColour } from "../src/map/colour";
-import { isPreviewPath } from "../src/map/hover";
+import { isPreviewPath, sharedPreview } from "../src/map/hover";
 import type { Map as GeographicMap, SymbolLayerSpecification } from "maplibre-gl";
+
+test("test_keep_shared_previews_inside_the_map_at_every_edge", () => {
+    for (const viewport of [
+        { width: 1200, height: 800 },
+        { width: 390, height: 650 },
+        { width: 740, height: 300 },
+    ]) {
+        for (const x of [0, viewport.width / 2, viewport.width]) {
+            for (const y of [0, viewport.height / 2, viewport.height]) {
+                const frame = sharedPreview({ x, y }, viewport);
+                expect(frame.left).toBeGreaterThanOrEqual(12);
+                expect(frame.top).toBeGreaterThanOrEqual(12);
+                expect(frame.left + frame.width).toBeLessThanOrEqual(viewport.width - 12);
+                expect(frame.top + frame.height).toBeLessThanOrEqual(viewport.height - 12);
+            }
+        }
+    }
+    expect(sharedPreview({ x: 900, y: 700 }, { width: 1200, height: 800 })).toEqual({
+        left: 562,
+        top: 228,
+        width: 320,
+        height: 560,
+    });
+});
 
 test("test_label_zero_single_and_multiple_organisation_counts", () => {
     expect([0, 1, 2, 996].map(organisationCountLabel)).toEqual([
@@ -347,7 +371,7 @@ test("test_preserve_complete_groups_after_search_and_category_filters", () => {
     const groups = matchingPlaces(places, matches);
     expect(groups).toEqual([places[0]]);
     expect(placeName(groups[0])).toBe("host");
-    expect(placeName(places[1])).toBe("Shared address");
+    expect(placeName(places[1])).toBe("neighbour");
     expect(filterLocations(groups, "all", ["host"])).toEqual([
         { ...places[0], organisations: [places[0].organisations[0]] },
     ]);
@@ -363,11 +387,19 @@ test("test_name_only_unique_space_hosts_without_inferring_hosts_from_prominence"
     };
     const space = { ...office("Technopark Zürich"), kind: "space" as const };
     const cases = [
-        { members: [university, office("Akina")], name: "Shared address" },
+        { members: [university, office("Akina")], name: "Akina, ETH AI" },
         { members: [university, space, office("Akina")], name: "Technopark Zürich" },
         {
             members: [space, { ...office("Other space"), kind: "space" as const }],
-            name: "Shared address",
+            name: "Other space, Technopark Zürich",
+        },
+        {
+            members: [office("Zulu"), office("Beta"), office("Alpha"), office("Delta")],
+            name: "Alpha, Beta, +2",
+        },
+        {
+            members: [office("Alpha"), { ...office("Sponsor"), isSponsor: true }, office("Beta")],
+            name: "Sponsor, Alpha, +1",
         },
     ];
     for (const { members, name } of cases) {

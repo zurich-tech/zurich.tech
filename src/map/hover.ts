@@ -7,6 +7,23 @@ export interface Point {
 /** The marker fields that determine its drawing priority and visibility. */
 type Marker = { isSponsor?: boolean; isLogo?: boolean; count?: number };
 
+/** Reserve space for a shared preview without moving its controls when content changes. */
+export function sharedPreview(point: Point, viewport: { width: number; height: number }) {
+    const margin = 12;
+    const gap = 18;
+    const width = Math.min(320, viewport.width - margin * 2);
+    const height = Math.min(560, viewport.height - margin * 2);
+    const beside =
+        point.x + gap + width <= viewport.width - margin ? point.x + gap : point.x - gap - width;
+
+    return {
+        left: Math.max(margin, Math.min(beside, viewport.width - width - margin)),
+        top: Math.max(margin, Math.min(point.y - 80, viewport.height - height - margin)),
+        width,
+        height,
+    };
+}
+
 /** Rank sponsors above hosts, shared addresses and ordinary markers. */
 export function organisationOrder(marker: Marker) {
     return marker.isSponsor ? 3 : marker.isLogo ? 2 : (marker.count ?? 1) > 1 ? 1 : 0;

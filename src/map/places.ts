@@ -37,11 +37,20 @@ export function countOrganisations(places: readonly MapLocation[]) {
     return ids.size;
 }
 
-/** Name a shared address only when exactly one space is recorded there. */
+/** Prefer a unique venue name, otherwise name two tenants and count the remainder. */
 export function placeName(place: MapLocation) {
     const spaces = place.organisations.filter((organisation) => organisation.kind === "space");
+    if (spaces.length === 1) return spaces[0].name;
 
-    return spaces.length === 1 ? spaces[0].name : "Shared address";
+    const names = [...place.organisations]
+        .sort(
+            (a, b) =>
+                Number(Boolean(b.isSponsor)) - Number(Boolean(a.isSponsor)) ||
+                a.name.localeCompare(b.name),
+        )
+        .map((organisation) => organisation.name);
+
+    return [...names.slice(0, 2), ...(names.length > 2 ? [`+${names.length - 2}`] : [])].join(", ");
 }
 
 /** Keep complete address groups when at least one organisation matches the filters. */

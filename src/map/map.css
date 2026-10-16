@@ -162,6 +162,40 @@
     background: #ffffff;
 }
 
+.map-tenant {
+    display: block;
+    min-width: 0;
+    border-radius: 4px;
+}
+
+.map-tenant:is(:hover, :focus-visible, .is-active) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.map-tenant-preview {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-line);
+}
+
+.map-tenant-preview .map-person {
+    border-top: 0;
+    padding-top: 8px;
+}
+
+.map-preview .map-tenant-preview .map-place {
+    padding: 0;
+}
+
+.map-tenant-preview .map-place__address {
+    display: none;
+}
+
+.map-tenant-preview .map-activity {
+    margin-left: 0;
+}
+
 .map-place__name {
     margin: 12px 0;
     font-size: 16px;
@@ -474,6 +508,31 @@
     max-height: min(360px, calc(100dvh - 140px));
 }
 
+.map-preview--shared .maplibregl-popup-tip {
+    display: none;
+}
+
+.map-preview--shared .maplibregl-popup-content {
+    max-height: var(--map-preview-height);
+    overflow: hidden;
+}
+
+.map-preview--shared .map-place--shared {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(var(--map-preview-height) - 2px);
+}
+
+.map-shared-heading {
+    flex-shrink: 0;
+}
+
+.map-shared-body {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
 /* attach directory previews to the panel instead of using a geographic tooltip tip */
 .map-preview--sidebar .maplibregl-popup-tip {
     display: none;
@@ -555,7 +614,8 @@
     font-size: var(--text-sm);
 }
 
-.map-preview--sidebar .map-activity {
+.map-preview--sidebar .map-activity,
+.map-place--shared .map-activity {
     margin-left: 0;
 }
 
