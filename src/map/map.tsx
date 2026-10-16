@@ -531,6 +531,16 @@ export function CommunityMap(props: {
                                                         classList={{
                                                             "is-active": tenant()?.id === person.id,
                                                         }}
+                                                        data-sponsor={
+                                                            person.isSponsor
+                                                                ? person.recognition
+                                                                : undefined
+                                                        }
+                                                        title={
+                                                            person.isSponsor
+                                                                ? `${person.name} · ${person.recognition}`
+                                                                : person.name
+                                                        }
                                                         href={
                                                             person.website ||
                                                             `/organisations/${person.slug}`

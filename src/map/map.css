@@ -168,6 +168,12 @@
     border-radius: 4px;
 }
 
+.map-tenant[data-sponsor] img {
+    border: 2px solid var(--sponsor-edge);
+    padding: 2px;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--sponsor-edge) 55%, transparent);
+}
+
 .map-tenant:is(:hover, :focus-visible, .is-active) {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
@@ -381,10 +387,14 @@
 }
 
 /* distinguish sponsorship tiers without relying on colour alone */
-.map-recognition[data-sponsor] {
+.map-recognition[data-sponsor],
+.map-tenant[data-sponsor] {
     --sponsor-ink: #174ed8;
     --sponsor-paper: #edf3ff;
     --sponsor-edge: #a9bff2;
+}
+
+.map-recognition[data-sponsor] {
     width: fit-content;
     padding: 2px 7px;
     border: 1px solid var(--sponsor-edge);
@@ -397,19 +407,22 @@
     box-shadow: 0 0 8px color-mix(in srgb, var(--sponsor-edge) 30%, transparent);
 }
 
-.map-recognition[data-sponsor="Gold sponsor"] {
+.map-recognition[data-sponsor="Gold sponsor"],
+.map-tenant[data-sponsor="Gold sponsor"] {
     --sponsor-ink: #77510b;
     --sponsor-paper: #fff5d6;
     --sponsor-edge: #c99a20;
 }
 
-.map-recognition[data-sponsor="Silver sponsor"] {
+.map-recognition[data-sponsor="Silver sponsor"],
+.map-tenant[data-sponsor="Silver sponsor"] {
     --sponsor-ink: #475569;
     --sponsor-paper: #f0f3f7;
     --sponsor-edge: #75879e;
 }
 
-.map-recognition[data-sponsor="Bronze sponsor"] {
+.map-recognition[data-sponsor="Bronze sponsor"],
+.map-tenant[data-sponsor="Bronze sponsor"] {
     --sponsor-ink: #85441e;
     --sponsor-paper: #fff0e5;
     --sponsor-edge: #bf6c32;
