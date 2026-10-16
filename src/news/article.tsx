@@ -24,7 +24,7 @@ type ArticleListProps = {
     articles: (Article | ArticlePreview)[];
     /** Use the collection heading as the page title. */
     isPage?: boolean;
-    /** Show full briefs and media outside the news index. */
+    /** Show related stories without collection filters or actions. */
     isFeed?: boolean;
     /** Override the collection heading. */
     title?: string;
@@ -125,7 +125,7 @@ export function ArticleList(props: ArticleListProps) {
                     <For each={articles()}>
                         {(article) => (
                             <Show
-                                when={props.isPage || props.isFeed}
+                                when={props.isPage}
                                 fallback={
                                     <Entry
                                         class="news-row"

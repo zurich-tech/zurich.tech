@@ -209,6 +209,7 @@ export default function Route() {
                                         title="More news"
                                         articles={related(post(), articles() ?? [])}
                                         isFeed
+                                        isCompact
                                         limit={2}
                                     />
                                 </Show>
