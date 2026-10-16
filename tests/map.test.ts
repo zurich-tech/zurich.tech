@@ -10,6 +10,7 @@ import {
     organisationCountLabel,
     placeName,
     selectPlaces,
+    organisationPlace,
 } from "../src/map/places";
 import { searchTerms } from "../src/search/search";
 import {
@@ -98,6 +99,16 @@ test("test_reuse_unfiltered_locations_for_empty_and_whitespace_searches", () => 
 
     // an unknown selected topic must still narrow to no results, never use the fast path
     expect(filterLocations(locations, "all", [], new Set())).toEqual([]);
+});
+
+test("test_resolve_linked_tenant_without_selecting_shared_address_neighbours", () => {
+    const places = groupLocations([office("first"), office("second")]);
+    const target = organisationPlace(places, "second");
+
+    expect(target).toEqual({ ...places[0], organisations: [places[0].organisations[1]] });
+    expect(places[0].organisations).toHaveLength(2);
+    expect(organisationPlace(places, "missing")).toBeUndefined();
+    expect(organisationPlace([], "second")).toBeUndefined();
 });
 
 test("test_reject_an_organisation_excluded_by_search_at_a_shared_address", () => {

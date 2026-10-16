@@ -1,5 +1,15 @@
 import type { MapLocation } from "./queries";
 
+/** Resolve a linked organisation without selecting its neighbours at a shared address. */
+export function organisationPlace(places: readonly MapLocation[], slug: string) {
+    for (const place of places) {
+        const organisation = place.organisations.find((entry) => entry.slug === slug);
+        if (organisation) return { ...place, organisations: [organisation] };
+    }
+
+    return undefined;
+}
+
 /** Format an organisation count for visible and accessible labels. */
 export function organisationCountLabel(count: number) {
     return `${count} organisation${count === 1 ? "" : "s"}`;

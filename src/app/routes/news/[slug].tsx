@@ -2,6 +2,8 @@ import { PageCommands } from "../../../search/actions";
 import { useAccess } from "../../../auth/edit";
 import { EditLink } from "../../../auth/edit";
 import { Share } from "../../../components/share";
+import { SocialLinks } from "../../../components/social";
+import { MapPin } from "lucide-solid";
 import { Card } from "../../../components/card";
 import { timeZone } from "../../site";
 import { getArticle, getHeadlines } from "../../../news/queries";
@@ -195,6 +197,28 @@ export default function Route() {
                                                                     Website{" "}
                                                                     <Arrow direction="external" />
                                                                 </a>
+                                                            </Show>
+                                                            <Show when={organisation.mapUrl}>
+                                                                {(url) => (
+                                                                    <a
+                                                                        class="action-link"
+                                                                        href={url()}
+                                                                    >
+                                                                        <MapPin
+                                                                            size={14}
+                                                                            aria-hidden="true"
+                                                                        />{" "}
+                                                                        Map
+                                                                    </a>
+                                                                )}
+                                                            </Show>
+                                                            <Show when={organisation.socials}>
+                                                                {(profiles) => (
+                                                                    <SocialLinks
+                                                                        name={organisation.name}
+                                                                        profiles={profiles()}
+                                                                    />
+                                                                )}
                                                             </Show>
                                                         </div>
                                                     </div>

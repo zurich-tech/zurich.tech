@@ -18,6 +18,7 @@ import {
     createMemo,
     createSignal,
     createSelector,
+    on,
     onMount,
     onCleanup,
     Show,
@@ -49,6 +50,7 @@ import {
     organisationCountLabel,
     placeName,
     selectPlaces,
+    organisationPlace,
 } from "./places";
 import { Highlight } from "../components/highlight";
 import { overview } from "./camera";
@@ -842,6 +844,22 @@ export function CommunityMap(props: {
             backButton?.focus({ preventScroll: true });
         });
     }
+
+    // open deep links once both the public directory and map are ready
+    let openedOrganisation: string | undefined;
+    createEffect(
+        on([() => params.organisation, instance, organisations], ([slug, current, places]) => {
+            if (props.isHero) return;
+            if (typeof slug !== "string") {
+                openedOrganisation = undefined;
+                return;
+            }
+            if (!current || !places || openedOrganisation === slug) return;
+            const place = organisationPlace(places, slug);
+            openedOrganisation = slug;
+            if (place) select([place]);
+        }),
+    );
 
     /** Fit the full city extent on every screen size and restore it on reset. */
     function frame() {

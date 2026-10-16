@@ -5,6 +5,7 @@ import { v } from "convex/values";
 import { requireTeam } from "../auth/access";
 import { tagSlugs } from "./tags";
 import { newsDate, newsPath } from "../../src/news/path";
+import { readProfiles } from "../members/links";
 
 /** Read published news only; drafts never enter the public response. */
 export const list = query({
@@ -40,12 +41,17 @@ export const detail = query({
             .withIndex("by_slug", (q) => q.eq("slug", slug))
             .unique();
         if (!post?.published) return null;
-        return publishedPost(ctx, post, await ctx.db.query("topics").collect());
+        return publishedPost(ctx, post, await ctx.db.query("topics").collect(), true);
     },
 });
 
-/** Expand public author, organisation and topic references identically on both read paths. */
-async function publishedPost(ctx: QueryCtx, post: Doc<"posts">, topics: Doc<"topics">[]) {
+/** Expand public references, adding organisation destinations only for article details. */
+async function publishedPost(
+    ctx: QueryCtx,
+    post: Doc<"posts">,
+    topics: Doc<"topics">[],
+    isDetail = false,
+) {
     const { category, ...content } = post.published!;
     const authors = await Promise.all(content.authors.map((id) => ctx.db.get(id)));
     const organisations = await Promise.all(content.organisations.map((id) => ctx.db.get(id)));
@@ -72,19 +78,45 @@ async function publishedPost(ctx: QueryCtx, post: Doc<"posts">, topics: Doc<"top
                     };
                 }),
         ),
-        organisations: organisations
-            .filter((organisation) => organisation !== null)
-            .map((organisation) => ({
-                name: organisation.name,
-                slug: organisation.slug,
-                kind: organisation.kind,
-                headline: organisation.headline,
-                description: organisation.description,
-                location: organisation.location,
-                website: organisation.website,
-                iconUrl: organisation.mapLogoUrl ?? organisation.logoUrl,
-            })),
+        organisations: await Promise.all(
+            organisations
+                .filter((organisation) => organisation !== null)
+                .map(async (organisation) => ({
+                    name: organisation.name,
+                    slug: organisation.slug,
+                    kind: organisation.kind,
+                    headline: organisation.headline,
+                    description: organisation.description,
+                    location: organisation.location,
+                    website: organisation.website,
+                    iconUrl: organisation.mapLogoUrl ?? organisation.logoUrl,
+                    ...(isDetail ? await organisationLinks(ctx, organisation) : {}),
+                })),
+        ),
         topics: articleTopics(tagSlugs(post.published!), topics),
+    };
+}
+
+/** Resolve public destinations only for article details, not every feed preview. */
+async function organisationLinks(ctx: QueryCtx, organisation: Doc<"organisations">) {
+    const [profiles, locations] = await Promise.all([
+        readProfiles(ctx, organisation._id),
+        ctx.db
+            .query("locations")
+            .withIndex("by_owner", (q) => q.eq("ownerId", organisation._id))
+            .filter((q) => q.eq(q.field("visibility"), "public"))
+            .collect(),
+    ]);
+    const addresses = await Promise.all(
+        locations.map((location) => ctx.db.get(location.addressId)),
+    );
+    const isMapped = addresses.some(
+        (address) => address?.latitude !== undefined && address.longitude !== undefined,
+    );
+
+    return {
+        socials: profiles.socials,
+        mapUrl: isMapped ? `/map?organisation=${encodeURIComponent(organisation.slug)}` : undefined,
     };
 }
 

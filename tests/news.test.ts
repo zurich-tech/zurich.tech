@@ -4,6 +4,81 @@ import { api, internal } from "../convex/_generated/api";
 import { newsTags, isNewsTag } from "../convex/news/tags";
 import { articleParagraphs, articleTopics } from "../src/news/model";
 
+/** Expose only public social profiles and geocoded public map destinations. */
+test("test_link_news_entities_to_public_profiles_and_map_locations", async () => {
+    const backend = convexTest(schema, modules);
+    const { addressId, locationId } = await backend.run(async (ctx) => {
+        const ownerId = await ctx.db.insert("organisations", {
+            name: "Robotics",
+            slug: "robotics",
+            kind: "company",
+            description: "Robots",
+            location: "Zurich",
+            website: "https://example.org",
+            updatedAt: 1,
+        });
+        const addressId = await ctx.db.insert("addresses", {
+            line1: "Office",
+            locality: "Zurich",
+            countryCode: "CH",
+            latitude: 47.37,
+            longitude: 8.54,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const locationId = await ctx.db.insert("locations", {
+            ownerId,
+            addressId,
+            name: "Office",
+            visibility: "private",
+        });
+        for (const visibility of ["public", "private"] as const) {
+            await ctx.db.insert("links", {
+                ownerId,
+                visibility,
+                kind: visibility === "public" ? "github" : "linkedin",
+                url: `https://example.org/${visibility}`,
+                position: 0,
+                createdAt: 1,
+                updatedAt: 1,
+            });
+        }
+        const content = {
+            title: "Robotics news",
+            description: "A breakthrough",
+            body: "",
+            kind: "post" as const,
+            topics: [],
+            authors: [],
+            organisations: [ownerId],
+        };
+        await ctx.db.insert("posts", {
+            slug: "robotics-news",
+            draft: content,
+            published: content,
+            publishedAt: 1,
+            createdBy: await member(ctx, { name: "Editor", searchText: "", visibility: "public" }),
+            updatedAt: 1,
+        });
+
+        return { addressId, locationId };
+    });
+    const entity = async () =>
+        (await backend.query(api.news.queries.detail, { slug: "robotics-news" }))!.organisations[0];
+
+    expect((await entity()).socials).toEqual({ github: "https://example.org/public" });
+    expect((await entity()).mapUrl).toBeUndefined();
+    await backend.run((ctx) => ctx.db.patch(locationId, { visibility: "public" }));
+    expect((await entity()).mapUrl).toBe("/map?organisation=robotics");
+    await backend.run((ctx) => ctx.db.patch(addressId, { latitude: undefined }));
+    expect((await entity()).mapUrl).toBeUndefined();
+
+    // keep feed requests free of per-entity destination expansion
+    const preview = (await backend.query(api.news.queries.headlines, {}))[0].organisations[0];
+    expect(preview.socials).toBeUndefined();
+    expect(preview.mapUrl).toBeUndefined();
+});
+
 /** Source line wrapping does not create extra visible paragraphs. */
 test("test_render_news_paragraphs", () => {
     expect(articleParagraphs(" First sentence.\nSecond sentence.\n\n Next paragraph. ")).toEqual([
@@ -255,6 +330,8 @@ test("news imports preserve dates, credit organisations and protect subsequent e
             location: "Zurich",
             website: "https://zurich.tech",
             iconUrl: undefined,
+            socials: {},
+            mapUrl: undefined,
         },
     ]);
     const editor = backend.withIdentity({ subject: "editor" });
