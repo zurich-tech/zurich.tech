@@ -17,6 +17,7 @@ import { MarkdownEditor } from "../components/markdown-editor";
 import { errorMessage } from "../components/errors";
 import { SocialCopy } from "./social";
 import { NewsMedia } from "./media";
+import { videoEmbed } from "./video";
 import { getArticles, getArticle, getHeadlines } from "./queries";
 import "./article.css";
 
@@ -374,7 +375,19 @@ export function NewsEditor(props: {
                         </FormSection>
                         <div class="news-actions">
                             {actions()}
-                            <button type="button" class="button" onClick={() => setIsPreview(true)}>
+                            <button
+                                type="button"
+                                class="button"
+                                onClick={() => {
+                                    // validate draft video input before mounting the player
+                                    try {
+                                        if (content().video) videoEmbed(content().video!);
+                                        setIsPreview(true);
+                                    } catch (caught) {
+                                        setError(errorMessage(caught, "Enter a valid video URL."));
+                                    }
+                                }}
+                            >
                                 Preview
                             </button>
                             <button
@@ -438,22 +451,24 @@ export function NewsEditor(props: {
                     </button>
                 }
             >
-                <p>{content().description}</p>
-                <NewsMedia
-                    image={content().image}
-                    video={content().video}
-                    caption={content().caption}
-                />
-                <Markdown source={content().body} />
-                <Show when={content().kind === "link" && content().url}>
-                    <a
-                        class="action-link"
-                        href={content().url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Read original
-                    </a>
+                <Show when={isPreview()}>
+                    <p>{content().description}</p>
+                    <NewsMedia
+                        image={content().image}
+                        video={content().video}
+                        caption={content().caption}
+                    />
+                    <Markdown source={content().body} />
+                    <Show when={content().kind === "link" && content().url}>
+                        <a
+                            class="action-link"
+                            href={content().url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Read original
+                        </a>
+                    </Show>
                 </Show>
             </Dialog>
             <Show when={published()}>
