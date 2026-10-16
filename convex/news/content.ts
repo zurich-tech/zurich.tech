@@ -11,6 +11,7 @@ export const content = v.object({
     url: v.optional(v.string()),
     image: v.optional(v.string()),
     video: v.optional(v.string()),
+    caption: v.optional(v.string()),
     topics: v.array(v.string()),
     authors: v.array(v.id("members")),
     organisations: v.array(v.id("organisations")),

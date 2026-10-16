@@ -176,7 +176,11 @@ export function ArticleList(props: ArticleListProps) {
                                             </For>
                                         </div>
                                     </div>
-                                    <NewsMedia image={article.image} video={article.video} />
+                                    <NewsMedia
+                                        image={article.image}
+                                        video={article.video}
+                                        caption={article.caption}
+                                    />
                                     <Show when={article.url}>
                                         <a
                                             class="action-link article-source"

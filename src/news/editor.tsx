@@ -303,6 +303,15 @@ export function NewsEditor(props: {
                                     }
                                 />
                             </Field>
+                            <Field label="Media caption">
+                                <Input
+                                    value={content().caption ?? ""}
+                                    maxLength={500}
+                                    onInput={(event) =>
+                                        update("caption", event.currentTarget.value || undefined)
+                                    }
+                                />
+                            </Field>
                             <TopicFields
                                 values={content().topics}
                                 onChange={(values) => update("topics", values)}
@@ -430,7 +439,11 @@ export function NewsEditor(props: {
                 }
             >
                 <p>{content().description}</p>
-                <NewsMedia image={content().image} video={content().video} />
+                <NewsMedia
+                    image={content().image}
+                    video={content().video}
+                    caption={content().caption}
+                />
                 <Markdown source={content().body} />
                 <Show when={content().kind === "link" && content().url}>
                     <a

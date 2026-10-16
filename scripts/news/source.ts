@@ -36,6 +36,9 @@ export async function readArticles() {
         // preserve optional photographs from the original story
         const image = metadata.image;
         const video = metadata.video;
+        const caption = metadata.caption;
+        if (caption !== undefined && (typeof caption !== "string" || caption.length > 500))
+            throw new Error(`Invalid caption in ${filename}.`);
         for (const field of ["image", "video"]) {
             const media = metadata[field];
             if (media === undefined) continue;
@@ -93,6 +96,7 @@ export async function readArticles() {
             description: String(metadata.subtitle),
             ...(image ? { image: String(image) } : {}),
             ...(video ? { video: String(video) } : {}),
+            ...(caption ? { caption: String(caption) } : {}),
             authors: references.authors,
             organisations: references.organisations,
             date,

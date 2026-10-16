@@ -24,7 +24,8 @@ export async function validateContent(
         !value.title ||
         value.title.length > 200 ||
         value.description.length > 500 ||
-        value.body.length > 50000
+        value.body.length > 50000 ||
+        (value.caption?.length ?? 0) > 500
     )
         throw new ConvexError("Check the title, summary and body lengths.");
     if (value.kind === "link" && !value.url) throw new ConvexError("Enter the original URL.");

@@ -112,7 +112,11 @@ export default function Route() {
                         </header>
                         {/* keep the story in one reading column */}
                         <article class="news-article" aria-label={post().title}>
-                            <NewsMedia image={post().image} video={post().video} />
+                            <NewsMedia
+                                image={post().image}
+                                video={post().video}
+                                caption={post().caption}
+                            />
                             <Show when={post().body}>
                                 <Markdown source={post().body} />
                             </Show>

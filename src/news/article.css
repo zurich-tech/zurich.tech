@@ -292,6 +292,18 @@
     height: auto;
 }
 
+.news-media {
+    margin: 0;
+    min-width: 0;
+}
+
+.news-media figcaption {
+    margin-top: var(--space-2);
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    color: var(--color-soft);
+}
+
 video.news-image {
     aspect-ratio: 16 / 9;
     background: #000000;
