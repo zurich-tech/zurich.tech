@@ -200,19 +200,27 @@ async function audience(ctx: QueryCtx) {
     const accounts = (await ctx.db.query("accounts").collect()).filter(
         (account) => account.status === "active",
     );
-    // include archived interests when they still have answers
-    const reportedInterests = new Set(accounts.flatMap((account) => account.interests ?? []));
+    // hide retired choices without changing stored answers or respondent totals
+    const reportedInterests = new Set(
+        accounts
+            .flatMap((account) => account.interests ?? [])
+            .filter((slug) => !Object.hasOwn(retiredInterests, slug)),
+    );
     const topics = (await ctx.db.query("topics").collect())
-        .filter((topic) => topic.isActive || reportedInterests.has(topic.slug))
+        .filter(
+            (topic) =>
+                !Object.hasOwn(retiredInterests, topic.slug) &&
+                (topic.isActive || reportedInterests.has(topic.slug)),
+        )
         .sort((a, b) => a.name.localeCompare(b.name));
     // retain reported subjects even when their catalogue entry has been removed
     const interestOptions = topics.map((topic) => ({
         value: topic.slug,
-        label: retiredInterests[topic.slug] ?? topic.name,
+        label: topic.name,
     }));
     for (const slug of reportedInterests) {
         if (!interestOptions.some((option) => option.value === slug))
-            interestOptions.push({ value: slug, label: retiredInterests[slug] ?? slug });
+            interestOptions.push({ value: slug, label: slug });
     }
     // retain the common choices and include additional languages only when reported
     const reportedLanguages = new Set([

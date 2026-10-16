@@ -4,6 +4,7 @@ import { api } from "../convex/_generated/api";
 import { retiredInterests } from "../convex/members/interests";
 import { validateTopics } from "../convex/topics/queries";
 import { interestGroups } from "../src/topics/groups";
+import { catalogue } from "../convex/topics/catalogue";
 import { convexTest, schema, modules, member } from "./backend";
 
 /** Install only Games without reconciling unrelated catalogue entries. */
@@ -15,6 +16,41 @@ test("test_offer_games_separately_and_retire_data_only_in_interests", () => {
         choices.filter((slug) => ["games", "graphics", "data-engineering"].includes(slug)),
     ).toEqual(["games", "graphics"]);
     expect(retiredInterests).toEqual({ "data-engineering": "Data (retired)" });
+});
+
+test("test_offer_specific_interests_from_the_existing_catalogue_without_duplicates", () => {
+    const choices = interestGroups.flatMap((group) => group.topics);
+    const additions = ["space", "quantum", "materials", "manufacturing", "databases", "analytics"];
+    expect(additions.map((slug) => choices.includes(slug))).toEqual(additions.map(() => true));
+    expect(new Set(choices).size).toBe(choices.length);
+    expect(choices.filter((slug) => !catalogue.some((topic) => topic.slug === slug))).toEqual([]);
+});
+
+test("test_hide_retired_interests_even_without_catalogue_records_and_preserve_responses", async () => {
+    const { backend, client, accountId } = await fixture(["data-engineering"]);
+    const before = await backend.run((ctx) => ctx.db.get(accountId));
+    for (const removeCatalogue of [false, true]) {
+        if (removeCatalogue) {
+            await backend.run(async (ctx) => {
+                const topic = await ctx.db
+                    .query("topics")
+                    .withIndex("by_slug", (query) => query.eq("slug", "data-engineering"))
+                    .unique();
+                await ctx.db.delete(topic!._id);
+            });
+        }
+        const report = await client.query(api.members.audience.report, {});
+        expect(report.questions.find((question) => question.field === "interests")).toEqual({
+            field: "interests",
+            label: "What are you interested in?",
+            multiple: true,
+            responses: 1,
+            total: 1,
+            withheld: 0,
+            groups: [{ label: "Graphics", count: 0, percentage: 0 }],
+        });
+        expect(await backend.run((ctx) => ctx.db.get(accountId))).toEqual(before);
+    }
 });
 
 test("test_preview_install_games_idempotently_without_changing_existing_records", async () => {
@@ -154,7 +190,6 @@ test("test_preserve_retired_answers_and_report_exact_counts_without_reclassifica
         total: 1,
         withheld: 0,
         groups: [
-            { label: "Data (retired)", count: 1, percentage: 100 },
             { label: "Games", count: 1, percentage: 100 },
             { label: "Graphics", count: 0, percentage: 0 },
         ],

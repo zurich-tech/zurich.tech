@@ -9,7 +9,13 @@ export const interestGroups = [
         topics: [
             "hardware",
             "electronics",
+            "quantum",
+            "materials",
+            "manufacturing",
+            "space",
             "software-engineering",
+            "databases",
+            "analytics",
             "games",
             "graphics",
             "security",
