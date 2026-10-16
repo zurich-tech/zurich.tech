@@ -2,6 +2,7 @@ import { query, mutation, type QueryCtx } from "../_generated/server";
 import { requireTeam } from "../auth/access";
 import { ConvexError, v } from "convex/values";
 import { validateHierarchy } from "./catalogue";
+import { retiredInterests } from "../members/interests";
 
 /** Include archived labels so existing content remains intelligible. */
 export const list = query({
@@ -54,6 +55,15 @@ export async function validateTopics(ctx: QueryCtx, values: string[], previous: 
             .unique();
         if (!topic || (!topic.isActive && !previous.includes(slug)))
             throw new ConvexError(`Choose an available topic: ${slug}.`);
+    }
+}
+
+/** Retain retired member answers without allowing new assignments or changing shared topics. */
+export async function validateInterests(ctx: QueryCtx, values: string[], previous: string[] = []) {
+    await validateTopics(ctx, values, previous);
+    for (const slug of values) {
+        if (Object.hasOwn(retiredInterests, slug) && !previous.includes(slug))
+            throw new ConvexError(`Choose an available interest: ${slug}.`);
     }
 }
 

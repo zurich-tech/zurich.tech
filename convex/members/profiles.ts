@@ -1,4 +1,4 @@
-import { validateTopics } from "../topics/queries";
+import { validateInterests } from "../topics/queries";
 import { affiliations, normaliseAffiliations, affiliationText } from "./affiliations";
 import {
     demographics,
@@ -67,7 +67,7 @@ export const save = mutation({
         const member = await ctx.db.get(viewer.memberId);
         if (!member) throw new Error("Member not found.");
         if (args.demographics) validateDemographics(args.demographics);
-        if (args.interests) await validateTopics(ctx, args.interests, viewer.interests);
+        if (args.interests) await validateInterests(ctx, args.interests, viewer.interests);
         if (args.participation) validateParticipation(args.participation);
         if (args.motivations) validateMotivations(args.motivations);
         const name = args.name.trim();

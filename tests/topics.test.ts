@@ -47,7 +47,7 @@ test("test_install_exact_approved_hierarchy_and_preserve_legacy_references", asy
     const before = await backend.run((ctx) => ctx.db.query("topics").collect());
     expect(await backend.mutation(install, { apply: false })).toEqual({
         applied: false,
-        created: 32,
+        created: 33,
         updated: 1,
         archived: 1,
         unchanged: 0,
@@ -55,7 +55,7 @@ test("test_install_exact_approved_hierarchy_and_preserve_legacy_references", asy
     expect(await backend.run((ctx) => ctx.db.query("topics").collect())).toEqual(before);
     expect(await backend.mutation(install, { apply: true })).toEqual({
         applied: true,
-        created: 32,
+        created: 33,
         updated: 1,
         archived: 1,
         unchanged: 0,
@@ -98,6 +98,7 @@ test("test_install_exact_approved_hierarchy_and_preserve_legacy_references", asy
                 "space",
                 "telecom",
                 "graphics",
+                "games",
                 "startups",
             ].map((slug) => [slug, slug[0]!.toUpperCase() + slug.slice(1), null]),
             ["climate-tech", "Energy", null],
@@ -119,7 +120,7 @@ test("test_install_exact_approved_hierarchy_and_preserve_legacy_references", asy
         created: 0,
         updated: 0,
         archived: 0,
-        unchanged: 34,
+        unchanged: 35,
     });
     expect(organisationKinds.space).toBe("Hub");
 });

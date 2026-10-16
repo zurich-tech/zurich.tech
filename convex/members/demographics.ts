@@ -98,13 +98,17 @@ export const motivationOptions = [
     { value: "sharing", label: "Sharing my work" },
     { value: "opportunities", label: "Finding opportunities" },
 ] as const;
+/** Stable participation values shared by survey forms, validation and reports. */
 export const participationOptions = [
     { value: "attend", label: "Attend" },
     { value: "speak", label: "Speak" },
+    { value: "demo", label: "Demo" },
+    { value: "host", label: "Host" },
+    { value: "teach", label: "Teach" },
     { value: "organise", label: "Organise" },
     { value: "mentor", label: "Mentor" },
     { value: "sponsor", label: "Sponsor" },
-    { value: "volunteer", label: "Volunteer" },
+    { value: "volunteer", label: "Help out" },
 ] as const;
 
 /** Unanswered fields are absent; null records an explicit decision not to answer. */

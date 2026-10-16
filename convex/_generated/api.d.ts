@@ -92,6 +92,7 @@ import type * as members_avatars from "../members/avatars.js";
 import type * as members_countries from "../members/countries.js";
 import type * as members_demographics from "../members/demographics.js";
 import type * as members_emails from "../members/emails.js";
+import type * as members_interests from "../members/interests.js";
 import type * as members_languages from "../members/languages.js";
 import type * as members_links from "../members/links.js";
 import type * as members_profiles from "../members/profiles.js";
@@ -225,6 +226,7 @@ declare const fullApi: ApiFromModules<{
   "members/countries": typeof members_countries;
   "members/demographics": typeof members_demographics;
   "members/emails": typeof members_emails;
+  "members/interests": typeof members_interests;
   "members/languages": typeof members_languages;
   "members/links": typeof members_links;
   "members/profiles": typeof members_profiles;

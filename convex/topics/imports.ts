@@ -2,6 +2,36 @@ import { v } from "convex/values";
 import { internalMutation } from "../_generated/server";
 import { catalogue, validateHierarchy } from "./catalogue";
 
+/** Add Games only, previewing conflicts without overwriting existing curation. */
+export const installGames = internalMutation({
+    args: { apply: v.boolean() },
+    handler: async (ctx, args) => {
+        // reject conflicting keys or labels before considering any write
+        const topics = await ctx.db.query("topics").take(101);
+        if (topics.length > 100)
+            throw new Error("Review catalogues larger than 100 topics separately.");
+        const games = topics.filter(
+            (topic) => topic.slug === "games" || topic.name.trim().toLowerCase() === "games",
+        );
+        const existing = games[0];
+        if (
+            games.length > 1 ||
+            (existing &&
+                (existing.slug !== "games" ||
+                    existing.name !== "Games" ||
+                    !existing.isActive ||
+                    existing.parent !== undefined))
+        )
+            throw new Error("Review the existing Games topic before installing.");
+
+        // leave every existing record and reference untouched
+        if (!existing && args.apply)
+            await ctx.db.insert("topics", { slug: "games", name: "Games", isActive: true });
+
+        return { applied: args.apply, created: existing ? 0 : 1, unchanged: existing ? 1 : 0 };
+    },
+});
+
 /** Install the approved hierarchy without deleting legacy subjects or their references. */
 export const install = internalMutation({
     args: { apply: v.boolean() },

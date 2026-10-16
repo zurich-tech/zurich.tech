@@ -13,6 +13,7 @@ import {
     type SurveyQuestion,
 } from "../../convex/members/demographics";
 import { countries } from "../../convex/members/countries";
+import { retiredInterests } from "../../convex/members/interests";
 import { allLanguages } from "../../convex/members/languages";
 import { useAccount } from "../auth";
 import { memberClient } from "../auth/convex";
@@ -548,7 +549,10 @@ function answerLabel(
               : question === "residence" || question === "citizenships"
                 ? countries
                 : question === "interests"
-                  ? topics.map((topic) => ({ value: topic.slug, label: topic.name }))
+                  ? topics.map((topic) => ({
+                        value: topic.slug,
+                        label: retiredInterests[topic.slug] ?? topic.name,
+                    }))
                   : question === "languages"
                     ? allLanguages
                     : demographicOptions[question];

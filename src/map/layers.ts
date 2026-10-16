@@ -132,7 +132,16 @@ export function addOrganisationLayers(
                 : ["case", ["get", "isLogo"], ["get", "badge"], "organisation-dot"],
             ...sizing,
             "icon-allow-overlap": true,
-            "symbol-sort-key": ["case", ["get", "isLogo"], 2, [">", ["get", "count"], 1], 1, 0],
+            "symbol-sort-key": [
+                "case",
+                ["get", "isSponsor"],
+                3,
+                ["get", "isLogo"],
+                2,
+                [">", ["get", "count"], 1],
+                1,
+                0,
+            ],
             "symbol-z-order": "source",
             "text-field": isLabelled
                 ? [

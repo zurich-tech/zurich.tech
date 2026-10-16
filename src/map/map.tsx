@@ -28,6 +28,9 @@ import type { Map as GeographicMap, Popup, StyleSpecification } from "maplibre-g
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { getMap, type MapLocation } from "./queries";
+import { publicClient } from "../auth/convex";
+import { api } from "../../convex/_generated/api";
+import { MapActivity, type OrganisationActivity } from "./activity";
 import { Image } from "../components/image";
 import { SocialLinks } from "../components/social";
 import { useSearch } from "../search/local";
@@ -53,7 +56,7 @@ import { Highlight } from "../components/highlight";
 import { overview } from "./camera";
 import { sheetDestination, sheetHeights, sheetKey, type SheetDrag } from "./sheet";
 import { MapNavigation, restoreMapFocus } from "./navigation";
-import { isPreviewPath, type Point } from "./hover";
+import { isPreviewPath, pickOrganisation, type Point } from "./hover";
 import {
     addBadges,
     addOrganisationLayers,
@@ -340,6 +343,7 @@ export function CommunityMap(props: {
     let backButton: HTMLButtonElement | undefined;
     let preview: Popup | undefined;
     let disposePreview: (() => void) | undefined;
+    let previewResize: ResizeObserver | undefined;
     let previewTimer: ReturnType<typeof setTimeout> | undefined;
     let previewKey: string | undefined;
     let previewOrigin: Point | undefined;
@@ -375,6 +379,8 @@ export function CommunityMap(props: {
     function closePreview() {
         keepPreview();
         cancelPreviewSwitch();
+        previewResize?.disconnect();
+        previewResize = undefined;
         preview?.remove();
         disposePreview?.();
         preview = undefined;
@@ -553,9 +559,16 @@ export function CommunityMap(props: {
                             "--map-preview-row-height",
                             `${sidebar.getBoundingClientRect().height}px`,
                         );
-                    const height = preview.getElement().getBoundingClientRect().height;
-                    const top = Math.max(12, Math.min(point[1], bounds.height - height - 12));
-                    preview.setLngLat(current.map.unproject([point[0], top]));
+                    // keep asynchronously loaded news inside the map viewport
+                    const alignPreview = () => {
+                        if (!preview) return;
+                        const height = preview.getElement().getBoundingClientRect().height;
+                        const top = Math.max(12, Math.min(point[1], bounds.height - height - 12));
+                        preview.setLngLat(current.map.unproject([point[0], top]));
+                    };
+                    previewResize = new ResizeObserver(alignPreview);
+                    previewResize.observe(element);
+                    alignPreview();
                 }
             },
             isImmediate ? 0 : 180,
@@ -849,7 +862,7 @@ export function CommunityMap(props: {
                 });
                 if (!props.isHero) {
                     map.on("click", ["organisations", "organisation-dots"], (event) => {
-                        const feature = event.features?.[0];
+                        const feature = pickOrganisation(event.features ?? [], map!.getZoom());
                         const place = markers().find(
                             (entry) => entry.id === feature?.properties.place,
                         );
@@ -858,14 +871,14 @@ export function CommunityMap(props: {
                     map.on("mousemove", ["organisations", "organisation-dots"], (event) => {
                         if (!window.matchMedia("(any-hover: hover)").matches || map!.isMoving())
                             return;
-                        map!.getCanvas().style.cursor = "pointer";
-                        const feature = event.features?.[0];
+                        const feature = pickOrganisation(event.features ?? [], map!.getZoom());
+                        map!.getCanvas().style.cursor = feature ? "pointer" : "";
                         const place = markers().find(
                             (entry) => entry.id === feature?.properties.place,
                         );
                         if (place) {
                             showPreview([place], [event.point.x, event.point.y]);
-                        }
+                        } else leavePreview();
                     });
                     map.on("mouseleave", ["organisations", "organisation-dots"], () => {
                         map!.getCanvas().style.cursor = "";
@@ -1391,6 +1404,7 @@ export function CommunityMap(props: {
                                             </p>
                                         </Show>
                                         <PlaceDetails
+                                            activityPlaces={selectedPlaces()}
                                             topics={topics() ?? []}
                                             topicHref={topicHref}
                                             onTopic={filterTopic}
@@ -1414,11 +1428,52 @@ export function CommunityMap(props: {
 /** Present all organisations at a selected address without hiding smaller supporters. */
 function PlaceDetails(detail: {
     places: MapLocation[];
+    activityPlaces?: MapLocation[];
     isCompact?: boolean;
     topics: readonly { slug: string; name: string; parent?: string }[];
     topicHref: (slug: string) => string;
     onTopic: (slug: string) => void;
 }) {
+    const [activity, setActivity] = createSignal<OrganisationActivity[]>([]);
+    const [activityError, setActivityError] = createSignal(false);
+    const [attempt, setAttempt] = createSignal(0);
+    const activitySlugs = createMemo(
+        () =>
+            [
+                ...new Set(
+                    (detail.activityPlaces ?? detail.places).flatMap((place) =>
+                        place.organisations.map((organisation) => organisation.slug),
+                    ),
+                ),
+            ].sort(),
+        undefined,
+        {
+            equals: (left, right) =>
+                left.length === right.length && left.every((slug, index) => slug === right[index]),
+        },
+    );
+
+    // fetch only opened addresses, retaining the result when their local search changes
+    createEffect(() => {
+        const slugs = activitySlugs();
+        attempt();
+        let isActive = true;
+        setActivity([]);
+        setActivityError(false);
+        void publicClient()
+            .query(api.places.map.activity, { slugs })
+            .then((result) => {
+                if (isActive) setActivity(result);
+            })
+            .catch((error: unknown) => {
+                console.error("Could not load map news and jobs.", error);
+                if (isActive) setActivityError(true);
+            });
+        onCleanup(() => {
+            isActive = false;
+        });
+    });
+
     /** Resolve unique labels and omit ancestors already represented by a specific subject. */
     function labels(values: readonly string[] = []) {
         const selected = detail.topics.filter((entry) => values.includes(entry.slug));
@@ -1433,130 +1488,154 @@ function PlaceDetails(detail: {
     }
 
     return (
-        <For each={detail.places}>
-            {(place) => (
-                <section class="map-place">
-                    <p class="map-place__address">{place.address}</p>
-                    <For each={place.organisations}>
-                        {(organisation) => (
-                            <div class="map-person">
-                                <a
-                                    class="map-person__link"
-                                    href={
-                                        organisation.website ||
-                                        `/organisations/${organisation.slug}`
-                                    }
-                                    target={organisation.website ? "_blank" : undefined}
-                                    rel={organisation.website ? "noopener noreferrer" : undefined}
-                                    title={
-                                        organisation.website
-                                            ? "Visit website (opens in a new tab)"
-                                            : "View organisation"
-                                    }
-                                >
-                                    <Show when={!detail.isCompact}>
-                                        <span class="map-person__logo">
+        <>
+            <For each={detail.places}>
+                {(place) => (
+                    <section class="map-place">
+                        <p class="map-place__address">{place.address}</p>
+                        <For each={place.organisations}>
+                            {(organisation) => (
+                                <div class="map-person">
+                                    <a
+                                        class="map-person__link"
+                                        href={
+                                            organisation.website ||
+                                            `/organisations/${organisation.slug}`
+                                        }
+                                        target={organisation.website ? "_blank" : undefined}
+                                        rel={
+                                            organisation.website ? "noopener noreferrer" : undefined
+                                        }
+                                        title={
+                                            organisation.website
+                                                ? "Visit website (opens in a new tab)"
+                                                : "View organisation"
+                                        }
+                                    >
+                                        <Show when={!detail.isCompact}>
+                                            <span class="map-person__logo">
+                                                <Show
+                                                    when={
+                                                        organisation.mapLogoUrl ??
+                                                        organisation.logoUrl
+                                                    }
+                                                    fallback={organisation.name.slice(0, 1)}
+                                                >
+                                                    {(source) => (
+                                                        <Image
+                                                            src={source()}
+                                                            darkSrc={organisation.mapLogoDarkUrl}
+                                                            alt=""
+                                                        />
+                                                    )}
+                                                </Show>
+                                            </span>
+                                        </Show>
+                                        <span class="map-person__copy">
+                                            <strong>{organisation.name}</strong>
                                             <Show
                                                 when={
-                                                    organisation.mapLogoUrl ?? organisation.logoUrl
+                                                    organisation.location &&
+                                                    organisation.location !== organisation.name
                                                 }
-                                                fallback={organisation.name.slice(0, 1)}
                                             >
-                                                {(source) => (
-                                                    <Image
-                                                        src={source()}
-                                                        darkSrc={organisation.mapLogoDarkUrl}
-                                                        alt=""
-                                                    />
-                                                )}
+                                                <small>{organisation.location}</small>
+                                            </Show>
+                                            <Show
+                                                when={
+                                                    organisation.recognition &&
+                                                    (organisation.isSponsor || !detail.isCompact)
+                                                }
+                                            >
+                                                <small
+                                                    class="map-recognition"
+                                                    data-sponsor={
+                                                        organisation.isSponsor
+                                                            ? organisation.recognition
+                                                            : undefined
+                                                    }
+                                                >
+                                                    {organisation.recognition}
+                                                </small>
+                                            </Show>
+                                            <Show when={!detail.isCompact}>
+                                                <small>
+                                                    {organisationKinds[organisation.kind]}
+                                                </small>
+                                                <Show when={organisation.headline}>
+                                                    <span>{organisation.headline}</span>
+                                                </Show>
                                             </Show>
                                         </span>
-                                    </Show>
-                                    <span class="map-person__copy">
-                                        <strong>{organisation.name}</strong>
-                                        <Show
-                                            when={
-                                                organisation.location &&
-                                                organisation.location !== organisation.name
+                                        <Dynamic
+                                            component={
+                                                organisation.website ? ArrowUpRight : ArrowRight
                                             }
-                                        >
-                                            <small>{organisation.location}</small>
-                                        </Show>
-                                        <Show
-                                            when={
-                                                organisation.recognition &&
-                                                (organisation.isSponsor || !detail.isCompact)
-                                            }
-                                        >
-                                            <small
-                                                class="map-recognition"
-                                                data-sponsor={
-                                                    organisation.isSponsor
-                                                        ? organisation.recognition
-                                                        : undefined
-                                                }
-                                            >
-                                                {organisation.recognition}
-                                            </small>
-                                        </Show>
-                                        <Show when={!detail.isCompact}>
-                                            <small>{organisationKinds[organisation.kind]}</small>
-                                            <Show when={organisation.headline}>
-                                                <span>{organisation.headline}</span>
-                                            </Show>
-                                        </Show>
-                                    </span>
-                                    <Dynamic
-                                        component={organisation.website ? ArrowUpRight : ArrowRight}
-                                        size={16}
-                                        aria-hidden="true"
-                                    />
-                                </a>
-                                <Show when={labels(organisation.topics).length}>
-                                    <ul
-                                        class="map-person__topics"
-                                        aria-label={`${organisation.name} topics`}
-                                    >
-                                        <For each={labels(organisation.topics)}>
-                                            {(entry) => (
-                                                <li>
-                                                    <a
-                                                        href={detail.topicHref(entry.slug)}
-                                                        aria-label={`Filter organisations by ${entry.name}`}
-                                                        onClick={(event) => {
-                                                            if (
-                                                                event.button !== 0 ||
-                                                                event.metaKey ||
-                                                                event.ctrlKey ||
-                                                                event.shiftKey ||
-                                                                event.altKey
-                                                            )
-                                                                return;
-                                                            event.preventDefault();
-                                                            event.stopPropagation();
-                                                            detail.onTopic(entry.slug);
-                                                        }}
-                                                    >
-                                                        {entry.name}
-                                                    </a>
-                                                </li>
-                                            )}
-                                        </For>
-                                    </ul>
-                                </Show>
-                                <Show when={organisation.socials}>
-                                    {(socials) => (
-                                        <SocialLinks
-                                            name={organisation.name}
-                                            profiles={socials()}
+                                            size={16}
+                                            aria-hidden="true"
                                         />
-                                    )}
-                                </Show>
-                            </div>
-                        )}
-                    </For>
-                </section>
-            )}
-        </For>
+                                    </a>
+                                    <Show when={labels(organisation.topics).length}>
+                                        <ul
+                                            class="map-person__topics"
+                                            aria-label={`${organisation.name} topics`}
+                                        >
+                                            <For each={labels(organisation.topics)}>
+                                                {(entry) => (
+                                                    <li>
+                                                        <a
+                                                            href={detail.topicHref(entry.slug)}
+                                                            aria-label={`Filter organisations by ${entry.name}`}
+                                                            onClick={(event) => {
+                                                                if (
+                                                                    event.button !== 0 ||
+                                                                    event.metaKey ||
+                                                                    event.ctrlKey ||
+                                                                    event.shiftKey ||
+                                                                    event.altKey
+                                                                )
+                                                                    return;
+                                                                event.preventDefault();
+                                                                event.stopPropagation();
+                                                                detail.onTopic(entry.slug);
+                                                            }}
+                                                        >
+                                                            {entry.name}
+                                                        </a>
+                                                    </li>
+                                                )}
+                                            </For>
+                                        </ul>
+                                    </Show>
+                                    <Show when={organisation.socials}>
+                                        {(socials) => (
+                                            <SocialLinks
+                                                name={organisation.name}
+                                                profiles={socials()}
+                                            />
+                                        )}
+                                    </Show>
+                                    <Show
+                                        when={activity().find(
+                                            (entry) => entry.slug === organisation.slug,
+                                        )}
+                                    >
+                                        {(entry) => <MapActivity activity={entry()} />}
+                                    </Show>
+                                </div>
+                            )}
+                        </For>
+                    </section>
+                )}
+            </For>
+            <Show when={activityError()}>
+                <p class="map-activity-error" role="status">
+                    News and jobs couldn’t load.{" "}
+                    <button type="button" onClick={() => setAttempt((value) => value + 1)}>
+                        Retry
+                    </button>
+                </p>
+            </Show>
+        </>
     );
 }

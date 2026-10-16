@@ -33,11 +33,32 @@ export function TagPills(props: { articles: ArticlePreview[]; selected?: string 
 }
 
 /** List every tag with its article count for the news sidebar, most used first. */
-export function TopicList(props: { articles: ArticlePreview[]; selected?: string }) {
+export function TopicList(props: {
+    articles: ArticlePreview[];
+    selected?: string;
+    organisation?: string;
+}) {
+    // scope both desktop and mobile counts to the selected organisation
+    const articles = createMemo(() =>
+        props.articles.filter(
+            (article) =>
+                !props.organisation ||
+                article.organisations.some((entry) => entry.slug === props.organisation),
+        ),
+    );
+
+    /** Preserve the organisation when choosing another topic. */
+    function href(tag?: string) {
+        const query = new URLSearchParams();
+        if (props.organisation) query.set("organisation", props.organisation);
+        if (tag) query.set("tag", tag);
+
+        return query.size ? `/news?${query}` : "/news";
+    }
     // count each tag once per article
     const tags = createMemo(() => {
         const counts = new Map<string, { slug: string; name: string; count: number }>();
-        for (const article of props.articles)
+        for (const article of articles())
             for (const tag of articleTags(article)) {
                 const current = counts.get(tag.slug) ?? { ...tag, count: 0 };
                 counts.set(tag.slug, { ...current, count: current.count + 1 });
@@ -53,13 +74,13 @@ export function TopicList(props: { articles: ArticlePreview[]; selected?: string
             facets={[
                 {
                     label: "All news",
-                    href: "/news",
-                    meta: String(props.articles.length),
+                    href: href(),
+                    meta: String(articles().length),
                     isSelected: !props.selected,
                 },
                 ...tags().map((tag) => ({
                     label: tag.name,
-                    href: `/news?tag=${encodeURIComponent(tag.slug)}`,
+                    href: href(tag.slug),
                     meta: String(tag.count),
                     isSelected: props.selected === tag.slug,
                 })),

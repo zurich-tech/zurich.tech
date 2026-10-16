@@ -64,19 +64,34 @@ test("test_accept_sales_without_reinterpreting_legacy_roles", () => {
     ]);
 });
 
-test("test_accept_six_distinct_participation_choices", () => {
-    expect(participationOptions.map((option) => option.value)).toEqual([
-        "attend",
-        "speak",
-        "organise",
-        "mentor",
-        "sponsor",
-        "volunteer",
+test("test_accept_nine_distinct_participation_choices_with_stable_values", () => {
+    expect(participationOptions).toEqual([
+        { value: "attend", label: "Attend" },
+        { value: "speak", label: "Speak" },
+        { value: "demo", label: "Demo" },
+        { value: "host", label: "Host" },
+        { value: "teach", label: "Teach" },
+        { value: "organise", label: "Organise" },
+        { value: "mentor", label: "Mentor" },
+        { value: "sponsor", label: "Sponsor" },
+        { value: "volunteer", label: "Help out" },
     ]);
-    expect(() => validateParticipation(["volunteer"])).not.toThrow();
-    expect(() => validateParticipation(["volunteer", "volunteer"])).toThrow(
-        "Choose each way to participate once from the available options.",
-    );
+    expect(() => validateParticipation([])).not.toThrow();
+    expect(() =>
+        validateParticipation(participationOptions.map((option) => option.value)),
+    ).not.toThrow();
+
+    // reject repeated choices and labels mistakenly submitted as stored values
+    for (const { value } of participationOptions) {
+        expect(() => validateParticipation([value, value])).toThrow(
+            "Choose each way to participate once from the available options.",
+        );
+    }
+    for (const value of ["Help out", "help-out", "Demo", "Host", "Teach", "unknown"]) {
+        expect(() => validateParticipation([value])).toThrow(
+            "Choose each way to participate once from the available options.",
+        );
+    }
 });
 
 // count each respondent once while retaining exact totals for every group

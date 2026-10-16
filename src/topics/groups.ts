@@ -10,7 +10,7 @@ export const interestGroups = [
             "hardware",
             "electronics",
             "software-engineering",
-            "data-engineering",
+            "games",
             "graphics",
             "security",
         ],

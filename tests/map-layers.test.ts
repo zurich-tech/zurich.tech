@@ -7,6 +7,7 @@ import type {
 } from "maplibre-gl";
 import type { FeatureCollection, Point } from "geojson";
 import { groupLocations, type LocatedOrganisation } from "../convex/places/grouping";
+import { organisationOrder } from "../src/map/hover";
 import {
     addBadges,
     addOrganisationLayers,
@@ -123,6 +124,21 @@ function mockMap() {
 
     return { map, sources, layers, uploads, filters, images, updates, layouts };
 }
+
+/** Keep hit testing and actual symbol drawing priorities identical across marker types. */
+test("test_match_drawing_and_hit_priorities", () => {
+    const mock = mockMap();
+    addOrganisationLayers(mock.map, true);
+    const symbols = mock.layers.find((layer) => layer.id === "organisations")!;
+    for (const isSponsor of [false, true])
+        for (const isLogo of [false, true])
+            for (const count of [1, 2, 84]) {
+                const properties = { isSponsor, isLogo, count };
+                expect(evaluate(symbols.layout?.["symbol-sort-key"], properties)).toBe(
+                    organisationOrder(properties),
+                );
+            }
+});
 
 test.each([true, false])(
     "test_resize_only_sponsor_layouts_at_700px_labelled_%s",
@@ -323,9 +339,9 @@ test.each([true, false])(
         }
         expect(
             [
-                { count: 1, isLogo: false },
-                { count: 2, isLogo: false },
-                { count: 1, isLogo: true },
+                { count: 1, isLogo: false, isSponsor: false },
+                { count: 2, isLogo: false, isSponsor: false },
+                { count: 1, isLogo: true, isSponsor: false },
             ].map((properties) => evaluate(layer.layout?.["symbol-sort-key"], properties)),
         ).toEqual([0, 1, 2]);
         if (!isLabelled) {

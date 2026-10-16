@@ -4,6 +4,40 @@ export interface Point {
     y: number;
 }
 
+/** The marker fields that determine its drawing priority and visibility. */
+type Marker = { isSponsor?: boolean; isLogo?: boolean; count?: number };
+
+/** Rank sponsors above hosts, shared addresses and ordinary markers. */
+export function organisationOrder(marker: Marker) {
+    return marker.isSponsor ? 3 : marker.isLogo ? 2 : (marker.count ?? 1) > 1 ? 1 : 0;
+}
+
+/** Match symbol drawing order instead of trusting MapLibre's source-ordered symbol hits. */
+export function pickOrganisation<T extends { layer: { id: string }; properties: Marker }>(
+    features: readonly T[],
+    zoom: number,
+): T | undefined {
+    let selected: T | undefined;
+    let priority = -1;
+
+    // retain the renderer's topmost result for equal priorities, including tiled duplicates
+    for (const feature of features) {
+        const layer = feature.layer.id;
+        const marker = feature.properties;
+        const isBadge = layer === "organisations";
+        if (layer !== "organisation-dots" && !isBadge) continue;
+        if (isBadge && zoom <= 12 && !marker.isLogo && (marker.count ?? 1) === 1) continue;
+        if (!isBadge && zoom >= 13) continue;
+        const order = (isBadge ? 4 : 0) + organisationOrder(marker);
+        if (order > priority) {
+            selected = feature;
+            priority = order;
+        }
+    }
+
+    return selected;
+}
+
 /** Keep the pointer inside the card or the triangular approach from its marker. */
 export function isPreviewPath(
     point: Point,

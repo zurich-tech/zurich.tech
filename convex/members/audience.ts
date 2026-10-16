@@ -19,7 +19,8 @@ import {
     surveyQuestion,
     answerQuestion,
 } from "./demographics";
-import { validateTopics } from "../topics/queries";
+import { validateInterests } from "../topics/queries";
+import { retiredInterests } from "./interests";
 
 /** Read only the current account's private community answers. */
 export const current = query({
@@ -54,7 +55,7 @@ export const answer = mutation({
                 ? previous
                 : answerQuestion(previous, args.question, args.values);
         if (args.question === "interests" && args.values !== undefined) {
-            await validateTopics(ctx, args.values, account.interests);
+            await validateInterests(ctx, args.values, account.interests);
         }
 
         // persist progress atomically with the answer, including explicit skips
@@ -80,7 +81,7 @@ export const save = mutation({
         validateDemographics(args.demographics);
         validateParticipation(args.participation);
         validateMotivations(args.motivations);
-        await validateTopics(ctx, args.interests, account.interests);
+        await validateInterests(ctx, args.interests, account.interests);
         await ctx.db.patch(account._id, {
             demographics: args.demographics,
             interests: args.interests,
@@ -134,7 +135,7 @@ export const saveDraft = mutation({
             if (entry.values !== undefined)
                 answers = answerQuestion(answers, entry.question, entry.values);
         }
-        await validateTopics(ctx, answers.interests, account.interests);
+        await validateInterests(ctx, answers.interests, account.interests);
 
         await ctx.db.patch(account._id, {
             ...answers,
@@ -205,10 +206,13 @@ async function audience(ctx: QueryCtx) {
         .filter((topic) => topic.isActive || reportedInterests.has(topic.slug))
         .sort((a, b) => a.name.localeCompare(b.name));
     // retain reported subjects even when their catalogue entry has been removed
-    const interestOptions = topics.map((topic) => ({ value: topic.slug, label: topic.name }));
+    const interestOptions = topics.map((topic) => ({
+        value: topic.slug,
+        label: retiredInterests[topic.slug] ?? topic.name,
+    }));
     for (const slug of reportedInterests) {
         if (!interestOptions.some((option) => option.value === slug))
-            interestOptions.push({ value: slug, label: slug });
+            interestOptions.push({ value: slug, label: retiredInterests[slug] ?? slug });
     }
     // retain the common choices and include additional languages only when reported
     const reportedLanguages = new Set([

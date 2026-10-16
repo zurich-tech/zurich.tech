@@ -33,6 +33,7 @@ export const catalogue: readonly Pick<Doc<"topics">, "slug" | "name" | "parent">
     { slug: "space", name: "Space" },
     { slug: "telecom", name: "Telecom" },
     { slug: "graphics", name: "Graphics" },
+    { slug: "games", name: "Games" },
     { slug: "product-design", name: "Design" },
     { slug: "ai-policy", name: "Policy" },
     { slug: "startups", name: "Startups" },

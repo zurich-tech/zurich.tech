@@ -7,6 +7,7 @@ import { articleTags, TagPills, TopicList } from "./tags";
 import { ChevronDown } from "lucide-solid";
 import { articleParagraphs, type Article, type ArticlePreview } from "./model";
 import { For, Show, createEffect, createMemo, createSignal, on } from "solid-js";
+import type { JSX } from "solid-js";
 import { pageSize } from "../app/site";
 import "../events/programme.css";
 
@@ -31,8 +32,12 @@ type ArticleListProps = {
     isCompact?: boolean;
     /** Whether to show article search. */
     isSearchable?: boolean;
+    /** Collection filters displayed beside the search field. */
+    filters?: JSX.Element;
     /** Filter by an exact canonical tag slug. */
     tag?: string;
+    /** Restrict the feed to a linked organisation's canonical slug. */
+    organisation?: string;
     /** The maximum visible article count. */
     limit?: number;
     /** The news heading destination. */
@@ -52,6 +57,10 @@ export function ArticleList(props: ArticleListProps) {
         return props.articles.filter(
             (article) =>
                 (!props.tag || articleTags(article).some((tag) => tag.slug === props.tag)) &&
+                (!props.organisation ||
+                    article.organisations.some(
+                        (organisation) => organisation.slug === props.organisation,
+                    )) &&
                 matchesSearch(articleText(article), terms()),
         );
     });
@@ -59,7 +68,11 @@ export function ArticleList(props: ArticleListProps) {
     // reveal the full archive in pages, restarting whenever the filters change
     const [visibleCount, setVisibleCount] = createSignal(pageSize * 2);
     createEffect(
-        on([terms, () => props.tag], () => setVisibleCount(pageSize * 2), { defer: true }),
+        on(
+            [terms, () => props.tag, () => props.organisation],
+            () => setVisibleCount(pageSize * 2),
+            { defer: true },
+        ),
     );
 
     // apply the homepage limit or the current page after filtering
@@ -79,7 +92,9 @@ export function ArticleList(props: ArticleListProps) {
                 </div>
             </Show>
             <Show when={props.isSearchable}>
-                <TableToolbar onSearch={setQuery} value={query()} placeholder="Search news…" />
+                <TableToolbar onSearch={setQuery} value={query()} placeholder="Search news…">
+                    {props.filters}
+                </TableToolbar>
             </Show>
             {/* keep topic filters reachable before the archive on smaller screens */}
             <Show when={props.isPage}>
@@ -94,7 +109,11 @@ export function ArticleList(props: ArticleListProps) {
                         {selectedTopic()?.name ?? "Tags"}{" "}
                         <ChevronDown size={16} aria-hidden="true" />
                     </summary>
-                    <TopicList articles={props.articles} selected={props.tag} />
+                    <TopicList
+                        articles={props.articles}
+                        selected={props.tag}
+                        organisation={props.organisation}
+                    />
                 </details>
             </Show>
             {/* articles */}

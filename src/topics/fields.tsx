@@ -1,4 +1,5 @@
 import { interestGroups } from "./groups";
+import { retiredInterests } from "../../convex/members/interests";
 import { getTopics } from "./queries";
 import { selectSpecificTopic } from "./selection";
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
@@ -75,8 +76,9 @@ export function TopicFields(props: {
                                                         )
                                                     }
                                                 />
-                                                {topic.name}
-                                                {topic.isActive ? "" : " (archived)"}
+                                                {props.isInterests && retiredInterests[topic.slug]
+                                                    ? retiredInterests[topic.slug]
+                                                    : `${topic.name}${topic.isActive ? "" : " (archived)"}`}
                                             </label>
                                         )}
                                     </For>

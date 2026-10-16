@@ -548,6 +548,113 @@
 }
 
 /* selected place details */
+.map-activity {
+    display: grid;
+    gap: 16px;
+    margin: 16px 0 0 calc(32px + var(--space-3));
+    font-size: var(--text-sm);
+}
+
+.map-preview--sidebar .map-activity {
+    margin-left: 0;
+}
+
+.map-activity section {
+    display: grid;
+    gap: 0;
+    min-width: 0;
+}
+
+.map-activity__heading {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-soft);
+    font-size: var(--text-xs);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-line);
+}
+
+.map-activity__count {
+    font-variant-numeric: tabular-nums;
+}
+
+.map-activity__heading > span:first-of-type {
+    color: var(--color-ink);
+    font-weight: 600;
+}
+
+.map-activity__heading svg:last-child {
+    margin-left: auto;
+}
+
+.map-activity__story,
+.map-activity__job {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-block: 10px;
+    line-height: 1.4;
+}
+
+.map-activity__copy {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+    gap: 4px;
+}
+
+.map-activity__copy strong {
+    font-weight: 500;
+}
+
+.map-activity__story img {
+    order: 1;
+    width: 56px;
+    height: 44px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 3px;
+}
+
+.map-activity__job > svg {
+    flex-shrink: 0;
+    color: var(--color-soft);
+}
+
+.map-activity__story time,
+.map-activity__meta {
+    color: var(--color-soft);
+    font-size: var(--text-xs);
+}
+
+.map-activity a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+.map-activity a:hover {
+    color: var(--color-accent);
+}
+
+@media (pointer: coarse) {
+    .map-activity__heading,
+    .map-activity__story,
+    .map-activity__job {
+        min-height: 44px;
+    }
+}
+
+.map-activity-error {
+    padding: 12px 16px;
+    font-size: var(--text-xs);
+}
+
+.map-activity-error button {
+    color: var(--color-accent);
+    cursor: pointer;
+}
+
 .map-detail-navigation {
     padding: 0 16px;
 }

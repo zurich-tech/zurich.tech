@@ -23,6 +23,7 @@
 
     .news-topics summary {
         display: flex;
+        width: 100%;
         justify-content: space-between;
         align-items: center;
         padding-block: var(--space-3);
@@ -31,6 +32,10 @@
     }
 
     .news-topics summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .news-topics .card-heading {
         display: none;
     }
 
@@ -373,4 +378,9 @@ video.news-image {
     .news-editor-grid {
         grid-template-columns: minmax(0, 1fr);
     }
+}
+.news-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
 }
