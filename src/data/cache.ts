@@ -13,7 +13,7 @@ export async function cachedPublic<T extends Value>(
     const started = performance.now();
     if (!event || typeof caches === "undefined") return read();
 
-    // Keep the cache private to the Worker, outside browser and HTML response caching.
+    // keep the cache private to the Worker, outside browser and HTML response caching
     const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(key));
     const hash = Array.from(new Uint8Array(digest), (byte) =>
         byte.toString(16).padStart(2, "0"),
@@ -38,7 +38,7 @@ export async function cachedPublic<T extends Value>(
         console.error("Could not read public cache; requesting current data.", error);
     }
 
-    // Cache successful values only; query failures remain visible and are never persisted.
+    // cache successful values only; query failures remain visible and are never persisted
     const value = await read();
     const response = new Response(JSON.stringify(convexToJson(value)), {
         headers: {

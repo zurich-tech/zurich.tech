@@ -65,7 +65,7 @@ export const authComponent = createClient<DataModel>(components.betterAuth, {
                 });
             },
             onUpdate: async (ctx, user) => {
-                // Fill an absent avatar without overwriting the member’s chosen portrait.
+                // fill an absent avatar without overwriting the member’s chosen portrait
                 const account = await ctx.db
                     .query("accounts")
                     .withIndex("by_auth", (query) => query.eq("authId", user._id))

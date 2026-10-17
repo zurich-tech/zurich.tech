@@ -952,7 +952,7 @@ test("search catalogue includes published events without private venue data", as
 // Scheduling continues existing series editions and is idempotent across fills.
 test("recurring editions use series ordinal URLs and preserve an adopted edition", async () => {
     const { backend, editor, ids } = await setup();
-    const { civilTime, timestamp } = await import("../src/events/time");
+    const { civilTime, timestamp } = await import("../convex/events/time");
     const start = civilTime(Date.now() + 86400000).slice(0, 10);
     const end = civilTime(Date.now() + 2 * 86400000).slice(0, 10);
     await backend.run(async (ctx) => {
@@ -1230,7 +1230,7 @@ test("address defaults do not trigger registration updates; real visibility chan
 test("notification comparisons ignore presentation changes and explain private address updates", async () => {
     const { notificationChanges } = await import("../convex/events/changes");
     const { eventChanges } = await import("../convex/mail/templates");
-    const { civilTime, timestamp } = await import("../src/events/time");
+    const { civilTime, timestamp } = await import("../convex/events/time");
     const event = {
         title: "Talk",
         slug: "talk",

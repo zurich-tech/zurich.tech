@@ -1,7 +1,7 @@
 import { SearchNotice } from "../search/notice";
 import { useCatalogue } from "../search/catalogue";
 import { useSearch } from "../search/local";
-import { matchesSearch } from "../search/search";
+import { matchesSearch } from "../../convex/search/ranking";
 import { TableToolbar } from "../components/toolbar";
 import { EventCalendar } from "./month";
 import { pageSize } from "../app/site";
@@ -133,7 +133,7 @@ export function Programme(props: {
         ),
     );
 
-    // Let the collection toolbar own spacing between filters and search.
+    // let the collection toolbar own spacing between filters and search
     const filters = () => (
         <div class="programme-tagbar" aria-label="Filter events">
             <Show when={!isPreview()}>

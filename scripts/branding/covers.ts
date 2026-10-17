@@ -26,7 +26,7 @@ function mercator(latitude: number) {
     return (1 - Math.asinh(Math.tan(angle)) / Math.PI) / 2;
 }
 
-// Frame each aspect ratio directly instead of stretching or cropping a single raster.
+// frame each aspect ratio directly instead of stretching or cropping a single raster
 for (const format of formats) {
     const { width, height } = format;
     const scale = width / span;
@@ -87,7 +87,7 @@ for (const format of formats) {
     const map = await sharp(Buffer.from(svg)).png().toBuffer();
     await Bun.write(`${directory}${format.name}-map.png`, map);
 
-    // Use the same outlined wordmark as the website, flush with the banner edges.
+    // use the same outlined wordmark as the website, flush with the banner edges
     const wordmark = await sharp(
         new URL("../../src/components/assets/wordmark.svg", import.meta.url).pathname,
     )

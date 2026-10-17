@@ -103,7 +103,7 @@ export const read = internalQuery({
                         return null;
                 }
             }
-            // Do not deliver a promotional snapshot after an included event becomes unlisted.
+            // do not deliver a promotional snapshot after an included event becomes unlisted
             for (const id of campaign.eventIds ?? []) {
                 const event = await ctx.db.get(id);
                 if (!event || !isListed(event)) return null;

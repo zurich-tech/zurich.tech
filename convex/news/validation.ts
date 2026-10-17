@@ -2,10 +2,10 @@ import { ConvexError, type Infer } from "convex/values";
 import { validateTopics } from "../topics/queries";
 import type { QueryCtx } from "../_generated/server";
 import { content } from "./content";
-import { videoEmbed } from "../../src/news/video";
+import { videoEmbed } from "./video";
 import { isNewsTag, tagSlugs } from "./tags";
 
-/** Apply the same content rules to editor saves and imported articles. */
+/** Validate article content before saving an editor draft. */
 export async function validateContent(
     ctx: QueryCtx,
     input: Infer<typeof content>,

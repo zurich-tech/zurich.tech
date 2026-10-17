@@ -10,9 +10,6 @@ convex/_generated
 # preserve the generated map asset as compact JSON
 public/city/*.json
 
-# preserve checksums of reviewed import payloads
-work/organisations/description-cleanup-1235/batch-*.json
-
 .convex
 
 .wrangler

@@ -1,12 +1,12 @@
 import { isListed } from "../events/visibility";
-import { newsDate, newsPath } from "../../src/news/path";
+import { newsDate, newsPath } from "../news/path";
 import { ConvexError, v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import { query, type QueryCtx } from "../_generated/server";
-import { memberHandle, isPublicMember } from "../members/queries";
+import { memberHandle, isPublicMember } from "../members/identity";
 import { affiliationText } from "../members/affiliations";
 import { publicJob } from "../jobs/jobs";
-import { indexRecords, searchRecords, type SearchRecord } from "../../src/search/search";
+import { indexRecords, searchRecords, type SearchRecord } from "./ranking";
 
 /** Public event presentation deliberately excludes all venue and booking data. */
 function eventRecord(event: Doc<"events">): SearchRecord {
@@ -121,7 +121,7 @@ export const search = query({
         ]);
         const entries: SearchRecord[] = catalogue.filter((record) => includes(record.kind));
 
-        // People remain permission-filtered and searched on demand.
+        // people remain permission-filtered and searched on demand
         for (const member of members.filter(isPublicMember)) {
             const handle = await memberHandle(ctx, member._id);
             if (handle)
@@ -182,7 +182,7 @@ export const search = query({
                 });
         }
 
-        // Use the same ranking, period matching and visible-result highlighting as the browser.
+        // use the same ranking, period matching and visible-result highlighting as the browser
         return searchRecords(
             indexRecords(entries),
             text,

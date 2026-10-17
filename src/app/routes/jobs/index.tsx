@@ -1,8 +1,8 @@
 import { useSearchParams } from "@solidjs/router";
-import { locationsLabel } from "../../../jobs/format";
+import { locationsLabel } from "../../../../convex/jobs/format";
 import { getTopics } from "../../../topics/queries";
 import { useSearch } from "../../../search/local";
-import { matchesSearch } from "../../../search/search";
+import { matchesSearch } from "../../../../convex/search/ranking";
 import { EditLink } from "../../../auth/edit";
 import { pageSize } from "../../site";
 import { getJobs, type Job } from "../../../jobs/queries";
@@ -18,8 +18,8 @@ import { Page } from "../../page";
 import { Seo } from "../../seo";
 import { JobEntry } from "../../../jobs/job";
 import { FacetList } from "../../../components/facets";
-import { workplaces, engagements } from "../../../jobs/filters";
-import { jobPrice, jobDurationDays } from "../../../sponsorships/plans";
+import { workplaces, engagements } from "../../../../convex/jobs/labels";
+import { jobPrice, jobDurationDays } from "../../../../convex/sponsorships/plans";
 
 /** Begin public data requests before rendering the route. */
 export const route = {

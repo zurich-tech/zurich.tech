@@ -5,7 +5,7 @@ import {
     highlightParts,
     indexRecords,
     searchRecords,
-} from "../src/search/search";
+} from "../convex/search/ranking";
 
 test("accent-insensitive matching highlights original text without injecting markup", () => {
     const text = "Zürich · Cäsar <script>";

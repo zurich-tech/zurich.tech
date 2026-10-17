@@ -3,7 +3,7 @@ import { mutation } from "../_generated/server";
 import { requireTeam } from "../auth/access";
 import { content } from "./content";
 import { validateContent } from "./validation";
-import { newsDate } from "../../src/news/path";
+import { newsDate } from "./path";
 
 /** Save a draft without changing the published snapshot. */
 export const save = mutation({

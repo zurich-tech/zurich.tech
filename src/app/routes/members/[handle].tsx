@@ -1,7 +1,7 @@
 import { Markdown } from "../../../components/markdown";
 import { Arrow } from "../../../components/arrow";
 import { Affiliations } from "../../../members/affiliations";
-import { personalTiers } from "../../../sponsorships/plans";
+import { personalTiers } from "../../../../convex/sponsorships/plans";
 import { getMember } from "../../../members/queries";
 import { type CalendarEntry } from "../../../events/queries";
 import { Avatar } from "../../../components/avatar";

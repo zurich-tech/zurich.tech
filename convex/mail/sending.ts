@@ -1,5 +1,14 @@
 import { internal } from "../_generated/api";
-import { recipientAllowed } from "./policy";
+import {
+    recipientAllowed,
+    advance,
+    approvedCampaign,
+    hourly,
+    initialCeiling,
+    maximumCeiling,
+    recipientsLocked,
+    scheduledNewsletter,
+} from "./policy";
 import { updateMessage } from "./progress";
 import { ConvexError, v } from "convex/values";
 import {
@@ -12,15 +21,6 @@ import {
 import { requireAdmin } from "../auth/access";
 import type { Doc } from "../_generated/dataModel";
 import { health } from "./health";
-import {
-    advance,
-    approvedCampaign,
-    hourly,
-    initialCeiling,
-    maximumCeiling,
-    recipientsLocked,
-    scheduledNewsletter,
-} from "./policy";
 
 /** Empty counters do not imply permission to send. */
 export const quotaDefaults: Omit<Doc<"mailQuota">, "_id" | "_creationTime"> = {

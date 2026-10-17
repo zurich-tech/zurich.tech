@@ -6,7 +6,7 @@ import { For } from "solid-js";
 import { Sponsors } from "../../sponsorships/sponsors";
 import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 import { Arrow } from "../../components/arrow";
-import { tiers, personalTiers } from "../../sponsorships/plans";
+import { tiers, personalTiers } from "../../../convex/sponsorships/plans";
 import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
 import "../sponsor-route.css";

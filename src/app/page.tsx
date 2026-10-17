@@ -1,6 +1,5 @@
 import { Card } from "../components/card";
-import type { JSX } from "solid-js";
-import { Show } from "solid-js";
+import { type JSX, Show } from "solid-js";
 
 /** Place page content within the shared site grid. */
 export function Page(props: {

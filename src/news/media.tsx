@@ -1,6 +1,6 @@
 import { Show, createSignal } from "solid-js";
 import { ArrowUpRight, Play } from "lucide-solid";
-import { videoEmbed } from "./video";
+import { videoEmbed } from "../../convex/news/video";
 
 /** Display original media; load video players only when requested. */
 export function NewsMedia(props: { image?: string; video?: string; caption?: string }) {

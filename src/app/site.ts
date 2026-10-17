@@ -24,8 +24,5 @@ export const site = {
     publicRegistrations: 50,
 } as const;
 
-/** Calendar timezone used for Zurich events. */
-export const timeZone = "Europe/Zurich";
-
 /** Entries revealed on each calendar or jobs page. */
 export const pageSize = 10;

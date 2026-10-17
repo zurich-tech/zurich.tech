@@ -1,5 +1,5 @@
 import { PhotoUpload } from "../../../events/photo-upload";
-import { useAccess } from "../../../auth/edit";
+import { useAccess, EditLink } from "../../../auth/edit";
 import { PageCommands } from "../../../search/actions";
 import { Affiliations } from "../../../members/affiliations";
 import { VenueCard, AddressNotice } from "../../../events/venue";
@@ -14,16 +14,15 @@ import { isTentative } from "../../../../convex/events/conditions";
 import { useAccount } from "../../../auth";
 import { memberClient } from "../../../auth/convex";
 import { api } from "../../../../convex/_generated/api";
-import { EditLink } from "../../../auth/edit";
 import { SocialLinks } from "../../../components/social";
 import { Image } from "../../../components/image";
 import { CalendarButton } from "../../../events/calendar-button";
 import { Share } from "../../../components/share";
-import { site, timeZone } from "../../site";
+import { site } from "../../site";
+import { timeZone, isCurrentYear } from "../../../../convex/events/time";
 import { getEvent, type PublicEvent } from "../../../events/queries";
 
 import { Card } from "../../../components/card";
-import { isCurrentYear } from "../../../events/time";
 import { Arrow } from "../../../components/arrow";
 import { useParams, revalidate } from "@solidjs/router";
 import {
@@ -89,7 +88,7 @@ export default function Route() {
         (!!account.user() && !registration.error && !isCurrentRegistration());
     const currentRegistration = () =>
         isCurrentRegistration() ? registrationResult()?.value : undefined;
-    // Keep authorised arrival details out of public SEO and cached route data.
+    // keep authorised arrival details out of public SEO and cached route data
     const [privateVenue, { refetch: refreshVenue }] = createResource(
         () =>
             account.user() && event()?.venue.availability === "confirmed"
@@ -680,6 +679,7 @@ function Photos(props: { event: PublicEvent | null | undefined }) {
         !!access.current()?.isTeam || access.canEvent(props.event?.id, "organiser");
     const [photoError, setPhotoError] = createSignal<string>();
     const [isRemoving, setIsRemoving] = createSignal(false);
+    /** Confirm and remove the selected event photo. */
     async function removePhoto() {
         const current = image();
         if (!current || !window.confirm("Remove this photo from the event?")) return;

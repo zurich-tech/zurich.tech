@@ -3,7 +3,7 @@ import { isTentative } from "../../convex/events/conditions";
 import { createMemo, createSignal, For, Show } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
 import { Arrow } from "../components/arrow";
-import { civilTime } from "./time";
+import { civilTime } from "../../convex/events/time";
 import type { CalendarEntry } from "./queries";
 import "./month.css";
 

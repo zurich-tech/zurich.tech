@@ -18,6 +18,7 @@ export function FollowUp(props: { eventId: Id<"events"> }) {
     const [pending, setPending] = createSignal(false);
     const [error, setError] = createSignal<string>();
     const [success, setSuccess] = createSignal<string>();
+    /** Confirm eligible recipients and queue the event follow-up. */
     async function send() {
         setPending(true);
         setError(undefined);

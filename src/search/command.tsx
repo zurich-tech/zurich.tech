@@ -27,7 +27,7 @@ import {
     searchScore,
     searchExcerpt,
     highlightParts,
-} from "./search";
+} from "../../convex/search/ranking";
 import "./command.css";
 
 type Scope = "All" | "Site" | "Commands" | SearchKind;
@@ -49,7 +49,7 @@ export function CommandPalette() {
     let trigger!: HTMLButtonElement;
     let returnFocus: HTMLElement | undefined;
 
-    // Prevent background scrolling while the modal owns keyboard focus.
+    // prevent background scrolling while the modal owns keyboard focus
     createEffect(() => {
         if (!isOpen()) return;
         const previous = document.body.style.overflow;
@@ -59,7 +59,7 @@ export function CommandPalette() {
         });
     });
 
-    // Debounce network work, retaining immediate local command matching.
+    // debounce network work, retaining immediate local command matching
     createEffect(() => {
         const text = query().trim();
         const timer = setTimeout(() => setRequested(text), 100);
@@ -158,7 +158,7 @@ export function CommandPalette() {
         ...registry.items().map((command) => ({ ...command, group: "This page" })),
     ]);
     const matches = createMemo<Match[]>(() => {
-        // The closed dialog has no results on either side of hydration.
+        // the closed dialog has no results on either side of hydration
         if (!isOpen()) return [];
         const terms = searchTerms(query());
         const local = commands()
@@ -279,7 +279,7 @@ export function CommandPalette() {
                           descriptionParts: [],
                       }))
                 : [];
-        // Keep collection shortcuts with their results; actions follow content when searching.
+        // keep collection shortcuts with their results; actions follow content when searching
         const groups = [
             "This page",
             "Coming up",
@@ -302,12 +302,12 @@ export function CommandPalette() {
         );
     });
 
-    // Collection shortcuts are navigation, not additional search matches.
+    // collection shortcuts are navigation, not additional search matches
     const resultCount = createMemo(
         () => matches().filter((item) => !item.command.id.startsWith("all-")).length,
     );
 
-    // Preserve a chosen row as network results arrive; reset only for a new search.
+    // preserve a chosen row as network results arrive; reset only for a new search
     const selected = () =>
         Math.max(
             0,
@@ -319,11 +319,13 @@ export function CommandPalette() {
         scope();
         setSelectedId(undefined);
     });
+    /** Close the palette and restore focus. */
     function close() {
         dialog.close();
         setOpen(false);
         (returnFocus?.isConnected ? returnFocus : trigger).focus();
     }
+    /** Reset the palette and focus its search field. */
     function open() {
         returnFocus =
             document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
@@ -335,6 +337,7 @@ export function CommandPalette() {
         dialog.showModal();
         input.focus();
     }
+    /** Run the selected command and display any failure. */
     async function choose(command: Command) {
         close();
         try {
@@ -349,6 +352,7 @@ export function CommandPalette() {
             input.focus();
         }
     }
+    /** Handle keyboard selection and command execution. */
     function key(event: KeyboardEvent) {
         if (event.isComposing) return;
         const count = matches().length;

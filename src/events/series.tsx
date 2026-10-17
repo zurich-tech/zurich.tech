@@ -1,6 +1,6 @@
 import { TopicFields } from "../topics/fields";
 import { OrganiserCard } from "./organiser";
-import type { Doc } from "../../convex/_generated/dataModel";
+import { type Doc, type Id } from "../../convex/_generated/dataModel";
 import { DeleteRecord } from "./delete";
 import { useConfirmation } from "../components/dialog";
 import { Card } from "../components/card";
@@ -12,7 +12,6 @@ import { useWorkspaceCommand } from "../app/workspace";
 import { leaveEditor, savedEditor, Editor, FormMessage } from "../components/form";
 import { revalidate, useSearchParams } from "@solidjs/router";
 import { getDirectory } from "../organisations/queries";
-import type { Id } from "../../convex/_generated/dataModel";
 
 /** Edit the recurring event series catalogue. */
 export function SeriesAdmin() {

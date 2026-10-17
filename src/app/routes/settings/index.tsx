@@ -44,6 +44,7 @@ export default function Route() {
     const [isPending, setIsPending] = createSignal(false);
 
     // end the current session
+    /** Resolve unsaved changes before clearing the session. */
     async function signOut() {
         if (!(await leaveEditor())) return;
         setError(undefined);

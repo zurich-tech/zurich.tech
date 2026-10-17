@@ -1,14 +1,14 @@
+import { requireCheckoutClosed, purchase } from "./purchases";
 import { refreshRecognition } from "../sponsorships/recognition";
 import { jobExpiry, jobStatus } from "../jobs/jobs";
 import { ConvexError, v } from "convex/values";
-import { internalMutation, query, type MutationCtx } from "../_generated/server";
-import type { Id } from "../_generated/dataModel";
+import { internalMutation, query } from "../_generated/server";
 import { requireAccount } from "../auth/access";
 import { authComponent } from "../auth/component";
-import { paidTerm, recordPayment } from "./payments";
+import { recordPayment } from "./payments";
+import { paidTerm } from "./coverage";
 import { requireCompany } from "../organisations/mutations";
-import { personalTiers, jobPrice, jobDurationDays } from "../../src/sponsorships/plans";
-import { purchase } from "./purchases";
+import { personalTiers, jobPrice, jobDurationDays } from "../sponsorships/plans";
 
 /** Reserve one purchase before creating its Stripe session. */
 export const reserve = internalMutation({
@@ -147,7 +147,7 @@ export const complete = internalMutation({
         const now = Date.now();
         const subjectId = checkout.purchase.id;
 
-        // Validate the purchased entity before recording its coverage.
+        // validate the purchased entity before recording its coverage
         if (checkout.purchase.kind === "job") {
             const job = await ctx.db.get(checkout.purchase.id);
             if (!job) throw new Error("Paid job is missing.");
@@ -254,23 +254,3 @@ export const recordInvoice = internalMutation({
         await ctx.db.patch(args.id, { invoiceUrl: args.url });
     },
 });
-
-/** Require any hosted payment for a sponsorship to finish or expire before manual changes. */
-export async function requireCheckoutClosed(ctx: MutationCtx, id: Id<"sponsorships">) {
-    // find unexpired hosted sessions for this sponsorship
-    const pending = await ctx.db
-        .query("checkouts")
-        .withIndex("by_status", (q) => q.eq("status", "pending"))
-        .collect();
-    if (
-        pending.some(
-            (row) =>
-                row.expiresAt > Date.now() &&
-                row.purchase.kind === "sponsorship" &&
-                row.purchase.id === id,
-        )
-    )
-        throw new ConvexError(
-            "A payment is open for this sponsorship. Complete it or wait for the checkout to expire before changing it.",
-        );
-}

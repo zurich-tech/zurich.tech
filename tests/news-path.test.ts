@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { makeFunctionReference } from "convex/server";
 import { api } from "../convex/_generated/api";
 import { convexTest, schema, modules, member } from "./backend";
-import { newsDate, newsPath } from "../src/news/path";
+import { newsDate, newsPath } from "../convex/news/path";
 import { newsRedirect } from "../src/server/news";
 import { isPublicPage } from "../src/server/pages";
 

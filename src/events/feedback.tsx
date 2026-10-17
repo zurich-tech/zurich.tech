@@ -61,6 +61,7 @@ function Response(props: {
     const snapshot = () => JSON.stringify([rating(), comment()]);
     const [saved, setSaved] = createSignal(snapshot());
     useUnsavedChanges(() => snapshot() !== saved());
+    /** Submit the current feedback answers. */
     async function save(event: SubmitEvent) {
         event.preventDefault();
         const submitted = snapshot();

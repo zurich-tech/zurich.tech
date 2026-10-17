@@ -1,11 +1,11 @@
+import { readTerms } from "./benefits";
 import { refreshRecognition } from "./recognition";
 import { contribution } from "./contributions";
 import { ConvexError, v } from "convex/values";
-import type { Doc, Id } from "../_generated/dataModel";
-import { mutation, internalMutation, type MutationCtx, type QueryCtx } from "../_generated/server";
+import type { Id } from "../_generated/dataModel";
+import { mutation, internalMutation, type MutationCtx } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
-import { requireCheckoutClosed } from "../billing/checkouts";
-import { tier } from "../billing/purchases";
+import { requireCheckoutClosed, tier } from "../billing/purchases";
 
 /** Dates use an exclusive end; publication may precede the benefit period. */
 export const termFields = {
@@ -17,36 +17,6 @@ export const termFields = {
     publishedAt: v.optional(v.number()),
     reason: v.string(),
 };
-
-/** Read retained terms in their effective order. */
-export async function readTerms(ctx: Pick<QueryCtx, "db">, sponsorshipId: Id<"sponsorships">) {
-    return await ctx.db
-        .query("sponsorshipTerms")
-        .withIndex("by_sponsorship", (q) => q.eq("sponsorshipId", sponsorshipId))
-        .collect();
-}
-
-/** Select current benefits or public recognition without consulting payments. */
-export function selectTerm(terms: Doc<"sponsorshipTerms">[], now: number, recognition = false) {
-    return (
-        terms
-            .filter(
-                (term) =>
-                    !term.supersededAt &&
-                    (recognition
-                        ? term.publishedAt !== undefined && term.publishedAt <= now
-                        : term.startsAt <= now) &&
-                    Math.min(term.endsAt, term.endedAt ?? Infinity) > now,
-            )
-            .sort((a, b) => {
-                // retain the current tier until a future renewal begins
-                const aStarted = a.startsAt <= now,
-                    bStarted = b.startsAt <= now;
-                if (aStarted !== bStarted) return aStarted ? -1 : 1;
-                return aStarted ? b.startsAt - a.startsAt : a.startsAt - b.startsAt;
-            })[0] ?? null
-    );
-}
 
 /** Agree a new term or replace a term while retaining its previous version. */
 export const agree = mutation({

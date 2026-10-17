@@ -33,7 +33,7 @@ import { MapActivity, SharedActivity, createActivity } from "./activity";
 import { Image } from "../components/image";
 import { SocialLinks } from "../components/social";
 import { useSearch } from "../search/local";
-import { searchTerms } from "../search/search";
+import { searchTerms } from "../../convex/search/ranking";
 import {
     countTopics,
     expandTopicFilters,
@@ -874,7 +874,7 @@ export function CommunityMap(props: {
         instance()?.map.fitBounds(camera.bounds, camera.fitBoundsOptions);
     }
 
-    // Load WebGL only in the browser and dispose it when navigating away.
+    // load WebGL only in the browser and dispose it when navigating away
     onMount(() => {
         let map: GeographicMap | undefined;
         // fit the explorer above mobile keyboards without moving its controls off screen
@@ -946,7 +946,7 @@ export function CommunityMap(props: {
             map?.remove();
         });
 
-        // The same source serves both banners and the fully interactive map.
+        // the same source serves both banners and the fully interactive map
         void import("maplibre-gl")
             .then((library) => {
                 if (isDisposed) return;
@@ -1043,7 +1043,7 @@ export function CommunityMap(props: {
         if (current) filterOrganisations(current.map, markers());
     });
 
-    // Mark hovered and selected organisations above the rest.
+    // mark hovered and selected organisations above the rest
     createEffect(() => {
         const current = instance();
         const ids = [

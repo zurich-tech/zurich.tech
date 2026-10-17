@@ -13,7 +13,7 @@ export const gallery = query({
             .order("desc")
             .collect();
 
-        // Read independent albums concurrently while preserving the event order.
+        // read independent albums concurrently while preserving the event order
         const albums = await Promise.all(
             events.filter(isListed).map(async (event) => {
                 const images = await ctx.db

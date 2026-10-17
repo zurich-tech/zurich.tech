@@ -58,6 +58,7 @@ export function HistoryChart(props: {
         }).format(new Date(value));
 
     // select the closest dated observation across the entire plotting area
+    /** Select the plotted date nearest the pointer. */
     function inspect(event: PointerEvent & { currentTarget: SVGSVGElement }) {
         const bounds = event.currentTarget.getBoundingClientRect();
         const x = ((event.clientX - bounds.left) / bounds.width) * 1000;

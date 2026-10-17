@@ -1,8 +1,8 @@
 import { convexTest, schema, modules, member } from "./backend";
 import { expect, test } from "bun:test";
-import { api, internal } from "../convex/_generated/api";
-import { newsTags, isNewsTag } from "../convex/news/tags";
-import { articleParagraphs, articleTopics } from "../src/news/model";
+import { api } from "../convex/_generated/api";
+import { newsTags, isNewsTag, articleTopics } from "../convex/news/tags";
+import { articleParagraphs } from "../src/news/model";
 
 /** Expose only public social profiles and geocoded public map destinations. */
 test("test_link_news_entities_to_public_profiles_and_map_locations", async () => {
@@ -258,10 +258,10 @@ test("news detail matches the feed and excludes drafts and private authors", asy
     ]);
 });
 
-/** Import sources become normal editable posts without duplicate rows or silent overwrites. */
-test("news imports preserve dates, credit organisations and protect subsequent edits", async () => {
+/** Preserve published dates and organisation credits through subsequent editorial changes. */
+test("test_preserve_news_dates_credits_and_validate_editor_changes", async () => {
     const backend = convexTest(schema, modules);
-    const recordedBy = await backend.run(async (ctx) => {
+    const { recordedBy, organisationId } = await backend.run(async (ctx) => {
         const id = await member(ctx, { name: "Editor", searchText: "", visibility: "public" });
         await ctx.db.insert("accounts", {
             authId: "editor",
@@ -272,7 +272,7 @@ test("news imports preserve dates, credit organisations and protect subsequent e
             createdAt: 1,
             updatedAt: 1,
         });
-        await ctx.db.insert("organisations", {
+        const organisationId = await ctx.db.insert("organisations", {
             name: "zurich.tech",
             slug: "zurich-tech",
             kind: "nonprofit",
@@ -282,7 +282,7 @@ test("news imports preserve dates, credit organisations and protect subsequent e
             ownerId: id,
             updatedAt: 1,
         });
-        return id;
+        return { recordedBy: id, organisationId };
     });
     const articles = [
         {
@@ -297,25 +297,21 @@ test("news imports preserve dates, credit organisations and protect subsequent e
                 caption: "Project demonstration. Credit: Example Lab",
                 kind: "post" as const,
                 authors: [],
-                organisations: ["zurich-tech"],
+                organisations: [organisationId],
                 topics: [],
             },
         },
     ];
-    const args = { recordedBy, articles, apply: false };
-    expect(await backend.mutation(internal.news.imports.apply, args)).toEqual({
-        created: 1,
-        unchanged: 0,
-    });
-    expect(await backend.query(api.news.queries.list, {})).toEqual([]);
-    expect(await backend.mutation(internal.news.imports.apply, { ...args, apply: true })).toEqual({
-        created: 1,
-        unchanged: 0,
-    });
-    expect(await backend.mutation(internal.news.imports.apply, { ...args, apply: true })).toEqual({
-        created: 0,
-        unchanged: 1,
-    });
+    await backend.run((ctx) =>
+        ctx.db.insert("posts", {
+            slug: articles[0].slug,
+            draft: { ...articles[0].content, date: 1234 },
+            published: { ...articles[0].content, date: 1234 },
+            publishedAt: 1234,
+            updatedAt: 1234,
+            createdBy: recordedBy,
+        }),
+    );
     const post = (await backend.run((ctx) => ctx.db.query("posts").unique()))!;
     expect(post.publishedAt).toBe(1234);
     expect(
@@ -349,9 +345,6 @@ test("news imports preserve dates, credit organisations and protect subsequent e
         expectedUpdatedAt: post.updatedAt,
         content: { ...post.draft, title: "Edited on the website" },
     });
-    await expect(
-        backend.mutation(internal.news.imports.apply, { ...args, apply: true }),
-    ).rejects.toThrow("News conflict: introduction");
     expect(await backend.run((ctx) => ctx.db.query("posts").collect())).toHaveLength(1);
     // Dates are authored with the draft and become public only on publication.
     const current = (await backend.run((ctx) => ctx.db.get(post._id)))!;

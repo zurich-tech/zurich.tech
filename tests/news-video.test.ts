@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { videoEmbed } from "../src/news/video";
+import { videoEmbed } from "../convex/news/video";
 
 test("resolve hosted news videos without loading tracking parameters", () => {
     expect(videoEmbed("https://www.youtube.com/watch?v=L-v83ikx2-k&feature=share")).toBe(

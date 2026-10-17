@@ -1,7 +1,7 @@
 import { registerCommands } from "../search/actions";
 import { useAccess } from "../auth/edit";
 import "./mail.css";
-import { civilTime, timestamp } from "../events/time";
+import { civilTime, timestamp } from "../../convex/events/time";
 import { createResource, createSignal, createUniqueId, Show, For } from "solid-js";
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";

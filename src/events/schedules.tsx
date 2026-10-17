@@ -1,6 +1,6 @@
 import { PillRow } from "../components/filter-pills";
 import { useAccess } from "../auth/edit";
-import { FormSection } from "../components/form";
+import { FormSection, savedEditor, Editor, FormMessage } from "../components/form";
 import { DeleteRecord } from "./delete";
 import { useConfirmation } from "../components/dialog";
 import "./schedules.css";
@@ -12,9 +12,8 @@ import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
-import { savedEditor, Editor, FormMessage } from "../components/form";
 import { useWorkspaceCommand, type EventWorkspace } from "../app/workspace";
-import { civilTime } from "./time";
+import { civilTime } from "../../convex/events/time";
 
 /** A schedule and the occurrences already generated from it. */
 type Schedule = FunctionReturnType<typeof api.events.schedules.list>[number];

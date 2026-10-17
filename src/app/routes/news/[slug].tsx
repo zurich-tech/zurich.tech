@@ -1,14 +1,12 @@
 import { PageCommands } from "../../../search/actions";
-import { useAccess } from "../../../auth/edit";
-import { EditLink } from "../../../auth/edit";
+import { useAccess, EditLink } from "../../../auth/edit";
 import { Share } from "../../../components/share";
 import { SocialLinks } from "../../../components/social";
 import { MapPin } from "lucide-solid";
 import { Card } from "../../../components/card";
-import { timeZone } from "../../site";
+import { timeZone, isCurrentYear } from "../../../../convex/events/time";
 import { getArticle, getHeadlines } from "../../../news/queries";
 
-import { isCurrentYear } from "../../../events/time";
 import { useParams } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import { articleTags } from "../../../news/tags";

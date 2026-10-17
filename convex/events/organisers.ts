@@ -1,7 +1,7 @@
 import { ConvexError } from "convex/values";
 import type { QueryCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
-import { isPublicMember, memberHandle } from "../members/queries";
+import { isPublicMember, memberHandle } from "../members/identity";
 
 /** Read only the consented public identity used for organiser attribution. */
 export async function publicOrganiser(ctx: QueryCtx, id?: Id<"members">) {

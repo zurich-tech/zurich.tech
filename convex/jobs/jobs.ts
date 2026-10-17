@@ -1,15 +1,15 @@
-import { jobPrice, jobDurationDays } from "../../src/sponsorships/plans";
+import { jobPrice, jobDurationDays, tiers } from "../sponsorships/plans";
 import { ConvexError, v } from "convex/values";
 import { mutation, query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { requireAdmin } from "../auth/access";
-import { paidTerm, recordPayment } from "../billing/payments";
+import { recordPayment } from "../billing/payments";
+import { paidTerm } from "../billing/coverage";
 import { requireCompany } from "../organisations/mutations";
-import { tiers } from "../../src/sponsorships/plans";
 import { confirmationPeriod, jobFields } from "./fields";
 import { normalizeEmail } from "../members/emails";
 import { normalizeJob } from "./validation";
-import { readTerms, selectTerm } from "../sponsorships/terms";
+import { readTerms, selectTerm } from "../sponsorships/benefits";
 
 /** Original coverage for purchases without an explicit duration. */
 const legacyDurationMonths = 6;

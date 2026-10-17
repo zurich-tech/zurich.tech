@@ -1,4 +1,4 @@
-import { readTerms, selectTerm } from "../sponsorships/terms";
+import { readTerms, selectTerm } from "../sponsorships/benefits";
 import { invoiceBalance } from "../billing/invoices";
 import { presentProfiles } from "../members/links";
 import type { Doc } from "../_generated/dataModel";

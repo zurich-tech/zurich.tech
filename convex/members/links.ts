@@ -1,4 +1,4 @@
-import type { Doc } from "../_generated/dataModel";
+import type { Doc, Id } from "../_generated/dataModel";
 import type { QueryCtx, MutationCtx } from "../_generated/server";
 import { normalizeUrl } from "./urls";
 
@@ -105,4 +105,20 @@ export async function writeLinks(ctx: MutationCtx, ownerId: Owner, urls: string[
             updatedAt: Date.now(),
         });
     }
+}
+
+/** Read the public links attached to one record. */
+export async function publicLinks(ctx: QueryCtx, subjectId: Id<"members"> | Id<"events">) {
+    const links = await ctx.db
+        .query("links")
+        .withIndex("by_owner", (query) => query.eq("ownerId", subjectId))
+        .filter((query) => query.eq(query.field("visibility"), "public"))
+        .collect();
+
+    return links
+        .sort((left, right) => left.position - right.position)
+        .map((link) => ({
+            href: link.url,
+            label: link.label ?? link.kind,
+        }));
 }

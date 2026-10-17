@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { createMemo, createRenderEffect, createRoot, createSelector, createSignal } from "solid-js";
 import { isServer } from "solid-js/web";
 import { nameTerms } from "../src/map/filter";
-import { highlightParts, searchTerms } from "../src/search/search";
+import { highlightParts, searchTerms } from "../convex/search/ranking";
 
 test("test_preserve_exact_name_highlights_and_reuse_unchanged_terms", () => {
     for (const name of ["Akina", "Zürich Instruments", "ETH AI Center", "a-metal"]) {

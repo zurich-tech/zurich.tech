@@ -46,7 +46,7 @@ export function EventBadges(props: {
     showPast?: boolean;
     isPartner?: boolean;
 }) {
-    // Use the same state precedence in list entries and expanded introductions.
+    // use the same state precedence in list entries and expanded introductions
     const state = () => {
         if (props.event.status === "cancelled") return "Cancelled";
         if (props.event.status === "draft") return "Draft";

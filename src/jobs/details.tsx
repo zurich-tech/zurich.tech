@@ -1,12 +1,11 @@
-import { locationsLabel } from "./format";
+import { locationsLabel, applicationHref } from "../../convex/jobs/format";
 import { type JSX, Show } from "solid-js";
 import type { Job } from "./queries";
 import { Card } from "../components/card";
 import { ItemHeader } from "../app/page";
 import { Markdown } from "../components/markdown";
 import { Image } from "../components/image";
-import { workplaces, seniorities } from "./filters";
-import { applicationHref } from "./format";
+import { workplaces, seniorities } from "../../convex/jobs/labels";
 import { JobTags } from "./tags";
 import { Arrow } from "../components/arrow";
 import { Share } from "../components/share";

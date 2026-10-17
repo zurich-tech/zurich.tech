@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { query } from "../_generated/server";
-import { newsDate, newsPath } from "../../src/news/path";
+import { newsDate, newsPath } from "./path";
 
 /** Resolve public canonical paths without expanding article bodies or relationships. */
 export const canonical = query({

@@ -1,5 +1,5 @@
 import { FacetList } from "../components/facets";
-import { timeZone } from "../app/site";
+import { timeZone } from "../../convex/events/time";
 import type { CalendarEntry } from "./queries";
 
 /** Day and month of a series' next event in Zurich time. */

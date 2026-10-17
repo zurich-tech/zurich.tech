@@ -12,7 +12,7 @@ import {
     selectPlaces,
     organisationPlace,
 } from "../src/map/places";
-import { searchTerms } from "../src/search/search";
+import { searchTerms } from "../convex/search/ranking";
 import {
     addBadges,
     addOrganisationLayers,

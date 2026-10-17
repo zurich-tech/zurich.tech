@@ -1,6 +1,6 @@
 import { For, Show } from "solid-js";
 import type { Command } from "./actions";
-import type { HighlightPart } from "./search";
+import type { HighlightPart } from "../../convex/search/ranking";
 
 /** Render precomputed match segments as text, never injected HTML. */
 function MatchedText(props: { parts: readonly HighlightPart[] }) {

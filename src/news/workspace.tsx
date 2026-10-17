@@ -7,7 +7,7 @@ import { Card } from "../components/card";
 import { TableToolbar } from "../components/toolbar";
 import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
-import { newsDate, newsPath } from "./path";
+import { newsDate, newsPath } from "../../convex/news/path";
 
 /** Browse team drafts and published posts in the standard admin table. */
 export function NewsAdmin() {

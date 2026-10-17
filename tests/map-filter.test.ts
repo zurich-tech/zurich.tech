@@ -1,7 +1,7 @@
 import { expect, spyOn, test } from "bun:test";
 import { countTopics, expandTopicFilters, filterLocations } from "../src/map/filter";
 import type { MapLocation } from "../src/map/queries";
-import { matchesSearch, searchTerms } from "../src/search/search";
+import { matchesSearch, searchTerms } from "../convex/search/ranking";
 
 test("test_count_topic_ancestors_once_per_organisation_across_offices", () => {
     const places = locations();

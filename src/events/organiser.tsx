@@ -120,6 +120,7 @@ export function OrganiserField(props: {
         setOthers(props.coOrganisers ?? []);
     });
 
+    /** Reorder an additional organiser. */
     function move(index: number, direction: number) {
         const values = [...others()];
         [values[index], values[index + direction]] = [values[index + direction], values[index]];

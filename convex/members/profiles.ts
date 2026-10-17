@@ -116,7 +116,7 @@ export const save = mutation({
             if (previous.name !== handle && previous.status === "active")
                 await ctx.db.patch(previous._id, { status: "released", updatedAt: Date.now() });
 
-        // Index only public profile copy, never private survey answers or interests.
+        // index only public profile copy, never private survey answers or interests
         await ctx.db.patch(viewer.memberId, {
             name,
             visibility: args.isPublic ? "public" : "private",

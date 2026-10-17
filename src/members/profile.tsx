@@ -1,8 +1,15 @@
 import { MarkdownEditor } from "../components/markdown-editor";
 import { AffiliationFields, readAffiliations } from "./affiliations";
 import { CommunityFields, readCommunity } from "./demographics";
-import { Suspense } from "solid-js";
-import { startTransition, createResource, createSignal, Show, For, onCleanup } from "solid-js";
+import {
+    Suspense,
+    startTransition,
+    createResource,
+    createSignal,
+    Show,
+    For,
+    onCleanup,
+} from "solid-js";
 import { auth } from "../auth";
 import { Avatar } from "../components/avatar";
 import { api } from "../../convex/_generated/api";
@@ -62,6 +69,7 @@ export function ProfileSettings() {
         },
         { initialValue: { isAvailable: true, error: "" } },
     );
+    /** Normalize the handle and schedule its availability check. */
     function checkSlug(value: string) {
         setSlug(value.trim().toLowerCase());
         setCandidate(undefined);
@@ -110,7 +118,7 @@ export function ProfileSettings() {
             await (
                 await memberClient()
             ).action(api.members.avatars.upload, { bytes: await blob.arrayBuffer() });
-            // Refresh the portrait independently so an upload cannot replace unsaved profile fields.
+            // refresh the portrait independently so an upload cannot replace unsaved profile fields
             const updated = await (await memberClient()).query(api.members.profiles.current, {});
             setPhoto(updated?.avatarUrl);
             setSuccess("Photo updated.");

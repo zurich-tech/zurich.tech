@@ -1,11 +1,11 @@
-import { civilTime } from "../events/time";
+import { civilTime } from "../../convex/events/time";
 import { getTopics } from "../topics/queries";
 import { Selection } from "../components/selection";
 import { newsTags, tagSlugs } from "../../convex/news/tags";
 import { useUnsavedChanges } from "../components/unsaved";
 import { createSignal, For, Show } from "solid-js";
 import { articleParagraphs } from "./model";
-import { newsDate, newsPath } from "./path";
+import { newsDate, newsPath } from "../../convex/news/path";
 import { useNavigate, useSearchParams, revalidate } from "@solidjs/router";
 import type { FunctionReturnType } from "convex/server";
 import type { Doc } from "../../convex/_generated/dataModel";
@@ -20,7 +20,7 @@ import { MarkdownEditor } from "../components/markdown-editor";
 import { errorMessage } from "../components/errors";
 import { SocialCopy } from "./social";
 import { NewsMedia } from "./media";
-import { videoEmbed } from "./video";
+import { videoEmbed } from "../../convex/news/video";
 import { getArticles, getArticle, getHeadlines } from "./queries";
 import "./article.css";
 
@@ -99,6 +99,7 @@ export function NewsEditor(props: {
         setParams({ id: result.id }, { replace: true });
         return result;
     }
+    /** Run an editor action with pending and error feedback. */
     async function run(action: () => Promise<void>) {
         if (isPending()) return;
         setIsPending(true);
@@ -112,6 +113,7 @@ export function NewsEditor(props: {
             setIsPending(false);
         }
     }
+    /** Confirm and apply the article publication state. */
     async function publish(isPublished: boolean) {
         if (isPublished && !isDateValid()) {
             setError("Enter a valid news date.");
@@ -149,6 +151,7 @@ export function NewsEditor(props: {
             navigate("/admin?section=news");
         });
     }
+    /** Return to news administration. */
     function back() {
         navigate("/admin?section=news");
     }

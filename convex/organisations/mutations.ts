@@ -194,7 +194,7 @@ export const setHost = internalMutation({
         if (!(await ctx.db.get(args.organisationId)))
             throw new ConvexError("Organisation not found.");
 
-        // Keep a single host while allowing its identity to change without code changes.
+        // keep a single host while allowing its identity to change without code changes
         for (const organisation of await ctx.db.query("organisations").collect()) {
             const isHost = organisation._id === args.organisationId;
             if (Boolean(organisation.isHost) !== isHost)

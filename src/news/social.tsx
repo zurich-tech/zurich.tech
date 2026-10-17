@@ -11,6 +11,7 @@ export function SocialCopy(props: { title: string; description: string; url: str
     );
     const [message, setMessage] = createSignal<string>();
     const [error, setError] = createSignal<string>();
+    /** Copy the social draft to the clipboard. */
     async function copy() {
         try {
             await navigator.clipboard.writeText(text());

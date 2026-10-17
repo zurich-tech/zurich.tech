@@ -11,7 +11,7 @@ import { memberClient } from "../auth/convex";
 import { useWorkspaceCommand, type EventWorkspace } from "../app/workspace";
 import { FormMessage } from "../components/form";
 import { Card } from "../components/card";
-import { timeZone } from "../app/site";
+import { timeZone } from "../../convex/events/time";
 
 /** Manage published events and drafts in one searchable table. */
 export function EventAdmin(props: { workspace: EventWorkspace; refresh: () => unknown }) {

@@ -17,6 +17,7 @@ export function PhotoUpload(props: { eventId: Id<"events">; saved: () => Promise
     let dragDepth = 0;
     let input!: HTMLInputElement;
 
+    /** Clear the selection and release image previews. */
     function clear() {
         selection().forEach((photo) => URL.revokeObjectURL(photo.url));
         setSelection([]);
@@ -63,6 +64,7 @@ export function PhotoUpload(props: { eventId: Id<"events">; saved: () => Promise
         ]);
     }
 
+    /** Upload and publish the selected event photos. */
     async function publish() {
         if (progress()) return;
         setProgress("Preparing photos…");

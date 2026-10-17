@@ -17,10 +17,10 @@ export async function retainAssets(current: string, archive: string, now = Date.
     const fresh = await readdir(current);
     const freshNames = new Set(fresh);
 
-    // The replaced build was live until now, even after months without a deployment.
+    // the replaced build was live until now, even after months without a deployment
     for (const name of previous.current) dates[name] = now;
 
-    // Never overwrite a content-addressed URL with different bytes.
+    // never overwrite a content-addressed URL with different bytes
     for (const name of fresh) {
         if (!assetName.test(name)) throw new Error(`Unexpected asset: ${name}`);
         const source = join(current, name);
@@ -32,7 +32,7 @@ export async function retainAssets(current: string, archive: string, now = Date.
         dates[name] = now;
     }
 
-    // Expire old builds without allowing shared files to expire while still in use.
+    // expire old builds without allowing shared files to expire while still in use
     for (const [name, lastSeen] of Object.entries(dates)) {
         if (!assetName.test(name) || !Number.isFinite(lastSeen))
             throw new Error("Invalid asset archive manifest.");
@@ -57,7 +57,7 @@ export async function archiveLiveAssets(origin: string, archive: string) {
     discover(await page.text());
     if (!pending.size) throw new Error("The deployed site contains no asset references.");
 
-    // Follow lazy route imports as well as their shared modules and styles.
+    // follow lazy route imports as well as their shared modules and styles
     for (const name of pending) {
         const response = await fetch(new URL(`/_build/assets/${name}`, origin), {
             signal: AbortSignal.timeout(15000),

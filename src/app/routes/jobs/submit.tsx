@@ -1,6 +1,6 @@
 import { JobForm } from "../../../jobs/editor";
 import { JobReview } from "../../../organisations/employer";
-import { useWorkspaceCommand } from "../../workspace";
+import { useWorkspaceCommand, useEmployerWorkspace } from "../../workspace";
 import { JobDetails } from "../../../jobs/details";
 import type { Job } from "../../../jobs/queries";
 import { Loading } from "../../../components/loading";
@@ -8,7 +8,6 @@ import { Show, createSignal } from "solid-js";
 import { useNavigate, revalidate, useSearchParams } from "@solidjs/router";
 import { api } from "../../../../convex/_generated/api";
 import type { Id } from "../../../../convex/_generated/dataModel";
-import { useEmployerWorkspace } from "../../workspace";
 import { memberClient } from "../../../auth/convex";
 import { Page, PageHeader } from "../../page";
 import { Seo } from "../../seo";

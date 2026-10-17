@@ -25,7 +25,7 @@ export function useUnsavedChanges(isDirty: () => boolean) {
         }
     }
 
-    // Hash links within the same page do not discard an editor.
+    // hash links within the same page do not discard an editor
     useBeforeLeave((event) => {
         if (event.defaultPrevented || !isDirty()) return;
         if (typeof event.to === "string") {
@@ -40,7 +40,7 @@ export function useUnsavedChanges(isDirty: () => boolean) {
         void leave().then((accepted) => accepted && event.retry(true));
     });
 
-    // Browsers require their own dialog when the document is being unloaded.
+    // browsers require their own dialog when the document is being unloaded
     onMount(() => {
         const unload = (event: BeforeUnloadEvent) => {
             if (!isDirty()) return;

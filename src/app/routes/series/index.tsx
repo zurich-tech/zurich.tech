@@ -1,7 +1,7 @@
 import { createMemo, For, Show } from "solid-js";
 import { ArrowRight } from "lucide-solid";
 import { useSearch } from "../../../search/local";
-import { matchesSearch } from "../../../search/search";
+import { matchesSearch } from "../../../../convex/search/ranking";
 import { TableToolbar } from "../../../components/toolbar";
 import { Highlight } from "../../../components/highlight";
 import { Markdown } from "../../../components/markdown";
@@ -12,7 +12,7 @@ import { Organisers } from "../../../events/organiser";
 import { EventTags } from "../../../events/tags";
 import { EditLink } from "../../../auth/edit";
 import { Page, PageHeader } from "../../page";
-import { timeZone } from "../../site";
+import { timeZone } from "../../../../convex/events/time";
 import { Seo } from "../../seo";
 import "../../../events/catalogue.css";
 

@@ -8,7 +8,7 @@ import { requireEvent, requireRevision } from "../auth/grants";
 import { submissionFields } from "./fields";
 import { notificationChanges } from "./changes";
 import { eventPlace } from "./place";
-import { registrations, waitingForSeats } from "./registrations";
+import { registrations, waitingForSeats } from "./roster";
 
 /** Event transitions that require confirmation. */
 export const action = v.union(
@@ -29,7 +29,7 @@ export async function eventAction(
     proposed?: Infer<typeof fields>,
     announce = false,
 ) {
-    // Revisions written before visibility existed must not expose an unlisted event.
+    // revisions written before visibility existed must not expose an unlisted event
     if (proposed && event && proposed.visibility === undefined)
         proposed = { ...proposed, visibility: event.visibility };
 

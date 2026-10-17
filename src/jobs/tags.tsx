@@ -1,7 +1,7 @@
 import { For, Show } from "solid-js";
 import type { Job } from "./queries";
 import { getTopics } from "../topics/queries";
-import { jobFacts } from "./format";
+import { jobFacts } from "../../convex/jobs/format";
 
 /** Render consistent workplace, engagement and discovery tags across job surfaces. */
 export function JobTags(props: { job: Job; isCompact?: boolean }) {

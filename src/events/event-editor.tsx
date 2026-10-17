@@ -6,7 +6,7 @@ import { SpeakerMember } from "./speaker";
 import { createEffect, createSignal, For, Index, Show, type Setter } from "solid-js";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { getDirectory } from "../organisations/queries";
-import { civilTime } from "./time";
+import { civilTime } from "../../convex/events/time";
 import { AddressField } from "../components/address";
 import { Card } from "../components/card";
 import { OrganisationFields } from "./organisations";

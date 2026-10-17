@@ -37,7 +37,7 @@ export function useWorkspaceCommand(refresh: () => unknown) {
 
     /** Run the command and retain its visible result. */
     async function perform(operation: () => Promise<unknown>, message: string) {
-        // Keep each command and its refresh as one operation.
+        // keep each command and its refresh as one operation
         if (isPending()) return;
 
         // clear the previous result before attempting the command

@@ -20,6 +20,10 @@ format-check:
 generate:
     bun run convex:codegen
 
+# run the test suite
+test:
+    bun test tests
+
 # type check source
 typecheck:
     bun run typecheck
@@ -37,10 +41,6 @@ check:
 # run dev server
 dev:
     bun run dev
-
-# prepare and upload reviewed event photos
-photos *args:
-    bun scripts/events/photos.ts {{args}}
 
 # clean build artifacts
 clean:

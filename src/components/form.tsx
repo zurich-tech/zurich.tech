@@ -93,7 +93,7 @@ export function Editor(
 
     onMount(() => {
         edits.reset(snapshot(form));
-        // Capture defaults before edits and track interactions while a save is in flight.
+        // capture defaults before edits and track interactions while a save is in flight
         const begin = () => {
             if (!isSaving()) edits.interact(() => snapshot(form));
         };
@@ -125,7 +125,7 @@ export function Editor(
             inert={isSaving() || attributes.inert}
             aria-busy={isSaving()}
             onSubmit={async (event) => {
-                // Keep one submitted version stable until saving and refreshing have finished.
+                // keep one submitted version stable until saving and refreshing have finished
                 event.preventDefault();
                 if (isSaving() || attributes.inert) return;
                 edits.submit(snapshot(form));

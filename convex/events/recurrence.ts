@@ -1,5 +1,5 @@
 import { ConvexError, v, type Infer } from "convex/values";
-import { civilTime, timestamp } from "../../src/events/time";
+import { civilTime, timestamp } from "./time";
 
 /** Civil recurrence rules; weekdays run Monday (0) through Sunday (6). */
 export const recurrence = v.object({

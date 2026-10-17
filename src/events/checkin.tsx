@@ -61,6 +61,7 @@ export function CheckIn(props: { eventId: Id<"events"> }) {
         scanner?.destroy();
     });
 
+    /** Record attendance from a ticket or registration. */
     async function record(input: { token?: string; registrationId?: Id<"registrations"> }) {
         if (pending()) return;
         setPending(true);
@@ -80,6 +81,7 @@ export function CheckIn(props: { eventId: Id<"events"> }) {
             setPending(false);
         }
     }
+    /** Start the camera scanner unless the view has been disposed. */
     async function start() {
         try {
             const { default: QrScanner } = await import("qr-scanner");
@@ -111,6 +113,7 @@ export function CheckIn(props: { eventId: Id<"events"> }) {
             setMessage(errorMessage(error, "Camera unavailable. Use the attendee search."));
         }
     }
+    /** Remove a confirmed attendance record without cancelling registration. */
     async function undo(id: Id<"registrations">, name: string) {
         if (
             !(await confirm({

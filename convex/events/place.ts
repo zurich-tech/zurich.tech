@@ -1,4 +1,4 @@
-import { query } from "../_generated/server";
+import { query, type QueryCtx } from "../_generated/server";
 import { ConvexError, v } from "convex/values";
 import type { AddressAccess } from "./fields";
 import { permissions } from "../auth/grants";
@@ -6,7 +6,6 @@ import { allows } from "../auth/permissions";
 import { authComponent } from "../auth/component";
 import { normalizeEmail } from "../members/emails";
 import type { Doc } from "../_generated/dataModel";
-import type { QueryCtx } from "../_generated/server";
 
 /** Resolve an event's venue name, postal address and map position. */
 export async function eventPlace(ctx: QueryCtx, event: Doc<"events">) {
@@ -73,7 +72,7 @@ export const get = query({
         if (!event || event.status === "draft") return null;
         let isAllowed = false;
 
-        // Private registration links grant access only to their own confirmed event.
+        // private registration links grant access only to their own confirmed event
         if (args.token) {
             const row = await ctx.db
                 .query("registrations")
@@ -132,7 +131,7 @@ export function validateAddress(
             throw new ConvexError("Add the address for confirmed attendees before publishing.");
     }
 
-    // External links must be ordinary web links with a readable site name.
+    // external links must be ordinary web links with a readable site name
     if (policy?.kind === "external") {
         let url: URL;
         try {

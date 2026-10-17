@@ -3,7 +3,7 @@ import { Image } from "../components/image";
 import { getSponsors } from "./queries";
 import { For, Show } from "solid-js";
 
-import { tiers } from "./plans";
+import { tiers } from "../../convex/sponsorships/plans";
 import { SocialLinks } from "../components/social";
 import { Card } from "../components/card";
 import "./sponsors.css";

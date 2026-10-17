@@ -1,10 +1,9 @@
-import { articleTopics } from "../../src/news/model";
 import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
 import { v } from "convex/values";
 import { requireTeam } from "../auth/access";
-import { tagSlugs } from "./tags";
-import { newsDate, newsPath } from "../../src/news/path";
+import { articleTopics, tagSlugs } from "./tags";
+import { newsDate, newsPath } from "./path";
 import { readProfiles } from "../members/links";
 
 /** Read published news only; drafts never enter the public response. */

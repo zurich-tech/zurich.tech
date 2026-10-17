@@ -28,7 +28,7 @@ export function createCommands(): Registry {
     const registry: Registry = {
         items: () => sources().flatMap((source) => source()),
         register: (source) => {
-            // Evaluate page state in its own render lifecycle, never from the global menu.
+            // evaluate page state in its own render lifecycle, never from the global menu
             const [items, setItems] = createSignal<Command[]>([]);
             createRenderEffect(() => setItems(source()));
             setSources((sources) => [...sources, items]);

@@ -17,7 +17,7 @@ import {
     matchRecord,
     type SearchKind,
     type SearchRecord,
-} from "./search";
+} from "../../convex/search/ranking";
 
 type Catalogue = {
     isReady: Accessor<boolean>;

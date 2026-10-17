@@ -2,12 +2,11 @@ import { isListed } from "./visibility";
 import { eventAttribution } from "./attribution";
 import { eventPlace, disclosePlace } from "./place";
 import { publicOrganiser, publicOrganisers, organiserIds } from "./organisers";
-import { readLinks } from "../members/links";
+import { readLinks, publicLinks } from "../members/links";
 import { photoUrls } from "./photos";
 import { v } from "convex/values";
 import { query, type QueryCtx } from "../_generated/server";
 import type { Doc } from "../_generated/dataModel";
-import { publicLinks } from "../members/queries";
 
 /** Read the complete published calendar. */
 export const calendar = query({
@@ -146,7 +145,7 @@ export const event = query({
                 speakers
                     .filter((speaker) => !speaker.isRemoved)
                     .map(async (speaker) => {
-                        // Reuse a consented public profile portrait unless this appearance overrides it.
+                        // reuse a consented public profile portrait unless this appearance overrides it
                         const member = speaker.memberId
                             ? await speakerProfile(ctx, speaker.memberId)
                             : undefined;
@@ -185,7 +184,7 @@ export async function calendarRow(
     // reuse the calendar's series lookup for both attribution and organiser credits
     if (series === undefined) series = event.seriesId ? await ctx.db.get(event.seriesId) : null;
 
-    // Reuse batch-resolved credits when available; expand isolated rows on demand.
+    // reuse batch-resolved credits when available; expand isolated rows on demand
     const credits =
         organiser === undefined
             ? await publicOrganisers(ctx, event, series)

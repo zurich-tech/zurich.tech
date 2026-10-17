@@ -1,4 +1,4 @@
-import { civilTime, timestamp } from "../events/time";
+import { civilTime, timestamp } from "../../convex/events/time";
 import "./editor.css";
 import { For, Show, createSignal } from "solid-js";
 import type { FunctionReturnType } from "convex/server";
@@ -7,7 +7,7 @@ import { memberClient } from "../auth/convex";
 import type { Perform } from "../app/workspace";
 import { Editor, savedEditor } from "../components/form";
 import { Card } from "../components/card";
-import { tiers } from "./plans";
+import { tiers } from "../../convex/sponsorships/plans";
 
 /** Company agreements and their invoice settlement history. */
 type Workspace = FunctionReturnType<typeof api.organisations.workspace.employer>;

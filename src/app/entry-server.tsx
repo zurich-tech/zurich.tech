@@ -7,7 +7,7 @@ import { themeInitializer } from "./theme";
 import archivoFont from "@fontsource-variable/archivo/files/archivo-latin-standard-normal.woff2?url";
 import monoFont from "@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url";
 
-// Send completed HTML so the initial page does not depend on streamed reveal scripts.
+// send completed HTML so the initial page does not depend on streamed reveal scripts
 export default createHandler(() => <StartServer document={Document} />, { mode: "async" });
 
 /** Render the shared HTML document for a server request. */

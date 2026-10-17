@@ -5,8 +5,8 @@ The meaning of a control determines its appearance, not the page that contains i
 
 | Meaning                                                   | Shared treatment                                                                                         |
 | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Content group                                             | `Card`: outer border and one heading divider                                                             |
-| Card contents                                             | `--card-gutter`: 24px horizontally, 20px on small screens; preserve compact vertical spacing             |
+| Content group                                             | `Card`: unframed on public pages; retain borders for dialogs and administrative tools                    |
+| Card contents                                             | `--card-inset`: zero on public pages, otherwise 20px horizontally and 16px on small screens              |
 | Navigation, suggestions, opening a new or existing editor | `action-link`: plain text; colour and underline on hover; visible keyboard focus                         |
 | Submit, save, retry, register, destructive operation      | `Button` / `button`: bordered control; blue for the primary action                                       |
 | Filter or view selection                                  | `FilterPills`: links or buttons; one scrolling row with edge arrows; selected choice stays visible       |
@@ -17,7 +17,8 @@ The meaning of a control determines its appearance, not the page that contains i
 
 Keep separators between repeated list entries, distinct card sections, and form actions.
 Do not add a box around each metadata value or nest bordered containers for spacing alone.
-Align headings, filters, search fields and rows to the same card gutter, including zero-padding card bodies.
+Align headings, filters, search fields and rows to the same content edge, including zero-padding card bodies.
+Public layouts separate columns and sections with a 48px gap rather than enclosing each section in a box.
 Use gaps to distinguish filter groups and metadata values.
 Keep inline prose links recognisable as links; do not remove their underline globally.
 

@@ -1,4 +1,4 @@
-import { locationsLabel } from "./format";
+import { locationsLabel } from "../../convex/jobs/format";
 import { Highlight } from "../components/highlight";
 import { Image } from "../components/image";
 import { type Job } from "./queries";

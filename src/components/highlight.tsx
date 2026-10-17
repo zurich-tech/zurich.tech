@@ -1,6 +1,6 @@
 import { For } from "solid-js";
 
-import { highlightParts } from "../search/search";
+import { highlightParts } from "../../convex/search/ranking";
 
 /** Highlight properties. */
 type HighlightProps = {

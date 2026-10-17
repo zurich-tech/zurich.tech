@@ -35,7 +35,7 @@ async function main() {
         }
     }
 
-    // Test HTML before JavaScript can conceal a server rendering failure.
+    // test HTML before JavaScript can conceal a server rendering failure
     for (const path of routes) {
         const started = performance.now();
         const response = await fetch(new URL(path, origin), { signal: AbortSignal.timeout(15000) });
@@ -84,7 +84,7 @@ async function main() {
             throw new Error("Private or parameterized requests must bypass the page cache");
     }
 
-    // Exercise lazy routes and their imports, not just the initial document.
+    // exercise lazy routes and their imports, not just the initial document
     for (const name of assets) {
         const response = await fetch(new URL(`/_build/assets/${name}`, origin), {
             signal: AbortSignal.timeout(15000),

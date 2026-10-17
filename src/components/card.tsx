@@ -1,6 +1,5 @@
 import { Loading } from "./loading";
-import type { JSX } from "solid-js";
-import { Show, children, Suspense, onMount, onCleanup } from "solid-js";
+import { type JSX, Show, children, Suspense, onMount, onCleanup } from "solid-js";
 
 /** Group content under a consistent bordered heading. */
 export function Card(props: {

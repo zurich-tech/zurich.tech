@@ -1,22 +1,15 @@
+import { publicLinks } from "./links";
+import { isPublicMember, memberHandle } from "./identity";
 import { isListed } from "../events/visibility";
 import { organiserIds } from "../events/organisers";
 import { v } from "convex/values";
 import { query, type QueryCtx } from "../_generated/server";
-import type { Doc, Id } from "../_generated/dataModel";
-import { paidTerm } from "../billing/payments";
+import type { Doc } from "../_generated/dataModel";
+import { paidTerm } from "../billing/coverage";
 import { calendarRow } from "../events/queries";
 
 /** Visibility admitted by public directory queries. */
 const publicVisibility = "public" as const;
-
-/** Allow explicitly public profiles without requiring a claimed login account. */
-export function isPublicMember(member: Doc<"members"> | null): member is Doc<"members"> {
-    return (
-        member !== null &&
-        member.visibility === publicVisibility &&
-        (member.status === "active" || member.status === "imported")
-    );
-}
 
 /** Read every active public member. */
 export const membersList = query({
@@ -121,31 +114,6 @@ export const handle = query({
               };
     },
 });
-
-/** Find the active handle for one member. */
-export async function memberHandle(ctx: QueryCtx, memberId: Id<"members">) {
-    return await ctx.db
-        .query("handles")
-        .withIndex("by_member", (query) => query.eq("memberId", memberId))
-        .filter((query) => query.eq(query.field("status"), "active"))
-        .unique();
-}
-
-/** Read the public links attached to one record. */
-export async function publicLinks(ctx: QueryCtx, subjectId: Id<"members"> | Id<"events">) {
-    const links = await ctx.db
-        .query("links")
-        .withIndex("by_owner", (query) => query.eq("ownerId", subjectId))
-        .filter((query) => query.eq(query.field("visibility"), publicVisibility))
-        .collect();
-
-    return links
-        .sort((left, right) => left.position - right.position)
-        .map((link) => ({
-            href: link.url,
-            label: link.label ?? link.kind,
-        }));
-}
 
 /** Expand one public member profile. */
 async function memberRow(ctx: QueryCtx, member: Doc<"members">) {

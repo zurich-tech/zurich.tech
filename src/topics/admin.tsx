@@ -32,9 +32,11 @@ export function TopicsAdmin() {
         await refetch();
         await revalidate(getTopics.key);
     });
+    /** Select a topic after resolving unsaved changes. */
     async function select(slug?: string) {
         if (await leaveEditor("topic-editor")) setSelected(slug);
     }
+    /** Save the topic editor and refresh the catalogue. */
     async function save(event: SubmitEvent) {
         event.preventDefault();
         const form = event.currentTarget as HTMLFormElement;

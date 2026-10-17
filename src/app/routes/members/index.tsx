@@ -1,5 +1,5 @@
 import { useSearch } from "../../../search/local";
-import { matchesSearch } from "../../../search/search";
+import { matchesSearch } from "../../../../convex/search/ranking";
 import { affiliationText } from "../../../../convex/members/affiliations";
 import { Highlight } from "../../../components/highlight";
 import { Affiliations } from "../../../members/affiliations";

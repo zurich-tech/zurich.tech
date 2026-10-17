@@ -1,13 +1,12 @@
 import { readProfiles } from "../members/links";
-import { requireCheckoutClosed } from "../billing/checkouts";
+import { requireCheckoutClosed, tier } from "../billing/purchases";
 import { ConvexError, v } from "convex/values";
 import type { Doc } from "../_generated/dataModel";
 import { query, mutation, type QueryCtx } from "../_generated/server";
 import { requireAdmin } from "../auth/access";
-import { readTerms, selectTerm } from "./terms";
-import { paidTerm } from "../billing/payments";
+import { readTerms, selectTerm } from "./benefits";
+import { paidTerm } from "../billing/coverage";
 import { requireCompany } from "../organisations/mutations";
-import { tier } from "../billing/purchases";
 import { normalizeEmail } from "../members/emails";
 
 /** Read active public sponsor identities without billing or account information. */

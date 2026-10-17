@@ -114,6 +114,7 @@ export function EditLink(
     const [isPending, setIsPending] = createSignal(false);
     const [error, setError] = createSignal<string>();
 
+    /** Open an editable submission for the current event. */
     async function edit() {
         if (!props.eventId) return;
         setIsPending(true);

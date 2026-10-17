@@ -59,7 +59,7 @@ export const save = mutation({
 
         await validateTopics(ctx, values.topics, existing?.topics);
 
-        // Public credits are the sole organiser selection.
+        // public credits are the sole organiser selection
         await validatePrimaryOrganiser(ctx, values.primaryOrganiserId);
         values.primaryOrganiserId = args.primaryOrganiserId;
         values.attribution = args.attribution;
@@ -67,7 +67,7 @@ export const save = mutation({
         await validateCoOrganisers(ctx, values.coOrganiserIds);
         values.addressAccess = args.addressAccess;
 
-        // Clear undisclosed placeholders and validate the same policy used at publication.
+        // clear undisclosed placeholders and validate the same policy used at publication
         validateAddress(values, publish);
         if (values.addressAccess?.kind === "unannounced") {
             values.address = undefined;
@@ -252,7 +252,7 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
     if (!draft) throw new ConvexError("Submission not found.");
     validateAddress(draft, true);
 
-    // Recurring publications validate affiliations just like manually saved revisions.
+    // recurring publications validate affiliations just like manually saved revisions
     for (const speaker of draft.speakers)
         if (speaker.affiliations)
             speaker.affiliations = normaliseAffiliations(speaker.affiliations);

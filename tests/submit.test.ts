@@ -7,8 +7,8 @@ import {
     createSignal,
     onCleanup,
     Show,
+    type Accessor,
 } from "solid-js";
-import type { Accessor } from "solid-js";
 import { isServer } from "solid-js/web";
 
 test("test_scope_submit_panels_and_links_to_keyed_record_values", () => {

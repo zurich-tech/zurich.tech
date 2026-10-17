@@ -58,7 +58,7 @@ export const save = mutation({
             updatedAt: Date.now(),
         };
 
-        // Copy shared addresses so an office edit cannot alter an event venue.
+        // copy shared addresses so an office edit cannot alter an event venue
         if (existing) {
             const sharedVenue = await ctx.db
                 .query("venues")

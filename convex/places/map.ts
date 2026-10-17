@@ -1,7 +1,7 @@
 import { query } from "../_generated/server";
 import { ConvexError, v } from "convex/values";
 import { publicJob } from "../jobs/jobs";
-import { newsDate, newsPath } from "../../src/news/path";
+import { newsDate, newsPath } from "../news/path";
 
 import { activeSponsors } from "../sponsorships/organisations";
 import { readCatalogue } from "../organisations/catalogue";

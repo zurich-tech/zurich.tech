@@ -1,5 +1,5 @@
 import { isListed } from "../events/visibility";
-import { newsDate } from "../../src/news/path";
+import { newsDate } from "../news/path";
 import { openJobs } from "../jobs/jobs";
 import { select } from "./audiences";
 import { recipientsLocked } from "./policy";

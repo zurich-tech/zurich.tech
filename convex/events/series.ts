@@ -74,7 +74,7 @@ export const upsert = mutation({
         )
             throw new ConvexError("Series content is too long.");
 
-        // Retain archived topics already present in the published series or its draft.
+        // retain archived topics already present in the published series or its draft
         const current = id ? await ctx.db.get(id) : null;
         const draft = id
             ? await ctx.db

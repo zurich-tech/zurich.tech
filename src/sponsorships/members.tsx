@@ -1,7 +1,7 @@
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { errorMessage } from "../components/errors";
-import { personalTiers } from "./plans";
+import { personalTiers } from "../../convex/sponsorships/plans";
 import { getPersonalSponsors } from "./queries";
 import { startTransition, createResource, createSignal, For, Show } from "solid-js";
 

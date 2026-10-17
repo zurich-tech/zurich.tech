@@ -24,7 +24,7 @@ import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
 import { savedEditor, Editor, FormMessage } from "../../components/form";
 import { errorMessage } from "../../components/errors";
-import { timestamp } from "../../events/time";
+import { timestamp } from "../../../convex/events/time";
 
 /** Create, duplicate, and revise an event in the organiser workspace. */
 export default function Route() {

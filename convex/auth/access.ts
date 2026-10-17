@@ -1,7 +1,6 @@
 import { ConvexError, v } from "convex/values";
-import { internalMutation } from "../_generated/server";
+import { internalMutation, type QueryCtx, type MutationCtx } from "../_generated/server";
 import { authComponent } from "./component";
-import type { QueryCtx, MutationCtx } from "../_generated/server";
 
 /** Require an active account. */
 export async function requireAccount(ctx: QueryCtx | MutationCtx) {
@@ -27,7 +26,7 @@ export const grantAdmin = internalMutation({
             .withIndex("by_email", (range) => range.eq("email", args.email.trim().toLowerCase()))
             .unique();
         if (!email) throw new ConvexError("Sign in once before granting admin access.");
-        // Grant administrative access without changing public titles.
+        // grant administrative access without changing public titles
         const account = await ctx.db
             .query("accounts")
             .withIndex("by_member", (q) => q.eq("memberId", email.memberId))

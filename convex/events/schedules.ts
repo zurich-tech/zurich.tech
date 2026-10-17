@@ -198,7 +198,7 @@ export async function generate(ctx: MutationCtx, schedule: Doc<"schedules">) {
         .withIndex("by_schedule_and_occurrence", (q) => q.eq("scheduleId", schedule._id))
         .collect();
     const reserved = new Set(existing.map((event) => event.occurrence));
-    // Number across the series, including manually created events and other schedules.
+    // number across the series, including manually created events and other schedules
     const series = await ctx.db.get(schedule.seriesId);
     if (!series) throw new ConvexError("Series not found.");
     const events = await ctx.db

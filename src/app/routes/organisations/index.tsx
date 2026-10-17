@@ -1,7 +1,7 @@
 import { organisationKinds } from "../../../../convex/organisations/kinds";
 import { Highlight } from "../../../components/highlight";
 import { useSearch } from "../../../search/local";
-import { matchesSearch } from "../../../search/search";
+import { matchesSearch } from "../../../../convex/search/ranking";
 import { EditLink } from "../../../auth/edit";
 import { Image } from "../../../components/image";
 import { getDirectory } from "../../../organisations/queries";

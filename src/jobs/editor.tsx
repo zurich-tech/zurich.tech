@@ -1,16 +1,15 @@
 import { countries } from "../../convex/members/countries";
-import { Index } from "solid-js";
+import { Index, createSignal, For, Show } from "solid-js";
 import "./jobs.css";
 import { Input, Select } from "../components/field";
-import { createSignal, For, Show } from "solid-js";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { Editor, FormMessage } from "../components/form";
 import { Card } from "../components/card";
 import { MarkdownEditor } from "../components/markdown-editor";
 import { TopicFields } from "../topics/fields";
 import { CompanySelect } from "../organisations/company";
-import { engagements, seniorities } from "./filters";
-import { jobPrice, jobDurationDays } from "../sponsorships/plans";
+import { engagements, seniorities } from "../../convex/jobs/labels";
+import { jobPrice, jobDurationDays } from "../../convex/sponsorships/plans";
 
 /** Edit the vacancy fields and request publication review. */
 export function JobForm(props: {

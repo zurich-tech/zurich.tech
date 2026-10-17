@@ -18,6 +18,7 @@ export default function Route() {
         () => account.user()?.id,
         async () => (await memberClient()).query(api.members.audience.current, {}),
     );
+    /** Continue to the requested local page after onboarding. */
     function finish() {
         const target = new URL(
             typeof params.next === "string" ? params.next : "/settings",

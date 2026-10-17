@@ -89,7 +89,7 @@ export function MarkdownEditor(props: {
                 aria-describedby={`${id}-hint`}
                 onInput={(event) => props.onChange?.(event.currentTarget.value)}
                 onKeyDown={(event) => {
-                    // Keep familiar formatting shortcuts within the writing field.
+                    // keep familiar formatting shortcuts within the writing field
                     if (
                         (event.metaKey || event.ctrlKey) &&
                         !event.altKey &&

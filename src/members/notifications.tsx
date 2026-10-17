@@ -1,6 +1,5 @@
 import { Alert } from "../components/alert";
-import { Suspense } from "solid-js";
-import { startTransition, createResource, createSignal, Show } from "solid-js";
+import { Suspense, startTransition, createResource, createSignal, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";

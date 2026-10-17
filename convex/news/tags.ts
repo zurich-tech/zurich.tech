@@ -14,3 +14,17 @@ export function isNewsTag(value: string): value is keyof typeof newsTags {
 export function tagSlugs(content: { topics: string[]; category?: "funding" }) {
     return [...new Set([...(content.category ? [content.category] : []), ...content.topics])];
 }
+
+/** Resolve topic identities to the current public labels. */
+export function articleTopics(
+    slugs: string[],
+    catalogue: { name: string; slug: string }[],
+): { name: string; slug: string }[] {
+    return slugs.map((slug) => {
+        if (isNewsTag(slug)) return { slug, name: newsTags[slug] };
+        const topic = catalogue.find((topic) => topic.slug === slug);
+        if (!topic) throw new Error(`Unknown article topic: ${slug}.`);
+
+        return { slug, name: topic.name };
+    });
+}

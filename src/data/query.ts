@@ -34,7 +34,7 @@ export function publicQuery<
         const fetch = () => publicClient().query(reference, parameters);
         if (!isServer) return select(await fetch());
 
-        // Cache the anonymous backend result, then apply the same projection used by live updates.
+        // cache the anonymous backend result, then apply the same projection used by live updates
         const { cachedPublic } = await import("./cache");
         const key = `${import.meta.env.VITE_CONVEX_URL}:${getFunctionName(reference)}:${JSON.stringify(convexToJson(parameters))}`;
         return select(await cachedPublic(key, fetch));
@@ -62,7 +62,7 @@ export function publicQuery<
             { key: string; value: Result } | { key: string; error: Error }
         >();
 
-        // Replace subscriptions atomically, and ignore callbacks from a disposed subscription.
+        // replace subscriptions atomically, and ignore callbacks from a disposed subscription
         onMount(() =>
             createEffect(() => {
                 const request = current();

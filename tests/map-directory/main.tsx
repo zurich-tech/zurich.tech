@@ -3,7 +3,7 @@ import { render } from "solid-js/web";
 import { MapDirectory, type MapDirectoryHandle } from "../../src/map/directory";
 import { filterLocations } from "../../src/map/filter";
 import type { MapLocation } from "../../src/map/queries";
-import { searchTerms } from "../../src/search/search";
+import { searchTerms } from "../../convex/search/ranking";
 import { Highlight } from "../../src/components/highlight";
 
 /** Exercise actual mounted Solid rows through shrinking, empty and reordered result sets. */

@@ -4,8 +4,8 @@ import { Dynamic } from "solid-js/web";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
 import { publicClient } from "../auth/convex";
-import { locationsLabel } from "../jobs/format";
-import { workplaces } from "../jobs/filters";
+import { locationsLabel } from "../../convex/jobs/format";
+import { workplaces } from "../../convex/jobs/labels";
 
 /** Public activity for an organisation or address, without article bodies or application details. */
 export type OrganisationActivity = FunctionReturnType<typeof api.places.map.activity>[number];

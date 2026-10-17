@@ -1,13 +1,22 @@
 .DS_Store
 .env
-.env.local
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
 .output
 .vinxi
 dist
 node_modules
-
-
 .wrangler
+.convex/
+.ruff_cache/
+*.tsbuildinfo
 
 # local agent tooling
 .claude/
+.codex/
+
+# local research and import scratch files
+/work/
+/content/

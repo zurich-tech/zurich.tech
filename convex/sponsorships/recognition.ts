@@ -2,8 +2,8 @@ import { v } from "convex/values";
 import { internalMutation, type MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { internal } from "../_generated/api";
-import { paidTerm } from "../billing/payments";
-import { readTerms, selectTerm } from "./terms";
+import { paidTerm } from "../billing/coverage";
+import { readTerms, selectTerm } from "./benefits";
 
 /** Materialise public recognition and schedule its next date transition. */
 export async function refreshRecognition(ctx: MutationCtx, id: Id<"sponsorships">) {

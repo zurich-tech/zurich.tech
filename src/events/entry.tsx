@@ -5,11 +5,11 @@ import { EventCounts } from "./counts";
 import { EventBadges, EventTags } from "./tags";
 import type { CalendarEntry } from "./queries";
 import "./entry.css";
-import { site, timeZone } from "../app/site";
+import { site } from "../app/site";
+import { timeZone, isCurrentYear } from "../../convex/events/time";
 
 import { Show, type JSX } from "solid-js";
 import { Arrow } from "../components/arrow";
-import { isCurrentYear } from "./time";
 
 /** Zurich calendar fields shared by event and news entries. */
 const dateFormats = {

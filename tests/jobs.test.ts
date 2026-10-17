@@ -3,10 +3,10 @@ import { expect, test } from "bun:test";
 import { convexTest, schema, modules, member } from "./backend";
 import { api, internal } from "../convex/_generated/api";
 import { jobExpiry, jobStatus } from "../convex/jobs/jobs";
-import { paidTerm } from "../convex/billing/payments";
+import { paidTerm } from "../convex/billing/coverage";
 import type { Job } from "../convex/jobs/fields";
 import { normalizeJob } from "../convex/jobs/validation";
-import { applicationHref, rangeLabel, salaryLabel } from "../src/jobs/format";
+import { applicationHref, rangeLabel, salaryLabel } from "../convex/jobs/format";
 import { newsletterEdition } from "../convex/mail/templates";
 
 /** Exercise employer editing, admin publication and shared public eligibility. */

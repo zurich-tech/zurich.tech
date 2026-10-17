@@ -245,6 +245,8 @@ export function validateDemographics(value: Demographics) {
     )
         throw new ConvexError("Choose each country of citizenship once from the list.");
 }
+
+/** Accept distinct participation choices from the current options. */
 export function validateParticipation(values: string[]) {
     if (
         new Set(values).size !== values.length ||

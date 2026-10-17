@@ -1,12 +1,11 @@
-import { locationsLabel, jobFacts } from "../../src/jobs/format";
-import { newsPath } from "../../src/news/path";
+import { locationsLabel, jobFacts } from "../jobs/format";
+import { newsPath } from "../news/path";
 import { markdown, excerpt } from "./markdown";
 import type { openJobs } from "../jobs/jobs";
 import { notificationChanges } from "../events/changes";
 import { isTentative } from "../events/conditions";
 import type { Recurrence } from "../events/recurrence";
-import type { AddressAccess } from "../events/fields";
-import type { Confirmation } from "../events/fields";
+import { type AddressAccess, type Confirmation } from "../events/fields";
 import {
     layout,
     paragraph,
@@ -18,7 +17,7 @@ import {
     socials,
 } from "./layout";
 import { involvement, sharing } from "./involvement";
-import { tiers } from "../../src/sponsorships/plans";
+import { tiers } from "../sponsorships/plans";
 import type { activeSponsors } from "../sponsorships/organisations";
 import { siteOrigin } from "../auth/environment";
 import type { Id } from "../_generated/dataModel";

@@ -1,4 +1,4 @@
-import { isPublicMember, memberHandle } from "./queries";
+import { isPublicMember, memberHandle } from "./identity";
 import { query, type QueryCtx } from "../_generated/server";
 import { readProfiles } from "./links";
 

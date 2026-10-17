@@ -16,7 +16,7 @@ export function notificationChanges(previous: Event, current: Event) {
     if (previous.endsAt !== current.endsAt) changes.push("End");
     if ((previous.location ?? "").trim() !== (current.location ?? "").trim()) changes.push("Venue");
 
-    // Hidden or externally hosted addresses are not attendee-facing local address changes.
+    // hidden or externally hosted addresses are not attendee-facing local address changes
     const address = (event: Event) =>
         !event.addressAccess || ["public", "confirmed"].includes(event.addressAccess.kind)
             ? (event.address ?? "").trim()

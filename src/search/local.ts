@@ -1,5 +1,5 @@
 import { useSearchParams } from "@solidjs/router";
-import { searchTerms } from "./search";
+import { searchTerms } from "../../convex/search/ranking";
 
 /** Share collection queries with global search links, reloads and browser history. */
 export function useSearch() {

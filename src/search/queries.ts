@@ -2,7 +2,7 @@ import { query } from "@solidjs/router";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
 
-import type { SearchKind } from "./search";
+import type { SearchKind } from "../../convex/search/ranking";
 import { publicClient } from "../auth/convex";
 
 /** One global search result. */

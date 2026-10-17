@@ -1,5 +1,5 @@
 import type { MapLocation } from "./queries";
-import { fold } from "../search/search";
+import { fold } from "../../convex/search/ranking";
 import { descendantTopics } from "../../convex/topics/hierarchy";
 
 /** Retain only the latest searchable text for each live organisation object. */

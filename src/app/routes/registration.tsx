@@ -5,7 +5,7 @@ import { useCancellation } from "../../events/cancellation";
 import { RegistrationStatus } from "../../events/status";
 import { useConfirmationRefresh } from "../../events/queries";
 import { isTentative } from "../../../convex/events/conditions";
-import { timeZone } from "../site";
+import { timeZone } from "../../../convex/events/time";
 
 import { Card } from "../../components/card";
 import { useSearchParams } from "@solidjs/router";

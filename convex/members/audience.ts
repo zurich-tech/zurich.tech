@@ -2,8 +2,7 @@ import { countries } from "./countries";
 import { cumulative, currentPoint } from "../statistics/history";
 import { allLanguages, languages } from "./languages";
 import { v } from "convex/values";
-import { query, mutation } from "../_generated/server";
-import type { QueryCtx } from "../_generated/server";
+import { query, mutation, type QueryCtx } from "../_generated/server";
 import { requireAccount, requireAdmin } from "../auth/access";
 import {
     demographics,

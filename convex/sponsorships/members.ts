@@ -1,6 +1,6 @@
 import { readProfiles } from "../members/links";
 import type { Doc } from "../_generated/dataModel";
-import { paidTerm } from "../billing/payments";
+import { paidTerm } from "../billing/coverage";
 import { ConvexError, v } from "convex/values";
 import { query, mutation } from "../_generated/server";
 import { requireAccount } from "../auth/access";

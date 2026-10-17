@@ -6,17 +6,16 @@ import { EditLink } from "../auth/edit";
 import { articleTags, TagPills, TopicList } from "./tags";
 import { ChevronDown } from "lucide-solid";
 import { articleParagraphs, type Article, type ArticlePreview } from "./model";
-import { For, Show, createEffect, createMemo, createSignal, on } from "solid-js";
-import type { JSX } from "solid-js";
+import { For, Show, createEffect, createMemo, createSignal, on, type JSX } from "solid-js";
 import { pageSize } from "../app/site";
 import "../events/programme.css";
 
-import { matchesSearch, searchTerms } from "../search/search";
+import { matchesSearch, searchTerms } from "../../convex/search/ranking";
 import { Entry } from "../events/entry";
 import { Highlight } from "../components/highlight";
 import { Card } from "../components/card";
 import { TableToolbar } from "../components/toolbar";
-import { timeZone } from "../app/site";
+import { timeZone } from "../../convex/events/time";
 
 /** Article list properties. */
 type ArticleListProps = {
