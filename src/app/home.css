@@ -39,3 +39,19 @@
         gap: var(--space-12) var(--column-gap);
     }
 }
+
+/* place the weekly signup before the homepage headlines */
+.news-overview .newsletter {
+    padding-block: var(--space-4);
+    border-bottom: var(--rule) solid var(--color-line);
+    gap: var(--space-2);
+}
+
+.news-overview .newsletter h2 {
+    margin: 0;
+    font: 500 var(--text-md) / 1.4 var(--font-text);
+}
+
+.news-overview .newsletter p {
+    margin: 0;
+}

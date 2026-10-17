@@ -41,6 +41,8 @@ type ArticleListProps = {
     limit?: number;
     /** The news heading destination. */
     titleHref?: string;
+    /** Content immediately below the collection heading. */
+    children?: JSX.Element;
 };
 
 /** Render dated articles with optional search. */
@@ -85,6 +87,7 @@ export function ArticleList(props: ArticleListProps) {
             toolbar={props.isFeed ? undefined : <NewsActions isCompact={props.isCompact} />}
             titleHref={props.titleHref ?? (props.isPage ? undefined : "/news")}
         >
+            {props.children}
             <Show when={!props.isSearchable && !props.isFeed}>
                 <div class="news-filters">
                     <TagPills articles={props.articles} selected={props.tag} />

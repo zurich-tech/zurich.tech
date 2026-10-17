@@ -8,6 +8,7 @@ import { getHeadlines } from "../../news/queries";
 import { getSeries } from "../../organisations/queries";
 import { getJobs } from "../../jobs/queries";
 import { ArticleList } from "../../news/article";
+import { Newsletter } from "../../mail/newsletter";
 import { For, Show } from "solid-js";
 import { Card } from "../../components/card";
 import { Button } from "../../components/button";
@@ -65,7 +66,9 @@ export default function Route() {
                     </Show>
                 </section>
                 <aside class="bulletin-sidebar">
-                    <ArticleList articles={articles() ?? []} isCompact limit={3} />
+                    <ArticleList articles={articles() ?? []} isCompact limit={3}>
+                        <Newsletter />
+                    </ArticleList>
                     <Sponsors />
                     <Card title="Jobs" titleHref="/jobs" class="jobs-overview">
                         <Show when={jobs()}>

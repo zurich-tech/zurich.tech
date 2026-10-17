@@ -6,7 +6,7 @@ import { startTransition, createSignal, createResource, Show } from "solid-js";
 import { subscribe } from "../events/registration";
 import { errorMessage } from "../components/errors";
 import { FormMessage } from "../components/form";
-import { Arrow } from "../components/arrow";
+import { ArrowRight, LoaderCircle } from "lucide-solid";
 
 /** Subscribe to the weekly email from a compact inline form. */
 export function Newsletter() {
@@ -140,8 +140,19 @@ export function Newsletter() {
                                 required
                                 maxlength="254"
                             />
-                            <button disabled={isPending()} aria-label="Subscribe">
-                                {isPending() ? "Sending…" : <Arrow />}
+                            <button
+                                type="submit"
+                                disabled={isPending()}
+                                aria-label={isPending() ? "Subscribing" : "Subscribe"}
+                                aria-busy={isPending()}
+                                title="Subscribe"
+                            >
+                                <Show
+                                    when={isPending()}
+                                    fallback={<ArrowRight size={18} aria-hidden="true" />}
+                                >
+                                    <LoaderCircle size={18} aria-hidden="true" />
+                                </Show>
                             </button>
                         </div>
                         <FormMessage error={error()} success={success()} />

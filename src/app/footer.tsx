@@ -1,5 +1,5 @@
-import { A } from "@solidjs/router";
-import { For } from "solid-js";
+import { A, useLocation } from "@solidjs/router";
+import { For, Show } from "solid-js";
 import wordmark from "../components/assets/wordmark.svg?raw";
 import { SocialLinks } from "../components/social";
 import { Newsletter } from "../mail/newsletter";
@@ -31,6 +31,8 @@ const groups = [
 
 /** Close every page with aligned brand, navigation and newsletter columns. */
 export function Footer() {
+    const location = useLocation();
+
     return (
         <footer class="site-footer">
             {/* identity, association and channels */}
@@ -56,7 +58,9 @@ export function Footer() {
                 </For>
             </div>
             {/* weekly email */}
-            <Newsletter />
+            <Show when={location.pathname !== "/"}>
+                <Newsletter />
+            </Show>
         </footer>
     );
 }

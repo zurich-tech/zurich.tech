@@ -439,6 +439,13 @@
     grid-row: 1;
 }
 
+/* use both footer columns when the homepage hosts the signup beside news */
+@media (min-width: 901px) {
+    .site-footer:not(:has(.newsletter)) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
 .site-footer__brand p {
     max-width: 42ch;
     font-size: var(--text-sm);
@@ -506,12 +513,14 @@
 
 /* keep the subscription form and member state in the same column */
 .newsletter {
+    --newsletter-ink: var(--color-ink);
     display: grid;
     align-content: start;
     gap: var(--space-3);
 }
 
 .site-footer .newsletter {
+    --newsletter-ink: var(--color-on-brand);
     grid-column: 3;
     grid-row: 1;
     min-width: 0;
@@ -526,53 +535,64 @@
 
 .newsletter .action-link,
 .newsletter-description {
-    color: color-mix(in srgb, var(--color-on-brand) 80%, transparent);
+    color: color-mix(in srgb, var(--newsletter-ink) 80%, transparent);
 }
 
 .newsletter .action-link:hover {
-    color: var(--color-on-brand);
+    color: var(--newsletter-ink);
 }
 
 .newsletter-input {
-    display: flex;
-    border-bottom: var(--rule-strong) solid var(--color-on-brand);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--control-height);
+    border: var(--rule) solid var(--color-line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--color-raised);
 }
 
 .newsletter-input input {
     min-width: 0;
-    flex: 1;
-    min-height: 44px;
+    height: var(--control-height);
+    padding: 0 var(--space-3);
     border: 0;
     outline: 0;
     background: transparent;
-    color: var(--color-on-brand);
-    font-size: var(--text-lg);
+    color: var(--color-ink);
+    font: 400 var(--text-md) / 1.5 var(--font-text);
 }
 
 .newsletter-input input::placeholder {
-    color: color-mix(in srgb, var(--color-on-brand) 60%, transparent);
+    color: var(--color-soft);
 }
 
 .newsletter-input button {
     display: inline-flex;
-    width: 44px;
+    width: var(--control-height);
+    height: var(--control-height);
+    padding: 0;
+    border: 0;
+    border-radius: 0;
     align-items: center;
     justify-content: center;
     color: var(--color-on-brand);
+    background: var(--color-brand);
 }
 
-.newsletter-input button .arrow-icon {
-    width: 20px;
-    height: 20px;
-}
-
-.newsletter-input button:hover .arrow-icon {
-    translate: 4px 0;
+.newsletter-input button:hover:not(:disabled) {
+    background: var(--color-brand-deep);
 }
 
 .newsletter-input:focus-within {
-    outline: 2px solid var(--color-on-brand);
-    outline-offset: 4px;
+    outline: 2px solid var(--newsletter-ink);
+    outline-offset: 2px;
+}
+
+/* avoid automatic input zoom on touch browsers without enlarging the control */
+@media (pointer: coarse) {
+    .newsletter-input input {
+        font-size: 16px;
+    }
 }
 
 .newsletter-member,
@@ -584,17 +604,17 @@
 }
 
 .newsletter-status {
-    color: var(--color-on-brand);
+    color: var(--newsletter-ink);
     font-size: var(--text-sm);
 }
 
-.newsletter-actions .button--primary {
+.site-footer .newsletter-actions .button--primary {
     border-color: var(--color-on-brand);
     background: var(--color-on-brand);
     color: var(--color-brand);
 }
 
-.newsletter-actions .button--primary:hover:not(:disabled) {
+.site-footer .newsletter-actions .button--primary:hover:not(:disabled) {
     background: color-mix(in srgb, var(--color-on-brand) 90%, var(--color-brand));
     color: var(--color-brand);
 }
