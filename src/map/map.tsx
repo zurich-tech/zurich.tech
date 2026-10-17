@@ -46,7 +46,6 @@ import { MapDirectory, type MapDirectoryHandle } from "./directory";
 import {
     countOrganisations,
     mapCount,
-    matchingPlaces,
     organisationCountLabel,
     placeName,
     selectPlaces,
@@ -282,7 +281,6 @@ export function CommunityMap(props: {
             : filterLocations(organisations() ?? [], category(), terms(), selectedTopics()),
     );
     const organisationCount = createMemo(() => countOrganisations(filtered()));
-    const markers = createMemo(() => matchingPlaces(organisations() ?? [], filtered()));
 
     // list organisations alphabetically without separating supporters from other results
     const directory = createMemo(() =>
@@ -318,7 +316,7 @@ export function CommunityMap(props: {
 
     // narrow the selected places to the chosen organisation
     const selectedPlaces = createMemo(() =>
-        selectPlaces(organisations() ?? [], selected(), selectedOrganisation()),
+        selectPlaces(filtered(), selected(), selectedOrganisation()),
     );
     const hasCompactContent = () =>
         countOrganisations(selectedPlaces()) === 1 || (isFiltered() && listed().length <= 1);
@@ -471,13 +469,10 @@ export function CommunityMap(props: {
                         : Math.max(1, tenants.length);
                 const [tenant, setTenant] = createSignal<MapLocation["organisations"][number]>();
                 let sharedBody!: HTMLDivElement;
-                let browseTenants!: HTMLButtonElement;
 
                 /** Start each tenant's details at the top without moving the logo grid. */
                 function chooseTenant(person?: MapLocation["organisations"][number]) {
-                    // retain keyboard focus when removing the overview button with its details
-                    if (!person && sharedBody.contains(document.activeElement))
-                        browseTenants.focus();
+                    if (tenant()?.id === person?.id) return;
                     sharedBody.scrollTop = 0;
                     setTenant(person);
                 }
@@ -517,10 +512,34 @@ export function CommunityMap(props: {
                                     />
                                 }
                             >
-                                <section class="map-place map-place--shared">
+                                <section
+                                    class="map-place map-place--shared"
+                                    onPointerLeave={(event) => {
+                                        if (!event.currentTarget.contains(document.activeElement))
+                                            chooseTenant();
+                                    }}
+                                    onFocusOut={(event) => {
+                                        if (
+                                            !event.currentTarget.contains(
+                                                event.relatedTarget as Node | null,
+                                            )
+                                        )
+                                            chooseTenant();
+                                    }}
+                                >
                                     <div class="map-shared-heading">
-                                        <h2 class="map-place__name">{placeName(places[0])}</h2>
-                                        <p class="map-place__address">{places[0].address}</p>
+                                        <h2
+                                            class="map-place__name"
+                                            onPointerEnter={() => chooseTenant()}
+                                        >
+                                            {placeName(places[0])}
+                                        </h2>
+                                        <p
+                                            class="map-place__address"
+                                            onPointerEnter={() => chooseTenant()}
+                                        >
+                                            {places[0].address}
+                                        </p>
                                         <div
                                             class="map-tenants"
                                             style={{ "--map-tenant-columns": columns }}
@@ -576,7 +595,6 @@ export function CommunityMap(props: {
                                             </For>
                                         </div>
                                         <button
-                                            ref={browseTenants}
                                             class="map-browse"
                                             type="button"
                                             onClick={() => select(places)}
@@ -600,13 +618,6 @@ export function CommunityMap(props: {
                                         >
                                             {(person) => (
                                                 <div class="map-tenant-preview">
-                                                    <button
-                                                        type="button"
-                                                        class="map-browse"
-                                                        onClick={() => chooseTenant()}
-                                                    >
-                                                        <ArrowLeft size={14} /> Address overview
-                                                    </button>
                                                     <PlaceDetails
                                                         places={[
                                                             {
@@ -987,7 +998,7 @@ export function CommunityMap(props: {
                 if (!props.isHero) {
                     map.on("click", ["organisations", "organisation-dots"], (event) => {
                         const feature = pickOrganisation(event.features ?? [], map!.getZoom());
-                        const place = markers().find(
+                        const place = filtered().find(
                             (entry) => entry.id === feature?.properties.place,
                         );
                         if (place) select([place]);
@@ -997,7 +1008,7 @@ export function CommunityMap(props: {
                             return;
                         const feature = pickOrganisation(event.features ?? [], map!.getZoom());
                         map!.getCanvas().style.cursor = feature ? "pointer" : "";
-                        const place = markers().find(
+                        const place = filtered().find(
                             (entry) => entry.id === feature?.properties.place,
                         );
                         if (place) {
@@ -1040,7 +1051,7 @@ export function CommunityMap(props: {
     });
     createEffect(() => {
         const current = instance();
-        if (current) filterOrganisations(current.map, markers());
+        if (current) filterOrganisations(current.map, filtered());
     });
 
     // mark hovered and selected organisations above the rest
@@ -1050,7 +1061,7 @@ export function CommunityMap(props: {
             ...hovered(),
             ...selectedPlaces().flatMap((place) => place.organisations.map((person) => person.id)),
         ];
-        if (current) highlightOrganisations(current.map, markers(), ids);
+        if (current) highlightOrganisations(current.map, filtered(), ids);
     });
 
     return (

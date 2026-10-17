@@ -63,14 +63,7 @@ export function placeName(place: MapLocation) {
     return [...names.slice(0, 2), ...(names.length > 2 ? [`+${names.length - 2}`] : [])].join(", ");
 }
 
-/** Keep complete address groups when at least one organisation matches the filters. */
-export function matchingPlaces(locations: MapLocation[], matches: MapLocation[]) {
-    const ids = new Set(matches.map((place) => place.id));
-
-    return locations.filter((place) => ids.has(place.id));
-}
-
-/** Resolve selection against complete addresses, independently of directory filters. */
+/** Resolve selection within the supplied, filtered addresses. */
 export function selectPlaces(locations: MapLocation[], ids: string[], organisation?: string) {
     return locations
         .filter((place) => ids.includes(place.id))

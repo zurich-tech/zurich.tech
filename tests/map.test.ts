@@ -6,7 +6,6 @@ import {
     countOrganisations,
     mapCount,
     stackOrganisations,
-    matchingPlaces,
     organisationCountLabel,
     placeName,
     selectPlaces,
@@ -372,22 +371,18 @@ test("test_keep_large_shared_addresses_as_one_anchored_marker", () => {
     expect([...properties.keys()]).toEqual([]);
 });
 
-test("test_preserve_complete_groups_after_search_and_category_filters", () => {
+test("test_preserve_only_matching_tenants_after_search_and_category_filters", () => {
     const places = groupLocations([
         { ...office("host"), kind: "space", prominence: "large", isSponsor: true },
         { ...office("startup"), kind: "startup" },
         office("neighbour", "Baslerstrasse 79"),
     ]);
     const matches = filterLocations(places, "startup", ["startup"]);
-    const groups = matchingPlaces(places, matches);
-    expect(groups).toEqual([places[0]]);
-    expect(placeName(groups[0])).toBe("host");
+    expect(matches).toEqual([{ ...places[0], organisations: [places[0].organisations[1]] }]);
+    expect(placeName(matches[0])).toBe("startup");
     expect(placeName(places[1])).toBe("neighbour");
-    expect(filterLocations(groups, "all", ["host"])).toEqual([
-        { ...places[0], organisations: [places[0].organisations[0]] },
-    ]);
-    expect(filterLocations(groups, "all", ["missing"])).toEqual([]);
-    expect(matchingPlaces(places, [])).toEqual([]);
+    expect(filterLocations(matches, "all", ["host"])).toEqual([]);
+    expect(filterLocations(matches, "all", ["missing"])).toEqual([]);
 });
 
 test("test_name_only_unique_space_hosts_without_inferring_hosts_from_prominence", () => {
@@ -419,7 +414,7 @@ test("test_name_only_unique_space_hosts_without_inferring_hosts_from_prominence"
     }
 });
 
-test("test_search_complete_selected_groups_independently_of_directory_matches", () => {
+test("test_selected_groups_and_local_search_respect_directory_filters", () => {
     const places = groupLocations([
         { ...office("Technopark Zürich"), kind: "space" },
         { ...office("Akina"), kind: "startup" },
@@ -427,30 +422,18 @@ test("test_search_complete_selected_groups_independently_of_directory_matches", 
     ]);
     const directoryTerms = searchTerms("Technopark");
     const matches = filterLocations(places, "space", directoryTerms);
-    const markers = matchingPlaces(places, matches);
-    const selected = selectPlaces(places, [markers[0].id]);
+    const selected = selectPlaces(matches, [matches[0].id]);
 
-    // a local query can find a tenant excluded by the directory query and category
-    expect(selected).toEqual([places[0]]);
-    expect(filterLocations(selected, "all", searchTerms("  Ákina AKINA "))).toEqual([
-        {
-            ...places[0],
-            organisations: places[0].organisations.filter((person) => person.id === "Akina"),
-        },
-    ]);
+    // a local query cannot restore a tenant excluded by the directory filters
+    expect(selected).toEqual(matches);
+    expect(filterLocations(selected, "all", searchTerms("  Ákina AKINA "))).toEqual([]);
     expect(filterLocations(selected, "all", searchTerms("missing"))).toEqual([]);
     expect(filterLocations(selected, "all", searchTerms(""))).toEqual(selected);
     expect(filterLocations(places, "space", directoryTerms)).toEqual(matches);
-    expect(matchingPlaces(places, matches)).toEqual(markers);
 
     // selecting a filtered-out tenant must not turn its address into an empty group
-    expect(selectPlaces(places, [markers[0].id], "Akina")).toEqual([
-        {
-            ...places[0],
-            organisations: places[0].organisations.filter((person) => person.id === "Akina"),
-        },
-    ]);
-    expect(selectPlaces(places, [markers[0].id], "removed")).toEqual([]);
+    expect(selectPlaces(matches, [matches[0].id], "Akina")).toEqual([]);
+    expect(selectPlaces(matches, [matches[0].id], "removed")).toEqual([]);
 });
 
 test("test_highlight_shared_addresses_from_any_member_and_clear_stale_highlights", () => {
