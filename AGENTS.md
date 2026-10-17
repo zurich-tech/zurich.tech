@@ -1,397 +1,623 @@
-## Code Style
+# Agents
 
-### Naming
+The key words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY follow RFC 2119.
+- Every rule has a code: verb letter, noun letter, number.
+- A lint name in parentheses, like (`destack/comment-style`), marks a rule our linters enforce.
 
-- Names should be obvious, clear, and idiomatic to the language and topic.
-- Shorter, stronger nouns and verbs are almost always better.
-- Clear naming, pristine nouns and verbs, are part of a clear design. As a corollary, muddy naming strongly indicates an unclear design with muddy boundaries.
-- Where relevant prior art exists, we should follow existing modern terminology.
-- Prefer writing out most names and words (even in variable names, `extension` > `ext`, `directory` > `dir`).
-- As with logic, symmetry in naming across related logic is simpler, and simpler is better.
-- Avoid single-letter variables unless obvious (e.g., `i`, `x`, `Vector.x` are fine).
-- Booleans should start with `is_` unless already clear (or otherwise required by context), though enums are usually better anyway.
-- Abstraction sludge names like "seam", "lane", "parts", "info", "factory", "syntax", "semantics", "data", "inner", "wrapper", "facts", "summary", "channel", "boundary", "contract", "surface", "currency", "load bearing", "spine", "spelling", "recipe", "glue", .. and such are to be treated with high suspicion and are almost certainly wrong (unlses the topic literally requires it.. but temptation to use them all too often implies conceptual muddiness that should be revisited).
-- The same logic applies for module and file names too: single part file names are clearer while "support", "helper" and "utils" are sludgy.
-- It can be tempting to name things along the lines of "x_for_y" in certain overload-ish situations, however, this is almost always a modeling smell and means we haven't properly generalised or reified our invariants yet. (Note that this does *not* mean we should introduce arbitrary interfaces or abstractions just to please this rule, that would be just another factoring issue. Sometimes "x_for_y" is fine, commonly in data transcribing, but usually it's just sludge.)
-- The name of a thing should describe its actual behavior or purpose. This sounds trivial, but e.g., when a function creates or updates a variable, it should be called `upsert*`, when a function only conditionally allocates something it should be called `allocate*maybe` (or `allocate*if*`), and so on.
+## Plan (P)
 
-### Logic
+Shape the change and desired behavior systematically before and after writing it.
 
-- Less is more, every line of code is a liability, every bit of state is suspicious. Fewer overloads are better, fewer fields are better, fewer dependencies are better, etc.
-- When writing some logic or function and it turns into 500 lines, wonder if it could be done in 100 lines. If it's 100 lines, maybe it could be 10. If it's 10, maybe we can remove it altogether, or phrase the problem differently to eliminate the need for this whole piece in the first place.
-- Long methods are allowed if the logic isn't meaningfully extractable / reusable.
-- Having many overloads (or quasi-overloads) that just call one another with different arguments and little or no additional logic is almost always a smell and annoying to read (and a bad source of pointless code bloat).
-- Prefer pure(ish) functions, pass in context explicitly when needed (usually as the last argument).
-- Break larger code blocks into logical chunks with whitespace and/or preamble comments.
-- All logic in functions and outside should be broken into small-ish coherent blocks (2-6 lines or so) with a preceding comment.
-- Logic blocks are always separated by blank lines (except the very first in a function).
-- Usually you want the comment before the if clause / loop / whatever, not inside.
-- Every logic block should have a comment (returns may omit the comment), and every logic block (except the first) should have a blank line before it. See commenting for how to comment properly.
-- The return value implicit or explicit should also have a blank line before it, even if it's uncommented (which is, again, fine).
-- Use temporary variables for non-trivial operations (yes, it's deliberately verbose, but really only for non-trivial operations, unary operators like reference/dereference, plus/minus, .. don't need temporaries):
+### Shaping (PS)
 
-```rust
-let first_digit = (dt_bytes[0] - b'0') as i64;
-let second_digit = (dt_bytes[1] - b'0') as i64;
-let number = 10 * first_digit + second_digit;
-```
+Work proactively and concretely:
+- **PS01** Agents MUST follow these rules proactively.
+- **PS02** Agents SHOULD suggest the tools, media, representations and questions that settle the final design before work starts.
+- **PS03** Proposals MUST illustrate each point or decision with concrete artifacts: data shapes, interfaces, code snippets, sample data, or noun, state and verb diagrams.
 
-- It is usually preferable to "spell out" branches at the same "level" whenever possible, instead of doing repeated continue/return/whatever jumps (which are harder to trace mentally):
+Model the real problem for the real targets:
+- **PS10** Designs MUST model and solve a real world problem in a way the machine can execute efficiently.
+- **PS11** Designs SHOULD settle the main nouns and verbs first: packages, modules, data structures, fields, methods, and the call / service / data flows between them.
+- **PS12** Designs SHOULD state who owns which state, and who reads and writes it where and in what order.
+- **PS13** Designs for code that runs often SHOULD reason through the minimal mechanical steps the target hardware performs, for compute, memory and bandwidth, using data oriented design.
 
-```
-// option A
-if A {
-    Ok(..)
-}
-// option B
-else if B {
-    Ok(..)
-}
-// fallback
-else {
-    Error(..)
-}
-```
+Combine boxes and lines with tracer bullets:
+- **PS20** Designs SHOULD combine two tools: big boxes with lines (with concrete data structures, interfaces and methods), and tracer bullets that run and connect a vertical slice.
+- **PS21** Designs SHOULD start with boxes and lines to center the discussion, then sketch and implement a tracer bullet, then fill in the rest in bursts.
 
-- As a corollary, it is good practice to try and keep the flow, breadth _and_ depth of branching predictable and consistent to make it easier to scan.
-- There are really two main kinds of branching: unexpected / early exit guards, and "main" if-else-if-else chains (however they may manifest). Early exist can use the if-jump/return style, but anything that is a serious of if-jump-if-jump-if-jump should usually be turned into a coherent logic blocked legible chain as above with proper if-else-if-else chains, and/or use match statements:
+Show designs as code and diagrams:
+- **PS30** Data structures SHOULD come first in any design, as real code in the target language with the expected values and value ranges.
+- **PS31** Ideas SHOULD come with code, as pseudocode at least, ideally in a form expected to run.
+- **PS32** Interfaces SHOULD be designed like APIs, since everything is an API in some sense.
+- **PS33** Noun trees and main boxes and lines SHOULD be drawn in ASCII, annotated with field names, types, methods and signatures.
+  ```text
+  Heap // per owner
+  ├── HeapOptions { gc: GcOptions, size_classes: SizeClassTable, ... }
+  ├── HeapLimits
+  ├── GcPacer
+  ├── is_gc_requested: bool
+  └── HeapStorage
+      ├── SmallStorage
+      │   ├── SizeClassTable
+      │   ├── SmallSpan[]
+      │   ├── partial_spans
+      │   └── cursors: cache index -> span
+      ├── LargeStorage
+      │   ├── LargeBlock[]
+      │   └── free_large_block_ids
+      ├── page_table: logical page -> PageOwner
+      ├── AllocationUsage
+      ├── GcState
+      └── CollectorState
 
-```
-let Some(extracted) = extract(foo) else {
-    return;
-};
-if invalid(extracted) {
-    return;
-}
+  /// One heap small space.
+  #[derive(Debug, Clone, PartialEq, Eq)]
+  pub(crate) struct SmallStorage {
+      /// The configured size-class table.
+      pub(crate) size_classes: SizeClassTable,
+      /// The configured span width.
+      pub(crate) span_size_bytes: usize,
+      /// The live heap spans.
+      pub(crate) spans: Vec<SmallSpan>,
+      /// The reusable non-full spans per exact small-span class, excluding the class cursor.
+      pub(crate) partial_spans: BTreeMap<SmallSpanClass, Vec<usize>>,
+      /// The span each small allocation class reserves from, by class cache index.
+      pub(crate) cursors: Vec<Option<usize>>,
+  }
 
-match extracted {
-    // ... each variant ...
-    // ... could also be if-else-if-else if that reads better
-}
-```
+  // ... and so on ...
+  ```
 
-### Factoring
+### Tracing (PT)
 
-- The point of all code is to solve real-world problems and model them with the fewest, most pristine nouns and verbs (types and functions) possible _that the target machine understands well_, using the fewest possible resources (bytes, instructions, cycles, whatever) on the expected hardware and under expected usage scenarios.
-- Where good relevant prior art exists, we should try to follow it, especially in terminology, configuration, interfaces, and even behavior where sensible.
-- Most code on the internet, on StackOverflow, or on open source libraries, and even in their documentation, is not very good. Anything external we take in should be treated with great suspicion.
-- Every proposed change is really a question: "what shape should the codebase have in the long term to support changes and features _like_ this?"; the answer to that question leads to a more maintainable codebase, even if it means more work in the short term.
-- Sometimes the right answer is "no", and the right response to a change is "no, not here, not now".
-- One of the few things worse than superfluous duplication is forced abstraction.
-- Often, when properly factored, the real world (and thus the way to model it) is surprisingly symmetrical at varying scales (types, functions, files, modules, sub-systems). Identifying symmetry and generalising it - even if only informally, no "real" language-level interface required - is extremely valuable (naming, parameter conventions, file names and placement, module layout, .. anything).
-- Logic should be "incrementally granular" (as per Casey Muratori), i.e., ideally we should be able to reuse logic _and_ state at various pieces of granularity.
-- Conceptually, incremental granularity means not hiding details too much, and assuming (especially internally, within the castle) that the caller is a consenting adult.
-- Relatedly, try hard to _avoid_ "banana and the jungle" shaped model solutions where pulling in one component requires pulling in a whole deep object graph (except in situations where there really are obvious god objects, like a current `World` in a game or whatever).
-- That said, it is often beneficial to have strong clear nouns and verbs tied together, as it's usually easier to think about state and responsibility when it is bundled with the relevant nouns (dare I say "objects", but no OOP abstraction "Dog extends Animal" nonsense).
-- Even associated functions (that don't depend on state at all) often benefit from being tied to relevant nouns in cases where one presents itself, just because it reads nicer.
-- More specifically, as a trivial example, when a function takes an array of something, try to make it work on a single "element" instead and just loop in the caller. Prefer parametric mutability. etc. etc., that sort of thing.
-- Usually, in each file, the "top" / most important nouns should go up top (constants at the very top above it), followed by successively more internal / inner nouns, and any relevant free functions at the very bottom (+ tests as needed ofc).
-- Generally, methods that _could_ be methods _should_ be methods - if we have a top level function like `foo(definition: &Definition) -> bool` we should probably just make that `Definition.foo`
-- Often, when we're tempted to add a matrix of methods like "x_for_y", the more pristine factoring is to back up and (re)align state and logic construction flows in a more natural way.
-- When a method mutates state it should be obvious by name and signature, and ideally we want to return mutated state / take the mutator instead of mutating internally when possible (e.g. `resolve_x` should return the resolved thing, not mutate an internal resolver cache and return void). This isn't always possible, and performance matters a lot, but when we can have both it's much preferred.
+Trace callers and scenarios first:
+- **PT01** Designs SHOULD first write down what callers of the new code would write, where their inputs come from, and what limits, expectations and environment apply.
+  ```text
+  const user = service.signup(...); // user from API or wherever
+  // ... some more illustrative logic ...
+  ```
+- **PT02** Designs SHOULD trace each main scenario across real state and call flows as a tree.
+  ```text
+  UserService.signup(name: string, email: string, password: string, session, ...)
+   -> User.create(..., session) // create in DB
+     -> User.validate(...)      // validate inputs
+     -> User.save(...)          // save to DB
+     -> NotificationService.send()
+      -> Workflow::trigger()
+     -> Session.commit(...)
+  ```
+  ```text
+  provide_program_analysis(profile, target)
+   ├─ load each module's MirAnalyzed (per-module LinkGraph, cached, incremental)
+   ├─ roots = exported symbols of the target's root modules
+   ├─ LinkSupergraph::build(&link_graphs)        // transient: dense index + CSR
+   │   └─ live = supergraph.reachable(&roots)     // CSR BFS -> BitSet
+   │      (later: references, address_taken, internal — same walk)
+   └─ persist ProgramAnalysis { symbols, live }   // columns only, O(symbols) bits
+  ```
 
-### Refactoring
+## Design (D)
 
-- Just like writing is editing, programming is refactoring, and we refactor as we go and as our understanding of the problem deepens and the right solution shape reveals itself.
-- If we do our job right, and have the right level of testing, refactors should be reasonably painless and only touch the parts of the model we actually needed.
-- If we find that refactors are touching more than it "should"; that is worthy of investigation and maybe we should broaden the refactor or do plan a follow up refactor to crispen the boundaries of the model (if we can, this doesn't always work unfortunately).
-- As with factoring, we should always try to make our work easier as we go: "make the change easy, then make the change". This often means we _should_ abandon "intermediate" or "transitional" states and just go straight for the final model / solution we want.
-- Sometimes it is however easier to just rip out a component altogether and rewrite it completely, especially if it's say <5k LoC or so.
-- We should always strive to refactor and "clean" as we go, continuously re-audit and semantically compress where the opportunity presents itself. Nothing is final.
-- Relatedly, as we go, we must never assume that what is already there is good just because it exists, even if it's in use, even if it's already tested.
-- As a corollary, failing tests do not _always_ mean that the new code is wrong, the tests might also be wrong. That said, tests and expectations should never be silently changed without explicit prior discussion and agreement.
-- Every noun, verb, type, variant, field, line, .. must be earned. The final model should capture the essential complexity of the problem in its most pristine form, nothing more, nothing less.
-- Bloat is deadly, and often we only realise something was bloated as we get further along and the true shape of the problem reveals itself (hence, refactor as we go)
-- Never introduce "transitional" or "for now" logic, we always want the final ideal shape, nothing in between (unless explicitly requested).
-- In general, it is quite often better to break / change the source directly and then let the compiler guide us to all usage sites.
+Model the problem with the fewest, most pristine nouns and verbs in a way the target machine understands well.
 
-### Comments
+### Modeling (DM)
 
-- Documentation comments for functions/types/etc. _should_ be proper sentences _with_ punctuation.
-- Inline comments should be short and begin with a lowercase letter.
-- (This extends to comments in _any_ code file, even scripts. I just like lowercase better.)
-- Place comments above a related code block (usually 2-6 lines).
-- Most comments should be <=1 sentence and should not include a period at the end (again, lowercase).
-- When a a regular line comment needs to be multiple lines add a leading space to following lines, and ideally try to make the comment read naturally line by line (even if it means splitting a sentence grammatically).
-- Avoid using hyphens inside comments, instead prefer colons or commas (except for proper compound words that need hpyhens of course)
-- Inline comments may also just be single words or sequences of words if the "scoping" is clear; i.e., not every inline comment needs to be a sentence.
-- Comments serve to organize the reader's mental model of the code, so they can be just anything from a one-word summary, a three word phrase, or a short explanatory note.
-- Most logic block comments of more than one/two words should be action / verb shaped, e.g.:
-  "// build drop plan for each function" is much better than "// each function gets an independent drop plan" (see how muddy that is.. begin with a verb!)
-- Trivial functions (<3-4 lines) do not _need_ comments / blank lines, especially when the comments just repeat the documentation above.
-- Tests don't need _quite_ the same level of comments, especially within obvious test cases. That said, even there, it's usually nice to spell out what exactly we're trying to assert and why.
-- Files should NOT have a top-level documentation comments. They always get stale.
-- Go multiline if there is more than one sentence. Only one sentence should begin per line.
-- For methods, documentation should be imperative, usually starting with a verb (e.g., "Send a message").
-- _All_ functions, types, variants/fields, etc. should have documentation (one line is fine).
-- Documentation comments do not need to start with a verb, they should just plainly state what the thing is (e.g., for a field, "The blocks built so far." is better than "Represents the blocks built up to this point."; more succinct is better).
-- Most documentation comments should also be just one line (at our 100 char width).
-- When we really need to have multiple lines for some documentation, try to go for a "regular header" + blank line + 1-n "paragraph" style.
-- When documenting if/else-if/else-_like_ logic, the comments should go _before_ each case like so:
+Solve the real problem:
+- **DM01** Code MUST solve real world problems and model them with the fewest, most pristine nouns and verbs the target machine understands well, using the fewest resources the expected hardware and usage allow.
+- **DM02** Designs SHOULD follow good relevant prior art, especially in terminology, configuration, interfaces, and behavior where sensible.
+- **DM03** External code and documentation MUST be treated with suspicion; most of it is not very good.
+- **DM04** Changes SHOULD be read as the question "what shape should the codebase have to support changes like this?", even when the answer means more work now.
+- **DM05** Changes MAY be refused: sometimes the right answer is "no, not here, not now".
 
-```text
-// do this
-if (...) {
-  ...
-}
-// otherwise do this
-else if (...) {
-  ...
-}
-// fall back to this
-else {
-  ...
-}
-```
+Keep types few and complete:
+- **DM10** Types MUST NOT be bag nouns that only split fields out of a larger type without adding behavior or structure.
+- **DM11** Types SHOULD be fewer and fatter unless the domain or the machine needs finer granularity.
+- **DM12** Abstractions MUST NOT be forced; forced abstraction is worse than duplication.
+- **DM13** Components SHOULD NOT pull in a deep object graph when used ("banana and the jungle"), except where an obvious god object exists, such as a game's current `World`.
+- **DM14** State and responsibility SHOULD be bundled with the nouns they belong to, without inheritance hierarchies (unless mechanically required).
 
-- The logic block treatment also applies just as well to TSX and tree-like structures, so for example:
+Give each fact one owner:
+- **DM20** Every piece of the model SHOULD have one clear representation with one obvious owner; values derivable from it, such as the acting principal being the last delegate, are computed instead of stored.
 
-```tsx
-{/* Container */}
-<div>
-    {/* Top button */}
-    <button /> ... </button>
+Expose granular, reusable parts:
+- **DM30** Logic and state SHOULD be incrementally granular, reusable at several levels of granularity.
+- **DM31** Internal code SHOULD expose details and treat callers inside the codebase as consenting adults.
 
-    {/* Side panel */}
-    <div> ... </div>
-</div>
-```
+Put verbs on appropriate nouns:
+- **DM40** Associated functions SHOULD live on their noun when one presents itself, even when they use no state.
+- **DM41** Verbs SHOULD live on the noun that performs them, such as `authorization.grant` or `Scope.own`, instead of exported free functions; modules MAY keep their helpers unexported behind that noun.
+- **DM42** Functions that could be methods SHOULD be methods: `foo(dwhat efinition: &Definition) -> bool` becomes `Definition.foo`.
+- **DM43** Method matrices such as `x_for_y` SHOULD be replaced by realigned state and construction flows.
+- **DM44** Functions SHOULD operate on individual "units", with callers looping / mapping, instead of taking entire collections / arrays (wherever feasible).
 
-- For ===-like separators for large comment blocks, you may use upper case sentences:
+Make mutation obvious:
+- **DM50** Mutating methods MUST make the mutation obvious in name and signature.
+- **DM51** Methods SHOULD return mutated state or take the mutator instead of mutating internally, where performance allows: `resolve_x` returns the resolved value instead of filling a cache and returning nothing.
 
-```text
-// ================================================================================
-// Binary operator precedence
-// ================================================================================
-```
+Seek symmetry across all scales:
+- **DM60** Designs SHOULD aim for symmetry at every scale (types, functions, files, modules, subsystems) and generalise it and enforce it, even if just informally when no language interface is needed.
+- **DM61** Sum type variants SHOULD be conceptually and lexically symmetric; asymmetric variants often signal a model problem.
 
-- Though try to minimize the number of these, they're quite noisy.
-- Comments MAY start with keywords:
-    - `NOTE`: call out something important
-    - `TODO`: something to address eventually
-    - `FUGU`: temporary, f-ed up, should be addressed before going upstream
-- Keywords should include tags (like "NOTE #Suspicious: allocating in runtime seems wrong?"):
-    - `#Performance`: could be faster or more efficient
-    - `#Robustness`: might be flaky in some cases
-    - `#Broken`: doesn't work in likely cases
-    - `#Cleanup`: could be simpler or better structured
-    - `#Incomplete`: obvious feature is missing
-    - `#Suspicious`: something that looks wrong or weird
-    - `#Security`: may allow more access than intended
-    - `#Architecture`: larger design issue to reconsider
+Lay out code in a consistent order:
+- **DM70** Files SHOULD order constants first, then the most important nouns, then inner nouns, then free functions, then tests.
+- **DM71** Long sequences of fields, variants or methods SHOULD be grouped logically, with blank lines and optional line comments, symmetrically across all groups.
 
-### Performance
+### Invariant (DI)
 
-- Performance is a feature and always a strong implicit requirement, even when no hard boundaries have been set (and usually, they aren't, because we don't know yet what we're even supposed to be doing).
-- The folk-lore idea that "premature optimisation is the root of all evil" is wrong, since what makes modern computers happy (clear, compact, aligned data structures and simple parallel processing) also lines up very well with what makes modern software pristine.
-- Data oriented design. DATA ORIENTED DESIGN. DATA. ORIENTED. DESIGN. DOD. In case of doubt, to make the machine go vroom, we want data oriented design (a la Mike Acton et al). Actually, basically always DOD. DOD!
-- We should always at least _try_ to stratify and define the performance characteristics of any systems we work with before we touch them and keep them in mind while we work. (What are the bounds for X, Y, Z? latency, RPS, IOPS, throughput, what about p50 p95 p99, ...)
-- Performance has many meanings, but in general it means using the absolute minimum level of resources to solve the real problem we actually have correctly and robustly (bandwidth, disk, memory, CPU, whatever it is).
-- Often, though not always, performance "tradeoffs" - like between memory usage and cycles, or between niceness and speed - are not really tradeoffs at all, just poorly factored code that could be much better if we zoom out a little and solve the problem well (or find a way not to do it at all!).
-- Clean code is usually fast code, if by "clean" we mean properly semantically compressed, stupid simple approaches, and not some arbitrary and silly notion of convoluted, theoretical abstraction ideals.
-- The fastest code is code that doesn't run at all, the best data structures are the ones we don't need. Text book data structures, algorithms and fanciness are rarely required.
-- Most of the time, for most problems, arrays and linear approaches are perfectly fine and even beat out anything "smarter". Maps are okay too, sometimes.
-- Memory access patterns are the dominating factor in most modern software problems, thus, something "dumber" but tighter (like a dense array) is often faster than something "smarter" but looser (like a map) even at high scales.
-- Have sympathy for the real hardware and underlying machinery that must actually execute whatever we write down, and usually that happens in roughly the same way we wrote it, since compilers can't be that smart (because most modern languages are very liberal).
-- Hardware awareness and full stack understanding are especially important on targets we do not fully control, like when we codegen to JS or write something to the web, or some foreign graphics API - how does it _actually_ execute? Which low level operations does what we're doing map to, and what do we really need? 
-- Working bottoms up - which bits and cycles do we _really_ need to spend - is the only true way to bound the lower end of performance, and often a great way of demystifying a system and getting order of magnitude improvements.
+Make invariants crisp, strong and early:
+- **DI01** Invariants MUST be clear and crisp; unclear invariants are design issues to surface and discuss.
+- **DI02** Invariants SHOULD be strong, since strong invariants force consumers into the right model.
+- **DI03** Requirements and invariants SHOULD be encoded as early as possible: compiler, then linter, then unit tests, then later stages.
 
-### Failures
+Fail loudly and fix at the owner:
+- **DI10** Violated invariants MUST fail loudly, especially invariants from other subsystems, and especially from subsystems we control.
+- **DI11** Code MUST treat a missing value that an upstream shape or contract promises as an error instead of working around it.
+- **DI12** Code MUST NOT work around issues in dependencies we control.
+- **DI13** Code MUST NOT recover state, compensate for owned upstream logic, or bypass the owner of state through side channels.
+- **DI14** Agents MUST surface suspected boundary violations and suspicious interactions found while reading or touching code in passing.
 
-- Always prefer explicit, loud errors through conventional, idiomatic channels.
-- As a corollary, silent failures of any kind are evil and only ever cause downstream trouble. We must never fail silently in any live code, and it's _especially_ evil to suppress failures in a way that doesn't even look like a failure (silent fallbacks, defaults, null-ish / sentinel values, etc.).
-- Outside of tests, errors should almost never be suppressed or somehow fall back to "default values" (especially evil are things like defaulting `unwrap_or(0)`, or other special values like `-1`, `MAX`).
-- On the flipside, in general, and especially internally, we should assume that both sides of an API are consenting adults and we should _not_ check every conceivable failure state in every location - this is usually more noise than it's worth.
-- Specifically, being overly defensive and "scared" in some code path is usually a big smell that we haven't really understood and defined the model and its invariants well enough yet. (e.g., handling usize overflows in a modern allocator is just noise)
+### Failure (DF)
 
-### Boundaries
+Fail explicitly and loudly:
+- **DF01** Failures MUST be explicit, loud errors through conventional, idiomatic channels.
+- **DF02** Logic MUST NOT fail silently, and MUST NOT disguise failures as success through fallbacks, defaults, or null-ish or sentinel values.
+- **DF03** Errors outside tests MUST NOT be suppressed or replaced by default values such as `unwrap_or(0)`, `-1` or `MAX`.
+- **DF04** Error messages MUST start lowercase and omit the final period. (`destack/error-message-style`)
+- **DF05** Code MUST NOT panic, trap or mark code unreachable, except in well guarded tight internal data structures with clear, visible invariants.
 
-- Prefer loud failures even and especially for invariants coming from other subsystems, and _especially_ for subsystems we control.
-- For example, if some upstream shape or contract implies a certain field in some state should be there at some point, but it's not, we MUST treat that as an error instead of working around it in any capacity.
-- Attempting to work around issues in upstream / other dependencies is always dangerous, but doing it for dependencies _we control_ is just a recipe for maintenance disaster.
-- Invariants should be clear and crisp, and if they're not, that is a design issue to be surfaced and discussed.
-- Stronger, harder invariants are usually _more_ forgiving than looser ones since they force the consumer into the right model, which is more predictable and crisper for all.
-- The "higher up" / "sooner" we can encode requirements, expectations and invariants, the better, that is, if the compiler fails on bad usages that's ideal, if the linter fails it's still good, if the unit tests fail also good, then we go down the list of less desirable places to find out something is wrong.
+Trust internal callers:
+- **DF10** Internal code SHOULD NOT check every conceivable failure; both sides of an internal API are consenting adults.
+- **DF11** Defensive code SHOULD be read as a sign that the model and its invariants are not yet understood, such as handling `usize` overflow in a modern allocator.
 
-### Dependencies
+### Performance (DP)
 
-- Fewer dependencies is better, but sometimes it's worth it, especially when they wrap or define som ebig ugly contract (a la `windows_sys`) that we would just have to redefine and maintain ourselves anyway.
-- When simple logic is needed, we just implement it ourselves.
-- Moderately complex logic is sometimes vendored.
-- Complex or dev-only dependencies are sometimes okay.
-- When adding a dependency, we should use the latest _stable_ version.
+Take performance seriously at all times:
+- **DP01** Performance MUST be treated as a feature and an implicit requirement, even without stated bounds.
+- **DP02** Designs SHOULD reject "premature optimisation is the root of all evil": compact, aligned data and simple parallel processing make both machines and code better.
+- **DP03** Apparent performance tradeoffs SHOULD be read as poor factoring until a wider view shows otherwise.
+- **DP04** Code SHOULD be semantically compressed and simple, since clean code is usually fast code.
 
-### Testing
+Bound and calculate before optimising:
+- **DP10** Agents SHOULD bound a system's performance characteristics before touching it: latency, RPS, IOPS, throughput, p50, p95, p99.
+- **DP11** Agents MUST do the napkin math for every operation, unprompted and especially in performance discussions: how much data, where, how, and how long it should take, using [napkin math](https://github.com/sirupsen/napkin-math).
+- **DP12** Performance work SHOULD start bottom up from the bits and cycles actually needed.
+- **DP13** Slow code SHOULD first be reformulated to remove the requirement or do less work, before it is optimised.
 
-- If something is awkward and hard to test, it is almost always poorly factored.
-- That, however, does not mean introducing factory / DI sludge, instead, there is basically always a better way with crisper modeling and running more realistic tests.
-- Tests should start with `test_` (or equivalent) and state their content as a verb. (e.g., `test_roundtrip_duration`, `test_send_receive_message`)
-- The first line or docstring should describe desired behavior (don't mention "test").
-- Prefer property-based testing and roundtrip testing where possible.
-- If there is an opportunity to test "the entire thing" vs "part of it", prefer complete exercises and assertions (e.g., if we're generating string output, compare the entire output, not just "contains").
-- More generally, we should always test _specific outcomes_ like "these two errors with that message" rather than "expect failed" or "any two errors".
-- Even better, where possible, we should assert the entire expected output (snapshot style) rather than just "contains" or "doesn't contain".
-- For any non-trivial assertions you should comment the logic block like we do with any other logic block, though you don't need to comment _every_ logic block as with regular/main logic.
+Lay out data for the machine:
+- **DP20** Designs SHOULD use data oriented design by default.
+- **DP21** Collections SHOULD default to arrays and linear passes, with maps where they help.
+- **DP22** Designs SHOULD favor tight memory access patterns, such as dense arrays over maps, even at large scale.
+- **DP23** Designs SHOULD avoid work and data structures that are not needed, and SHOULD rarely need textbook structures or algorithms.
 
-### Formatting
+Respect the machine that runs the code:
+- **DP30** Code MUST solve the real problem correctly and robustly with the least bandwidth, disk, memory and CPU.
+- **DP31** Code SHOULD respect the hardware and machinery that execute it, since execution usually follows the written code.
+- **DP32** Code for targets we do not control, such as JavaScript, the web or foreign graphics APIs, SHOULD be written with knowledge of how it actually executes.
 
-You should always format code before you're "done" with a change.
-Ideally, you should format code _before_ running it (via tests or otherwise), so we don't compile twice.
-(Most directories have a `just fmt` or equivalent command, see the context.)
+### Dependency (DD)
 
-## Rust
+Own as much as is reasonable:
+- **DD01** Dependencies SHOULD be few.
+- **DD02** Simple logic MUST be implemented in the repository.
+- **DD03** Moderately complex logic MAY be vendored.
 
-- Comments/documentation goes before _all_ attributes (like `#[inline]`, `#[derive]`, etc.)
-- No `crate::X` within functions, prefer relative references (again, imports at the top)
-- Place imports at the top, prefer `use std::time::Instant` patterns
-- Just use `pub use submodule::*` for public exports, we use `pub` properly
-- Relatedly, we like to just use `use crate::x` directly at the top level (when possible)
-- `mod.rs` and `main.rs` are intended strictly for re-exports (and submodule declarations like `mod submodule;`)
-- Modules should either be `module.rs` or have `module/mod.rs` + real `module/whatever.rs`, never both
-- `Into/From` is great (and sometimes `TryFrom`) and self contained to/from style conversions should usually use them for clarity
-- Avoid "hiding" payloads inside `enum`s that sound like scalars (e.g., no values in variants of a `*Kind` named enum)
-- Avoid `include!` or convoluted `#[path]` to bypass
-- Avoid nesting `mod x { }` inside a file (except for `tests`)
-- Avoid `Cell` and `RefCell`, they almost always imply a bad ownership model
-- Import aliases are evil. 
-- Prefer direct `expr.clone()` over `Arc.clone(expr)`
-- Heavy `.clone()` are to be avoided (memory is expensive, fragmentatio is even more expensive)
-- Some `unsafe` is not that terrible if we can prove and test the invariants
-- Put constants at the top of the file (no magic numbers/values)
-- Avoid `unwrap`/`expect`/`panic` etc. outside tests; fail explicitly, use proper Result handling
-- Tests go in a trailing `mod tests` or in standalone test modules/crates (contextual)
-- Inline variables in format macros if possible: `format!("name is {name}")`
-- Prefer multiline raw strings for longer strings
-- Prefer re-defining variables if we're just transforming them
-  (e.g., `let module = modules.get(); let module = module.read();` is fine)
-- Avoid nesting items inside of functions (like other functions, lambdas, types, etc.)
+Use dependencies only when they earn it:
+- **DD10** Dependencies MAY wrap a large contract we would otherwise define and maintain, such as `windows_sys`.
+- **DD11** Complex or development-only dependencies MAY be added.
+- **DD12** New dependencies MUST use their latest stable version.
 
-## Working Style
+## Write (W)
 
-- You should always try hard to behave in accordance with this and proactively work this way, and suggest the right tools, media forms, representation, and questions to nail down the final design _before_ we get started and keep at it as we keep going.
-- Always try to illustrate any point or decision with concrete data shapes, interfaces, code snippets, sample data, noun / state / verb diagrams, or whatever other concrete artifact helps nail down the exact workstream and tradeoffs.
-- In general, there are two good ways of shaping out what some software should look like: big boxes with lines (and concrete data structures, interfaces and methods), and tracer bullets (that actually run and connect it all for some vertical slice).
-- We like to use both, and we like to use both in tandem, they are very complementary. Usually we begin with the first to center the discussion, then sketch out and implement the second, then fill in and feel out the rest in bursts to lock in the shape.
-- The whole point of writing software is to model and solve some real world problem (in a way that is machine-emphatic and actually executable efficiently.)
-- Usually, we should try to figure out the main nouns and verbs (data structures, fields, and methods) first, and the main call flows between them. Who owns what state, who reads / writes what where and in what order.
-- Ideally, for anything we expect to execute halfway frequently, we should think hard about how to use data oriented design and reason through the actual minimal mechanical steps that the target architectures will have to do, both compute and memory (and bandwidth etc.) wise, to do what we're asking. This matters tremendously.
-- Data structures are incredibly important and I usually want to see them first since they clarify so much about the design. Whenever possible, this should be actual code in whichever languages we're using showing the real changes to / additions of data structures (and which values and value ranges we expect them to have).
-- Code and actual logic is always useful to show and illustrate ideas, even in pseudocode form, but ideally in a real form that we actually expect to execute on some level. Think like an API designer here, since really, everything is an API in some sense.
-- Bugs are not a natural phenomenon in code, it's just misalignment. "Bugs happen" is a fallacy, and we should try hard to engineer correct systems with clarity, simplicity, and reliability. Usually, this means simplicity, strong invariants, and clear expectations.
-- Relatedly, "fixes" are not a natural activity in a healthy codebase _on their _own_ - instead, we want to treat every issue and every "bug" as a challenge to the model we're implementing, and figure out what the long term shape of the model should be. 
-- Corollary: fixes are rarely _additive_, and certainly not "en masse". It is tempting but wrong to add many "fixes" to robustify some part of a codebase, but true correctness generally requires changing and refining the model. Checking invariants is fine (and inevitable), making bad states impossible is better.
-- When possible, we should first think through what the example use cases would write in code to do the thing that we're trying to implement, where they're coming from, what the limits and expectations and environment is, and so on:
+Write code and prose that read plain and boring.
 
-```
-const user = service.signup(...); // user from API or wherever
-// ... some more illustrative logic ...
-```
+### Naming (WN)
 
-- When possible, we should model the noun trees and the main boxes and lines in ASCII form, either as literal ASCII art with boxes and lines and/or with nice noun trees and schemas. Ideally we should annotate exact field names and types, though both can be complementary. The more detail the better, proper fields / methods / signatures are very helpful here (the below is abbreviated for brevity).
+Name the thing itself, plainly:
+- **WN01** Names MUST be obvious, clear and idiomatic to their language and topic.
+- **WN02** Names SHOULD use shorter, stronger nouns and verbs.
+- **WN03** Names SHOULD name the thing itself, not where it came from, what it is for or what stage it has reached (e.g., `Permission`, not `DeclaredPermission`; `Log`, not `ChangeLog`).
+- **WN04** Idiomatic, independent / namespaced nouns SHOULD be preferred over "verbed" nouns (e.g., `Outcome` over `SettledMutation`, `Submission` over `Pending`, `Advance` over `Applied`, `Call` over `Invocation`); participle nouns generally imply that the model is over-reified in the state dimension.
+- **WN05** Names MUST describe actual behavior or purpose, and where applicable shouuld immediately reveal their purpose and mechanism (e.g., a function that creates or updates is `upsert*`, one that allocates conditionally is `allocate*_maybe` or `allocate*_if*`).
 
-```
-Heap // per owner
-├── HeapOptions { gc: GcOptions, size_class: SizeClassTable, ... }
-├── HeapLimits
-├── GcPacer
-├── GcRequest
-└── HeapStorage
-    ├── Arc<Allocator>
-    ├── PageSpanCache
-    ├── AddressSpace
-    ├── YoungSpace
-    │   ├── YoungCursor
-    │   ├── YoungRange[]
-    │   ├── YoungSpan[]
-    │   └── page_spans[]
-    ├── SmallSpace
-    │   ├── SizeClassTable
-    │   ├── SmallSpan[]
-    │   └── partial_spans
-    ├── LargeSpace
-    │   ├── LargeBlock[]
-    │   └── free_large_block_ids
-    ├── page_map: logical page -> HeapPageMapEntry
-    ├── AllocationUsage
-    ├── young AllocationUsage
-    ├── GcState
-    └── LocalGcState
+Use the idiomatic vocabulary with zero fluff:
+- **WN10** Names SHOULD follow Simplified Technical English (STE).
+- **WN11** Names SHOULD follow modern prior art terminology where it exists.
+- **WN12** Names MUST NOT invent vocabulary where the codebase already has a concept / word.
+- **WN13** Terminology MUST be established and kept consistent, continously, across nouns, verbs and their families for types, methods, enums, variants and fields.
+- **WN14** Names and prose SHOULD NOT use abstraction sludge words _unless_ the topic idiomatically requires them: seam, lane, part, parts, info, factory, syntax, semantics, data, inner, wrapper, facts, seat, summary, channel, boundary, contract, surface, currency, accounting, load bearing, any "-bearing", spine, spelling, computation, recipe, glue, judge, proof, evidence, drive, carry, own, demand, grammar, reach, truth, product, atom, axes, coordinates, transcribe, law, knot, tie, seal, pin, tighten, slot, mint, helper, util, support, misc, name (as a verb), admit, keep.
 
-/// One pending local GC request.
-pub(super) enum GcRequest {
-    /// Run one young mark-and-sweep cycle.
-    Minor,
-    /// Run one full mark-and-sweep cycle.
-    Full,
-}
+Keep names symmetric and general:
+- **WN20** Names of related logic SHOULD be symmetric.
+- **WN21** Names should share common and consistent prefixes (whether implicit namespaces or explicit preambles) at common layers (e.g., the sibling noun for `LocalKeyring` should be `LocalKeyringReader`, not just `KeyringReader` if it's specific to `LocalKeyring`)
+- **WN22** Names SHOULD NOT take the shape `x_for_y`; it usually means the invariants are not generalised yet, and generalisations SHOULD NOT introduce arbitrary interfaces only to avoid `x_for_y`.
+- **WN23** Names MAY keep `x_for_y` in data transcription.
 
-/// One heap small space.
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub(crate) struct SmallSpace {
-    /// The configured size-class table.
-    pub(crate) size_classes: SizeClassTable,
-    /// The configured span width.
-    pub(crate) span_size_bytes: usize,
-    /// The live heap spans.
-    pub(crate) spans: CowTable<SmallSpan>,
-    /// The reusable non-full spans per exact small-span class.
-    pub(crate) partial_spans: BTreeMap<SmallSpanClass, Vec<usize>>,
-}
+Write words out properly:
+- **WN30** Names MUST write words out, including variables: `extension`, not `ext`; `directory`, not `dir`. (`destack/prevent-abbreviations`)
+- **WN31** Variables MUST NOT use single letters unless obvious, such as `i`, `x` or `Vector.x`. (`eslint/id-length`)
 
-// ... and so on ...
-```
+Mark booleans, prefer enums:
+- **WN40** Booleans SHOULD start with `is` unless already clear or required by context. (`destack/boolean-prefix`)
+- **WN41** Booleans SHOULD give way to enums where an enum fits.
 
-- When possible, we should literally think through example use cases for every main scenario, and then trace it out across real state and call flows in a tree form:
+Organise files and accessors by domain:
+- **WN50** File and module names SHOULD be single words. (`unicorn/filename-case`)
+- **WN51** File and module names MUST describe their domain or purpose.
+- **WN52** Accessors SHOULD NOT nest projections such as `revision_files`; a general `files` with a filter, or `files_at_revision`, reads better.
 
-```
-UserService.signup(name: string, email: string, password: string, session, ...)
- -> User.create(..., session) // create in DB
-   -> User.validate(...)      // validate inputs
-   -> User.save(...)          // save to DB
-   -> NotificationService.send()
-    -> Workflow::trigger()
-   -> Session.commit(...)
-```
+### Logic (WL)
 
-```
-provide_program_analysis(profile, target)
- ├─ load each module's MirAnalyzed (per-module LinkGraph, cached, incremental)
- ├─ roots = exported symbols of the target's root modules
- ├─ LinkSupergraph::build(&link_graphs)        // transient: dense index + CSR
- │   └─ live = supergraph.reachable(&roots)     // CSR BFS -> BitSet
- │      (later: references, address_taken, internal — same walk)
- └─ persist ProgramAnalysis { symbols, live }   // columns only, O(symbols) bits
-```
+Keep code minimal:
+- **WL01** Code SHOULD be minimal: every line is a liability.
+- **WL02** Long logic SHOULD be questioned: 500 lines might be 100, 100 might be 10, and 10 might not be needed at all.
+- **WL03** Methods MAY be long when their logic is not meaningfully extractable or reusable.
 
-### Checks
+Keep overloads few:
+- **WL10** Overloads SHOULD be few.
+- **WL11** Overloads MUST NOT merely call one another with different arguments and little logic.
 
-- Fix all the lints from `cargo check -p <crate>` and `cargo clippy -p <crate>`
-- Most clippy allow stuff should go on top of the `impl`, not individual functions (like too many arguments is almost always fine at a broad scope)
-- In general, ignore too many arguments and type complexity warnings
-- Put lint suppression at the top of the impl block, not individual functions
+Write logic in commented blocks:
+- **WL20** Logic MUST be split into small coherent blocks of 2 to 6 lines, inside and outside functions.
+- **WL21** Blocks MUST be separated by blank lines, except the first block in a function.
+- **WL22** Blocks MUST start with a comment, except returns. (`destack/require-block-comment`)
+- **WL23** Comments for if statements and loops SHOULD sit before the statement, not inside it.
+- **WL24** Returns MUST have a blank line before them, even without a comment. (`destack/padding-before-return`)
 
-## Markdown
+Branch in structured, symmetric chains:
+- **WL30** Branches SHOULD be spelled out at the same level as if-else chains (or similar multi branch-y group) instead of repeated _discontinous_ continue and return jumps.
+  ```text
+  // option A
+  if A {
+      Ok(..)
+  }
+  // option B
+  else if B {
+      Ok(..)
+  }
+  // fallback
+  else {
+      Error(..)
+  }
+  ```
+- **WL31** Branching SHOULD keep a predictable, consistent flow, with symmetrical breadth and depth.
+- **WL32** Early exits MAY use guard returns, but continuous changes are preferred.
+- **WL33** Main branching SHOULD use coherent if-else chains or match statements instead of sequences of jumps.
+  ```text
+  let Some(extracted) = extract(foo) else {
+      return;
+  };
+  if invalid(extracted) {
+      return;
+  }
 
-- One sentence per line. Always (in prose, tables and such are different).
-- Use proper rich formatting: sections, sub-sections, highlighting, code examples, tables, etc.
-- Non-prose items (lists, code blocks, tables) in a subsection should be preceded by a prose line
+  match extracted {
+      // ... each variant ...
+      // ... could also be if-else-if-else if that reads better
+  }
+  ```
+- **WL34** Unstructured branches that are not general preconditions SHOULD be regrouped into structured if-else or match statements.
 
-## Commands
+### State (WS)
 
-We use `justfile`s for commands. See `just --list` for all commands.
-Be careful not to pull in unrelated fmts / checks for local edits, that might make the diff noisy.
+Keep state minimal and explicit:
+- **WS01** Every bit of state SHOULD be treated as suspicious.
+- **WS02** Functions SHOULD be pure, taking context explicitly, usually as the last argument.
+- **WS03** Fields and dependencies SHOULD be few.
+- **WS04** Fewer state combinations is better, less entropy is better. 
 
-```sh
-just check
-just fmt
-just build
-just test
-```
+Minimise and model indirect state:
+- **WS10** Indirect state (global, static, etc.) SHOULD be minimised and is generally considered evil by default and ALL global state new and pre-existing MUST be reported (this includes those inside classes or similar such constructs, *any* hidden side channel state).
+- **WS11** General effect state (time, file system, network, etc.) SHOULD use the platform idiomatic mechanism and MAY be encapsulated in an indirection. 
 
-### Commits
+Name intermediate values:
+- **WS20** Trivial operations such as unary operators MAY skip temporary variables.
+- **WS21** Non-trivial operations MUST use temporary variables.
+  ```rust
+  let first_digit = (dt_bytes[0] - b'0') as i64;
+  let second_digit = (dt_bytes[1] - b'0') as i64;
+  let number = 10 * first_digit + second_digit;
+  ```
+- **WS22** Transformed variables SHOULD be redefined under the same name: `let module = modules.get(); let module = module.read();`.
 
-- Typically, agents aren't supposed to commit or merge directly without being explicitly instructed to.
-- For commit message format, follow `CONTRIBUTING.md#commit-style`.
-- We typically work with branches and worktrees off a main branch.
-- We try to frequently rebase off main and merge back into main.
-- When merging into main, try to fast-forward or cherry-pick to retain the commit history (except when there are a _lot_ of small commits, feel free to squash then).
+### Commenting (WC)
+
+Format comments consistently:
+- **WC01** Comments MUST start with a lowercase letter, in every code file including scripts. (`destack/comment-style`)
+- **WC02** Comments MUST NOT end with a period. (`destack/comment-style`)
+- **WC03** Continued comment lines MUST start with one extra space. (`destack/comment-style`)
+- **WC04** Continued comments SHOULD read naturally line by line, even when that splits a sentence.
+- **WC05** Comments SHOULD separate clauses with colons or commas instead of hyphens, except in compound words. (`destack/comment-style`)
+
+Place comments above what they describe:
+- **WC10** Comments MUST sit directly above the code block they describe, usually 2 to 6 lines.
+- **WC11** Case comments MUST precede each if, else-if and else case. (`destack/branch-comment-position`)
+  ```text
+  // do this
+  if (...) {
+    ...
+  }
+  // otherwise do this
+  else if (...) {
+    ...
+  }
+  // fall back to this
+  else {
+    ...
+  }
+  ```
+- **WC12** Tree-shaped sources such as TSX MUST follow the same block comment rules.
+  ```tsx
+  {/* Container */}
+  <div>
+      {/* Top button */}
+      <button /> ... </button>
+
+      {/* Side panel */}
+      <div> ... </div>
+  </div>
+  ```
+- **WC13** Comments MAY consist of a single word or phrase when their scope is clear.
+- **WC14** Trivial functions under 4 lines MAY omit comments and blank lines, especially when comments would repeat their documentation.
+
+Write short, plain comments:
+- **WC20** Comments SHOULD span at most one sentence.
+- **WC21** Comments MUST state plainly what is.
+- **WC22** Comments SHOULD organise the reader's mental model, as a one-word summary, a short phrase or a short explanatory note.
+- **WC23** Block comments SHOULD start with a verb when longer than two words.
+  - `// build drop plan for each function`, not `// each function gets an independent drop plan`
+
+Avoid sludge and tangled sentences:
+- **WC30** Comments MUST NOT contain sludge words (WN14), LLM slop, statements about what things are _not_, negative parallelisms, or other such confusions.
+- **WC31** Comments MUST avoid indirect speech and sentences that are hard to parse:
+  - `// borrow the object from a root local when reached by a target`, NOT `// borrow the object a reference in a root local names when the target reaches through it`
+  - "Traits add columns and methods to every object.", NOT "A trait adds columns and methods to every object whose definition names it."
+- **WC32** Comments MUST NOT pack several complex clauses into one sentence with commas; multi part, noun-heavy sentences are the worst case.
+
+Mark sections and keywords explicitly:
+- **WC40** Separator comments MAY frame an uppercase title with `===` lines.
+  ```text
+  // ================================================================================
+  // Binary operator precedence
+  // ================================================================================
+  ```
+- **WC41** Separator comments SHOULD stay rare, since they are noisy.
+- **WC42** Keyword comments MUST start with `NOTE`, `TODO` or `FUGU` and carry a tag, such as `NOTE #Suspicious: allocating in runtime seems wrong?`. (`destack/comment-style`)
+  - `NOTE`: call out something important
+  - `TODO`: something to address eventually
+  - `FUGU`: temporary, broken, fix before going upstream
+  - `#Performance`: could be faster or more efficient
+  - `#Robustness`: might be flaky in some cases
+  - `#Broken`: does not work in likely cases
+  - `#Cleanup`: could be simpler or better structured
+  - `#Incomplete`: obvious feature is missing
+  - `#Suspicious`: something that looks wrong or weird
+  - `#Security`: may allow more access than intended
+  - `#Architecture`: larger design issue to reconsider
+- **WC43**: All relevant "keyword" comments, pre-existing / found and newly added, MUST be mentioned and brought to attention before proposing commits / at the end of a task.
+
+Comment tests where it helps:
+- **WC50** Tests MAY use fewer comments within obvious cases.
+- **WC51** Test assertions SHOULD state what they check and why when non-trivial.
+
+### Documenting (WD)
+
+Document everything in plain sentences:
+- **WD01** Prose MUST be plain, simple technical English in the active voice, in code, comments and docs.
+- **WD02** Documentation MUST cover all functions, types, variants and fields, in one line where possible. (`destack/require-jsdoc`)
+- **WD03** Documentation MUST consist of proper sentences with punctuation. (`destack/jsdoc-sentence`)
+- **WD04** Files MUST NOT have top-level documentation comments, since they always get stale. (`destack/jsdoc-sentence`)
+- **WD05** Constants SHOULD be external facts, identities, or tuning values, each documented with its source or the napkin math that sets it; a tuning value callers vary becomes the default of an option on the noun that owns it.
+  ```ts
+  /** The longest identifier PostgreSQL stores without truncation, NAMEDATALEN minus one. */
+  const MAX_IDENTIFIER_LENGTH = 63;
+  ```
+
+Keep documentation to one line:
+- **WD10** Documentation SHOULD fit one line at the 100 character width.
+  In rare, complex cases multiline documentation MAY come after a blank line in a multiline doc comment.
+- **WD11** Documentation with more than one sentence MUST go multiline, with one sentence per line. (`destack/jsdoc-sentence`)
+- **WD12** Multiline documentation SHOULD use a header line, a blank line, then paragraph lines. (`destack/jsdoc-sentence`)
+
+Say what methods do and what types are:
+- **WD20** Method documentation SHOULD be imperative and start with a verb, such as "Send a message".
+- **WD21** Type and field documentation SHOULD plainly state what the thing is: "The blocks built so far.", not "Represents the blocks built up to this point."
+
+Write Markdown one sentence per line:
+- **WD30** Markdown prose MUST put one sentence per line; tables and similar structures are exempt. (`markdown/one-sentence-per-line`)
+- **WD31** Markdown SHOULD use rich formatting: sections, subsections, highlighting, code examples and tables.
+
+### TypeScript-y (WT)
+
+Declare and assign class fields explicitly:
+- **WT01** Class fields MUST be declared explicitly, with documentation above each field. (`destack/require-jsdoc`)
+- **WT02** Class fields MUST be assigned in constructor bodies, not through constructor parameter properties. (`typescript/parameter-properties`)
+
+Prefer web-standard APIs:
+- **WT10** Shared code SHOULD use web-standard APIs, such as `Uint8Array.toHex` or `crypto.subtle`, so it runs on every target; Node or Bun APIs MAY be used in target-specific modules.
+
+### Rust-y (WR)
+
+Keep modules flat and real:
+- **WR10** `mod.rs` and `main.rs` MUST contain only re-exports and submodule declarations.
+- **WR11** Modules MUST be either `module.rs` or `module/mod.rs` with real `module/whatever.rs` files, never both.
+- **WR12** Code MUST NOT use `include!` or convoluted `#[path]` to bypass module structure.
+- **WR13** Files MUST NOT nest `mod x { }`, except for `tests`.
+
+Import plainly at the top:
+- **WR20** Imports MUST sit at the top, in the form `use std::time::Instant`.
+- **WR21** Top-level imports SHOULD use `use crate::x` directly where possible.
+- **WR22** Paths MUST NOT use `crate::X` inside functions.
+- **WR23** Public exports SHOULD use `pub use submodule::*`, relying on correct `pub` visibility.
+- **WR24** Imports MUST NOT use aliases. (`destack/no-import-alias`)
+
+Order items predictably:
+- **WR30** Comments and documentation MUST precede all attributes, such as `#[inline]` and `#[derive]`.
+- **WR31** Constants MUST sit at the top of the file, with no magic numbers or values.
+- **WR32** Functions MUST NOT nest items such as functions, lambdas or types.
+- **WR33** cfg-gated statements MUST be grouped into their own blank-line-delimited sections.
+  ```rust
+  mod foo;
+  mod baz;
+
+  pub use foo::*;
+
+  #[cfg(not(target_arch = "wasm32"))]
+  mod websocket;
+  #[cfg(not(target_arch = "wasm32"))]
+  pub use websocket::{WebSocketServer, WebSocketServerError};
+  ```
+
+Lean on the type system:
+- **WR40** Self-contained conversions SHOULD use `Into`, `From` and sometimes `TryFrom`.
+- **WR41** Enums named like scalars, such as `*Kind`, MUST NOT carry payloads in their variants.
+- **WR42** Code SHOULD avoid `Cell`, `RefCell` and `UnsafeCell`, which almost always imply a bad ownership model.
+- **WR43** `unsafe` MAY be used when its invariants are proven and tested.
+
+Return errors and keep tests separate:
+- **WR50** Code outside tests MUST fail explicitly through `Result` handling instead of `unwrap`, `expect` or `panic`.
+- **WR51** Tests MUST live in a trailing `mod tests` or in standalone test modules or crates, depending on context.
+
+Write idiomatic expressions:
+- **WR60** Clones SHOULD use `expr.clone()` instead of `Arc.clone(expr)`.
+- **WR61** Heavy clones SHOULD be avoided, since memory and fragmentation are expensive.
+- **WR62** Format macros SHOULD inline variables: `format!("name is {name}")`.
+- **WR63** Longer strings SHOULD use multiline raw strings.
+
+## Rewrite (R)
+
+Rewrite as understanding grows, toward the final shape, always rewrite: generalise, compress, subtract.
+
+### Surveying (RS)
+
+Question what exists, keep what is intended:
+- **RS01** Code SHOULD be refactored, cleaned, re-audited and semantically compressed continuously; nothing is final.
+- **RS02** Agents MUST NOT assume existing code is good because it exists, is in use or is tested.
+- **RS03** Failing tests MAY be wrong instead of the new code.
+- **RS04** Tests and expectations MUST NOT change without explicit prior discussion and agreement.
+- **RS05** Stubs that clearly mark an unfinished shape SHOULD NOT be removed when they are meant to be filled in later; ask when unsure.
+
+Earn every part of the final model:
+- **RS10** Refactors MUST start by surveying the Chesterton's fence of the status quo: how it got there, and why it might be that way.
+- **RS11** Nouns, verbs, types, variants, fields and lines MUST each be earned.
+- **RS12** Final models MUST capture the essential complexity of the problem in its most pristine form, nothing more and nothing less.
+- **RS13** Bloat SHOULD be removed as soon as it becomes visible, since it often only shows as the problem's true shape emerges.
+- **RS14** Entropy of the overall model SHOULD be continously minimised and compressed as we figure out which parts of the state space are actually occupied by reality.
+
+### Replacing (RR)
+
+Refactor as the shape emerges:
+- **RR01** Code SHOULD be refactored as understanding deepens and the right shape reveals itself; programming is refactoring just as writing is editing.
+- **RR02** Refactors SHOULD be painless and touch only the parts of the model that need to change.
+- **RR03** Refactors that touch more than they should MUST be investigated.
+- **RR04** Investigated refactors MAY widen, or trigger a follow-up, to crispen the model's boundaries.
+
+Go straight to the final model:
+- **RR10** Changes SHOULD make the next change easy first: "make the change easy, then make the change".
+- **RR11** Changes SHOULD skip intermediate and transitional states and go straight to the final model.
+- **RR12** Code MUST NOT introduce transitional or "for now" logic unless explicitly requested.
+- **RR13** Components under roughly 5k lines MAY be ripped out and rewritten completely when that is easier.
+- **RR14** Changes SHOULD break or change the source directly and follow the compiler to every usage site.
+
+Surface issues in other systems:
+- **RR20** Issues in other systems MUST be surfaced and discussed instead of papered over or hidden.
+- **RR21** Surfaced issues MAY be ignored only once explicitly acknowledged and deferred.
+
+### Fixing (RF)
+
+Fix the model, not the symptom:
+- **RF01** Bugs MUST be treated as model misalignment, not as a natural phenomenon; correct systems come from clarity, simplicity, strong invariants and clear expectations.
+- **RF02** Issues of any kind MUST be treated as challenges to the model, answered by the model's long term shape rather than by standalone fixes.
+- **RF03** Fixes SHOULD NOT be additive or applied en masse; checking invariants is fine, making bad states impossible is better, and simplifying / compressing the model or avoiding the problem alltogether is best.
+- **RF04** Failures SHOULD act as a searchlight: study the model they expose, find its gaps, and correct the model in the most general, compressed, subtractive way.
+
+## Check (C)
+
+Check every change with tests, formatting, lints, and any relevant static and dynamic analysis.
+
+### Testing (CT)
+
+Test the real thing in its scope:
+- **CT01** Tests MUST live in the package / crate / scope that implements the behavior they check; they MUST NOT test "upstream" mechanics that they only use. (e.g., no point testing the underlying database when the scope is about schema generation; test the *actual* thing)
+- **CT02** Tests SHOULD NOT rely on factory or dependency injection layers.
+- **CT03** Code that is awkward to test SHOULD be refactored, since it is almost always poorly factored (also see above).
+- **CT04** Hard-to-test code SHOULD get crisper models and more realistic tests instead.
+
+Name tests by behavior:
+- **CT10** Tests MUST be named with a verb that states their content, such as `roundtrip duration` or `test_send_receive_message`.
+- **CT11** Test first lines or docstrings MUST describe the desired behavior without mentioning "test".
+
+Test whole outputs, as hard as possible:
+- **CT20** Tests SHOULD be the strongest, most brutal form we can think of: PBT, DST, roundtrip tests, whatever is applicable.
+- **CT21** Tests SHOULD exercise the entire thing over a part, comparing complete output.
+- **CT22** Tests SHOULD assert the entire expected output as some sort of snapshot or invasive assertion where possible.
+
+Assert exact outcomes:
+- **CT30** Tests MUST assert specific outcomes, such as "these two errors with that message", not "expect failed" or "any two errors".
+- **CT31** Tests MUST NOT assert partial values such as `x.contains('part of foo')`. (`destack/no-partial-assertions`)
+- **CT32** Non-trivial assertions SHOULD be commented like other logic blocks.
+
+Keep tests fast:
+- **CT40** Tests slower than a few milliseconds, tens at most, MUST be investigated for fundamental model issues.
+- **CT41** Test runs MUST use a tight timeout, such as building first without a timeout and then testing with one; slow tests are a hard failure.
+
+### Formatting (CF)
+
+Format every change, within its scope:
+- **CF01** Code MUST be formatted before a change is done.
+- **CF02** Code SHOULD be formatted before it runs or is checked, so it compiles only once.
+- **CF03** Formatting MUST stay within the change's scope, using the directory's `just fmt` or equivalent.
+
+### Linting (CL)
+
+Fix every lint:
+- **CL01** Rust changes MUST fix all lints from `cargo check -p <crate>` and `cargo clippy -p <crate>`.
+- **CL02** Too-many-arguments and type-complexity warnings MAY be ignored.
+
+Suppress lints on the impl:
+- **CL10** Clippy allowances SHOULD sit on top of the `impl`, not on individual functions.
+- **CL11** Lint suppressions MUST sit at the top of the impl block, not on individual functions.
+
+## Ship (S)
+
+Land changes through branches and plain commits under the strict cooperation protocol.
+
+### Branching (SB)
+
+Work on branches off main:
+- **SB01** Work SHOULD happen on branches and worktrees off a main branch.
+- **SB02** Branches SHOULD rebase off main frequently and merge back into main.
+
+Merge back with history intact:
+- **SB10** Merges into main SHOULD fast-forward (or cherry-pick) to retain history.
+- **SB11** Merges into main MAY squash many small commits.
+
+### Committing (SC)
+
+Commit only on explicit instruction:
+- **SC01** Agents MUST NOT commit or merge without explicit instruction.
+- **SC02** Agents MAY present suggested commit slices after re-reviewing their work.
+
+Use conventional commit subjects:
+- **SC10** Commits MUST use conventional commits in present tense, Simplified Technical English and verb-first shape.
+- **SC11** Commit subjects MUST follow `type(scope): verb noun` with an imperative summary under 100 characters.
+- **SC12** Commit scopes MUST use the full, sometimes stylised, scope, such as `language/ast`, `language/compiler/analyze` or `library/ui`.
+- **SC13** Commits touching several scopes MUST use the highest scope or `all`, or split into smaller commits when large.
+- **SC14** Commits in large packages or crates MAY use subscopes such as `language/compiler/sema`.
+
+Pick the commit type:
+- **SC20** Commit types MUST be one of, from most to least coalescing:
+  - `feat`: extend, generalise, or add non-trivial model changes
+  - `refactor`: replace or reshape the model in some non-trivial way
+  - `fix`: correct the model in some non-trivial sense that did not require a refactor
+  - `test`: extend, update, bless, or otherwise modify the tests
+  - `chore`: modify or adapt in a semantically trivial way (format, trivial API adaptation, ..)
+  - `docs`: edit the docs (in code or otherwise)
+  - `dev`: make some meta change about the dev setup
+
+Write boring, plain commit messages:
+- **SC30** Commit messages MUST be boring like boiled potatoes and dry bread: what changed, as plainly as possible, without a story.
+- **SC31** Commit messages MUST NOT mention meta context such as "part 1" or "landed feature X".
+- **SC32** Commit messages SHOULD use simple verbs (e.g., add, remove, rename X -> Y, reshape, move, update X -> Y) and specific code concepts (e.g., Player.move, CharacterController).
+- **SC33** Commit messages SHOULD name code concepts as proper nouns, not files: `add SiteTable, rename Foo -> Bar`.
+- **SC34** Commit messages SHOULD follow the style of the last 50 or so commits when in doubt.
+- **SC35** Commit messages MUST NOT mention non-human authors or contributors: no co-authors and no bylines.
