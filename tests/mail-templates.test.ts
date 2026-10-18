@@ -32,14 +32,16 @@ const previousSiteUrl = process.env.SITE_URL;
 test("test_render_consistent_profile_actions_and_public_sharing", () => {
     expect(profileInvitation("none")).toEqual({ html: "", text: "" });
     expect(profileInvitation("create").text).toBe(
-        "Sign Up: https://zurich.tech/settings?section=profile\nShare your interests to help us create better events.",
+        "Sign Up: https://zurich.tech/settings?section=profile\nFaster RSVPs. Your topics and alerts.",
     );
     expect(profileInvitation("complete").text).toBe(
-        "Complete Your Profile: https://zurich.tech/settings?section=profile\nShare your interests to help us create better events.",
+        "Complete Your Profile: https://zurich.tech/settings?section=profile\nChoose your topics and alerts.",
     );
     const participation = involvement("none");
     expect(participation.html).not.toContain("WhatsApp");
-    expect(participation.text).toContain("Introduce someone to zurich.tech.");
+    expect(participation.text).toContain("Pass something good to a friend.");
+    expect(participation.text).toContain("Meet people and exchange ideas.");
+    expect(participation.text).toContain("Speak, host or help out.");
     expect(() => sharing("Share", "Example", "/registration?token=secret")).toThrow(
         "Email sharing requires a public site URL without parameters or fragments.",
     );
@@ -255,10 +257,11 @@ test("test_include_company_logos_without_changing_plain_text_jobs", () => {
     expect(illustrated.html).toContain("padding:16px 0 16px 16px");
 });
 
-test("test_keep_participation_rows_baseline_aligned", () => {
+test("test_stack_participation_actions_above_descriptions", () => {
     const html = involvement("complete").html;
-    expect(html.match(/valign="baseline"/g)).toHaveLength(8);
-    expect(html).not.toContain("margin-right:18px");
+    expect(html.match(/display:block;margin-top:3px/g)).toHaveLength(4);
+    expect(html).not.toContain("<table");
+    expect(html).toContain("Complete Your Profile &rarr;");
 });
 
 test("test_format_series_dates_for_readers", () => {

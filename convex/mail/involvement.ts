@@ -25,7 +25,7 @@ function invitation(
         .join(" ");
 
     return {
-        html: `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;font-size:14px;line-height:1.5"><tr><td width="116" valign="baseline" style="vertical-align:baseline;padding:10px 12px 0 0"><a href="${escapeHtml(url)}" style="color:${palette.brand};font-weight:600;text-decoration:underline">${escapeHtml(label)}</a></td><td valign="baseline" style="vertical-align:baseline;padding:10px 0 0;color:${palette.soft}">${escapeHtml(description)}${actions ? `<div style="margin-top:4px">${actions}</div>` : ""}</td></tr></table>`,
+        html: `<div style="padding:14px 0;border-bottom:1px solid ${palette.line};font-size:14px;line-height:1.5"><a href="${escapeHtml(url)}" style="display:block;color:${palette.brand};text-decoration:none"><span style="font-weight:600">${escapeHtml(label)} &rarr;</span><span style="display:block;margin-top:3px;color:${palette.soft}">${escapeHtml(description)}</span></a>${actions ? `<div style="margin-top:8px">${actions}</div>` : ""}</div>`,
         text: [
             `${label}: ${url}`,
             description,
@@ -40,7 +40,9 @@ export function profileInvitation(prompt: ProfilePrompt) {
 
     return invitation(
         prompt === "create" ? "Sign Up" : "Complete Your Profile",
-        "Share your interests to help us create better events.",
+        prompt === "create"
+            ? "Faster RSVPs. Your topics and alerts."
+            : "Choose your topics and alerts.",
         `${siteOrigin()}/settings?section=profile`,
     );
 }
@@ -72,16 +74,12 @@ export function sharing(title: string, description: string, path = "/") {
 /** Invite participation without competing with the edition's main content. */
 export function involvement(
     prompt?: ProfilePrompt,
-    share = sharing("Share zurich.tech", "Introduce someone to zurich.tech."),
+    share = sharing("Share zurich.tech", "Pass something good to a friend."),
 ) {
     const profile = prompt ? profileInvitation(prompt) : profilePlaceholder;
     const invitations = [
-        invitation("Join Discord", "Ask questions and discuss events.", socials[0].url),
-        invitation(
-            "Volunteer",
-            "Give a talk, host an event, volunteer or suggest an idea.",
-            `${siteOrigin()}/contribute`,
-        ),
+        invitation("Join Discord", "Meet people and exchange ideas.", socials[0].url),
+        invitation("Volunteer", "Speak, host or help out.", `${siteOrigin()}/contribute`),
         share,
     ];
 
