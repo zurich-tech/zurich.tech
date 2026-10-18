@@ -168,20 +168,19 @@ export function digestEvents(events: Doc<"events">[], now: number) {
     );
 }
 
-/** Select up to five newly published stories, excluding drafts and future-dated content. */
+/** Select the five latest published stories by story date, excluding future dates. */
 export function digestNews(posts: Doc<"posts">[], now: number) {
     return posts
         .filter(
             (post) =>
                 post.published &&
                 post.publishedAt !== undefined &&
-                post.publishedAt > now - 7 * 86400000 &&
                 post.publishedAt <= now &&
-                (post.published.date ?? post.publishedAt) <= now,
+                newsDate(post) <= now,
         )
         .sort(
             (left, right) =>
-                right.publishedAt! - left.publishedAt! || left.slug.localeCompare(right.slug),
+                newsDate(right) - newsDate(left) || left.slug.localeCompare(right.slug),
         )
         .slice(0, 5)
         .map((post) => ({

@@ -304,7 +304,7 @@ test.each(["Newsletter", "New event", "Registration confirmed", "Thank you", "Wr
     },
 );
 
-test("test_select_only_recent_published_news_for_the_digest", async () => {
+test("test_select_five_latest_published_stories_by_story_date", async () => {
     const { backend, memberId } = await setup();
     const now = Date.now();
     const posts = await backend.run(async (ctx) => {
@@ -314,11 +314,13 @@ test("test_select_only_recent_published_news_for_the_digest", async () => {
             ["future", now + 1, now + 1, true],
             ["future-story", now - 3, now + 1, true],
             ["old", now - 7 * 86400000, now - 7 * 86400000, true],
+            ["backfill", now, now - 365 * 86400000, true],
+            ["boundary-backfill", now, now - 7 * 86400000, true],
             ["second", now - 4, now - 4, true],
             ["third", now - 5, now - 5, true],
             ["fourth", now - 6, now - 6, true],
             ["fifth", now - 7, now - 7, true],
-            ["sixth", now - 8, now - 8, true],
+            ["sixth", now, now - 8, true],
         ] as const) {
             const published = {
                 title: slug,
@@ -349,6 +351,17 @@ test("test_select_only_recent_published_news_for_the_digest", async () => {
             description: "Published copy",
         })),
     );
+
+    // include the latest stories even when none were published in the last week
+    expect(digestNews(posts, now + 30 * 86400000)).toHaveLength(5);
+    const older = posts.filter((post) =>
+        ["old", "backfill", "boundary-backfill"].includes(post.slug),
+    );
+    expect(digestNews(older, now).map((post) => post.slug)).toEqual([
+        "boundary-backfill",
+        "old",
+        "backfill",
+    ]);
 });
 
 const http = httpRouter();
