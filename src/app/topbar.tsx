@@ -8,7 +8,7 @@ import { Dialog } from "../components/dialog";
 import { ThemeToggle } from "./theme";
 import { SocialLinks } from "../components/social";
 import { site } from "./site";
-import { Shield } from "lucide-solid";
+import { SlidersHorizontal } from "lucide-solid";
 
 const destinations = ["About", "Events", "Jobs", "News", "Map", "Sponsor", "Stats"];
 
@@ -38,7 +38,7 @@ export function Topbar() {
                     {/* administration */}
                     <Show when={account.user() && currentProfile()?.canManage}>
                         <A class="header-admin" href="/admin" aria-label="Admin" title="Admin">
-                            <Shield aria-hidden="true" strokeWidth={1.5} />
+                            <SlidersHorizontal aria-hidden="true" strokeWidth={1.5} />
                         </A>
                     </Show>
 

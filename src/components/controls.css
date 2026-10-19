@@ -124,7 +124,7 @@
    Tags
    ================================================================================ */
 
-/* metadata reads as quiet text; status is the only boxed label */
+/* metadata reads as quiet text; highlighted labels share compact badge spacing */
 .tag {
     display: inline-flex;
     align-items: baseline;
@@ -148,10 +148,13 @@ a.tag:hover {
 }
 
 .tag-status,
+.tag.tag-emphasis,
+.tag.tag-upcoming,
+.tag.sponsorship-badge,
 .tag.status-control {
     border: var(--rule) solid var(--color-line);
     border-radius: var(--radius);
-    padding: 0 6px;
+    padding: 2px 8px;
     color: var(--color-ink);
     font: 500 var(--text-xs) / 18px var(--font-text);
 }
@@ -165,11 +168,8 @@ a.tag:hover {
 
 /* sponsorship tiers read as capitalised accent labels wherever they appear */
 .tag.sponsorship-badge {
-    border: var(--rule) solid var(--color-accent);
-    border-radius: var(--radius);
-    padding: 0 6px;
+    border-color: var(--color-accent);
     color: var(--color-accent);
-    font: 500 var(--text-xs) / 18px var(--font-text);
     text-transform: capitalize;
 }
 

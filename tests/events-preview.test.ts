@@ -26,7 +26,7 @@ test("test_keep_standalone_events_and_limit_after_series_selection", () => {
     expect(previewEvents(events, 3, 10)).toEqual([events[0], events[2], events[3]]);
 });
 
-test("test_fill_spare_places_with_recent_history_in_chronological_order", () => {
+test("test_omit_history_even_when_upcoming_events_do_not_fill_the_limit", () => {
     const events = [
         { startsAt: 1, seriesId: "hack" },
         { startsAt: 2, seriesId: "hack" },
@@ -35,8 +35,8 @@ test("test_fill_spare_places_with_recent_history_in_chronological_order", () => 
         { startsAt: 30, seriesId: "hack" },
     ];
 
-    expect(previewEvents(events, 3, 10)).toEqual([events[1], events[2], events[3]]);
-    expect(previewEvents(events, 2, 100)).toEqual([events[3], events[4]]);
+    expect(previewEvents(events, 3, 10)).toEqual([events[3]]);
+    expect(previewEvents(events, 2, 100)).toEqual([]);
     expect(previewEvents([], 5, 10)).toEqual([]);
     expect(previewEvents(events, 0, 10)).toEqual([]);
 });

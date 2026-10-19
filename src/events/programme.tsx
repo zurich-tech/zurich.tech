@@ -67,9 +67,11 @@ export function Programme(props: {
     const isCalendar = () => !!props.isCalendarEnabled && params.view === "calendar";
     const isPreview = () => props.limit !== undefined;
     const period = () =>
-        isPreview() || (params.period === "draft" && !planning.current())
-            ? "all"
-            : (params.period ?? "all");
+        isPreview()
+            ? "upcoming"
+            : params.period === "draft" && !planning.current()
+              ? "all"
+              : (params.period ?? "all");
 
     const year = () => (!isPreview() && typeof params.year === "string" ? params.year : "all");
     const yearFormat = new Intl.DateTimeFormat("en", {
@@ -84,12 +86,12 @@ export function Programme(props: {
     // keep homepage series filters relevant to the unfiltered preview
     const availableSeries = createMemo(() => {
         if (!isPreview()) return props.series;
-        const recent = previewEvents(entries(), props.limit!, now);
+        const upcoming = entries().filter((event) => event.startsAt >= now);
 
-        return props.series.filter((item) => recent.some((event) => event.seriesId === item._id));
+        return props.series.filter((item) => upcoming.some((event) => event.seriesId === item._id));
     });
 
-    // select recent events before applying the display order
+    // apply period, series and search filters before ordering events
     const matches = createMemo(() =>
         entries()
             .filter(
@@ -359,10 +361,18 @@ export function Programme(props: {
                                 {series() !== "all" || year() !== "all"
                                     ? "No events match these filters."
                                     : period() === "upcoming"
-                                      ? "No upcoming events."
+                                      ? isPreview()
+                                          ? "More events soon."
+                                          : "No upcoming events."
                                       : period() === "draft"
                                         ? "No draft events."
                                         : "No events."}
+                                <Show when={isPreview()}>
+                                    {" "}
+                                    <a class="text-link" href="/events?period=past">
+                                        Past events
+                                    </a>
+                                </Show>
                             </p>
                         </Show>
                     </>
