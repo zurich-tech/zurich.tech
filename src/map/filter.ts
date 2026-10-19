@@ -95,15 +95,18 @@ export function filterLocations(
     category: string,
     terms: readonly string[],
     topics?: ReadonlySet<string>,
+    signals?: ReadonlySet<string>,
 ): MapLocation[] {
     // preserve the original collection when nothing narrows it
-    if (category === "all" && terms.length === 0 && topics === undefined) return locations;
+    if (category === "all" && terms.length === 0 && topics === undefined && signals === undefined)
+        return locations;
 
     return locations
         .map((place) => {
             const organisations = place.organisations.filter(
                 (entry) =>
                     (category === "all" || entry.kind === category) &&
+                    (signals === undefined || signals.has(entry.id)) &&
                     (topics === undefined || entry.topics?.some((topic) => topics.has(topic))) &&
                     (terms.length === 0 || matchesIndexedSearch(place.address, entry, terms)),
             );

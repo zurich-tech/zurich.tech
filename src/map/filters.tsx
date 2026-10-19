@@ -1,4 +1,4 @@
-import { Check, ChevronDown, Search, Shapes, Tags, X } from "lucide-solid";
+import { Check, ChevronDown, Search, Shapes, Tags, Activity, X } from "lucide-solid";
 import {
     createEffect,
     createMemo,
@@ -15,6 +15,13 @@ import { descendantTopics } from "../../convex/topics/hierarchy";
 import { selectSpecificTopic } from "../topics/selection";
 import "../components/filters.css";
 
+/** Activity filters describe published records and their recency windows. */
+export const signalOptions = [
+    { slug: "hiring", name: "Hiring", period: "Open jobs" },
+    { slug: "news", name: "In the news", period: "Past 90 days" },
+    { slug: "fundraising", name: "Fundraising", period: "Past year" },
+] as const;
+
 /** A selectable catalogue topic, retaining archived selections for removal. */
 export type MapFilterTopic = { slug: string; name: string; parent?: string; isActive: boolean };
 
@@ -28,6 +35,12 @@ export type MapFiltersProps = {
     catalogue: readonly MapFilterTopic[];
     /** Optional result counts by topic slug. */
     counts?: Readonly<Record<string, number>>;
+    /** One activity filter, combined with the selected type and topics. */
+    signal: string;
+    /** Unique matching organisations per activity filter. */
+    signalCounts: Readonly<Record<string, number>>;
+    /** Publish the activity selection. */
+    onSignalChange: (signal: string) => void;
     /** Publish the complete selection without changing the map directly. */
     onChange: (category: string, topics: string[]) => void;
     /** Suspend competing map previews while a picker is open. */
@@ -37,7 +50,7 @@ export type MapFiltersProps = {
 /** Present compact type and searchable topic filters with removable selections. */
 export function MapFilters(props: MapFiltersProps) {
     const id = createUniqueId();
-    const [open, setOpen] = createSignal<"type" | "topics">();
+    const [open, setOpen] = createSignal<"type" | "topics" | "signals">();
     const [search, setSearch] = createSignal("");
     const [active, setActive] = createSignal(0);
     const [position, setPosition] = createSignal({
@@ -51,6 +64,11 @@ export function MapFilters(props: MapFiltersProps) {
     let panel: HTMLDivElement | undefined;
     let typeButton!: HTMLButtonElement;
     let topicsButton!: HTMLButtonElement;
+    let signalsButton!: HTMLButtonElement;
+    const trigger = () =>
+        open() === "type" ? typeButton : open() === "signals" ? signalsButton : topicsButton;
+    const heading = () =>
+        open() === "type" ? "Type" : open() === "signals" ? "Signals" : "Topics";
     let input: HTMLInputElement | undefined;
     const kinds = [
         { slug: "all", name: "All types" },
@@ -91,15 +109,15 @@ export function MapFilters(props: MapFiltersProps) {
 
     /** Dismiss and optionally return focus to the initiating button. */
     function close(isReturning = true) {
-        const trigger = open() === "type" ? typeButton : topicsButton;
+        const button = trigger();
         setOpen(undefined);
-        if (isReturning) trigger.focus();
+        if (isReturning) button.focus();
     }
 
     /** Fit the floating panel above or below its trigger within the visible viewport. */
     function place() {
         if (!open()) return;
-        const bounds = (open() === "type" ? typeButton : topicsButton).getBoundingClientRect();
+        const bounds = trigger().getBoundingClientRect();
         const viewport = window.visualViewport;
         const left = viewport?.offsetLeft ?? 0;
         const top = viewport?.offsetTop ?? 0;
@@ -135,7 +153,7 @@ export function MapFilters(props: MapFiltersProps) {
     }
 
     /** Open one panel and reset its temporary search state. */
-    function show(which: "type" | "topics") {
+    function show(which: "type" | "topics" | "signals") {
         if (open() === which) close();
         else {
             setSearch("");
@@ -229,10 +247,40 @@ export function MapFilters(props: MapFiltersProps) {
                     </Show>
                     <ChevronDown size={14} aria-hidden="true" />
                 </button>
+                <button
+                    type="button"
+                    ref={signalsButton}
+                    aria-haspopup="dialog"
+                    aria-expanded={open() === "signals"}
+                    aria-controls={open() === "signals" ? `${id}-panel` : undefined}
+                    onClick={() => show("signals")}
+                >
+                    <Activity size={15} aria-hidden="true" /> Signals
+                    <ChevronDown size={14} aria-hidden="true" />
+                </button>
             </div>
             {/* Explicit selections remain visible when the panel is closed */}
-            <Show when={props.category !== "all" || props.topics.length}>
+            <Show when={props.category !== "all" || props.topics.length || props.signal}>
                 <ul class="filter-menu__chips" aria-label="Selected filters">
+                    <Show when={props.signal}>
+                        <li>
+                            <span>
+                                {signalOptions.find((entry) => entry.slug === props.signal)?.name ??
+                                    props.signal}
+                            </span>
+                            <button
+                                type="button"
+                                aria-label="Remove signal filter"
+                                title="Remove signal filter"
+                                onClick={() => {
+                                    props.onSignalChange("");
+                                    signalsButton.focus();
+                                }}
+                            >
+                                <X size={14} aria-hidden="true" />
+                            </button>
+                        </li>
+                    </Show>
                     <Show when={props.category !== "all"}>
                         <li>
                             <span>
@@ -283,7 +331,7 @@ export function MapFilters(props: MapFiltersProps) {
                         id={`${id}-panel`}
                         class="filter-menu__panel"
                         role="dialog"
-                        aria-label={open() === "type" ? "Filter by type" : "Filter by topics"}
+                        aria-label={`Filter by ${heading().toLowerCase()}`}
                         style={position()}
                         onKeyDown={(event) => {
                             if (event.key === "Escape") {
@@ -294,7 +342,7 @@ export function MapFilters(props: MapFiltersProps) {
                         }}
                     >
                         <div class="filter-menu__heading">
-                            <strong>{open() === "type" ? "Type" : "Topics"}</strong>
+                            <strong>{heading()}</strong>
                             <button
                                 type="button"
                                 title="Close filters"
@@ -304,157 +352,197 @@ export function MapFilters(props: MapFiltersProps) {
                                 <X size={16} aria-hidden="true" />
                             </button>
                         </div>
-                        <Show
-                            when={open() === "type"}
-                            fallback={
-                                <>
-                                    <div class="filter-menu__search">
-                                        <Search size={16} aria-hidden="true" />
-                                        <input
-                                            ref={input}
-                                            type="text"
-                                            role="combobox"
-                                            aria-label="Search topics"
-                                            aria-expanded="true"
-                                            aria-autocomplete="list"
-                                            aria-controls={`${id}-options`}
-                                            aria-activedescendant={
-                                                matches()[active()]
-                                                    ? `${id}-topic-${matches()[active()].slug}`
-                                                    : undefined
-                                            }
-                                            autocomplete="off"
-                                            placeholder="Search topics"
-                                            value={search()}
-                                            onInput={(event) => {
-                                                setSearch(event.currentTarget.value);
-                                                setActive(0);
-                                            }}
-                                            onKeyDown={(event) => {
-                                                if (event.isComposing) return;
-                                                if (
-                                                    event.key === "ArrowDown" ||
-                                                    event.key === "ArrowUp"
-                                                ) {
-                                                    event.preventDefault();
-                                                    setActive((index) =>
-                                                        Math.max(
-                                                            0,
-                                                            Math.min(
-                                                                matches().length - 1,
-                                                                index +
-                                                                    (event.key === "ArrowDown"
-                                                                        ? 1
-                                                                        : -1),
-                                                            ),
-                                                        ),
-                                                    );
-                                                    document
-                                                        .getElementById(
-                                                            `${id}-topic-${matches()[active()]?.slug}`,
-                                                        )
-                                                        ?.scrollIntoView({ block: "nearest" });
-                                                } else if (event.key === "Enter") {
-                                                    event.preventDefault();
-                                                    const topic = matches()[active()];
-                                                    if (topic) toggle(topic.slug);
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                    <div
-                                        id={`${id}-options`}
-                                        class="filter-menu__options"
-                                        role="listbox"
-                                        aria-label="Topics"
-                                        aria-multiselectable="true"
-                                    >
-                                        <For each={groups()}>
-                                            {(group) => (
-                                                <div role="group" aria-label={group.root.name}>
-                                                    <For each={group.entries}>
-                                                        {(topic) => (
-                                                            <div
-                                                                id={`${id}-topic-${topic.slug}`}
-                                                                role="option"
-                                                                aria-selected={props.topics.includes(
-                                                                    topic.slug,
-                                                                )}
-                                                                class="filter-menu__option"
-                                                                classList={{
-                                                                    "is-active":
-                                                                        matches()[active()]
-                                                                            ?.slug === topic.slug,
-                                                                    "is-child":
-                                                                        topic.slug !==
-                                                                        group.root.slug,
-                                                                }}
-                                                                onPointerDown={(event) =>
-                                                                    event.preventDefault()
-                                                                }
-                                                                onClick={() => {
-                                                                    toggle(topic.slug);
-                                                                    input?.focus();
-                                                                }}
-                                                            >
-                                                                <span
-                                                                    class="filter-menu__check"
-                                                                    aria-hidden="true"
-                                                                >
-                                                                    <Show
-                                                                        when={props.topics.includes(
-                                                                            topic.slug,
-                                                                        )}
-                                                                    >
-                                                                        <Check size={12} />
-                                                                    </Show>
-                                                                </span>
-                                                                <span>{topic.name}</span>
-                                                                <Show
-                                                                    when={
-                                                                        props.counts?.[
-                                                                            topic.slug
-                                                                        ] !== undefined
-                                                                    }
-                                                                >
-                                                                    <span class="filter-menu__count">
-                                                                        {props.counts?.[topic.slug]}
-                                                                    </span>
-                                                                </Show>
-                                                            </div>
-                                                        )}
-                                                    </For>
-                                                </div>
-                                            )}
-                                        </For>
-                                    </div>
-                                    <Show when={!matches().length}>
-                                        <p class="filter-menu__empty" role="status">
-                                            No topics found
-                                        </p>
-                                    </Show>
-                                </>
-                            }
-                        >
+                        <Show when={open() === "signals"}>
                             <fieldset class="filter-menu__types">
-                                <legend class="filter-menu__sr-only">Type</legend>
-                                <For each={kinds}>
-                                    {(kind) => (
+                                <legend class="filter-menu__sr-only">Signals</legend>
+                                <label>
+                                    <input
+                                        type="radio"
+                                        name={`${id}-signal`}
+                                        checked={!props.signal}
+                                        onChange={() => props.onSignalChange("")}
+                                    />
+                                    <span>All organisations</span>
+                                </label>
+                                <For each={signalOptions}>
+                                    {(option) => (
                                         <label>
                                             <input
                                                 type="radio"
-                                                name={`${id}-kind`}
-                                                value={kind.slug}
-                                                checked={props.category === kind.slug}
-                                                onChange={() =>
-                                                    props.onChange(kind.slug, props.topics)
-                                                }
+                                                name={`${id}-signal`}
+                                                checked={props.signal === option.slug}
+                                                onChange={() => props.onSignalChange(option.slug)}
                                             />
-                                            <span>{kind.name}</span>
+                                            <span class="map-signal-label">
+                                                {option.name}
+                                                <small>{option.period}</small>
+                                            </span>
+                                            <span class="filter-menu__count">
+                                                {props.signalCounts[option.slug] ?? "…"}
+                                            </span>
                                         </label>
                                     )}
                                 </For>
                             </fieldset>
+                        </Show>
+                        <Show when={open() !== "signals"}>
+                            <Show
+                                when={open() === "type"}
+                                fallback={
+                                    <>
+                                        <div class="filter-menu__search">
+                                            <Search size={16} aria-hidden="true" />
+                                            <input
+                                                ref={input}
+                                                type="text"
+                                                role="combobox"
+                                                aria-label="Search topics"
+                                                aria-expanded="true"
+                                                aria-autocomplete="list"
+                                                aria-controls={`${id}-options`}
+                                                aria-activedescendant={
+                                                    matches()[active()]
+                                                        ? `${id}-topic-${matches()[active()].slug}`
+                                                        : undefined
+                                                }
+                                                autocomplete="off"
+                                                placeholder="Search topics"
+                                                value={search()}
+                                                onInput={(event) => {
+                                                    setSearch(event.currentTarget.value);
+                                                    setActive(0);
+                                                }}
+                                                onKeyDown={(event) => {
+                                                    if (event.isComposing) return;
+                                                    if (
+                                                        event.key === "ArrowDown" ||
+                                                        event.key === "ArrowUp"
+                                                    ) {
+                                                        event.preventDefault();
+                                                        setActive((index) =>
+                                                            Math.max(
+                                                                0,
+                                                                Math.min(
+                                                                    matches().length - 1,
+                                                                    index +
+                                                                        (event.key === "ArrowDown"
+                                                                            ? 1
+                                                                            : -1),
+                                                                ),
+                                                            ),
+                                                        );
+                                                        document
+                                                            .getElementById(
+                                                                `${id}-topic-${matches()[active()]?.slug}`,
+                                                            )
+                                                            ?.scrollIntoView({ block: "nearest" });
+                                                    } else if (event.key === "Enter") {
+                                                        event.preventDefault();
+                                                        const topic = matches()[active()];
+                                                        if (topic) toggle(topic.slug);
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                        <div
+                                            id={`${id}-options`}
+                                            class="filter-menu__options"
+                                            role="listbox"
+                                            aria-label="Topics"
+                                            aria-multiselectable="true"
+                                        >
+                                            <For each={groups()}>
+                                                {(group) => (
+                                                    <div role="group" aria-label={group.root.name}>
+                                                        <For each={group.entries}>
+                                                            {(topic) => (
+                                                                <div
+                                                                    id={`${id}-topic-${topic.slug}`}
+                                                                    role="option"
+                                                                    aria-selected={props.topics.includes(
+                                                                        topic.slug,
+                                                                    )}
+                                                                    class="filter-menu__option"
+                                                                    classList={{
+                                                                        "is-active":
+                                                                            matches()[active()]
+                                                                                ?.slug ===
+                                                                            topic.slug,
+                                                                        "is-child":
+                                                                            topic.slug !==
+                                                                            group.root.slug,
+                                                                    }}
+                                                                    onPointerDown={(event) =>
+                                                                        event.preventDefault()
+                                                                    }
+                                                                    onClick={() => {
+                                                                        toggle(topic.slug);
+                                                                        input?.focus();
+                                                                    }}
+                                                                >
+                                                                    <span
+                                                                        class="filter-menu__check"
+                                                                        aria-hidden="true"
+                                                                    >
+                                                                        <Show
+                                                                            when={props.topics.includes(
+                                                                                topic.slug,
+                                                                            )}
+                                                                        >
+                                                                            <Check size={12} />
+                                                                        </Show>
+                                                                    </span>
+                                                                    <span>{topic.name}</span>
+                                                                    <Show
+                                                                        when={
+                                                                            props.counts?.[
+                                                                                topic.slug
+                                                                            ] !== undefined
+                                                                        }
+                                                                    >
+                                                                        <span class="filter-menu__count">
+                                                                            {
+                                                                                props.counts?.[
+                                                                                    topic.slug
+                                                                                ]
+                                                                            }
+                                                                        </span>
+                                                                    </Show>
+                                                                </div>
+                                                            )}
+                                                        </For>
+                                                    </div>
+                                                )}
+                                            </For>
+                                        </div>
+                                        <Show when={!matches().length}>
+                                            <p class="filter-menu__empty" role="status">
+                                                No topics found
+                                            </p>
+                                        </Show>
+                                    </>
+                                }
+                            >
+                                <fieldset class="filter-menu__types">
+                                    <legend class="filter-menu__sr-only">Type</legend>
+                                    <For each={kinds}>
+                                        {(kind) => (
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    name={`${id}-kind`}
+                                                    value={kind.slug}
+                                                    checked={props.category === kind.slug}
+                                                    onChange={() =>
+                                                        props.onChange(kind.slug, props.topics)
+                                                    }
+                                                />
+                                                <span>{kind.name}</span>
+                                            </label>
+                                        )}
+                                    </For>
+                                </fieldset>
+                            </Show>
                         </Show>
                     </div>
                 </Portal>

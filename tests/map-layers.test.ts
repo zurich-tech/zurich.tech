@@ -1,5 +1,11 @@
 import { afterEach, beforeEach, expect, test } from "bun:test";
-import { createExpression, validateStyleMin } from "@maplibre/maplibre-gl-style-spec";
+import {
+    createExpression,
+    createPropertyExpression,
+    latest,
+    type StylePropertySpecification,
+    validateStyleMin,
+} from "@maplibre/maplibre-gl-style-spec";
 import type {
     Map as GeographicMap,
     SourceSpecification,
@@ -242,13 +248,11 @@ test("test_filter_exact_addresses_without_source_uploads_or_active_selection_cha
         mock.filters.length = 0;
         filterOrganisations(mock.map, selected);
         const selection = ["in", ["get", "place"], ["literal", selected.map((place) => place.id)]];
-        expect(mock.filters).toEqual([
-            ["organisations", selection],
-            [
-                "organisation-dots",
-                ["all", ["all", ["==", ["get", "count"], 1], ["!", ["get", "isLogo"]]], selection],
-            ],
-        ]);
+        expect(mock.filters).toHaveLength(5);
+        for (const [id, filter] of mock.filters) {
+            const layer = mock.layers.find((layer) => layer.id === id)!;
+            expect(filter).toEqual(["all", layer.filter, selection]);
+        }
         expect(mock.uploads).toEqual([source]);
         expect(
             source.features
@@ -511,8 +515,11 @@ test("test_keep_shared_sponsors_visible_and_reveal_ordinary_stacks_only_close_up
     const layer = mock.layers.find((entry) => entry.id === "organisations")!;
     const ordinary = mock.uploads[0].features[0].properties!;
     const sponsored = mock.uploads[0].features[1].properties!;
-    expect(evaluate(layer.layout?.["icon-image"], ordinary, 13)).toBe("group-dot");
-    expect(evaluate(layer.layout?.["icon-image"], ordinary, 14)).toBe(`stack:${places[0].id}`);
+    const stacks = mock.layers.find((entry) => entry.id === "organisation-stacks")!;
+    expect(evaluate(stacks.paint?.["icon-opacity"], ordinary, 13)).toBe(0);
+    expect(evaluate(stacks.layout?.["icon-image"], ordinary, 14)).toBe(`stack:${places[0].id}`);
+    expect(evaluate(layer.filter, ordinary)).toBe(false);
+    expect(evaluate(layer.filter, sponsored)).toBe(true);
     expect(evaluate(layer.layout?.["icon-image"], sponsored, 10)).toBe("badge:Sponsor");
     expect(evaluate(layer.layout?.["icon-image"], sponsored, 16)).toBe("badge:Sponsor");
     expect(sponsored.name).toBe("Sponsor");
@@ -533,6 +540,42 @@ test("test_keep_shared_sponsors_visible_and_reveal_ordinary_stacks_only_close_up
     // repeated filter or view work must not redownload or recreate the shared images
     await addBadges(mock.map, places, () => true);
     expect(requested).toHaveLength(4);
+});
+
+test("test_crossfade_dots_and_badges_continuously_through_fractional_zoom", () => {
+    const mock = mockMap();
+    addOrganisationLayers(mock.map, true);
+
+    // keep both images available while their opacity changes in opposite directions
+    for (const count of [1, 3]) {
+        const badges = mock.layers.find(
+            (layer) => layer.id === (count === 1 ? "organisation-badges" : "organisation-stacks"),
+        )!;
+        const dots = mock.layers.find(
+            (layer) => layer.id === (count === 1 ? "organisation-dots" : "organisation-group-dots"),
+        )!;
+        expect(dots.maxzoom).toBeUndefined();
+        for (const layer of [badges, dots]) {
+            const compiled = createPropertyExpression(
+                layer.paint?.["icon-opacity"],
+                `layers.${layer.id}.paint.icon-opacity`,
+                latest.paint_symbol["icon-opacity"] as StylePropertySpecification,
+            );
+            expect(compiled.result).toBe("success");
+            if (compiled.result === "success") expect(compiled.value.kind).toBe("camera");
+        }
+        const properties = { count, isLogo: false, isSponsor: false, badge: "example" };
+        const start = count === 1 ? 13 : 14;
+        for (const offset of [-0.01, 0, 0.01, 0.25, 0.5, 0.75, 0.99, 1, 1.01]) {
+            const zoom = start + offset;
+            const opacity = Math.max(0, Math.min(1, offset));
+            expect(evaluate(badges.layout?.["icon-image"], properties, zoom)).toBe("example");
+            expect(evaluate(badges.paint?.["icon-opacity"], properties, zoom)).toBeCloseTo(opacity);
+            expect(evaluate(dots.paint?.["icon-opacity"], properties, zoom)).toBeCloseTo(
+                1 - opacity,
+            );
+        }
+    }
 });
 
 test("test_select_filtered_addresses_including_sponsors_and_groups_without_stale_rings", () => {

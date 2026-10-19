@@ -367,12 +367,60 @@
 }
 
 .map-filters {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: 4px;
     padding: 0 16px 14px;
+}
+
+.map-filters .filter-controls {
+    display: contents;
+}
+
+.map-filters .filter-menu__controls {
+    grid-column: 1;
+    grid-row: 1;
+    flex-wrap: nowrap;
+    gap: 4px;
+}
+
+.map-filters .map-toggle {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.map-filters .filter-menu__chips {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: 0;
+}
+
+.map-filters .filter-menu__controls button {
+    padding-inline: 7px;
+    gap: 4px;
+}
+
+.map-signal-label {
+    display: grid;
+    gap: 2px;
+}
+
+.map-signal-label small {
+    color: var(--color-soft);
+    font-size: 12px;
+}
+
+.map-copy-error {
+    position: absolute;
+    right: 44px;
+    top: 0;
+    width: 220px;
+    padding: 8px 12px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-size: 13px;
 }
 
 .map-browse {

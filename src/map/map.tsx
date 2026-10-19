@@ -8,6 +8,8 @@ import {
     ZoomIn,
     ZoomOut,
     LocateFixed,
+    Link,
+    Check,
 } from "lucide-solid";
 import { organisationKinds } from "../../convex/organisations/kinds";
 import { descendantTopics } from "../../convex/topics/hierarchy";
@@ -28,7 +30,7 @@ import { Dynamic, render } from "solid-js/web";
 import type { Map as GeographicMap, Popup, StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
-import { getMap, type MapLocation } from "./queries";
+import { getMap, getSignals, type MapLocation } from "./queries";
 import { MapActivity, SharedActivity, createActivity } from "./activity";
 import { Image } from "../components/image";
 import { SocialLinks } from "../components/social";
@@ -41,7 +43,8 @@ import {
     nameTerms,
     topicFilters,
 } from "./filter";
-import { MapFilters } from "./filters";
+import { MapFilters, signalOptions } from "./filters";
+import { cameraParameter, currentCamera, readCamera } from "./link";
 import { MapDirectory, type MapDirectoryHandle } from "./directory";
 import {
     countOrganisations,
@@ -63,6 +66,7 @@ import {
     filterOrganisations,
     highlightOrganisations,
     showOrganisations,
+    organisationLayers,
 } from "./layers";
 import "./map.css";
 
@@ -171,6 +175,15 @@ export function CommunityMap(props: {
     const [groupSearch, setGroupSearch] = createSignal("");
     const groupTerms = createMemo(() => searchTerms(groupSearch()));
     const [params, setParams] = useSearchParams();
+    const signal = () => (typeof params.signal === "string" ? params.signal : "");
+    const signals = getSignals.use(() => (props.isHero ? undefined : []));
+    const signalMembers = createMemo(() => {
+        if (!signal()) return undefined;
+        const values = signals();
+        const key = signalOptions.find((entry) => entry.slug === signal())?.slug;
+
+        return new Set(key && values ? values[key] : []);
+    });
     const category = () => (typeof params.kind === "string" ? params.kind : "all");
     const topic = createMemo(() =>
         topicFilters(typeof params.topic === "string" ? params.topic : undefined),
@@ -180,11 +193,36 @@ export function CommunityMap(props: {
     const [isFilterOpen, setFilterOpen] = createSignal(false);
     const topicCounts = createMemo(() => {
         if (!isFilterOpen()) return {};
-        const candidates = filterLocations(organisations() ?? [], category(), terms());
+        const candidates = filterLocations(
+            organisations() ?? [],
+            category(),
+            terms(),
+            undefined,
+            signalMembers(),
+        );
 
         return countTopics(candidates, topics() ?? []);
     });
-    const isFiltered = () => Boolean(terms().length || category() !== "all" || topic().length);
+    const signalCounts = createMemo(() => {
+        if (!isFilterOpen() || !signals()) return {};
+        const candidates = filterLocations(
+            organisations() ?? [],
+            category(),
+            terms(),
+            selectedTopics(),
+        );
+
+        return Object.fromEntries(
+            signalOptions.map(({ slug }) => [
+                slug,
+                countOrganisations(
+                    filterLocations(candidates, "all", [], undefined, new Set(signals()![slug])),
+                ),
+            ]),
+        );
+    });
+    const isFiltered = () =>
+        Boolean(terms().length || category() !== "all" || topic().length || signal());
     const [isPanelOpen, setPanelOpen] = createSignal(isFiltered());
     const [isExpanded, setExpanded] = createSignal(false);
     const [dragHeight, setDragHeight] = createSignal<number>();
@@ -206,6 +244,11 @@ export function CommunityMap(props: {
     function resetNavigation() {
         navigation.reset();
         discardSheetDrag();
+        if (!props.isHero)
+            setParams(
+                { organisation: undefined, place: undefined },
+                { replace: true, scroll: false },
+            );
     }
 
     /** Change sheet size without discarding its selection or return destination. */
@@ -278,7 +321,13 @@ export function CommunityMap(props: {
     const filtered = createMemo(() =>
         props.isHero
             ? (organisations() ?? [])
-            : filterLocations(organisations() ?? [], category(), terms(), selectedTopics()),
+            : filterLocations(
+                  organisations() ?? [],
+                  category(),
+                  terms(),
+                  selectedTopics(),
+                  signalMembers(),
+              ),
     );
     const organisationCount = createMemo(() => countOrganisations(filtered()));
 
@@ -326,6 +375,8 @@ export function CommunityMap(props: {
         query();
         category();
         topic();
+        signal();
+        openedSelection = undefined;
         navigation.reset();
         discardSheetDrag();
         setSelected([]);
@@ -724,6 +775,7 @@ export function CommunityMap(props: {
         const map = instance()?.map;
         setSelected(previous?.selection.places ?? []);
         setSelectedOrganisation(previous?.selection.organisation);
+        saveSelection(previous?.selection.places ?? [], previous?.selection.organisation);
         setGroupSearch(previous?.groupSearch ?? "");
         setHovered([]);
 
@@ -761,6 +813,8 @@ export function CommunityMap(props: {
             }
         }
         query.set("topic", slug);
+        query.delete("organisation");
+        query.delete("place");
 
         return `/map?${query}`;
     }
@@ -807,7 +861,7 @@ export function CommunityMap(props: {
     }
 
     /** Keep selection shared between the markers and the directory. */
-    function select(places: MapLocation[], fromResults = false) {
+    function select(places: MapLocation[], fromResults = false, isRestoring = false) {
         discardSheetDrag();
         const organisation =
             places.length === 1 && places[0].organisations.length === 1
@@ -847,29 +901,110 @@ export function CommunityMap(props: {
         panel?.querySelector<HTMLInputElement>(".map-search input")?.blur();
         setSelectedOrganisation(organisation);
         setSelected(ids);
+        if (!isRestoring) saveSelection(ids, organisation);
         const first = places[0];
         queueMicrotask(() => {
             const content = panel.querySelector<HTMLElement>(".map-panel-content");
             if (content) content.scrollTop = 0;
-            if (first) focusLocation(first, 400);
+            if (first && (!isRestoring || !readCamera(params.view)))
+                focusLocation(first, isRestoring ? 0 : 400);
             backButton?.focus({ preventScroll: true });
         });
     }
 
     // open deep links once both the public directory and map are ready
-    let openedOrganisation: string | undefined;
+    let openedSelection: string | undefined;
+    let writtenCamera: string | undefined;
+    const [copyStatus, setCopyStatus] = createSignal<"idle" | "copied" | "error">("idle");
+
+    /** Persist selection alongside filters without adding a history entry per map interaction. */
+    function saveSelection(ids: string[], organisation?: string) {
+        const place = ids[0];
+        const slug = organisations()
+            ?.flatMap((entry) => entry.organisations)
+            .find((entry) => entry.id === organisation)?.slug;
+        openedSelection = JSON.stringify([slug, place]);
+        setParams({ organisation: slug, place }, { replace: true, scroll: false });
+    }
+
+    /** Record the settled camera; never update routing on animation frames. */
+    function saveCamera(map: GeographicMap) {
+        if (props.isHero) return;
+        writtenCamera = cameraParameter(currentCamera(map));
+        setParams({ view: writtenCamera }, { replace: true, scroll: false });
+    }
+
+    /** Copy the current camera and selection, reporting clipboard failures explicitly. */
+    async function copyLink() {
+        const map = instance()?.map;
+        if (!map) return;
+        const url = new URL(window.location.href);
+        url.searchParams.set("view", cameraParameter(currentCamera(map)));
+        try {
+            await navigator.clipboard.writeText(url.href);
+            setCopyStatus("copied");
+        } catch (error) {
+            console.error("could not copy map link", error);
+            setCopyStatus("error");
+        }
+    }
+
     createEffect(
-        on([() => params.organisation, instance, organisations], ([slug, current, places]) => {
-            if (props.isHero) return;
-            if (typeof slug !== "string") {
-                openedOrganisation = undefined;
-                return;
+        on(
+            [() => params.organisation, () => params.place, instance, filtered],
+            ([slug, address, current, places]) => {
+                if (props.isHero) return;
+                const key = JSON.stringify([slug, address]);
+                if (!current || !organisations() || openedSelection === key) return;
+                const candidates =
+                    typeof address === "string"
+                        ? places.filter((entry) => entry.id === address)
+                        : places;
+                const place =
+                    typeof slug === "string"
+                        ? organisationPlace(candidates, slug)
+                        : typeof address === "string"
+                          ? candidates[0]
+                          : undefined;
+                if (place) {
+                    openedSelection = key;
+                    select([place], false, true);
+                } else {
+                    if (!slug && !address) openedSelection = key;
+                    setSelected([]);
+                    setSelectedOrganisation(undefined);
+                }
+            },
+        ),
+    );
+
+    // restore browser navigation without replaying our own camera updates
+    createEffect(
+        on([() => params.view, instance], ([value, current]) => {
+            if (!current || props.isHero || value === writtenCamera) return;
+            const camera = readCamera(value);
+            if (camera) {
+                writtenCamera = cameraParameter(camera);
+                current.map.jumpTo({
+                    ...camera,
+                    padding: { top: 0, bottom: 0, left: 0, right: 0 },
+                });
             }
-            if (!current || !places || openedOrganisation === slug) return;
-            const place = organisationPlace(places, slug);
-            openedOrganisation = slug;
-            if (place) select([place]);
         }),
+    );
+    createEffect(
+        on(
+            () => [
+                params.view,
+                params.q,
+                params.kind,
+                params.topic,
+                params.signal,
+                params.place,
+                params.organisation,
+            ],
+            () => setCopyStatus("idle"),
+        ),
     );
 
     /** Fit the full city extent on every screen size and restore it on reset. */
@@ -965,12 +1100,13 @@ export function CommunityMap(props: {
                 map = new library.Map({
                     container,
                     style: mapStyle(Boolean(props.isHero)),
-                    ...overview(
-                        Boolean(props.isHero),
-                        container.clientWidth,
-                        container.clientHeight,
-                        isPanelOpen(),
-                    ),
+                    ...(readCamera(props.isHero ? undefined : params.view) ??
+                        overview(
+                            Boolean(props.isHero),
+                            container.clientWidth,
+                            container.clientHeight,
+                            isPanelOpen(),
+                        )),
                     trackResize: false,
                     minZoom: 3,
                     maxZoom: 18,
@@ -983,7 +1119,10 @@ export function CommunityMap(props: {
                 map.touchZoomRotate.disableRotation();
                 map.getCanvas().setAttribute("aria-label", "Zurich map");
                 if (props.isHero) map.getCanvas().tabIndex = -1;
-                map.on("moveend", () => setView((value) => value + 1));
+                map.on("moveend", () => {
+                    setView((value) => value + 1);
+                    if (instance()) saveCamera(map!);
+                });
                 map.on("movestart", closePreview);
                 map.on("zoom", () => setZoom(map!.getZoom()));
                 map.on("error", () => setError(true));
@@ -996,14 +1135,14 @@ export function CommunityMap(props: {
                     setZoom(map!.getZoom());
                 });
                 if (!props.isHero) {
-                    map.on("click", ["organisations", "organisation-dots"], (event) => {
+                    map.on("click", organisationLayers, (event) => {
                         const feature = pickOrganisation(event.features ?? [], map!.getZoom());
                         const place = filtered().find(
                             (entry) => entry.id === feature?.properties.place,
                         );
                         if (place) select([place]);
                     });
-                    map.on("mousemove", ["organisations", "organisation-dots"], (event) => {
+                    map.on("mousemove", organisationLayers, (event) => {
                         if (!window.matchMedia("(any-hover: hover)").matches || map!.isMoving())
                             return;
                         const feature = pickOrganisation(event.features ?? [], map!.getZoom());
@@ -1015,7 +1154,7 @@ export function CommunityMap(props: {
                             showPreview([place], [event.point.x, event.point.y]);
                         } else leavePreview();
                     });
-                    map.on("mouseleave", ["organisations", "organisation-dots"], () => {
+                    map.on("mouseleave", organisationLayers, () => {
                         map!.getCanvas().style.cursor = "";
                         leavePreview();
                     });
@@ -1098,6 +1237,28 @@ export function CommunityMap(props: {
                     </Show>
                     <Show when={!props.isHero}>
                         <div class="map-controls" role="group" aria-label="Map controls">
+                            <button
+                                class="map-control"
+                                type="button"
+                                onClick={copyLink}
+                                disabled={!instance()}
+                                aria-label={
+                                    copyStatus() === "copied" ? "Link copied" : "Copy map link"
+                                }
+                                title={copyStatus() === "copied" ? "Link copied" : "Copy map link"}
+                            >
+                                <Show
+                                    when={copyStatus() === "copied"}
+                                    fallback={<Link aria-hidden="true" />}
+                                >
+                                    <Check aria-hidden="true" />
+                                </Show>
+                            </button>
+                            <Show when={copyStatus() === "error"}>
+                                <span class="map-copy-error" role="alert">
+                                    Couldn’t copy link. Copy the browser address instead.
+                                </span>
+                            </Show>
                             <button
                                 class="map-control"
                                 type="button"
@@ -1253,6 +1414,18 @@ export function CommunityMap(props: {
                                     topics={topic()}
                                     catalogue={topics() ?? []}
                                     counts={topicCounts()}
+                                    signal={signal()}
+                                    signalCounts={signalCounts()}
+                                    onSignalChange={(signal) => {
+                                        resetNavigation();
+                                        setParams(
+                                            { signal: signal || undefined },
+                                            { replace: true, scroll: false },
+                                        );
+                                        setHovered([]);
+                                        closePreview();
+                                        setPanelOpen(true);
+                                    }}
                                     onChange={(kind, selected) => {
                                         resetNavigation();
                                         setParams(

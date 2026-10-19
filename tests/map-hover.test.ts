@@ -43,11 +43,24 @@ test("test_pick_only_visible_marker_layers", () => {
     const dot = marker("dot", "ordinary", "organisation-dots");
     const ring = marker("ring", "sponsor", "organisations-active");
     expect(pickOrganisation([ring, badge, dot], 12)?.name).toBe("dot");
-    expect(pickOrganisation([dot, badge], 12.5)?.name).toBe("badge");
-    expect(pickOrganisation([dot], 13)).toBeUndefined();
+    expect(pickOrganisation([dot, badge], 12.5)?.name).toBe("dot");
+    expect(pickOrganisation([dot, badge], 13.5)?.name).toBe("badge");
+    expect(pickOrganisation([dot], 14)).toBeUndefined();
     expect(pickOrganisation([badge], 12)).toBeUndefined();
     expect(pickOrganisation([ring], 16)).toBeUndefined();
     expect(pickOrganisation([], 16)).toBeUndefined();
+});
+
+/** Exclude invisible stacks without losing shared-address dots during zoom. */
+test("test_pick_shared_dots_until_their_stack_becomes_visible", () => {
+    const stack = marker("stack", "group", "organisation-stacks");
+    const dot = marker("dot", "group", "organisation-group-dots");
+    expect(pickOrganisation([stack, dot], 13.99)?.name).toBe("dot");
+    expect(pickOrganisation([stack, dot], 14)?.name).toBe("dot");
+    expect(pickOrganisation([dot, stack], 14.5)?.name).toBe("stack");
+    expect(pickOrganisation([dot], 15)).toBeUndefined();
+    const plain = { ...stack, properties: { ...stack.properties, badge: "group-dot" } };
+    expect(pickOrganisation([plain], 12)).toBe(plain);
 });
 
 /** Keep MapLibre's ordering for symbols with equal drawing priority. */

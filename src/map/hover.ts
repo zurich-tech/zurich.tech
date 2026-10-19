@@ -5,7 +5,7 @@ export interface Point {
 }
 
 /** The marker fields that determine its drawing priority and visibility. */
-type Marker = { isSponsor?: boolean; isLogo?: boolean; count?: number };
+type Marker = { isSponsor?: boolean; isLogo?: boolean; count?: number; badge?: string };
 
 /** Reserve space for a shared preview without moving its controls when content changes. */
 export function sharedPreview(point: Point, viewport: { width: number; height: number }) {
@@ -41,10 +41,16 @@ export function pickOrganisation<T extends { layer: { id: string }; properties: 
     for (const feature of features) {
         const layer = feature.layer.id;
         const marker = feature.properties;
-        const isBadge = layer === "organisations";
-        if (layer !== "organisation-dots" && !isBadge) continue;
-        if (isBadge && zoom <= 12 && !marker.isLogo && (marker.count ?? 1) === 1) continue;
-        if (!isBadge && zoom >= 13) continue;
+        const isBadge =
+            layer === "organisations" ||
+            layer === "organisation-badges" ||
+            layer === "organisation-stacks";
+        if (layer !== "organisation-dots" && layer !== "organisation-group-dots" && !isBadge)
+            continue;
+        const fadeStart = (marker.count ?? 1) > 1 ? 14 : 13;
+        if (isBadge && zoom <= fadeStart && !marker.isLogo && marker.badge !== "group-dot")
+            continue;
+        if (!isBadge && zoom >= fadeStart + 1) continue;
         const order = (isBadge ? 4 : 0) + organisationOrder(marker);
         if (order > priority) {
             selected = feature;

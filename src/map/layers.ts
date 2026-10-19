@@ -45,12 +45,30 @@ const sponsorColours: Record<string, string> = {
     "Bronze sponsor": "#bf6c32",
 };
 
-/** Restrict overview dots to ordinary single-organisation markers. */
+/** Restrict overview dots to markers that crossfade into badges. */
 const dotsFilter: ExpressionSpecification = [
     "all",
-    ["==", ["get", "count"], 1],
     ["!", ["get", "isLogo"]],
+    ["!=", ["get", "badge"], "group-dot"],
 ];
+
+/** Ordinary shared addresses reveal their logo stack at street level. */
+const stacksFilter: ExpressionSpecification = ["all", dotsFilter, [">", ["get", "count"], 1]];
+
+/** Ordinary single badges fade independently of shared-address stacks. */
+const singlesFilter: ExpressionSpecification = ["all", dotsFilter, ["==", ["get", "count"], 1]];
+
+/** Marker groups retain their filters when the address selection changes. */
+const markerFilters: Record<string, ExpressionSpecification> = {
+    "organisation-dots": singlesFilter,
+    "organisation-group-dots": stacksFilter,
+    "organisation-badges": singlesFilter,
+    "organisation-stacks": stacksFilter,
+    organisations: ["any", ["get", "isLogo"], ["==", ["get", "badge"], "group-dot"]],
+};
+
+/** Interactive marker layers, ordered from overview dots to prominent logos. */
+export const organisationLayers = Object.keys(markerFilters);
 
 /** Label size in CSS pixels. */
 const labelSize = 12;
@@ -117,18 +135,7 @@ export function addOrganisationLayers(
         source: "organisations",
         layout: {
             "icon-image": isLabelled
-                ? [
-                      "step",
-                      ["zoom"],
-                      [
-                          "case",
-                          ["all", [">", ["get", "count"], 1], ["!", ["get", "isLogo"]]],
-                          "group-dot",
-                          ["get", "badge"],
-                      ],
-                      14,
-                      ["get", "badge"],
-                  ]
+                ? ["get", "badge"]
                 : ["case", ["get", "isLogo"], ["get", "badge"], "organisation-dot"],
             ...sizing,
             "icon-allow-overlap": true,
@@ -159,17 +166,7 @@ export function addOrganisationLayers(
             "text-max-width": 12,
         },
         paint: {
-            "icon-opacity": isLabelled
-                ? [
-                      "interpolate",
-                      ["linear"],
-                      ["zoom"],
-                      12,
-                      ["case", ["any", ["get", "isLogo"], [">", ["get", "count"], 1]], 1, 0],
-                      13,
-                      1,
-                  ]
-                : ["case", ["get", "isLogo"], 1, 0.55],
+            "icon-opacity": isLabelled ? 1 : ["case", ["get", "isLogo"], 1, 0.55],
             "text-opacity": [
                 "interpolate",
                 ["linear"],
@@ -191,20 +188,39 @@ export function addOrganisationLayers(
         },
     };
 
-    // crossfade dots into logos before introducing organisation names
+    // evaluate fades from camera zoom rather than tile-cached feature values
     if (isLabelled) {
-        map.addLayer({
-            ...organisations,
-            id: "organisation-dots",
-            filter: dotsFilter,
-            maxzoom: 13,
-            layout: {
-                ...organisations.layout,
-                "icon-image": "organisation-dot",
-                "text-field": "",
-            },
-            paint: { "icon-opacity": ["interpolate", ["linear"], ["zoom"], 12, 1, 13, 0] },
-        });
+        for (const [id, image, start, isDot] of [
+            ["organisation-dots", "organisation-dot", 13, true],
+            ["organisation-group-dots", "group-dot", 14, true],
+            ["organisation-badges", null, 13, false],
+            ["organisation-stacks", null, 14, false],
+        ] as const) {
+            map.addLayer({
+                ...organisations,
+                id,
+                filter: markerFilters[id],
+                layout: {
+                    ...organisations.layout,
+                    "icon-image": image ?? ["get", "badge"],
+                    "text-field": isDot ? "" : ["get", "name"],
+                },
+                paint: {
+                    ...organisations.paint,
+                    "icon-opacity": [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        start,
+                        isDot ? 1 : 0,
+                        start + 1,
+                        isDot ? 0 : 1,
+                    ],
+                    "text-opacity": ["interpolate", ["linear"], ["zoom"], 14, 0, 15, 1],
+                },
+            });
+        }
+        organisations.filter = markerFilters.organisations;
     }
     map.addLayer(organisations);
 
@@ -219,7 +235,7 @@ export function addOrganisationLayers(
                 "step",
                 ["zoom"],
                 ["get", "ring"],
-                14,
+                14.5,
                 [
                     "case",
                     [
@@ -465,9 +481,11 @@ export function filterOrganisations(map: GeographicMap, places: MapLocation[]) {
         ["get", "place"],
         ["literal", places.map((place) => place.id)],
     ];
-    map.setFilter("organisations", filter);
-    if (map.getLayer("organisation-dots"))
-        map.setFilter("organisation-dots", ["all", dotsFilter, filter]);
+    if (map.getLayer("organisation-dots")) {
+        for (const id of organisationLayers) map.setFilter(id, ["all", markerFilters[id], filter]);
+    } else {
+        map.setFilter("organisations", filter);
+    }
 }
 
 /** Mark these organisations as hovered or selected. */

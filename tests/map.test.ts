@@ -236,6 +236,9 @@ test("test_respect_label_collisions_for_active_markers", () => {
             })),
         ).toEqual([
             { id: "organisation-dots", overlap: false, optional: true, offset: [0, 0] },
+            { id: "organisation-group-dots", overlap: false, optional: true, offset: [0, 0] },
+            { id: "organisation-badges", overlap: false, optional: true, offset: [0, 0] },
+            { id: "organisation-stacks", overlap: false, optional: true, offset: [0, 0] },
             { id: "organisations", overlap: false, optional: true, offset: [0, 0] },
             { id: "organisations-active", overlap: false, optional: true, offset: [0, 0] },
         ]);
@@ -246,7 +249,7 @@ test("test_respect_label_collisions_for_active_markers", () => {
             "step",
             ["zoom"],
             ["get", "ring"],
-            14,
+            14.5,
             [
                 "case",
                 [
@@ -793,4 +796,20 @@ test("shared-address filters match category and search on the same organisation"
     const startups = filterLocations(locations, "startup", []);
     expect(startups[0].organisations.map((entry) => entry.name)).toEqual(["Symbol"]);
     expect(filterLocations(locations, "all", ["baslerstrasse"])[0].organisations).toHaveLength(2);
+});
+
+test("activity filters narrow individual tenants and combine with topics", () => {
+    const locations = groupLocations([
+        { ...office("hiring"), topics: ["robotics"] },
+        { ...office("neighbour"), topics: ["software"] },
+    ]);
+    const hiring = new Set(["hiring"]);
+    expect(
+        filterLocations(locations, "all", [], undefined, hiring)[0].organisations.map(
+            (entry) => entry.id,
+        ),
+    ).toEqual(["hiring"]);
+    expect(filterLocations(locations, "all", [], new Set(["software"]), hiring)).toEqual([]);
+    expect(filterLocations(locations, "all", [], undefined, new Set())).toEqual([]);
+    expect(filterLocations(locations, "all", [])).toBe(locations);
 });

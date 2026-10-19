@@ -269,6 +269,10 @@ test("test_read_only_open_map_jobs", async () => {
         slugs: ["example", "example"],
         combined: true,
     });
+    const signals = await backend.query(api.places.map.signals, {});
+    expect(signals.hiring).toHaveLength(1);
+    expect(signals.news).toEqual([]);
+    expect(signals.fundraising).toEqual([]);
     expect(combined).toEqual([
         {
             slug: null,
@@ -284,4 +288,58 @@ test("test_read_only_open_map_jobs", async () => {
             })),
         },
     ]);
+});
+
+test("map signals use published story dates and explicit fundraising topics", async () => {
+    const backend = convexTest(schema, modules);
+    const expected = await backend.run(async (ctx) => {
+        const author = await member(ctx, { name: "Editor", searchText: "", visibility: "private" });
+        const included = { news: [] as string[], fundraising: [] as string[] };
+        for (const [slug, age, isFunding, isPublished] of [
+            ["recent", 10, false, true],
+            ["funding", 30, true, true],
+            ["older-funding", 100, true, true],
+            ["old", 366, true, true],
+            ["future", -2, true, true],
+            ["draft", 1, true, false],
+        ] as const) {
+            const organisation = await ctx.db.insert("organisations", {
+                name: slug,
+                slug,
+                kind: "startup",
+                description: "",
+                location: "Zurich",
+                website: "https://example.com",
+                updatedAt: 1,
+            });
+            const content = {
+                kind: "link" as const,
+                title: slug,
+                description: "",
+                body: "",
+                authors: [],
+                organisations: [organisation],
+                topics: isFunding ? ["funding"] : [],
+                date: Date.now(),
+            };
+            await ctx.db.insert("posts", {
+                slug,
+                draft: content,
+                published: isPublished ? content : undefined,
+                date: Date.now() - age * 86_400_000,
+                publishedAt: Date.now(),
+                updatedAt: 1,
+                createdBy: author,
+            });
+            if (slug === "recent" || slug === "funding") included.news.push(organisation);
+            if (slug === "funding" || slug === "older-funding")
+                included.fundraising.push(organisation);
+        }
+
+        return included;
+    });
+    const signals = await backend.query(api.places.map.signals, {});
+    expect(new Set(signals.news)).toEqual(new Set(expected.news));
+    expect(new Set(signals.fundraising)).toEqual(new Set(expected.fundraising));
+    expect(signals.hiring).toEqual([]);
 });

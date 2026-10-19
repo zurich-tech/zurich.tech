@@ -1,10 +1,43 @@
 import { query } from "../_generated/server";
 import { ConvexError, v } from "convex/values";
-import { publicJob } from "../jobs/jobs";
+import { openJobs, publicJob } from "../jobs/jobs";
 import { newsDate, newsPath } from "../news/path";
 
 import { activeSponsors } from "../sponsorships/organisations";
 import { readCatalogue } from "../organisations/catalogue";
+
+/** Read compact activity signals, using story dates rather than backfill publication times. */
+export const signals = query({
+    args: {},
+    handler: async (ctx) => {
+        const now = Date.now();
+        const day = 86_400_000;
+        const [posts, jobs] = await Promise.all([ctx.db.query("posts").collect(), openJobs(ctx)]);
+        const news = new Set<string>();
+        const fundraising = new Set<string>();
+
+        // historical imports and future stories never imply recent activity
+        for (const post of posts) {
+            if (!post.published) continue;
+            const age = now - newsDate(post);
+            if (age < 0 || age > 365 * day) continue;
+            for (const organisation of post.published.organisations) {
+                if (age <= 90 * day) news.add(organisation);
+                if (
+                    post.published.topics.includes("funding") ||
+                    post.published.category === "funding"
+                )
+                    fundraising.add(organisation);
+            }
+        }
+
+        return {
+            hiring: [...new Set(jobs.map((job) => String(job.company._id)))],
+            news: [...news],
+            fundraising: [...fundraising],
+        };
+    },
+});
 
 /** Read small public news and vacancy previews only for the opened map address. */
 export const activity = query({
