@@ -82,13 +82,13 @@
 .sponsorship-plans {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: auto repeat(7, minmax(68px, auto)) auto;
+    grid-template-rows: auto auto auto;
     column-gap: var(--column-gap);
 }
 
 .sponsorship-plan {
     display: grid;
-    grid-row: 1 / span 9;
+    grid-row: 1 / span 3;
     grid-template-rows: subgrid;
     row-gap: 0;
     min-width: 0;
@@ -138,8 +138,7 @@
 /* repeat labels so benefits remain unambiguous when plans stack */
 .sponsorship-benefits {
     display: grid;
-    grid-row: span 7;
-    grid-template-rows: subgrid;
+    align-content: start;
     row-gap: 0;
     margin: 0;
 }
@@ -162,10 +161,6 @@
 .sponsorship-benefits dd {
     margin: 0;
     color: var(--color-soft);
-}
-
-.sponsorship-benefits .is-unavailable {
-    font-style: italic;
 }
 
 .sponsorship-plan-action {

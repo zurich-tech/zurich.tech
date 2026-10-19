@@ -2,7 +2,7 @@ import { EditLink } from "../../auth/edit";
 import { useAccount } from "../../auth";
 import { sponsorshipInquiry } from "../../sponsorships/inquiries";
 import { site } from "../site";
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 import { Sponsors } from "../../sponsorships/sponsors";
 import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 import { Arrow } from "../../components/arrow";
@@ -26,16 +26,16 @@ const reach = [
 /** Plans from smallest to largest, as read left to right. */
 const plans = [...tiers].reverse();
 
-/** One compared benefit and its value in each plan; absent benefits are explicitly labelled. */
+/** One benefit and its value in each applicable plan. */
 const benefits: { label: string; value: (tier: (typeof tiers)[number]) => string | undefined }[] = [
     {
-        label: "Active job listings",
-        value: (tier) => (tier.jobs === null ? "Unlimited" : String(tier.jobs)),
+        label: "Job listings",
+        value: (tier) => (tier.jobs === null ? "Unlimited included" : `${tier.jobs} included`),
     },
-    { label: "Logo on our website", value: (tier) => tier.description },
+    { label: "Website", value: (tier) => tier.description },
     { label: "Event banner", value: (tier) => tier.banner },
     { label: "Community map", value: (tier) => tier.map },
-    { label: "Every newsletter", value: (tier) => tier.newsletter },
+    { label: "Newsletter", value: (tier) => tier.newsletter },
     { label: "News sharing", value: (tier) => tier.news?.description },
     { label: "Partner events", value: (tier) => tier.events },
 ];
@@ -106,16 +106,14 @@ export default function Route() {
                                     <dl class="sponsorship-benefits">
                                         <For each={benefits}>
                                             {(benefit) => (
-                                                <div>
-                                                    <dt>{benefit.label}</dt>
-                                                    <dd
-                                                        classList={{
-                                                            "is-unavailable": !benefit.value(tier),
-                                                        }}
-                                                    >
-                                                        {benefit.value(tier) ?? "Not included"}
-                                                    </dd>
-                                                </div>
+                                                <Show when={benefit.value(tier)}>
+                                                    {(value) => (
+                                                        <div>
+                                                            <dt>{benefit.label}</dt>
+                                                            <dd>{value()}</dd>
+                                                        </div>
+                                                    )}
+                                                </Show>
                                             )}
                                         </For>
                                     </dl>
