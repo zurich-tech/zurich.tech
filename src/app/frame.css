@@ -357,34 +357,37 @@
 .hero-counts {
     position: relative;
     display: flex;
-    justify-content: center;
-    align-items: start;
-    gap: var(--space-8);
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-5);
     padding: var(--space-6);
+    background: linear-gradient(var(--color-brand), transparent);
     text-shadow: 0 1px 4px rgb(0 0 0 / 20%);
 }
 
 .hero-counts a {
-    display: grid;
-    min-width: 96px;
-    justify-items: center;
-    gap: var(--space-1);
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    gap: var(--space-3);
     color: inherit;
-    font-size: var(--text-sm);
+    white-space: nowrap;
+}
+
+.hero-counts a svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    opacity: 0.8;
 }
 
 .hero-counts strong {
-    font-size: 28px;
-    font-weight: 600;
+    font: 500 32px / 1.2 var(--font-mono);
     font-variant-numeric: tabular-nums;
-    line-height: 1.15;
 }
 
-.hero-counts span {
-    opacity: 0.85;
-}
-
-.hero-counts a:hover span {
+.hero-counts a:hover strong,
+.hero-counts a:focus-visible strong {
     text-decoration: underline;
     text-underline-offset: 4px;
 }
@@ -396,12 +399,8 @@
     }
 
     .hero-counts {
-        gap: var(--space-6);
+        gap: var(--space-3);
         padding: var(--space-4) var(--gutter);
-    }
-
-    .hero-counts a {
-        font-size: var(--text-xs);
     }
 }
 

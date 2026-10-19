@@ -3,6 +3,7 @@ import { CommunityMap } from "../map/map";
 import { getCalendar } from "../events/queries";
 import { getSubscriberCount } from "../statistics/queries";
 import { createMemo } from "solid-js";
+import { Users, CalendarDays } from "lucide-solid";
 
 /** Open the homepage with the city map and wordmark. */
 export function Hero() {
@@ -25,13 +26,17 @@ export function Hero() {
 
             {/* keep community totals readable against the map at every width */}
             <nav class="hero-counts" aria-label="Community">
-                <a href="/stats">
+                <a href="/stats" title="Members" aria-label={`${format(members())} members`}>
                     <strong>{format(members())}</strong>
-                    <span>members</span>
+                    <Users aria-hidden="true" strokeWidth={1.5} />
                 </a>
-                <a href="/events?period=past">
+                <a
+                    href="/events?period=past"
+                    title="Events"
+                    aria-label={`${format(eventCount())} events`}
+                >
+                    <CalendarDays aria-hidden="true" strokeWidth={1.5} />
                     <strong>{format(eventCount())}</strong>
-                    <span>events</span>
                 </a>
             </nav>
 
