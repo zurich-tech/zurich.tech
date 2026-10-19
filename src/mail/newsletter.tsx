@@ -108,10 +108,10 @@ export function Newsletter(props: {
                                     </Show>
                                     <Show
                                         when={
+                                            !preferences.error &&
                                             preferences() &&
                                             !preferences()!.weekly &&
-                                            !preferences()!.isSuppressed &&
-                                            !preferences.error
+                                            !preferences()!.isSuppressed
                                         }
                                     >
                                         <button
@@ -128,6 +128,7 @@ export function Newsletter(props: {
                                 </div>
                                 <Show
                                     when={
+                                        !preferences.error &&
                                         preferences()?.isTestMode &&
                                         preferences()?.weekly &&
                                         !preferences()?.isSuppressed
