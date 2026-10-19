@@ -2,7 +2,8 @@ import { createResource, createSignal, For, onMount, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import {
     answerQuestion,
-    demographicLabels,
+    surveyLabels,
+    surveySections,
     demographicOptions,
     motivationOptions,
     participationOptions,
@@ -37,14 +38,7 @@ const empty: CommunityAnswers = {
     motivations: [],
 };
 /** Question labels shared by navigation and the answer overview. */
-const labels = {
-    ...demographicLabels,
-    interests: "What are you interested in?",
-    motivations: "What brings you here?",
-    participation: "How would you like to get involved?",
-    residence: "Where do you live?",
-    citizenships: "Which countries are you a citizen of?",
-};
+const labels = surveyLabels;
 
 /** Offer optional questions one at a time, without replacing the full profile editor. */
 export function Survey(props: { onComplete?: () => void }) {
@@ -271,7 +265,14 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
                                 <Show when={isQuestion()}>
                                     <header class="survey-header">
                                         <p>
-                                            {`Question ${step() + 1} of ${surveyQuestions.length}`}
+                                            {
+                                                surveySections.find((section) =>
+                                                    (
+                                                        section.questions as readonly string[]
+                                                    ).includes(question()),
+                                                )?.label
+                                            }
+                                            {` · Question ${step() + 1} of ${surveyQuestions.length}`}
                                         </p>
                                         <Show when={view() === "question"}>
                                             <button

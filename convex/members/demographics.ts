@@ -4,6 +4,28 @@ import { ConvexError, v, type Infer } from "convex/values";
 
 /** Stable survey choices shared by forms, validation and aggregate reports. */
 export const demographicOptions = {
+    eventKinds: [
+        { value: "talks", label: "Talks" },
+        { value: "dinners", label: "Dinners" },
+        { value: "demos", label: "Demos" },
+        { value: "reading-groups", label: "Reading groups" },
+        { value: "workshops", label: "Workshops" },
+        { value: "excursions", label: "Excursions" },
+        { value: "sports", label: "Sports" },
+        { value: "hikes", label: "Hikes" },
+        { value: "hackathons", label: "Hackathons" },
+        { value: "meetups", label: "Informal meetups" },
+    ],
+    discovery: [
+        { value: "linkedin", label: "LinkedIn" },
+        { value: "twitter", label: "X / Twitter" },
+        { value: "search", label: "Web search" },
+        { value: "event", label: "An event" },
+        { value: "friend", label: "A friend" },
+        { value: "colleague", label: "A colleague" },
+        { value: "email", label: "Email / newsletter" },
+        { value: "other", label: "Other" },
+    ],
     eventsAttended: [
         { value: "0", label: "None yet" },
         { value: "1", label: "1" },
@@ -81,6 +103,8 @@ export const demographicOptions = {
 } as const;
 /** Current survey questions shown in forms and audience reports. */
 export const demographicLabels = {
+    eventKinds: "Which kinds of events would you like?",
+    discovery: "How did you hear about zurich.tech?",
     eventsAttended: "How many zurich.tech events have you attended?",
     eventFrequency: "How often would you like to attend zurich.tech events?",
     roles: "What do you do?",
@@ -115,6 +139,8 @@ export const participationOptions = [
 const choice = (options: readonly { value: string }[]) =>
     v.optional(v.union(v.null(), v.union(...options.map((option) => v.literal(option.value)))));
 export const demographics = v.object({
+    eventKinds: v.optional(v.union(v.null(), v.array(v.string()))),
+    discovery: choice(demographicOptions.discovery),
     eventsAttended: choice(demographicOptions.eventsAttended),
     eventFrequency: choice(demographicOptions.eventFrequency),
     eventsPerYear: choice(demographicOptions.eventsPerYear),
@@ -130,22 +156,38 @@ export type Demographics = Infer<typeof demographics>;
 export const participation = v.array(v.string());
 
 /** Ordered questions in the optional guided survey. */
-export const surveyQuestions = [
-    "interests",
-    "eventFrequency",
-    "eventsAttended",
-    "motivations",
-    "participation",
-    "roles",
-    "experience",
-    "education",
-    "age",
-    "residence",
-    "citizenships",
-    "languages",
+export const surveySections = [
+    { label: "Events", questions: ["interests", "eventKinds", "eventFrequency"] },
+    {
+        label: "Community",
+        questions: ["motivations", "participation", "eventsAttended", "discovery"],
+    },
+    {
+        label: "About you",
+        questions: [
+            "roles",
+            "experience",
+            "education",
+            "residence",
+            "languages",
+            "age",
+            "citizenships",
+        ],
+    },
 ] as const;
+/** Current question order, shared by the survey and its reports. */
+export const surveyQuestions = surveySections.flatMap((section) => [...section.questions]);
 /** A current survey question, excluding retired fields. */
 export type SurveyQuestion = (typeof surveyQuestions)[number];
+/** Labels shared by survey reports, including questions with private response groups. */
+export const surveyLabels: Record<SurveyQuestion, string> = {
+    ...demographicLabels,
+    interests: "What are you interested in?",
+    motivations: "What brings you here?",
+    participation: "How would you like to get involved?",
+    residence: "Where do you live?",
+    citizenships: "Which countries are you a citizen of?",
+};
 /** Validate progress against current questions. */
 export const surveyQuestion = v.union(...surveyQuestions.map((key) => v.literal(key)));
 /** Answers shared by the full editor and guided survey. */
@@ -194,7 +236,10 @@ export function answerQuestion(
 
     // validate scalar choices before constructing the stored demographic answer
     const isMultiple =
-        question === "roles" || question === "languages" || question === "citizenships";
+        question === "roles" ||
+        question === "languages" ||
+        question === "citizenships" ||
+        question === "eventKinds";
     if (!isMultiple && values.length > 1) throw new ConvexError("Choose only one answer.");
     if (
         !isMultiple &&
@@ -216,6 +261,16 @@ export function answerQuestion(
 
 /** Validate multi-select responses without treating absence as a negative answer. */
 export function validateDemographics(value: Demographics) {
+    // accept distinct event preferences from the current choices
+    if (
+        value.eventKinds &&
+        (new Set(value.eventKinds).size !== value.eventKinds.length ||
+            value.eventKinds.some(
+                (kind) => !demographicOptions.eventKinds.some((option) => option.value === kind),
+            ))
+    )
+        throw new ConvexError("choose each event kind once from the available options");
+
     if (
         value.roles &&
         (new Set(value.roles).size !== value.roles.length ||

@@ -14,12 +14,14 @@ import {
     motivationOptions,
     participationOptions,
     surveyQuestions,
+    surveyLabels,
     surveyAnswer,
     surveyQuestion,
     answerQuestion,
 } from "./demographics";
 import { validateInterests } from "../topics/queries";
 import { retiredInterests } from "./interests";
+import type { Doc } from "../_generated/dataModel";
 
 /** Read only the current account's private community answers. */
 export const current = query({
@@ -199,6 +201,12 @@ async function audience(ctx: QueryCtx) {
     const accounts = (await ctx.db.query("accounts").collect()).filter(
         (account) => account.status === "active",
     );
+
+    return aggregateAudience(ctx, accounts);
+}
+
+/** Aggregate the accounts selected by an authorised caller. */
+export async function aggregateAudience(ctx: QueryCtx, accounts: Doc<"accounts">[]) {
     // hide retired choices without changing stored answers or respondent totals
     const reportedInterests = new Set(
         accounts
@@ -232,8 +240,8 @@ async function audience(ctx: QueryCtx) {
     const background = (Object.keys(demographicLabels) as (keyof typeof demographicLabels)[]).map(
         (field) => ({
             field,
-            label: demographicLabels[field],
-            multiple: field === "roles" || field === "languages",
+            label: surveyLabels[field],
+            multiple: field === "roles" || field === "languages" || field === "eventKinds",
             ...summarise(
                 accounts.map((account) => account.demographics?.[field]),
                 field === "languages" ? languageOptions : demographicOptions[field],
@@ -243,7 +251,7 @@ async function audience(ctx: QueryCtx) {
     const questions = [
         {
             field: "interests",
-            label: "What are you interested in?",
+            label: surveyLabels.interests,
             multiple: true,
             ...summarise(
                 accounts.map((account) => account.interests),
@@ -259,17 +267,14 @@ async function audience(ctx: QueryCtx) {
             );
             return {
                 field,
-                label:
-                    field === "residence"
-                        ? "Where do you live?"
-                        : "Which countries are you a citizen of?",
+                label: surveyLabels[field],
                 multiple: field === "citizenships",
                 ...totals,
             };
         }),
         {
             field: "participation",
-            label: "How would you like to get involved?",
+            label: surveyLabels.participation,
             multiple: true,
             ...summarise(
                 accounts.map((account) => account.participation),
@@ -278,7 +283,7 @@ async function audience(ctx: QueryCtx) {
         },
         {
             field: "motivations",
-            label: "What brings you here?",
+            label: surveyLabels.motivations,
             multiple: true,
             ...summarise(
                 accounts.map((account) => account.motivations),

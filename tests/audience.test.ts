@@ -115,6 +115,8 @@ test("test_report_all_questions_with_distinct_completion_and_response_denominato
                 participation: ["attend", "speak"],
                 motivations: ["learning", "friends"],
                 demographics: {
+                    eventKinds: ["talks", "workshops"],
+                    discovery: "friend",
                     eventFrequency: "monthly",
                     eventsAttended: "0",
                     roles: ["engineering"],
@@ -192,17 +194,19 @@ test("test_report_all_questions_with_distinct_completion_and_response_denominato
     expect(report.questions.every((row) => row.total === 5)).toBe(true);
     expect(report.questions.map((row) => [row.field, row.responses, row.withheld])).toEqual([
         ["interests", 1, 0],
+        ["eventKinds", 1, 0],
         ["eventFrequency", 1, 0],
-        ["eventsAttended", 1, 0],
         ["motivations", 2, 0],
         ["participation", 1, 0],
+        ["eventsAttended", 1, 0],
+        ["discovery", 1, 0],
         ["roles", 1, 0],
         ["experience", 1, 0],
         ["education", 1, 0],
-        ["age", 1, 1],
         ["residence", 1, 0],
-        ["citizenships", 1, 0],
         ["languages", 1, 0],
+        ["age", 1, 1],
+        ["citizenships", 1, 0],
     ]);
     expect(
         report.questions

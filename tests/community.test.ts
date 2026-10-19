@@ -8,9 +8,36 @@ import {
     surveyPosition,
     surveyQuestions,
     type CommunityAnswers,
+    answerQuestion,
 } from "../convex/members/demographics";
 import { summarise } from "../convex/members/audience";
 import { allLanguages, languages } from "../convex/members/languages";
+
+test("discovery accepts one explicit choice and preserves completed legacy surveys", () => {
+    const answers: CommunityAnswers = {
+        demographics: {},
+        interests: [],
+        motivations: [],
+        participation: [],
+    };
+    expect(answerQuestion(answers, "discovery", ["friend"]).demographics.discovery).toBe("friend");
+    expect(() => answerQuestion(answers, "discovery", ["invented"])).toThrow();
+    expect(() => answerQuestion(answers, "discovery", ["friend", "linkedin"])).toThrow();
+    expect(answerQuestion(answers, "discovery", []).demographics.discovery).toBeNull();
+    expect(
+        surveyPosition(
+            answers,
+            surveyQuestions.filter((question) => question !== "discovery"),
+            true,
+        ),
+    ).toBe("overview");
+    expect(
+        surveyPosition(
+            answers,
+            surveyQuestions.filter((question) => question !== "discovery"),
+        ),
+    ).toBe(surveyQuestions.indexOf("discovery"));
+});
 
 test("test_label_every_language_without_raw_codes_or_duplicate_names", () => {
     expect(allLanguages).toHaveLength(184);
@@ -48,7 +75,30 @@ test("test_resume_all_survey_states_without_a_midway_stop", () => {
             { ...answers, interests: ["hardware"], demographics: { eventsAttended: "0" } },
             ["eventFrequency"],
         ),
-    ).toBe(3);
+    ).toBe(surveyQuestions.indexOf("eventKinds"));
+});
+
+test("event kinds accept multiple choices without resetting completed surveys", () => {
+    const answers: CommunityAnswers = {
+        demographics: {},
+        interests: [],
+        motivations: [],
+        participation: [],
+    };
+    const updated = answerQuestion(answers, "eventKinds", ["talks", "hikes", "workshops"]);
+    expect(updated.demographics.eventKinds).toEqual(["talks", "hikes", "workshops"]);
+    expect(() => answerQuestion(answers, "eventKinds", ["talks", "talks"])).toThrow();
+    expect(() => answerQuestion(answers, "eventKinds", ["invented"])).toThrow();
+    expect(answerQuestion(updated, "eventKinds", []).demographics.eventKinds).toEqual([]);
+    expect(
+        surveyPosition(
+            answers,
+            surveyQuestions.filter((question) => question !== "eventKinds"),
+            true,
+        ),
+    ).toBe("overview");
+    expect(surveyQuestions).toHaveLength(14);
+    expect(new Set(surveyQuestions).size).toBe(14);
 });
 
 test("test_accept_sales_without_reinterpreting_legacy_roles", () => {

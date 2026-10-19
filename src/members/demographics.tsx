@@ -28,8 +28,10 @@ export function readDemographics(fields: FormData): Answers {
     // collect only answered questions
     const result: Record<string, unknown> = {};
     for (const key of Object.keys(demographicOptions)) {
-        if (key === "roles" || key === "languages") {
-            const values = fields.getAll(key === "roles" ? "role" : "language").map(String);
+        if (key === "roles" || key === "languages" || key === "eventKinds") {
+            const values = fields
+                .getAll(key === "roles" ? "role" : key === "languages" ? "language" : "eventKinds")
+                .map(String);
             if (values.length) result[key] = values;
         } else {
             const value = String(fields.get(key) ?? "");
@@ -81,6 +83,34 @@ export function CommunityFields(props: {
                         name="interest"
                         values={props.values.interests}
                     />
+                </section>
+            </Show>
+
+            {/* event preferences */}
+            <Show when={!props.question || props.question === "eventKinds"}>
+                <section class="community-section">
+                    <fieldset class="survey-choice">
+                        <legend>{demographicLabels.eventKinds}</legend>
+                        <div class="choice-grid">
+                            <For each={demographicOptions.eventKinds}>
+                                {(option) => (
+                                    <label class="checkbox">
+                                        <input
+                                            type="checkbox"
+                                            name="eventKinds"
+                                            value={option.value}
+                                            checked={
+                                                props.values.demographics.eventKinds?.includes(
+                                                    option.value,
+                                                ) ?? false
+                                            }
+                                        />
+                                        {option.label}
+                                    </label>
+                                )}
+                            </For>
+                        </div>
+                    </fieldset>
                 </section>
             </Show>
 
@@ -136,14 +166,14 @@ export function CommunityFields(props: {
                 </section>
             </Show>
 
-            {/* event attendance */}
+            {/* attendance and discovery */}
             <input
                 type="hidden"
                 name="eventsPerYear"
                 value={props.values.demographics.eventsPerYear ?? ""}
             />
             <For
-                each={(["eventsAttended", "eventFrequency"] as const).filter(
+                each={(["eventsAttended", "eventFrequency", "discovery"] as const).filter(
                     (field) => !props.question || props.question === field,
                 )}
             >
