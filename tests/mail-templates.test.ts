@@ -510,6 +510,30 @@ test("test_align_digest_dates_without_event_panels", () => {
     expect(edition.html).not.toContain("View event");
 });
 
+test("newsletter thumbnails preserve the compact grid and plain text", () => {
+    const story = {
+        title: "Research",
+        slug: "research",
+        date: Date.UTC(2026, 9, 14),
+        description: "One short sentence. More detail stays on the website.",
+    };
+    const plain = newsletterEdition([], [], [], { news: [story] });
+    const illustrated = newsletterEdition([], [], [], {
+        news: [{ ...story, image: "/news/robot.jpg?size=52&mode=fit" }],
+    });
+    expect(illustrated.html).toContain(
+        'src="https://zurich.tech/news/robot.jpg?size=52&amp;mode=fit"',
+    );
+    expect(illustrated.html).toContain('alt="" width="144"');
+    expect(illustrated.html).toContain("width:28%;padding:18px 0 18px 20px");
+    expect(plain.html).not.toContain("width:28%;padding:18px 0 18px 20px");
+    expect(illustrated.html).toContain("height:auto;aspect-ratio:3/2;object-fit:cover;border:0");
+    expect(illustrated.html).toContain("14 Oct");
+    expect(illustrated.html).not.toContain("More detail stays");
+    expect(plain.html).not.toContain("robot.jpg");
+    expect(illustrated.text).toBe(plain.text);
+});
+
 test("test_escape_event_copy_and_keep_pass_usable_without_images", () => {
     const email = eventEmail(
         { ...event, title: '<img src=x onerror="bad()">' },

@@ -476,14 +476,7 @@ export function newsletterEdition(
         description: newsSentence(story.description),
     }));
     const stories = news.map((story, index) => ({
-        html: digestListing(
-            story.title,
-            `${siteOrigin()}${newsPath(story)}`,
-            story.date,
-            story.description,
-            "",
-            index > 0,
-        ),
+        html: newsListing(story, index > 0),
         text: `${story.title}\n${story.description}\n${siteOrigin()}${newsPath(story)}`,
     }));
     const participation = involvement();
@@ -527,8 +520,25 @@ function digestListing(
         month: "short",
     });
     const border = isSeparated ? `border-top:1px solid ${palette.line};` : "";
+    const dateColumn = `<span style="font-size:22px;line-height:1.2">${day}</span><br>${month}`;
 
-    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;${border}"><tr><td width="52" valign="top" style="padding:18px 0;color:${palette.soft};font:13px/1.5 ${mono}"><span style="font-size:22px;line-height:1.2">${day}</span><br>${month}</td><td valign="top" style="padding:18px 0 18px 16px"><h3 style="margin:0;font:${listingFont}"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(title)}</a></h3>${details ? `<p style="margin:5px 0 0;color:${palette.soft};font:13px/1.5 ${text}">${escapeHtml(details)}</p>` : ""}${description ? `<p style="margin:8px 0 0;font:14px/1.6 ${text}">${escapeHtml(description)}</p>` : ""}</td></tr></table>`;
+    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;${border}"><tr><td width="52" valign="top" style="padding:18px 0;color:${palette.soft};font:13px/1.5 ${mono}">${dateColumn}</td><td valign="top" style="padding:18px 0 18px 16px"><h3 style="margin:0;font:${listingFont}"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(title)}</a></h3>${details ? `<p style="margin:5px 0 0;color:${palette.soft};font:13px/1.5 ${text}">${escapeHtml(details)}</p>` : ""}${description ? `<p style="margin:8px 0 0;font:14px/1.6 ${text}">${escapeHtml(description)}</p>` : ""}</td></tr></table>`;
+}
+
+/** Render a news summary beside its cover, with the date below the copy. */
+function newsListing(story: NewsletterStory, isSeparated: boolean) {
+    const url = escapeHtml(`${siteOrigin()}${newsPath(story)}`);
+    const date = new Date(story.date).toLocaleDateString("en-GB", {
+        timeZone: "Europe/Zurich",
+        day: "numeric",
+        month: "short",
+    });
+    const border = isSeparated ? `border-top:1px solid ${palette.line};` : "";
+    const image = story.image
+        ? `<td width="144" valign="top" style="width:28%;padding:18px 0 18px 20px"><a href="${url}" style="display:block"><img src="${escapeHtml(new URL(story.image, siteOrigin()).href)}" alt="" width="144" style="display:block;width:100%;max-width:144px;height:auto;aspect-ratio:3/2;object-fit:cover;border:0" /></a></td>`
+        : "";
+
+    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;${border}"><tr><td valign="top" style="padding:18px 0"><h3 style="margin:0;font:${listingFont}"><a href="${url}" style="color:${palette.ink};text-decoration:none">${escapeHtml(story.title)}</a></h3><p style="margin:8px 0 0;font:14px/1.6 ${text}">${escapeHtml(story.description)}</p><p style="margin:8px 0 0;color:${palette.soft};font:12px/1.5 ${mono}">${date}</p></td>${image}</tr></table>`;
 }
 
 /** Extract the opening sentence for a newsletter without splitting decimal numbers. */
@@ -606,7 +616,14 @@ function jobListing(
 }
 
 /** Published article copy frozen into one newsletter edition. */
-export type NewsletterStory = { title: string; slug: string; date: number; description: string };
+export type NewsletterStory = {
+    title: string;
+    slug: string;
+    date: number;
+    description: string;
+    /** Published cover image, including the poster for a video story. */
+    image?: string;
+};
 
 /** Render a weekly edition with the recipient's notification links. */
 export function newsletterEmail(

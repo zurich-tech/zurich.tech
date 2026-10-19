@@ -9,7 +9,10 @@ import { FormMessage } from "../components/form";
 import { ArrowRight, LoaderCircle } from "lucide-solid";
 
 /** Subscribe to the weekly email from a compact inline form. */
-export function Newsletter() {
+export function Newsletter(props: {
+    /** Hide the signup prompt once the member subscribes to weekly emails. */
+    hideWhenSubscribed?: boolean;
+}) {
     const account = useAccount();
     const [preferences, { refetch }] = createResource(
         () => account.user()?.id,
@@ -63,102 +66,112 @@ export function Newsletter() {
     }
 
     return (
-        <section class="newsletter" id="newsletter" aria-labelledby="newsletter-title">
-            {/* heading */}
-            <h2 id="newsletter-title">Every Monday</h2>
-            <p class="newsletter-description">Events, news and jobs in Zurich tech.</p>
-            <Show
-                when={!account.isPending() && preferences.state !== "pending"}
-                fallback={<p role="status">Loading…</p>}
-            >
+        <Show
+            when={
+                !props.hideWhenSubscribed ||
+                (!account.isPending() &&
+                    preferences.state !== "pending" &&
+                    (!account.user() || preferences.error || !preferences()?.weekly))
+            }
+        >
+            <section class="newsletter" id="newsletter" aria-labelledby="newsletter-title">
+                {/* heading */}
+                <h2 id="newsletter-title">Every Monday</h2>
+                <p class="newsletter-description">Events, news and jobs in Zurich tech.</p>
                 <Show
-                    when={!account.user()}
-                    fallback={
-                        <div class="newsletter-member">
-                            <div class="newsletter-actions">
-                                <Show
-                                    when={preferences.error}
-                                    fallback={
-                                        <span class="newsletter-status">
-                                            {preferences()?.isSuppressed
-                                                ? "Delivery blocked"
-                                                : preferences()?.weekly
-                                                  ? "Subscribed"
-                                                  : "Not subscribed"}
-                                        </span>
-                                    }
-                                >
-                                    <p class="form-error">
-                                        {errorMessage(
-                                            preferences.error,
-                                            "Could not load subscription.",
-                                        )}
-                                    </p>
-                                </Show>
+                    when={!account.isPending() && preferences.state !== "pending"}
+                    fallback={<p role="status">Loading…</p>}
+                >
+                    <Show
+                        when={!account.user()}
+                        fallback={
+                            <div class="newsletter-member">
+                                <div class="newsletter-actions">
+                                    <Show
+                                        when={preferences.error}
+                                        fallback={
+                                            <span class="newsletter-status">
+                                                {preferences()?.isSuppressed
+                                                    ? "Delivery blocked"
+                                                    : preferences()?.weekly
+                                                      ? "Subscribed"
+                                                      : "Not subscribed"}
+                                            </span>
+                                        }
+                                    >
+                                        <p class="form-error">
+                                            {errorMessage(
+                                                preferences.error,
+                                                "Could not load subscription.",
+                                            )}
+                                        </p>
+                                    </Show>
+                                    <Show
+                                        when={
+                                            preferences() &&
+                                            !preferences()!.weekly &&
+                                            !preferences()!.isSuppressed &&
+                                            !preferences.error
+                                        }
+                                    >
+                                        <button
+                                            class="button button--primary"
+                                            disabled={isPending()}
+                                            onClick={subscribeMember}
+                                        >
+                                            {isPending() ? "Subscribing…" : "Subscribe"}
+                                        </button>
+                                    </Show>
+                                    <a class="action-link" href="/settings?section=notifications">
+                                        Email settings
+                                    </a>
+                                </div>
                                 <Show
                                     when={
-                                        preferences() &&
-                                        !preferences()!.weekly &&
-                                        !preferences()!.isSuppressed &&
-                                        !preferences.error
+                                        preferences()?.isTestMode &&
+                                        preferences()?.weekly &&
+                                        !preferences()?.isSuppressed
                                     }
                                 >
-                                    <button
-                                        class="button button--primary"
-                                        disabled={isPending()}
-                                        onClick={subscribeMember}
-                                    >
-                                        {isPending() ? "Subscribing…" : "Subscribe"}
-                                    </button>
+                                    <Alert tone="warning" title="Test mode">
+                                        You’re subscribed. Delivery will start once Test mode is
+                                        off.
+                                    </Alert>
                                 </Show>
-                                <a class="action-link" href="/settings?section=notifications">
-                                    Email settings
-                                </a>
+                                <FormMessage error={error()} />
                             </div>
-                            <Show
-                                when={
-                                    preferences()?.isTestMode &&
-                                    preferences()?.weekly &&
-                                    !preferences()?.isSuppressed
-                                }
-                            >
-                                <Alert tone="warning" title="Test mode">
-                                    You’re subscribed. Delivery will start once Test mode is off.
-                                </Alert>
-                            </Show>
-                            <FormMessage error={error()} />
-                        </div>
-                    }
-                >
-                    <form onSubmit={submit}>
-                        <div class="newsletter-input">
-                            <input
-                                aria-label="Email for weekly events"
-                                type="email"
-                                name="email"
-                                placeholder="Email address"
-                                required
-                                maxlength="254"
-                            />
-                            <button
-                                type="submit"
-                                disabled={isPending()}
-                                aria-label={isPending() ? "Subscribing" : "Subscribe"}
-                                aria-busy={isPending()}
-                                title="Subscribe"
-                            >
-                                <Show
-                                    when={isPending()}
-                                    fallback={<ArrowRight size={18} aria-hidden="true" />}
+                        }
+                    >
+                        <form onSubmit={submit}>
+                            <div class="newsletter-input">
+                                <input
+                                    aria-label="Email for weekly events"
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email address"
+                                    required
+                                    maxlength="254"
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={isPending()}
+                                    aria-label={isPending() ? "Subscribing" : "Subscribe"}
+                                    aria-busy={isPending()}
+                                    title="Subscribe"
                                 >
-                                    <LoaderCircle size={18} aria-hidden="true" />
-                                </Show>
-                            </button>
-                        </div>
-                        <FormMessage error={error()} success={success()} />
-                    </form>
+                                    <Show
+                                        when={isPending()}
+                                        fallback={<ArrowRight size={18} aria-hidden="true" />}
+                                    >
+                                        <LoaderCircle size={18} aria-hidden="true" />
+                                    </Show>
+                                </button>
+                            </div>
+                            <FormMessage error={error()} success={success()} />
+                        </form>
+                    </Show>
                 </Show>
-            </Show>
-        </section>
+            </section>
+        </Show>
     );
 }

@@ -67,7 +67,7 @@ export default function Route() {
                 </section>
                 <aside class="bulletin-sidebar">
                     <ArticleList articles={articles() ?? []} isCompact limit={3}>
-                        <Newsletter />
+                        <Newsletter hideWhenSubscribed />
                     </ArticleList>
                     <Sponsors />
                     <Card title="Jobs" titleHref="/jobs" class="jobs-overview">

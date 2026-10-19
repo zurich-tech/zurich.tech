@@ -188,5 +188,6 @@ export function digestNews(posts: Doc<"posts">[], now: number) {
             date: newsDate(post),
             title: post.published!.title,
             description: post.published!.description,
+            ...(post.published!.image ? { image: post.published!.image } : {}),
         }));
 }

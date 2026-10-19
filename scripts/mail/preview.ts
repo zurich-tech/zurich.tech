@@ -10,6 +10,7 @@ import {
     seriesEmail,
     signInEmail,
     verificationEmail,
+    type NewsletterStory,
 } from "../../convex/mail/templates";
 import { escapeHtml, paragraph } from "../../convex/mail/layout";
 import {
@@ -115,15 +116,21 @@ const newsletterEvents = [
 ];
 const edition = newsletterEdition(newsletterEvents, sponsors, jobs, {
     date: Date.parse("2026-10-16T06:00:00Z"),
-    news: [
-        {
-            title: "ETH builds architectural elements with bacteria",
-            slug: "eth-biocement",
-            date: Date.parse("2026-10-14T08:00:00Z"),
-            description:
-                "ETH Zurich researchers developed a printable mixture of sand, bacteria and natural gels to make architectural elements, including a facade component. After printing, daily mineralisation baths let the bacteria form calcium carbonate crystals that bind the sand together. The material hardens at room temperature over two to five days, without firing it in a kiln.",
-        },
-    ],
+    news: process.argv[3]
+        ? ((await Bun.file(process.argv[3]).json()) as NewsletterStory[])
+              .filter((story) => story.date <= Date.now())
+              .sort((left, right) => right.date - left.date || left.slug.localeCompare(right.slug))
+              .slice(0, 5)
+        : [
+              {
+                  title: "ETH builds architectural elements with bacteria",
+                  slug: "eth-biocement",
+                  date: Date.parse("2026-10-14T08:00:00Z"),
+                  description:
+                      "ETH Zurich researchers developed a printable mixture of sand, bacteria and natural gels to make architectural elements, including a facade component. After printing, daily mineralisation baths let the bacteria form calcium carbonate crystals that bind the sand together. The material hardens at room temperature over two to five days, without firing it in a kiln.",
+                  image: "https://ethz.ch/bin/ethz/components/previewImage/youtube/L-v83ikx2-k.jpg",
+              },
+          ],
 });
 const previews = [
     ...(["create", "complete", "none"] as ProfilePrompt[]).map((profile) => {
