@@ -54,19 +54,13 @@ export const report = query({
             (account) => account.surveyCompletedAt !== undefined,
         ).length;
 
-        // omit sparse questions entirely so suppressed groups cannot be inferred by subtraction
+        // return all answer counts to administrators
         const aggregate = args.results ? await aggregateAudience(ctx, accounts) : undefined;
-        const questions = aggregate?.questions
-            .filter(
-                (question) =>
-                    question.responses >= 5 &&
-                    question.groups.every((group) => group.count === 0 || group.count >= 5),
-            )
-            .map((question) => ({
-                label: question.label,
-                responses: question.responses,
-                groups: question.groups.filter((group) => group.count > 0),
-            }));
+        const questions = aggregate?.questions.map((question) => ({
+            label: question.label,
+            responses: question.responses,
+            groups: question.groups.filter((group) => group.count > 0),
+        }));
 
         const registered = new Set(
             members.map((member, index) => member ?? registrations[index].email),

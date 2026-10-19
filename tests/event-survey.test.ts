@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { convexTest, schema, modules, member } from "./backend";
 import { api } from "../convex/_generated/api";
 
-test("event survey counts confirmed registrations and hides sparse results", async () => {
+test("event survey counts confirmed registrations and shows sparse results to admins", async () => {
     const backend = convexTest(schema, modules);
     await backend.run(async (ctx) => {
         const ownerId = await member(ctx, {
@@ -114,12 +114,17 @@ test("event survey counts confirmed registrations and hides sparse results", asy
     ).rejects.toThrow("Admin access is required");
 
     const admin = backend.withIdentity({ subject: "admin" });
-    expect(await admin.query(api.events.survey.report, { slug: "test", results: true })).toEqual({
+    const results = await admin.query(api.events.survey.report, { slug: "test", results: true });
+    expect(results).toMatchObject({
         title: "Test",
         registered: 2,
         completed: 1,
-        questions: [],
     });
+    expect(results.questions?.length).toBe(14);
+    expect(results.questions?.some((question) => question.responses === 2)).toBe(true);
+    expect(
+        results.questions?.some((question) => question.groups.some((group) => group.count === 2)),
+    ).toBe(true);
     expect(
         (await admin.query(api.events.survey.report, { slug: "test", results: false })).questions,
     ).toBeUndefined();

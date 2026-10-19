@@ -181,9 +181,6 @@ export function SurveyResults(props: {
                 <p>
                     {props.registered} registered attendees · {surveyQuestions.length} questions
                 </p>
-                <p class="muted">
-                    Questions with answer groups smaller than five are withheld for privacy.
-                </p>
             </header>
             <div class="projection-questions">
                 <For each={surveyQuestions}>
@@ -203,14 +200,7 @@ export function SurveyResults(props: {
                                         )}
                                     </Show>
                                 </header>
-                                <Show
-                                    when={question()}
-                                    fallback={
-                                        <p class="muted">
-                                            Not enough responses to display this question safely.
-                                        </p>
-                                    }
-                                >
+                                <Show when={question()}>
                                     {(value) => (
                                         <For
                                             each={[...value().groups].sort(
