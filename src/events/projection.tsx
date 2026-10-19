@@ -195,7 +195,7 @@ export function SurveyResults(props: {
                                     <Show when={question()}>
                                         {(value) => (
                                             <span>
-                                                {value().responses} / {props.registered}
+                                                {value().responses} / {props.registered} answered
                                             </span>
                                         )}
                                     </Show>
@@ -277,7 +277,7 @@ export function SurveyStage(props: { completed: number; registered: number }) {
                     aria-label={`${props.completed} of ${props.registered} registered attendees completed the survey`}
                 >
                     <span>
-                        {props.completed} / {props.registered}
+                        {props.completed} / {props.registered} completed
                     </span>
                     <strong>
                         {Math.round(progress())}
