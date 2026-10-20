@@ -1,7 +1,8 @@
 import type { SurveyQuestion } from "../../convex/members/demographics";
+import type { ReviewInput } from "../../convex/members/reviews";
 
 /** One explicit answer or skipped question awaiting persistence. */
-export type SurveyWrite = { question: SurveyQuestion; values?: string[] };
+export type SurveyWrite = { question: SurveyQuestion; values?: string[]; review?: ReviewInput };
 
 /** Serialize writes and retain failed answers until an explicit retry. */
 export class SurveyWrites {

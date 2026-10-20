@@ -57,6 +57,7 @@ export const report = query({
         // return all answer counts to administrators
         const aggregate = args.results ? await aggregateAudience(ctx, accounts) : undefined;
         const questions = aggregate?.questions.map((question) => ({
+            field: question.field,
             label: question.label,
             responses: question.responses,
             groups: question.groups.filter((group) => group.count > 0),

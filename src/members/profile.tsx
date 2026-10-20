@@ -1,6 +1,6 @@
 import { MarkdownEditor } from "../components/markdown-editor";
 import { AffiliationFields, readAffiliations } from "./affiliations";
-import { CommunityFields, readCommunity } from "./demographics";
+import { CommunityFields, readCommunity, readReviews } from "./demographics";
 import {
     Suspense,
     startTransition,
@@ -151,6 +151,7 @@ export function ProfileSettings() {
                 profileUrl: text("profileUrl"),
                 socials: { linkedin: text("linkedin"), github: text("github"), x: text("x") },
                 ...readCommunity(fields),
+                reviews: readReviews(fields),
             });
             setSlug(undefined);
             setCandidate(undefined);
@@ -391,7 +392,10 @@ export function ProfileSettings() {
                             </h3>
                             <a href="/survey">Open guided survey</a>
                             <div class="profile-about__fields">
-                                <CommunityFields values={current()} />
+                                <CommunityFields
+                                    values={current()}
+                                    reviews={current().surveyReviews}
+                                />
                             </div>
                         </section>
 

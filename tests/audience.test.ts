@@ -213,13 +213,41 @@ test("test_report_all_questions_with_distinct_completion_and_response_denominato
             .find((row) => row.field === "motivations")!
             .groups.filter((row) => row.count),
     ).toEqual([
-        { label: "Meeting friends", count: 1, percentage: 50 },
-        { label: "Learning something", count: 2, percentage: 100 },
+        {
+            label: "Meeting friends",
+            count: 1,
+            percentage: 50,
+            reviewed: 2,
+            inferred: 2,
+            unreviewed: 0,
+        },
+        {
+            label: "Learning something",
+            count: 2,
+            percentage: 100,
+            reviewed: 2,
+            inferred: 2,
+            unreviewed: 0,
+        },
     ]);
     expect(report.questions.find((row) => row.field === "interests")!.groups).toEqual([
-        { label: "active subject", count: 0, percentage: 0 },
-        { label: "archived subject", count: 1, percentage: 100 },
-        { label: "removed", count: 1, percentage: 100 },
+        {
+            label: "active subject",
+            count: 0,
+            percentage: 0,
+            reviewed: 0,
+            inferred: 1,
+            unreviewed: 1,
+        },
+        {
+            label: "archived subject",
+            count: 1,
+            percentage: 100,
+            reviewed: 1,
+            inferred: 1,
+            unreviewed: 0,
+        },
+        { label: "removed", count: 1, percentage: 100, reviewed: 1, inferred: 1, unreviewed: 0 },
     ]);
 
     // retain zero country choices for the UI toggle, and reported less-common languages

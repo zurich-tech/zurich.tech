@@ -7,7 +7,8 @@ import { Arrow } from "../components/arrow";
 import { errorMessage } from "../components/errors";
 import { memberClient, publicClient } from "../auth/convex";
 import { api } from "../../convex/_generated/api";
-import { surveyLabels, surveyQuestions } from "../../convex/members/demographics";
+import { surveyQuestions } from "../../convex/members/demographics";
+import { AudienceChart } from "../members/chart";
 import { Seo } from "../app/seo";
 import { Kitten, kittenMood, kittenMoods } from "./kitten";
 import "./projection.css";
@@ -172,7 +173,19 @@ export function ProjectionHeader(props: {
 /** Present anonymous responses from the event's registered attendees. */
 export function SurveyResults(props: {
     registered: number;
-    questions: { label: string; responses: number; groups: { label: string; count: number }[] }[];
+    questions: {
+        field: string;
+        label: string;
+        responses: number;
+        groups: {
+            label: string;
+            count: number;
+            percentage: number;
+            reviewed: number;
+            inferred: number;
+            unreviewed: number;
+        }[];
+    }[];
 }) {
     return (
         <section class="projection-results" aria-label="Survey results">
@@ -182,66 +195,9 @@ export function SurveyResults(props: {
                     {props.registered} registered attendees · {surveyQuestions.length} questions
                 </p>
             </header>
-            <div class="projection-questions">
-                <For each={surveyQuestions}>
-                    {(field) => {
-                        const question = () =>
-                            props.questions.find((value) => value.label === surveyLabels[field]);
-
-                        return (
-                            <section>
-                                <header class="projection-question-heading">
-                                    <h2>{surveyLabels[field]}</h2>
-                                    <Show when={question()}>
-                                        {(value) => (
-                                            <span>
-                                                {value().responses} / {props.registered} answered
-                                            </span>
-                                        )}
-                                    </Show>
-                                </header>
-                                <Show when={question()}>
-                                    {(value) => (
-                                        <For
-                                            each={[...value().groups].sort(
-                                                (left, right) => right.count - left.count,
-                                            )}
-                                        >
-                                            {(group) => (
-                                                <div class="projection-answer">
-                                                    <span>{group.label}</span>
-                                                    <strong>
-                                                        {group.count}{" "}
-                                                        <small>
-                                                            {Math.round(
-                                                                (group.count / value().responses) *
-                                                                    100,
-                                                            )}
-                                                            %
-                                                        </small>
-                                                    </strong>
-                                                    <div
-                                                        class="projection-answer-bar"
-                                                        role="meter"
-                                                        aria-label={group.label}
-                                                        aria-valuemin={0}
-                                                        aria-valuemax={value().responses}
-                                                        aria-valuenow={group.count}
-                                                    >
-                                                        <span
-                                                            style={{
-                                                                width: `${(group.count / value().responses) * 100}%`,
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </For>
-                                    )}
-                                </Show>
-                            </section>
-                        );
-                    }}
+            <div class="audience-charts">
+                <For each={props.questions}>
+                    {(question) => <AudienceChart {...question} total={props.registered} />}
                 </For>
             </div>
         </section>
@@ -381,8 +337,15 @@ export function SurveyStage(props: { completed: number; registered: number }) {
                         </span>
                     </li>
                     <li>Sign in with your registration email.</li>
-                    <li>Complete the survey.</li>
+                    <li aria-describedby="survey-update-note">
+                        <span>
+                            Complete the survey.<sup aria-hidden="true">*</sup>
+                        </span>
+                    </li>
                 </ol>
+                <p class="projection-footnote" id="survey-update-note">
+                    * Already answered? Check for new questions and choices.
+                </p>
             </section>
         </div>
     );

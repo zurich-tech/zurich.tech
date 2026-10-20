@@ -1,6 +1,5 @@
 import { CountryFields } from "./countries";
-import { ArrowDownWideNarrow, ListOrdered } from "lucide-solid";
-import { rankAnswers } from "./audience";
+import { AudienceChart } from "./chart";
 import { TopicFields } from "../topics/fields";
 import { Empty } from "../components/empty";
 import { createResource, createSignal, For, Show } from "solid-js";
@@ -17,11 +16,32 @@ import {
     motivationOptions,
     type Demographics as Answers,
     type SurveyQuestion,
+    surveyQuestions,
+    surveyLabels,
 } from "../../convex/members/demographics";
 import { memberClient } from "../auth/convex";
 import { Card } from "../components/card";
 import { errorMessage } from "../components/errors";
 import "../topics/topics.css";
+import { reviewOptions, type ReviewInput, type SurveyReview } from "../../convex/members/reviews";
+import "./review.css";
+
+/** Read the question snapshots rendered in this form, including dynamically loaded interests. */
+export function readReviews(fields: FormData): ReviewInput[] {
+    return fields.getAll("surveyReview").map((value) => JSON.parse(String(value)) as ReviewInput);
+}
+
+/** Mark additions only for returning respondents with a previous question snapshot. */
+function ChoiceLabel(props: { label: string; value: string; review?: SurveyReview }) {
+    return (
+        <span class="survey-choice-label">
+            {props.label}
+            <Show when={props.review && !props.review.options.includes(props.value)}>
+                <small class="survey-new-label">New</small>
+            </Show>
+        </span>
+    );
+}
 
 /** Read optional survey fields, using empty values to clear answers. */
 export function readDemographics(fields: FormData): Answers {
@@ -62,6 +82,7 @@ export function readCommunity(fields: FormData) {
 /** Collect interests and participation preferences before optional private background answers. */
 export function CommunityFields(props: {
     question?: SurveyQuestion;
+    reviews?: SurveyReview[];
     values: {
         demographics: Answers;
         interests: string[];
@@ -71,6 +92,37 @@ export function CommunityFields(props: {
 }) {
     return (
         <>
+            <For
+                each={surveyQuestions.filter(
+                    (question) =>
+                        question !== "interests" &&
+                        (!props.question || props.question === question),
+                )}
+            >
+                {(question) => (
+                    <input
+                        type="hidden"
+                        name="surveyReview"
+                        value={JSON.stringify({
+                            question,
+                            wording: surveyLabels[question],
+                            options: reviewOptions(question).filter(
+                                (option) =>
+                                    !(
+                                        question === "roles" &&
+                                        option === "other" &&
+                                        !props.values.demographics.roles?.includes("other")
+                                    ) &&
+                                    !(
+                                        question === "education" &&
+                                        option === "secondary" &&
+                                        props.values.demographics.education !== "secondary"
+                                    ),
+                            ),
+                        })}
+                    />
+                )}
+            </For>
             {/* interests */}
             <Show when={!props.question || props.question === "interests"}>
                 <section class="community-section">
@@ -82,6 +134,7 @@ export function CommunityFields(props: {
                         isInterests
                         name="interest"
                         values={props.values.interests}
+                        review={props.reviews?.find((review) => review.question === "interests")}
                     />
                 </section>
             </Show>
@@ -105,7 +158,12 @@ export function CommunityFields(props: {
                                                 ) ?? false
                                             }
                                         />
-                                        {option.label}
+                                        <ChoiceLabel
+                                            {...option}
+                                            review={props.reviews?.find(
+                                                (review) => review.question === "eventKinds",
+                                            )}
+                                        />
                                     </label>
                                 )}
                             </For>
@@ -131,7 +189,12 @@ export function CommunityFields(props: {
                                                 option.value,
                                             )}
                                         />
-                                        {option.label}
+                                        <ChoiceLabel
+                                            {...option}
+                                            review={props.reviews?.find(
+                                                (review) => review.question === "motivations",
+                                            )}
+                                        />
                                     </label>
                                 )}
                             </For>
@@ -157,7 +220,12 @@ export function CommunityFields(props: {
                                                 option.value,
                                             )}
                                         />
-                                        {option.label}
+                                        <ChoiceLabel
+                                            {...option}
+                                            review={props.reviews?.find(
+                                                (review) => review.question === "participation",
+                                            )}
+                                        />
                                     </label>
                                 )}
                             </For>
@@ -221,6 +289,7 @@ export function CommunityFields(props: {
                     <DemographicFields
                         values={props.values.demographics}
                         question={props.question}
+                        reviews={props.reviews}
                     />
                 </section>
             </Show>
@@ -244,7 +313,10 @@ export function CommunityFields(props: {
             {/* languages */}
             <Show when={!props.question || props.question === "languages"}>
                 <section class="community-section">
-                    <LanguageFields values={props.values.demographics} />
+                    <LanguageFields
+                        values={props.values.demographics}
+                        review={props.reviews?.find((review) => review.question === "languages")}
+                    />
                 </section>
             </Show>
         </>
@@ -252,7 +324,11 @@ export function CommunityFields(props: {
 }
 
 /** Collect optional background answers; empty controls clear previous answers. */
-export function DemographicFields(props: { values: Answers; question?: SurveyQuestion }) {
+export function DemographicFields(props: {
+    values: Answers;
+    question?: SurveyQuestion;
+    reviews?: SurveyReview[];
+}) {
     return (
         <>
             <Show when={!props.question || props.question === "roles"}>
@@ -276,7 +352,12 @@ export function DemographicFields(props: { values: Answers; question?: SurveyQue
                                             props.values.roles?.includes(option.value) ?? false
                                         }
                                     />
-                                    {option.label}
+                                    <ChoiceLabel
+                                        {...option}
+                                        review={props.reviews?.find(
+                                            (review) => review.question === "roles",
+                                        )}
+                                    />
                                 </label>
                             )}
                         </For>
@@ -344,7 +425,12 @@ export function DemographicFields(props: { values: Answers; question?: SurveyQue
                                                     value={option.value}
                                                     checked={props.values[field] === option.value}
                                                 />
-                                                {option.label}
+                                                <ChoiceLabel
+                                                    {...option}
+                                                    review={props.reviews?.find(
+                                                        (review) => review.question === field,
+                                                    )}
+                                                />
                                             </label>
                                         )}
                                     </For>
@@ -359,7 +445,7 @@ export function DemographicFields(props: { values: Answers; question?: SurveyQue
 }
 
 /** Self-reported working languages, independent of citizenship or residence. */
-function LanguageFields(props: { values: Answers }) {
+function LanguageFields(props: { values: Answers; review?: SurveyReview }) {
     const additional = allLanguages.filter(
         (language) =>
             !demographicOptions.languages.some((option) => option.value === language.value),
@@ -380,7 +466,7 @@ function LanguageFields(props: { values: Answers }) {
                                 value={option.value}
                                 checked={props.values.languages?.includes(option.value) ?? false}
                             />
-                            {option.label}
+                            <ChoiceLabel {...option} review={props.review} />
                         </label>
                     )}
                 </For>
@@ -419,19 +505,6 @@ export function Audience() {
     );
     const [question, setQuestion] = createSignal("");
     const [isShowingEmpty, setShowingEmpty] = createSignal(false);
-    const [sorts, setSorts] = createSignal<Record<string, boolean>>({});
-
-    // preserve ordered scales while ranking categorical answers by default
-    const isPopular = (field: string) =>
-        sorts()[field] ??
-        ![
-            "eventsAttended",
-            "eventFrequency",
-            "eventsPerYear",
-            "experience",
-            "education",
-            "age",
-        ].includes(field);
 
     // do not read a rejected resource value, which throws past the inline retry state
     const report = () => (summary.error ? undefined : summary.latest);
@@ -439,8 +512,7 @@ export function Audience() {
     return (
         <Card title="Audience" class="audience-report">
             <p class="survey-intro">
-                Self-reported survey answers. Percentages use each question's respondents, not all
-                accounts.
+                Self-reported answers. Percentages use respondents who had each choice available.
             </p>
             <Show when={report()}>
                 {(data) => (
@@ -538,77 +610,7 @@ export function Audience() {
                             (chart) => !question() || chart.field === question(),
                         )}
                     >
-                        {(chart) => (
-                            <section>
-                                <header class="audience-question-heading">
-                                    <h3>{chart.label}</h3>
-                                    <div class="audience-question-actions">
-                                        <button
-                                            type="button"
-                                            class="audience-sort"
-                                            aria-label={`Sort ${chart.label} by popularity`}
-                                            aria-pressed={isPopular(chart.field)}
-                                            title={
-                                                isPopular(chart.field)
-                                                    ? "Popular order; switch to natural order"
-                                                    : "Natural order; switch to popular order"
-                                            }
-                                            onClick={() =>
-                                                setSorts((previous) => ({
-                                                    ...previous,
-                                                    [chart.field]: !isPopular(chart.field),
-                                                }))
-                                            }
-                                        >
-                                            <Show
-                                                when={isPopular(chart.field)}
-                                                fallback={
-                                                    <ListOrdered size={16} aria-hidden="true" />
-                                                }
-                                            >
-                                                <ArrowDownWideNarrow size={16} aria-hidden="true" />
-                                            </Show>
-                                        </button>
-                                        <span
-                                            class="audience-response-count"
-                                            title={`${chart.responses} of ${chart.total} respondents`}
-                                            aria-label={`${chart.responses} of ${chart.total} respondents`}
-                                        >
-                                            {chart.responses} / {chart.total}
-                                        </span>
-                                    </div>
-                                </header>
-                                <Show
-                                    when={chart.responses > 0}
-                                    fallback={<Empty title="No responses" />}
-                                >
-                                    <For
-                                        each={(isPopular(chart.field)
-                                            ? rankAnswers(chart.groups)
-                                            : chart.groups
-                                        ).filter((group) => isShowingEmpty() || group.count > 0)}
-                                    >
-                                        {(group) => (
-                                            <div class="audience-bar">
-                                                <span>{group.label}</span>
-                                                <span>
-                                                    <strong>{group.count}</strong>{" "}
-                                                    <span class="text-soft">
-                                                        {group.percentage}%
-                                                    </span>
-                                                </span>
-                                                <meter
-                                                    min="0"
-                                                    max={Math.max(chart.responses, 1)}
-                                                    value={group.count}
-                                                    aria-label={`${group.label}: ${group.count} of ${chart.responses} respondents (${group.percentage}%)`}
-                                                />
-                                            </div>
-                                        )}
-                                    </For>
-                                </Show>
-                            </section>
-                        )}
+                        {(chart) => <AudienceChart {...chart} showEmpty={isShowingEmpty()} />}
                     </For>
                 </div>
             </Show>

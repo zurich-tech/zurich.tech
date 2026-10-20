@@ -43,7 +43,16 @@ test("test_hide_retired_interests_even_without_catalogue_records_and_preserve_re
             responses: 1,
             total: 1,
             withheld: 0,
-            groups: [{ label: "Graphics", count: 0, percentage: 0 }],
+            groups: [
+                {
+                    label: "Graphics",
+                    count: 0,
+                    percentage: 0,
+                    reviewed: 1,
+                    inferred: 1,
+                    unreviewed: 0,
+                },
+            ],
         });
         expect(await backend.run((ctx) => ctx.db.get(accountId))).toEqual(before);
     }
@@ -126,8 +135,8 @@ test("test_preserve_retired_answers_and_report_exact_counts_without_reclassifica
         total: 1,
         withheld: 0,
         groups: [
-            { label: "Games", count: 1, percentage: 100 },
-            { label: "Graphics", count: 0, percentage: 0 },
+            { label: "Games", count: 1, percentage: 100, reviewed: 1, inferred: 1, unreviewed: 0 },
+            { label: "Graphics", count: 0, percentage: 0, reviewed: 1, inferred: 1, unreviewed: 0 },
         ],
     });
 

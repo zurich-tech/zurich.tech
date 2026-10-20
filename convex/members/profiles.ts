@@ -13,6 +13,7 @@ import { authComponent } from "../auth/component";
 import { requireAccount } from "../auth/access";
 import { searchText } from "./search";
 import { normalizeImageUrl, socialLinks } from "./urls";
+import { inferReviews, reviewInput, saveReviews } from "./reviews";
 
 /** Read the signed-in member's editable profile. */
 export const current = query({
@@ -28,6 +29,7 @@ export const current = query({
             interests: viewer.interests ?? [],
             participation: viewer.participation ?? [],
             motivations: viewer.motivations ?? [],
+            surveyReviews: viewer.surveyReviews ?? inferReviews(viewer),
             visibility: member.visibility,
             handle: (
                 await ctx.db
@@ -53,6 +55,7 @@ export const save = mutation({
         interests: v.optional(v.array(v.string())),
         motivations: v.optional(v.array(v.string())),
         participation: v.optional(v.array(v.string())),
+        reviews: v.optional(v.array(reviewInput)),
         name: v.string(),
         handle: v.optional(v.string()),
         isPublic: v.boolean(),
@@ -143,6 +146,11 @@ export const save = mutation({
         )
             await ctx.db.patch(viewer._id, {
                 demographics: args.demographics ?? viewer.demographics,
+                surveyReviews: saveReviews(
+                    viewer.surveyReviews ?? inferReviews(viewer),
+                    args.reviews ?? [],
+                    Date.now(),
+                ),
                 interests: args.interests ?? viewer.interests,
                 participation: args.participation ?? viewer.participation,
                 motivations: args.motivations ?? viewer.motivations,

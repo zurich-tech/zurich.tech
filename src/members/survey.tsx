@@ -20,7 +20,15 @@ import { useAccount } from "../auth";
 import { memberClient } from "../auth/convex";
 import { FormMessage } from "../components/form";
 import { errorMessage } from "../components/errors";
-import { CommunityFields, readCommunity } from "./demographics";
+import { CommunityFields, readCommunity, readReviews } from "./demographics";
+import {
+    needsReview,
+    reviewOptions,
+    saveReviews,
+    type ReviewInput,
+    type SurveyReview,
+} from "../../convex/members/reviews";
+import { interestGroups } from "../topics/groups";
 import { getTopics } from "../topics/queries";
 import { SurveyWrites } from "./saving";
 import { useUnsavedChanges } from "../components/unsaved";
@@ -74,6 +82,9 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
     const topics = getTopics.use(() => []);
     const [answers, setAnswers] = createSignal<CommunityAnswers>(empty);
     const [visited, setVisited] = createSignal<SurveyQuestion[]>([]);
+    const [reviews, setReviews] = createSignal<SurveyReview[]>([]);
+    const [draftReviews, setDraftReviews] = createSignal<ReviewInput[]>([]);
+    const [isComplete, setIsComplete] = createSignal(false);
     const [draft, setDraft] = createSignal<Draft>({});
     const [step, setStep] = createSignal(0);
     const [view, setView] = createSignal<"question" | "edit" | "overview" | "complete">("question");
@@ -91,13 +102,50 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
     const isQuestion = () => view() === "question" || view() === "edit";
     const next = () =>
         view() === "edit" || step() === surveyQuestions.length - 1 ? "overview" : step() + 1;
+    const changed = (key: SurveyQuestion) => {
+        if (!isComplete() && !reviews().some((review) => review.question === key)) return false;
+        if (key === "interests" && !topics()) return false;
+        const options =
+            key === "interests"
+                ? (topics() ?? [])
+                      .filter(
+                          (topic) =>
+                              (topic.isActive || answers().interests.includes(topic.slug)) &&
+                              (interestGroups.some((group) => group.topics.includes(topic.slug)) ||
+                                  answers().interests.includes(topic.slug)),
+                      )
+                      .map((topic) => topic.slug)
+                : reviewOptions(key).filter(
+                      (option) =>
+                          !(
+                              key === "roles" &&
+                              option === "other" &&
+                              !answers().demographics.roles?.includes("other")
+                          ) &&
+                          !(
+                              key === "education" &&
+                              option === "secondary" &&
+                              answers().demographics.education !== "secondary"
+                          ),
+                  );
+
+        return needsReview(
+            reviews().find((review) => review.question === key),
+            { question: key, wording: labels[key], options },
+        );
+    };
+    const updates = () => surveyQuestions.filter(changed);
 
     // restore only well-formed drafts; never silently claim a corrupt draft was saved
     onMount(() => {
         try {
             const stored = sessionStorage.getItem(draftKey);
             if (!stored) return;
-            const value: unknown = JSON.parse(stored);
+            const decoded: unknown = JSON.parse(stored);
+            const value: unknown =
+                decoded && typeof decoded === "object" && "answers" in decoded
+                    ? decoded.answers
+                    : decoded;
             if (!value || typeof value !== "object" || Array.isArray(value))
                 throw new Error("Could not restore your draft.");
             let restored = empty;
@@ -113,6 +161,27 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
                     restored = answerQuestion(restored, key as SurveyQuestion, values);
             }
             setDraft(value as Draft);
+            if (decoded && typeof decoded === "object" && "reviews" in decoded) {
+                const snapshots = decoded.reviews;
+                if (
+                    !Array.isArray(snapshots) ||
+                    snapshots.some(
+                        (review) =>
+                            !review ||
+                            !surveyQuestions.includes(review.question) ||
+                            typeof review.wording !== "string" ||
+                            !Array.isArray(review.options) ||
+                            review.options.some((option: unknown) => typeof option !== "string"),
+                    )
+                ) {
+                    throw new Error("Could not restore your draft.");
+                }
+                setDraftReviews(snapshots);
+                if (!props.accountId)
+                    setReviews(
+                        snapshots.map((review) => ({ ...review, source: "explicit" as const })),
+                    );
+            }
             if (!props.accountId) {
                 setAnswers(restored);
                 const completed = Object.keys(value) as SurveyQuestion[];
@@ -131,6 +200,8 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
             const value = await (await memberClient()).query(api.members.audience.current, {});
             setAnswers(value);
             setVisited(value.surveyVisited);
+            setReviews(value.surveyReviews);
+            setIsComplete(!!value.surveyCompletedAt);
             resume(value, value.surveyVisited, !!value.surveyCompletedAt);
 
             return value;
@@ -150,21 +221,26 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
         setError(undefined);
         try {
             const key = question();
-            const values = isSkip
-                ? undefined
-                : surveyAnswer(readCommunity(new FormData(form)), key);
+            const fields = new FormData(form);
+            const review = readReviews(fields).find((review) => review.question === key);
+            if (!review) throw new Error("Please wait for the choices to load.");
+            const values = isSkip ? undefined : surveyAnswer(readCommunity(fields), key);
             if (props.accountId) {
-                const previous = surveyAnswer(answers(), key);
-                const isChanged =
-                    values !== undefined &&
-                    (previous.length !== values.length ||
-                        previous.some((value, index) => value !== values[index]));
-                if (!visited().includes(key) || isChanged) writes.add({ question: key, values });
+                writes.add({ question: key, values, review });
             } else {
                 const next = { ...draft(), [key]: values ?? draft()[key] ?? null };
-                sessionStorage.setItem(draftKey, JSON.stringify(next));
+                const snapshots = [
+                    ...draftReviews().filter((review) => review.question !== key),
+                    review,
+                ];
+                sessionStorage.setItem(
+                    draftKey,
+                    JSON.stringify({ answers: next, reviews: snapshots }),
+                );
                 setDraft(next);
+                setDraftReviews(snapshots);
             }
+            setReviews((previous) => saveReviews(previous, [review], Date.now()));
             if (values !== undefined) setAnswers((value) => answerQuestion(value, key, values));
             setVisited((value) => [...new Set([...value, key])]);
             navigate(target);
@@ -214,13 +290,20 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
             await client.mutation(api.members.audience.saveDraft, {
                 answers: surveyQuestions
                     .filter((key) => key in draft())
-                    .map((question) => ({ question, values: draft()[question] ?? undefined })),
+                    .map((question) => ({
+                        question,
+                        values: draft()[question] ?? undefined,
+                        review: draftReviews().find((review) => review.question === question),
+                    })),
             });
             const value = await client.query(api.members.audience.current, {});
             sessionStorage.removeItem(draftKey);
             setDraft({});
+            setDraftReviews([]);
             setAnswers(value);
             setVisited(value.surveyVisited);
+            setReviews(value.surveyReviews);
+            setIsComplete(!!value.surveyCompletedAt);
             resume(value, value.surveyVisited, !!value.surveyCompletedAt);
         } catch (caught) {
             setError(errorMessage(caught, "Could not save your draft. Please try again."));
@@ -237,6 +320,7 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
             await writes.flush();
             setSaveError(undefined);
             await (await memberClient()).mutation(api.members.audience.finish, {});
+            setIsComplete(true);
             props.onComplete?.();
             setView("complete");
             focusQuestion();
@@ -287,18 +371,21 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
                                     </header>
                                 </Show>
                                 <Show when={view() !== "complete"}>
-                                    <progress
-                                        aria-label="Questions visited or answered"
-                                        max={surveyQuestions.length}
-                                        value={
-                                            surveyQuestions.filter(
-                                                (key) =>
-                                                    visited().includes(key) ||
-                                                    surveyAnswer(answers(), key).length,
-                                            ).length
-                                        }
-                                    />
+                                    <Show when={!isComplete()}>
+                                        <progress
+                                            aria-label="Questions visited or answered"
+                                            max={surveyQuestions.length}
+                                            value={
+                                                surveyQuestions.filter(
+                                                    (key) =>
+                                                        visited().includes(key) ||
+                                                        surveyAnswer(answers(), key).length,
+                                                ).length
+                                            }
+                                        />
+                                    </Show>
                                     <p class="survey-intro">
+                                        <Show when={isComplete()}>Survey complete · </Show>
                                         All answers are optional and private.
                                     </p>
                                 </Show>
@@ -313,16 +400,34 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
                                                     void move(next());
                                                 }}
                                             >
-                                                <h2 class="sr-only" ref={heading} tabindex="-1">
-                                                    {labels[key]}
-                                                </h2>
+                                                <div class="survey-review-question-heading">
+                                                    <h2
+                                                        id="survey-question-title"
+                                                        ref={heading}
+                                                        tabindex="-1"
+                                                    >
+                                                        {labels[key]}
+                                                    </h2>
+                                                    <Show when={changed(key)}>
+                                                        <span class="survey-update-label">
+                                                            Updated
+                                                        </span>
+                                                    </Show>
+                                                </div>
+                                                <Show when={changed(key)}>
+                                                    <p class="survey-review-description">
+                                                        This question has changed. Anything to add?
+                                                    </p>
+                                                </Show>
                                                 <fieldset
                                                     disabled={isPending()}
                                                     class="survey-controls"
+                                                    aria-labelledby="survey-question-title"
                                                 >
                                                     <CommunityFields
                                                         question={key}
                                                         values={answers()}
+                                                        reviews={reviews()}
                                                     />
                                                 </fieldset>
                                                 <div class="survey-actions">
@@ -339,7 +444,11 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
                                                                 : move(step() - 1)
                                                         }
                                                     >
-                                                        {view() === "edit" ? "Cancel" : "Back"}
+                                                        {view() === "edit"
+                                                            ? changed(key)
+                                                                ? "Not now"
+                                                                : "Cancel"
+                                                            : "Back"}
                                                     </button>
                                                     <Show when={view() !== "edit"}>
                                                         <button
@@ -370,6 +479,32 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
                                     </Show>
                                 </Show>
                                 <Show when={view() === "overview"}>
+                                    <Show when={updates().length}>
+                                        <div class="survey-review-notice">
+                                            <div>
+                                                <strong>
+                                                    {updates().length}{" "}
+                                                    {updates().length === 1
+                                                        ? "question updated"
+                                                        : "questions updated"}
+                                                </strong>
+                                                <p>
+                                                    Review what's changed. Your answers are saved.
+                                                </p>
+                                            </div>
+                                            <button
+                                                class="action-link"
+                                                onClick={() =>
+                                                    navigate(
+                                                        surveyQuestions.indexOf(updates()[0]),
+                                                        true,
+                                                    )
+                                                }
+                                            >
+                                                Review
+                                            </button>
+                                        </div>
+                                    </Show>
                                     <h2 ref={heading} tabindex="-1">
                                         Your answers
                                     </h2>
@@ -378,7 +513,14 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
                                             {(key, index) => (
                                                 <div>
                                                     <div>
-                                                        <h3>{labels[key]}</h3>
+                                                        <h3 class="survey-review-title">
+                                                            {labels[key]}
+                                                            <Show when={changed(key)}>
+                                                                <span class="survey-update-label">
+                                                                    Updated
+                                                                </span>
+                                                            </Show>
+                                                        </h3>
                                                         <p
                                                             classList={{
                                                                 "survey-answer":
@@ -401,7 +543,7 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
                                                         disabled={isPending()}
                                                         onClick={() => navigate(index(), true)}
                                                     >
-                                                        Edit
+                                                        {changed(key) ? "Review" : "Edit"}
                                                         <span class="sr-only"> {labels[key]}</span>
                                                     </button>
                                                 </div>

@@ -4,6 +4,8 @@ import { getTopics } from "./queries";
 import { selectSpecificTopic } from "./selection";
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
 import "./topics.css";
+import { surveyLabels } from "../../convex/members/demographics";
+import type { SurveyReview } from "../../convex/members/reviews";
 
 /** Select curated topics; preserve selected values while the catalogue loads. */
 export function TopicFields(props: {
@@ -14,6 +16,7 @@ export function TopicFields(props: {
     name?: string;
     label?: string;
     onChange?: (values: string[]) => void;
+    review?: SurveyReview;
 }) {
     const topics = getTopics.use(() => []);
     const [selected, setSelected] = createSignal(props.values);
@@ -58,6 +61,19 @@ export function TopicFields(props: {
                 {(value) => <input type="hidden" name={props.name ?? "topic"} value={value} />}
             </For>
             <Show when={topics()} fallback={<p role="status">Loading topics…</p>}>
+                <Show when={props.isInterests}>
+                    <input
+                        type="hidden"
+                        name="surveyReview"
+                        value={JSON.stringify({
+                            question: "interests",
+                            wording: surveyLabels.interests,
+                            options: groups().flatMap((group) =>
+                                group.entries.map((topic) => topic.slug),
+                            ),
+                        })}
+                    />
+                </Show>
                 <div classList={{ "interest-groups": props.isInterests }}>
                     <For each={groups()}>
                         {(group) => (
@@ -76,9 +92,22 @@ export function TopicFields(props: {
                                                         )
                                                     }
                                                 />
-                                                {props.isInterests && retiredInterests[topic.slug]
-                                                    ? retiredInterests[topic.slug]
-                                                    : `${topic.name}${topic.isActive ? "" : " (archived)"}`}
+                                                <span class="survey-choice-label">
+                                                    {props.isInterests &&
+                                                    retiredInterests[topic.slug]
+                                                        ? retiredInterests[topic.slug]
+                                                        : `${topic.name}${topic.isActive ? "" : " (archived)"}`}
+                                                    <Show
+                                                        when={
+                                                            props.review &&
+                                                            !props.review.options.includes(
+                                                                topic.slug,
+                                                            )
+                                                        }
+                                                    >
+                                                        <small class="survey-new-label">New</small>
+                                                    </Show>
+                                                </span>
                                             </label>
                                         )}
                                     </For>

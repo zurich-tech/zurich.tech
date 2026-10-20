@@ -54,6 +54,7 @@ test("test_save_and_skip_individual_questions_without_erasing_answers", async ()
         onboardedAt: undefined,
         surveyCompletedAt: undefined,
         surveyVisited: ["eventFrequency", "age"],
+        surveyReviews: [],
     });
     expect(await client.query(api.members.profiles.current, {})).toEqual({
         ...before,
@@ -107,6 +108,7 @@ test("test_finish_guided_survey_without_requiring_or_clearing_answers", async ()
         surveyVisited: ["eventsAttended"],
         onboardedAt: expect.any(Number),
         surveyCompletedAt: undefined,
+        surveyReviews: [],
     });
 });
 

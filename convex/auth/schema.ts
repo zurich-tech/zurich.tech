@@ -1,4 +1,5 @@
 import { demographics, surveyQuestion } from "../members/demographics";
+import { surveyReview } from "../members/reviews";
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
@@ -15,6 +16,7 @@ export const accounts = defineTable({
     onboardedAt: v.optional(v.number()),
     /** Questions saved or explicitly skipped in the guided survey. */
     surveyVisited: v.optional(v.array(surveyQuestion)),
+    surveyReviews: v.optional(v.array(surveyReview)),
     /** Explicitly finishing the survey is distinct from dismissing onboarding. */
     surveyCompletedAt: v.optional(v.number()),
     isTeam: v.boolean(),
