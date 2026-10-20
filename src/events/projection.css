@@ -236,11 +236,11 @@
 .kitten-ear,
 .kitten-head {
     transition: transform 900ms ease;
-    transform-box: fill-box;
-    transform-origin: center;
-}
-.kitten-ear {
     transform-box: view-box;
+}
+.kitten-head {
+    /* anchor the head at the neck independently of animated tears and eyes */
+    transform-origin: 200px 205px;
 }
 .kitten-ear--left {
     transform-origin: 136px 100px;
@@ -278,24 +278,46 @@
     opacity: 1;
 }
 .kitten-tear {
-    animation: kitten-tear 1.3s ease-in infinite;
+    animation: kitten-tear 1.8s linear infinite;
 }
 .kitten-tear--second {
-    animation-delay: -0.65s;
+    animation-delay: -0.9s;
 }
 @keyframes kitten-tear {
-    0%,
-    20% {
-        transform: translateY(0);
+    0% {
+        transform: translateY(-5px);
         opacity: 0;
     }
-    35% {
+    18% {
+        transform: translateY(-3px);
         opacity: 1;
     }
-    90%,
+    38% {
+        transform: translateY(0);
+        opacity: 1;
+        animation-timing-function: cubic-bezier(0.55, 0, 1, 0.5);
+    }
+    82% {
+        transform: translateY(64px);
+        opacity: 1;
+    }
+    94%,
     100% {
-        transform: translateY(65px);
+        transform: translateY(85px);
         opacity: 0;
+    }
+}
+.kitten-tear-stream {
+    animation: kitten-tear-stream 1.8s ease-in-out infinite alternate;
+}
+@keyframes kitten-tear-stream {
+    from {
+        stroke-width: 6px;
+        opacity: 0.7;
+    }
+    to {
+        stroke-width: 9px;
+        opacity: 0.95;
     }
 }
 .kitten-tail {

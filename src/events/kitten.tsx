@@ -84,7 +84,7 @@ export function Kitten(props: { mood: (typeof kittenMoods)[number] }) {
                     <path d="M280 88 L286 49 L252 80" fill="#e8a6b2" />
                 </g>
                 <path
-                    d="M104 141 Q102 67 200 67 Q298 67 296 141 L305 164 L292 163 L300 180 L285 178 Q271 216 200 218 Q129 216 115 178 L100 180 L108 163 L95 164 Z"
+                    d="M104 141 Q100 67 200 67 Q300 67 296 141 Q309 174 283 196 Q258 222 200 222 Q142 222 117 196 Q91 174 104 141 Z"
                     fill={`url(#${fur})`}
                     stroke="#303749"
                     stroke-width="4"
@@ -95,9 +95,9 @@ export function Kitten(props: { mood: (typeof kittenMoods)[number] }) {
                     stroke-width="8"
                     stroke-linecap="round"
                 />
-                <ellipse cx="200" cy="182" rx="47" ry="27" fill="#fafafa" />
-                <ellipse cx="127" cy="169" rx="15" ry="7" fill="#e6a0ad" opacity="0.55" />
-                <ellipse cx="273" cy="169" rx="15" ry="7" fill="#e6a0ad" opacity="0.55" />
+                <ellipse cx="200" cy="185" rx="38" ry="24" fill="#fafafa" />
+                <ellipse cx="127" cy="172" rx="17" ry="10" fill="#e6a0ad" opacity="0.45" />
+                <ellipse cx="273" cy="172" rx="17" ry="10" fill="#e6a0ad" opacity="0.45" />
                 <g class="kitten-face kitten-face--devastated">
                     <ellipse cx="151" cy="143" rx="27" ry="31" fill="white" />
                     <ellipse cx="249" cy="143" rx="27" ry="31" fill="white" />
@@ -117,33 +117,47 @@ export function Kitten(props: { mood: (typeof kittenMoods)[number] }) {
                         stroke-linecap="round"
                     />
                     <path
-                        d="M126 162 Q136 169 146 162 L145 199 Q135 211 125 199 Z M254 162 Q264 169 274 162 L275 199 Q265 211 255 199 Z"
-                        fill="#69c8ee"
-                        opacity="0.9"
+                        d="M126 160 Q151 177 176 160 Q170 178 151 178 Q132 177 126 160 M224 160 Q249 177 274 160 Q268 177 249 178 Q230 178 224 160"
+                        fill="#94def3"
                     />
                     <path
-                        d="M132 174 L132 195 M261 174 L261 195"
-                        stroke="#d5f5ff"
-                        stroke-width="4"
+                        class="kitten-tear-stream"
+                        d="M132 170 C128 180 138 187 133 201 M268 170 C272 182 262 188 267 201"
+                        fill="none"
+                        stroke="#72c9e9"
+                        stroke-width="9"
+                        stroke-linecap="round"
+                    />
+                    <path
+                        d="M132 173 C130 181 136 185 133 192 M268 173 C270 181 264 185 267 192"
+                        fill="none"
+                        stroke="#e2f8ff"
+                        stroke-width="2.5"
                         stroke-linecap="round"
                     />
                     <g class="kitten-tear">
-                        <path d="M134 187 Q111 218 134 225 Q157 218 134 187" fill="#52bce8" />
                         <path
-                            d="M129 205 Q124 214 131 216"
+                            d="M134 192 C132 199 124 204 125 211 C126 223 143 223 143 211 C143 204 136 199 134 192"
+                            fill="#72c9e9"
+                        />
+                        <path
+                            d="M130 207 Q127 214 132 215"
                             fill="none"
                             stroke="#d5f5ff"
-                            stroke-width="4"
+                            stroke-width="2.5"
                             stroke-linecap="round"
                         />
                     </g>
                     <g class="kitten-tear kitten-tear--second">
-                        <path d="M266 187 Q243 218 266 225 Q289 218 266 187" fill="#52bce8" />
                         <path
-                            d="M261 205 Q256 214 263 216"
+                            d="M266 192 C264 199 256 204 257 211 C258 223 275 223 275 211 C275 204 268 199 266 192"
+                            fill="#72c9e9"
+                        />
+                        <path
+                            d="M262 207 Q259 214 264 215"
                             fill="none"
                             stroke="#d5f5ff"
-                            stroke-width="4"
+                            stroke-width="2.5"
                             stroke-linecap="round"
                         />
                     </g>
@@ -228,7 +242,10 @@ export function Kitten(props: { mood: (typeof kittenMoods)[number] }) {
                     />
                     <path d="M187 206 Q200 197 213 206 Q200 220 187 206" fill="#ef9dad" />
                 </g>
-                <path d="M191 173 Q200 169 209 173 L200 182 Z" fill="#bc718b" />
+                <path
+                    d="M193 174 Q200 170 207 174 Q204 179 200 180 Q196 179 193 174"
+                    fill="#bc718b"
+                />
                 <path
                     d="M196 174 L202 174"
                     stroke="#f5c3d1"
@@ -236,9 +253,9 @@ export function Kitten(props: { mood: (typeof kittenMoods)[number] }) {
                     stroke-linecap="round"
                 />
                 <path
-                    d="M124 172 L82 165 M125 183 L83 187 M276 172 L318 165 M275 183 L317 187"
-                    stroke="#303749"
-                    stroke-width="3"
+                    d="M122 178 Q105 172 91 174 M123 188 Q105 187 94 193 M278 178 Q295 172 309 174 M277 188 Q295 187 306 193"
+                    stroke="#596174"
+                    stroke-width="2.5"
                     stroke-linecap="round"
                 />
             </g>
