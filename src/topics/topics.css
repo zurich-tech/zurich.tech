@@ -67,6 +67,7 @@
     .choice-grid:is(
         .role-choices,
         .language-choices,
+        .country-choices,
         .attendance-choices,
         .event-choices,
         .motivation-choices
@@ -407,6 +408,7 @@
         .choice-grid:is(
             .role-choices,
             .language-choices,
+            .country-choices,
             .attendance-choices,
             .event-choices,
             .motivation-choices

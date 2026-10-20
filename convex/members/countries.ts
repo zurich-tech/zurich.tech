@@ -186,7 +186,7 @@ export const countries = [
     },
     {
         value: "CN",
-        label: "China mainland",
+        label: "China",
     },
     {
         value: "CX",
