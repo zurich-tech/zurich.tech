@@ -12,6 +12,7 @@ import {
 } from "./demographics";
 import { allLanguages } from "./languages";
 import { countries } from "./countries";
+import { interestGroups } from "./groups";
 
 /** The question and choices available when an answer was explicitly saved. */
 export const reviewInput = v.object({
@@ -133,6 +134,60 @@ export function reviewOptions(question: SurveyQuestion): string[] {
         return countries.map((option) => option.value);
 
     return demographicOptions[question].map((option) => option.value);
+}
+
+/** Describe the choices currently available to this respondent. */
+export function currentReview(
+    question: SurveyQuestion,
+    answers: Partial<CommunityAnswers>,
+    topics: { slug: string; isActive: boolean }[],
+): ReviewInput {
+    const interests = answers.interests ?? [];
+    const options =
+        question === "interests"
+            ? topics
+                  .filter(
+                      (topic) =>
+                          (topic.isActive || interests.includes(topic.slug)) &&
+                          (interestGroups.some((group) => group.topics.includes(topic.slug)) ||
+                              interests.includes(topic.slug)),
+                  )
+                  .map((topic) => topic.slug)
+            : reviewOptions(question).filter(
+                  (option) =>
+                      !(
+                          question === "roles" &&
+                          option === "other" &&
+                          !answers.demographics?.roles?.includes("other")
+                      ) &&
+                      !(
+                          question === "education" &&
+                          option === "secondary" &&
+                          answers.demographics?.education !== "secondary"
+                      ),
+              );
+
+    return { question, wording: surveyLabels[question], options };
+}
+
+/** Find changed questions without including private answers in reminder content. */
+export function updatedQuestions(
+    account: Partial<CommunityAnswers> & {
+        surveyReviews?: SurveyReview[];
+        surveyCompletedAt?: number;
+        updatedAt?: number;
+        surveyVisited?: SurveyQuestion[];
+    },
+    topics: { slug: string; isActive: boolean }[],
+): SurveyQuestion[] {
+    const reviews = account.surveyReviews ?? inferReviews(account);
+
+    return surveyQuestions.filter((question) =>
+        needsReview(
+            reviews.find((review) => review.question === question),
+            currentReview(question, account, topics),
+        ),
+    );
 }
 
 /** Estimate historical availability from completion or account-update time, retaining its provenance. */

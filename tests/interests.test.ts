@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { api } from "../convex/_generated/api";
 import { retiredInterests } from "../convex/members/interests";
 import { validateTopics } from "../convex/topics/queries";
-import { interestGroups } from "../src/topics/groups";
+import { interestGroups } from "../convex/members/groups";
 import { catalogue } from "../convex/topics/catalogue";
 import { convexTest, schema, modules, member } from "./backend";
 

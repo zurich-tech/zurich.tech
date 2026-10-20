@@ -18,7 +18,14 @@ import { attendanceCopy, resourcesPlaceholder } from "./attendance";
 /** Read all upcoming published events for the digest preview. */
 export const preview = query({
     args: {
-        profile: v.optional(v.union(v.literal("create"), v.literal("complete"), v.literal("none"))),
+        profile: v.optional(
+            v.union(
+                v.literal("create"),
+                v.literal("complete"),
+                v.literal("update"),
+                v.literal("none"),
+            ),
+        ),
     },
     handler: async (ctx, args) => {
         // restrict newsletter controls to the team

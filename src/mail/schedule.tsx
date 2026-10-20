@@ -5,11 +5,13 @@ import { FormMessage } from "../components/form";
 import { useWorkspaceCommand } from "../app/workspace";
 import { memberClient } from "../auth/convex";
 import { api } from "../../convex/_generated/api";
+import type { ProfilePrompt } from "../../convex/mail/involvement";
+import { FilterSelect } from "../components/filter-select";
 
 /** Show the next edition and its automatic schedule. */
 export function NewsletterSchedule() {
     const confirm = useConfirmation();
-    const [profile, setProfile] = createSignal<"create" | "complete" | "none">("create");
+    const [profile, setProfile] = createSignal<ProfilePrompt>("create");
     const [edition, { refetch }] = createResource(profile, async (profile) =>
         (await memberClient()).query(api.mail.newsletter.preview, { profile }),
     );
@@ -109,22 +111,17 @@ export function NewsletterSchedule() {
                         </Show>
                         <section class="mail-section">
                             <h3>Next edition</h3>
-                            <label>
-                                Profile invitation
-                                <select
-                                    value={profile()}
-                                    onChange={(event) =>
-                                        setProfile(
-                                            event.currentTarget.value as
-                                                "create" | "complete" | "none",
-                                        )
-                                    }
-                                >
-                                    <option value="create">No account</option>
-                                    <option value="complete">Profile not filled out</option>
-                                    <option value="none">No profile prompt</option>
-                                </select>
-                            </label>
+                            <FilterSelect
+                                label="Survey invitation"
+                                value={profile()}
+                                onChange={(value) => setProfile(value as ProfilePrompt)}
+                                options={[
+                                    { value: "create", label: "No account" },
+                                    { value: "complete", label: "Survey incomplete" },
+                                    { value: "update", label: "Survey updated" },
+                                    { value: "none", label: "Survey current" },
+                                ]}
+                            />
                             <iframe
                                 class="email-preview"
                                 title="Newsletter preview"

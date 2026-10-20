@@ -1,4 +1,4 @@
-/** Present related interests together; content editing still uses the complete topic catalogue. */
+/** Curated survey interests shared by forms and email reminders. */
 export const interestGroups = [
     {
         name: "AI",

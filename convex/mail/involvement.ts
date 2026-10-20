@@ -1,8 +1,8 @@
 import { siteOrigin } from "../auth/environment";
 import { escapeHtml, palette, sectionHeading, socials } from "./layout";
 
-/** Only account and profile copy affect the prompt, never private survey answers. */
-export type ProfilePrompt = "create" | "complete" | "none";
+/** Invitation states expose completion and update status, never private answers. */
+export type ProfilePrompt = "create" | "complete" | "update" | "none";
 
 /** Code-owned placeholders resolved once for each email recipient. */
 export const profilePlaceholder = {
@@ -34,16 +34,22 @@ function invitation(
     };
 }
 
-/** Offer profile setup without requiring publication or optional demographics. */
+/** Invite account creation or optional survey completion and review. */
 export function profileInvitation(prompt: ProfilePrompt) {
     if (prompt === "none") return { html: "", text: "" };
 
     return invitation(
-        prompt === "create" ? "Sign Up" : "Complete Your Profile",
+        prompt === "create"
+            ? "Sign Up"
+            : prompt === "update"
+              ? "Update your survey"
+              : "Complete the survey",
         prompt === "create"
             ? "Faster RSVPs. Your topics and alerts."
-            : "Choose your topics and alerts.",
-        `${siteOrigin()}/settings?section=profile`,
+            : prompt === "update"
+              ? "New choices. Anything to add?"
+              : "Help shape our next events.",
+        `${siteOrigin()}${prompt === "create" ? "/settings?section=profile" : "/survey"}`,
     );
 }
 

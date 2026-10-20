@@ -23,12 +23,11 @@ import { errorMessage } from "../components/errors";
 import { CommunityFields, readCommunity, readReviews } from "./demographics";
 import {
     needsReview,
-    reviewOptions,
+    currentReview,
     saveReviews,
     type ReviewInput,
     type SurveyReview,
 } from "../../convex/members/reviews";
-import { interestGroups } from "../topics/groups";
 import { getTopics } from "../topics/queries";
 import { SurveyWrites } from "./saving";
 import { useUnsavedChanges } from "../components/unsaved";
@@ -48,8 +47,8 @@ const empty: CommunityAnswers = {
 /** Question labels shared by navigation and the answer overview. */
 const labels = surveyLabels;
 
-/** Offer optional questions one at a time, without replacing the full profile editor. */
-export function Survey(props: { onComplete?: () => void }) {
+/** Offer optional questions in the guided flow or the account overview. */
+export function Survey(props: { onComplete?: () => void; isOverview?: boolean }) {
     const account = useAccount();
     return (
         <Show when={!account.isPending()} fallback={<p role="status">Loading your answers…</p>}>
@@ -69,6 +68,7 @@ export function Survey(props: { onComplete?: () => void }) {
                         <SurveyForm
                             accountId={owner === "anonymous" ? undefined : owner}
                             onComplete={props.onComplete}
+                            isOverview={props.isOverview}
                         />
                     )}
                 </Show>
@@ -78,7 +78,7 @@ export function Survey(props: { onComplete?: () => void }) {
 }
 
 /** Isolate drafts and requests to the currently displayed account session. */
-function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
+function SurveyForm(props: { accountId?: string; onComplete?: () => void; isOverview?: boolean }) {
     const topics = getTopics.use(() => []);
     const [answers, setAnswers] = createSignal<CommunityAnswers>(empty);
     const [visited, setVisited] = createSignal<SurveyQuestion[]>([]);
@@ -105,33 +105,9 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
     const changed = (key: SurveyQuestion) => {
         if (!isComplete() && !reviews().some((review) => review.question === key)) return false;
         if (key === "interests" && !topics()) return false;
-        const options =
-            key === "interests"
-                ? (topics() ?? [])
-                      .filter(
-                          (topic) =>
-                              (topic.isActive || answers().interests.includes(topic.slug)) &&
-                              (interestGroups.some((group) => group.topics.includes(topic.slug)) ||
-                                  answers().interests.includes(topic.slug)),
-                      )
-                      .map((topic) => topic.slug)
-                : reviewOptions(key).filter(
-                      (option) =>
-                          !(
-                              key === "roles" &&
-                              option === "other" &&
-                              !answers().demographics.roles?.includes("other")
-                          ) &&
-                          !(
-                              key === "education" &&
-                              option === "secondary" &&
-                              answers().demographics.education !== "secondary"
-                          ),
-                  );
-
         return needsReview(
             reviews().find((review) => review.question === key),
-            { question: key, wording: labels[key], options },
+            currentReview(key, answers(), topics() ?? []),
         );
     };
     const updates = () => surveyQuestions.filter(changed);
@@ -212,7 +188,7 @@ function SurveyForm(props: { accountId?: string; onComplete?: () => void }) {
     function resume(value: CommunityAnswers, completed: SurveyQuestion[], isComplete = false) {
         const position = surveyPosition(value, completed, isComplete);
         setStep(typeof position === "number" ? position : 0);
-        setView(position === "overview" ? "overview" : "question");
+        setView(props.isOverview || position === "overview" ? "overview" : "question");
     }
 
     /** Save locally before moving; persist account changes without blocking navigation. */

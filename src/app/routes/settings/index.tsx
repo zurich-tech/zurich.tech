@@ -9,6 +9,7 @@ import { Match, Show, Switch, createSignal } from "solid-js";
 import { PaymentHistory } from "../../../billing/payments";
 import { Notifications } from "../../../members/notifications";
 import { ProfileSettings } from "../../../members/profile";
+import { Survey } from "../../../members/survey";
 import { SupportSettings } from "../../../sponsorships/members";
 import { auth, useAccount } from "../../../auth/index";
 import { Button } from "../../../components/button";
@@ -25,6 +26,7 @@ export default function Route() {
     const location = useLocation();
     const sections = [
         { id: "profile", label: "Profile" },
+        { id: "survey", label: "Survey" },
         { id: "notifications", label: "Notifications" },
         { id: "speaking", label: "Speaking" },
         { id: "billing", label: "Billing" },
@@ -116,6 +118,11 @@ export default function Route() {
                             <Switch>
                                 <Match when={section() === "profile"}>
                                     <ProfileSettings />
+                                </Match>
+                                <Match when={section() === "survey"}>
+                                    <div class="survey-page">
+                                        <Survey isOverview />
+                                    </div>
                                 </Match>
                                 <Match when={section() === "speaking"}>
                                     <Speaking />

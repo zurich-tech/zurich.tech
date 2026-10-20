@@ -1,6 +1,5 @@
 import { MarkdownEditor } from "../components/markdown-editor";
 import { AffiliationFields, readAffiliations } from "./affiliations";
-import { CommunityFields, readCommunity, readReviews } from "./demographics";
 import {
     Suspense,
     startTransition,
@@ -150,8 +149,6 @@ export function ProfileSettings() {
                 bio: text("bio"),
                 profileUrl: text("profileUrl"),
                 socials: { linkedin: text("linkedin"), github: text("github"), x: text("x") },
-                ...readCommunity(fields),
-                reviews: readReviews(fields),
             });
             setSlug(undefined);
             setCandidate(undefined);
@@ -384,20 +381,6 @@ export function ProfileSettings() {
                             profileUrl={current().profileUrl}
                             socials={current().socials}
                         />
-
-                        {/* keep optional private answers separate from public profile fields */}
-                        <section class="profile-about" aria-labelledby="profile-about-title">
-                            <h3 id="profile-about-title">
-                                About you <span>Optional · Private</span>
-                            </h3>
-                            <a href="/survey">Open guided survey</a>
-                            <div class="profile-about__fields">
-                                <CommunityFields
-                                    values={current()}
-                                    reviews={current().surveyReviews}
-                                />
-                            </div>
-                        </section>
 
                         <FormMessage error={error()} success={success()} />
                     </Editor>

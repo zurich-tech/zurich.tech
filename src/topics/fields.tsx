@@ -1,4 +1,4 @@
-import { interestGroups } from "./groups";
+import { interestGroups } from "../../convex/members/groups";
 import { retiredInterests } from "../../convex/members/interests";
 import { getTopics } from "./queries";
 import { selectSpecificTopic } from "./selection";

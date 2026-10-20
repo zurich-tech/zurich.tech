@@ -51,30 +51,6 @@
     }
 }
 
-/* separate private answers from public profile details */
-.profile-about {
-    border-block: var(--rule) solid var(--color-line);
-    padding-block: var(--space-4);
-}
-
-.profile-about > h3 {
-    font-size: var(--text-md);
-    font-weight: 500;
-}
-
-.profile-about > h3 > span {
-    margin-left: var(--space-3);
-    color: var(--color-soft);
-    font-size: var(--text-sm);
-    font-weight: 400;
-}
-
-.profile-about__fields {
-    display: grid;
-    gap: var(--space-5);
-    padding-top: var(--space-5);
-}
-
 /* portrait with its upload control */
 .profile-photo {
     display: flex;

@@ -5,6 +5,7 @@ import { escapeHtml, paragraph } from "./layout";
 import { attendanceCopy, welcome, resourcesPlaceholder } from "./attendance";
 import { ensureToken } from "../events/checkin";
 import { profileInvitation, profilePlaceholder, type ProfilePrompt } from "./involvement";
+import { updatedQuestions } from "../members/reviews";
 
 /** Code-owned URL placeholders; campaign authors never edit template markup. */
 export const links = {
@@ -108,9 +109,11 @@ export async function personalize(ctx: MutationCtx, content: Content, id: Recipi
                 ? "none"
                 : !account
                   ? "create"
-                  : member?.headline?.trim() || member?.bio?.trim() || member?.affiliations?.length
-                    ? "none"
-                    : "complete";
+                  : !account.surveyCompletedAt
+                    ? "complete"
+                    : updatedQuestions(account, await ctx.db.query("topics").collect()).length
+                      ? "update"
+                      : "none";
         const invitation = profileInvitation(prompt);
         text = text.replaceAll(profilePlaceholder.text, invitation.text);
         html = html?.replaceAll(profilePlaceholder.html, invitation.html);

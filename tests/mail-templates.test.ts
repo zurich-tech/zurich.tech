@@ -35,7 +35,10 @@ test("test_render_consistent_profile_actions_and_public_sharing", () => {
         "Sign Up: https://zurich.tech/settings?section=profile\nFaster RSVPs. Your topics and alerts.",
     );
     expect(profileInvitation("complete").text).toBe(
-        "Complete Your Profile: https://zurich.tech/settings?section=profile\nChoose your topics and alerts.",
+        "Complete the survey: https://zurich.tech/survey\nHelp shape our next events.",
+    );
+    expect(profileInvitation("update").text).toBe(
+        "Update your survey: https://zurich.tech/survey\nNew choices. Anything to add?",
     );
     const participation = involvement("none");
     expect(participation.html).not.toContain("WhatsApp");
@@ -261,7 +264,7 @@ test("test_stack_participation_actions_above_descriptions", () => {
     const html = involvement("complete").html;
     expect(html.match(/display:block;margin-top:3px/g)).toHaveLength(4);
     expect(html).not.toContain("<table");
-    expect(html).toContain("Complete Your Profile &rarr;");
+    expect(html).toContain("Complete the survey &rarr;");
 });
 
 test("test_format_series_dates_for_readers", () => {

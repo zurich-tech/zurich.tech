@@ -99,6 +99,7 @@ import type * as members_backfill from "../members/backfill.js";
 import type * as members_countries from "../members/countries.js";
 import type * as members_demographics from "../members/demographics.js";
 import type * as members_emails from "../members/emails.js";
+import type * as members_groups from "../members/groups.js";
 import type * as members_identity from "../members/identity.js";
 import type * as members_interests from "../members/interests.js";
 import type * as members_languages from "../members/languages.js";
@@ -242,6 +243,7 @@ declare const fullApi: ApiFromModules<{
   "members/countries": typeof members_countries;
   "members/demographics": typeof members_demographics;
   "members/emails": typeof members_emails;
+  "members/groups": typeof members_groups;
   "members/identity": typeof members_identity;
   "members/interests": typeof members_interests;
   "members/languages": typeof members_languages;
