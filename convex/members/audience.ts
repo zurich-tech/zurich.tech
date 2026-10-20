@@ -320,7 +320,11 @@ export async function aggregateAudience(ctx: QueryCtx, accounts: Doc<"accounts">
         (field) => ({
             field,
             label: surveyLabels[field],
-            multiple: field === "roles" || field === "languages" || field === "eventKinds",
+            multiple:
+                field === "roles" ||
+                field === "languages" ||
+                field === "eventKinds" ||
+                field === "discovery",
             ...summariseQuestion(
                 field,
                 field === "languages" ? languageOptions : demographicOptions[field],

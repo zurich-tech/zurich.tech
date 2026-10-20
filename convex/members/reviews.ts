@@ -32,6 +32,7 @@ export type SurveyReview = Infer<typeof surveyReview>;
 
 /** Original option sets reconstructed from the commits that introduced each question. */
 const original: Partial<Record<SurveyQuestion, readonly string[]>> = {
+    discovery: ["linkedin", "twitter", "search", "event", "friend", "colleague", "email", "other"],
     interests: [
         "robotics",
         "reinforcement-learning",
@@ -162,8 +163,10 @@ export function inferReviews(
             {
                 question,
                 wording:
-                    question === "discovery" && (!at || at < Date.parse("2026-10-19T21:13:22Z"))
-                        ? "How did you hear about zurich.tech?"
+                    question === "discovery"
+                        ? !at || at < Date.parse("2026-10-19T21:13:22Z")
+                            ? "How did you hear about zurich.tech?"
+                            : "How did you first hear about zurich.tech?"
                         : surveyLabels[question],
                 options: [
                     ...new Set([

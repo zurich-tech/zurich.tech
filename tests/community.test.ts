@@ -9,6 +9,7 @@ import {
     surveyQuestions,
     type CommunityAnswers,
     answerQuestion,
+    surveyAnswer,
 } from "../convex/members/demographics";
 import { summarise } from "../convex/members/audience";
 import { allLanguages, languages } from "../convex/members/languages";
@@ -35,17 +36,26 @@ test("startup motivations coexist with existing answers", () => {
     expect(answers.motivations).toEqual(["learning", "opportunities"]);
 });
 
-test("discovery accepts one explicit choice and preserves completed legacy surveys", () => {
+test("discovery accepts multiple choices and preserves completed legacy surveys", () => {
     const answers: CommunityAnswers = {
         demographics: {},
         interests: [],
         motivations: [],
         participation: [],
     };
-    expect(answerQuestion(answers, "discovery", ["friend"]).demographics.discovery).toBe("friend");
+    expect(answerQuestion(answers, "discovery", ["friend"]).demographics.discovery).toEqual([
+        "friend",
+    ]);
     expect(() => answerQuestion(answers, "discovery", ["invented"])).toThrow();
-    expect(() => answerQuestion(answers, "discovery", ["friend", "linkedin"])).toThrow();
-    expect(answerQuestion(answers, "discovery", []).demographics.discovery).toBeNull();
+    expect(
+        answerQuestion(answers, "discovery", ["friend", "linkedin"]).demographics.discovery,
+    ).toEqual(["friend", "linkedin"]);
+    expect(() => answerQuestion(answers, "discovery", ["friend", "friend"])).toThrow();
+    expect(answerQuestion(answers, "discovery", []).demographics.discovery).toEqual([]);
+    expect(
+        surveyAnswer({ ...answers, demographics: { discovery: "friend" } }, "discovery"),
+    ).toEqual(["friend"]);
+    expect(demographicOptions.discovery).toHaveLength(12);
     expect(
         surveyPosition(
             answers,

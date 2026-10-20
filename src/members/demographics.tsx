@@ -48,9 +48,9 @@ export function readDemographics(fields: FormData): Answers {
     // collect only answered questions
     const result: Record<string, unknown> = {};
     for (const key of Object.keys(demographicOptions)) {
-        if (key === "roles" || key === "languages" || key === "eventKinds") {
+        if (key === "roles" || key === "languages" || key === "eventKinds" || key === "discovery") {
             const values = fields
-                .getAll(key === "roles" ? "role" : key === "languages" ? "language" : "eventKinds")
+                .getAll(key === "roles" ? "role" : key === "languages" ? "language" : key)
                 .map(String);
             if (values.length) result[key] = values;
         } else {
@@ -260,15 +260,28 @@ export function CommunityFields(props: {
                                     {(option) => (
                                         <label class="checkbox">
                                             <input
-                                                type="radio"
+                                                type={field === "discovery" ? "checkbox" : "radio"}
                                                 name={field}
                                                 value={option.value}
                                                 checked={
-                                                    props.values.demographics[field] ===
-                                                    option.value
+                                                    field === "discovery" &&
+                                                    Array.isArray(
+                                                        props.values.demographics.discovery,
+                                                    )
+                                                        ? props.values.demographics.discovery.includes(
+                                                              option.value,
+                                                          )
+                                                        : props.values.demographics[field] ===
+                                                          option.value
                                                 }
                                             />
-                                            {option.label}
+                                            <ChoiceLabel
+                                                label={option.label}
+                                                value={option.value}
+                                                review={props.reviews?.find(
+                                                    (review) => review.question === field,
+                                                )}
+                                            />
                                         </label>
                                     )}
                                 </For>

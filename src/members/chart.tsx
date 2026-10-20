@@ -1,4 +1,4 @@
-import { createSignal, For, Show } from "solid-js";
+import { createSignal, createUniqueId, createEffect, For, Show, onCleanup } from "solid-js";
 import { ArrowDownWideNarrow, ListOrdered } from "lucide-solid";
 import { rankAnswers } from "./audience";
 import { Empty } from "../components/empty";
@@ -71,22 +71,7 @@ export function AudienceChart(props: {
                                     when={group.unreviewed > 0}
                                     fallback={<span class="text-soft">{group.percentage}%</span>}
                                 >
-                                    <details class="survey-coverage">
-                                        <summary
-                                            aria-label={`Response coverage for ${group.label}`}
-                                        >
-                                            {group.reviewed ? `${group.percentage}%` : "—"}
-                                        </summary>
-                                        <p>
-                                            {group.count} / {group.reviewed} selected
-                                            <br />
-                                            {group.unreviewed} haven't reviewed
-                                            <Show when={group.inferred > 0}>
-                                                <br />
-                                                <small>Historical coverage estimated.</small>
-                                            </Show>
-                                        </p>
-                                    </details>
+                                    <Coverage group={group} />
                                 </Show>
                             </span>
                             <meter
@@ -100,5 +85,71 @@ export function AudienceChart(props: {
                 </For>
             </Show>
         </section>
+    );
+}
+
+/** Explain a changed denominator on hover, focus, or touch. */
+function Coverage(props: {
+    group: {
+        label: string;
+        count: number;
+        reviewed: number;
+        unreviewed: number;
+        inferred: number;
+        percentage: number;
+    };
+}) {
+    const [isOpen, setOpen] = createSignal(false);
+    const id = createUniqueId();
+    let element!: HTMLSpanElement;
+
+    // dismiss touch disclosures when another target is pressed
+    createEffect(() => {
+        if (!isOpen()) return;
+
+        const dismiss = (event: PointerEvent) => {
+            if (!element.contains(event.target as Node)) setOpen(false);
+        };
+        document.addEventListener("pointerdown", dismiss);
+        onCleanup(() => document.removeEventListener("pointerdown", dismiss));
+    });
+
+    return (
+        <span
+            ref={element}
+            class="survey-coverage"
+            onPointerEnter={(event) => {
+                if (event.pointerType !== "touch") setOpen(true);
+            }}
+            onPointerLeave={() => setOpen(false)}
+            onFocusIn={() => setOpen(true)}
+            onFocusOut={() => setOpen(false)}
+            onKeyDown={(event) => {
+                if (event.key === "Escape") setOpen(false);
+            }}
+        >
+            <button
+                type="button"
+                aria-label={`Response coverage for ${props.group.label}`}
+                aria-describedby={isOpen() ? id : undefined}
+                onClick={() => setOpen(true)}
+            >
+                {props.group.reviewed ? `${props.group.percentage}%` : "—"}
+            </button>
+            <Show when={isOpen()}>
+                <span id={id} role="tooltip" class="survey-coverage-tooltip">
+                    <span>
+                        <strong>
+                            {props.group.count} of {props.group.reviewed}
+                        </strong>{" "}
+                        selected
+                    </span>
+                    <span>{props.group.unreviewed} not reviewed</span>
+                    <Show when={props.group.inferred > 0}>
+                        <small>Estimated</small>
+                    </Show>
+                </span>
+            </Show>
+        </span>
     );
 }

@@ -4,6 +4,31 @@ import { api, internal } from "../convex/_generated/api";
 import { inferReviews, needsReview, reviewOptions, saveReviews } from "../convex/members/reviews";
 import { surveyLabels } from "../convex/members/demographics";
 
+test("mark legacy discovery answers for review without assuming new sources were shown", () => {
+    const [previous] = inferReviews({
+        demographics: { discovery: "friend" },
+        surveyCompletedAt: Date.parse("2026-10-20T10:00:00Z"),
+    });
+    expect(previous.wording).toBe("How did you first hear about zurich.tech?");
+    expect(previous.options).toEqual([
+        "linkedin",
+        "twitter",
+        "search",
+        "event",
+        "friend",
+        "colleague",
+        "email",
+        "other",
+    ]);
+    expect(
+        needsReview(previous, {
+            question: "discovery",
+            wording: surveyLabels.discovery,
+            options: reviewOptions("discovery"),
+        }),
+    ).toBe(true);
+});
+
 test("historical coverage uses completion time and retains actual selections", () => {
     const reviews = inferReviews({
         motivations: ["learning", "hiring"],

@@ -92,7 +92,7 @@
 }
 
 .survey-question .interest-group .checkbox {
-    flex: 1 1 calc((100% - 2 * var(--space-3)) / 3);
+    flex: 0 1 calc((100% - 2 * var(--space-3)) / 3);
     min-width: min(100%, 150px);
 }
 

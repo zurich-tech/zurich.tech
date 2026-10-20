@@ -21,11 +21,15 @@ export const demographicOptions = {
     discovery: [
         { value: "linkedin", label: "LinkedIn" },
         { value: "twitter", label: "X / Twitter" },
+        { value: "instagram", label: "Instagram" },
         { value: "search", label: "Web search" },
-        { value: "event", label: "Event" },
+        { value: "website", label: "Another website" },
+        { value: "email", label: "Email / newsletter" },
         { value: "friend", label: "Friend" },
         { value: "colleague", label: "Colleague" },
-        { value: "email", label: "Email / newsletter" },
+        { value: "event", label: "Event" },
+        { value: "institution", label: "University / workplace" },
+        { value: "community", label: "Group chat / community" },
         { value: "other", label: "Other" },
     ],
     eventsAttended: [
@@ -106,7 +110,7 @@ export const demographicOptions = {
 /** Current survey questions shown in forms and audience reports. */
 export const demographicLabels = {
     eventKinds: "Which kinds of events would you like?",
-    discovery: "How did you first hear about zurich.tech?",
+    discovery: "Where have you heard about zurich.tech?",
     eventsAttended: "How many zurich.tech events have you attended?",
     eventFrequency: "How often would you like to attend zurich.tech events?",
     roles: "What do you do?",
@@ -148,7 +152,7 @@ const choice = (options: readonly { value: string }[]) =>
     v.optional(v.union(v.null(), v.union(...options.map((option) => v.literal(option.value)))));
 export const demographics = v.object({
     eventKinds: v.optional(v.union(v.null(), v.array(v.string()))),
-    discovery: choice(demographicOptions.discovery),
+    discovery: v.optional(v.union(v.null(), v.string(), v.array(v.string()))),
     eventsAttended: choice(demographicOptions.eventsAttended),
     eventFrequency: choice(demographicOptions.eventFrequency),
     eventsPerYear: choice(demographicOptions.eventsPerYear),
@@ -247,7 +251,8 @@ export function answerQuestion(
         question === "roles" ||
         question === "languages" ||
         question === "citizenships" ||
-        question === "eventKinds";
+        question === "eventKinds" ||
+        question === "discovery";
     if (!isMultiple && values.length > 1) throw new ConvexError("Choose only one answer.");
     if (
         !isMultiple &&
@@ -269,6 +274,17 @@ export function answerQuestion(
 
 /** Validate multi-select responses without treating absence as a negative answer. */
 export function validateDemographics(value: Demographics) {
+    // preserve legacy single answers while validating new multiple selections
+    const discovery = typeof value.discovery === "string" ? [value.discovery] : value.discovery;
+    if (
+        discovery &&
+        (new Set(discovery).size !== discovery.length ||
+            discovery.some(
+                (entry) => !demographicOptions.discovery.some((option) => option.value === entry),
+            ))
+    )
+        throw new ConvexError("choose each discovery source once from the available options");
+
     // accept distinct event preferences from the current choices
     if (
         value.eventKinds &&
