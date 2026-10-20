@@ -119,7 +119,7 @@ export function CommunityFields(props: {
                 <section class="community-section">
                     <fieldset class="survey-choice">
                         <legend>What brings you here?</legend>
-                        <div class="choice-grid">
+                        <div class="choice-grid motivation-choices">
                             <For each={motivationOptions}>
                                 {(option) => (
                                     <label class="checkbox">

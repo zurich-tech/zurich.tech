@@ -123,6 +123,12 @@ export const motivationOptions = [
     { value: "learning", label: "Learning something" },
     { value: "sharing", label: "Sharing my work" },
     { value: "opportunities", label: "Finding opportunities" },
+    { value: "starting-company", label: "Starting a company" },
+    { value: "joining-startup", label: "Joining a startup" },
+    { value: "cofounders", label: "Finding co-founders" },
+    { value: "hiring", label: "Hiring people" },
+    { value: "customers", label: "Finding customers" },
+    { value: "backing-startups", label: "Backing startups" },
 ] as const;
 /** Stable participation values shared by survey forms, validation and reports. */
 export const participationOptions = [

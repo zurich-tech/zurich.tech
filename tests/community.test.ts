@@ -13,6 +13,28 @@ import {
 import { summarise } from "../convex/members/audience";
 import { allLanguages, languages } from "../convex/members/languages";
 
+test("startup motivations coexist with existing answers", () => {
+    const answers: CommunityAnswers = {
+        demographics: {},
+        interests: [],
+        motivations: ["learning", "opportunities"],
+        participation: ["attend"],
+    };
+    const motivations = [
+        ...answers.motivations,
+        "starting-company",
+        "joining-startup",
+        "cofounders",
+        "hiring",
+        "customers",
+        "backing-startups",
+    ];
+    const updated = answerQuestion(answers, "motivations", motivations);
+    expect(updated.motivations).toEqual(motivations);
+    expect(updated.participation).toEqual(["attend"]);
+    expect(answers.motivations).toEqual(["learning", "opportunities"]);
+});
+
 test("discovery accepts one explicit choice and preserves completed legacy surveys", () => {
     const answers: CommunityAnswers = {
         demographics: {},
