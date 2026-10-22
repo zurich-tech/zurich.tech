@@ -9,7 +9,7 @@ export const site = {
     /** Community accounts and public invitation. */
     socials: {
         linkedin: "https://www.linkedin.com/company/zurichai/",
-        x: "https://x.com/zurichnlp",
+        x: "https://x.com/zurich_tech",
         discord: "https://discord.gg/373R4C3872",
     },
     /** Canonical public origin. */

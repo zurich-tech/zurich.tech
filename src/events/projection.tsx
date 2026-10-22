@@ -1,6 +1,6 @@
-import { createResource, For, Show, onMount, onCleanup } from "solid-js";
-import { A, useParams, useSearchParams } from "@solidjs/router";
+import { createMemo, createResource, createSignal, For, Show, onMount, onCleanup } from "solid-js";
 import qrcode from "qrcode-generator";
+import { A, useParams, useSearchParams } from "@solidjs/router";
 import { useAccount } from "../auth";
 import { useAccess } from "../auth/edit";
 import { Arrow } from "../components/arrow";
@@ -11,16 +11,64 @@ import { surveyQuestions } from "../../convex/members/demographics";
 import { AudienceChart } from "../members/chart";
 import { Seo } from "../app/seo";
 import { Kitten, kittenMood, kittenMoods } from "./kitten";
+import { Welcome } from "./welcome";
+import { Maximize } from "lucide-solid";
 import "./projection.css";
 
+/** Render a branded QR code with high error correction and a clear quiet zone. */
+function ProjectionCode(props: { url: string; label: string }) {
+    const code = createMemo(() => {
+        const value = qrcode(0, "H");
+        value.addData(props.url);
+        value.make();
+        const modules = value.getModuleCount();
+        const path = Array.from({ length: modules * modules }, (_, index) => {
+            const row = Math.floor(index / modules);
+            const column = index % modules;
+
+            return value.isDark(row, column) ? `M${column} ${row}h1v1h-1z` : "";
+        }).join("");
+
+        return { modules, path };
+    });
+
+    return (
+        <svg
+            viewBox={`-4 -4 ${code().modules + 8} ${code().modules + 8}`}
+            role="img"
+            aria-label={props.label}
+        >
+            <path d={code().path} fill="currentColor" />
+            <rect
+                x={code().modules / 2 - 3.5}
+                y={code().modules / 2 - 3.5}
+                width="7"
+                height="7"
+                rx="1"
+                fill="var(--color-paper)"
+            />
+            <image
+                href="/branding/logo.svg"
+                x={code().modules / 2 - 2.5}
+                y={code().modules / 2 - 2.5}
+                width="5"
+                height="5"
+            />
+        </svg>
+    );
+}
+
 /** Project public completion counts and administrator-only aggregate survey results. */
-export function Projection() {
+export function Projection(props: { view?: "welcome" | "survey" | "results" } = {}) {
     const params = useParams<{ slug: string }>();
     const account = useAccount();
     const access = useAccess();
     const [search] = useSearchParams();
-    const isResults = () => search.view === "results";
-    const canRead = () => !isResults() || (!!account.user() && !!access.current()?.isAdmin);
+    const isResults = () => search.view === "results" || props.view === "results";
+    const isWelcome = () => props.view === "welcome" && !search.view;
+    const basePath = () => `/events/${params.slug}`;
+    const canRead = () =>
+        !isWelcome() && (!isResults() || (!!account.user() && !!access.current()?.isAdmin));
     const [report, { refetch }] = createResource(
         () =>
             canRead()
@@ -61,75 +109,80 @@ export function Projection() {
 
     return (
         <div class="event-projection">
-            <Seo title="Event survey" description="Get to know the room." noIndex />
+            <Seo title="Event presentation" description="Get to know the room." noIndex />
             <ProjectionHeader
                 eventHref={`/events/${params.slug}`}
-                basePath={`/events/${params.slug}/survey`}
+                basePath={basePath()}
+                isWelcome={isWelcome()}
                 isResults={isResults()}
                 canResults={!!access.current()?.isAdmin}
             />
-            <Show
-                when={!isResults() || account.user()}
-                fallback={
-                    <p>
-                        <a
-                            href={`/sign-in?next=${encodeURIComponent(`/events/${params.slug}/survey${isResults() ? "?view=results" : ""}`)}`}
-                        >
-                            Sign in
-                        </a>{" "}
-                        with an administrator account to view survey results.
-                    </p>
-                }
-            >
+            <Show when={!isWelcome()} fallback={<Welcome slug={params.slug} />}>
                 <Show
-                    when={!isResults() || access.current()?.isAdmin}
+                    when={!isResults() || account.user()}
                     fallback={
-                        <p class="projection-notice">
-                            Admin access is required to view survey results.
+                        <p>
+                            <a
+                                href={`/sign-in?next=${encodeURIComponent(`${basePath()}/results`)}`}
+                            >
+                                Sign in
+                            </a>{" "}
+                            with an administrator account to view survey results.
                         </p>
                     }
                 >
                     <Show
-                        when={!report.error}
+                        when={!isResults() || access.current()?.isAdmin}
                         fallback={
-                            <p class="projection-notice" role="alert">
-                                {errorMessage(report.error, "Could not load the survey.")}
+                            <p class="projection-notice">
+                                Admin access is required to view survey results.
                             </p>
                         }
                     >
                         <Show
-                            when={currentReport()}
+                            when={!report.error}
                             fallback={
-                                <p
-                                    class="projection-notice"
-                                    role={isResults() && access.access.error ? "alert" : "status"}
-                                >
-                                    {isResults() && access.access.error
-                                        ? errorMessage(
-                                              access.access.error,
-                                              "Could not verify your event access.",
-                                          )
-                                        : "Loading survey…"}
+                                <p class="projection-notice" role="alert">
+                                    {errorMessage(report.error, "Could not load the survey.")}
                                 </p>
                             }
                         >
                             <Show
-                                when={!isResults()}
+                                when={currentReport()}
                                 fallback={
-                                    <Show when={currentReport()?.questions}>
-                                        {(questions) => (
-                                            <SurveyResults
-                                                registered={currentReport()!.registered}
-                                                questions={questions()}
-                                            />
-                                        )}
-                                    </Show>
+                                    <p
+                                        class="projection-notice"
+                                        role={
+                                            isResults() && access.access.error ? "alert" : "status"
+                                        }
+                                    >
+                                        {isResults() && access.access.error
+                                            ? errorMessage(
+                                                  access.access.error,
+                                                  "Could not verify your event access.",
+                                              )
+                                            : "Loading survey…"}
+                                    </p>
                                 }
                             >
-                                <SurveyStage
-                                    completed={currentReport()!.completed}
-                                    registered={currentReport()!.registered}
-                                />
+                                <Show
+                                    when={!isResults()}
+                                    fallback={
+                                        <Show when={currentReport()?.questions}>
+                                            {(questions) => (
+                                                <SurveyResults
+                                                    registered={currentReport()!.registered}
+                                                    questions={questions()}
+                                                />
+                                            )}
+                                        </Show>
+                                    }
+                                >
+                                    <SurveyStage
+                                        completed={currentReport()!.completed}
+                                        registered={currentReport()!.registered}
+                                    />
+                                </Show>
                             </Show>
                         </Show>
                     </Show>
@@ -145,26 +198,58 @@ export function ProjectionHeader(props: {
     basePath: string;
     isResults: boolean;
     canResults: boolean;
+    isWelcome?: boolean;
 }) {
+    const [error, setError] = createSignal<string>();
+
     return (
         <header class="projection-header">
             <A class="eyebrow" href={props.eventHref}>
                 <Arrow direction="left" /> Event
             </A>
-            <Show when={props.canResults || props.isResults}>
-                <nav class="projection-tabs" aria-label="Survey view">
-                    <a href={props.basePath} aria-current={!props.isResults ? "page" : undefined}>
-                        Survey
-                    </a>
-                    <Show when={props.canResults}>
-                        <a
-                            href={`${props.basePath}?view=results`}
-                            aria-current={props.isResults ? "page" : undefined}
-                        >
-                            Results
-                        </a>
-                    </Show>
-                </nav>
+            <nav class="projection-tabs" aria-label="Presentation view">
+                <A
+                    href={`${props.basePath}/welcome`}
+                    aria-current={props.isWelcome ? "page" : undefined}
+                >
+                    Welcome
+                </A>
+                <A
+                    href={`${props.basePath}/survey`}
+                    aria-current={!props.isResults && !props.isWelcome ? "page" : undefined}
+                >
+                    Survey
+                </A>
+                <Show when={props.canResults}>
+                    <A
+                        href={`${props.basePath}/results`}
+                        aria-current={props.isResults ? "page" : undefined}
+                    >
+                        Results
+                    </A>
+                </Show>
+            </nav>
+            <button
+                class="icon-button"
+                title="Toggle fullscreen"
+                aria-label="Toggle fullscreen"
+                onClick={async (event) => {
+                    const root = event.currentTarget.closest(".event-projection");
+                    setError(undefined);
+                    try {
+                        if (document.fullscreenElement) await document.exitFullscreen();
+                        else if (root) await root.requestFullscreen();
+                    } catch {
+                        setError(
+                            "The browser blocked fullscreen. Use its fullscreen menu instead.",
+                        );
+                    }
+                }}
+            >
+                <Maximize size={18} />
+            </button>
+            <Show when={error()}>
+                <p role="alert">{error()}</p>
             </Show>
         </header>
     );
@@ -208,17 +293,6 @@ export function SurveyResults(props: {
 export function SurveyStage(props: { completed: number; registered: number }) {
     const progress = () => (props.registered ? (props.completed / props.registered) * 100 : 0);
     const mood = () => kittenMood(progress());
-    const code = qrcode(0, "H");
-    code.addData("https://zurich.tech/survey");
-    code.make();
-    // preserve square modules and a four-module quiet zone around the branded code
-    const modules = code.getModuleCount();
-    const qr = Array.from({ length: modules * modules }, (_, index) => {
-        const row = Math.floor(index / modules);
-        const column = index % modules;
-
-        return code.isDark(row, column) ? `M${column} ${row}h1v1h-1z` : "";
-    }).join("");
 
     return (
         <div class={`projection-stage projection-stage--${mood()}`}>
@@ -307,28 +381,10 @@ export function SurveyStage(props: { completed: number; registered: number }) {
             </section>
             <section class="projection-instructions" aria-label="How to help">
                 <figure class="projection-scan">
-                    <svg
-                        viewBox={`-4 -4 ${modules + 8} ${modules + 8}`}
-                        role="img"
-                        aria-label="Scan to open zurich.tech/survey"
-                    >
-                        <path d={qr} fill="currentColor" />
-                        <rect
-                            x={modules / 2 - 3.5}
-                            y={modules / 2 - 3.5}
-                            width="7"
-                            height="7"
-                            rx="1"
-                            fill="var(--color-paper)"
-                        />
-                        <image
-                            href="/branding/logo.svg"
-                            x={modules / 2 - 2.5}
-                            y={modules / 2 - 2.5}
-                            width="5"
-                            height="5"
-                        />
-                    </svg>
+                    <ProjectionCode
+                        url="https://zurich.tech/survey"
+                        label="Scan to open zurich.tech/survey"
+                    />
                 </figure>
                 <ol class="projection-steps">
                     <li>

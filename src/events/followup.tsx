@@ -31,10 +31,10 @@ export function FollowUp(props: { eventId: Id<"events"> }) {
             if (!latest.emails) throw new Error("No eligible recipients.");
             if (
                 !(await confirm({
-                    title: "Send follow-up",
+                    title: "Send post-event thank-you",
                     subject: latest.title,
                     description: "Send a thank-you email with feedback links when enabled.",
-                    action: "Send follow-up",
+                    action: "Send thank-you",
                     emails: latest.emails,
                 }))
             )
@@ -43,7 +43,7 @@ export function FollowUp(props: { eventId: Id<"events"> }) {
                 eventId: props.eventId,
                 receipt: latest.receipt,
             });
-            setSuccess("Follow-up queued.");
+            setSuccess("Thank-you queued.");
             await refetch();
         } catch (error) {
             setError(errorMessage(error, "Could not send follow-up."));
@@ -55,7 +55,7 @@ export function FollowUp(props: { eventId: Id<"events"> }) {
         <div class="mail-followup">
             <div class="mail-control">
                 <div>
-                    <strong>Follow-up</strong>
+                    <strong>Post-event thank-you</strong>
                     <p>
                         {preview.error
                             ? "Could not load recipients."
@@ -75,7 +75,7 @@ export function FollowUp(props: { eventId: Id<"events"> }) {
                     }
                     onClick={send}
                 >
-                    Send follow-up
+                    Send thank-you
                 </button>
             </div>
             <FormMessage error={error()} success={success()} />

@@ -316,6 +316,9 @@ export default function Route() {
                 agenda: fields.getAll("agendaTitle").map((title, index) => ({
                     title: String(title).trim(),
                     time: String(fields.getAll("agendaTime")[index] ?? "").trim(),
+                    speakerPositions: fields
+                        .getAll(`agendaSpeakers-${index}`)
+                        .map((position) => Number(position)),
                 })),
             };
             const announce = intent === "publish" && fields.get("announce") === "on";

@@ -12,7 +12,7 @@ import { eventEmail, eventChanges } from "../mail/templates";
 import { readLinks, writeLinks } from "../members/links";
 import { validatePrimaryOrganiser, validateCoOrganisers, publicOrganisers } from "./organisers";
 import { ConvexError, v } from "convex/values";
-import type { Id } from "../_generated/dataModel";
+import type { Doc, Id } from "../_generated/dataModel";
 import { mutation, type MutationCtx } from "../_generated/server";
 import { requireEvent, requireRevision } from "../auth/grants";
 import { requireAdmin, requireMailSender } from "../auth/access";
@@ -131,6 +131,23 @@ export const save = mutation({
         for (const speaker of values.speakers) {
             if (speaker.memberId && !(await ctx.db.get(speaker.memberId)))
                 throw new ConvexError("Speaker member not found.");
+        }
+
+        // validate programme assignments against the revision's speaker list
+        for (const session of values.agenda) {
+            if (!session.title.trim() || session.title.length > 300)
+                throw new ConvexError("programme titles must contain 1 to 300 characters");
+            const positions = session.speakerPositions ?? [];
+            if (
+                new Set(positions).size !== positions.length ||
+                positions.some(
+                    (position) =>
+                        !Number.isInteger(position) ||
+                        position < 0 ||
+                        position >= values.speakers.length,
+                )
+            )
+                throw new ConvexError("programme speakers must belong to this event");
         }
 
         // validate speaker links before they can appear in a public event
@@ -379,7 +396,7 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
         .withIndex("by_event", (q) => q.eq("eventId", eventId))
         .collect();
     const retained = new Set<Id<"speakers">>();
-    const linkedSpeakers = [];
+    const linkedSpeakers: (Doc<"submissions">["speakers"][number] & { id: Id<"speakers"> })[] = [];
     for (const [position, speaker] of draft.speakers.entries()) {
         const { id, links, ...fields } = speaker;
         const previous = id
@@ -413,14 +430,21 @@ export async function publishEvent(ctx: MutationCtx, id: Id<"submissions">) {
         .withIndex("by_event", (range) => range.eq("eventId", eventId))
         .collect())
         await ctx.db.delete(row._id);
-    for (const [position, item] of draft.agenda.entries())
+    for (const [position, item] of draft.agenda.entries()) {
+        const { speakerPositions, ...fields } = item;
         await ctx.db.insert("sessions", {
             eventId,
-            ...item,
+            ...fields,
+            speakerIds: (speakerPositions ?? []).map((index) => {
+                const speaker = linkedSpeakers[index];
+                if (!speaker) throw new ConvexError("programme speaker is missing");
+                return speaker.id;
+            }),
             position,
             createdAt: now,
             updatedAt: now,
         });
+    }
 
     await scheduleDecision(ctx, (await ctx.db.get(eventId))!);
     // stale schedules recheck the current policy and end time before sending
@@ -508,7 +532,17 @@ export const edit = mutation({
                         imageDarkUrl,
                     })),
             ),
-            agenda: agenda.map(({ time, title }) => ({ time, title })),
+            agenda: agenda.map(({ time, title, speakerIds }) => ({
+                time,
+                title,
+                speakerPositions: (speakerIds ?? []).map((id) => {
+                    const position = speakers
+                        .filter((speaker) => !speaker.isRemoved)
+                        .findIndex((speaker) => speaker._id === id);
+                    if (position < 0) throw new ConvexError("programme speaker is missing");
+                    return position;
+                }),
+            })),
             updatedAt: Date.now(),
         });
     },

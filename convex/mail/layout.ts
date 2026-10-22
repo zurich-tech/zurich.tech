@@ -7,7 +7,7 @@ type Link = { label: string; url: string };
 export const socials = [
     { label: "Discord", url: "https://discord.gg/373R4C3872" },
     { label: "LinkedIn", url: "https://www.linkedin.com/company/zurichai/" },
-    { label: "X", url: "https://x.com/zurichnlp" },
+    { label: "X", url: "https://x.com/zurich_tech" },
 ];
 
 /** Email colours, matching the site's light theme. */

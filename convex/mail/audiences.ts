@@ -4,6 +4,9 @@ import type { QueryCtx } from "../_generated/server";
 import type { Audience, Category, Recipient } from "./model";
 import { sendingDate } from "./policy";
 
+/** Leave seven days between invitations for the same event. */
+export const invitationCooldown = 7 * 86400000;
+
 /** Resolve a supported audience, respecting purpose-specific preferences and suppression. */
 export async function select(ctx: QueryCtx, audience: Audience, category: Category) {
     // resolve reusable interest and delivery filters once per audience
@@ -47,15 +50,53 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
         for (const campaign of campaigns) {
             if (campaign.category !== "announcement") continue;
 
-            // release never-attempted identities when a new approval is cancelled or expires
+            // a follow-up may reach the original audience after its cooldown
+            if (
+                filtered.invitation === "followup" &&
+                !(campaign.audience?.kind === "subscribers" && campaign.audience.invitation)
+            ) {
+                const isReserved =
+                    ["queued", "scheduled", "paused"].includes(campaign.status) &&
+                    (!campaign.approval || campaign.approval.date >= sendingDate(Date.now()));
+                // bound the cooldown with two indexed messages instead of reading every email body
+                const attempted = await ctx.db
+                    .query("messages")
+                    .withIndex("by_campaign_attempt", (query) =>
+                        query.eq("campaignId", campaign._id),
+                    )
+                    .order("desc")
+                    .first();
+                const accepted = await ctx.db
+                    .query("messages")
+                    .withIndex("by_campaign_acceptance", (query) =>
+                        query.eq("campaignId", campaign._id),
+                    )
+                    .order("desc")
+                    .first();
+                const cutoff = Date.now() - invitationCooldown;
+                const isRecent =
+                    (attempted?.firstAttemptAt !== undefined &&
+                        attempted.firstAttemptAt > cutoff) ||
+                    (accepted?.sentAt !== undefined && accepted.sentAt > cutoff);
+                if (isReserved || isRecent) {
+                    for (const id of campaign.recipients ?? []) recipients.add(id);
+                }
+                continue;
+            }
+
+            // release untouched recipients from interrupted approvals, preserving completed audiences
             if (
                 campaign.approval &&
                 (campaign.status === "cancelled" ||
-                    campaign.approval.date < sendingDate(Date.now()))
+                    (campaign.status === "paused" &&
+                        campaign.approval.date < sendingDate(Date.now())))
             ) {
+                if ((campaign.attempts ?? 0) === 0) continue;
                 const messages = await ctx.db
                     .query("messages")
-                    .withIndex("by_campaign", (q) => q.eq("campaignId", campaign._id))
+                    .withIndex("by_campaign_attempt", (query) =>
+                        query.eq("campaignId", campaign._id).gt("firstAttemptAt", 0),
+                    )
                     .collect();
                 for (const message of messages) {
                     if (!message.isTest && message.attempts > 0 && message.subscriptionId)

@@ -425,7 +425,7 @@ test("test_name_weekly_newsletter_consistently", () => {
             "Weekly news",
             "Discord: https://discord.gg/373R4C3872",
             "LinkedIn: https://www.linkedin.com/company/zurichai/",
-            "X: https://x.com/zurichnlp",
+            "X: https://x.com/zurich_tech",
             "Email preferences: https://zurich.tech/settings?section=notifications",
             "Legal: https://zurich.tech/legal",
         ].join("\n\n"),

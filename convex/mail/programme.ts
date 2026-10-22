@@ -4,10 +4,10 @@ import { affiliationText } from "../members/affiliations";
 import { siteOrigin } from "../auth/environment";
 import { escapeHtml, palette, sectionHeading } from "./layout";
 
-/** Published people and agenda, kept independent because talks have no speaker assignment. */
+/** Published speakers and their ordered programme. */
 export type Programme = {
     speakers: Pick<Doc<"speakers">, "name" | "imageUrl" | "affiliations">[];
-    sessions: Pick<Doc<"sessions">, "time" | "title">[];
+    sessions: (Pick<Doc<"sessions">, "time" | "title"> & { speakerNames?: string[] })[];
 };
 
 /** Read the published appearance snapshots rather than private member profiles. */
@@ -24,7 +24,20 @@ export async function readProgramme(
         .withIndex("by_event_and_position", (q) => q.eq("eventId", eventId))
         .collect();
 
-    return { speakers: speakers.filter((speaker) => !speaker.isRemoved), sessions };
+    const active = speakers.filter((speaker) => !speaker.isRemoved);
+    const names = new Map(active.map((speaker) => [speaker._id, speaker.name]));
+
+    return {
+        speakers: active,
+        sessions: sessions.map((session) => ({
+            ...session,
+            speakerNames: (session.speakerIds ?? []).map((id) => {
+                const name = names.get(id);
+                if (!name) throw new Error("programme speaker is missing");
+                return name;
+            }),
+        })),
+    };
 }
 
 /** Render compact speaker portraits and a separate ordered programme in both formats. */
@@ -43,7 +56,7 @@ export function programmeContent(programme?: Programme) {
     const sessions = programme.sessions
         .map(
             (session) =>
-                `<tr><td width="60" valign="top" style="padding:8px 12px 8px 0;color:${palette.soft};font-size:14px">${escapeHtml(session.time)}</td><td valign="top" style="padding:8px 0;font-size:16px">${escapeHtml(session.title)}</td></tr>`,
+                `<tr><td width="60" valign="top" style="padding:8px 12px 8px 0;color:${palette.soft};font-size:14px">${escapeHtml(session.time)}</td><td valign="top" style="padding:8px 0;font-size:16px">${escapeHtml(session.title)}${session.speakerNames?.length ? `<br><span style="font-size:14px;color:${palette.soft}">${escapeHtml(session.speakerNames.join(", "))}</span>` : ""}</td></tr>`,
         )
         .join("");
 
@@ -68,7 +81,11 @@ export function programmeContent(programme?: Programme) {
             programme.sessions.length
                 ? "Programme\n" +
                   programme.sessions
-                      .map((session) => `${session.time} · ${session.title}`)
+                      .map((session) =>
+                          [session.time, session.title, ...(session.speakerNames ?? [])]
+                              .filter(Boolean)
+                              .join(" · "),
+                      )
                       .join("\n")
                 : "",
         ]

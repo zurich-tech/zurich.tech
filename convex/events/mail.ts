@@ -121,6 +121,7 @@ export const preview = query({
 
         return {
             title: event.title,
+            slug: event.slug,
             announcement: await audience(ctx, event, "announcement"),
             reminder: await audience(ctx, event, "reminder"),
         };

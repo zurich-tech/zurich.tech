@@ -10,6 +10,8 @@ import { Card } from "../components/card";
 import { Editor, FormMessage, savedEditor, leaveEditor } from "../components/form";
 import { useConfirmation } from "../components/dialog";
 import { useWorkspaceCommand } from "../app/workspace";
+import { Invitations } from "./invitations";
+import { FilterSelect } from "../components/filter-select";
 
 /** Draft and review one-off messages without initiating any deliveries. */
 export function Campaigns(props: { eventId?: Id<"events"> }) {
@@ -26,6 +28,18 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
     );
     const [selected, setSelected] = createSignal<Id<"campaigns"> | "new">();
     const current = () => result()?.campaigns.find((item) => item._id === selected());
+    const canEdit = () =>
+        selected() === "new" || (!!current()?.isEditable && current()?.eventId === props.eventId);
+    const [registrationStatus, setRegistrationStatus] = createSignal<string>();
+    let audienceInput: HTMLInputElement | undefined;
+    const registrationAudience = () => {
+        const audience = current()?.audience;
+
+        return (
+            registrationStatus() ??
+            (audience?.kind === "registrations" ? audience.status : "active")
+        );
+    };
     const [details, { refetch: refreshDetails }] = createResource(
         () => (selected() && selected() !== "new" ? (selected() as Id<"campaigns">) : undefined),
         async (id) => (await memberClient()).query(api.mail.campaigns.preview, { id }),
@@ -36,13 +50,6 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
     };
     const [scheduledAt, setScheduledAt] = createSignal<string>();
     const [hourlyInput, setHourlyInput] = createSignal<string>();
-    const [announcementEvent, setAnnouncementEvent] = createSignal("");
-    const [isSeriesOnly, setIsSeriesOnly] = createSignal(true);
-    const [isDeliveredOnly, setIsDeliveredOnly] = createSignal(true);
-    const [events] = createResource(
-        () => !props.eventId,
-        async () => (await memberClient()).query(api.mail.campaigns.announcements, {}),
-    );
     const settings = () => result()?.sending;
     const hourlyMaximum = () => Math.min(3600, settings()?.limits.hourly ?? 0);
     const hourlyLimit = () =>
@@ -88,6 +95,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
     async function select(id?: Id<"campaigns"> | "new") {
         if (await leaveEditor(formId)) {
             setSelected(id);
+            setRegistrationStatus(undefined);
             setScheduledAt(undefined);
             setHourlyInput(undefined);
         }
@@ -184,6 +192,12 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                           ? "Schedule"
                           : "Send",
                     description: item.subject,
+                    audience:
+                        item.audience?.kind === "subscribers"
+                            ? item.audience.invitation
+                                ? "Past series registrants · Follow-up invitation"
+                                : "Subscribers"
+                            : "Event registrants",
                     emails: preview.recipients,
                     details: isSubscriber
                         ? `${sendingTime} Zurich time · Up to ${limit}/hour. Freeze the saved content and these ${preview.recipients} recipients; approve ${preview.recipients} attempts (including retries), until that day's Zurich midnight. Unsubscribes, exclusions, shared limits and complaint protections still apply.`
@@ -203,28 +217,6 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                     : {}),
             });
         }, "Campaign queued.");
-    }
-
-    /** Prepare a template draft without consuming quota or creating messages. */
-    async function prepareAnnouncement() {
-        await command.perform(async () => {
-            const event = events()?.find((row) => row.id === announcementEvent());
-            if (!event) throw new Error("Choose an event.");
-            const id = await (
-                await memberClient()
-            ).mutation(api.mail.campaigns.announcement, {
-                eventId: event.id,
-                audience: {
-                    kind: "subscribers",
-                    excludeEventId: event.id,
-                    seriesId: isSeriesOnly() ? event.seriesId : undefined,
-                    deliveredSince: isDeliveredOnly() ? Date.now() - 30 * 86400000 : undefined,
-                },
-            });
-            setSelected(id);
-            setScheduledAt(undefined);
-            setHourlyInput(undefined);
-        }, "Announcement draft prepared. Nothing sent.");
     }
 
     /** Cancellation stops unsent messages without pretending sent mail can be recalled. */
@@ -307,14 +299,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                         <button class="action-link" onClick={() => void select()}>
                             Back
                         </button>
-                        <Show
-                            when={
-                                selected() === "new" ||
-                                (current()?.status === "draft" &&
-                                    !current()?.key &&
-                                    current()?.attemptLimit === undefined)
-                            }
-                        >
+                        <Show when={canEdit()}>
                             <button
                                 class="button button--primary"
                                 type="submit"
@@ -329,56 +314,17 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
             }
         >
             <FormMessage error={command.error()} success={command.success()} />
-            <Show when={!selected() && !props.eventId}>
-                <section class="mail-section">
-                    <h3>Event announcement</h3>
-                    <Show when={events.error}>
-                        <p class="form-error">Could not load events.</p>
-                    </Show>
-                    <label class="field">
-                        Event
-                        <select
-                            value={announcementEvent()}
-                            onChange={(event) => setAnnouncementEvent(event.currentTarget.value)}
-                        >
-                            <option value="">Choose an event</option>
-                            <For each={events()}>
-                                {(event) => <option value={event.id}>{event.title}</option>}
-                            </For>
-                        </select>
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={isSeriesOnly()}
-                            onChange={(event) => setIsSeriesOnly(event.currentTarget.checked)}
-                        />{" "}
-                        Past series registrants only
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={isDeliveredOnly()}
-                            onChange={(event) => setIsDeliveredOnly(event.currentTarget.checked)}
-                        />{" "}
-                        Delivered in the last 30 days, no adverse history
-                    </label>
-                    <div class="form-actions">
-                        <button
-                            class="button"
-                            disabled={
-                                !announcementEvent() ||
-                                command.isPending() ||
-                                (isSeriesOnly() &&
-                                    !events()?.find((event) => event.id === announcementEvent())
-                                        ?.seriesId)
-                            }
-                            onClick={() => void prepareAnnouncement()}
-                        >
-                            Prepare preview
-                        </button>
-                    </div>
-                </section>
+            <Show when={!selected() && result()?.sending.isLocked}>
+                <p class="mail-note mail-warning">Test mode · Audience sending is off.</p>
+            </Show>
+            <Show when={!selected() && access.current()?.isAdmin}>
+                <Invitations
+                    eventId={props.eventId}
+                    onPrepared={async (id) => {
+                        await refetch();
+                        await select(id);
+                    }}
+                />
             </Show>
             <Show when={result.error}>
                 <p class="form-error">Could not load campaigns.</p>
@@ -405,7 +351,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                     <tr>
                                         <th>Campaign</th>
                                         <th>Status</th>
-                                        <th>Recipients</th>
+                                        <th>Audience</th>
                                         <th>Delivery</th>
                                     </tr>
                                 </thead>
@@ -420,10 +366,41 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                                     >
                                                         {item.subject}
                                                     </button>
+                                                    <div class="text-soft">
+                                                        {item.category === "announcement"
+                                                            ? item.audience?.kind ===
+                                                                  "subscribers" &&
+                                                              item.audience.invitation
+                                                                ? "Follow-up invitation"
+                                                                : "New-event announcement"
+                                                            : item.category === "reminder"
+                                                              ? "Attendee reminder"
+                                                              : item.category === "followup"
+                                                                ? "Post-event thank-you"
+                                                                : "Campaign"}
+                                                    </div>
+                                                    <time
+                                                        class="text-soft"
+                                                        dateTime={new Date(
+                                                            item.createdAt,
+                                                        ).toISOString()}
+                                                    >
+                                                        Created{" "}
+                                                        {new Intl.DateTimeFormat("en-CH", {
+                                                            dateStyle: "medium",
+                                                            timeStyle: "short",
+                                                            timeZone: "Europe/Zurich",
+                                                        }).format(item.createdAt)}
+                                                    </time>
                                                 </td>
                                                 <td>
                                                     <span
                                                         class="tag tag-status"
+                                                        title={
+                                                            item.status === "completed"
+                                                                ? "Processing finished; check delivery outcomes separately"
+                                                                : undefined
+                                                        }
                                                         classList={{
                                                             "tag-upcoming":
                                                                 item.status === "queued" ||
@@ -432,10 +409,19 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                                     >
                                                         {item.state}
                                                     </span>
+                                                    <Show when={item.pauseReason}>
+                                                        <div class="mail-failure">
+                                                            {item.pauseReason}
+                                                        </div>
+                                                    </Show>
                                                 </td>
                                                 <td>
                                                     {item.audience?.kind === "subscribers"
-                                                        ? "Subscribers"
+                                                        ? item.audience.invitation
+                                                            ? "Past series registrants · Follow-up"
+                                                            : item.audience.seriesId
+                                                              ? "Past series registrants"
+                                                              : "Subscribers"
                                                         : item.audience?.kind === "registrations"
                                                           ? {
                                                                 active: "Active registrations",
@@ -456,6 +442,22 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                                             {item.failed} failed
                                                         </span>
                                                     </Show>
+                                                    <Show
+                                                        when={
+                                                            item.status !== "draft" &&
+                                                            item.status !== "scheduled"
+                                                        }
+                                                    >
+                                                        <div class="text-soft">
+                                                            {item.delivered.toLocaleString("en-CH")}{" "}
+                                                            delivered
+                                                        </div>
+                                                    </Show>
+                                                    <Show when={item.skipped}>
+                                                        <div class="text-soft">
+                                                            {item.skipped} skipped
+                                                        </div>
+                                                    </Show>
                                                 </td>
                                             </tr>
                                         )}
@@ -467,18 +469,18 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                 }
             >
                 <Show
-                    when={
-                        selected() === "new" ||
-                        (current()?.status === "draft" &&
-                            !current()?.key &&
-                            current()?.attemptLimit === undefined)
-                    }
+                    when={canEdit()}
                     fallback={
-                        <p>
-                            {current()?.recipients} recipients · {current()?.accepted} accepted ·{" "}
-                            {current()?.delivered} delivered · {current()?.failed} failed ·{" "}
-                            {current()?.skipped} skipped
-                        </p>
+                        <Show
+                            when={current()?.status !== "draft"}
+                            fallback={<p class="mail-note">Draft · Not sent</p>}
+                        >
+                            <p>
+                                {current()?.recipients} recipients · {current()?.accepted} accepted
+                                · {current()?.delivered} delivered · {current()?.failed} failed ·{" "}
+                                {current()?.skipped} skipped
+                            </p>
+                        </Show>
                     }
                 >
                     <Editor
@@ -498,22 +500,30 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                         )}
                     >
                         <Show when={props.eventId}>
-                            <label>
-                                Recipients
-                                <select
+                            <div>
+                                <input
+                                    ref={audienceInput}
+                                    type="hidden"
                                     name="audience"
-                                    value={
-                                        current()?.audience?.kind === "registrations"
-                                            ? (current()!.audience as { status: string }).status
-                                            : "active"
-                                    }
-                                >
-                                    <option value="active">All active registrations</option>
-                                    <option value="going">Confirmed registrations</option>
-                                    <option value="waitlist">Waitlist</option>
-                                    <option value="attended">Checked in</option>
-                                </select>
-                            </label>
+                                    value={registrationAudience()}
+                                />
+                                <FilterSelect
+                                    label="Recipients"
+                                    value={registrationAudience()}
+                                    onChange={(value) => {
+                                        setRegistrationStatus(value);
+                                        audienceInput?.dispatchEvent(
+                                            new Event("input", { bubbles: true }),
+                                        );
+                                    }}
+                                    options={[
+                                        { value: "active", label: "All active registrations" },
+                                        { value: "going", label: "Confirmed registrations" },
+                                        { value: "waitlist", label: "Waitlist" },
+                                        { value: "attended", label: "Checked in" },
+                                    ]}
+                                />
+                            </div>
                         </Show>
                         <label>
                             Subject
@@ -557,6 +567,23 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                               : ""}
                                     </span>
                                 </div>
+                                <Show when={item().category === "announcement"}>
+                                    <p class="mail-note">
+                                        {(() => {
+                                            const audience = item().audience;
+                                            if (
+                                                audience?.kind === "subscribers" &&
+                                                audience.invitation === "followup"
+                                            )
+                                                return "Follow-up invitation · Past series registrants · Current registrants and invitations within seven days excluded";
+
+                                            return audience?.kind === "subscribers" &&
+                                                audience.excludeEventId
+                                                ? "New event · Subscribers · Current registrants and previously approved recipients excluded"
+                                                : "New event · Subscribers";
+                                        })()}
+                                    </p>
+                                </Show>
                                 <iframe
                                     class="email-preview"
                                     title="Campaign preview"

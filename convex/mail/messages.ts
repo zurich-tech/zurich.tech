@@ -6,7 +6,7 @@ import { reconcile } from "./webhooks";
 import { isBulk, recipientAllowed } from "./policy";
 import { reserve } from "./sending";
 import { recordSent } from "./health";
-import { receivesFollowUp } from "./audiences";
+import { receivesFollowUp, invitationCooldown } from "./audiences";
 import { isTentative } from "../events/conditions";
 import { v } from "convex/values";
 import {
@@ -85,6 +85,27 @@ export const read = internalQuery({
                     : null;
                 if (audience.deliveredSince !== undefined && subscription?.hasDeliveryFailure)
                     return null;
+                // recheck the cooldown against invitations attempted after approval
+                if (audience.invitation) {
+                    const history = await ctx.db
+                        .query("messages")
+                        .withIndex("by_recipient", (query) => query.eq("to", delivery.to))
+                        .collect();
+                    if (
+                        history.some(
+                            (message) =>
+                                !message.isTest &&
+                                message._id !== delivery._id &&
+                                message.campaignId !== delivery.campaignId &&
+                                message.eventId === delivery.eventId &&
+                                message.category === "announcement" &&
+                                message.attempts > 0 &&
+                                (message.sentAt ?? message.firstAttemptAt ?? message.createdAt) >
+                                    Date.now() - invitationCooldown,
+                        )
+                    )
+                        return null;
+                }
                 if (audience.excludeEventId) {
                     const registrations = await ctx.db
                         .query("registrations")

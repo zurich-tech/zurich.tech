@@ -2,7 +2,7 @@ import { Campaigns } from "../mail/campaigns";
 import { useAccess } from "../auth/edit";
 import { FollowUp } from "./followup";
 import { useConfirmation } from "../components/dialog";
-import { createResource, createSignal, For, Show, startTransition } from "solid-js";
+import { createResource, createSignal, Show, startTransition } from "solid-js";
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
@@ -24,7 +24,7 @@ export function EventMail(props: { eventId: Id<"events"> }) {
     const [success, setSuccess] = createSignal<string>();
 
     /** Recount recipients immediately before asking for confirmation. */
-    async function send(kind: "announcement" | "reminder") {
+    async function send() {
         setIsPending(true);
         setError(undefined);
         setSuccess(undefined);
@@ -33,28 +33,27 @@ export function EventMail(props: { eventId: Id<"events"> }) {
             const result = await client.query(api.events.mail.preview, {
                 eventId: props.eventId,
             });
-            const latest = result[kind];
+            const latest = result.reminder;
             if (latest.reason) throw new Error(latest.reason);
             if (!latest.recipients) throw new Error("No eligible recipients.");
-            const audience = kind === "announcement" ? "subscribers" : "registered participants";
             if (
                 !(await confirm({
-                    title: kind === "announcement" ? "Announce event" : "Send reminder",
-                    action: kind === "announcement" ? "Send announcement" : "Send reminder",
+                    title: "Send attendee reminder",
+                    action: "Send reminder",
                     description: "Send the published event by email.",
                     subject: result.title,
                     emails: latest.recipients,
                     recipients: latest.recipients,
-                    audience,
+                    audience: "current registrants",
                 }))
             )
                 return;
             await client.mutation(api.events.mail.send, {
                 eventId: props.eventId,
-                kind,
+                kind: "reminder",
                 receipt: latest.receipt,
             });
-            setSuccess(kind === "announcement" ? "Announcement queued." : "Reminder queued.");
+            setSuccess("Reminder queued.");
             await startTransition(refetch);
         } catch (caught) {
             setError(errorMessage(caught, "Could not send event mail."));
@@ -65,56 +64,54 @@ export function EventMail(props: { eventId: Id<"events"> }) {
 
     return (
         <>
-            <Card title="Email">
+            <Card
+                title={preview.latest ? `${preview.latest.title} · Email` : "Event email"}
+                toolbar={
+                    <Show when={preview.latest}>
+                        {(event) => (
+                            <a class="action-link" href={`/events/${event().slug}`}>
+                                Event
+                            </a>
+                        )}
+                    </Show>
+                }
+            >
                 <div class="mail-actions">
-                    <For each={["announcement", "reminder"] as const}>
-                        {(kind) => {
-                            const item = () => preview.latest?.[kind];
-                            return (
-                                <div class="mail-control">
-                                    <div>
-                                        <strong>
-                                            {kind === "announcement" ? "Announcement" : "Reminder"}
-                                        </strong>
-                                        <p>
-                                            {preview.error
-                                                ? "Could not load recipients."
-                                                : (item()?.reason ??
-                                                  (item()
-                                                      ? `${item()!.recipients.toLocaleString("en-CH")} ${kind === "announcement" ? "subscribers" : "registered participants"}`
-                                                      : "Loading recipients…"))}
-                                        </p>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        class="button"
-                                        disabled={
-                                            isPending() ||
-                                            !item()?.recipients ||
-                                            !!item()?.reason ||
-                                            !(kind === "announcement"
-                                                ? access.current()?.isAdmin
-                                                : access.current()?.canSendMail)
-                                        }
-                                        title={
-                                            kind === "announcement"
-                                                ? !access.current()?.isAdmin
-                                                    ? "Administrator access required"
-                                                    : undefined
-                                                : !access.current()?.canSendMail
-                                                  ? "Email sending permission required"
-                                                  : undefined
-                                        }
-                                        onClick={() => void send(kind)}
-                                    >
-                                        {kind === "announcement"
-                                            ? "Announce event"
-                                            : "Send reminder"}
-                                    </button>
-                                </div>
-                            );
-                        }}
-                    </For>
+                    <div class="mail-control">
+                        <div>
+                            <strong>Attendee reminder</strong>
+                            <p class="text-soft">
+                                Automatic within 24 hours of the event. Manual sends share the same
+                                recipient checks.
+                            </p>
+                            <p>
+                                {preview.error
+                                    ? "Could not load recipients."
+                                    : (preview.latest?.reminder.reason ??
+                                      (preview.latest
+                                          ? `${preview.latest.reminder.recipients.toLocaleString("en-CH")} current registrants`
+                                          : "Loading recipients…"))}
+                            </p>
+                        </div>
+                        <button
+                            type="button"
+                            class="button"
+                            disabled={
+                                isPending() ||
+                                !preview.latest?.reminder.recipients ||
+                                !!preview.latest?.reminder.reason ||
+                                !access.current()?.canSendMail
+                            }
+                            title={
+                                !access.current()?.canSendMail
+                                    ? "Email sending permission required"
+                                    : undefined
+                            }
+                            onClick={() => void send()}
+                        >
+                            Send reminder
+                        </button>
+                    </div>
                     <Show when={preview.error}>
                         <button type="button" class="button" onClick={() => void refetch()}>
                             Retry recipients

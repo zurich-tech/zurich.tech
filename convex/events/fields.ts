@@ -101,7 +101,14 @@ export const submissionFields = {
             imageDarkUrl: v.optional(v.string()),
         }),
     ),
-    agenda: v.array(v.object({ time: v.string(), title: v.string() })),
+    agenda: v.array(
+        v.object({
+            time: v.string(),
+            title: v.string(),
+            /** Zero-based positions in this revision's speaker list, resolved to IDs on publication. */
+            speakerPositions: v.optional(v.array(v.number())),
+        }),
+    ),
 };
 
 /** Copy editable fields without stored identity, publication or ownership metadata. */

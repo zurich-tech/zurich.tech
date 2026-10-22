@@ -128,7 +128,11 @@ export const event = query({
                     return { slug: organisation.slug, name: organisation.name };
                 }),
             ),
-            agenda: agenda.map((item) => ({ time: item.time, title: item.title })),
+            agenda: agenda.map((item) => ({
+                time: item.time,
+                title: item.title,
+                speakerIds: item.speakerIds ?? [],
+            })),
 
             description: event.description,
             endsAt: event.endsAt,
@@ -152,6 +156,7 @@ export const event = query({
                         return {
                             profileUrl: member?.url,
                             name: speaker.name,
+                            id: speaker._id,
                             affiliations: speaker.affiliations ?? member?.affiliations,
                             imageUrl: speaker.imageUrl ?? member?.imageUrl,
                             imageDarkUrl: speaker.imageUrl

@@ -805,7 +805,67 @@ test("publication validates private address policy on stored revisions", async (
     );
 });
 
-// Reusing a portrait must respect profile visibility and appearance-specific overrides.
+// preserve explicit speaker assignments through publication and revision editing
+test("programme speaker assignments survive editing", async () => {
+    const { backend, editor, ids } = await setup();
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(ids.memberId, { visibility: "public" });
+        await ctx.db.insert("handles", {
+            memberId: ids.memberId,
+            name: "host",
+            status: "active",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.patch(ids.seriesId, { primaryOrganiserId: ids.memberId });
+        await ctx.db.delete(ids.draftId);
+        const speakerId = await ctx.db.insert("speakers", {
+            eventId: ids.eventId,
+            name: "Test",
+            position: 0,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.insert("sessions", {
+            eventId: ids.eventId,
+            title: "Building computer-use agents",
+            time: "18:30",
+            speakerIds: [speakerId],
+            position: 0,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+    });
+    const event = await backend.query(api.events.queries.event, { slug: "dinner" });
+    expect(event!.agenda[0].speakerIds).toEqual([event!.speakers[0].id]);
+    const draftId = await editor.mutation(api.events.mutations.edit, { eventId: ids.eventId });
+    const draft = await backend.run((ctx) => ctx.db.get(draftId));
+    expect(draft!.agenda[0].title).toBe("Building computer-use agents");
+    expect(draft!.agenda[0].speakerPositions).toEqual([0]);
+    const { publishEvent } = await import("../convex/events/mutations");
+    await backend.run((ctx) => publishEvent(ctx, draftId));
+    const published = await backend.query(api.events.queries.event, { slug: "dinner" });
+    expect(published!.agenda[0].speakerIds).toEqual([published!.speakers[0].id]);
+    await editor.mutation(api.events.mutations.save, {
+        ...revisionFields(draft!),
+        id: draftId,
+        agenda: [{ title: "Panel", time: "", speakerPositions: [] }],
+    });
+    await backend.run((ctx) => publishEvent(ctx, draftId));
+    expect(
+        (await backend.query(api.events.queries.event, { slug: "dinner" }))!.agenda[0].speakerIds,
+    ).toEqual([]);
+    for (const positions of [[1], [-1], [0, 0], [0.5]]) {
+        await expect(
+            editor.mutation(api.events.mutations.save, {
+                ...revisionFields(draft!),
+                id: draftId,
+                agenda: [{ title: "Panel", time: "", speakerPositions: positions }],
+            }),
+        ).rejects.toThrow("programme speakers must belong to this event");
+    }
+});
+
 test("speaker portraits inherit only from public profiles", async () => {
     const { backend, ids } = await setup();
     const speakerId = await backend.run(async (ctx) => {

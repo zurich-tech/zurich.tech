@@ -6,8 +6,8 @@ test("test_redirect_social_paths_without_caching_or_forwarding_parameters", asyn
         discord: "https://discord.gg/373R4C3872",
         linkedin: "https://www.linkedin.com/company/zurichai/",
         github: "https://github.com/zurich-tech",
-        x: "https://x.com/zurichnlp",
-        twitter: "https://x.com/zurichnlp",
+        x: "https://x.com/zurich_tech",
+        twitter: "https://x.com/zurich_tech",
     };
     for (const [path, destination] of Object.entries(destinations)) {
         for (const method of ["GET", "HEAD"]) {

@@ -192,3 +192,37 @@
         font-size: var(--text-sm);
     }
 }
+.mail-audience-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+.mail-audience-review {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+    padding-block: var(--space-5);
+    margin-top: var(--space-4);
+    border-block: var(--rule) solid var(--color-line);
+}
+.mail-audience-count {
+    display: grid;
+    flex-shrink: 0;
+    text-align: right;
+    font-size: var(--text-sm);
+    color: var(--color-soft);
+}
+.mail-audience-count strong {
+    font: 500 28px / 1.3 var(--font-mono);
+    color: var(--color-ink);
+}
+@media (max-width: 600px) {
+    .mail-audience-review {
+        align-items: start;
+        flex-direction: column;
+    }
+    .mail-audience-count {
+        text-align: left;
+    }
+}

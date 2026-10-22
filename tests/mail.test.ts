@@ -807,6 +807,99 @@ test("test_refuse_release_with_unrelated_queued_campaign_or_missing_daily_approv
     );
 });
 
+test("test_followup_invitation_cooldown_and_single_approval", async () => {
+    const { backend, admin, id, eventId, memberId, subscriptionId } = await announcement();
+    const { seriesId, messageId } = await backend.run(async (ctx) => {
+        const seriesId = await ctx.db.insert("series", {
+            name: "CV",
+            slug: "cv",
+            description: "",
+            topics: [],
+            status: "active",
+        });
+        await ctx.db.patch(eventId, { seriesId });
+        const event = (await ctx.db.get(eventId))!;
+        const { _id, _creationTime, ...fields } = event;
+        const past = await ctx.db.insert("events", {
+            ...fields,
+            slug: "cv-past",
+            startsAt: Date.now() - 86400000,
+        });
+        await ctx.db.insert("registrations", {
+            eventId: past,
+            memberId,
+            email: "test@example.invalid",
+            name: "Test",
+            status: "going",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        await ctx.db.patch(subscriptionId, { memberId });
+        await ctx.db.patch(id, { status: "completed", recipients: [subscriptionId] });
+        const messageId = await enqueue(
+            ctx,
+            "invitation",
+            "test@example.invalid",
+            "Event",
+            "Event",
+            subscriptionId,
+            0,
+            undefined,
+            { campaignId: id, eventId, category: "announcement" },
+        );
+        await ctx.db.patch(messageId, { status: "accepted", attempts: 1, sentAt: Date.now() });
+
+        return { seriesId, messageId };
+    });
+    expect(
+        (await admin.query(api.mail.campaigns.invitationPreview, { eventId, isFollowup: true }))
+            .recipients,
+    ).toBe(0);
+    await backend.run((ctx) => ctx.db.patch(messageId, { sentAt: Date.now() - 8 * 86400000 }));
+    expect(
+        (await admin.query(api.mail.campaigns.invitationPreview, { eventId, isFollowup: true }))
+            .recipients,
+    ).toBe(1);
+    const followup = await admin.mutation(api.mail.campaigns.announcement, {
+        eventId,
+        audience: {
+            kind: "subscribers",
+            seriesId,
+            excludeEventId: eventId,
+            invitation: "followup",
+        },
+    });
+    const draft = await backend.run((ctx) => ctx.db.get(followup));
+    expect(draft?.status).toBe("draft");
+    expect(draft?.recipients).toBeUndefined();
+    const introduction =
+        "You previously signed up for CV. Here's the next event in the series, in case you missed it.";
+    expect(draft?.content?.text).toContain(introduction);
+    expect(draft?.content?.html).toContain("You previously signed up for CV.");
+    expect(draft?.content?.attendance).toBeUndefined();
+    await backend.run((ctx) => ctx.db.patch(followup, { attempts: 1 }));
+    await expect(
+        admin.query(api.mail.campaigns.invitationPreview, { eventId, isFollowup: true }),
+    ).rejects.toThrow("already been approved");
+});
+
+test("test_followup_requires_event_series_and_cannot_be_a_written_campaign", async () => {
+    const { admin, eventId } = await announcement();
+    await expect(
+        admin.mutation(api.mail.campaigns.announcement, {
+            eventId,
+            audience: { kind: "subscribers", excludeEventId: eventId, invitation: "followup" },
+        }),
+    ).rejects.toThrow("require this event's series");
+    await expect(
+        admin.mutation(api.mail.campaigns.save, {
+            subject: "Invitation",
+            message: "Hello",
+            audience: { kind: "subscribers", invitation: "followup" },
+        }),
+    ).rejects.toThrow("invitation picker");
+});
+
 test("test_filter_series_interest_and_current_registrations_by_identity", async () => {
     const { backend, eventId, memberId, subscriptionId } = await announcement();
     const seriesId = await backend.run(async (ctx) => {

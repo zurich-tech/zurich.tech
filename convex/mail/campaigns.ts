@@ -93,6 +93,11 @@ export const list = query({
                     const { recipients, content: _content, ...values } = campaign;
                     return {
                         ...values,
+                        isEditable:
+                            campaign.status === "draft" &&
+                            !campaign.content &&
+                            !campaign.key &&
+                            campaign.attemptLimit === undefined,
                         state: campaign.status[0].toUpperCase() + campaign.status.slice(1),
                         recipients: recipients?.length ?? 0,
                         accepted: campaign.accepted ?? 0,
@@ -191,6 +196,53 @@ export const announcements = query({
     },
 });
 
+/** Reject a second approved follow-up, allowing cancellation before any attempts. */
+async function requireInvitation(ctx: QueryCtx, eventId: Id<"events">, id?: Id<"campaigns">) {
+    const campaigns = await ctx.db
+        .query("campaigns")
+        .withIndex("by_event", (query) => query.eq("eventId", eventId))
+        .collect();
+    const previous = campaigns.some(
+        (row) =>
+            row._id !== id &&
+            row.audience?.kind === "subscribers" &&
+            row.audience.invitation &&
+            ((row.attempts ?? 0) > 0 || (!!row.approval && row.status !== "cancelled")),
+    );
+    if (previous)
+        throw new ConvexError("a follow-up invitation has already been approved for this event");
+}
+
+/** Count an invitation audience without creating a campaign or sending mail. */
+export const invitationPreview = query({
+    args: { eventId: v.id("events"), isFollowup: v.boolean() },
+    handler: async (ctx, args) => {
+        await requireAdmin(ctx);
+        const event = await ctx.db.get(args.eventId);
+        if (
+            !event ||
+            event.status !== "scheduled" ||
+            event.startsAt <= Date.now() ||
+            event.visibility === "unlisted"
+        )
+            throw new ConvexError("choose a published upcoming event");
+        if (args.isFollowup && !event.seriesId) throw new ConvexError("this event has no series");
+        if (args.isFollowup) await requireInvitation(ctx, event._id);
+        const selected = await select(
+            ctx,
+            {
+                kind: "subscribers",
+                excludeEventId: event._id,
+                seriesId: args.isFollowup ? event.seriesId : undefined,
+                invitation: args.isFollowup ? "followup" : undefined,
+            },
+            "announcement",
+        );
+
+        return { recipients: selected.recipients.length, excluded: selected.excluded };
+    },
+});
+
 /** Prepare the regular event template without scheduling or sending any messages. */
 export const announcement = mutation({
     args: { eventId: v.id("events"), audience },
@@ -206,6 +258,13 @@ export const announcement = mutation({
             throw new ConvexError("Choose a published upcoming event.");
         if (args.audience.kind !== "subscribers" || args.audience.excludeEventId !== event._id)
             throw new ConvexError("Announcements must exclude existing event registrations.");
+        // follow-up invitations always use the event's own historical series audience
+        if (
+            args.audience.invitation &&
+            (!event.seriesId || args.audience.seriesId !== event.seriesId)
+        )
+            throw new ConvexError("follow-up invitations require this event's series");
+        if (args.audience.invitation) await requireInvitation(ctx, event._id);
         if (
             args.audience.deliveredSince !== undefined &&
             (!Number.isFinite(args.audience.deliveredSince) ||
@@ -213,7 +272,15 @@ export const announcement = mutation({
         )
             throw new ConvexError("Choose a valid delivery history date.");
 
-        // retain the regular template and its consent category, not attendee reminder semantics
+        // explain the registration history used to select follow-up recipients
+        let description: string | undefined;
+        if (args.audience.invitation && event.seriesId) {
+            const series = await ctx.db.get(event.seriesId);
+            if (!series) throw new ConvexError("event series is missing");
+            description = `You previously signed up for ${series.name}. Here's the next event in the series, in case you missed it.`;
+        }
+
+        // render the invitation with its audience-specific introduction
         const content = eventEmail({ ...event, ...(await eventPlace(ctx, event)) }, "New event", {
             eventId: event._id,
             summary: true,
@@ -221,6 +288,8 @@ export const announcement = mutation({
             sponsors: await activeSponsors(ctx),
             jobs: await openJobs(ctx),
             unsubscribeUrl: links.unsubscribe,
+            subject: args.audience.invitation ? "Coming up" : undefined,
+            description,
         });
         return await ctx.db.insert("campaigns", {
             audience: args.audience,
@@ -314,6 +383,8 @@ export const save = mutation({
     },
     handler: async (ctx, args) => {
         const selected = args.audience ?? { kind: "subscribers" as const };
+        if (selected.kind === "subscribers" && selected.invitation)
+            throw new ConvexError("prepare follow-up invitations from the event invitation picker");
         const eventId = selected.kind === "registrations" ? selected.eventId : undefined;
         const account = await authorize(ctx, { eventId });
         const subject = args.subject.trim();
@@ -421,6 +492,21 @@ export const queue = mutation({
         const selected = await select(ctx, campaign.audience!, campaign.category!);
         if (!selected.recipients.length || selected.recipients.length !== args.expectedRecipients)
             throw new ConvexError("Recipient count changed. Preview it again.");
+        // claim at most one follow-up campaign per event, atomically with approval
+        if (campaign.audience?.kind === "subscribers" && campaign.audience.invitation) {
+            const event = campaign.eventId ? await ctx.db.get(campaign.eventId) : null;
+            if (
+                !event ||
+                event.status !== "scheduled" ||
+                event.startsAt <= Date.now() ||
+                event.visibility === "unlisted" ||
+                !event.seriesId ||
+                campaign.audience.seriesId !== event.seriesId ||
+                campaign.audience.excludeEventId !== event._id
+            )
+                throw new ConvexError("event changed: prepare the invitation again");
+            await requireInvitation(ctx, campaign.eventId!, campaign._id);
+        }
         if (
             args.scheduledAt !== undefined &&
             (!Number.isFinite(args.scheduledAt) || args.scheduledAt <= Date.now())

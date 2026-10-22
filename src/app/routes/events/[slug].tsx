@@ -251,6 +251,7 @@ export default function Route() {
                             class="item-header event-overview"
                             toolbar={
                                 <div class="row-actions">
+                                    <a href={`/events/${params.slug}/present`}>Present</a>
                                     <Show
                                         when={
                                             event()?.visibility === "unlisted" &&
@@ -285,6 +286,12 @@ export default function Route() {
                                             label="Feedback"
                                         />
                                     </Show>
+                                    <EditLink
+                                        href={`/email?event=${event()!.id}`}
+                                        eventId={event()!.id}
+                                        role="organiser"
+                                        label="Email"
+                                    />
                                     <EditLink eventId={event()!.id} />
                                 </div>
                             }
@@ -887,7 +894,24 @@ function Agenda(props: { event: PublicEvent | null | undefined }) {
                     {(item) => (
                         <li>
                             <time>{item.time}</time>
-                            <span>{item.title}</span>
+                            <span>
+                                {item.title}
+                                <Show when={item.speakerIds.length}>
+                                    <small class="text-soft" style={{ display: "block" }}>
+                                        {item.speakerIds
+                                            .map((id) => {
+                                                const speaker = props.event!.speakers.find(
+                                                    (speaker) => speaker.id === id,
+                                                );
+                                                if (!speaker)
+                                                    throw new Error("programme speaker is missing");
+
+                                                return speaker.name;
+                                            })
+                                            .join(", ")}
+                                    </small>
+                                </Show>
+                            </span>
                         </li>
                     )}
                 </For>

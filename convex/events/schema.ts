@@ -128,6 +128,8 @@ export const schedules = defineTable({
 
 /** Stored sessions. */
 export const sessions = defineTable({
+    /** Speaking appearances assigned to this programme entry. */
+    speakerIds: v.optional(v.array(v.id("speakers"))),
     eventId: v.id("events"),
     time: v.string(),
     title: v.string(),

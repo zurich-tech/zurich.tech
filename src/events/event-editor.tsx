@@ -382,11 +382,21 @@ export function ProgrammeFields(props: {
                             <button
                                 type="button"
                                 class="button"
-                                onClick={() =>
+                                onClick={() => {
                                     setSpeakers((items) =>
                                         items.filter((_, position) => position !== index),
-                                    )
-                                }
+                                    );
+                                    setAgenda((items) =>
+                                        items.map((item) => ({
+                                            ...item,
+                                            speakerPositions: item.speakerPositions
+                                                ?.filter((position) => position !== index)
+                                                .map((position) =>
+                                                    position > index ? position - 1 : position,
+                                                ),
+                                        })),
+                                    );
+                                }}
                             >
                                 Remove speaker
                             </button>
@@ -407,28 +417,71 @@ export function ProgrammeFields(props: {
             <Card title="Programme">
                 <Index each={agenda()}>
                     {(session, index) => (
-                        <div class="form-columns">
-                            <label>
-                                Time
-                                <input
-                                    name="agendaTime"
-                                    value={session().time}
-                                    onInput={(event) =>
-                                        updateSession(index, { time: event.currentTarget.value })
-                                    }
-                                />
-                            </label>
-                            <label>
-                                Activity
-                                <input
-                                    name="agendaTitle"
-                                    required
-                                    value={session().title}
-                                    onInput={(event) =>
-                                        updateSession(index, { title: event.currentTarget.value })
-                                    }
-                                />
-                            </label>
+                        <fieldset>
+                            <legend>Programme entry {index + 1}</legend>
+                            <div class="form-columns">
+                                <label>
+                                    Time
+                                    <input
+                                        name="agendaTime"
+                                        value={session().time}
+                                        onInput={(event) =>
+                                            updateSession(index, {
+                                                time: event.currentTarget.value,
+                                            })
+                                        }
+                                    />
+                                </label>
+                                <label>
+                                    Talk or activity title
+                                    <input
+                                        name="agendaTitle"
+                                        required
+                                        maxlength="300"
+                                        value={session().title}
+                                        onInput={(event) =>
+                                            updateSession(index, {
+                                                title: event.currentTarget.value,
+                                            })
+                                        }
+                                    />
+                                </label>
+                            </div>
+                            <div class="checkbox-grid">
+                                <Index each={speakers()}>
+                                    {(speaker, position) => (
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                name={`agendaSpeakers-${index}`}
+                                                value={position}
+                                                checked={
+                                                    session().speakerPositions?.includes(
+                                                        position,
+                                                    ) ?? false
+                                                }
+                                                onChange={(event) =>
+                                                    updateSession(index, {
+                                                        speakerPositions: event.currentTarget
+                                                            .checked
+                                                            ? [
+                                                                  ...(session().speakerPositions ??
+                                                                      []),
+                                                                  position,
+                                                              ].sort((left, right) => left - right)
+                                                            : (
+                                                                  session().speakerPositions ?? []
+                                                              ).filter(
+                                                                  (value) => value !== position,
+                                                              ),
+                                                    })
+                                                }
+                                            />
+                                            {speaker().name || `Speaker ${position + 1}`}
+                                        </label>
+                                    )}
+                                </Index>
+                            </div>
                             <button
                                 type="button"
                                 class="button"
@@ -440,7 +493,7 @@ export function ProgrammeFields(props: {
                             >
                                 Remove activity
                             </button>
-                        </div>
+                        </fieldset>
                     )}
                 </Index>
                 <button
