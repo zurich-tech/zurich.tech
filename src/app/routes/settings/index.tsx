@@ -15,6 +15,7 @@ import { auth, useAccount } from "../../../auth/index";
 import { Button } from "../../../components/button";
 import { Page, PageHeader } from "../../page";
 import { Seo } from "../../seo";
+import { InstallButton } from "../../install";
 import { errorMessage } from "../../../components/errors";
 import "../../../members/profile.css";
 
@@ -77,16 +78,19 @@ export default function Route() {
                 <PageHeader
                     title="Account"
                     actions={
-                        <Show when={account.user()}>
-                            <Button
-                                disabled={isPending()}
-                                kind="ghost"
-                                onClick={signOut}
-                                type="button"
-                            >
-                                {isPending() ? "Signing out…" : "Sign out"}
-                            </Button>
-                        </Show>
+                        <>
+                            <InstallButton />
+                            <Show when={account.user()}>
+                                <Button
+                                    disabled={isPending()}
+                                    kind="ghost"
+                                    onClick={signOut}
+                                    type="button"
+                                >
+                                    {isPending() ? "Signing out…" : "Sign out"}
+                                </Button>
+                            </Show>
+                        </>
                     }
                 />
                 <Show when={error()}>

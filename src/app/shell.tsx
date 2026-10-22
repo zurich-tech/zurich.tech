@@ -2,6 +2,7 @@ import { Show, createEffect, onMount, type JSX } from "solid-js";
 import { useLocation, useIsRouting } from "@solidjs/router";
 import { Footer } from "./footer";
 import { Topbar } from "./topbar";
+import { InstallProvider } from "./install";
 
 /** Shell. */
 export function Shell(props: { children?: JSX.Element }) {
@@ -22,21 +23,23 @@ export function Shell(props: { children?: JSX.Element }) {
     });
 
     return (
-        <div class="site-shell" classList={{ "site-shell--admin": isWorkspace() }}>
-            {/* site */}
-            <Topbar />
-            <Show when={isRouting()}>
-                <div class="navigation-progress" role="status" aria-label="Loading page" />
-            </Show>
-            <main
-                class="site-main"
-                classList={{ "site-main--centered": location.pathname === "/sign-in" }}
-            >
-                {props.children}
-            </main>
-            <Show when={!isWorkspace()}>
-                <Footer />
-            </Show>
-        </div>
+        <InstallProvider>
+            <div class="site-shell" classList={{ "site-shell--admin": isWorkspace() }}>
+                {/* site */}
+                <Topbar />
+                <Show when={isRouting()}>
+                    <div class="navigation-progress" role="status" aria-label="Loading page" />
+                </Show>
+                <main
+                    class="site-main"
+                    classList={{ "site-main--centered": location.pathname === "/sign-in" }}
+                >
+                    {props.children}
+                </main>
+                <Show when={!isWorkspace()}>
+                    <Footer />
+                </Show>
+            </div>
+        </InstallProvider>
     );
 }

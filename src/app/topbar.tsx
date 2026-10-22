@@ -9,6 +9,7 @@ import { ThemeToggle } from "./theme";
 import { SocialLinks } from "../components/social";
 import { site } from "./site";
 import { SlidersHorizontal } from "lucide-solid";
+import { InstallButton } from "./install";
 
 const destinations = ["About", "Events", "Jobs", "News", "Map", "Sponsor", "Stats"];
 
@@ -151,6 +152,7 @@ export function Topbar() {
                     <Show when={currentProfile()?.canManage}>
                         <A href="/admin">Admin</A>
                     </Show>
+                    <InstallButton />
                 </nav>
             </Dialog>
         </header>
