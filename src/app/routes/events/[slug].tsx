@@ -329,7 +329,16 @@ export default function Route() {
 
                                 {/* everything about attending in one panel beside the copy */}
                                 <div class="event-ticket">
-                                    <div class="event-actions">
+                                    <div
+                                        class="event-actions"
+                                        id={
+                                            isQuickRsvp() ||
+                                            hasRegistration() ||
+                                            !isRsvpOpen(event())
+                                                ? "register"
+                                                : undefined
+                                        }
+                                    >
                                         <Switch>
                                             <Match
                                                 when={

@@ -35,6 +35,7 @@ export function layout(options: {
     isCommunity?: boolean;
     body: string;
     action?: Link;
+    secondaryAction?: Link;
     links?: Link[];
 }) {
     const origin = siteOrigin();
@@ -47,9 +48,12 @@ export function layout(options: {
     // the masthead is the site's map band with its bleeding wordmark
     const masthead = `<a href="${escapeHtml(origin)}" style="display:block;line-height:0"><img src="${escapeHtml(`${origin}/branding/mail.png`)}" alt="zurich.tech" width="600" height="120" style="display:block;width:100%;max-width:600px;height:auto;border:0;background:${palette.brand}" /></a>`;
 
-    // one square primary action
+    // one square primary action with an optional quiet alternative
+    const secondary = options.secondaryAction
+        ? `<td valign="middle" style="padding-left:20px"><a href="${escapeHtml(options.secondaryAction.url)}" style="color:${palette.brand};font:14px/1.4 ${text};text-decoration:underline">${escapeHtml(options.secondaryAction.label)}</a></td>`
+        : "";
     const action = options.action
-        ? `<table role="presentation" cellspacing="0" cellpadding="0" style="margin-top:28px"><tr><td bgcolor="${palette.brand}" style="mso-padding-alt:14px 22px"><a href="${escapeHtml(options.action.url)}" style="display:inline-block;padding:14px 22px;border:1px solid ${palette.brand};color:#ffffff;font:bold 15px/1.4 ${text};text-decoration:none">${escapeHtml(options.action.label)} &rarr;</a></td></tr></table>`
+        ? `<table role="presentation" cellspacing="0" cellpadding="0" style="margin-top:28px"><tr><td bgcolor="${palette.brand}" style="mso-padding-alt:14px 22px"><a href="${escapeHtml(options.action.url)}" style="display:inline-block;padding:14px 22px;border:1px solid ${palette.brand};color:#ffffff;font:bold 15px/1.4 ${text};text-decoration:none">${escapeHtml(options.action.label)} &rarr;</a></td>${secondary}</tr></table>`
         : "";
 
     // separate community destinations from subscription controls

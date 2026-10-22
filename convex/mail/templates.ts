@@ -5,7 +5,7 @@ import type { openJobs } from "../jobs/jobs";
 import { notificationChanges } from "../events/changes";
 import { isTentative } from "../events/conditions";
 import type { Recurrence } from "../events/recurrence";
-import { type AddressAccess, type Confirmation } from "../events/fields";
+import { type AddressAccess, type Confirmation, type Registration } from "../events/fields";
 import {
     layout,
     paragraph,
@@ -45,9 +45,26 @@ type Event = {
     confirmation?: Confirmation;
     confirmedAt?: number;
     status?: string;
+    registration?: Registration;
     /** Exclude link-only events from sharing suggestions. */
     visibility?: "public" | "unlisted";
 };
+
+/** Select the booking destination for invitations and newsletter listings. */
+function registrationAction(event: Event) {
+    const url = `${siteOrigin()}/events/${event.slug}`;
+    if (event.status === "cancelled" || event.status === "draft")
+        return { label: "View event", url };
+
+    switch (event.registration?.kind) {
+        case "native":
+            return { label: "Register", url: `${url}#register` };
+        case "external":
+            return { label: "Register", url: event.registration.url };
+        default:
+            return { label: "View event", url };
+    }
+}
 
 /** Describe address access without exposing restricted content in a public email. */
 function emailAddress(event: Event) {
@@ -284,10 +301,17 @@ export function eventEmail(
               label: options.actionLabel ?? (options.passUrl ? "View pass" : "Manage registration"),
               url: options.manageUrl,
           }
-        : {
-              label: "View event",
-              url: `${siteOrigin()}/events/${event.slug}`,
-          };
+        : isInvitation
+          ? registrationAction(event)
+          : {
+                label: "View event",
+                url: `${siteOrigin()}/events/${event.slug}`,
+            };
+    const secondaryAction =
+        isInvitation && action.label === "Register"
+            ? { label: "View event", url: `${siteOrigin()}/events/${event.slug}` }
+            : undefined;
+
     return {
         subject: `${event.title}: ${options.subject ?? title}`,
         attendance:
@@ -300,6 +324,7 @@ export function eventEmail(
             eventText(event, options.summary),
             programme.text,
             `${action.label}: ${action.url}`,
+            secondaryAction ? `${secondaryAction.label}: ${secondaryAction.url}` : undefined,
             participation.text,
             additions.text,
             ...links.map((link) => `${link.label}: ${link.url}`),
@@ -325,6 +350,7 @@ export function eventEmail(
                 participation.html +
                 additions.html,
             action,
+            secondaryAction,
             links,
         }),
     };
@@ -463,6 +489,7 @@ export function newsletterEdition(
                 entry.summary ?? "",
                 details,
                 index > 0,
+                registrationAction(entry),
             );
         })
         .join("");
@@ -493,7 +520,13 @@ export function newsletterEdition(
             participation.html +
             additions.html,
         text: [
-            ...listings.map((entry) => eventText(entry, true)),
+            ...listings.map((entry) => {
+                const action = registrationAction(entry);
+
+                return action.label === "Register"
+                    ? `${eventText(entry, true)}\n${action.label}: ${action.url}`
+                    : eventText(entry, true);
+            }),
             ...stories.map((story) => story.text),
             options.date === undefined ? "" : resourcesPlaceholder.text,
             participation.text,
@@ -510,6 +543,7 @@ function digestListing(
     description: string,
     details: string,
     isSeparated: boolean,
+    action: { label: string; url: string },
 ) {
     const day = new Date(date).toLocaleDateString("en-GB", {
         timeZone: "Europe/Zurich",
@@ -521,8 +555,12 @@ function digestListing(
     });
     const border = isSeparated ? `border-top:1px solid ${palette.line};` : "";
     const dateColumn = `<span style="font-size:22px;line-height:1.2">${day}</span><br>${month}`;
+    const registration =
+        action.label === "Register"
+            ? `<p style="margin:10px 0 0;font:14px/1.4 ${text}"><a href="${escapeHtml(action.url)}" style="color:${palette.brand};text-decoration:underline">Register &rarr;</a></p>`
+            : "";
 
-    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;${border}"><tr><td width="52" valign="top" style="padding:18px 0;color:${palette.soft};font:13px/1.5 ${mono}">${dateColumn}</td><td valign="top" style="padding:18px 0 18px 16px"><h3 style="margin:0;font:${listingFont}"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(title)}</a></h3>${details ? `<p style="margin:5px 0 0;color:${palette.soft};font:13px/1.5 ${text}">${escapeHtml(details)}</p>` : ""}${description ? `<p style="margin:8px 0 0;font:14px/1.6 ${text}">${escapeHtml(description)}</p>` : ""}</td></tr></table>`;
+    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;${border}"><tr><td width="52" valign="top" style="padding:18px 0;color:${palette.soft};font:13px/1.5 ${mono}">${dateColumn}</td><td valign="top" style="padding:18px 0 18px 16px"><h3 style="margin:0;font:${listingFont}"><a href="${escapeHtml(url)}" style="color:${palette.ink};text-decoration:none">${escapeHtml(title)}</a></h3>${details ? `<p style="margin:5px 0 0;color:${palette.soft};font:13px/1.5 ${text}">${escapeHtml(details)}</p>` : ""}${description ? `<p style="margin:8px 0 0;font:14px/1.6 ${text}">${escapeHtml(description)}</p>` : ""}${registration}</td></tr></table>`;
 }
 
 /** Render a news summary beside its cover, with the date below the copy. */
