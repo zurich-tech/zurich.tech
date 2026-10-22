@@ -1,5 +1,5 @@
 import { TopicsAdmin } from "../../topics/admin";
-import { Audience } from "../../members/demographics";
+import { AudienceAdmin } from "../../members/management";
 import { AdminNavigation, adminSections } from "../admin-navigation";
 import { NewsAdmin } from "../../news/workspace";
 import { Loading } from "../../components/loading";
@@ -116,7 +116,7 @@ export default function Route() {
                                     </Show>
                                 </Match>
                                 <Match when={access.current()?.isAdmin && section() === "audience"}>
-                                    <Audience />
+                                    <AudienceAdmin />
                                 </Match>
                                 <Match when={isTeam() && section() === "topics"}>
                                     <TopicsAdmin />

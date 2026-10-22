@@ -104,6 +104,7 @@ import type * as members_identity from "../members/identity.js";
 import type * as members_interests from "../members/interests.js";
 import type * as members_languages from "../members/languages.js";
 import type * as members_links from "../members/links.js";
+import type * as members_management from "../members/management.js";
 import type * as members_profiles from "../members/profiles.js";
 import type * as members_queries from "../members/queries.js";
 import type * as members_reviews from "../members/reviews.js";
@@ -248,6 +249,7 @@ declare const fullApi: ApiFromModules<{
   "members/interests": typeof members_interests;
   "members/languages": typeof members_languages;
   "members/links": typeof members_links;
+  "members/management": typeof members_management;
   "members/profiles": typeof members_profiles;
   "members/queries": typeof members_queries;
   "members/reviews": typeof members_reviews;

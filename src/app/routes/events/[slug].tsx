@@ -287,6 +287,12 @@ export default function Route() {
                                         />
                                     </Show>
                                     <EditLink
+                                        href={`/admin?event=${event()!.id}`}
+                                        eventId={event()!.id}
+                                        role="organiser"
+                                        label="Registrations"
+                                    />
+                                    <EditLink
                                         href={`/email?event=${event()!.id}`}
                                         eventId={event()!.id}
                                         role="organiser"

@@ -1,7 +1,8 @@
 import { useConfirmation } from "../components/dialog";
 import { useAccess } from "../auth/edit";
 import { FilterPills } from "../components/filter-pills";
-import { Empty } from "../components/empty";
+import { DataGrid } from "../components/grid";
+import { Loading } from "../components/loading";
 import { Card } from "../components/card";
 import { For, Show, createSignal, createResource } from "solid-js";
 import { api } from "../../convex/_generated/api";
@@ -12,49 +13,38 @@ import type { Id } from "../../convex/_generated/dataModel";
 import type { Registration } from "../../convex/events/fields";
 import { errorMessage } from "../components/errors";
 
+/** Display names shared by table cells, search and exports. */
+const registrationLabels = {
+    going: "Confirmed",
+    pending: "Pending",
+    waitlist: "Waitlisted",
+    declined: "Declined",
+    cancelled: "Cancelled",
+};
+
 /** Load and manage attendance for one selected event. */
 export function Attendees(props: {
     /** Event selected through the workspace URL. */
     eventId: string;
 }) {
+    const access = useAccess();
     const [attendees, { refetch }] = createResource(
-        () => props.eventId,
-        async (eventId) =>
-            (await memberClient()).query(api.events.registrations.list, {
+        () => (access.key() ? { key: access.key(), eventId: props.eventId } : undefined),
+        async ({ key, eventId }) => ({
+            key,
+            eventId,
+            value: await (
+                await memberClient()
+            ).query(api.events.registrations.list, {
                 eventId: eventId as Id<"events">,
             }),
+        }),
     );
+    const list = () =>
+        attendees()?.key === access.key() && attendees()?.eventId === props.eventId
+            ? attendees()?.value
+            : undefined;
     const command = useWorkspaceCommand(refetch);
-
-    /** Export the visible attendee records as spreadsheet-safe CSV. */
-    function exportAttendees() {
-        // read only the currently visible attendees
-        const rows = attendees()?.rows;
-        if (!rows) return;
-
-        // escape CSV cells and prevent spreadsheet formula execution
-        const cell = (value: string) =>
-            `"${(/^[=+@\-]/.test(value) ? "'" : "") + value.replaceAll('"', '""')}"`;
-        const csv = [
-            ["Name", "Email", "Status", "Answers"],
-            ...rows.map((row) => [
-                row.name ?? "",
-                row.email ?? "",
-                row.status,
-                (row.answers ?? []).join(" | "),
-            ]),
-        ]
-            .map((row) => row.map(cell).join(","))
-            .join("\r\n");
-
-        // download the export and release its temporary URL
-        const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "attendees.csv";
-        link.click();
-        URL.revokeObjectURL(url);
-    }
 
     return (
         <>
@@ -62,13 +52,23 @@ export function Attendees(props: {
                 <p class="form-error">
                     {errorMessage(attendees.error, "Could not load attendees.")}
                 </p>
+                <button class="button" onClick={() => void refetch()} disabled={attendees.loading}>
+                    Retry
+                </button>
             </Show>
             <FormMessage error={command.error()} success={command.success()} />
-            <Show when={attendees()}>
+            <Show
+                when={list()}
+                fallback={
+                    <Show when={!attendees.error}>
+                        <Loading />
+                    </Show>
+                }
+            >
                 {(list) => (
                     <AttendeeTable
                         list={list()}
-                        onExport={exportAttendees}
+                        onRefresh={() => void refetch()}
                         isPending={command.isPending()}
                         perform={command.perform}
                     />
@@ -82,27 +82,22 @@ export function Attendees(props: {
 function AttendeeTable(props: {
     /** Event and attendee records. */
     list: AttendeeList;
-    /** Download the visible attendee records. */
-    onExport: () => void;
+    /** Reload registrations after changes made elsewhere. */
+    onRefresh: () => void;
     /** Disable actions while a workspace command is pending. */
     isPending: boolean;
     /** Run a command and refresh its visible result. */
     perform: Perform;
 }) {
-    const [search, setSearch] = createSignal("");
     const [status, setStatus] = createSignal("all");
     const hasAnswers = () => props.list.rows.some((row) => row.answers?.some(Boolean));
     const rows = () =>
-        props.list.rows.filter(
-            (row) =>
-                (status() === "all" || row.status === status()) &&
-                `${row.name} ${row.email}`.toLowerCase().includes(search().trim().toLowerCase()),
-        );
+        props.list.rows.filter((row) => status() === "all" || row.status === status());
 
     return (
         <Card
-            title="Attendees"
-            class="admin-attendees"
+            title="Registrations"
+            class="registration-grid"
             toolbar={
                 <div class="admin-attendee-actions">
                     <a class="action-link" href="/admin">
@@ -116,12 +111,8 @@ function AttendeeTable(props: {
                     <a class="action-link" href={`/feedback?event=${props.list.event._id}`}>
                         Feedback
                     </a>
-                    <button
-                        class="button"
-                        disabled={!props.list.rows.length}
-                        onClick={props.onExport}
-                    >
-                        Export CSV
+                    <button class="button" disabled={props.isPending} onClick={props.onRefresh}>
+                        Refresh
                     </button>
                 </div>
             }
@@ -131,13 +122,6 @@ function AttendeeTable(props: {
             </div>
             <Show when={props.list.rows.length > 0}>
                 <div class="admin-filters">
-                    <input
-                        type="search"
-                        aria-label="Search attendees"
-                        placeholder="Search attendees…"
-                        value={search()}
-                        onInput={(event) => setSearch(event.currentTarget.value)}
-                    />
                     <FilterPills
                         label="Registration status"
                         value={status()}
@@ -149,54 +133,74 @@ function AttendeeTable(props: {
                             { value: "waitlist", label: "Waitlisted" },
                             { value: "declined", label: "Declined" },
                             { value: "cancelled", label: "Cancelled" },
-                        ]}
+                        ].map((option) => ({
+                            ...option,
+                            label: `${option.label} (${option.value === "all" ? props.list.rows.length : props.list.rows.filter((row) => row.status === option.value).length})`,
+                        }))}
                     />
                 </div>
             </Show>
-            <Show
-                when={rows().length > 0}
-                fallback={
-                    <Empty
-                        title={
-                            props.list.rows.length
-                                ? "No matching registrations"
-                                : "No registrations yet"
+            <DataGrid
+                rows={rows()}
+                label="Registrations"
+                filename={`${props.list.event.slug}-registrations.csv`}
+                initialSort="created"
+                columns={[
+                    {
+                        id: "name",
+                        label: "Name",
+                        value: (row) => row.name,
+                    },
+                    { id: "email", label: "Email", value: (row) => row.email },
+                    {
+                        id: "status",
+                        label: "Status",
+                        value: (row) => registrationLabels[row.status],
+                    },
+                    {
+                        id: "created",
+                        label: "Registered",
+                        value: (row) => row.createdAt,
+                        exportValue: (row) => new Date(row.createdAt).toISOString(),
+                    },
+                    {
+                        id: "updated",
+                        label: "Updated",
+                        value: (row) => row.updatedAt,
+                        exportValue: (row) => new Date(row.updatedAt).toISOString(),
+                    },
+                    ...(hasAnswers()
+                        ? [
+                              {
+                                  id: "answers",
+                                  label: "Answers",
+                                  value: (row: AttendeeList["rows"][number]) =>
+                                      (row.answers ?? []).join(" | "),
+                              },
+                          ]
+                        : []),
+                    {
+                        id: "actions",
+                        label: "Actions",
+                        value: () => "",
+                        isSortable: false,
+                        exportValue: false,
+                    },
+                ]}
+                row={(row) => (
+                    <AttendeeRow
+                        attendee={row}
+                        hasAnswers={hasAnswers()}
+                        policy={props.list.event.registration}
+                        isOpen={
+                            props.list.event.status === "scheduled" &&
+                            props.list.event.startsAt > Date.now()
                         }
+                        isPending={props.isPending}
+                        perform={props.perform}
                     />
-                }
-            >
-                <div class="table-scroll">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Name / email</th>
-                                <th>Status</th>
-                                <Show when={hasAnswers()}>
-                                    <th>Answers</th>
-                                </Show>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <For each={rows()}>
-                                {(row) => (
-                                    <AttendeeRow
-                                        attendee={row}
-                                        hasAnswers={hasAnswers()}
-                                        policy={props.list.event.registration}
-                                        isOpen={
-                                            props.list.event.status === "scheduled" &&
-                                            props.list.event.startsAt > Date.now()
-                                        }
-                                        isPending={props.isPending}
-                                        perform={props.perform}
-                                    />
-                                )}
-                            </For>
-                        </tbody>
-                    </table>
-                </div>
-            </Show>
+                )}
+            />
         </Card>
     );
 }
@@ -219,33 +223,33 @@ function AttendeeRow(props: {
     const confirm = useConfirmation();
     return (
         <tr>
+            <td>{props.attendee.name}</td>
+            <td>{props.attendee.email}</td>
+            <td>{registrationLabels[props.attendee.status]}</td>
             <td>
-                {props.attendee.name}
-                <br />
-                <small>{props.attendee.email}</small>
+                <time dateTime={new Date(props.attendee.createdAt).toISOString()}>
+                    {new Date(props.attendee.createdAt).toLocaleDateString("en-GB")}
+                </time>
             </td>
             <td>
-                {
-                    {
-                        going: "Confirmed",
-                        pending: "Pending",
-                        waitlist: "Waitlisted",
-                        declined: "Declined",
-                        cancelled: "Cancelled",
-                    }[props.attendee.status]
-                }
+                <time dateTime={new Date(props.attendee.updatedAt).toISOString()}>
+                    {new Date(props.attendee.updatedAt).toLocaleDateString("en-GB")}
+                </time>
             </td>
             <Show when={props.hasAnswers}>
                 <td>
-                    <For each={props.attendee.answers}>
-                        {(answer, index) => (
-                            <p>
-                                <strong>{questionLabel(props.policy, index())}</strong>
-                                <br />
-                                {answer}
-                            </p>
-                        )}
-                    </For>
+                    <details>
+                        <summary>View answers</summary>
+                        <For each={props.attendee.answers}>
+                            {(answer, index) => (
+                                <p>
+                                    <strong>{questionLabel(props.policy, index())}</strong>
+                                    <br />
+                                    {answer}
+                                </p>
+                            )}
+                        </For>
+                    </details>
                 </td>
             </Show>
             <td>

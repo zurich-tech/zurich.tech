@@ -201,6 +201,19 @@ export const read = internalQuery({
             if (delivery.category === "announcement" && event.visibility === "unlisted")
                 return null;
             if (delivery.category === "confirmed" && isTentative(event)) return null;
+
+            // require current attendance for direct registration notices
+            if (delivery.category === undefined && delivery.registrationId) {
+                const registration = await ctx.db.get(delivery.registrationId);
+                if (
+                    !registration ||
+                    registration.eventId !== event._id ||
+                    registration.status !== "going" ||
+                    registration.email !== delivery.to
+                )
+                    return null;
+            }
+
             if (
                 (delivery.category === "confirmed" ||
                     delivery.category === "cancelled" ||

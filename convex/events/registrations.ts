@@ -498,6 +498,12 @@ async function notify(
     if (!personalized)
         throw new Error("Registration disappeared while preparing its notification.");
 
+    // bind attendance notices to the registration and expire them when the event starts
+    const context =
+        row.status === "going"
+            ? { eventId: event._id, registrationId: row._id, expiresAt: event.startsAt }
+            : undefined;
+
     await enqueue(
         ctx,
         key,
@@ -507,6 +513,7 @@ async function notify(
         undefined,
         0,
         personalized.html,
+        context,
     );
 }
 
