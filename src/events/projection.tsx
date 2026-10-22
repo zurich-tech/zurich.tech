@@ -1,6 +1,6 @@
 import { createMemo, createResource, createSignal, For, Show, onMount, onCleanup } from "solid-js";
 import qrcode from "qrcode-generator";
-import { A, useParams, useSearchParams } from "@solidjs/router";
+import { A, useParams } from "@solidjs/router";
 import { useAccount } from "../auth";
 import { useAccess } from "../auth/edit";
 import { Arrow } from "../components/arrow";
@@ -11,7 +11,7 @@ import { surveyQuestions } from "../../convex/members/demographics";
 import { AudienceChart } from "../members/chart";
 import { Seo } from "../app/seo";
 import { Kitten, kittenMood, kittenMoods } from "./kitten";
-import { Welcome } from "./welcome";
+import { Overview } from "./overview";
 import { Maximize } from "lucide-solid";
 import "./projection.css";
 
@@ -59,16 +59,15 @@ function ProjectionCode(props: { url: string; label: string }) {
 }
 
 /** Project public completion counts and administrator-only aggregate survey results. */
-export function Projection(props: { view?: "welcome" | "survey" | "results" } = {}) {
+export function Projection(props: { view: "overview" | "survey" | "results" }) {
     const params = useParams<{ slug: string }>();
     const account = useAccount();
     const access = useAccess();
-    const [search] = useSearchParams();
-    const isResults = () => search.view === "results" || props.view === "results";
-    const isWelcome = () => props.view === "welcome" && !search.view;
+    const isResults = () => props.view === "results";
+    const isOverview = () => props.view === "overview";
     const basePath = () => `/events/${params.slug}`;
     const canRead = () =>
-        !isWelcome() && (!isResults() || (!!account.user() && !!access.current()?.isAdmin));
+        !isOverview() && (!isResults() || (!!account.user() && !!access.current()?.isAdmin));
     const [report, { refetch }] = createResource(
         () =>
             canRead()
@@ -113,11 +112,11 @@ export function Projection(props: { view?: "welcome" | "survey" | "results" } = 
             <ProjectionHeader
                 eventHref={`/events/${params.slug}`}
                 basePath={basePath()}
-                isWelcome={isWelcome()}
+                isOverview={isOverview()}
                 isResults={isResults()}
                 canResults={!!access.current()?.isAdmin}
             />
-            <Show when={!isWelcome()} fallback={<Welcome slug={params.slug} />}>
+            <Show when={!isOverview()} fallback={<Overview slug={params.slug} />}>
                 <Show
                     when={!isResults() || account.user()}
                     fallback={
@@ -198,7 +197,7 @@ export function ProjectionHeader(props: {
     basePath: string;
     isResults: boolean;
     canResults: boolean;
-    isWelcome?: boolean;
+    isOverview?: boolean;
 }) {
     const [error, setError] = createSignal<string>();
 
@@ -209,14 +208,14 @@ export function ProjectionHeader(props: {
             </A>
             <nav class="projection-tabs" aria-label="Presentation view">
                 <A
-                    href={`${props.basePath}/welcome`}
-                    aria-current={props.isWelcome ? "page" : undefined}
+                    href={`${props.basePath}/overview`}
+                    aria-current={props.isOverview ? "page" : undefined}
                 >
-                    Welcome
+                    Overview
                 </A>
                 <A
                     href={`${props.basePath}/survey`}
-                    aria-current={!props.isResults && !props.isWelcome ? "page" : undefined}
+                    aria-current={!props.isResults && !props.isOverview ? "page" : undefined}
                 >
                     Survey
                 </A>

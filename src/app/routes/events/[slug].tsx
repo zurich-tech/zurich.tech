@@ -251,7 +251,7 @@ export default function Route() {
                             class="item-header event-overview"
                             toolbar={
                                 <div class="row-actions">
-                                    <a href={`/events/${params.slug}/present`}>Present</a>
+                                    <a href={`/events/${params.slug}/overview`}>Overview</a>
                                     <Show
                                         when={
                                             event()?.visibility === "unlisted" &&

@@ -9,16 +9,16 @@
 .event-projection:fullscreen {
     overflow: auto;
 }
-.projection-welcome {
+.projection-overview {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 280px;
     gap: var(--space-8) 64px;
     padding-top: var(--space-8);
 }
-.projection-welcome > header {
+.projection-overview > header {
     grid-column: 1 / -1;
 }
-.projection-welcome-heading {
+.projection-overview-heading {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: center;
@@ -29,24 +29,24 @@
 .projection-logistics {
     text-align: right;
 }
-.projection-welcome .projection-logistics p {
+.projection-overview .projection-logistics p {
     margin: 0;
     font-size: 20px;
     line-height: 1.5;
 }
-.projection-welcome .projection-logistics p + p {
+.projection-overview .projection-logistics p + p {
     margin-top: var(--space-2);
     color: var(--color-soft);
 }
-.projection-welcome h1 {
+.projection-overview h1 {
     font: 500 56px / 1.15 var(--font-mono);
     margin: 0;
 }
-.projection-welcome h2 {
+.projection-overview h2 {
     font: 500 24px / 1.4 var(--font-mono);
     margin-bottom: var(--space-5);
 }
-.projection-welcome header p,
+.projection-overview header p,
 .projection-programme p {
     font-size: 22px;
 }
@@ -133,7 +133,7 @@
     color: var(--color-ink);
     margin: 0;
 }
-.projection-welcome .projection-talk-title {
+.projection-overview .projection-talk-title {
     font-family: var(--font-text);
     font-weight: 600;
     font-size: 30px;
@@ -152,14 +152,14 @@
     object-fit: cover;
     flex-shrink: 0;
 }
-.projection-welcome .event-taxonomy {
+.projection-overview .event-taxonomy {
     margin-top: var(--space-5);
 }
-.projection-welcome .event-taxonomy .tag {
+.projection-overview .event-taxonomy .tag {
     font-size: 18px;
 }
 @media (max-width: 900px) {
-    .projection-welcome {
+    .projection-overview {
         grid-template-columns: minmax(0, 1fr);
     }
     .projection-sidebar {
@@ -168,7 +168,7 @@
     }
 }
 @media (max-width: 640px) {
-    .projection-welcome-heading {
+    .projection-overview-heading {
         grid-template-columns: minmax(0, 1fr);
         gap: var(--space-5);
     }
@@ -178,10 +178,10 @@
     .projection-speakers {
         grid-template-columns: minmax(0, 1fr);
     }
-    .projection-welcome {
+    .projection-overview {
         grid-template-columns: minmax(0, 1fr);
     }
-    .projection-welcome h1 {
+    .projection-overview h1 {
         font-size: 32px;
     }
     .projection-portrait {
@@ -191,7 +191,7 @@
     .projection-speaker .projection-speaker-name {
         font-size: 22px;
     }
-    .projection-welcome .projection-talk-title {
+    .projection-overview .projection-talk-title {
         font-size: 24px;
     }
     .projection-header {

@@ -1,6 +1,6 @@
 import { Projection } from "../../../../../events/projection";
 
-/** Open the event welcome screen. */
+/** Open the event overview screen. */
 export default function Route() {
-    return <Projection view="welcome" />;
+    return <Projection view="overview" />;
 }

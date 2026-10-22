@@ -10,7 +10,7 @@ import discord from "../components/assets/social/discord.svg?raw";
 import linkedin from "../components/assets/social/linkedin.svg?raw";
 import twitter from "../components/assets/social/x.svg?raw";
 
-/** Public community shortcuts shown on the event welcome screen. */
+/** Public community shortcuts shown on the event overview screen. */
 const communityLinks = [
     { path: "discord", icon: discord },
     { path: "linkedin", icon: linkedin },
@@ -18,7 +18,7 @@ const communityLinks = [
 ];
 
 /** Present the published programme and current community sponsors. */
-export function Welcome(props: { slug: string }) {
+export function Overview(props: { slug: string }) {
     const [event] = createResource(
         () => props.slug,
         (slug) => publicClient().query(api.events.queries.event, { slug }),
@@ -65,8 +65,8 @@ export function Welcome(props: { slug: string }) {
                 }
             >
                 {(item) => (
-                    <section class="projection-welcome">
-                        <header class="projection-welcome-heading">
+                    <section class="projection-overview">
+                        <header class="projection-overview-heading">
                             <div>
                                 <h1>{item().title}</h1>
                                 <EventTags detailed topics={item().topics} />
