@@ -8,7 +8,7 @@ import { errorMessage } from "../components/errors";
 import { memberClient, publicClient } from "../auth/convex";
 import { api } from "../../convex/_generated/api";
 import { surveyQuestions } from "../../convex/members/demographics";
-import { AudienceChart } from "../members/chart";
+import { AudienceCharts } from "../members/chart";
 import { Seo } from "../app/seo";
 import { Kitten, kittenMood, kittenMoods } from "./kitten";
 import { Overview } from "./overview";
@@ -279,11 +279,7 @@ export function SurveyResults(props: {
                     {props.registered} registered attendees · {surveyQuestions.length} questions
                 </p>
             </header>
-            <div class="audience-charts">
-                <For each={props.questions}>
-                    {(question) => <AudienceChart {...question} total={props.registered} />}
-                </For>
-            </div>
+            <AudienceCharts questions={props.questions} total={props.registered} />
         </section>
     );
 }

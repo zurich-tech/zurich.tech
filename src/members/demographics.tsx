@@ -1,10 +1,9 @@
 import { CountryFields } from "./countries";
-import { AudienceChart } from "./chart";
+import { AudienceCharts } from "./chart";
 import { TopicFields } from "../topics/fields";
 import { Empty } from "../components/empty";
 import { createResource, createSignal, For, Show } from "solid-js";
 import { Selection } from "../components/selection";
-import { FilterSelect } from "../components/filter-select";
 import { HistoryChart } from "../statistics/chart";
 import "../statistics/style.css";
 import { allLanguages } from "../../convex/members/languages";
@@ -516,8 +515,6 @@ export function Audience() {
     const [summary, { refetch }] = createResource(async () =>
         (await memberClient()).query(api.members.audience.report, {}),
     );
-    const [question, setQuestion] = createSignal("");
-    const [isShowingEmpty, setShowingEmpty] = createSignal(false);
 
     // do not read a rejected resource value, which throws past the inline retry state
     const report = () => (summary.error ? undefined : summary.latest);
@@ -573,30 +570,6 @@ export function Audience() {
                     </dl>
                 )}
             </Show>
-            <Show when={report() && report()!.total > 0}>
-                <div class="audience-toolbar">
-                    <FilterSelect
-                        label="Survey question"
-                        value={question()}
-                        onChange={setQuestion}
-                        options={[
-                            { value: "", label: "All questions" },
-                            ...(report()?.questions ?? []).map((chart) => ({
-                                value: chart.field,
-                                label: chart.label,
-                            })),
-                        ]}
-                    />
-                    <label class="checkbox">
-                        <input
-                            type="checkbox"
-                            checked={isShowingEmpty()}
-                            onChange={(event) => setShowingEmpty(event.currentTarget.checked)}
-                        />
-                        Include zero responses
-                    </label>
-                </div>
-            </Show>
             <Show when={summary.loading}>
                 <p role="status">Loading audience…</p>
             </Show>
@@ -617,15 +590,7 @@ export function Audience() {
                 <Empty title="No active accounts" />
             </Show>
             <Show when={report() && report()!.total > 0}>
-                <div class="audience-charts">
-                    <For
-                        each={report()?.questions.filter(
-                            (chart) => !question() || chart.field === question(),
-                        )}
-                    >
-                        {(chart) => <AudienceChart {...chart} showEmpty={isShowingEmpty()} />}
-                    </For>
-                </div>
+                <AudienceCharts questions={report()!.questions} total={report()!.total} />
             </Show>
         </Card>
     );

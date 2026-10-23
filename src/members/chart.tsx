@@ -2,8 +2,70 @@ import { createSignal, createUniqueId, createEffect, For, Show, onCleanup } from
 import { ArrowDownWideNarrow, ListOrdered } from "lucide-solid";
 import { rankAnswers } from "./audience";
 import { Empty } from "../components/empty";
+import { FilterSelect } from "../components/filter-select";
 import "../topics/topics.css";
 import "./review.css";
+
+/** Filter aggregate questions and control their count display across results pages. */
+export function AudienceCharts(props: {
+    questions: Omit<Parameters<typeof AudienceChart>[0], "total">[];
+    total: number;
+}) {
+    const [question, setQuestion] = createSignal("");
+    const [isShowingEmpty, setShowingEmpty] = createSignal(false);
+    const [isHidingCounts, setHidingCounts] = createSignal(false);
+
+    return (
+        <>
+            <div class="audience-toolbar">
+                <FilterSelect
+                    label="Survey question"
+                    value={question()}
+                    onChange={setQuestion}
+                    options={[
+                        { value: "", label: "All questions" },
+                        ...props.questions.map((chart) => ({
+                            value: chart.field,
+                            label: chart.label,
+                        })),
+                    ]}
+                />
+                <label class="checkbox">
+                    <input
+                        type="checkbox"
+                        checked={isShowingEmpty()}
+                        onChange={(event) => setShowingEmpty(event.currentTarget.checked)}
+                    />
+                    Include zero responses
+                </label>
+                <label class="checkbox">
+                    <input
+                        type="checkbox"
+                        checked={isHidingCounts()}
+                        onChange={(event) => setHidingCounts(event.currentTarget.checked)}
+                    />
+                    Hide absolute counts
+                </label>
+            </div>
+            <div class="audience-charts">
+                <For
+                    each={props.questions.filter(
+                        (chart) => !question() || chart.field === question(),
+                    )}
+                >
+                    {(chart) => (
+                        <AudienceChart
+                            {...chart}
+                            total={props.total}
+                            showEmpty={isShowingEmpty()}
+                            hideCounts={isHidingCounts()}
+                        />
+                    )}
+                </For>
+            </div>
+        </>
+    );
+}
 
 /** Render one aggregate question consistently in admin and event reports. */
 export function AudienceChart(props: {
@@ -20,6 +82,7 @@ export function AudienceChart(props: {
         unreviewed: number;
     }[];
     showEmpty?: boolean;
+    hideCounts?: boolean;
 }) {
     const [isPopular, setPopular] = createSignal(
         !["eventsAttended", "eventFrequency", "experience", "education", "age"].includes(
@@ -52,12 +115,14 @@ export function AudienceChart(props: {
                             <ArrowDownWideNarrow size={16} />
                         </Show>
                     </button>
-                    <span
-                        class="audience-response-count"
-                        title={`${props.responses} of ${props.total} answered${props.groups.some((group) => group.inferred) ? "; historical option coverage is estimated" : ""}`}
-                    >
-                        {props.responses} / {props.total}
-                    </span>
+                    <Show when={!props.hideCounts}>
+                        <span
+                            class="audience-response-count"
+                            title={`${props.responses} of ${props.total} answered${props.groups.some((group) => group.inferred) ? "; historical option coverage is estimated" : ""}`}
+                        >
+                            {props.responses} / {props.total}
+                        </span>
+                    </Show>
                 </div>
             </header>
             <Show when={props.responses > 0} fallback={<Empty title="No responses" />}>
@@ -66,19 +131,25 @@ export function AudienceChart(props: {
                         <div class="audience-bar">
                             <span>{group.label}</span>
                             <span>
-                                <strong>{group.count}</strong>{" "}
+                                <Show when={!props.hideCounts}>
+                                    <strong>{group.count}</strong>{" "}
+                                </Show>
                                 <Show
                                     when={group.unreviewed > 0}
                                     fallback={<span class="text-soft">{group.percentage}%</span>}
                                 >
-                                    <Coverage group={group} />
+                                    <Coverage group={group} hideCounts={props.hideCounts} />
                                 </Show>
                             </span>
                             <meter
                                 min={0}
                                 max={100}
                                 value={group.percentage}
-                                aria-label={`${group.label}: ${group.count} of ${group.reviewed} with this choice available; ${group.unreviewed} unreviewed`}
+                                aria-label={
+                                    props.hideCounts
+                                        ? `${group.label}: ${group.percentage}%`
+                                        : `${group.label}: ${group.count} of ${group.reviewed} with this choice available; ${group.unreviewed} unreviewed`
+                                }
                             />
                         </div>
                     )}
@@ -90,6 +161,7 @@ export function AudienceChart(props: {
 
 /** Explain a changed denominator on hover, focus, or touch. */
 function Coverage(props: {
+    hideCounts?: boolean;
     group: {
         label: string;
         count: number;
@@ -138,13 +210,18 @@ function Coverage(props: {
             </button>
             <Show when={isOpen()}>
                 <span id={id} role="tooltip" class="survey-coverage-tooltip">
-                    <span>
-                        <strong>
-                            {props.group.count} of {props.group.reviewed}
-                        </strong>{" "}
-                        selected
-                    </span>
-                    <span>{props.group.unreviewed} not reviewed</span>
+                    <Show
+                        when={!props.hideCounts}
+                        fallback={<span>Among respondents with this choice available</span>}
+                    >
+                        <span>
+                            <strong>
+                                {props.group.count} of {props.group.reviewed}
+                            </strong>{" "}
+                            selected
+                        </span>
+                        <span>{props.group.unreviewed} not reviewed</span>
+                    </Show>
                     <Show when={props.group.inferred > 0}>
                         <small>Estimated</small>
                     </Show>
