@@ -232,11 +232,11 @@ function JobList(props: { jobs: Job[] }) {
                             <ul class="plan-benefits">
                                 <li>
                                     <Arrow />
-                                    <strong>Highlighted in newsletter emails</strong>
+                                    <strong>Highlighted in emails</strong>
                                 </li>
                                 <li>
                                     <Arrow />
-                                    <strong>Shown at events</strong>
+                                    <strong>Highlighted on website</strong>
                                 </li>
                                 <li>
                                     <Arrow />
