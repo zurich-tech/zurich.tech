@@ -205,7 +205,11 @@ export function Overview(props: { slug: string }) {
                                 <h2>Community</h2>
                                 <For each={communityLinks}>
                                     {(link) => (
-                                        <a href={`/${link.path}`}>
+                                        <a
+                                            href={`/${link.path}`}
+                                            target="_blank"
+                                            rel="external noopener noreferrer"
+                                        >
                                             <span aria-hidden="true" innerHTML={link.icon} />
                                             zurich.tech/{link.path}
                                         </a>
