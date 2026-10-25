@@ -32,19 +32,19 @@ const previousSiteUrl = process.env.SITE_URL;
 test("test_render_consistent_profile_actions_and_public_sharing", () => {
     expect(profileInvitation("none")).toEqual({ html: "", text: "" });
     expect(profileInvitation("create").text).toBe(
-        "Sign Up: https://zurich.tech/settings?section=profile\nFaster RSVPs. Your topics and alerts.",
+        "Sign Up: https://zurich.tech/settings?section=profile\nFaster RSVPs. Your topics and alerts.\n\nComplete the survey: https://zurich.tech/survey\nHelp shape future events.",
     );
     expect(profileInvitation("complete").text).toBe(
-        "Complete the survey: https://zurich.tech/survey\nHelp shape our next events.",
+        "Complete the survey: https://zurich.tech/survey\nHelp shape future events.",
     );
     expect(profileInvitation("update").text).toBe(
-        "Update your survey: https://zurich.tech/survey\nNew choices. Anything to add?",
+        "Update your survey: https://zurich.tech/survey\nNew questions. Tell us what you think.",
     );
     const participation = involvement("none");
     expect(participation.html).not.toContain("WhatsApp");
     expect(participation.text).toContain("Pass something good to a friend.");
     expect(participation.text).toContain("Meet people and exchange ideas.");
-    expect(participation.text).toContain("Speak, host or help out.");
+    expect(participation.text).toContain("Speak, host or lend a hand.");
     expect(() => sharing("Share", "Example", "/registration?token=secret")).toThrow(
         "Email sharing requires a public site URL without parameters or fragments.",
     );
@@ -131,7 +131,7 @@ test("test_include_bounded_jobs_sponsors_and_full_followup_participation", () =>
     });
     for (const content of [followup.html, followup.text]) {
         expect(content).toContain("Join Discord");
-        expect(content).toContain("Volunteer");
+        expect(content).toContain("Help out");
         expect(content).toContain("Sponsors");
         expect(content).toContain("Role 2");
         expect(content).toContain("Role 5");

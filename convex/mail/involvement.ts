@@ -34,23 +34,31 @@ function invitation(
     };
 }
 
-/** Invite account creation or optional survey completion and review. */
+/** Render separate account and survey actions for the recipient's current state. */
 export function profileInvitation(prompt: ProfilePrompt) {
     if (prompt === "none") return { html: "", text: "" };
 
-    return invitation(
-        prompt === "create"
-            ? "Sign Up"
-            : prompt === "update"
-              ? "Update your survey"
-              : "Complete the survey",
-        prompt === "create"
-            ? "Faster RSVPs. Your topics and alerts."
-            : prompt === "update"
-              ? "New choices. Anything to add?"
-              : "Help shape our next events.",
-        `${siteOrigin()}${prompt === "create" ? "/settings?section=profile" : "/survey"}`,
+    // give every unfinished survey its own action
+    const survey = invitation(
+        prompt === "update" ? "Update your survey" : "Complete the survey",
+        prompt === "update"
+            ? "New questions. Tell us what you think."
+            : "Help shape future events.",
+        `${siteOrigin()}/survey`,
     );
+    if (prompt !== "create") return survey;
+
+    // invite account creation separately from survey participation
+    const account = invitation(
+        "Sign Up",
+        "Faster RSVPs. Your topics and alerts.",
+        `${siteOrigin()}/settings?section=profile`,
+    );
+
+    return {
+        html: account.html + survey.html,
+        text: `${account.text}\n\n${survey.text}`,
+    };
 }
 
 /** Render sharing actions for a public website path, never a recipient token. */
@@ -85,7 +93,7 @@ export function involvement(
     const profile = prompt ? profileInvitation(prompt) : profilePlaceholder;
     const invitations = [
         invitation("Join Discord", "Meet people and exchange ideas.", socials[0].url),
-        invitation("Volunteer", "Speak, host or help out.", `${siteOrigin()}/contribute`),
+        invitation("Help out", "Speak, host or lend a hand.", `${siteOrigin()}/contribute`),
         share,
     ];
 
