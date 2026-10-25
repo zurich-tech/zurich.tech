@@ -51,17 +51,11 @@
     display: none;
 }
 
-/* compact credits overlap into a stack that fans out on hover */
+/* compact credits overlap in a fixed stack */
 .entry .organisers,
 .organisers:not(.organisers--detailed):has(> .organiser:not(:has(.organiser-copy))) {
     flex-wrap: nowrap;
     gap: 0;
-}
-
-.organisers > .organiser:not(:has(.organiser-copy)) {
-    transition:
-        margin var(--slow) var(--ease),
-        transform var(--fast) var(--ease);
 }
 
 .organisers > .organiser:not(:has(.organiser-copy)) + .organiser {
@@ -70,14 +64,6 @@
 
 .organisers > .organiser:not(:has(.organiser-copy)) :is(img, .organiser-initials) {
     box-shadow: 0 0 0 2px var(--color-paper);
-}
-
-.organisers:hover > .organiser:not(:has(.organiser-copy)) + .organiser {
-    margin-left: 2px;
-}
-
-.organisers > .organiser:not(:has(.organiser-copy)):hover {
-    transform: translateY(-2px);
 }
 
 .organisers-more {
