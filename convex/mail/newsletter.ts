@@ -2,7 +2,7 @@ import { isListed } from "../events/visibility";
 import { newsDate } from "../news/path";
 import { openJobs } from "../jobs/jobs";
 import { select } from "./audiences";
-import { recipientsLocked } from "./policy";
+import { recipientsLocked, sendingDate } from "./policy";
 import type { Doc } from "../_generated/dataModel";
 import { newsletterEdition, newsletterEmail } from "./templates";
 import { create } from "./campaigns";
@@ -175,15 +175,23 @@ export function digestEvents(events: Doc<"events">[], now: number) {
     );
 }
 
-/** Select the five latest published stories by story date, excluding future dates. */
+/** Select up to five stories from the Monday edition's preceding calendar week. */
 export function digestNews(posts: Doc<"posts">[], now: number) {
+    // match UTC story dates to the week ending before the next Zurich Monday
+    const today = new Date(`${sendingDate(now)}T00:00:00Z`);
+    const daysUntilMonday = (8 - today.getUTCDay()) % 7;
+    const until = today.getTime() + daysUntilMonday * 86400000;
+    const since = until - 7 * 86400000;
+
     return posts
         .filter(
             (post) =>
                 post.published &&
                 post.publishedAt !== undefined &&
                 post.publishedAt <= now &&
-                newsDate(post) <= now,
+                newsDate(post) <= now &&
+                newsDate(post) >= since &&
+                newsDate(post) < until,
         )
         .sort(
             (left, right) =>

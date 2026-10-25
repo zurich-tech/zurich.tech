@@ -103,6 +103,10 @@ Campaign approval applies only from its start time until Zurich midnight on its 
 Expired unfinished campaigns pause for review; resuming cannot extend their approval or replenish attempts.
 Shared daily and hourly limits still apply, and a lower campaign pace cannot increase the shared pace.
 The current scheduler-created newsletter edition sends automatically without daily approval.
+News includes at most five published stories dated Monday through Sunday before the edition, newest first.
+The preview uses the approaching Monday's week; on Monday it uses that day's edition.
+Story dates retain their original UTC calendar dates, while the edition's day follows Europe/Zurich.
+Older backfills never fill a quiet week, and an empty news section is omitted.
 Only the `weekly` campaign with the exact `digest:<lastWeek>` key recorded by `mailSchedules` qualifies, and expired editions do not qualify.
 Legacy campaigns without their own approval retain their existing daily-approval and batch controls in the backend.
 They are not migrated, expanded or resumed by deploying this change; the normal admin UI no longer releases additional batches.

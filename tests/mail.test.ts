@@ -325,23 +325,26 @@ test.each(["Newsletter", "New event", "Registration confirmed", "Thank you", "Wr
     },
 );
 
-test("test_select_five_latest_published_stories_by_story_date", async () => {
+test("test_select_up_to_five_published_stories_from_the_editions_week", async () => {
     const { backend, memberId } = await setup();
-    const now = Date.now();
+    const now = Date.parse("2026-10-26T07:00:00Z");
+    const sunday = Date.parse("2026-10-25T00:00:00Z");
+    const monday = Date.parse("2026-10-19T00:00:00Z");
     const posts = await backend.run(async (ctx) => {
         for (const [slug, publishedAt, date, isPublished] of [
-            ["recent", now - 1, now - 1, true],
-            ["draft", now - 2, now - 2, false],
-            ["future", now + 1, now + 1, true],
+            ["recent", now - 1, sunday, true],
+            ["draft", now - 2, sunday, false],
+            ["future", now + 1, sunday, true],
             ["future-story", now - 3, now + 1, true],
-            ["old", now - 7 * 86400000, now - 7 * 86400000, true],
+            ["old", monday - 1, monday - 1, true],
             ["backfill", now, now - 365 * 86400000, true],
-            ["boundary-backfill", now, now - 7 * 86400000, true],
-            ["second", now - 4, now - 4, true],
-            ["third", now - 5, now - 5, true],
-            ["fourth", now - 6, now - 6, true],
-            ["fifth", now - 7, now - 7, true],
-            ["sixth", now, now - 8, true],
+            ["boundary-backfill", now, monday, true],
+            ["edition-day", now, Date.parse("2026-10-26T00:00:00Z"), true],
+            ["second", now - 4, sunday - 1, true],
+            ["third", now - 5, sunday - 2, true],
+            ["fourth", now - 6, sunday - 3, true],
+            ["fifth", now - 7, sunday - 4, true],
+            ["sixth", now, sunday - 5, true],
         ] as const) {
             const published = {
                 title: slug,
@@ -373,16 +376,28 @@ test("test_select_five_latest_published_stories_by_story_date", async () => {
         })),
     );
 
-    // include the latest stories even when none were published in the last week
-    expect(digestNews(posts, now + 30 * 86400000)).toHaveLength(5);
+    // never fill a quiet week with older stories
+    expect(digestNews(posts, now + 30 * 86400000)).toEqual([]);
     const older = posts.filter((post) =>
         ["old", "backfill", "boundary-backfill"].includes(post.slug),
     );
-    expect(digestNews(older, now).map((post) => post.slug)).toEqual([
-        "boundary-backfill",
-        "old",
-        "backfill",
-    ]);
+    expect(digestNews(older, now).map((post) => post.slug)).toEqual(["boundary-backfill"]);
+
+    // preview the same week on Sunday across Zurich's summer and winter offsets
+    for (const date of ["2026-10-25T12:00:00Z", "2026-03-29T12:00:00Z", "2027-01-03T12:00:00Z"]) {
+        const preview = Date.parse(date);
+        const story = {
+            ...posts.find((post) => post.slug === "recent")!,
+            date: preview - 6 * 86400000,
+            publishedAt: preview - 1,
+        };
+        const expected = [
+            { slug: story.slug, date: story.date, title: "recent", description: "Published copy" },
+        ];
+        expect(digestNews([story], preview)).toEqual(expected);
+        expect(digestNews([story], preview + 20 * 3600000)).toEqual(expected);
+        expect(digestNews([story], preview + 11 * 3600000)).toEqual(expected);
+    }
 });
 
 const http = httpRouter();
