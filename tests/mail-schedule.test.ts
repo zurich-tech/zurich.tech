@@ -314,7 +314,9 @@ test("test_preserve_campaign_pacing_across_pause_and_global_quota_limits", async
     await admin.mutation(api.mail.campaigns.pause, { id, isPaused: false });
     const resumed = (await backend.run((ctx) => ctx.db.get(id)))!;
     expect(resumed.nextAttemptAt).toBe(now + 360000);
-    expect(await backend.run((ctx) => reserve(ctx, now + 180000, resumed))).toBe(false);
+    expect(await backend.run((ctx) => reserve(ctx, now + 180000, resumed))).toEqual({
+        retryAt: now + 360000,
+    });
     expect(await backend.run((ctx) => reserve(ctx, now + 360000, resumed))).toBe(true);
     await backend.run((ctx) => ctx.db.patch(quotaId, { count: 100 }));
     expect(await backend.run((ctx) => reserve(ctx, now + 720000, resumed))).toBe(false);

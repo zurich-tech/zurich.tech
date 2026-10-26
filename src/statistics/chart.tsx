@@ -212,10 +212,7 @@ export function HistoryChart(props: {
                                     left: `clamp(90px, ${point().x / 10}%, calc(100% - 90px))`,
                                 }}
                             >
-                                <span>
-                                    {date(point().date)}
-                                    {point().isEstimated ? " · Estimated" : ""}
-                                </span>
+                                <span>{date(point().date)}</span>
                                 <strong>
                                     {point().value.toLocaleString()} {props.label.toLowerCase()}
                                 </strong>

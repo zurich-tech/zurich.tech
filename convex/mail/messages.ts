@@ -289,7 +289,21 @@ export const claim = internalMutation({
             });
             return false;
         }
-        if (isBulk(delivery.category) && !(await reserve(ctx, now, controlled))) return false;
+        // retry scheduler jitter at the quota deadline without consuming an attempt
+        if (isBulk(delivery.category)) {
+            const reservation = await reserve(ctx, now, controlled);
+            if (reservation === false) return false;
+            if (reservation !== true) {
+                await ctx.db.patch(delivery._id, { nextAttemptAt: reservation.retryAt });
+                await ctx.scheduler.runAt(
+                    reservation.retryAt,
+                    internal.mail.messages.deliver,
+                    args,
+                );
+
+                return false;
+            }
+        }
         // consume campaign and shared allowances atomically, including retries
         if (controlled?.attemptLimit !== undefined)
             await ctx.db.patch(controlled._id, { attempts: (controlled.attempts ?? 0) + 1 });

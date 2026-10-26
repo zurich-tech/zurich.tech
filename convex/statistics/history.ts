@@ -100,9 +100,9 @@ export function currentPoint(points: Point[], value: number, now: number): Point
     return [...points.filter((point) => point.date !== today), { date: today, value }];
 }
 
-/** Compare the current total with the dated total at the monthly cutoff. */
-export function growth(points: Point[], now: number) {
-    const cutoff = date(now - 30 * 86400000);
+/** Compare the current total with the dated total at the requested rolling cutoff. */
+export function growth(points: Point[], now: number, days = 30) {
+    const cutoff = date(now - days * 86400000);
     const baseline = points.findLast((point) => point.date <= cutoff);
     if (!baseline) return null;
 

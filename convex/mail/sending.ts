@@ -163,13 +163,11 @@ export async function reserve(ctx: MutationCtx, now: number, campaign?: Doc<"cam
     const isApproved = campaign?.approval
         ? approvedCampaign(campaign, now)
         : isAutomatic || (policy.approvedDate === date && count < (policy.approvedLimit ?? 0));
-    if (
-        !isApproved ||
-        count >= ceiling ||
-        now < quota.nextAt ||
-        (campaign?.approval && now < (campaign.nextAttemptAt ?? 0))
-    )
-        return false;
+    if (!isApproved || count >= ceiling) return false;
+
+    // return the pacing deadline so an early action can resume without waiting for the cron
+    const retryAt = Math.max(quota.nextAt, campaign?.approval ? (campaign.nextAttemptAt ?? 0) : 0);
+    if (now < retryAt) return { retryAt: Math.ceil(retryAt) };
     await ctx.db.patch(quota._id, {
         date,
         count: count + 1,

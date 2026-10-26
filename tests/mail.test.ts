@@ -1106,7 +1106,7 @@ test("bulk reservations share pacing, daily limits and a lock that settings cann
 
     // pace attempts across the sending hours of the initial ceiling
     expect(await backend.run((ctx) => reserve(ctx, now))).toBe(true);
-    expect(await backend.run((ctx) => reserve(ctx, now + 1))).toBe(false);
+    expect(await backend.run((ctx) => reserve(ctx, now + 1))).toEqual({ retryAt: now + 57143 });
     expect(await backend.run((ctx) => reserve(ctx, now + 96000))).toBe(true);
 
     // stop at the daily ceiling until the next sending day
@@ -1181,7 +1181,9 @@ test("test_require_approval_and_preserve_pacing_and_health", async () => {
     const before = (await backend.run((ctx) => ctx.db.get(settingsId)))!;
     await admin.mutation(api.mail.sending.approve, { limit: 100 });
     expect(await backend.run((ctx) => ctx.db.get(settingsId))).toEqual(before);
-    expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toBe(false);
+    expect(await backend.run((ctx) => reserve(ctx, Date.now()))).toEqual({
+        retryAt: Date.now() + 60000,
+    });
     expect((await admin.query(api.mail.sending.current, {})).remaining).toBe(80);
 
     // a lower health ceiling is also reflected in the displayed allowance
@@ -1294,6 +1296,45 @@ async function scheduledEdition() {
     return { ...fixture, ...ids };
 }
 
+test("test_reschedule_early_bulk_attempts_at_the_deadline_without_consuming_quota", async () => {
+    const { backend, settingsId, automatic, campaignId, subscriptionId } = await scheduledEdition();
+    const start = Date.now();
+    const second = await backend.run((ctx) =>
+        enqueue(
+            ctx,
+            "second-newsletter",
+            "test@example.invalid",
+            "Newsletter",
+            "Newsletter",
+            subscriptionId,
+            0,
+            undefined,
+            { campaignId, category: "weekly" },
+        ),
+    );
+
+    // let the first action start late, then run the next at its original scheduled time
+    setSystemTime(start + 100);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: automatic })).toBe(true);
+    setSystemTime(start + 2250);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: second })).toBe(false);
+    expect(await backend.run((ctx) => ctx.db.get(second))).toMatchObject({
+        attempts: 0,
+        nextAttemptAt: start + 2350,
+    });
+    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toMatchObject({ count: 1 });
+
+    // duplicate actions do not schedule another retry or claim the message early
+    expect(await backend.mutation(internal.mail.messages.claim, { id: second })).toBe(false);
+    const jobs = await backend.run((ctx) => ctx.db.system.query("_scheduled_functions").collect());
+    expect(jobs.filter((job) => job.args[0]?.id === second)).toHaveLength(1);
+    expect(jobs.find((job) => job.args[0]?.id === second)?.scheduledTime).toBe(start + 2350);
+    setSystemTime(start + 2350);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: second })).toBe(true);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: second })).toBe(false);
+    expect(await backend.run((ctx) => ctx.db.get(settingsId))).toMatchObject({ count: 2 });
+});
+
 test("test_dispatch_and_claim_only_scheduled_newsletters_without_daily_approval", async () => {
     const { backend, settingsId, automatic, manual, campaignId } = await scheduledEdition();
     await backend.mutation(internal.mail.sending.dispatch, {});
@@ -1309,7 +1350,9 @@ test("test_dispatch_and_claim_only_scheduled_newsletters_without_daily_approval"
 
     // shared spacing and the daily ceiling apply even without manual approval
     const campaign = await backend.run((ctx) => ctx.db.get(campaignId));
-    expect(await backend.run((ctx) => reserve(ctx, Date.now() + 2249, campaign))).toBe(false);
+    expect(await backend.run((ctx) => reserve(ctx, Date.now() + 2249, campaign))).toEqual({
+        retryAt: Date.now() + 2250,
+    });
     expect(await backend.run((ctx) => reserve(ctx, Date.now() + 2250, campaign))).toBe(true);
     await backend.run((ctx) => ctx.db.patch(settingsId, { count: 5000 }));
     expect(await backend.run((ctx) => reserve(ctx, Date.now() + 4500, campaign))).toBe(false);
@@ -2639,7 +2682,7 @@ test("test_exclude_suppressed_contacts_from_public_history_without_erasing_opt_o
         { date: "2026-09-10", value: 1, isEstimated: false },
         { date: "2026-09-29", value: 1 },
     ]);
-    expect(stats.growth.subscribers).toEqual({
+    expect(stats.growth.find((period) => period.days === 30)?.subscribers).toEqual({
         value: -1,
         since: "2026-08-30",
         isEstimated: false,

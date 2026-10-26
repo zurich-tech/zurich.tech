@@ -76,14 +76,18 @@ export const community = query({
             ),
         };
 
+        // use our event counts for the headline and growth, retaining both groups in the chart
+        const ours = history.events.map((point) => ({ date: point.date, value: point.ours }));
+
         return {
-            totals: current.totals,
+            totals: { ...current.totals, events: ours.at(-1)!.value },
             history,
-            growth: {
-                events: growth(history.events, now),
-                subscribers: growth(history.subscribers, now),
-                registrations: growth(history.registrations, now),
-            },
+            growth: [30, 90, 365].map((days) => ({
+                days,
+                events: growth(ours, now, days),
+                subscribers: growth(history.subscribers, now, days),
+                registrations: growth(history.registrations, now, days),
+            })),
         };
     },
 });

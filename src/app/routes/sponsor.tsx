@@ -1,11 +1,12 @@
 import { EditLink } from "../../auth/edit";
 import { useAccount } from "../../auth";
 import { sponsorshipInquiry } from "../../sponsorships/inquiries";
-import { site } from "../site";
 import { For, Show } from "solid-js";
 import { Sponsors } from "../../sponsorships/sponsors";
 import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 import { Arrow } from "../../components/arrow";
+import { StatisticsOverview } from "../../statistics/overview";
+import { getStatistics } from "../../statistics/queries";
 import { tiers, personalTiers } from "../../../convex/sponsorships/plans";
 import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
@@ -13,15 +14,8 @@ import "../sponsor-route.css";
 
 /** Start sponsor requests when navigation is preloaded, before rendering the page. */
 export const route = {
-    preload: () => Promise.all([getSponsors(), getPersonalSponsors()]),
+    preload: () => Promise.all([getSponsors(), getPersonalSponsors(), getStatistics()]),
 };
-
-/** Stated reach shown with the sponsorship options. */
-const reach = [
-    { value: `${site.members.toLocaleString("en-GB")}+`, label: "members" },
-    { value: `${site.attendees.toLocaleString("en-GB")}+`, label: "attendees at most events" },
-    { value: `${site.eventsPerYear}+`, label: "events a year" },
-];
 
 /** Plans from smallest to largest, as read left to right. */
 const plans = [...tiers].reverse();
@@ -43,6 +37,7 @@ const benefits: { label: string; value: (tier: (typeof tiers)[number]) => string
 /** Present annual support and open sponsorship inquiries. */
 export default function Route() {
     const account = useAccount();
+    const statistics = getStatistics.use(() => []);
 
     return (
         <>
@@ -68,17 +63,10 @@ export default function Route() {
                     }
                 />
 
-                {/* reach in large numerals */}
-                <ul class="sponsorship-reach" aria-label="Our community">
-                    <For each={reach}>
-                        {(item) => (
-                            <li>
-                                <strong>{item.value}</strong>
-                                <span>{item.label}</span>
-                            </li>
-                        )}
-                    </For>
-                </ul>
+                {/* show the same live totals and growth as the statistics page */}
+                <Show when={statistics()}>
+                    {(current) => <StatisticsOverview statistics={current()} />}
+                </Show>
 
                 {/* keep each plan's price, benefits and inquiry together */}
                 <section class="sponsorship-options" aria-labelledby="sponsorship-plans">
@@ -91,7 +79,7 @@ export default function Route() {
                             {(tier) => (
                                 <article
                                     class="sponsorship-plan"
-                                    classList={{ "sponsorship-plan--silver": tier.id === "silver" }}
+                                    data-tier={tier.id}
                                     aria-labelledby={`sponsorship-${tier.id}`}
                                 >
                                     <header class="sponsorship-plan-heading">
@@ -120,13 +108,13 @@ export default function Route() {
                                     <div class="sponsorship-plan-action">
                                         <a
                                             class="button"
-                                            classList={{ "button--primary": tier.id === "silver" }}
                                             href={sponsorshipInquiry(
                                                 tier.name,
                                                 account.user()?.name,
                                             )}
                                         >
                                             Choose {tier.name}
+                                            <Arrow />
                                         </a>
                                     </div>
                                 </article>

@@ -19,37 +19,6 @@
     flex-shrink: 0;
 }
 
-/* separate community scale from the purchase options */
-.sponsorship-reach {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin: 0;
-    border-bottom: var(--rule) solid var(--color-line);
-    padding: var(--space-5) 0;
-    list-style: none;
-}
-
-.sponsorship-reach li {
-    display: grid;
-    gap: var(--space-2);
-    padding-inline: var(--space-6);
-}
-
-.sponsorship-reach li:first-child {
-    padding-left: 0;
-}
-
-.sponsorship-reach li + li {
-    border-left: var(--rule) solid var(--color-line);
-}
-
-.sponsorship-reach strong {
-    color: var(--color-accent);
-    font: 500 var(--text-3xl) / 1.2 var(--font-mono);
-    letter-spacing: 0;
-}
-
-.sponsorship-reach span,
 .sponsorship-section-heading p,
 .sponsorship-purpose,
 .sponsorship-personal > div > p {
@@ -92,23 +61,40 @@
     grid-template-rows: subgrid;
     row-gap: 0;
     min-width: 0;
-    border-top: 3px solid var(--color-strong);
+    border-top: 3px solid var(--tier-color);
     overflow-wrap: anywhere;
 }
 
-.sponsorship-plan--silver {
-    border-top-color: var(--color-accent);
+.sponsorship-plan[data-tier="bronze"] {
+    --tier-color: #b57b57;
+}
+.sponsorship-plan[data-tier="silver"] {
+    --tier-color: #8995a0;
+}
+.sponsorship-plan[data-tier="gold"] {
+    --tier-color: #be9a33;
 }
 
 .sponsorship-plan-heading {
     display: grid;
-    gap: var(--space-3);
+    align-content: start;
+    gap: var(--space-4);
     padding-block: var(--space-6);
 }
 
 .sponsorship-plan-heading h3 {
-    font: 600 var(--text-lg) / 1.3 var(--font-mono);
+    font: 500 var(--text-lg) / 1.3 var(--font-mono);
     letter-spacing: 0;
+}
+
+.sponsorship-plan-heading h3::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: var(--space-2);
+    background: var(--tier-color);
+    vertical-align: 0.1em;
 }
 
 .sponsorship-price {
@@ -120,7 +106,7 @@
 }
 
 .sponsorship-price strong {
-    font-size: var(--text-2xl);
+    font-size: var(--text-3xl);
     font-weight: 500;
     letter-spacing: 0;
 }
@@ -130,8 +116,7 @@
 }
 
 .sponsorship-purpose {
-    min-height: 3em;
-    font-size: var(--text-md);
+    font-size: var(--text-sm);
     line-height: 1.5;
 }
 
@@ -149,18 +134,20 @@
     gap: var(--space-1);
     min-height: 68px;
     border-top: var(--rule) solid var(--color-line);
-    padding-block: var(--space-2);
+    padding-block: var(--space-3);
     font-size: var(--text-sm);
     line-height: 1.5;
 }
 
 .sponsorship-benefits dt {
-    font-weight: 600;
+    font-weight: 400;
+    color: var(--color-soft);
+    font-size: var(--text-xs);
 }
 
 .sponsorship-benefits dd {
     margin: 0;
-    color: var(--color-soft);
+    color: var(--color-ink);
 }
 
 .sponsorship-plan-action {
@@ -171,6 +158,7 @@
 .sponsorship-plan-action .button {
     width: 100%;
     white-space: normal;
+    justify-content: space-between;
 }
 
 /* give individual support its own quiet full-width section */
@@ -228,18 +216,6 @@
 @media (max-width: 480px) {
     .page.sponsorship-route {
         gap: var(--space-8);
-    }
-
-    .sponsorship-reach li {
-        padding-inline: var(--space-3);
-    }
-
-    .sponsorship-reach strong {
-        font-size: var(--text-xl);
-    }
-
-    .sponsorship-reach span {
-        font-size: var(--text-xs);
     }
 
     .sponsorship-personal {

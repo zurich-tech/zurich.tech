@@ -1,16 +1,11 @@
-import { createSignal, For, Show } from "solid-js";
+import { createSignal, onMount, Show } from "solid-js";
+import { useLocation } from "@solidjs/router";
 import { getStatistics } from "../../statistics/queries";
 import { HistoryChart } from "../../statistics/chart";
+import { StatisticsOverview, metrics } from "../../statistics/overview";
 import { Card } from "../../components/card";
 import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
-import "../../statistics/style.css";
-
-const metrics = [
-    { field: "events", label: "Events" },
-    { field: "subscribers", label: "Members" },
-    { field: "registrations", label: "Registrations" },
-] as const;
 
 /** Begin public data requests before rendering the route. */
 export const route = {
@@ -20,7 +15,13 @@ export const route = {
 /** Explore community totals and growth. */
 export default function Route() {
     const statistics = getStatistics.use(() => []);
-    const [selected, setSelected] = createSignal<(typeof metrics)[number]>(metrics[0]);
+    const location = useLocation();
+    const [isMounted, setMounted] = createSignal(false);
+    onMount(() => setMounted(true));
+
+    // resolve the fragment after hydration because the server never receives it
+    const selected = () =>
+        metrics.find((metric) => isMounted() && `#${metric.id}` === location.hash) ?? metrics[0];
 
     return (
         <>
@@ -33,41 +34,10 @@ export default function Route() {
                 <Show when={statistics()}>
                     {(current) => (
                         <>
-                            <div class="stats-metrics">
-                                <For each={metrics}>
-                                    {(metric) => (
-                                        <button
-                                            class="stats-metric"
-                                            aria-pressed={selected().field === metric.field}
-                                            onClick={() => setSelected(metric)}
-                                        >
-                                            <span class="stats-label">{metric.label}</span>
-                                            <div class="stats-value">
-                                                <strong>
-                                                    {current().totals[
-                                                        metric.field
-                                                    ].toLocaleString()}
-                                                </strong>
-                                            </div>
-                                            <Show when={increase(current().growth[metric.field])}>
-                                                {(growth) => (
-                                                    <div class="stats-change">
-                                                        <span
-                                                            class="stats-growth"
-                                                            title={`${growth().isEstimated ? "Estimated change" : "Change"} since ${growth().since}`}
-                                                        >
-                                                            +{growth().value.toLocaleString()}
-                                                        </span>
-                                                        <span class="stats-period">
-                                                            Last 30 days
-                                                        </span>
-                                                    </div>
-                                                )}
-                                            </Show>
-                                        </button>
-                                    )}
-                                </For>
-                            </div>
+                            <StatisticsOverview
+                                statistics={current()}
+                                selected={selected().field}
+                            />
                             <Card title={selected().label} class="stats-chart-card">
                                 <Show when={selected()} keyed>
                                     {(metric) => (
@@ -84,9 +54,4 @@ export default function Route() {
             </Page>
         </>
     );
-}
-
-/** Keep a growth figure only when it is an increase; public stats never show declines. */
-function increase<T extends { value: number }>(growth: T | null | undefined) {
-    return growth && growth.value > 0 ? growth : undefined;
 }

@@ -2,58 +2,30 @@
    Metric tabs
    ================================================================================ */
 
-.stats-metrics {
+.stats-changes {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-6);
-}
-
-/* each metric is a tab: its rule turns blue when selected */
-.stats-metric {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: var(--space-2);
-    border-top: var(--rule-strong) solid var(--color-line);
-    padding-top: var(--space-3);
-    text-align: left;
-    transition: border-color var(--fast) var(--ease);
-}
-
-button.stats-metric:hover {
-    border-top-color: var(--color-strong);
-}
-
-.stats-metric[aria-pressed="true"] {
-    border-top-color: var(--color-accent);
-}
-
-.stats-label {
-    color: var(--color-soft);
-    font: 500 var(--text-sm) / 1.4 var(--font-text);
-}
-
-.stats-metric[aria-pressed="true"] .stats-label {
-    color: var(--color-accent);
-}
-
-.stats-value > strong {
-    font: 500 var(--text-4xl) / 1 var(--font-mono);
-    letter-spacing: 0;
-    font-variant-numeric: tabular-nums;
+    gap: 0;
+    width: 100%;
 }
 
 .stats-change {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
+    justify-content: space-between;
     gap: var(--space-1) var(--space-3);
+    padding-block: var(--space-2);
+    border-top: var(--rule) solid var(--color-line);
 }
 
 .stats-growth {
-    color: var(--color-success);
-    font: 500 var(--text-lg) / 1.2 var(--font-mono);
+    color: var(--color-soft);
+    font: 500 var(--text-sm) / 1.4 var(--font-mono);
     font-variant-numeric: tabular-nums;
+}
+
+.stats-growth[data-positive="true"] {
+    color: var(--color-success);
 }
 
 .stats-period {
@@ -102,14 +74,16 @@ button.stats-metric:hover {
 
 .stats-gridline {
     stroke: var(--color-line);
-    stroke-dasharray: 2 6;
+    stroke-opacity: 0.55;
     vector-effect: non-scaling-stroke;
 }
 
 .stats-line {
     fill: none;
     stroke: var(--color-accent);
-    stroke-width: 2.5;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
 }
 
@@ -131,8 +105,8 @@ button.stats-metric:hover {
 }
 
 .stats-swatch {
-    width: 10px;
-    height: 10px;
+    width: 18px;
+    height: 2px;
     flex: none;
 }
 
@@ -144,24 +118,28 @@ button.stats-metric:hover {
 }
 .stats-area--ours {
     fill: var(--color-accent);
-    fill-opacity: 0.75;
+    fill-opacity: 0.08;
 }
 .stats-area--external {
     fill: var(--color-soft);
-    fill-opacity: 0.25;
+    fill-opacity: 0.04;
 }
 .stats-line--total {
     stroke: var(--color-soft);
     stroke-width: 1.5;
+    stroke-opacity: 0.65;
 }
 
 .stats-point {
     fill: var(--color-accent);
+    stroke: var(--color-paper);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
 }
 
 .stats-crosshair {
     stroke: var(--color-soft);
-    stroke-dasharray: 3 4;
+    stroke-opacity: 0.4;
     vector-effect: non-scaling-stroke;
 }
 
@@ -179,10 +157,12 @@ button.stats-metric:hover {
     position: absolute;
     top: 0;
     display: grid;
-    gap: var(--space-1);
-    border: var(--rule) solid var(--color-strong);
+    gap: var(--space-2);
+    border: var(--rule) solid var(--color-line);
+    border-radius: 4px;
     background: var(--color-paper);
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 8%);
     color: var(--color-ink);
     white-space: nowrap;
     transform: translateX(-50%);
@@ -200,18 +180,6 @@ button.stats-metric:hover {
 }
 
 @media (max-width: 600px) {
-    .stats-metrics {
-        gap: var(--space-3);
-    }
-
-    .stats-value > strong {
-        font-size: var(--text-2xl);
-    }
-
-    .stats-change {
-        flex-direction: column;
-    }
-
     .stats-plot svg,
     .stats-scale {
         height: 240px;

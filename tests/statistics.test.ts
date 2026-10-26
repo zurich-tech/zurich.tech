@@ -1,8 +1,23 @@
 import { expect, test } from "bun:test";
-import { eventHistory } from "../convex/statistics/history";
+import { eventHistory, growth } from "../convex/statistics/history";
 import { eventAttribution } from "../convex/events/attribution";
 import { convexTest, schema, modules, member } from "./backend";
 import { api, internal } from "../convex/_generated/api";
+
+test("test_compare_rolling_periods_without_inventing_missing_history", () => {
+    const now = Date.parse("2026-10-26T12:00:00Z");
+    const points = [
+        { date: "2025-10-26", value: 10, isEstimated: true },
+        { date: "2026-07-28", value: 30 },
+        { date: "2026-09-26", value: 45 },
+        { date: "2026-10-26", value: 42 },
+    ];
+    expect(growth(points, now, 30)).toMatchObject({ value: -3, since: "2026-09-26" });
+    expect(growth(points, now, 90)).toMatchObject({ value: 12, since: "2026-07-28" });
+    expect(growth(points, now, 365)).toMatchObject({ value: 32, isEstimated: true });
+    expect(growth(points.slice(1), now, 365)).toBeNull();
+    expect(growth([], now, 30)).toBeNull();
+});
 
 test("test_resolve_organiser_attribution_without_ticketing_inference", () => {
     expect(eventAttribution({}, { attribution: "ours" })).toBe("ours");
@@ -70,6 +85,7 @@ test("test_count_only_listed_past_events_with_series_and_event_attribution", asy
             ...base,
             slug: "external-override",
             attribution: "external",
+            startsAt: Date.now() - 1000,
         });
         await ctx.db.insert("events", {
             ...base,
@@ -89,7 +105,8 @@ test("test_count_only_listed_past_events_with_series_and_event_attribution", asy
     });
 
     const result = await backend.query(api.statistics.queries.community, {});
-    expect(result.totals.events).toBe(3);
+    expect(result.totals.events).toBe(2);
+    expect(result.growth.map((period) => period.events?.value)).toEqual([0, 0, 0]);
     expect(result.history.events.at(-1)).toMatchObject({ value: 3, ours: 2, external: 1 });
     expect(
         result.history.events.every((point) => point.value === point.ours + point.external),

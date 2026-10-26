@@ -26,12 +26,16 @@ export function Hero() {
 
             {/* keep community totals readable against the map at every width */}
             <nav class="hero-counts" aria-label="Community">
-                <a href="/stats" title="Members" aria-label={`${format(members())} members`}>
+                <a
+                    href="/stats#members"
+                    title="Members"
+                    aria-label={`${format(members())} members`}
+                >
                     <strong>{format(members())}</strong>
                     <Users aria-hidden="true" strokeWidth={1.5} />
                 </a>
                 <a
-                    href="/events?period=past"
+                    href="/stats#events"
                     title="Events"
                     aria-label={`${format(eventCount())} events`}
                 >
