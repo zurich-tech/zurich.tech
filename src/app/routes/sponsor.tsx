@@ -1,8 +1,8 @@
 import { EditLink } from "../../auth/edit";
 import { ArrowDown, ArrowUpRight } from "lucide-solid";
 import { useAccount } from "../../auth";
-import { sponsorshipInquiry } from "../../sponsorships/inquiries";
-import { For, Show } from "solid-js";
+import { SponsorshipContact } from "../../sponsorships/contact";
+import { createSignal, For, Show } from "solid-js";
 import { Sponsors } from "../../sponsorships/sponsors";
 import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 import { Arrow } from "../../components/arrow";
@@ -41,6 +41,7 @@ const benefits: { label: string; value: (tier: (typeof tiers)[number]) => string
 export default function Route() {
     const account = useAccount();
     const statistics = getStatistics.use(() => []);
+    const [inquiry, setInquiry] = createSignal<string>();
 
     return (
         <>
@@ -52,18 +53,19 @@ export default function Route() {
                 {/* pitch with the primary action */}
                 <PageHeader
                     title="Sponsor zurich.tech"
-                    summary="Support talks and meetups for Zurich's tech community."
+                    summary="Support Zurich's tech community directly."
                     actions={
                         <>
                             <a class="button button--primary" href="#sponsorship-plans">
                                 View sponsorships <ArrowDown size={16} />
                             </a>
-                            <a
+                            <button
+                                type="button"
                                 class="action-link"
-                                href={sponsorshipInquiry(undefined, account.user()?.name)}
+                                onClick={() => setInquiry("")}
                             >
                                 Get in touch <ArrowUpRight size={16} />
-                            </a>
+                            </button>
                         </>
                     }
                 />
@@ -117,16 +119,14 @@ export default function Route() {
                                         </For>
                                     </dl>
                                     <div class="sponsorship-plan-action">
-                                        <a
+                                        <button
+                                            type="button"
                                             class="button"
-                                            href={sponsorshipInquiry(
-                                                tier.name,
-                                                account.user()?.name,
-                                            )}
+                                            onClick={() => setInquiry(tier.name)}
                                         >
                                             Choose {tier.name}
                                             <Arrow />
-                                        </a>
+                                        </button>
                                     </div>
                                 </article>
                             )}
@@ -165,6 +165,12 @@ export default function Route() {
                     )}
                 </For>
             </Page>
+            <SponsorshipContact
+                isOpen={inquiry() !== undefined}
+                tier={inquiry()}
+                name={account.user()?.name}
+                onClose={() => setInquiry(undefined)}
+            />
         </>
     );
 }

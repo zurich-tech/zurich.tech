@@ -1,10 +1,10 @@
-import { createMemo, createSignal, createUniqueId, For, Show } from "solid-js";
+import { createMemo, createSignal, For, Show, onMount, onCleanup } from "solid-js";
 
 /** Explore dated totals with pointer, touch and keyboard controls. */
 export function HistoryChart(props: {
     label: string;
-    /** Dated community milestones with optional event destinations. */
-    milestones?: { date: string; label: string; description: string; href?: string }[];
+    /** Dated community milestones linking to events and announcements. */
+    milestones?: { date: string; label: string; description: string; href: string }[];
     values: {
         date: string;
         value: number;
@@ -15,7 +15,22 @@ export function HistoryChart(props: {
 }) {
     const [selected, setSelected] = createSignal<number>();
     const [highlighted, setHighlighted] = createSignal<string>();
-    const milestoneId = createUniqueId();
+    const [plotWidth, setPlotWidth] = createSignal(560);
+    let plot: HTMLDivElement | undefined;
+
+    // measure the plot so label spacing stays compact at every viewport width
+    onMount(() => {
+        let frame: number | undefined;
+        const observer = new ResizeObserver(([entry]) => {
+            if (frame !== undefined) cancelAnimationFrame(frame);
+            frame = requestAnimationFrame(() => setPlotWidth(entry.contentRect.width));
+        });
+        if (plot) observer.observe(plot);
+        onCleanup(() => {
+            observer.disconnect();
+            if (frame !== undefined) cancelAnimationFrame(frame);
+        });
+    });
     const maximum = createMemo(() => {
         const highest = Math.max(1, ...props.values.map((point) => point.value));
         const magnitude = 10 ** Math.floor(Math.log10(highest));
@@ -55,14 +70,30 @@ export function HistoryChart(props: {
     const milestones = createMemo(() => {
         const start = Date.parse(props.values[0]?.date ?? "");
         const end = Date.parse(props.values.at(-1)?.date ?? "");
-        return (props.milestones ?? []).flatMap((milestone) => {
-            const at = Date.parse(milestone.date);
+        const rows: number[] = [];
 
-            return at >= start && at <= end && start !== end
-                ? [{ ...milestone, x: 12 + ((at - start) / (end - start)) * 976 }]
-                : [];
-        });
+        return (props.milestones ?? [])
+            .toSorted((left, right) => left.date.localeCompare(right.date))
+            .flatMap((milestone) => {
+                const at = Date.parse(milestone.date);
+                if (at < start || at > end || start === end) return [];
+
+                // keep labels over their dates, using another row only for nearby labels
+                const x = 12 + ((at - start) / (end - start)) * 976;
+                const halfLabel = (60 / plotWidth()) * 1000;
+                const labelX = Math.max(halfLabel, Math.min(1000 - halfLabel, x));
+                const spacing = (132 / plotWidth()) * 1000;
+                const available = rows.findIndex((previous) => labelX - previous >= spacing);
+                const row = available === -1 ? rows.length : available;
+                rows[row] = labelX;
+
+                return [{ ...milestone, x, labelX, row }];
+            });
     });
+    const milestoneHeight = () =>
+        milestones().length
+            ? (Math.max(...milestones().map((milestone) => milestone.row)) + 1) * 48 + 20
+            : 0;
     const date = (value: string) =>
         new Intl.DateTimeFormat("en-GB", {
             day: "numeric",
@@ -88,6 +119,7 @@ export function HistoryChart(props: {
             <div
                 class="stats-chart"
                 classList={{ "stats-chart--milestones": milestones().length > 0 }}
+                style={{ "--milestone-height": `${milestoneHeight()}px` }}
             >
                 <div class="stats-scale" aria-hidden="true">
                     <For each={ticks()}>
@@ -98,16 +130,17 @@ export function HistoryChart(props: {
                         )}
                     </For>
                 </div>
-                <div class="stats-plot">
+                <div class="stats-plot" ref={plot}>
                     <Show when={milestones().length > 0}>
-                        <div
-                            class="stats-milestones"
-                            style={{ "--milestone-count": milestones().length }}
-                        >
+                        <div class="stats-milestones">
                             <For each={milestones()}>
-                                {(milestone, index) => (
+                                {(milestone) => (
                                     <span
                                         class="stats-milestone"
+                                        style={{
+                                            left: `${milestone.labelX / 10}%`,
+                                            top: `${milestone.row * 48}px`,
+                                        }}
                                         classList={{
                                             "is-highlighted": highlighted() === milestone.date,
                                         }}
@@ -115,71 +148,24 @@ export function HistoryChart(props: {
                                         onPointerLeave={() => setHighlighted(undefined)}
                                         onFocusIn={() => setHighlighted(milestone.date)}
                                         onFocusOut={() => setHighlighted(undefined)}
-                                        onKeyDown={(event) => {
-                                            if (event.key === "Escape") setHighlighted(undefined);
-                                        }}
                                     >
-                                        <Show
-                                            when={milestone.href}
-                                            fallback={
-                                                <button
-                                                    type="button"
-                                                    aria-label={milestone.description}
-                                                    aria-describedby={
-                                                        highlighted() === milestone.date
-                                                            ? `${milestoneId}-${index()}`
-                                                            : undefined
-                                                    }
-                                                >
-                                                    {milestone.label}
-                                                    <small>{date(milestone.date)}</small>
-                                                </button>
-                                            }
-                                        >
-                                            {(href) => (
-                                                <a
-                                                    href={href()}
-                                                    aria-label={milestone.description}
-                                                    aria-describedby={
-                                                        highlighted() === milestone.date
-                                                            ? `${milestoneId}-${index()}`
-                                                            : undefined
-                                                    }
-                                                >
-                                                    {milestone.label}
-                                                    <small>{date(milestone.date)}</small>
-                                                </a>
-                                            )}
-                                        </Show>
-                                        <span
-                                            id={`${milestoneId}-${index()}`}
-                                            role="tooltip"
-                                            style={{
-                                                left:
-                                                    index() >= milestones().length / 2
-                                                        ? "auto"
-                                                        : "0",
-                                                right:
-                                                    index() >= milestones().length / 2
-                                                        ? "0"
-                                                        : "auto",
-                                            }}
-                                        >
-                                            {milestone.description}
-                                        </span>
+                                        <a href={milestone.href} aria-label={milestone.description}>
+                                            {milestone.label}
+                                            <small>{date(milestone.date)}</small>
+                                        </a>
                                     </span>
                                 )}
                             </For>
                             <svg
                                 class="stats-milestone-connectors"
-                                viewBox="0 0 1000 44"
+                                viewBox={`0 0 1000 ${milestoneHeight()}`}
                                 preserveAspectRatio="none"
                                 aria-hidden="true"
                             >
                                 <For each={milestones()}>
-                                    {(milestone, index) => (
+                                    {(milestone) => (
                                         <path
-                                            d={`M ${((index() + 0.5) / milestones().length) * 1000} 0 V 8 L ${milestone.x} 36 V 44`}
+                                            d={`M ${milestone.labelX} ${milestone.row * 48 + 40} L ${milestone.x} ${milestone.row * 48 + 56} V ${milestoneHeight()}`}
                                             class="stats-milestone-line"
                                             classList={{
                                                 "is-highlighted": highlighted() === milestone.date,

@@ -4,6 +4,68 @@ import { api } from "../convex/_generated/api";
 import { surveyQuestions } from "../convex/members/demographics";
 import { surveyTitles } from "../convex/members/demographics";
 
+test("test_regional_results_filter_residence_and_recalculate_option_coverage", async () => {
+    const backend = convexTest(schema, modules);
+    await backend.run(async (ctx) => {
+        const memberId = await member(ctx, {
+            name: "Respondent",
+            searchText: "",
+            visibility: "private",
+        });
+        for (const [index, residence] of [
+            "CH",
+            "DE",
+            "FR",
+            "IT",
+            "AT",
+            "LI",
+            "IN",
+            undefined,
+        ].entries()) {
+            await ctx.db.insert("accounts", {
+                memberId,
+                authId: String(index),
+                status: "active",
+                isAdmin: false,
+                isTeam: false,
+                createdAt: 1,
+                updatedAt: 1,
+                demographics: { residence, citizenships: ["IN"] },
+                participation: index === 0 ? ["demo"] : ["attend"],
+                surveyReviews: [
+                    {
+                        question: "participation",
+                        options: index < 2 || index >= 6 ? ["demo", "attend"] : ["attend"],
+                        source: "explicit",
+                        at: 1,
+                        wording: "How would you like to get involved?",
+                    },
+                ],
+            });
+        }
+    });
+
+    const regional = await backend.query(api.statistics.audience.community, {});
+    expect(
+        regional
+            .find((question) => question.field === "residence")!
+            .groups.filter((group) => group.hasResponses)
+            .map((group) => group.label)
+            .sort(),
+    ).toEqual(["Austria", "France", "Germany", "Italy", "Liechtenstein", "Switzerland"]);
+    expect(
+        regional
+            .find((question) => question.field === "participation")!
+            .groups.find((group) => group.label === "Demo"),
+    ).toEqual({
+        label: "Demo",
+        percentage: 50,
+        hasResponses: true,
+        hasUnreviewed: true,
+        isEstimated: false,
+    });
+});
+
 test("test_public_results_publish_only_percentages_and_preserve_option_coverage", async () => {
     const backend = convexTest(schema, modules);
     await backend.run(async (ctx) => {
@@ -26,6 +88,7 @@ test("test_public_results_publish_only_percentages_and_preserve_option_coverage"
                 createdAt: 1,
                 updatedAt: 1,
                 participation: [...answer],
+                demographics: { residence: "CH" },
                 surveyReviews: [
                     {
                         question: "participation",

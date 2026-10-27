@@ -245,3 +245,11 @@
         gap: var(--space-4);
     }
 }
+.sponsorship-contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-block: var(--space-3);
+    border-block: var(--rule) solid var(--color-line);
+}

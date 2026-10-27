@@ -36,10 +36,9 @@ a.metric[href]:hover,
 }
 
 .metric-headline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
     min-width: 0;
 }
 
@@ -49,10 +48,9 @@ a.metric[href]:hover,
 }
 
 .metric-trend {
-    width: 96px;
+    width: 100%;
     height: 48px;
-    flex: 0 1 96px;
-    min-width: 32px;
+    min-width: 0;
     color: var(--color-accent);
 }
 
@@ -79,34 +77,12 @@ a.metric[href]:hover,
     display: none;
 }
 
-/* compact totals use only label and value tracks */
-.metric-row--compact {
-    grid-template-rows: auto auto;
-}
-
-.metric-row--compact .metric {
-    grid-row: 1 / span 2;
-}
-
-.metric-row--compact .metric-details {
-    display: none;
-}
-
-/* give compact totals equally sized trends regardless of digit count */
-.metric-row--compact .metric-headline {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-3);
-}
-
 .metric-row--compact .metric-value {
     font-size: var(--text-3xl);
 }
 
 .metric-row--compact .metric-trend {
-    width: 100%;
     height: 36px;
-    min-width: 0;
 }
 
 @media (max-width: 700px) {
@@ -120,12 +96,9 @@ a.metric[href]:hover,
         font-size: var(--text-2xl);
     }
     .metric-headline {
-        flex-wrap: wrap;
         gap: var(--space-2);
     }
     .metric-trend {
-        width: 100%;
-        flex-basis: 100%;
         height: 32px;
     }
     .metric-label,

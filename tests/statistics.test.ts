@@ -181,6 +181,11 @@ test("test_milestones_use_public_event_dates_and_links", async () => {
             description: "ZurichNLP launched",
             href: "/events/zurichnlp-1",
         },
-        { date: "2026-09-21", label: "zurich.tech", description: "ZurichAI became zurich.tech" },
+        {
+            date: "2026-09-09",
+            label: "zurich.tech",
+            description: "ZurichAI became zurich.tech",
+            href: "/news/2026/09/28/introducing-zurich-tech",
+        },
     ]);
 });

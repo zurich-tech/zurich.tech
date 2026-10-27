@@ -45,7 +45,7 @@ export function CommunityAudience(props: { compact?: boolean; children?: JSX.Ele
         >
             {props.children}
             <p class="audience-caption">
-                Among survey respondents.{" "}
+                Respondents living in Switzerland or neighbouring countries.{" "}
                 {props.compact
                     ? "Leading responses; multiple choices allowed."
                     : "Multiple choices where applicable."}

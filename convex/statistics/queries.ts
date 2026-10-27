@@ -97,11 +97,12 @@ export const community = query({
         return {
             milestones: [
                 ...current.milestones,
-                // use the organiser's approximate move date
+                // use the organiser's move date, linking to the later announcement
                 {
-                    date: "2026-09-21",
+                    date: "2026-09-09",
                     label: "zurich.tech",
                     description: "ZurichAI became zurich.tech",
+                    href: "/news/2026/09/28/introducing-zurich-tech",
                 },
             ].sort((left, right) => left.date.localeCompare(right.date)),
             totals: { ...current.totals, events: ours.at(-1)!.value },
