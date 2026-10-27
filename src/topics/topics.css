@@ -300,6 +300,12 @@
     font-variant-numeric: tabular-nums;
 }
 
+.audience-question-wording {
+    margin: 0 0 var(--space-4);
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}
+
 .audience-question-actions {
     display: flex;
     align-items: center;

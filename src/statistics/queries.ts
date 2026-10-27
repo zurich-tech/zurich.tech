@@ -1,6 +1,13 @@
 import { publicQuery } from "../data/query";
 import { api } from "../../convex/_generated/api";
 
+/** Load percentage-only public survey results. */
+export const getAudience = publicQuery(
+    api.statistics.audience.community,
+    "publicAudience",
+    () => ({}),
+);
+
 /** Load public community statistics. */
 export const getStatistics = publicQuery(
     api.statistics.queries.community,

@@ -11,7 +11,7 @@ import { site } from "./site";
 import { SlidersHorizontal } from "lucide-solid";
 import { InstallButton } from "./install";
 
-const destinations = ["About", "Events", "Jobs", "News", "Map", "Sponsor", "Stats"];
+const destinations = ["About", "Events", "Jobs", "News", "Map", "Stats", "Sponsor"];
 
 /** Navigate the community's public pages and organiser workspace. */
 export function Topbar() {

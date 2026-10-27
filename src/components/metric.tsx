@@ -47,7 +47,12 @@ export function Metric(props: {
             <div class="metric-headline">
                 <strong class="metric-value">{props.value}</strong>
                 <Show when={points()}>
-                    <svg class="metric-trend" viewBox="0 0 120 50" aria-hidden="true">
+                    <svg
+                        class="metric-trend"
+                        viewBox="0 0 120 50"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                    >
                         <polygon points={`2,48 ${points()} 118,48`} />
                         <polyline points={points()} />
                     </svg>

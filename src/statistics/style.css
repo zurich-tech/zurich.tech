@@ -66,6 +66,7 @@
 }
 
 .stats-plot svg {
+    display: block;
     width: 100%;
     height: 320px;
     outline-offset: 3px;
@@ -92,6 +93,156 @@
     flex-wrap: wrap;
     gap: var(--space-3) var(--space-6);
     font-size: var(--text-sm);
+}
+
+.stats-chart-card > .card-heading {
+    min-height: 48px;
+}
+
+.stats-milestone-line {
+    fill: none;
+    stroke: var(--color-soft);
+    stroke-opacity: 0.45;
+    vector-effect: non-scaling-stroke;
+}
+
+.stats-milestones {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--milestone-count), minmax(0, 1fr));
+    padding-bottom: 44px;
+    height: 116px;
+}
+
+.stats-chart--milestones .stats-scale {
+    margin-top: 116px;
+}
+
+.stats-chart--milestones .stats-tooltip {
+    top: 116px;
+}
+
+.stats-milestone {
+    position: relative;
+    align-self: stretch;
+    z-index: 1;
+}
+
+.stats-milestone > :is(button, a) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    background: var(--color-paper);
+    color: var(--color-soft);
+    font: inherit;
+    text-align: center;
+    overflow-wrap: anywhere;
+    cursor: help;
+}
+
+.stats-milestone > a {
+    cursor: pointer;
+}
+.stats-milestone small {
+    font: 10px / 1.4 var(--font-text);
+}
+.stats-milestone.is-highlighted {
+    z-index: 2;
+}
+.stats-milestone.is-highlighted > :is(button, a) {
+    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-paper));
+}
+.stats-milestone-line.is-highlighted {
+    stroke: var(--color-accent);
+    stroke-opacity: 1;
+    stroke-width: 2;
+}
+.stats-plot .stats-milestone-connectors {
+    position: absolute;
+    bottom: 0;
+    height: 44px;
+    pointer-events: none;
+}
+
+.stats-milestone > [role="tooltip"] {
+    display: none;
+    position: absolute;
+    top: 100%;
+    width: max-content;
+    max-width: 70vw;
+    padding: var(--space-3);
+    border: var(--rule) solid var(--color-line);
+    border-radius: 4px;
+    background: var(--color-paper);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 8%);
+    font: var(--text-sm) / 1.5 var(--font-text);
+    color: var(--color-ink);
+}
+
+.stats-milestone.is-highlighted > [role="tooltip"] {
+    display: block;
+}
+
+.community-audience {
+    scroll-margin-top: var(--space-6);
+}
+
+/* group metric selection and its history into one continuous section */
+.stats-history {
+    display: grid;
+    gap: var(--space-5);
+    min-width: 0;
+}
+
+.stats-history .stats-chart-card > .card-heading {
+    border-bottom: 0;
+}
+
+/* give survey distributions one shared column rhythm */
+.community-audience .audience-charts {
+    column-gap: var(--column-gap);
+    row-gap: var(--space-8);
+}
+
+.community-audience .metric {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.community-audience .metric-row {
+    margin-bottom: var(--space-4);
+}
+
+.community-audience .audience-charts > section {
+    min-width: 0;
+}
+
+.audience-answer-expand {
+    margin-top: var(--space-3);
+    color: var(--color-soft);
+    font-size: var(--text-xs);
+}
+
+.audience-caption {
+    margin: 0;
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}
+
+.community-audience .audience-charts--compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--column-gap);
+}
+
+@media (max-width: 800px) {
+    .community-audience .audience-charts--compact {
+        grid-template-columns: 1fr;
+    }
 }
 
 .stats-legend > span {
@@ -180,6 +331,14 @@
 }
 
 @media (max-width: 600px) {
+    .stats-chart--milestones {
+        overflow-x: auto;
+    }
+
+    .stats-chart--milestones .stats-plot {
+        min-width: 560px;
+    }
+
     .stats-plot svg,
     .stats-scale {
         height: 240px;

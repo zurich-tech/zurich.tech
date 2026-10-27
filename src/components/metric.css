@@ -66,6 +66,7 @@ a.metric[href]:hover,
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
 }
 
 .metric-details {
@@ -78,11 +79,44 @@ a.metric[href]:hover,
     display: none;
 }
 
+/* compact totals use only label and value tracks */
+.metric-row--compact {
+    grid-template-rows: auto auto;
+}
+
+.metric-row--compact .metric {
+    grid-row: 1 / span 2;
+}
+
+.metric-row--compact .metric-details {
+    display: none;
+}
+
+/* give compact totals equally sized trends regardless of digit count */
+.metric-row--compact .metric-headline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+}
+
+.metric-row--compact .metric-value {
+    font-size: var(--text-3xl);
+}
+
+.metric-row--compact .metric-trend {
+    width: 100%;
+    height: 36px;
+    min-width: 0;
+}
+
 @media (max-width: 700px) {
     .metric-row {
         gap: var(--space-4);
     }
     .metric-value {
+        font-size: var(--text-2xl);
+    }
+    .metric-row--compact .metric-value {
         font-size: var(--text-2xl);
     }
     .metric-headline {

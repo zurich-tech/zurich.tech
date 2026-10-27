@@ -191,6 +191,23 @@ export const surveySections = [
 export const surveyQuestions = surveySections.flatMap((section) => [...section.questions]);
 /** A current survey question, excluding retired fields. */
 export type SurveyQuestion = (typeof surveyQuestions)[number];
+/** Short titles associated with each survey question across reports. */
+export const surveyTitles: Record<SurveyQuestion, string> = {
+    interests: "Interests",
+    roles: "Roles",
+    motivations: "Motivations",
+    experience: "Experience",
+    eventKinds: "Event formats",
+    participation: "Involvement",
+    eventFrequency: "Event frequency",
+    eventsAttended: "Attendance",
+    discovery: "Discovery",
+    education: "Education",
+    residence: "Residence",
+    languages: "Languages",
+    age: "Age",
+    citizenships: "Citizenship",
+};
 /** Labels shared by survey reports, including questions with private response groups. */
 export const surveyLabels: Record<SurveyQuestion, string> = {
     ...demographicLabels,

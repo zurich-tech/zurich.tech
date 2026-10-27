@@ -1,4 +1,4 @@
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 import type { FunctionReturnType } from "convex/server";
 import type { api } from "../../convex/_generated/api";
 import { Metric } from "../components/metric";
@@ -17,9 +17,15 @@ export function StatisticsOverview(props: {
     statistics: FunctionReturnType<typeof api.statistics.queries.community>;
     /** Metric currently displayed on the statistics page. */
     selected?: string;
+    /** Omit rolling growth from compact audience overviews. */
+    compact?: boolean;
 }) {
     return (
-        <div class="metric-row" aria-label="Community statistics">
+        <div
+            class="metric-row"
+            classList={{ "metric-row--compact": props.compact }}
+            aria-label="Community statistics"
+        >
             <For each={metrics}>
                 {(metric) => (
                     <Metric
@@ -37,36 +43,38 @@ export function StatisticsOverview(props: {
                                 : props.statistics.history[metric.field]
                         }
                     >
-                        <div class="stats-changes">
-                            <For each={props.statistics.growth}>
-                                {(period) => {
-                                    const growth = period[metric.field];
+                        <Show when={!props.compact}>
+                            <div class="stats-changes">
+                                <For each={props.statistics.growth}>
+                                    {(period) => {
+                                        const growth = period[metric.field];
 
-                                    return (
-                                        <div
-                                            class="stats-change"
-                                            title={
-                                                growth
-                                                    ? `Change since ${growth.since}`
-                                                    : "Historical baseline unavailable"
-                                            }
-                                        >
-                                            <span class="stats-period">
-                                                {period.days === 365 ? "1y" : `${period.days}d`}
-                                            </span>
-                                            <span
-                                                class="stats-growth"
-                                                data-positive={growth && growth.value > 0}
+                                        return (
+                                            <div
+                                                class="stats-change"
+                                                title={
+                                                    growth
+                                                        ? `Change since ${growth.since}`
+                                                        : "Historical baseline unavailable"
+                                                }
                                             >
-                                                {growth
-                                                    ? `${growth.value > 0 ? "+" : ""}${growth.value.toLocaleString("en-CH")}`
-                                                    : "–"}
-                                            </span>
-                                        </div>
-                                    );
-                                }}
-                            </For>
-                        </div>
+                                                <span class="stats-period">
+                                                    {period.days === 365 ? "1y" : `${period.days}d`}
+                                                </span>
+                                                <span
+                                                    class="stats-growth"
+                                                    data-positive={growth && growth.value > 0}
+                                                >
+                                                    {growth
+                                                        ? `${growth.value > 0 ? "+" : ""}${growth.value.toLocaleString("en-CH")}`
+                                                        : "–"}
+                                                </span>
+                                            </div>
+                                        );
+                                    }}
+                                </For>
+                            </div>
+                        </Show>
                     </Metric>
                 )}
             </For>

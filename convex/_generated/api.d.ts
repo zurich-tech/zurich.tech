@@ -107,6 +107,7 @@ import type * as members_links from "../members/links.js";
 import type * as members_management from "../members/management.js";
 import type * as members_profiles from "../members/profiles.js";
 import type * as members_queries from "../members/queries.js";
+import type * as members_results from "../members/results.js";
 import type * as members_reviews from "../members/reviews.js";
 import type * as members_search from "../members/search.js";
 import type * as members_team from "../members/team.js";
@@ -138,6 +139,7 @@ import type * as sponsorships_organisations from "../sponsorships/organisations.
 import type * as sponsorships_plans from "../sponsorships/plans.js";
 import type * as sponsorships_recognition from "../sponsorships/recognition.js";
 import type * as sponsorships_terms from "../sponsorships/terms.js";
+import type * as statistics_audience from "../statistics/audience.js";
 import type * as statistics_classification from "../statistics/classification.js";
 import type * as statistics_history from "../statistics/history.js";
 import type * as statistics_queries from "../statistics/queries.js";
@@ -252,6 +254,7 @@ declare const fullApi: ApiFromModules<{
   "members/management": typeof members_management;
   "members/profiles": typeof members_profiles;
   "members/queries": typeof members_queries;
+  "members/results": typeof members_results;
   "members/reviews": typeof members_reviews;
   "members/search": typeof members_search;
   "members/team": typeof members_team;
@@ -283,6 +286,7 @@ declare const fullApi: ApiFromModules<{
   "sponsorships/plans": typeof sponsorships_plans;
   "sponsorships/recognition": typeof sponsorships_recognition;
   "sponsorships/terms": typeof sponsorships_terms;
+  "statistics/audience": typeof statistics_audience;
   "statistics/classification": typeof statistics_classification;
   "statistics/history": typeof statistics_history;
   "statistics/queries": typeof statistics_queries;

@@ -146,3 +146,41 @@ test("test_classification_dry_run_and_missing_record_are_non_mutating", async ()
     await backend.mutation(internal.statistics.classification.classify, { series, apply: true });
     expect(await backend.run(async (ctx) => (await ctx.db.get(id))?.attribution)).toBe("ours");
 });
+
+test("test_milestones_use_public_event_dates_and_links", async () => {
+    const backend = convexTest(schema, modules);
+    await backend.run(async (ctx) => {
+        const ownerId = await member(ctx, {
+            name: "Organiser",
+            searchText: "organiser",
+            visibility: "public",
+        });
+        const base = {
+            ownerId,
+            title: "Launch",
+            topics: [],
+            format: "talk" as const,
+            status: "finished" as const,
+            registration: { kind: "external" as const, url: "https://example.org/register" },
+            startsAt: Date.parse("2023-03-21T17:00:00Z"),
+            createdAt: 1,
+            updatedAt: 1,
+        };
+        await ctx.db.insert("events", { ...base, slug: "zurichnlp-1" });
+        await ctx.db.insert("events", { ...base, slug: "zurichcv-1", visibility: "unlisted" });
+        await ctx.db.insert("events", { ...base, slug: "zurichrobotics-1", status: "draft" });
+        await ctx.db.insert("events", { ...base, slug: "jurgen-schmidhuber", status: "cancelled" });
+    });
+
+    const result = await backend.query(api.statistics.queries.community, {});
+    expect(result.milestones).toEqual([
+        {
+            slug: "zurichnlp-1",
+            date: "2023-03-21",
+            label: "ZurichNLP",
+            description: "ZurichNLP launched",
+            href: "/events/zurichnlp-1",
+        },
+        { date: "2026-09-21", label: "zurich.tech", description: "ZurichAI became zurich.tech" },
+    ]);
+});

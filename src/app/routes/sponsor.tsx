@@ -1,4 +1,5 @@
 import { EditLink } from "../../auth/edit";
+import { ArrowDown, ArrowUpRight } from "lucide-solid";
 import { useAccount } from "../../auth";
 import { sponsorshipInquiry } from "../../sponsorships/inquiries";
 import { For, Show } from "solid-js";
@@ -6,7 +7,8 @@ import { Sponsors } from "../../sponsorships/sponsors";
 import { getSponsors, getPersonalSponsors } from "../../sponsorships/queries";
 import { Arrow } from "../../components/arrow";
 import { StatisticsOverview } from "../../statistics/overview";
-import { getStatistics } from "../../statistics/queries";
+import { getStatistics, getAudience } from "../../statistics/queries";
+import { CommunityAudience } from "../../statistics/audience";
 import { tiers, personalTiers } from "../../../convex/sponsorships/plans";
 import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
@@ -14,7 +16,8 @@ import "../sponsor-route.css";
 
 /** Start sponsor requests when navigation is preloaded, before rendering the page. */
 export const route = {
-    preload: () => Promise.all([getSponsors(), getPersonalSponsors(), getStatistics()]),
+    preload: () =>
+        Promise.all([getSponsors(), getPersonalSponsors(), getStatistics(), getAudience()]),
 };
 
 /** Plans from smallest to largest, as read left to right. */
@@ -43,37 +46,45 @@ export default function Route() {
         <>
             <Seo
                 title="Sponsor"
-                description="Help fund tech events in Zurich. Sponsorships pay for venues, food and event costs."
+                description="Support Zurich's tech community: talks, meetups and connections between people building things."
             />
             <Page class="sponsorship-route publication">
                 {/* pitch with the primary action */}
                 <PageHeader
                     title="Sponsor zurich.tech"
-                    summary="Sponsorships pay for venues, food and the tools we use to run events. Nobody gets a salary; every franc goes into the community."
+                    summary="Support talks and meetups for Zurich's tech community."
                     actions={
                         <>
-                            <EditLink href="/admin?section=sponsors" label="Manage" />
+                            <a class="button button--primary" href="#sponsorship-plans">
+                                View sponsorships <ArrowDown size={16} />
+                            </a>
                             <a
-                                class="button button--primary"
+                                class="action-link"
                                 href={sponsorshipInquiry(undefined, account.user()?.name)}
                             >
-                                Get in touch <Arrow />
+                                Get in touch <ArrowUpRight size={16} />
                             </a>
                         </>
                     }
                 />
 
-                {/* show the same live totals and growth as the statistics page */}
-                <Show when={statistics()}>
-                    {(current) => <StatisticsOverview statistics={current()} />}
-                </Show>
+                {/* combine community scale and survey distributions */}
+                <CommunityAudience compact>
+                    <Show when={statistics()}>
+                        {(current) => <StatisticsOverview statistics={current()} compact />}
+                    </Show>
+                </CommunityAudience>
 
                 {/* keep each plan's price, benefits and inquiry together */}
                 <section class="sponsorship-options" aria-labelledby="sponsorship-plans">
                     <header class="sponsorship-section-heading">
-                        <h2 id="sponsorship-plans">Company sponsorship</h2>
+                        <h2 id="sponsorship-plans">Sponsorship</h2>
                         <p>Per year, invoiced annually</p>
                     </header>
+                    <div class="sponsorship-funding">
+                        <p>Sponsorship funds venues, food and the tools behind our events.</p>
+                        <EditLink href="/admin?section=sponsors" label="Manage" />
+                    </div>
                     <div class="sponsorship-plans">
                         <For each={plans}>
                             {(tier) => (
@@ -123,6 +134,9 @@ export default function Route() {
                     </div>
                 </section>
 
+                {/* current supporters */}
+                <Sponsors isFullPage />
+
                 {/* personal support as one strip */}
                 <For each={personalTiers}>
                     {(tier) => (
@@ -150,9 +164,6 @@ export default function Route() {
                         </section>
                     )}
                 </For>
-
-                {/* current supporters */}
-                <Sponsors isFullPage />
             </Page>
         </>
     );

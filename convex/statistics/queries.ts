@@ -3,6 +3,14 @@ import { eventAttribution } from "../events/attribution";
 import { query, internalMutation, type QueryCtx } from "../_generated/server";
 import { cumulative, currentPoint, date, growth, subscriberHistory, eventHistory } from "./history";
 
+/** Public events marking the community's series launches and featured talk. */
+const milestoneEvents = [
+    { slug: "zurichnlp-1", label: "ZurichNLP", description: "ZurichNLP launched" },
+    { slug: "zurichcv-1", label: "ZurichCV", description: "ZurichCV launched" },
+    { slug: "zurichrobotics-1", label: "ZurichRobotics", description: "ZurichRobotics launched" },
+    { slug: "jurgen-schmidhuber", label: "Schmidhuber", description: "Jürgen Schmidhuber" },
+];
+
 /** Read totals and dated records without exposing identities through the public query. */
 async function records(ctx: QueryCtx) {
     const [events, subscriptions, registrations, series] = await Promise.all([
@@ -27,6 +35,13 @@ async function records(ctx: QueryCtx) {
     }));
 
     return {
+        milestones: milestoneEvents.flatMap((milestone) => {
+            const event = past.find((event) => event.slug === milestone.slug);
+
+            return event
+                ? [{ ...milestone, date: date(event.startsAt), href: `/events/${event.slug}` }]
+                : [];
+        }),
         attributed,
         subscriptions,
         registrations: publicRegistrations,
@@ -80,6 +95,15 @@ export const community = query({
         const ours = history.events.map((point) => ({ date: point.date, value: point.ours }));
 
         return {
+            milestones: [
+                ...current.milestones,
+                // use the organiser's approximate move date
+                {
+                    date: "2026-09-21",
+                    label: "zurich.tech",
+                    description: "ZurichAI became zurich.tech",
+                },
+            ].sort((left, right) => left.date.localeCompare(right.date)),
             totals: { ...current.totals, events: ours.at(-1)!.value },
             history,
             growth: [30, 90, 365].map((days) => ({

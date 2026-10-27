@@ -4,7 +4,11 @@
 }
 
 .sponsorship-route .page-header {
+    flex-direction: column;
     align-items: start;
+    gap: var(--space-5);
+    border-bottom: 0;
+    padding-bottom: 0;
 }
 
 .sponsorship-route .page-header h1 {
@@ -12,11 +16,28 @@
 }
 
 .sponsorship-route .page-header__copy {
+    flex: none;
     max-width: 680px;
 }
 
 .sponsorship-route .page-header__actions {
     flex-shrink: 0;
+    justify-content: flex-start;
+    gap: var(--space-6);
+}
+
+.sponsorship-funding {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    color: var(--color-soft);
+    font-size: var(--text-sm);
+}
+
+#sponsorship-plans {
+    scroll-margin-top: var(--space-6);
 }
 
 .sponsorship-section-heading p,
@@ -40,6 +61,8 @@
 }
 
 .sponsorship-route h2 {
+    font-family: var(--font-mono);
+    font-weight: 500;
     font-size: var(--text-xl);
     letter-spacing: 0;
 }
