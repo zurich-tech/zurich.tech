@@ -270,7 +270,7 @@ test.each(["Newsletter", "New event", "Registration confirmed", "Thank you", "Wr
                   ? campaignEmail({ subject: "Hello", message: "Welcome" })
                   : eventEmail({ title: "Example", slug: "example", startsAt: Date.now() }, kind);
         const render = () => backend.run((ctx) => personalize(ctx, content, subscriptionId));
-        expect((await render())!.text).toContain("Sign Up");
+        expect((await render())!.text).toContain("Sign up");
 
         // resolve an existing account through its verified email even without a subscription member id
         await backend.run((ctx) =>
@@ -2501,7 +2501,7 @@ test("verified event registration enrolls once and explicit resubscription enabl
             message.subject.endsWith("Registration confirmed"),
     );
     expect(memberConfirmation?.text).toContain("Complete the survey");
-    expect(guestConfirmation?.text).toContain("Sign Up");
+    expect(guestConfirmation?.text).toContain("Sign up");
     expect(memberConfirmation?.html).not.toContain(profilePlaceholder.html);
     expect(guestConfirmation?.text).not.toContain(profilePlaceholder.text);
 

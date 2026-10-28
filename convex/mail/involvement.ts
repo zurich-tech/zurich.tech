@@ -50,7 +50,7 @@ export function profileInvitation(prompt: ProfilePrompt) {
 
     // invite account creation separately from survey participation
     const account = invitation(
-        "Sign Up",
+        "Sign up",
         "Faster RSVPs. Your topics and alerts.",
         `${siteOrigin()}/settings?section=profile`,
     );

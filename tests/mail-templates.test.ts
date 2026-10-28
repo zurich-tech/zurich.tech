@@ -32,7 +32,7 @@ const previousSiteUrl = process.env.SITE_URL;
 test("test_render_consistent_profile_actions_and_public_sharing", () => {
     expect(profileInvitation("none")).toEqual({ html: "", text: "" });
     expect(profileInvitation("create").text).toBe(
-        "Sign Up: https://zurich.tech/settings?section=profile\nFaster RSVPs. Your topics and alerts.\n\nComplete the survey: https://zurich.tech/survey\nHelp shape future events.",
+        "Sign up: https://zurich.tech/settings?section=profile\nFaster RSVPs. Your topics and alerts.\n\nComplete the survey: https://zurich.tech/survey\nHelp shape future events.",
     );
     expect(profileInvitation("complete").text).toBe(
         "Complete the survey: https://zurich.tech/survey\nHelp shape future events.",
@@ -366,7 +366,7 @@ test("test_frame_verification_details_and_place_security_note_before_participati
         expect(email.html).not.toContain(profilePlaceholder.html);
         expect(email.text).not.toContain(profilePlaceholder.text);
         expect(email.html).not.toContain("Share the Event");
-        expect(email.html).not.toContain("Sign Up");
+        expect(email.html).not.toContain("Sign up");
     }
 
     const registration = verificationEmail(url, event);
