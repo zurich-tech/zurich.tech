@@ -1,8 +1,10 @@
-import { createMemo, createSignal, For, Show, onMount, onCleanup } from "solid-js";
+import { createEffect, createMemo, createSignal, For, Show, onMount, onCleanup } from "solid-js";
 
 /** Explore dated totals with pointer, touch and keyboard controls. */
 export function HistoryChart(props: {
     label: string;
+    /** Shared date limits when comparing several histories. */
+    range?: { start: string; end: string };
     /** Dated community milestones linking to events and announcements. */
     milestones?: { date: string; label: string; description: string; href: string }[];
     values: {
@@ -16,16 +18,30 @@ export function HistoryChart(props: {
     const [selected, setSelected] = createSignal<number>();
     const [highlighted, setHighlighted] = createSignal<string>();
     const [plotWidth, setPlotWidth] = createSignal(560);
-    let plot: HTMLDivElement | undefined;
+    let plot: SVGSVGElement | undefined;
+    let chart: HTMLDivElement | undefined;
+
+    // clear inspection when the displayed history changes
+    createEffect(() => {
+        props.values;
+        setSelected(undefined);
+        setHighlighted(undefined);
+    });
+    const range = createMemo(() => ({
+        start: Date.parse(props.range?.start ?? props.values[0]?.date ?? ""),
+        end: Date.parse(props.range?.end ?? props.values.at(-1)?.date ?? ""),
+    }));
 
     // measure the plot so label spacing stays compact at every viewport width
     onMount(() => {
         let frame: number | undefined;
-        const observer = new ResizeObserver(([entry]) => {
+        const observer = new ResizeObserver(() => {
             if (frame !== undefined) cancelAnimationFrame(frame);
-            frame = requestAnimationFrame(() => setPlotWidth(entry.contentRect.width));
+            frame = requestAnimationFrame(() => {
+                if (plot) setPlotWidth(plot.getBoundingClientRect().width);
+            });
         });
-        if (plot) observer.observe(plot);
+        if (chart) observer.observe(chart);
         onCleanup(() => {
             observer.disconnect();
             if (frame !== undefined) cancelAnimationFrame(frame);
@@ -38,8 +54,7 @@ export function HistoryChart(props: {
     });
     const ticks = () => [maximum(), maximum() / 2, 0].filter(Number.isInteger);
     const years = createMemo(() => {
-        const start = Date.parse(props.values[0]?.date ?? "");
-        const end = Date.parse(props.values.at(-1)?.date ?? "");
+        const { start, end } = range();
         if (start === end)
             return [{ label: String(new Date(start).getUTCFullYear()), position: 0.5 }];
         const result: { label: string; position: number }[] = [];
@@ -55,8 +70,7 @@ export function HistoryChart(props: {
         return result;
     });
     const points = createMemo(() => {
-        const start = Date.parse(props.values[0]?.date ?? "");
-        const end = Date.parse(props.values.at(-1)?.date ?? "");
+        const { start, end } = range();
 
         return props.values.map((point) => ({
             ...point,
@@ -66,10 +80,10 @@ export function HistoryChart(props: {
         }));
     });
     const active = () => (selected() === undefined ? undefined : points()[selected()!]);
+    const readout = () => active() ?? points().at(-1)!;
     const isStacked = () => points()[0]?.ours !== undefined;
     const milestones = createMemo(() => {
-        const start = Date.parse(props.values[0]?.date ?? "");
-        const end = Date.parse(props.values.at(-1)?.date ?? "");
+        const { start, end } = range();
         const rows: number[] = [];
 
         return (props.milestones ?? [])
@@ -118,6 +132,7 @@ export function HistoryChart(props: {
         <Show when={points().length} fallback={<p class="stats-empty">No data</p>}>
             <div
                 class="stats-chart"
+                ref={chart}
                 classList={{ "stats-chart--milestones": milestones().length > 0 }}
                 style={{ "--milestone-height": `${milestoneHeight()}px` }}
             >
@@ -130,7 +145,20 @@ export function HistoryChart(props: {
                         )}
                     </For>
                 </div>
-                <div class="stats-plot" ref={plot}>
+                <div class="stats-plot">
+                    {/* retain a steady readout above the mobile plot */}
+                    <div class="stats-readout">
+                        <span>{date(readout().date)}</span>
+                        <strong>
+                            {readout().value.toLocaleString()} {props.label.toLowerCase()}
+                        </strong>
+                        <Show when={isStacked()}>
+                            <small>
+                                Ours {readout().ours?.toLocaleString()} · Partner{" "}
+                                {readout().external?.toLocaleString()}
+                            </small>
+                        </Show>
+                    </div>
                     <Show when={milestones().length > 0}>
                         <div class="stats-milestones">
                             <For each={milestones()}>
@@ -177,14 +205,24 @@ export function HistoryChart(props: {
                         </div>
                     </Show>
                     <svg
+                        ref={plot}
                         viewBox="0 0 1000 300"
                         preserveAspectRatio="none"
                         tabindex="0"
                         role="img"
                         aria-label={`${props.label}. Use arrow keys to explore.`}
-                        onPointerMove={inspect}
-                        onPointerDown={inspect}
-                        onPointerLeave={() => setSelected(undefined)}
+                        onPointerMove={(event) => {
+                            if (event.pointerType === "mouse" || event.buttons) inspect(event);
+                        }}
+                        onPointerDown={(event) => {
+                            event.currentTarget.setPointerCapture(event.pointerId);
+                            inspect(event);
+                        }}
+                        onPointerLeave={(event) => {
+                            if (event.pointerType === "mouse" && !event.buttons)
+                                setSelected(undefined);
+                        }}
+                        onPointerCancel={() => setSelected(undefined)}
                         onFocus={() => setSelected((index) => index ?? points().length - 1)}
                         onBlur={() => setSelected(undefined)}
                         onKeyDown={(event) => {
@@ -333,6 +371,24 @@ export function HistoryChart(props: {
                             )}
                         </For>
                     </div>
+                    {/* keep milestone links outside the narrow plotting area */}
+                    <Show when={milestones().length}>
+                        <details class="stats-mobile-milestones">
+                            <summary>
+                                Milestones <span>{milestones().length}</span>
+                            </summary>
+                            <For each={milestones()}>
+                                {(milestone) => (
+                                    <a href={milestone.href} aria-label={milestone.description}>
+                                        <span>{milestone.label}</span>
+                                        <time datetime={milestone.date}>
+                                            {date(milestone.date)}
+                                        </time>
+                                    </a>
+                                )}
+                            </For>
+                        </details>
+                    </Show>
                 </div>
             </div>
         </Show>

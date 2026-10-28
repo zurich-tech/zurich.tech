@@ -307,6 +307,11 @@
     color: var(--color-soft);
 }
 
+.stats-readout,
+.stats-mobile-milestones {
+    display: none;
+}
+
 @media (max-width: 600px) {
     .stats-changes {
         grid-template-columns: 1fr;
@@ -316,16 +321,90 @@
         display: flex;
         justify-content: space-between;
     }
-    .stats-chart--milestones {
-        overflow-x: auto;
+    .stats-history .stats-chart {
+        display: grid;
+        grid-template-columns: 4ch minmax(0, 1fr);
+        column-gap: var(--space-2);
+        padding-top: 0;
     }
-
-    .stats-chart--milestones .stats-plot {
-        min-width: 560px;
+    .stats-history .stats-chart-card > .card-heading {
+        height: 48px;
+        padding-bottom: var(--space-2);
     }
-
-    .stats-plot svg,
-    .stats-scale {
-        height: 240px;
+    .stats-history .stats-chart-card > .card-body {
+        padding-top: var(--space-2);
+    }
+    .stats-history .stats-plot {
+        display: contents;
+    }
+    .stats-history .stats-milestones,
+    .stats-history .stats-milestone-line,
+    .stats-history .stats-tooltip {
+        display: none;
+    }
+    .stats-history .stats-plot > svg,
+    .stats-history .stats-scale {
+        height: 190px;
+    }
+    .stats-history .stats-chart .stats-scale {
+        grid-column: 1;
+        grid-row: 2;
+        margin-top: 0;
+        width: 4ch;
+    }
+    .stats-history .stats-plot > svg {
+        grid-column: 2;
+        grid-row: 2;
+    }
+    .stats-history .stats-dates {
+        grid-column: 2;
+        grid-row: 3;
+    }
+    .stats-history .stats-readout {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-row: 1;
+        grid-template-columns: 1fr auto;
+        align-content: start;
+        gap: var(--space-1) var(--space-2);
+        height: 40px;
+    }
+    .stats-readout strong {
+        color: var(--color-ink);
+        font-weight: 600;
+    }
+    .stats-readout small {
+        grid-column: 1 / -1;
+        font: inherit;
+    }
+    .stats-history .stats-mobile-milestones {
+        display: block;
+        grid-column: 1 / -1;
+        grid-row: 4;
+        margin-top: var(--space-4);
+        border-top: var(--rule) solid var(--color-line);
+        font: 400 var(--text-sm) / 1.5 var(--font-text);
+    }
+    .stats-mobile-milestones summary {
+        padding-block: var(--space-3);
+        cursor: pointer;
+        color: var(--color-ink);
+    }
+    .stats-mobile-milestones summary span {
+        margin-left: var(--space-2);
+        color: var(--color-soft);
+    }
+    .stats-mobile-milestones a {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: var(--space-3);
+        padding-block: var(--space-3);
+        border-top: var(--rule) solid var(--color-line);
+    }
+    .stats-mobile-milestones time {
+        flex: none;
+        color: var(--color-soft);
+        font-size: var(--text-xs);
     }
 }

@@ -1,4 +1,4 @@
-import { createSignal, onMount, Show } from "solid-js";
+import { createMemo, createSignal, onMount, Show } from "solid-js";
 import { useLocation } from "@solidjs/router";
 import { getStatistics, getAudience } from "../../statistics/queries";
 import { CommunityAudience } from "../../statistics/audience";
@@ -19,6 +19,20 @@ export default function Route() {
     const location = useLocation();
     const [isMounted, setMounted] = createSignal(false);
     onMount(() => setMounted(true));
+
+    // compare every metric against the same calendar extent
+    const range = createMemo(() => {
+        const current = statistics();
+        if (!current) return undefined;
+        const dates = metrics
+            .flatMap(({ field }) => {
+                const values = current.history[field];
+                return values.length ? [values[0].date, values.at(-1)!.date] : [];
+            })
+            .sort();
+
+        return dates.length ? { start: dates[0], end: dates.at(-1)! } : undefined;
+    });
 
     // resolve the fragment after hydration because the server never receives it
     const selected = () =>
@@ -67,15 +81,12 @@ export default function Route() {
                                     </Show>
                                 }
                             >
-                                <Show when={selected()} keyed>
-                                    {(metric) => (
-                                        <HistoryChart
-                                            label={metric.label}
-                                            values={current().history[metric.field]}
-                                            milestones={current().milestones}
-                                        />
-                                    )}
-                                </Show>
+                                <HistoryChart
+                                    label={selected().label}
+                                    values={current().history[selected().field]}
+                                    range={range()}
+                                    milestones={current().milestones}
+                                />
                             </Card>
                         </section>
                     )}
