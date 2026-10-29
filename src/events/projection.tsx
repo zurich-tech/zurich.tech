@@ -1,5 +1,5 @@
-import { createMemo, createResource, createSignal, For, Show, onMount, onCleanup } from "solid-js";
-import qrcode from "qrcode-generator";
+import { createResource, createSignal, For, Show, onMount, onCleanup } from "solid-js";
+import { QrCode } from "../components/qr";
 import { A, useParams } from "@solidjs/router";
 import { useAccount } from "../auth";
 import { useAccess } from "../auth/edit";
@@ -15,49 +15,6 @@ import { Overview } from "./overview";
 import { Maximize } from "lucide-solid";
 import "./projection.css";
 
-/** Render a branded QR code with high error correction and a clear quiet zone. */
-function ProjectionCode(props: { url: string; label: string }) {
-    const code = createMemo(() => {
-        const value = qrcode(0, "H");
-        value.addData(props.url);
-        value.make();
-        const modules = value.getModuleCount();
-        const path = Array.from({ length: modules * modules }, (_, index) => {
-            const row = Math.floor(index / modules);
-            const column = index % modules;
-
-            return value.isDark(row, column) ? `M${column} ${row}h1v1h-1z` : "";
-        }).join("");
-
-        return { modules, path };
-    });
-
-    return (
-        <svg
-            viewBox={`-4 -4 ${code().modules + 8} ${code().modules + 8}`}
-            role="img"
-            aria-label={props.label}
-        >
-            <path d={code().path} fill="currentColor" />
-            <rect
-                x={code().modules / 2 - 3.5}
-                y={code().modules / 2 - 3.5}
-                width="7"
-                height="7"
-                rx="1"
-                fill="var(--color-paper)"
-            />
-            <image
-                href="/branding/logo.svg"
-                x={code().modules / 2 - 2.5}
-                y={code().modules / 2 - 2.5}
-                width="5"
-                height="5"
-            />
-        </svg>
-    );
-}
-
 /** Project public completion counts and administrator-only aggregate survey results. */
 export function Projection(props: { view: "overview" | "survey" | "results" }) {
     const params = useParams<{ slug: string }>();
@@ -66,8 +23,7 @@ export function Projection(props: { view: "overview" | "survey" | "results" }) {
     const isResults = () => props.view === "results";
     const isOverview = () => props.view === "overview";
     const basePath = () => `/events/${params.slug}`;
-    const canRead = () =>
-        !isOverview() && (!isResults() || (!!account.user() && !!access.current()?.isAdmin));
+    const canRead = () => !isResults() || (!!account.user() && !!access.current()?.isAdmin);
     const [report, { refetch }] = createResource(
         () =>
             canRead()
@@ -116,7 +72,16 @@ export function Projection(props: { view: "overview" | "survey" | "results" }) {
                 isResults={isResults()}
                 canResults={!!access.current()?.isAdmin}
             />
-            <Show when={!isOverview()} fallback={<Overview slug={params.slug} />}>
+            <Show
+                when={!isOverview()}
+                fallback={
+                    <Overview
+                        slug={params.slug}
+                        progress={currentReport()}
+                        progressError={report.error}
+                    />
+                }
+            >
                 <Show
                     when={!isResults() || account.user()}
                     fallback={
@@ -203,7 +168,7 @@ export function ProjectionHeader(props: {
 
     return (
         <header class="projection-header">
-            <A class="eyebrow" href={props.eventHref}>
+            <A class="projection-back" href={props.eventHref}>
                 <Arrow direction="left" /> Event
             </A>
             <nav class="projection-tabs" aria-label="Presentation view">
@@ -229,7 +194,7 @@ export function ProjectionHeader(props: {
                 </Show>
             </nav>
             <button
-                class="icon-button"
+                class="projection-fullscreen"
                 title="Toggle fullscreen"
                 aria-label="Toggle fullscreen"
                 onClick={async (event) => {
@@ -376,7 +341,7 @@ export function SurveyStage(props: { completed: number; registered: number }) {
             </section>
             <section class="projection-instructions" aria-label="How to help">
                 <figure class="projection-scan">
-                    <ProjectionCode
+                    <QrCode
                         url="https://zurich.tech/survey"
                         label="Scan to open zurich.tech/survey"
                     />

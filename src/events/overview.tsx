@@ -2,10 +2,10 @@ import { createMemo, createResource, For, Show } from "solid-js";
 import { api } from "../../convex/_generated/api";
 import { publicClient } from "../auth/convex";
 import { Image } from "../components/image";
+import { QrCode } from "../components/qr";
 import { errorMessage } from "../components/errors";
 import { getSponsors } from "../sponsorships/queries";
 import { tiers } from "../../convex/sponsorships/plans";
-import { EventTags } from "./tags";
 import discord from "../components/assets/social/discord.svg?raw";
 import linkedin from "../components/assets/social/linkedin.svg?raw";
 import twitter from "../components/assets/social/x.svg?raw";
@@ -18,7 +18,11 @@ const communityLinks = [
 ];
 
 /** Present the published programme and current community sponsors. */
-export function Overview(props: { slug: string }) {
+export function Overview(props: {
+    slug: string;
+    progress?: { registered: number };
+    progressError?: unknown;
+}) {
     const [event] = createResource(
         () => props.slug,
         (slug) => publicClient().query(api.events.queries.event, { slug }),
@@ -67,22 +71,20 @@ export function Overview(props: { slug: string }) {
                 {(item) => (
                     <section class="projection-overview">
                         <header class="projection-overview-heading">
-                            <div>
-                                <h1>{item().title}</h1>
-                                <EventTags detailed topics={item().topics} />
-                            </div>
-                            <div class="projection-logistics">
-                                <p>
-                                    {new Intl.DateTimeFormat("en-CH", {
-                                        dateStyle: "medium",
-                                        timeStyle: "short",
-                                        timeZone: "Europe/Zurich",
-                                    }).format(item().startsAt)}
-                                </p>
-                                <Show when={item().location}>
-                                    <p>{item().location}</p>
+                            <h1>{item().title}</h1>
+                            {/* share the survey screen's live registration total */}
+                            <Show
+                                when={!props.progressError}
+                                fallback={<p role="alert">Could not load attendance.</p>}
+                            >
+                                <Show when={props.progress} fallback={<p>Loading attendance…</p>}>
+                                    {(progress) => (
+                                        <p class="projection-registered">
+                                            <strong>{progress().registered}</strong> registered
+                                        </p>
+                                    )}
                                 </Show>
-                            </div>
+                            </Show>
                         </header>
                         <div class="projection-programme">
                             <div class="projection-speakers">
@@ -154,8 +156,7 @@ export function Overview(props: { slug: string }) {
                         </div>
                         <aside class="projection-sidebar">
                             <Show when={sponsors()?.length}>
-                                <section class="projection-sponsors">
-                                    <h2>Sponsors</h2>
+                                <section class="projection-sponsors" aria-label="Sponsors">
                                     <div class="projection-tiers">
                                         <For
                                             each={tiers.filter((tier) =>
@@ -201,22 +202,57 @@ export function Overview(props: { slug: string }) {
                                     </div>
                                 </section>
                             </Show>
-                            <nav class="projection-community" aria-label="Community">
-                                <h2>Community</h2>
-                                <For each={communityLinks}>
-                                    {(link) => (
-                                        <a
-                                            href={`/${link.path}`}
-                                            target="_blank"
-                                            rel="external noopener noreferrer"
-                                        >
-                                            <span aria-hidden="true" innerHTML={link.icon} />
-                                            zurich.tech/{link.path}
-                                        </a>
-                                    )}
-                                </For>
-                            </nav>
                         </aside>
+                        {/* invite attendees to complete or refresh their survey */}
+                        <section class="projection-survey" aria-label="Audience survey">
+                            <div class="projection-survey-content">
+                                <h2>Complete the survey</h2>
+                                <ol class="projection-survey-steps">
+                                    <li>
+                                        <div>
+                                            <strong>Open the survey</strong>
+                                            <a href="/survey">zurich.tech/survey</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <strong>Sign in</strong>
+                                            <span>Registration email</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <strong>Fill it in</strong>
+                                            <span>Update old answers too</span>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                            <a
+                                class="projection-survey-code"
+                                href="/survey"
+                                aria-label="Open the survey"
+                            >
+                                <QrCode
+                                    url="https://zurich.tech/survey"
+                                    label="Scan to open zurich.tech/survey"
+                                />
+                            </a>
+                        </section>
+                        <nav class="projection-community" aria-label="Community">
+                            <For each={communityLinks}>
+                                {(link) => (
+                                    <a
+                                        href={`/${link.path}`}
+                                        target="_blank"
+                                        rel="external noopener noreferrer"
+                                    >
+                                        <span aria-hidden="true" innerHTML={link.icon} />
+                                        zurich.tech/{link.path}
+                                    </a>
+                                )}
+                            </For>
+                        </nav>
                     </section>
                 )}
             </Show>
