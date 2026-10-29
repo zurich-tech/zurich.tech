@@ -8,6 +8,7 @@ import type { Perform } from "../app/workspace";
 import { Editor, savedEditor } from "../components/form";
 import { Card } from "../components/card";
 import { tiers } from "../../convex/sponsorships/plans";
+import { Select } from "../components/field";
 
 /** Company agreements and their invoice settlement history. */
 type Workspace = FunctionReturnType<typeof api.organisations.workspace.employer>;
@@ -60,17 +61,15 @@ export function SponsorshipCard(props: {
     const company = () =>
         props.companies.find((company) => company._id === props.sponsor.organisationId);
     return (
-        <Card title={company()?.name ?? "Sponsorship"}>
-            <p>
-                {props.sponsor.term
-                    ? `${props.sponsor.term.tier} sponsorship`
-                    : `${props.sponsor.tier} sponsorship requested`}
-            </p>
+        <Card title={company()?.name ?? "Sponsorship"} class="sponsorship-editor">
             <Show when={props.isAdmin}>
                 <details>
-                    <summary>Agree / renew sponsorship</summary>
+                    <summary>
+                        {props.sponsor.history.length ? "Renew sponsorship" : "Record agreement"}
+                    </summary>
                     <AgreementEditor
                         sponsorshipId={props.sponsor._id}
+                        defaultTier={props.sponsor.tier}
                         perform={props.perform}
                         isPending={props.isPending}
                     />
@@ -93,20 +92,36 @@ export function SponsorshipCard(props: {
                                           : "Current"}
                             </span>
                         </header>
-                        <p>
-                            {date(term.startsAt)} – {date(term.endsAt - 1)} ·{" "}
-                            {term.contribution.kind === "money"
-                                ? money(term.contribution.amount)
-                                : term.contribution.description}
-                        </p>
-                        <p class="text-soft">
-                            {term.publishedAt !== undefined
-                                ? `Public recognition from ${date(term.publishedAt)}`
-                                : "Not published"}
-                        </p>
-                        <p class="text-soft">
-                            {term.reason} · {term.recordedByName} · {date(term.createdAt)}
-                        </p>
+                        <dl class="sponsorship-facts">
+                            <div>
+                                <dt>Period</dt>
+                                <dd>
+                                    {date(term.startsAt)} – {date(term.endsAt - 1)}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>Contribution</dt>
+                                <dd>
+                                    {term.contribution.kind === "money"
+                                        ? money(term.contribution.amount)
+                                        : term.contribution.description}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>Recognition</dt>
+                                <dd>
+                                    {term.publishedAt !== undefined
+                                        ? `From ${date(term.publishedAt)}`
+                                        : "Private"}
+                                </dd>
+                            </div>
+                        </dl>
+                        <details>
+                            <summary>Agreement history</summary>
+                            <p class="text-soft">
+                                {term.reason} · {term.recordedByName} · {date(term.createdAt)}
+                            </p>
+                        </details>
                         <Show when={term.endedAt !== undefined}>
                             <p>
                                 Ended {date(term.endedAt!)}: {term.endReason}
@@ -116,7 +131,7 @@ export function SponsorshipCard(props: {
                             when={props.isAdmin && !term.supersededAt && term.endedAt === undefined}
                         >
                             <details>
-                                <summary>Amend / publish agreement</summary>
+                                <summary>Edit agreement</summary>
                                 <AgreementEditor
                                     sponsorshipId={props.sponsor._id}
                                     term={term}
@@ -318,6 +333,7 @@ export function SponsorshipCard(props: {
 function AgreementEditor(props: {
     sponsorshipId: Workspace["sponsorships"][number]["_id"];
     term?: Term;
+    defaultTier?: "gold" | "silver" | "bronze";
     perform: Perform;
     isPending: boolean;
 }) {
@@ -354,15 +370,15 @@ function AgreementEditor(props: {
             <div class="sponsorship-fields">
                 <label>
                     Tier
-                    <select name="tier" value={props.term?.tier ?? "bronze"}>
+                    <Select name="tier" value={props.term?.tier ?? props.defaultTier ?? "bronze"}>
                         <For each={tiers}>
                             {(tier) => <option value={tier.id}>{tier.name}</option>}
                         </For>
-                    </select>
+                    </Select>
                 </label>
                 <label>
                     Contribution
-                    <select
+                    <Select
                         value={kind()}
                         onChange={(event) =>
                             setKind(event.currentTarget.value as "money" | "inKind")
@@ -370,7 +386,7 @@ function AgreementEditor(props: {
                     >
                         <option value="money">Money</option>
                         <option value="inKind">In kind</option>
-                    </select>
+                    </Select>
                 </label>
                 <Show
                     when={kind() === "money"}
@@ -487,9 +503,13 @@ function InvoiceCard(props: {
                 {(payment) => (
                     <div>
                         <p>
-                            Received {money(payment.amount)} on {date(payment.paidAt)} ·{" "}
-                            {payment.reference}
+                            {payment.confirmation ? "Confirmed" : "Received"}{" "}
+                            {money(payment.amount)}
+                            {payment.paidAt !== undefined
+                                ? ` on ${date(payment.paidAt)}`
+                                : " · Date unavailable"}
                         </p>
+                        <p class="text-soft">{payment.confirmation ?? payment.reference}</p>
                         <For each={payment.refunds}>
                             {(refund) => (
                                 <p>
@@ -537,6 +557,38 @@ function InvoiceCard(props: {
                 )}
             </For>
             <Show when={props.isAdmin && !invoice().voidedAt}>
+                <Show when={invoice().balance > 0}>
+                    <details>
+                        <summary>Confirm paid</summary>
+                        <Editor
+                            class="editor"
+                            onSubmit={(event) =>
+                                submit(
+                                    event,
+                                    props.perform,
+                                    async (fields) =>
+                                        (await memberClient()).mutation(
+                                            api.billing.invoices.confirmPayment,
+                                            {
+                                                invoiceId: invoice()._id,
+                                                note: text(fields, "note"),
+                                            },
+                                        ),
+                                    "Payment confirmed.",
+                                )
+                            }
+                        >
+                            <p>Confirm the remaining {money(invoice().balance)} was received.</p>
+                            <label>
+                                Confirmation note
+                                <textarea name="note" required maxLength={1000} />
+                            </label>
+                            <button class="button" disabled={props.isPending}>
+                                Confirm paid
+                            </button>
+                        </Editor>
+                    </details>
+                </Show>
                 <details>
                     <summary>Record payment</summary>
                     <Editor

@@ -54,6 +54,52 @@ async function setup() {
     return { backend, admin, ids, terms, now };
 }
 
+test("confirm invoice payment without fabricating a receipt date", async () => {
+    const { backend, admin, terms, now, ids } = await setup();
+    const termId = await admin.mutation(api.sponsorships.terms.agree, terms);
+    const invoiceId = await admin.mutation(api.billing.invoices.issue, {
+        termId,
+        number: "TEST-CONFIRMED",
+        reference: "TEST-CONFIRMED",
+        amount: 500,
+        issuedAt: now - 86400000,
+        dueAt: now,
+        document: "invoice.pdf",
+    });
+    const id = await admin.mutation(api.billing.invoices.confirmPayment, {
+        invoiceId,
+        note: "Confirmed by the organiser; exact receipt date unavailable.",
+    });
+    const payment = await backend.run((ctx) => ctx.db.get(id));
+    expect(
+        payment && {
+            invoiceId: payment.invoiceId,
+            subjectId: payment.subjectId,
+            amount: payment.amount,
+            name: payment.name,
+            reference: payment.reference,
+            paidAt: payment.paidAt,
+            confirmation: payment.confirmation,
+            recordedBy: payment.recordedBy,
+        },
+    ).toEqual({
+        invoiceId,
+        subjectId: ids.sponsorshipId,
+        amount: 500,
+        name: "TEST-CONFIRMED",
+        reference: `confirmation:${invoiceId}`,
+        paidAt: undefined,
+        confirmation: "Confirmed by the organiser; exact receipt date unavailable.",
+        recordedBy: ids.memberId,
+    });
+    await expect(
+        admin.mutation(api.billing.invoices.confirmPayment, { invoiceId, note: "Again" }),
+    ).rejects.toThrow("this invoice is already paid");
+    await expect(
+        backend.mutation(api.billing.invoices.confirmPayment, { invoiceId, note: "Again" }),
+    ).rejects.toThrow();
+});
+
 test("test_distinguish_active_sponsors_from_hosts_on_the_map", async () => {
     const { backend, admin, ids, terms } = await setup();
     await backend.run(async (ctx) => {

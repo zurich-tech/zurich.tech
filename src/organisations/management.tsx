@@ -1,7 +1,8 @@
 import { Empty } from "../components/empty";
 import { startTransition, For, Show, Switch, Match, createMemo, createSignal } from "solid-js";
 import { OrganisationLocations } from "./locations";
-import { JobCard, SponsorshipCard } from "./employer";
+import { JobCard } from "./employer";
+import { SponsorshipManagement } from "../sponsorships/management";
 import { CompanyForm } from "./company";
 import { useEmployerWorkspace, useWorkspaceCommand } from "../app/workspace";
 import { Card } from "../components/card";
@@ -69,29 +70,11 @@ export function Management(props: {
                             </Card>
                         </Match>
                         <Match when={props.section === "sponsors"}>
-                            <Card
-                                title="Sponsors"
-                                toolbar={
-                                    <a class="action-link" href="/sponsor">
-                                        New sponsorship
-                                    </a>
-                                }
-                            >
-                                <Show when={!current().sponsorships.length}>
-                                    <Empty title="No sponsors" />
-                                </Show>
-                                <For each={current().sponsorships}>
-                                    {(sponsor) => (
-                                        <SponsorshipCard
-                                            sponsor={sponsor}
-                                            companies={current().organisations}
-                                            isAdmin={current().isAdmin}
-                                            isPending={command.isPending()}
-                                            perform={command.perform}
-                                        />
-                                    )}
-                                </For>
-                            </Card>
+                            <SponsorshipManagement
+                                workspace={current()}
+                                isPending={command.isPending()}
+                                perform={command.perform}
+                            />
                         </Match>
                         <Match when={props.section === "organisations"}>
                             <Card

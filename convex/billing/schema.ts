@@ -46,8 +46,10 @@ export const payments = defineTable({
     amount: v.number(),
     /** Purchased coverage in days; absent for original calendar-month plans. */
     durationDays: v.optional(v.number()),
-    /** Payment acceptance time in Unix milliseconds. */
-    paidAt: v.number(),
+    /** Receipt time when known; absent for administrator-confirmed invoice payments. */
+    paidAt: v.optional(v.number()),
+    /** Administrator's explanation when bank transaction details are unavailable. */
+    confirmation: v.optional(v.string()),
     /** Full refund time; excludes this payment from paid coverage. */
     refundedAt: v.optional(v.number()),
     /** Team member who recorded a manual payment. */

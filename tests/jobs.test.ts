@@ -247,7 +247,7 @@ test("test_charge_CHF_50_for_90_days_and_expire_at_the_boundary", async () => {
         ]);
         const row = (await ctx.db.get(id))!;
         const expiresAt = await jobExpiry(ctx, row);
-        expect(expiresAt).toBe(payment.paidAt + 90 * 86400000);
+        expect(expiresAt).toBe(payment.paidAt! + 90 * 86400000);
         expect(jobStatus(row, expiresAt, expiresAt! - 1)).toBe("published");
         expect(jobStatus(row, expiresAt, expiresAt!)).toBe("expired");
     });

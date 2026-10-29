@@ -18,6 +18,7 @@ export const history = query({
 
         return await Promise.all(
             rows.map(async (payment) => {
+                if (payment.paidAt === undefined) throw new Error("member payment date is missing");
                 const checkout = await ctx.db
                     .query("checkouts")
                     .withIndex("by_session", (q) => q.eq("sessionId", payment.reference))
@@ -44,6 +45,10 @@ export async function recordPayment(
     ctx: MutationCtx,
     payment: Omit<Doc<"payments">, "_id" | "_creationTime" | "refundedAt">,
 ) {
+    // require a receipt date or an explicit invoice confirmation
+    if (payment.paidAt === undefined && (!payment.invoiceId || !payment.confirmation?.trim()))
+        throw new ConvexError("enter a receipt date or invoice payment confirmation");
+
     // require a bounded payment reference
     const reference = payment.reference.trim();
     if (!reference || reference.length > 160)

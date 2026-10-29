@@ -25,15 +25,6 @@
     gap: var(--space-6);
 }
 
-.sponsor-recognition {
-    display: grid;
-    gap: var(--space-2);
-}
-
-.sponsor-recognition .social-links {
-    justify-content: center;
-}
-
 .sponsor-logo {
     display: grid;
     min-height: 64px;

@@ -17,6 +17,11 @@ export async function paidTerm(
     // order retained payments before calculating successive paid terms
     const retained = payments
         .filter((payment) => payment.refundedAt === undefined)
+        .map((payment) => {
+            if (payment.paidAt === undefined) throw new Error("coverage payment date is missing");
+
+            return { ...payment, paidAt: payment.paidAt };
+        })
         .sort(
             (left, right) => left.paidAt - right.paidAt || left._creationTime - right._creationTime,
         );

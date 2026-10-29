@@ -120,6 +120,36 @@ export const receive = mutation({
     },
 });
 
+/** Confirm an invoice's outstanding payment without inventing bank transaction details. */
+export const confirmPayment = mutation({
+    args: { invoiceId: v.id("invoices"), note: v.string() },
+    handler: async (ctx, args) => {
+        // restrict confirmations to administrators and open, unsettled invoices
+        const reviewer = await requireAdmin(ctx);
+        const invoice = await ctx.db.get(args.invoiceId);
+        if (!invoice || invoice.voidedAt) throw new ConvexError("select an open invoice");
+        const note = args.note.trim();
+        if (!note || note.length > 1000)
+            throw new ConvexError("enter a confirmation up to 1000 characters");
+        const settlement = await invoiceBalance(ctx, invoice._id);
+        if (settlement.balance <= 0) throw new ConvexError("this invoice is already paid");
+
+        // record the remaining amount with an internal reference and the administrator's note
+        const term = await ctx.db.get(invoice.termId);
+        if (!term) throw new Error("invoice agreement is missing");
+
+        return await recordPayment(ctx, {
+            invoiceId: invoice._id,
+            subjectId: term.sponsorshipId,
+            amount: settlement.balance,
+            name: invoice.number,
+            reference: `confirmation:${invoice._id}`,
+            confirmation: note,
+            recordedBy: reviewer.memberId,
+        });
+    },
+});
+
 /** Retain a returned amount without moving sponsorship dates. */
 export const refund = mutation({
     args: {
@@ -137,7 +167,7 @@ export const refund = mutation({
         if (
             !Number.isFinite(args.paidAt) ||
             args.paidAt > Date.now() ||
-            args.paidAt < payment.paidAt ||
+            (payment.paidAt !== undefined && args.paidAt < payment.paidAt) ||
             !args.reason.trim() ||
             !args.reference.trim()
         )

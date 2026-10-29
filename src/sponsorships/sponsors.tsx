@@ -4,7 +4,6 @@ import { getSponsors } from "./queries";
 import { For, Show } from "solid-js";
 
 import { tiers } from "../../convex/sponsorships/plans";
-import { SocialLinks } from "../components/social";
 import { Card } from "../components/card";
 import "./sponsors.css";
 
@@ -35,31 +34,25 @@ export function Sponsors(props: {
                         <div class="sponsor-logos" style={{ "--sponsor-columns": index() + 1 }}>
                             <For each={sponsors()?.filter((sponsor) => sponsor.tier === tier.id)}>
                                 {(sponsor) => (
-                                    <div class="sponsor-recognition">
-                                        <a
-                                            class="sponsor-logo"
-                                            href={sponsor.profileUrl ?? sponsor.website}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            title={sponsor.name}
+                                    <a
+                                        class="sponsor-logo"
+                                        href={sponsor.profileUrl ?? sponsor.website}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        title={sponsor.name}
+                                    >
+                                        <Show
+                                            when={sponsor.logoUrl}
+                                            fallback={<span>{sponsor.name}</span>}
                                         >
-                                            <Show
-                                                when={sponsor.logoUrl}
-                                                fallback={<span>{sponsor.name}</span>}
-                                            >
-                                                <Image
-                                                    src={sponsor.logoUrl}
-                                                    darkSrc={sponsor.logoDarkUrl}
-                                                    alt={sponsor.name}
-                                                    loading="lazy"
-                                                />
-                                            </Show>
-                                        </a>
-                                        <SocialLinks
-                                            name={sponsor.name}
-                                            profiles={sponsor.socials ?? {}}
-                                        />
-                                    </div>
+                                            <Image
+                                                src={sponsor.logoUrl}
+                                                darkSrc={sponsor.logoDarkUrl}
+                                                alt={sponsor.name}
+                                                loading="lazy"
+                                            />
+                                        </Show>
+                                    </a>
                                 )}
                             </For>
                             <Show
