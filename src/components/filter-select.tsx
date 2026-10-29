@@ -136,7 +136,7 @@ export function FilterSelect(props: {
                 <ChevronDown size={14} aria-hidden="true" />
             </button>
             <Show when={isOpen()}>
-                <Portal>
+                <Portal mount={trigger.closest("dialog") ?? document.body}>
                     <div
                         ref={panel}
                         id={`${id}-panel`}
