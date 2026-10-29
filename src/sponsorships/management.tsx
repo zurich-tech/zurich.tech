@@ -218,7 +218,10 @@ export function SponsorshipManagement(props: {
         >
             {(current) => (
                 <>
-                    <button class="action-link" onClick={() => setSelected(undefined)}>
+                    <button
+                        class="action-link sponsorship-back"
+                        onClick={() => setSelected(undefined)}
+                    >
                         <ArrowLeft size={16} /> Sponsors
                     </button>
                     <SponsorshipCard

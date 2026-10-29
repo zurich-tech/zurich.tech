@@ -1,6 +1,7 @@
 import { civilTime, timestamp } from "../../convex/events/time";
 import "./editor.css";
-import { For, Show, createSignal } from "solid-js";
+import { For, Show, createSignal, type JSX } from "solid-js";
+import { Pencil, Plus, ExternalLink } from "lucide-solid";
 import type { FunctionReturnType } from "convex/server";
 import { api } from "../../convex/_generated/api";
 import { memberClient } from "../auth/convex";
@@ -8,7 +9,10 @@ import type { Perform } from "../app/workspace";
 import { Editor, savedEditor } from "../components/form";
 import { Card } from "../components/card";
 import { tiers } from "../../convex/sponsorships/plans";
-import { Select } from "../components/field";
+import { FilterSelect } from "../components/filter-select";
+import { Dialog } from "../components/dialog";
+import { Image } from "../components/image";
+import { errorMessage } from "../components/errors";
 
 /** Company agreements and their invoice settlement history. */
 type Workspace = FunctionReturnType<typeof api.organisations.workspace.employer>;
@@ -61,20 +65,67 @@ export function SponsorshipCard(props: {
     const company = () =>
         props.companies.find((company) => company._id === props.sponsor.organisationId);
     return (
-        <Card title={company()?.name ?? "Sponsorship"} class="sponsorship-editor">
-            <Show when={props.isAdmin}>
-                <details>
-                    <summary>
-                        {props.sponsor.history.length ? "Renew sponsorship" : "Record agreement"}
-                    </summary>
-                    <AgreementEditor
-                        sponsorshipId={props.sponsor._id}
-                        defaultTier={props.sponsor.tier}
-                        perform={props.perform}
-                        isPending={props.isPending}
-                    />
-                </details>
+        <Card
+            title={
+                <span class="sponsorship-title">
+                    <Show when={company()?.logoUrl}>
+                        <Image src={company()!.logoUrl!} darkSrc={company()?.logoDarkUrl} alt="" />
+                    </Show>
+                    <span>
+                        {company()?.name ?? "Sponsorship"}
+                        <span class="sponsorship-recognition">
+                            <span class="sponsorship-tier">
+                                {props.sponsor.recognition ?? props.sponsor.tier}
+                            </span>
+                            <span class="text-soft">
+                                {props.sponsor.recognition
+                                    ? "Public sponsor"
+                                    : "Private sponsorship"}
+                            </span>
+                        </span>
+                    </span>
+                </span>
+            }
+            class="sponsorship-editor"
+            toolbar={
+                <Show when={company()}>
+                    {(organisation) => (
+                        <a class="action-link" href={`/organisations/${organisation().slug}`}>
+                            Organisation <ExternalLink size={14} />
+                        </a>
+                    )}
+                </Show>
+            }
+        >
+            <Show when={props.sponsor.billingEmail}>
+                <div class="sponsorship-contact">
+                    <span class="text-soft">Billing contact</span>
+                    <a href={`mailto:${props.sponsor.billingEmail}`}>
+                        {props.sponsor.billingEmail}
+                    </a>
+                </div>
             </Show>
+            <div class="sponsorship-section-heading">
+                <h3>{props.sponsor.history.length > 1 ? "Agreements" : "Agreement"}</h3>
+                <Show when={props.isAdmin}>
+                    <SponsorAction
+                        title={
+                            props.sponsor.history.length ? "Renew sponsorship" : "Record agreement"
+                        }
+                        perform={props.perform}
+                        icon={<Plus size={14} />}
+                    >
+                        {(perform) => (
+                            <AgreementEditor
+                                sponsorshipId={props.sponsor._id}
+                                defaultTier={props.sponsor.tier}
+                                perform={perform}
+                                isPending={props.isPending}
+                            />
+                        )}
+                    </SponsorAction>
+                </Show>
+            </div>
             <For each={props.sponsor.history}>
                 {(term) => (
                     <section class="sponsorship-history">
@@ -100,8 +151,12 @@ export function SponsorshipCard(props: {
                                 </dd>
                             </div>
                             <div>
-                                <dt>Contribution</dt>
-                                <dd>
+                                <dt>
+                                    {term.contribution.kind === "money"
+                                        ? "Agreed contribution"
+                                        : "In-kind contribution"}
+                                </dt>
+                                <dd class="sponsorship-contribution">
                                     {term.contribution.kind === "money"
                                         ? money(term.contribution.amount)
                                         : term.contribution.description}
@@ -116,8 +171,8 @@ export function SponsorshipCard(props: {
                                 </dd>
                             </div>
                         </dl>
-                        <details>
-                            <summary>Agreement history</summary>
+                        <details class="sponsorship-audit">
+                            <summary>Recorded agreement</summary>
                             <p class="text-soft">
                                 {term.reason} · {term.recordedByName} · {date(term.createdAt)}
                             </p>
@@ -130,138 +185,180 @@ export function SponsorshipCard(props: {
                         <Show
                             when={props.isAdmin && !term.supersededAt && term.endedAt === undefined}
                         >
-                            <details>
-                                <summary>Edit agreement</summary>
-                                <AgreementEditor
-                                    sponsorshipId={props.sponsor._id}
-                                    term={term}
+                            <div class="sponsorship-actions">
+                                <SponsorAction
+                                    title="Edit agreement"
                                     perform={props.perform}
-                                    isPending={props.isPending}
-                                />
-                            </details>
-                            <details>
-                                <summary>End agreement</summary>
-                                <Editor
-                                    class="editor"
-                                    onSubmit={(event) =>
-                                        submit(
-                                            event,
-                                            props.perform,
-                                            async (fields) =>
-                                                (await memberClient()).mutation(
-                                                    api.sponsorships.terms.end,
-                                                    {
-                                                        id: term._id,
-                                                        endedAt: day(fields, "endedAt"),
-                                                        reason: text(fields, "reason"),
-                                                    },
-                                                ),
-                                            "Agreement ended.",
-                                        )
-                                    }
+                                    icon={<Pencil size={14} />}
                                 >
-                                    <label>
-                                        End date
-                                        <input
-                                            name="endedAt"
-                                            type="date"
-                                            value={date(Date.now())}
-                                            required
+                                    {(perform) => (
+                                        <AgreementEditor
+                                            sponsorshipId={props.sponsor._id}
+                                            term={term}
+                                            perform={perform}
+                                            isPending={props.isPending}
                                         />
-                                    </label>
-                                    <label>
-                                        Reason
-                                        <input name="reason" required />
-                                    </label>
-                                    <button class="button" disabled={props.isPending}>
-                                        End agreement
-                                    </button>
-                                </Editor>
-                            </details>
+                                    )}
+                                </SponsorAction>
+                                <SponsorAction title="End agreement" perform={props.perform}>
+                                    {(perform) => (
+                                        <Editor
+                                            class="editor"
+                                            onSubmit={(event) =>
+                                                submit(
+                                                    event,
+                                                    perform,
+                                                    async (fields) =>
+                                                        (await memberClient()).mutation(
+                                                            api.sponsorships.terms.end,
+                                                            {
+                                                                id: term._id,
+                                                                endedAt: day(fields, "endedAt"),
+                                                                reason: text(fields, "reason"),
+                                                            },
+                                                        ),
+                                                    "Agreement ended.",
+                                                )
+                                            }
+                                        >
+                                            <label>
+                                                End date
+                                                <input
+                                                    name="endedAt"
+                                                    type="date"
+                                                    value={date(Date.now())}
+                                                    required
+                                                />
+                                            </label>
+                                            <label>
+                                                Reason
+                                                <input name="reason" required />
+                                            </label>
+                                            <button class="button" disabled={props.isPending}>
+                                                End agreement
+                                            </button>
+                                        </Editor>
+                                    )}
+                                </SponsorAction>
+                            </div>
                         </Show>
-                        <For each={term.invoices}>
-                            {(invoice) => (
-                                <InvoiceCard
-                                    invoice={invoice}
-                                    isAdmin={props.isAdmin}
-                                    isPending={props.isPending}
-                                    perform={props.perform}
-                                />
-                            )}
-                        </For>
-                        <Show
-                            when={
-                                props.isAdmin &&
-                                term.contribution.kind === "money" &&
-                                !term.supersededAt
-                            }
-                        >
-                            <details>
-                                <summary>Register issued invoice</summary>
-                                <Editor
-                                    class="editor"
-                                    onSubmit={(event) =>
-                                        submit(
-                                            event,
-                                            props.perform,
-                                            async (fields) =>
-                                                (await memberClient()).mutation(
-                                                    api.billing.invoices.issue,
-                                                    {
-                                                        termId: term._id,
-                                                        number: text(fields, "number"),
-                                                        reference: text(fields, "reference"),
-                                                        amount: Number(fields.get("amount")),
-                                                        issuedAt: day(fields, "issuedAt"),
-                                                        dueAt: day(fields, "dueAt"),
-                                                        document: text(fields, "document"),
-                                                    },
-                                                ),
-                                            "Invoice registered. No email sent.",
-                                        )
+                        <Show when={term.contribution.kind === "money" || term.invoices.length > 0}>
+                            <div class="sponsorship-billing">
+                                <div class="sponsorship-section-heading">
+                                    <h3>Invoices &amp; payments</h3>
+                                </div>
+                                <Show when={!term.invoices.length}>
+                                    <p class="text-soft">
+                                        {term.contribution.kind === "inKind"
+                                            ? "In-kind contribution. No invoice required."
+                                            : "No invoices recorded."}
+                                    </p>
+                                </Show>
+                                <For each={term.invoices}>
+                                    {(invoice) => (
+                                        <InvoiceCard
+                                            invoice={invoice}
+                                            isAdmin={props.isAdmin}
+                                            isPending={props.isPending}
+                                            perform={props.perform}
+                                        />
+                                    )}
+                                </For>
+                                <Show
+                                    when={
+                                        props.isAdmin &&
+                                        term.contribution.kind === "money" &&
+                                        !term.supersededAt
                                     }
                                 >
-                                    <div class="sponsorship-fields">
-                                        <label>
-                                            Invoice number
-                                            <input name="number" required />
-                                        </label>
-                                        <label>
-                                            RF payment reference
-                                            <input name="reference" required />
-                                        </label>
-                                        <label>
-                                            Amount (CHF)
-                                            <input
-                                                name="amount"
-                                                type="number"
-                                                min="0.01"
-                                                step="0.01"
-                                                required
-                                            />
-                                        </label>
-                                        <label>
-                                            Issued
-                                            <input name="issuedAt" type="date" required />
-                                        </label>
-                                        <label>
-                                            Due
-                                            <input name="dueAt" type="date" required />
-                                        </label>
-                                        <label>
-                                            PDF filename or HTTPS URL
-                                            <input name="document" required />
-                                        </label>
-                                    </div>
-                                    <p class="text-soft">
-                                        Register an existing invoice. This does not generate or send
-                                        a PDF.
-                                    </p>
-                                    <button class="button" disabled={props.isPending}>
-                                        Register invoice
-                                    </button>
-                                </Editor>
-                            </details>
+                                    <SponsorAction
+                                        title="Register issued invoice"
+                                        perform={props.perform}
+                                        icon={<Plus size={14} />}
+                                    >
+                                        {(perform) => (
+                                            <Editor
+                                                class="editor"
+                                                onSubmit={(event) =>
+                                                    submit(
+                                                        event,
+                                                        perform,
+                                                        async (fields) =>
+                                                            (await memberClient()).mutation(
+                                                                api.billing.invoices.issue,
+                                                                {
+                                                                    termId: term._id,
+                                                                    number: text(fields, "number"),
+                                                                    reference: text(
+                                                                        fields,
+                                                                        "reference",
+                                                                    ),
+                                                                    amount: Number(
+                                                                        fields.get("amount"),
+                                                                    ),
+                                                                    issuedAt: day(
+                                                                        fields,
+                                                                        "issuedAt",
+                                                                    ),
+                                                                    dueAt: day(fields, "dueAt"),
+                                                                    document: text(
+                                                                        fields,
+                                                                        "document",
+                                                                    ),
+                                                                },
+                                                            ),
+                                                        "Invoice registered. No email sent.",
+                                                    )
+                                                }
+                                            >
+                                                <div class="sponsorship-fields">
+                                                    <label>
+                                                        Invoice number
+                                                        <input name="number" required />
+                                                    </label>
+                                                    <label>
+                                                        RF payment reference
+                                                        <input name="reference" required />
+                                                    </label>
+                                                    <label>
+                                                        Amount (CHF)
+                                                        <input
+                                                            name="amount"
+                                                            type="number"
+                                                            min="0.01"
+                                                            step="0.01"
+                                                            required
+                                                        />
+                                                    </label>
+                                                    <label>
+                                                        Issued
+                                                        <input
+                                                            name="issuedAt"
+                                                            type="date"
+                                                            required
+                                                        />
+                                                    </label>
+                                                    <label>
+                                                        Due
+                                                        <input name="dueAt" type="date" required />
+                                                    </label>
+                                                    <label>
+                                                        PDF filename or HTTPS URL
+                                                        <input name="document" required />
+                                                    </label>
+                                                </div>
+                                                <p class="text-soft">
+                                                    Register an existing invoice. This does not
+                                                    generate or send a PDF.
+                                                </p>
+                                                <button class="button" disabled={props.isPending}>
+                                                    Register invoice
+                                                </button>
+                                            </Editor>
+                                        )}
+                                    </SponsorAction>
+                                </Show>
+                            </div>
                         </Show>
                     </section>
                 )}
@@ -301,7 +398,13 @@ export function SponsorshipCard(props: {
                     </button>
                 </Show>
             </Show>
-            <Show when={props.sponsor.status === "active" && !props.sponsor.isRenewalRequested}>
+            <Show
+                when={
+                    !props.isAdmin &&
+                    props.sponsor.status === "active" &&
+                    !props.sponsor.isRenewalRequested
+                }
+            >
                 <button
                     class="button"
                     disabled={props.isPending}
@@ -329,6 +432,56 @@ export function SponsorshipCard(props: {
     );
 }
 
+/** Open one edit without expanding the sponsor overview into a form. */
+function SponsorAction(props: {
+    title: string;
+    icon?: JSX.Element;
+    perform: Perform;
+    children: (perform: Perform) => JSX.Element;
+}) {
+    const [isOpen, setOpen] = createSignal(false);
+    const [error, setError] = createSignal<string>();
+    const perform: Perform = async (operation, message) => {
+        setError(undefined);
+        await props.perform(async () => {
+            try {
+                const result = await operation();
+                if (result !== false) setOpen(false);
+                return result;
+            } catch (caught) {
+                setError(errorMessage(caught, "Could not save. Try again."));
+                throw caught;
+            }
+        }, message);
+    };
+
+    return (
+        <>
+            <button type="button" class="action-link" onClick={() => setOpen(true)}>
+                {props.icon}
+                {props.title}
+            </button>
+            <Show when={isOpen()}>
+                <Dialog
+                    isOpen
+                    title={props.title}
+                    onClose={() => setOpen(false)}
+                    actions={
+                        <button type="button" class="button" onClick={() => setOpen(false)}>
+                            Cancel
+                        </button>
+                    }
+                >
+                    <Show when={error()}>
+                        <p role="alert">{error()}</p>
+                    </Show>
+                    {props.children(perform)}
+                </Dialog>
+            </Show>
+        </>
+    );
+}
+
 /** Set explicit dates, contribution and publication with an explanation for each revision. */
 function AgreementEditor(props: {
     sponsorshipId: Workspace["sponsorships"][number]["_id"];
@@ -338,6 +491,7 @@ function AgreementEditor(props: {
     isPending: boolean;
 }) {
     const [kind, setKind] = createSignal(props.term?.contribution.kind ?? "money");
+    const [tier, setTier] = createSignal(props.term?.tier ?? props.defaultTier ?? "bronze");
     return (
         <Editor
             class="editor"
@@ -368,26 +522,28 @@ function AgreementEditor(props: {
             }
         >
             <div class="sponsorship-fields">
-                <label>
-                    Tier
-                    <Select name="tier" value={props.term?.tier ?? props.defaultTier ?? "bronze"}>
-                        <For each={tiers}>
-                            {(tier) => <option value={tier.id}>{tier.name}</option>}
-                        </For>
-                    </Select>
-                </label>
-                <label>
-                    Contribution
-                    <Select
+                <div class="sponsorship-field">
+                    <span>Tier</span>
+                    <input type="hidden" name="tier" value={tier()} />
+                    <FilterSelect
+                        label="Tier"
+                        value={tier()}
+                        onChange={(value) => setTier(value as "gold" | "silver" | "bronze")}
+                        options={tiers.map((tier) => ({ value: tier.id, label: tier.name }))}
+                    />
+                </div>
+                <div class="sponsorship-field">
+                    <span>Contribution</span>
+                    <FilterSelect
+                        label="Contribution"
                         value={kind()}
-                        onChange={(event) =>
-                            setKind(event.currentTarget.value as "money" | "inKind")
-                        }
-                    >
-                        <option value="money">Money</option>
-                        <option value="inKind">In kind</option>
-                    </Select>
-                </label>
+                        onChange={(value) => setKind(value as "money" | "inKind")}
+                        options={[
+                            { value: "money", label: "Money" },
+                            { value: "inKind", label: "In kind" },
+                        ]}
+                    />
+                </div>
                 <Show
                     when={kind() === "money"}
                     fallback={
@@ -477,31 +633,60 @@ function InvoiceCard(props: {
     const invoice = () => props.invoice;
     return (
         <section class="sponsorship-invoice">
-            <h4>
-                {invoice().number} ·{" "}
-                {invoice().voidedAt
-                    ? "Void"
-                    : invoice().balance < 0
-                      ? "Overpaid"
-                      : invoice().balance === 0
-                        ? "Paid"
-                        : invoice().received > 0
-                          ? "Part paid"
-                          : "Unpaid"}
-            </h4>
-            <p>
-                {money(invoice().amount)} · Due {date(invoice().dueAt)} · Balance{" "}
-                {money(invoice().balance)}
-            </p>
-            <p class="text-soft">
-                {invoice().reference} · {invoice().document}
-            </p>
+            <div class="sponsorship-invoice-heading">
+                <h4>{invoice().number}</h4>
+                <span
+                    class="sponsorship-payment-status"
+                    classList={{ "is-paid": !invoice().voidedAt && invoice().balance === 0 }}
+                >
+                    {invoice().voidedAt
+                        ? "Void"
+                        : invoice().balance < 0
+                          ? "Overpaid"
+                          : invoice().balance === 0
+                            ? "Paid"
+                            : invoice().received > 0
+                              ? "Part paid"
+                              : "Unpaid"}
+                </span>
+            </div>
+            <dl class="sponsorship-facts sponsorship-invoice-facts">
+                <div>
+                    <dt>Amount</dt>
+                    <dd>{money(invoice().amount)}</dd>
+                </div>
+                <div>
+                    <dt>Issued</dt>
+                    <dd>{date(invoice().issuedAt)}</dd>
+                </div>
+                <div>
+                    <dt>Due</dt>
+                    <dd>{date(invoice().dueAt)}</dd>
+                </div>
+                <div>
+                    <dt>Outstanding</dt>
+                    <dd>{money(invoice().balance)}</dd>
+                </div>
+            </dl>
+            <details class="sponsorship-audit">
+                <summary>Invoice details</summary>
+                <dl class="sponsorship-facts">
+                    <div>
+                        <dt>Payment reference</dt>
+                        <dd>{invoice().reference}</dd>
+                    </div>
+                    <div>
+                        <dt>Document</dt>
+                        <dd>{invoice().document}</dd>
+                    </div>
+                </dl>
+            </details>
             <Show when={invoice().voidReason}>
                 <p>{invoice().voidReason}</p>
             </Show>
             <For each={invoice().payments}>
                 {(payment) => (
-                    <div>
+                    <div class="sponsorship-receipt">
                         <p>
                             {payment.confirmation ? "Confirmed" : "Received"}{" "}
                             {money(payment.amount)}
@@ -519,131 +704,146 @@ function InvoiceCard(props: {
                             )}
                         </For>
                         <Show when={props.isAdmin}>
-                            <details>
-                                <summary>Record refund</summary>
-                                <Editor
-                                    class="editor"
-                                    onSubmit={(event) =>
-                                        submit(
-                                            event,
-                                            props.perform,
-                                            async (fields) =>
-                                                (await memberClient()).mutation(
-                                                    api.billing.invoices.refund,
-                                                    {
-                                                        paymentId: payment._id,
-                                                        amount: Number(fields.get("amount")),
-                                                        paidAt: day(fields, "paidAt"),
-                                                        reference: text(fields, "reference"),
-                                                        reason: text(fields, "reason"),
-                                                    },
-                                                ),
-                                            "Refund recorded.",
-                                        )
-                                    }
-                                >
-                                    <ReceiptFields />
-                                    <label>
-                                        Reason
-                                        <input name="reason" required />
-                                    </label>
-                                    <button class="button" disabled={props.isPending}>
-                                        Record refund
-                                    </button>
-                                </Editor>
-                            </details>
+                            <SponsorAction title="Record refund" perform={props.perform}>
+                                {(perform) => (
+                                    <Editor
+                                        class="editor"
+                                        onSubmit={(event) =>
+                                            submit(
+                                                event,
+                                                perform,
+                                                async (fields) =>
+                                                    (await memberClient()).mutation(
+                                                        api.billing.invoices.refund,
+                                                        {
+                                                            paymentId: payment._id,
+                                                            amount: Number(fields.get("amount")),
+                                                            paidAt: day(fields, "paidAt"),
+                                                            reference: text(fields, "reference"),
+                                                            reason: text(fields, "reason"),
+                                                        },
+                                                    ),
+                                                "Refund recorded.",
+                                            )
+                                        }
+                                    >
+                                        <ReceiptFields />
+                                        <label>
+                                            Reason
+                                            <input name="reason" required />
+                                        </label>
+                                        <button class="button" disabled={props.isPending}>
+                                            Record refund
+                                        </button>
+                                    </Editor>
+                                )}
+                            </SponsorAction>
                         </Show>
                     </div>
                 )}
             </For>
             <Show when={props.isAdmin && !invoice().voidedAt}>
-                <Show when={invoice().balance > 0}>
-                    <details>
-                        <summary>Confirm paid</summary>
-                        <Editor
-                            class="editor"
-                            onSubmit={(event) =>
-                                submit(
-                                    event,
-                                    props.perform,
-                                    async (fields) =>
-                                        (await memberClient()).mutation(
-                                            api.billing.invoices.confirmPayment,
-                                            {
-                                                invoiceId: invoice()._id,
-                                                note: text(fields, "note"),
-                                            },
-                                        ),
-                                    "Payment confirmed.",
-                                )
-                            }
-                        >
-                            <p>Confirm the remaining {money(invoice().balance)} was received.</p>
-                            <label>
-                                Confirmation note
-                                <textarea name="note" required maxLength={1000} />
-                            </label>
-                            <button class="button" disabled={props.isPending}>
-                                Confirm paid
-                            </button>
-                        </Editor>
-                    </details>
-                </Show>
-                <details>
-                    <summary>Record payment</summary>
-                    <Editor
-                        class="editor"
-                        onSubmit={(event) =>
-                            submit(
-                                event,
-                                props.perform,
-                                async (fields) =>
-                                    (await memberClient()).mutation(api.billing.invoices.receive, {
-                                        invoiceId: invoice()._id,
-                                        amount: Number(fields.get("amount")),
-                                        paidAt: day(fields, "paidAt"),
-                                        reference: text(fields, "reference"),
-                                    }),
-                                "Payment recorded.",
-                            )
-                        }
-                    >
-                        <ReceiptFields />
-                        <p class="text-soft">
-                            Record money actually received. Use the bank transaction reference, not
-                            the invoice’s RF reference.
-                        </p>
-                        <button class="button" disabled={props.isPending}>
-                            Record payment
-                        </button>
-                    </Editor>
-                </details>
-                <details>
-                    <summary>Void invoice</summary>
-                    <Editor
-                        class="editor"
-                        onSubmit={(event) =>
-                            submit(
-                                event,
-                                props.perform,
-                                async (fields) =>
-                                    (await memberClient()).mutation(
-                                        api.billing.invoices.voidInvoice,
-                                        { id: invoice()._id, reason: text(fields, "reason") },
-                                    ),
-                                "Invoice voided.",
-                            )
-                        }
-                    >
-                        <label>
-                            Reason
-                            <input name="reason" required />
-                        </label>
-                        <button class="button" disabled={props.isPending}>
-                            Void invoice
-                        </button>
-                    </Editor>
-                </details>
+                <div class="sponsorship-actions">
+                    <Show when={invoice().balance > 0}>
+                        <SponsorAction title="Confirm paid" perform={props.perform}>
+                            {(perform) => (
+                                <Editor
+                                    class="editor"
+                                    onSubmit={(event) =>
+                                        submit(
+                                            event,
+                                            perform,
+                                            async (fields) =>
+                                                (await memberClient()).mutation(
+                                                    api.billing.invoices.confirmPayment,
+                                                    {
+                                                        invoiceId: invoice()._id,
+                                                        note: text(fields, "note"),
+                                                    },
+                                                ),
+                                            "Payment confirmed.",
+                                        )
+                                    }
+                                >
+                                    <p>
+                                        Confirm the remaining {money(invoice().balance)} was
+                                        received.
+                                    </p>
+                                    <label>
+                                        Confirmation note
+                                        <textarea name="note" required maxLength={1000} />
+                                    </label>
+                                    <button class="button" disabled={props.isPending}>
+                                        Confirm paid
+                                    </button>
+                                </Editor>
+                            )}
+                        </SponsorAction>
+                    </Show>
+                    <SponsorAction title="Record payment" perform={props.perform}>
+                        {(perform) => (
+                            <Editor
+                                class="editor"
+                                onSubmit={(event) =>
+                                    submit(
+                                        event,
+                                        perform,
+                                        async (fields) =>
+                                            (await memberClient()).mutation(
+                                                api.billing.invoices.receive,
+                                                {
+                                                    invoiceId: invoice()._id,
+                                                    amount: Number(fields.get("amount")),
+                                                    paidAt: day(fields, "paidAt"),
+                                                    reference: text(fields, "reference"),
+                                                },
+                                            ),
+                                        "Payment recorded.",
+                                    )
+                                }
+                            >
+                                <ReceiptFields />
+                                <p class="text-soft">
+                                    Record money actually received. Use the bank transaction
+                                    reference, not the invoice’s RF reference.
+                                </p>
+                                <button class="button" disabled={props.isPending}>
+                                    Record payment
+                                </button>
+                            </Editor>
+                        )}
+                    </SponsorAction>
+                    <SponsorAction title="Void invoice" perform={props.perform}>
+                        {(perform) => (
+                            <Editor
+                                class="editor"
+                                onSubmit={(event) =>
+                                    submit(
+                                        event,
+                                        perform,
+                                        async (fields) =>
+                                            (await memberClient()).mutation(
+                                                api.billing.invoices.voidInvoice,
+                                                {
+                                                    id: invoice()._id,
+                                                    reason: text(fields, "reason"),
+                                                },
+                                            ),
+                                        "Invoice voided.",
+                                    )
+                                }
+                            >
+                                <label>
+                                    Reason
+                                    <input name="reason" required />
+                                </label>
+                                <button class="button" disabled={props.isPending}>
+                                    Void invoice
+                                </button>
+                            </Editor>
+                        )}
+                    </SponsorAction>
+                </div>
             </Show>
         </section>
     );

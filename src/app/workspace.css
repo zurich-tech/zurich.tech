@@ -330,8 +330,8 @@
     min-width: min(100%, 240px);
 }
 
-/* fit location, agreement and schedule fields to their available panel width */
-.admin-content :is(.form-columns, .sponsorship-fields) {
+/* fit location and schedule fields to their available panel width */
+.admin-content .form-columns {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
     gap: 16px;
     align-items: start;
