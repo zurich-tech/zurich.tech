@@ -6,6 +6,9 @@ import github from "./assets/social/github.svg?raw";
 import x from "./assets/social/x.svg?raw";
 import discord from "./assets/social/discord.svg?raw";
 import website from "./assets/social/website.svg?raw";
+import scholar from "./assets/social/scholar.svg?raw";
+import bluesky from "./assets/social/bluesky.svg?raw";
+import orcid from "./assets/social/orcid.svg?raw";
 
 /** Recognised profile destinations and their accessible labels. */
 const platforms = [
@@ -14,6 +17,15 @@ const platforms = [
     { id: "x", label: "Twitter", icon: x },
     { id: "discord", label: "Discord", icon: discord },
     { id: "website", label: "Website", icon: website },
+] as const;
+
+/** Additional public link destinations, using Simple Icons (CC0). */
+const linkPlatforms = [
+    { hostname: "scholar.google.com", label: "Google Scholar", icon: scholar },
+    { hostname: "bsky.app", label: "Bluesky", icon: bluesky },
+    { hostname: "orcid.org", label: "ORCID", icon: orcid },
+    { hostname: "discord.com", label: "Discord", icon: discord },
+    { hostname: "discord.gg", label: "Discord", icon: discord },
 ] as const;
 
 /** Verified public profiles, omitting platforms without a known account. */
@@ -40,6 +52,11 @@ export function SocialLinks(props: {
         // retain every supplied destination, including additional personal websites
         return props.profiles.map((url) => {
             const hostname = new URL(url).hostname.replace(/^www\./, "");
+            const destination = linkPlatforms.find((platform) => platform.hostname === hostname);
+
+            // recognise services beyond the editable account fields
+            if (destination) return { ...destination, url };
+
             const id =
                 hostname === "github.com"
                     ? "github"
