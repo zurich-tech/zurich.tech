@@ -386,6 +386,7 @@ export async function addBadges(
             consumers.set(person.id, groups);
         }
     }
+    // prioritise sponsors whose logos remain visible at every zoom level
     const downloads = [
         ...new Map(
             [...missing, ...stacks.flatMap((stack) => stack.people)].map((person) => [
@@ -393,7 +394,7 @@ export async function addBadges(
                 person,
             ]),
         ).values(),
-    ];
+    ].sort((left, right) => Number(Boolean(right.isSponsor)) - Number(Boolean(left.isSponsor)));
 
     // bound downloads and decoding rather than flooding a phone with every logo at once
     let next = 0;
