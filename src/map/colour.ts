@@ -10,6 +10,11 @@ export function logoBackground(image: HTMLImageElement): string {
 
 /** Use matching opaque corners as the background; keep transparent or varied artwork on white. */
 export function cornerColour(image: ImageData): string {
+    // preserve transparent gaps even when the artwork fills every corner
+    for (let offset = 3; offset < image.data.length; offset += 4) {
+        if (image.data[offset] < 250) return "#ffffff";
+    }
+
     const corners = [
         0,
         image.width - 1,
@@ -17,7 +22,6 @@ export function cornerColour(image: ImageData): string {
         image.width * image.height - 1,
     ];
     const colours = corners.map((pixel) => Array.from(image.data.slice(pixel * 4, pixel * 4 + 4)));
-    if (colours.some((colour) => colour[3] < 250)) return "#ffffff";
 
     // reject photographs and artwork without a consistent background
     const channels = [0, 1, 2].map((channel) => colours.map((colour) => colour[channel]));

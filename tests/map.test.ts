@@ -322,6 +322,18 @@ test("test_match_solid_logo_backgrounds_without_recolouring_transparent_or_varie
     ).toBe("#ffffff");
 });
 
+test("test_keep_transparent_logo_interiors_white_with_opaque_matching_corners", () => {
+    const pixels = Array.from({ length: 9 }, () => [31, 71, 125, 255]);
+    pixels[4] = [0, 0, 0, 0];
+    const image = {
+        width: 3,
+        height: 3,
+        data: new Uint8ClampedArray(pixels.flat()),
+    } as ImageData;
+
+    expect(cornerColour(image)).toBe("#ffffff");
+});
+
 test("test_keep_large_shared_addresses_as_one_anchored_marker", () => {
     const properties = new Map<string, unknown>();
     let source: unknown;
