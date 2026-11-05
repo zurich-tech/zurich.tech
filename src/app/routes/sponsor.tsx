@@ -9,7 +9,7 @@ import { Arrow } from "../../components/arrow";
 import { StatisticsOverview } from "../../statistics/overview";
 import { getStatistics, getAudience } from "../../statistics/queries";
 import { CommunityAudience } from "../../statistics/audience";
-import { tiers, personalTiers } from "../../../convex/sponsorships/plans";
+import { tiers } from "../../../convex/sponsorships/plans";
 import { Page, PageHeader } from "../page";
 import { Seo } from "../seo";
 import "../sponsor-route.css";
@@ -136,34 +136,6 @@ export default function Route() {
 
                 {/* current supporters */}
                 <Sponsors isFullPage />
-
-                {/* personal support as one strip */}
-                <For each={personalTiers}>
-                    {(tier) => (
-                        <section
-                            class="sponsorship-personal"
-                            aria-labelledby={`personal-${tier.id}`}
-                        >
-                            <div>
-                                <h2 id={`personal-${tier.id}`}>
-                                    Become a {tier.name.toLowerCase()}
-                                </h2>
-                                <p>
-                                    {tier.recognition}, and a {tier.name.toLowerCase()} badge on
-                                    your profile.
-                                </p>
-                            </div>
-                            <p class="sponsorship-price">
-                                <span>CHF</span>
-                                <strong>{tier.price}</strong>
-                                <span>/ year</span>
-                            </p>
-                            <button class="button" disabled>
-                                Coming soon
-                            </button>
-                        </section>
-                    )}
-                </For>
             </Page>
             <SponsorshipContact
                 isOpen={inquiry() !== undefined}

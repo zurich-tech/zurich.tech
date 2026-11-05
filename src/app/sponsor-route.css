@@ -41,8 +41,7 @@
 }
 
 .sponsorship-section-heading p,
-.sponsorship-purpose,
-.sponsorship-personal > div > p {
+.sponsorship-purpose {
     color: var(--color-soft);
 }
 
@@ -184,22 +183,6 @@
     justify-content: space-between;
 }
 
-/* give individual support its own quiet full-width section */
-.sponsorship-personal {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
-    align-items: center;
-    gap: var(--space-6);
-    border-block: var(--rule) solid var(--color-line);
-    padding-block: var(--space-6);
-}
-
-.sponsorship-personal > div {
-    display: grid;
-    gap: var(--space-2);
-    max-width: 540px;
-}
-
 @media (max-width: 800px) {
     .sponsorship-plans {
         grid-template-columns: minmax(0, 1fr);
@@ -226,23 +209,11 @@
         gap: var(--space-4);
         min-height: 0;
     }
-
-    .sponsorship-personal {
-        grid-template-columns: minmax(0, 1fr) auto;
-    }
-
-    .sponsorship-personal > div {
-        grid-column: 1 / -1;
-    }
 }
 
 @media (max-width: 480px) {
     .page.sponsorship-route {
         gap: var(--space-8);
-    }
-
-    .sponsorship-personal {
-        gap: var(--space-4);
     }
 }
 .sponsorship-contact {
