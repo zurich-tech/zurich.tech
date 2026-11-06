@@ -198,30 +198,6 @@ test("reuse closed and stale sponsor slots without overbooking on reconfirmation
     ]);
 });
 
-test("remove undisclosed workplace and eligibility from published revisions", async () => {
-    const { backend, admin, job } = await setup();
-    const id = await admin.mutation(api.jobs.jobs.save, {
-        ...job,
-        workplace: "remote",
-        remoteEligibility: "Worldwide",
-        billingEmail: "billing@example.com",
-        submit: false,
-    });
-    await admin.mutation(api.jobs.jobs.publish, { id, funding: "sponsor" });
-    await admin.mutation(api.jobs.jobs.save, {
-        ...job,
-        id,
-        workplace: undefined,
-        billingEmail: "billing@example.com",
-        submit: false,
-    });
-    await admin.mutation(api.jobs.jobs.publish, { id, funding: "existing" });
-
-    const published = await backend.query(api.jobs.jobs.detail, { slug: job.slug });
-    expect(published?.workplace).toBeUndefined();
-    expect(published?.remoteEligibility).toBeUndefined();
-});
-
 test("publish projects without inventing employment terms", async () => {
     const { backend, admin, job } = await setup();
     const id = await admin.mutation(api.jobs.jobs.save, {

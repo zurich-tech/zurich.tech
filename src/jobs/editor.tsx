@@ -41,7 +41,7 @@ export function JobForm(props: {
     );
     const [description, setDescription] = createSignal(props.draft?.description ?? "");
     const [application, setApplication] = createSignal(props.draft?.application.kind ?? "url");
-    const [workplace, setWorkplace] = createSignal(props.draft?.workplace ?? "");
+    const [workplace, setWorkplace] = createSignal(props.draft?.workplace ?? "onsite");
     const [duration, setDuration] = createSignal(props.draft?.duration?.kind ?? "");
     return (
         <Editor
@@ -275,15 +275,18 @@ export function JobForm(props: {
                             <Select
                                 name="workplace"
                                 value={workplace()}
-                                onChange={(event) => setWorkplace(event.currentTarget.value)}
+                                onChange={(event) =>
+                                    setWorkplace(
+                                        event.currentTarget.value as "onsite" | "hybrid" | "remote",
+                                    )
+                                }
                             >
-                                <option value="">Not specified</option>
                                 <option value="onsite">On-site</option>
                                 <option value="hybrid">Hybrid</option>
                                 <option value="remote">Remote</option>
                             </Select>
                         </label>
-                        <Show when={workplace() === "hybrid" || workplace() === "remote"}>
+                        <Show when={workplace() !== "onsite"}>
                             <label>
                                 Remote eligibility
                                 <Input

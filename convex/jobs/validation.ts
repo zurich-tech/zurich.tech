@@ -39,11 +39,7 @@ export function normalizeJob(job: Job): Job {
         throw new ConvexError("Enter valid cities and countries.");
     if (job.workplace !== "remote" && !locations.length)
         throw new ConvexError("Enter at least one workplace location.");
-    if (
-        job.remoteEligibility &&
-        (!(job.workplace === "hybrid" || job.workplace === "remote") ||
-            job.remoteEligibility.length > 300)
-    )
+    if (job.remoteEligibility && (job.workplace === "onsite" || job.remoteEligibility.length > 300))
         throw new ConvexError(
             "Remote eligibility requires a hybrid or remote role and at most 300 characters.",
         );
@@ -82,7 +78,6 @@ export function normalizeJob(job: Job): Job {
         summary: job.summary.trim(),
         description: job.description.trim(),
         locations,
-        workplace: job.workplace,
         topics: list(job.topics, 12, 80),
         skills: list(job.skills, 20, 60),
         languages: list(job.languages, 12, 60),

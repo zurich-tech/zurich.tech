@@ -191,9 +191,7 @@ export const publish = mutation({
 
         // publish the approved revision and renew its freshness timestamp
         await ctx.db.patch(row._id, {
-            ...Object.fromEntries(
-                Object.keys(jobFields).map((key) => [key, revision[key as keyof typeof jobFields]]),
-            ),
+            ...(row.draft ?? {}),
             updatedBy: reviewer.memberId,
             status: "published",
             draft: undefined,
