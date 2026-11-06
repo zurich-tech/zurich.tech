@@ -192,6 +192,7 @@ export const publish = mutation({
         // publish the approved revision and renew its freshness timestamp
         await ctx.db.patch(row._id, {
             ...(row.draft ?? {}),
+            remoteEligibility: revision.remoteEligibility,
             updatedBy: reviewer.memberId,
             status: "published",
             draft: undefined,
