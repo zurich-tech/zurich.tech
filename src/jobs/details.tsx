@@ -24,7 +24,7 @@ export function JobDetails(props: { job: Job; isPreview?: boolean; actions?: JSX
                 summary={
                     <>
                         <a href={`/organisations/${item().company.slug}`}>{item().company.name}</a>
-                        {` · ${locationsLabel(item().locations) || workplaces[item().workplace]}`}
+                        {` · ${locationsLabel(item().locations) || (item().workplace ? workplaces[item().workplace!] : "")}`}
                     </>
                 }
             >

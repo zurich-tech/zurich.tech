@@ -61,13 +61,14 @@ export default function Route() {
                 description: text("description"),
                 summary: text("summary"),
                 locations: JSON.parse(text("locations")),
-                workplace: text("workplace") as "onsite" | "hybrid" | "remote",
+                workplace: (text("workplace") || undefined) as
+                    "onsite" | "hybrid" | "remote" | undefined,
                 remoteEligibility:
-                    text("workplace") === "onsite"
-                        ? undefined
-                        : text("remoteEligibility") || undefined,
+                    text("workplace") === "hybrid" || text("workplace") === "remote"
+                        ? text("remoteEligibility") || undefined
+                        : undefined,
                 engagement: text("engagement") as
-                    "employment" | "internship" | "apprenticeship" | "freelance",
+                    "employment" | "internship" | "apprenticeship" | "freelance" | "project",
                 duration:
                     text("duration") === "permanent"
                         ? { kind: "permanent" }

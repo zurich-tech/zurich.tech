@@ -42,7 +42,7 @@ export function jobFacts(
     job: Pick<Job, "workplace" | "engagement" | "workload" | "compensation">,
 ): string[] {
     return [
-        workplaces[job.workplace],
+        job.workplace ? workplaces[job.workplace] : undefined,
         engagements[job.engagement],
         job.workload ? `${rangeLabel(job.workload)}%` : undefined,
         job.compensation?.salary ? `${salaryLabel(job.compensation.salary)} gross` : undefined,

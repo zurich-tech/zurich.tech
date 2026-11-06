@@ -12,7 +12,7 @@ export const jobFields = {
     summary: v.string(),
     description: v.string(),
     locations: v.array(v.object(localityFields)),
-    workplace: v.union(v.literal("onsite"), v.literal("hybrid"), v.literal("remote")),
+    workplace: v.optional(v.union(v.literal("onsite"), v.literal("hybrid"), v.literal("remote"))),
     remoteEligibility: v.optional(v.string()),
     engagement: v.union(
         v.literal("employment"),
