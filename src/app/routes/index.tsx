@@ -7,6 +7,7 @@ import { getCalendar, getGallery } from "../../events/queries";
 import { getHeadlines } from "../../news/queries";
 import { getSeries } from "../../organisations/queries";
 import { getJobs } from "../../jobs/queries";
+import { selectJobs } from "../../../convex/jobs/selection";
 import { ArticleList } from "../../news/article";
 import { Newsletter } from "../../mail/newsletter";
 import { For, Show } from "solid-js";
@@ -82,7 +83,7 @@ export default function Route() {
                                     }
                                 >
                                     <div class="jobs-overview-list">
-                                        <For each={listings().slice(0, 10)}>
+                                        <For each={selectJobs(listings())}>
                                             {(job) => <JobEntry job={job} isCompact />}
                                         </For>
                                     </div>

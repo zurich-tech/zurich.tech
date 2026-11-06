@@ -134,7 +134,8 @@ test("test_include_bounded_jobs_sponsors_and_full_followup_participation", () =>
         expect(content).toContain("Help out");
         expect(content).toContain("Sponsors");
         expect(content).toContain("Role 2");
-        expect(content).toContain("Role 5");
+        expect(content).toContain("Role 3");
+        expect(content).not.toContain("Role 4");
         expect(content).not.toContain("Role 6");
         expect(content).toContain("All jobs");
     }
@@ -176,10 +177,10 @@ test("test_include_bounded_jobs_sponsors_and_full_followup_participation", () =>
             const included = jobs
                 .filter((job) => content.includes(job.title))
                 .map((job) => job.slug);
-            expect(included).toEqual(["role-0", "role-1", "role-2", "role-3", "role-4", "role-5"]);
+            expect(included).toEqual(["role-0", "role-1", "role-2", "role-3"]);
             expect(content.indexOf("Get involved")).toBeLessThan(content.indexOf("Sponsor &"));
             expect(content.indexOf("Sponsor &")).toBeLessThan(content.indexOf("Role 0"));
-            expect(content.indexOf("Role 5")).toBeLessThan(content.indexOf("All jobs"));
+            expect(content.indexOf("Role 3")).toBeLessThan(content.indexOf("All jobs"));
         }
     }
 

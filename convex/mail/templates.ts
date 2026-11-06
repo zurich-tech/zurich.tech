@@ -1,4 +1,5 @@
 import { locationsLabel, jobFacts } from "../jobs/format";
+import { selectJobs } from "../jobs/selection";
 import { newsPath } from "../news/path";
 import { markdown, excerpt } from "./markdown";
 import type { openJobs } from "../jobs/jobs";
@@ -588,19 +589,6 @@ export function newsSentence(description: string): string {
     }
 
     return "";
-}
-
-/** Select at most two jobs per organisation, retaining the newest-first input order. */
-function selectJobs(jobs: NonNullable<Parameters<typeof newsletterEdition>[2]>) {
-    const counts = new Map<string, number>();
-
-    // use organisation identity rather than potentially shared display names
-    return jobs.filter((job) => {
-        const count = counts.get(job.company.slug) ?? 0;
-        counts.set(job.company.slug, count + 1);
-
-        return count < 2;
-    });
 }
 
 /** Render eligible sponsor logos in tier order for newsletters and event emails. */
