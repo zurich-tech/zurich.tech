@@ -19,6 +19,7 @@ export const jobFields = {
         v.literal("internship"),
         v.literal("apprenticeship"),
         v.literal("freelance"),
+        v.literal("project"),
     ),
     duration: v.optional(
         v.union(

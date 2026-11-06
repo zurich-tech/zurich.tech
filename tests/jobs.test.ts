@@ -198,6 +198,22 @@ test("reuse closed and stale sponsor slots without overbooking on reconfirmation
     ]);
 });
 
+test("publish projects without inventing employment terms", async () => {
+    const { backend, admin, job } = await setup();
+    const id = await admin.mutation(api.jobs.jobs.save, {
+        ...job,
+        engagement: "project",
+        billingEmail: "billing@example.com",
+        submit: false,
+    });
+    await admin.mutation(api.jobs.jobs.publish, { id, funding: "sponsor" });
+
+    const [published] = await backend.query(api.jobs.jobs.list, {});
+    expect(published?.engagement).toBe("project");
+    expect(published?.compensation).toBeUndefined();
+    expect(published?.workload).toBeUndefined();
+});
+
 test("allow admin publication during recognition without changing sponsorship dates", async () => {
     const { backend, admin, job } = await setup();
     const startsAt = Date.now() + 14 * 86400000;
