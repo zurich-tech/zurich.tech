@@ -132,7 +132,7 @@ function JobList(props: { jobs: Job[] }) {
                                     value={engagement()}
                                     onChange={setEngagement}
                                     options={[
-                                        { value: "all", label: "All employment" },
+                                        { value: "all", label: "All types" },
                                         ...Object.entries(engagements).map(([value, label]) => ({
                                             value,
                                             label,
