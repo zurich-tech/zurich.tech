@@ -9,6 +9,8 @@ export function Metric(props: {
     value: string;
     /** Optional detail destination. */
     href?: string;
+    /** Handle selection within the current page. */
+    onClick?: JSX.EventHandlerUnion<HTMLAnchorElement, MouseEvent>;
     /** Optional fragment target. */
     id?: string;
     /** Whether this metric selects the current detail view. */
@@ -39,6 +41,7 @@ export function Metric(props: {
     return (
         <a
             href={props.href}
+            onClick={props.onClick}
             id={props.id}
             class="metric"
             aria-current={props.isSelected ? "true" : undefined}

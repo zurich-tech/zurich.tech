@@ -18,6 +18,7 @@ export default function Route() {
     const statistics = getStatistics.use(() => []);
     const location = useLocation();
     const [isMounted, setMounted] = createSignal(false);
+    const [selection, setSelection] = createSignal<string>();
     onMount(() => setMounted(true));
 
     // compare every metric against the same calendar extent
@@ -36,7 +37,11 @@ export default function Route() {
 
     // resolve the fragment after hydration because the server never receives it
     const selected = () =>
-        metrics.find((metric) => isMounted() && `#${metric.id}` === location.hash) ?? metrics[0];
+        metrics.find((metric) =>
+            selection()
+                ? metric.id === selection()
+                : isMounted() && `#${metric.id}` === location.hash,
+        ) ?? metrics[0];
 
     return (
         <>
@@ -52,6 +57,7 @@ export default function Route() {
                             <StatisticsOverview
                                 statistics={current()}
                                 selected={selected().field}
+                                onSelect={setSelection}
                             />
                             <Card
                                 title={selected().label}

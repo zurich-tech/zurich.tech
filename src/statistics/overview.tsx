@@ -17,6 +17,8 @@ export function StatisticsOverview(props: {
     statistics: FunctionReturnType<typeof api.statistics.queries.community>;
     /** Metric currently displayed on the statistics page. */
     selected?: string;
+    /** Select a metric without navigating away from the current view. */
+    onSelect?: (id: string) => void;
     /** Use smaller totals in audience overviews. */
     compact?: boolean;
 }) {
@@ -31,6 +33,18 @@ export function StatisticsOverview(props: {
                     <Metric
                         id={metric.id}
                         href={`/stats#${metric.id}`}
+                        onClick={(event) => {
+                            if (
+                                !props.onSelect ||
+                                event.metaKey ||
+                                event.ctrlKey ||
+                                event.shiftKey ||
+                                event.altKey
+                            )
+                                return;
+                            event.preventDefault();
+                            props.onSelect(metric.id);
+                        }}
                         isSelected={props.selected === metric.field}
                         label={metric.label}
                         value={props.statistics.totals[metric.field].toLocaleString("en-CH")}
