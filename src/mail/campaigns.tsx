@@ -469,7 +469,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                 }
             >
                 <Show
-                    when={canEdit()}
+                    when={canEdit() && (selected() === "new" || !!detail())}
                     fallback={
                         <Show
                             when={current()?.status !== "draft"}
@@ -541,7 +541,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                 required
                                 maxLength={10000}
                                 rows={8}
-                                value={current()?.message ?? ""}
+                                value={detail()?.message ?? ""}
                             />
                         </label>
                     </Editor>

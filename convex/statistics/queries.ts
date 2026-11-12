@@ -1,7 +1,8 @@
 import { isListed } from "../events/visibility";
 import { eventAttribution } from "../events/attribution";
 import { query, internalMutation, type QueryCtx } from "../_generated/server";
-import { cumulative, currentPoint, date, growth, subscriberHistory, eventHistory } from "./history";
+import { cumulative, currentPoint, date, growth, eventHistory } from "./history";
+import { history as subscriptionHistory } from "./subscriptions";
 
 /** Public events marking the community's series launches and featured talk. */
 const milestoneEvents = [
@@ -13,10 +14,10 @@ const milestoneEvents = [
 
 /** Read totals and dated records without exposing identities through the public query. */
 async function records(ctx: QueryCtx) {
-    const [events, subscriptions, registrations, series] = await Promise.all([
+    const [events, totals, registrations, series] = await Promise.all([
         ctx.db.query("events").collect(),
-        ctx.db.query("subscriptions").collect(),
-        ctx.db.query("registrations").collect(),
+        ctx.db.query("communityTotals").unique(),
+        ctx.db.query("registrationDays").collect(),
         ctx.db.query("series").collect(),
     ]);
     const past = events.filter(
@@ -43,12 +44,11 @@ async function records(ctx: QueryCtx) {
                 : [];
         }),
         attributed,
-        subscriptions,
         registrations: publicRegistrations,
         totals: {
             events: past.length,
-            subscribers: subscriptions.filter((row) => row.status === "subscribed").length,
-            registrations: publicRegistrations.length,
+            subscribers: totals?.subscribers ?? 0,
+            registrations: publicRegistrations.reduce((total, row) => total + row.count, 0),
         },
     };
 }
@@ -57,12 +57,9 @@ async function records(ctx: QueryCtx) {
 export const subscribers = query({
     args: {},
     handler: async (ctx) => {
-        const rows = await ctx.db
-            .query("subscriptions")
-            .withIndex("by_status", (q) => q.eq("status", "subscribed"))
-            .collect();
+        const totals = await ctx.db.query("communityTotals").unique();
 
-        return rows.length;
+        return totals?.subscribers ?? 0;
     },
 });
 
@@ -75,15 +72,15 @@ export const community = query({
         const history = {
             events: eventHistory(current.attributed, now),
             subscribers: currentPoint(
-                subscriberHistory(current.subscriptions, now),
+                await subscriptionHistory(ctx, now),
                 current.totals.subscribers,
                 now,
             ),
             registrations: currentPoint(
                 cumulative(
                     current.registrations.map((registration) => ({
-                        at: registration.createdAt,
-                        value: 1,
+                        at: Date.parse(`${registration.date}T12:00:00Z`),
+                        value: registration.count,
                     })),
                 ),
                 current.totals.registrations,

@@ -76,7 +76,7 @@ test("test_redirect_legacy_and_incorrect_dates_permanently_without_touching_othe
 
 test("test_keep_backfill_url_date_when_display_date_changes_or_story_is_republished", async () => {
     const backend = convexTest(schema, modules);
-    await backend.run(async (ctx) => {
+    const organisationId = await backend.run(async (ctx) => {
         const id = await member(ctx, { name: "Editor", searchText: "", visibility: "public" });
         await ctx.db.insert("accounts", {
             authId: "editor",
@@ -85,6 +85,15 @@ test("test_keep_backfill_url_date_when_display_date_changes_or_story_is_republis
             isAdmin: true,
             isTeam: true,
             createdAt: 1,
+            updatedAt: 1,
+        });
+        return ctx.db.insert("organisations", {
+            name: "Example",
+            slug: "example",
+            kind: "company",
+            description: "",
+            location: "Zurich",
+            website: "https://example.com",
             updatedAt: 1,
         });
     });
@@ -99,7 +108,7 @@ test("test_keep_backfill_url_date_when_display_date_changes_or_story_is_republis
         date: original,
         topics: [],
         authors: [],
-        organisations: [],
+        organisations: [organisationId],
     };
     const saved = await editor.mutation(api.news.mutations.save, { slug: "result", content });
     expect(await backend.query(canonical, { slug: "result" })).toBeNull();
@@ -110,6 +119,8 @@ test("test_keep_backfill_url_date_when_display_date_changes_or_story_is_republis
     });
     const path = "/news/2024/02/29/result";
     expect(await backend.query(canonical, { slug: "result" })).toBe(path);
+    const mention = await backend.run((ctx) => ctx.db.query("newsMentions").unique());
+    expect(mention).toMatchObject({ postId: saved.id, organisationId, path, date: original });
 
     // allow factual date corrections without changing the address already shared
     const corrected = Date.UTC(2024, 2, 1);
@@ -119,6 +130,7 @@ test("test_keep_backfill_url_date_when_display_date_changes_or_story_is_republis
         expectedUpdatedAt: published.updatedAt,
         content: { ...content, date: corrected },
     });
+    expect(await backend.run((ctx) => ctx.db.query("newsMentions").unique())).toEqual(mention);
     const revised = await editor.mutation(api.news.mutations.publish, {
         id: saved.id,
         expectedUpdatedAt: edited.updatedAt,
@@ -130,18 +142,29 @@ test("test_keep_backfill_url_date_when_display_date_changes_or_story_is_republis
         displayed: record.published?.date,
         path: await backend.query(canonical, { slug: "result" }),
     }).toEqual({ date: original, displayed: corrected, path });
+    expect(await backend.run((ctx) => ctx.db.query("newsMentions").unique())).toMatchObject({
+        date: corrected,
+        originalDate: original,
+        path,
+    });
     const withdrawn = await editor.mutation(api.news.mutations.publish, {
         id: saved.id,
         expectedUpdatedAt: revised.updatedAt,
         isPublished: false,
     });
     expect(await backend.query(canonical, { slug: "result" })).toBeNull();
+    expect(await backend.run((ctx) => ctx.db.query("newsMentions").collect())).toEqual([]);
     await editor.mutation(api.news.mutations.publish, {
         id: saved.id,
         expectedUpdatedAt: withdrawn.updatedAt,
         isPublished: true,
     });
     expect(await backend.query(canonical, { slug: "result" })).toBe(path);
+    expect(await backend.run((ctx) => ctx.db.query("newsMentions").unique())).toMatchObject({
+        date: corrected,
+        path,
+        organisationId,
+    });
 });
 
 test("test_capture_legacy_original_date_before_editing_and_withdrawing", async () => {

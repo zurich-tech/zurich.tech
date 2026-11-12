@@ -1,3 +1,4 @@
+import { insertRegistration } from "../convex/events/roster";
 import { expect, test } from "bun:test";
 import { convexTest, schema, modules, member } from "./backend";
 import { api } from "../convex/_generated/api";
@@ -58,7 +59,7 @@ test("event survey counts confirmed registrations and shows sparse results to ad
                 createdAt: 1,
                 updatedAt: 1,
             });
-            await ctx.db.insert("registrations", {
+            await insertRegistration(ctx, {
                 eventId,
                 email,
                 name: "Guest",

@@ -1,4 +1,7 @@
-import { convexTest, schema, modules, member } from "./backend";
+import { insertSubscription, updateSubscription } from "../convex/mail/contacts";
+import { insertRegistration } from "../convex/events/roster";
+import { insertCampaign, updateCampaign, readCampaign } from "../convex/mail/campaign";
+import { convexTest, schema, modules, member, insertMessage, messageContent } from "./backend";
 import { afterEach, beforeEach, expect, test, setSystemTime } from "bun:test";
 import { httpRouter } from "convex/server";
 import { Webhook } from "svix";
@@ -142,7 +145,7 @@ test("test_freeze_published_speakers_and_programme_in_announcement_order", async
         eventId,
         audience: { kind: "subscribers", excludeEventId: eventId },
     });
-    const campaign = await backend.run((ctx) => ctx.db.get(id));
+    const campaign = await backend.run((ctx) => readCampaign(ctx, id));
     expect(campaign!.message).toContain(
         "Speakers\nFirst speaker\nSecond speaker\n\nProgramme\n18:30 · Published talk",
     );
@@ -169,7 +172,7 @@ test("test_reference_only_checked_in_attendees_and_recent_public_resources", asy
             status: "finished",
             startsAt: now - 10 * 86400000,
         });
-        await ctx.db.insert("registrations", {
+        await insertRegistration(ctx, {
             eventId: pastId,
             memberId,
             email: "test@example.invalid",
@@ -413,14 +416,14 @@ const secret = `whsec_${btoa("only-a-local-test-secret-for-signatures")}`;
 test("test_release_only_reviewed_untouched_campaign_messages", async () => {
     const { backend, subscriptionId } = await setup();
     const ids = await backend.run(async (ctx) => {
-        const other = await ctx.db.insert("subscriptions", {
+        const other = await insertSubscription(ctx, {
             email: "other@example.invalid",
             status: "subscribed",
             token: "other",
             createdAt: 1,
             updatedAt: 1,
         });
-        const campaignId = await ctx.db.insert("campaigns", {
+        const campaignId = await insertCampaign(ctx, {
             subject: "Introduction",
             message: "Hello",
             category: "campaign",
@@ -466,8 +469,6 @@ test("test_release_only_reviewed_untouched_campaign_messages", async () => {
     for (const changes of [
         { status: "suppressed" as const },
         { status: "unsubscribed" as const },
-        { hasDeliveryFailure: true },
-        { deliveredAt: 1 },
         { weekly: false, announcements: false },
     ]) {
         await backend.run((ctx) => ctx.db.patch(subscriptionId, changes));
@@ -477,12 +478,23 @@ test("test_release_only_reviewed_untouched_campaign_messages", async () => {
         await backend.run((ctx) =>
             ctx.db.patch(subscriptionId, {
                 status: "subscribed",
-                hasDeliveryFailure: undefined,
-                deliveredAt: undefined,
                 weekly: undefined,
                 announcements: undefined,
             }),
         );
+    }
+    for (const changes of [{ hasDeliveryFailure: true }, { deliveredAt: 1 }]) {
+        const historyId = await backend.run((ctx) =>
+            ctx.db.insert("mailRecipients", {
+                email: "test@example.invalid",
+                hasDeliveryFailure: false,
+                ...changes,
+            }),
+        );
+        await expect(backend.mutation(internal.mail.ordering.release, args)).rejects.toThrow(
+            "Reviewed recipients must be untouched, subscribed and without adverse history.",
+        );
+        await backend.run((ctx) => ctx.db.delete(historyId));
     }
     await expect(
         backend.mutation(internal.mail.ordering.release, {
@@ -604,7 +616,7 @@ async function setup() {
             approvedDate: sendingDate(Date.now()),
             approvedLimit: 500,
         });
-        const subscriptionId = await ctx.db.insert("subscriptions", {
+        const subscriptionId = await insertSubscription(ctx, {
             email: "test@example.invalid",
             status: "subscribed",
             token: "private-unsubscribe-token",
@@ -622,7 +634,11 @@ async function announcement() {
     const eventId = await fixture.backend.run(async (ctx) => {
         const policy = (await ctx.db.query("mailPolicy").unique())!;
         await ctx.db.patch(policy._id, { isHistoryReady: true });
-        await ctx.db.patch(fixture.subscriptionId, { deliveredAt: Date.now() });
+        await ctx.db.insert("mailRecipients", {
+            email: "test@example.invalid",
+            hasDeliveryFailure: false,
+            deliveredAt: Date.now(),
+        });
         return await ctx.db.insert("events", {
             ownerId: fixture.memberId,
             title: "ZurichNLP #22",
@@ -667,13 +683,17 @@ test("test_prepare_announcement_without_sending_and_reject_changed_identities", 
     // equal counts must not permit an unreviewed replacement address
     await backend.run(async (ctx) => {
         await ctx.db.patch(subscriptionId, { announcements: false });
-        await ctx.db.insert("subscriptions", {
+        await insertSubscription(ctx, {
             email: "replacement@example.invalid",
             token: "replacement",
             status: "subscribed",
-            deliveredAt: Date.now(),
             createdAt: 1,
             updatedAt: 1,
+        });
+        await ctx.db.insert("mailRecipients", {
+            email: "replacement@example.invalid",
+            hasDeliveryFailure: false,
+            deliveredAt: Date.now(),
         });
     });
     await expect(
@@ -736,23 +756,31 @@ test("test_exclude_announcement_recipients_across_campaigns_and_member_addresses
 
     // exclude aliases and case variations without excluding genuinely new recipients
     const fresh = await backend.run(async (ctx) => {
-        const subscription = (await ctx.db.get(subscriptionId))!;
         for (const email of [" TEST@EXAMPLE.INVALID ", "alias@example.invalid"]) {
-            await ctx.db.insert("subscriptions", {
+            await insertSubscription(ctx, {
                 email,
                 memberId: email.startsWith("alias") ? memberId : undefined,
                 status: "subscribed",
                 token: "local-test",
-                deliveredAt: subscription.deliveredAt,
                 createdAt: 1,
                 updatedAt: 1,
             });
+            if (email.startsWith("alias"))
+                await ctx.db.insert("mailRecipients", {
+                    email,
+                    hasDeliveryFailure: false,
+                    deliveredAt: Date.now(),
+                });
         }
-        return await ctx.db.insert("subscriptions", {
+        await ctx.db.insert("mailRecipients", {
+            email: "fresh@example.invalid",
+            hasDeliveryFailure: false,
+            deliveredAt: Date.now(),
+        });
+        return await insertSubscription(ctx, {
             email: "fresh@example.invalid",
             status: "subscribed",
             token: "local-test-fresh",
-            deliveredAt: Date.now(),
             createdAt: 1,
             updatedAt: 1,
         });
@@ -782,14 +810,18 @@ test("test_deduplicate_announcement_members_without_affecting_other_categories",
     const { backend, eventId, memberId, subscriptionId } = await announcement();
     await backend.run(async (ctx) => {
         await ctx.db.patch(subscriptionId, { memberId });
-        await ctx.db.insert("subscriptions", {
+        await insertSubscription(ctx, {
             email: "second@example.invalid",
             memberId,
             status: "subscribed",
             token: "local-test",
-            deliveredAt: Date.now(),
             createdAt: 1,
             updatedAt: 1,
+        });
+        await ctx.db.insert("mailRecipients", {
+            email: "second@example.invalid",
+            hasDeliveryFailure: false,
+            deliveredAt: Date.now(),
         });
     });
     const selected = await backend.run((ctx) =>
@@ -840,7 +872,7 @@ test("test_followup_invitation_cooldown_and_single_approval", async () => {
             slug: "cv-past",
             startsAt: Date.now() - 86400000,
         });
-        await ctx.db.insert("registrations", {
+        await insertRegistration(ctx, {
             eventId: past,
             memberId,
             email: "test@example.invalid",
@@ -850,7 +882,7 @@ test("test_followup_invitation_cooldown_and_single_approval", async () => {
             updatedAt: 1,
         });
         await ctx.db.patch(subscriptionId, { memberId });
-        await ctx.db.patch(id, { status: "completed", recipients: [subscriptionId] });
+        await updateCampaign(ctx, id, { status: "completed", recipients: [subscriptionId] });
         const messageId = await enqueue(
             ctx,
             "invitation",
@@ -884,7 +916,7 @@ test("test_followup_invitation_cooldown_and_single_approval", async () => {
             invitation: "followup",
         },
     });
-    const draft = await backend.run((ctx) => ctx.db.get(followup));
+    const draft = await backend.run((ctx) => readCampaign(ctx, followup));
     expect(draft?.status).toBe("draft");
     expect(draft?.recipients).toBeUndefined();
     const introduction =
@@ -934,7 +966,7 @@ test("test_filter_series_interest_and_current_registrations_by_identity", async 
             startsAt: Date.now() - 86400000,
         });
         await ctx.db.patch(subscriptionId, { memberId });
-        await ctx.db.insert("registrations", {
+        await insertRegistration(ctx, {
             eventId: past,
             memberId,
             email: "old@example.invalid",
@@ -956,7 +988,7 @@ test("test_filter_series_interest_and_current_registrations_by_identity", async 
         excluded: 0,
     });
     await backend.run((ctx) =>
-        ctx.db.insert("registrations", {
+        insertRegistration(ctx, {
             eventId,
             memberId,
             email: "new@example.invalid",
@@ -1035,14 +1067,18 @@ test("test_dispatch_active_bulk_without_scanning_paused_or_exhausted_backlogs", 
     const scheduled = await backend.run((ctx) =>
         ctx.db.system.query("_scheduled_functions").collect(),
     );
-    expect(scheduled.map((row) => row.args)).toEqual([[{ id: ids.ready }]]);
+    expect(scheduled.map((row) => row.args)).toEqual([
+        [{ id: ids.ready, attempt: 1 }],
+        [{ generation: 1 }],
+    ]);
     expect(await backend.run((ctx) => ctx.db.get(ids.held[0]))).toEqual(before);
-    expect((await backend.run((ctx) => ctx.db.get(active)))!.attempts).toBe(0);
-    expect((await admin.query(api.mail.sending.current, {})).count).toBe(0);
+    expect((await backend.run((ctx) => ctx.db.get(active)))!.attempts).toBe(1);
+    expect((await admin.query(api.mail.sending.current, {})).count).toBe(1);
 });
 
 test("test_index_delivery_history_without_changing_consent", async () => {
     const { backend, subscriptionId } = await setup();
+    const before = await backend.run((ctx) => ctx.db.get(subscriptionId));
     const messageId = await backend.run(async (ctx) => {
         return await enqueue(
             ctx,
@@ -1063,8 +1099,8 @@ test("test_index_delivery_history_without_changing_consent", async () => {
         await updateMessage(ctx, (await ctx.db.get(messageId))!, { outcome: "failed" });
     });
     await backend.mutation(internal.mail.history.backfill, { cursor: null });
-    const row = (await backend.run((ctx) => ctx.db.get(subscriptionId)))!;
-    expect(row.status).toBe("subscribed");
+    expect(await backend.run((ctx) => ctx.db.get(subscriptionId))).toEqual(before);
+    const row = (await backend.run((ctx) => ctx.db.query("mailRecipients").unique()))!;
     expect(row.hasDeliveryFailure).toBe(true);
     expect(row.deliveredAt).toBeGreaterThan(0);
     expect(
@@ -1259,7 +1295,7 @@ async function scheduledEdition() {
             isPaused: false,
             lastWeek: "2026-10-19",
         });
-        const campaignId = await ctx.db.insert("campaigns", {
+        const campaignId = await insertCampaign(ctx, {
             key: "digest:2026-10-19",
             category: "weekly",
             status: "queued",
@@ -1296,7 +1332,7 @@ async function scheduledEdition() {
     return { ...fixture, ...ids };
 }
 
-test("test_reschedule_early_bulk_attempts_at_the_deadline_without_consuming_quota", async () => {
+test("test_leave_early_bulk_attempts_to_the_dispatcher_without_scheduling_retries", async () => {
     const { backend, settingsId, automatic, campaignId, subscriptionId } = await scheduledEdition();
     const start = Date.now();
     const second = await backend.run((ctx) =>
@@ -1327,8 +1363,7 @@ test("test_reschedule_early_bulk_attempts_at_the_deadline_without_consuming_quot
     // duplicate actions do not schedule another retry or claim the message early
     expect(await backend.mutation(internal.mail.messages.claim, { id: second })).toBe(false);
     const jobs = await backend.run((ctx) => ctx.db.system.query("_scheduled_functions").collect());
-    expect(jobs.filter((job) => job.args[0]?.id === second)).toHaveLength(1);
-    expect(jobs.find((job) => job.args[0]?.id === second)?.scheduledTime).toBe(start + 2350);
+    expect(jobs.filter((job) => job.args[0]?.id === second)).toEqual([]);
     setSystemTime(start + 2350);
     expect(await backend.mutation(internal.mail.messages.claim, { id: second })).toBe(true);
     expect(await backend.mutation(internal.mail.messages.claim, { id: second })).toBe(false);
@@ -1339,9 +1374,12 @@ test("test_dispatch_and_claim_only_scheduled_newsletters_without_daily_approval"
     const { backend, settingsId, automatic, manual, campaignId } = await scheduledEdition();
     await backend.mutation(internal.mail.sending.dispatch, {});
     const jobs = await backend.run((ctx) => ctx.db.system.query("_scheduled_functions").collect());
-    expect(jobs.map((row) => row.args)).toEqual([[{ id: automatic }]]);
+    expect(jobs.map((row) => row.args)).toEqual([
+        [{ id: automatic, attempt: 1 }],
+        [{ generation: 1 }],
+    ]);
     expect(await backend.mutation(internal.mail.messages.claim, { id: manual })).toBe(false);
-    expect(await backend.mutation(internal.mail.messages.claim, { id: automatic })).toBe(true);
+    expect(await backend.mutation(internal.mail.messages.claim, { id: automatic })).toBe(false);
     const quota = (await backend.run((ctx) => ctx.db.get(settingsId)))!;
     expect({ count: quota.count, nextAt: quota.nextAt }).toEqual({
         count: 1,
@@ -1447,7 +1485,7 @@ test("campaign queue confirms saved content and audience, while the lock permits
 test("later opt-outs skip queued mail and final retry counters cannot go negative", async () => {
     const { backend, subscriptionId } = await setup();
     const campaignId = await backend.run((ctx) =>
-        ctx.db.insert("campaigns", {
+        insertCampaign(ctx, {
             subject: "Hello",
             message: "Welcome",
             status: "queued",
@@ -1842,7 +1880,7 @@ test("scheduled audiences freeze at approval, content stays fixed, and pause pre
         hourlyLimit: 50,
     });
     await backend.run((ctx) =>
-        ctx.db.insert("subscriptions", {
+        insertSubscription(ctx, {
             email: "second@example.invalid",
             status: "subscribed",
             token: "second-token",
@@ -1855,8 +1893,9 @@ test("scheduled audiences freeze at approval, content stays fixed, and pause pre
     await backend.mutation(internal.mail.campaigns.batch, { id });
     const messages = await backend.run((ctx) => ctx.db.query("messages").collect());
     expect(messages).toHaveLength(1);
-    expect(messages[0].text).toContain("Original text.");
-    expect(messages[0].html).not.toContain("mail.invalid");
+    const content = await backend.run((ctx) => messageContent(ctx, messages[0]._id));
+    expect(content.text).toContain("Original text.");
+    expect(content.html).not.toContain("mail.invalid");
     await admin.mutation(api.mail.campaigns.pause, { id, isPaused: true });
     expect(await backend.mutation(internal.mail.messages.claim, { id: messages[0]._id })).toBe(
         false,
@@ -1866,7 +1905,7 @@ test("scheduled audiences freeze at approval, content stays fixed, and pause pre
     ).not.toBeNull();
     await admin.mutation(api.mail.campaigns.pause, { id, isPaused: false });
     await backend.run((ctx) =>
-        ctx.db.insert("subscriptions", {
+        insertSubscription(ctx, {
             email: "late@example.invalid",
             status: "subscribed",
             token: "late-token",
@@ -2010,14 +2049,14 @@ test("revoking sender access pauses queued written mail before a provider attemp
 test("test messages keep their history without advancing a draft campaign", async () => {
     const { backend } = await setup();
     const result = await backend.run(async (ctx) => {
-        const campaignId = await ctx.db.insert("campaigns", {
+        const campaignId = await insertCampaign(ctx, {
             subject: "Preview",
             message: "Hello",
             status: "draft",
             createdAt: 1,
             updatedAt: 1,
         });
-        const id = await ctx.db.insert("messages", {
+        const id = await insertMessage(ctx, {
             key: "self-test",
             to: "test@example.invalid",
             subject: "Preview",
@@ -2082,7 +2121,7 @@ test("frozen audiences order recipients by their latest real interest", async ()
             updatedAt: 1,
         });
         const subscribe = (email: string, fields: object) =>
-            ctx.db.insert("subscriptions", {
+            insertSubscription(ctx, {
                 email,
                 status: "subscribed",
                 token: email,
@@ -2093,7 +2132,7 @@ test("frozen audiences order recipients by their latest real interest", async ()
 
         // interest from a registration, a confirmation, a recorded signup and an observation
         const registered = await subscribe("registered@example.invalid", { memberId });
-        await ctx.db.insert("registrations", {
+        await insertRegistration(ctx, {
             eventId,
             memberId,
             name: "Registered",
@@ -2153,7 +2192,7 @@ test("test_rank_recent_repeat_registrants_before_older_imports", async () => {
         for (const [index, name] of ["repeat", "recent", "old", "cancelled"].entries()) {
             const email = `${name}@example.invalid`;
             ids.push(
-                await ctx.db.insert("subscriptions", {
+                await insertSubscription(ctx, {
                     email,
                     status: "subscribed",
                     token: name,
@@ -2164,7 +2203,7 @@ test("test_rank_recent_repeat_registrants_before_older_imports", async () => {
             const eventIds =
                 index === 0 ? [events[0], events[1], events[1]] : [events[index === 2 ? 2 : 0]];
             for (const eventId of eventIds) {
-                await ctx.db.insert("registrations", {
+                await insertRegistration(ctx, {
                     email: email.toUpperCase(),
                     name,
                     eventId,
@@ -2213,7 +2252,7 @@ test("test_prioritize_unsent_mail_without_changing_delivery_authorization", asyn
                 }),
             );
         }
-        const campaignId = await ctx.db.insert("campaigns", {
+        const campaignId = await insertCampaign(ctx, {
             subject: "Launch",
             message: "Unchanged",
             status: "queued",
@@ -2234,7 +2273,7 @@ test("test_prioritize_unsent_mail_without_changing_delivery_authorization", asyn
         ].entries()) {
             const email = `${name}@example.invalid`;
             messages.push(
-                await ctx.db.insert("messages", {
+                await insertMessage(ctx, {
                     campaignId,
                     key: name,
                     to: email,
@@ -2256,7 +2295,7 @@ test("test_prioritize_unsent_mail_without_changing_delivery_authorization", asyn
                         ? [events[0]]
                         : [];
             for (const eventId of eventIds)
-                await ctx.db.insert("registrations", {
+                await insertRegistration(ctx, {
                     eventId,
                     email: email.toUpperCase(),
                     name,
@@ -2338,7 +2377,7 @@ test("newsletter preview counts the same eligible audience as delivery", async (
             { email: "missing@example.invalid" },
             { email: "optout@example.invalid", token: "optout", weekly: false },
         ]) {
-            await ctx.db.insert("subscriptions", {
+            await insertSubscription(ctx, {
                 ...fields,
                 status: "subscribed",
                 createdAt: 1,
@@ -2489,7 +2528,14 @@ test("verified event registration enrolls once and explicit resubscription enabl
     });
     await confirm("first", "registration");
     // render profile prompts before enqueueing transactional confirmations
-    const confirmations = await backend.run((ctx) => ctx.db.query("messages").collect());
+    const confirmations = await backend.run(async (ctx) =>
+        Promise.all(
+            (await ctx.db.query("messages").collect()).map(async (message) => ({
+                ...message,
+                ...(await messageContent(ctx, message._id)),
+            })),
+        ),
+    );
     const memberConfirmation = confirmations.find(
         (message) =>
             message.to === "test@example.invalid" &&
@@ -2642,12 +2688,12 @@ test("test_exclude_suppressed_contacts_from_public_history_without_erasing_opt_o
 
     // retain one current member and one genuine opt-out alongside historical suppressions
     await backend.run(async (ctx) => {
-        await ctx.db.patch(subscriptionId, {
+        await updateSubscription(ctx, subscriptionId, {
             createdAt: joined,
             history: [{ at: joined, status: "subscribed", weekly: true, source: "test" }],
         });
         for (const status of ["unsubscribed", "suppressed"] as const) {
-            await ctx.db.insert("subscriptions", {
+            await insertSubscription(ctx, {
                 email: `${status}@example.invalid`,
                 token: status,
                 status,
@@ -2664,7 +2710,7 @@ test("test_exclude_suppressed_contacts_from_public_history_without_erasing_opt_o
                 ],
             });
         }
-        await ctx.db.insert("subscriptions", {
+        await insertSubscription(ctx, {
             email: "legacy-suppressed@example.invalid",
             token: "legacy-suppressed",
             status: "suppressed",

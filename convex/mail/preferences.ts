@@ -1,6 +1,7 @@
 import { enrollSubscription } from "./enrollment";
 import { recipientsLocked } from "./policy";
 import { subscriptionHistory } from "./history";
+import { insertSubscription, updateSubscription } from "./contacts";
 import { ConvexError, v } from "convex/values";
 import { action, internalAction, internalMutation, query } from "../_generated/server";
 import { internal } from "../_generated/api";
@@ -83,9 +84,9 @@ export const update = internalMutation({
             updatedAt: now,
         };
         const history = subscriptionHistory(existing, values, now, "settings");
-        if (existing) await ctx.db.patch(existing._id, { ...values, history });
+        if (existing) await updateSubscription(ctx, existing._id, { ...values, history });
         else
-            await ctx.db.insert("subscriptions", {
+            await insertSubscription(ctx, {
                 ...values,
                 history,
                 source: "account",

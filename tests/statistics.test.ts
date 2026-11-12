@@ -3,6 +3,107 @@ import { eventHistory, growth } from "../convex/statistics/history";
 import { eventAttribution } from "../convex/events/attribution";
 import { convexTest, schema, modules, member } from "./backend";
 import { api, internal } from "../convex/_generated/api";
+import { insertSubscription, updateSubscription } from "../convex/mail/contacts";
+import { currentPoint, subscriberHistory } from "../convex/statistics/history";
+import { insertRegistration, updateRegistration } from "../convex/events/roster";
+
+test("test_keep_incremental_subscriber_history_equal_to_source_records", async () => {
+    const backend = convexTest(schema, modules);
+    const at = Date.now() - 10 * 86400000;
+    const id = await backend.run((ctx) =>
+        insertSubscription(ctx, {
+            email: "person@example.invalid",
+            status: "subscribed",
+            createdAt: at,
+            updatedAt: at,
+        }),
+    );
+    for (const status of ["unsubscribed", "subscribed", "suppressed", "subscribed"] as const) {
+        await backend.run(async (ctx) => {
+            const row = (await ctx.db.get(id))!;
+            await updateSubscription(ctx, id, {
+                status,
+                history: [
+                    ...(row.history ?? [
+                        {
+                            at,
+                            status: "subscribed",
+                            weekly: true,
+                            source: "import",
+                            isEstimated: true,
+                        },
+                    ]),
+                    { at: at + 86400000, status, weekly: true, source: "test" },
+                ],
+            });
+        });
+        const sources = await backend.run((ctx) => ctx.db.query("subscriptions").collect());
+        const count = sources.filter((row) => row.status === "subscribed").length;
+        const result = await backend.query(api.statistics.queries.community, {});
+        expect(result.totals.subscribers).toBe(count);
+        expect(result.history.subscribers).toEqual(
+            currentPoint(subscriberHistory(sources, Date.now()), count, Date.now()),
+        );
+    }
+});
+
+test("test_update_calendar_counts_without_changing_signup_history_on_cancellation", async () => {
+    const backend = convexTest(schema, modules);
+    const ids = await backend.run(async (ctx) => {
+        const ownerId = await member(ctx, {
+            name: "Host",
+            searchText: "host",
+            visibility: "public",
+        });
+        const eventId = await ctx.db.insert("events", {
+            ownerId,
+            slug: "counts",
+            title: "Counts",
+            topics: [],
+            format: "talk",
+            status: "scheduled",
+            startsAt: Date.now() + 86400000,
+            registration: { kind: "none" },
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const going = await insertRegistration(ctx, {
+            eventId,
+            email: "going@example.invalid",
+            name: "Going",
+            status: "going",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+        const waiting = await insertRegistration(ctx, {
+            eventId,
+            email: "waiting@example.invalid",
+            name: "Waiting",
+            status: "waitlist",
+            createdAt: 1,
+            updatedAt: 1,
+        });
+
+        return { eventId, going, waiting };
+    });
+    const history = (await backend.query(api.statistics.queries.community, {})).history
+        .registrations;
+    await backend.run(async (ctx) => {
+        await updateRegistration(ctx, ids.going, { status: "cancelled" });
+        await updateRegistration(ctx, ids.waiting, { status: "going" });
+    });
+    const calendar = await backend.query(api.events.queries.calendar, {});
+    expect(
+        calendar.map((row) => ({ id: row.id, going: row.rsvpCount, waiting: row.waitlistCount })),
+    ).toEqual([{ id: ids.eventId, going: 1, waiting: 0 }]);
+    expect(
+        (await backend.query(api.statistics.queries.community, {})).history.registrations,
+    ).toEqual(history);
+    await backend.run((ctx) => ctx.db.patch(ids.eventId, { visibility: "unlisted" }));
+    expect((await backend.query(api.statistics.queries.community, {})).totals.registrations).toBe(
+        0,
+    );
+});
 
 test("test_compare_rolling_periods_without_inventing_missing_history", () => {
     const now = Date.parse("2026-10-26T12:00:00Z");

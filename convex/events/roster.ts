@@ -1,6 +1,30 @@
-import type { QueryCtx } from "../_generated/server";
-import type { Doc } from "../_generated/dataModel";
+import type { QueryCtx, MutationCtx } from "../_generated/server";
+import type { Doc, Id } from "../_generated/dataModel";
 import { isTentative } from "./conditions";
+import * as statistics from "../statistics/registrations";
+
+/** Editable registration fields. */
+type Registration = Omit<Doc<"registrations">, "_id" | "_creationTime">;
+
+/** Insert a registration with its calendar and history counts. */
+export async function insertRegistration(ctx: MutationCtx, values: Registration) {
+    const id = await ctx.db.insert("registrations", values);
+    await statistics.update(ctx, null, values);
+
+    return id;
+}
+
+/** Update a registration and every affected aggregate in the same transaction. */
+export async function updateRegistration(
+    ctx: MutationCtx,
+    id: Id<"registrations">,
+    values: Partial<Registration>,
+) {
+    const previous = await ctx.db.get(id);
+    if (!previous) throw new Error("registration is missing");
+    await ctx.db.patch(id, values);
+    await statistics.update(ctx, previous, { ...previous, ...values });
+}
 
 /** Read an event's small, indexed attendee set. */
 export async function registrations(ctx: Pick<QueryCtx, "db">, event: Doc<"events">) {

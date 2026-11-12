@@ -4,6 +4,7 @@ import { requireTeam } from "../auth/access";
 import { content } from "./content";
 import { validateContent } from "./validation";
 import { newsDate } from "./path";
+import { updateMentions } from "./mentions";
 
 /** Save a draft without changing the published snapshot. */
 export const save = mutation({
@@ -69,12 +70,14 @@ export const publish = mutation({
                   ? (post.draft.date ?? Date.now())
                   : undefined;
         const updatedAt = Math.max(Date.now(), post.updatedAt + 1);
-        await ctx.db.patch(post._id, {
+        const publication = {
             published: args.isPublished ? post.draft : undefined,
             date,
             publishedAt: args.isPublished ? (post.publishedAt ?? Date.now()) : post.publishedAt,
             updatedAt,
-        });
+        };
+        await ctx.db.patch(post._id, publication);
+        await updateMentions(ctx, { ...post, ...publication });
         return { updatedAt };
     },
 });

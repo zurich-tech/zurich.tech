@@ -1,3 +1,4 @@
+import { insertRegistration } from "../convex/events/roster";
 import { expect, test } from "bun:test";
 import { signupHistory } from "../convex/events/history";
 import { convexTest, schema, modules, member } from "./backend";
@@ -64,7 +65,7 @@ test("test_restrict_history_to_organisers_and_include_closed_registrations", asy
             });
         }
         for (const status of ["going", "waitlist", "cancelled", "declined", "pending"] as const) {
-            await ctx.db.insert("registrations", {
+            await insertRegistration(ctx, {
                 eventId,
                 name: status,
                 email: `${status}@example.invalid`,
@@ -91,7 +92,7 @@ test("test_restrict_history_to_organisers_and_include_closed_registrations", asy
     await backend.run(async (ctx) => {
         const rows = await ctx.db.query("registrations").collect();
         await ctx.db.patch(rows[0]!._id, { createdAt: Date.now(), status: "cancelled" });
-        await ctx.db.insert("registrations", {
+        await insertRegistration(ctx, {
             eventId,
             name: "Imported",
             email: "import@example.invalid",

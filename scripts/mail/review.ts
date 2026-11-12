@@ -26,6 +26,9 @@ function main() {
         read<Doc<"subscriptions">>("subscriptions").map((row) => [row._id, row]),
     );
     const messages = read<Doc<"messages">>("messages");
+    const recipients = new Map(
+        read<Doc<"mailRecipients">>("mailRecipients").map((row) => [row.email, row]),
+    );
     const contacted = new Set<string>();
     for (const message of messages) {
         if (message.isTest || (message.attempts === 0 && message.firstAttemptAt === undefined))
@@ -48,8 +51,8 @@ function main() {
             !message.claimedAt &&
             subscription?.status === "subscribed" &&
             !!subscription.token &&
-            !subscription.hasDeliveryFailure &&
-            subscription.deliveredAt === undefined &&
+            !recipients.get(email)?.hasDeliveryFailure &&
+            recipients.get(email)?.deliveredAt === undefined &&
             !(subscription.weekly === false && subscription.announcements === false) &&
             !contacted.has(email) &&
             !(subscription.memberId && contacted.has(subscription.memberId))

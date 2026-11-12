@@ -1,4 +1,5 @@
 import { subscriptionHistory } from "./history";
+import { insertSubscription, updateSubscription } from "./contacts";
 import { ConvexError, v } from "convex/values";
 import { action, internalMutation, mutation, query } from "../_generated/server";
 import { internal } from "../_generated/api";
@@ -45,9 +46,9 @@ export const suppress = internalMutation({
                     args.source,
                 ),
             };
-            if (row) await ctx.db.patch(row._id, values);
+            if (row) await updateSubscription(ctx, row._id, values);
             else
-                await ctx.db.insert("subscriptions", {
+                await insertSubscription(ctx, {
                     ...values,
                     email,
                     source: args.source,
@@ -86,7 +87,7 @@ export const unsubscribe = mutation({
         if (!row) throw new ConvexError("Subscription not found.");
         if (row.status !== "suppressed") {
             const now = Date.now();
-            await ctx.db.patch(row._id, {
+            await updateSubscription(ctx, row._id, {
                 status: "unsubscribed",
                 followUps: false,
                 history: subscriptionHistory(

@@ -1,4 +1,6 @@
-import { convexTest, schema, modules, member } from "./backend";
+import { insertRegistration } from "../convex/events/roster";
+import { insertCampaign } from "../convex/mail/campaign";
+import { convexTest, schema, modules, member, insertMessage } from "./backend";
 import { expect, test } from "bun:test";
 import { api } from "../convex/_generated/api";
 import { revisionFields } from "../convex/events/fields";
@@ -279,7 +281,7 @@ test("test_allow_team_email_drafts_without_sending_or_recipient_records", async 
         audience: { kind: "registrations", eventId: ids.otherId, status: "active" },
     });
     const messageId = await backend.run((ctx) =>
-        ctx.db.insert("messages", {
+        insertMessage(ctx, {
             campaignId: id,
             key: "private-recipient",
             to: "private@example.invalid",
@@ -666,7 +668,7 @@ test("private addresses follow current confirmation and scoped editing access", 
                 questions: [],
             },
         });
-        return await ctx.db.insert("registrations", {
+        return await insertRegistration(ctx, {
             eventId: ids.eventId,
             name: "Guest",
             email: "guest@example.invalid",
@@ -1240,7 +1242,7 @@ test("address defaults do not trigger registration updates; real visibility chan
 
     // Reproduce an ordinary editor save with an existing registered attendee.
     await backend.run(async (ctx) => {
-        await ctx.db.insert("registrations", {
+        await insertRegistration(ctx, {
             eventId: ids.eventId,
             email: "attendee@example.invalid",
             name: "Attendee",
@@ -1351,7 +1353,7 @@ test("publishing an organiser-only edit neither queues mail nor rejects reordere
                 questions: [{ isRequired: false, label: "Question" }],
             },
         });
-        await ctx.db.insert("registrations", {
+        await insertRegistration(ctx, {
             eventId: ids.eventId,
             email: "attendee@example.invalid",
             name: "Attendee",
@@ -1443,7 +1445,7 @@ test("unlisted events remain usable by link but leave public discovery and promo
                 true,
             ),
         ).rejects.toThrow("cannot be announced");
-        const campaignId = await ctx.db.insert("campaigns", {
+        const campaignId = await insertCampaign(ctx, {
             subject: "Weekly",
             message: "Frozen edition",
             eventIds: [event._id],
@@ -1461,19 +1463,19 @@ test("unlisted events remain usable by link but leave public discovery and promo
             attempts: 0,
             createdAt: Date.now(),
         };
-        const weekly = await ctx.db.insert("messages", {
+        const weekly = await insertMessage(ctx, {
             ...base,
             key: "weekly-test",
             category: "weekly",
             campaignId,
         });
-        const announcement = await ctx.db.insert("messages", {
+        const announcement = await insertMessage(ctx, {
             ...base,
             key: "announcement-test",
             category: "announcement",
             eventId: event._id,
         });
-        const update = await ctx.db.insert("messages", {
+        const update = await insertMessage(ctx, {
             ...base,
             key: "update-test",
             category: "update",

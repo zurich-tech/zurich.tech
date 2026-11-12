@@ -1,5 +1,7 @@
+import { insertSubscription } from "../convex/mail/contacts";
+import { insertRegistration } from "../convex/events/roster";
 import { afterAll, beforeAll, expect, test } from "bun:test";
-import { convexTest, schema, modules, member } from "./backend";
+import { convexTest, schema, modules, member, insertMessage, messageContent } from "./backend";
 import { api, internal } from "../convex/_generated/api";
 import type { Doc } from "../convex/_generated/dataModel";
 import { register } from "../convex/events/registrations";
@@ -86,7 +88,7 @@ async function setup(admission: "automatic" | "approval" = "automatic") {
             ["earlier", "waitlist", 3, 4],
             ["unapproved", "waitlist", 2, undefined],
         ] as const) {
-            attendees[name] = await ctx.db.insert("registrations", {
+            attendees[name] = await insertRegistration(ctx, {
                 eventId,
                 name,
                 email: `${name}@example.invalid`,
@@ -184,7 +186,7 @@ for (const change of ["deleted", "email", "suppressed"] as const) {
             else if (change === "email")
                 await ctx.db.patch(attendees.earlier!, { email: "changed@example.invalid" });
             else
-                await ctx.db.insert("subscriptions", {
+                await insertSubscription(ctx, {
                     email: message.to,
                     token: "suppression",
                     status: "suppressed",
@@ -211,6 +213,7 @@ test("retain eligible promotion mail with registration references and expiry", a
     });
     expect(await backend.query(internal.mail.messages.read, { id: message._id })).toEqual({
         ...message,
+        ...(await backend.run((ctx) => messageContent(ctx, message._id))),
         unsubscribeToken: undefined,
     });
 }, 2000);
@@ -228,7 +231,7 @@ test("retain event-wide confirmation notices for waitlisted attendees", async ()
     const { backend, eventId, attendees, message } = await promotion();
     // event confirmation is distinct from an individual attendee's admission
     const id = await backend.run((ctx) =>
-        ctx.db.insert("messages", {
+        insertMessage(ctx, {
             key: "event-confirmation",
             to: "later@example.invalid",
             subject: "Event confirmed",
@@ -246,6 +249,8 @@ test("retain event-wide confirmation notices for waitlisted attendees", async ()
     const notification = await backend.run((ctx) => ctx.db.get(id));
     expect(await backend.query(internal.mail.messages.read, { id })).toEqual({
         ...notification!,
+        text: "The event will happen.",
+        html: undefined,
         unsubscribeToken: undefined,
     });
 }, 2000);
@@ -273,6 +278,7 @@ test("retain tentative admission and administrative cancellation notifications",
     for (const message of messages) {
         expect(await backend.query(internal.mail.messages.read, { id: message._id })).toEqual({
             ...message,
+            ...(await backend.run((ctx) => messageContent(ctx, message._id))),
             unsubscribeToken: undefined,
         });
     }
@@ -505,7 +511,7 @@ test("reject stale cancellation consent after the queue changes", async () => {
 test("promote suppressed recipients without counting or delivering their notification", async () => {
     const { backend } = await setup();
     await backend.run((ctx) =>
-        ctx.db.insert("subscriptions", {
+        insertSubscription(ctx, {
             email: "earlier@example.invalid",
             token: "suppressed",
             status: "suppressed",

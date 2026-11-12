@@ -194,11 +194,11 @@ export async function calendarRow(
         organiser === undefined
             ? await publicOrganisers(ctx, event, series)
             : { organiser, coOrganisers };
-    const rows = await ctx.db
-        .query("registrations")
+    const counts = await ctx.db
+        .query("eventCounts")
         .withIndex("by_event", (q) => q.eq("eventId", event._id))
-        .collect();
-    const registrations = event.registration.kind === "native" || rows.length ? rows : undefined;
+        .unique();
+    const hasRegistrations = event.registration.kind === "native" || !!counts?.total;
 
     return {
         ...credits,
@@ -217,8 +217,8 @@ export async function calendarRow(
         confirmation: event.confirmation,
         confirmedAt: event.confirmedAt,
 
-        rsvpCount: registrations?.filter((row) => row.status === "going").length,
-        waitlistCount: registrations?.filter((row) => row.status === "waitlist").length,
+        rsvpCount: hasRegistrations ? (counts?.going ?? 0) : undefined,
+        waitlistCount: hasRegistrations ? (counts?.waitlist ?? 0) : undefined,
     };
 }
 

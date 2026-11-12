@@ -6,6 +6,7 @@ import { attendanceCopy, welcome, resourcesPlaceholder } from "./attendance";
 import { ensureToken } from "../events/checkin";
 import { profileInvitation, profilePlaceholder, type ProfilePrompt } from "./involvement";
 import { updatedQuestions } from "../members/reviews";
+import { insertSubscription } from "./contacts";
 
 /** Code-owned URL placeholders; campaign authors never edit template markup. */
 export const links = {
@@ -32,7 +33,7 @@ export async function personalize(ctx: MutationCtx, content: Content, id: Recipi
         const token = crypto.randomUUID() + crypto.randomUUID();
         if (subscription) await ctx.db.patch(subscription._id, { token });
         else {
-            const subscriptionId = await ctx.db.insert("subscriptions", {
+            const subscriptionId = await insertSubscription(ctx, {
                 email: row.email,
                 status: "unsubscribed",
                 weekly: false,

@@ -14,3 +14,18 @@ export const posts = defineTable({
     updatedAt: v.number(),
     createdBy: v.id("members"),
 }).index("by_slug", ["slug"]);
+
+/** Published organisation mentions, without editorial drafts or article bodies. */
+export const newsMentions = defineTable({
+    postId: v.id("posts"),
+    organisationId: v.id("organisations"),
+    slug: v.string(),
+    title: v.string(),
+    date: v.number(),
+    originalDate: v.number(),
+    path: v.string(),
+    image: v.optional(v.string()),
+    isFunding: v.boolean(),
+})
+    .index("by_post", ["postId"])
+    .index("by_organisation", ["organisationId"]);

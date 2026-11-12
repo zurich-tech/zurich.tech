@@ -36,25 +36,26 @@ export function subscriptionHistory(
 /** Record delivery evidence without changing consent or suppression. */
 export async function record(ctx: MutationCtx, message: Doc<"messages">) {
     if (message.isTest) return;
-    const subscription = await ctx.db
-        .query("subscriptions")
-        .withIndex("by_email", (q) => q.eq("email", message.to))
-        .unique();
-    if (!subscription) return;
-
     // preserve adverse history even if another message succeeds later
     const hasFailure =
         message.status === "failed" ||
         ["bounced", "complained", "failed", "suppressed"].includes(message.outcome ?? "");
     const deliveredAt = message.outcome === "delivered" ? message.firstAttemptAt : undefined;
-    if (hasFailure || deliveredAt !== undefined)
-        await ctx.db.patch(subscription._id, {
-            hasDeliveryFailure: subscription.hasDeliveryFailure || hasFailure,
-            deliveredAt:
-                deliveredAt === undefined
-                    ? subscription.deliveredAt
-                    : Math.max(subscription.deliveredAt ?? 0, deliveredAt),
-        });
+    if (!hasFailure && deliveredAt === undefined) return;
+    const recipient = await ctx.db
+        .query("mailRecipients")
+        .withIndex("by_email", (query) => query.eq("email", message.to))
+        .unique();
+    const values = {
+        email: message.to,
+        hasDeliveryFailure: !!recipient?.hasDeliveryFailure || hasFailure,
+        deliveredAt:
+            deliveredAt === undefined
+                ? recipient?.deliveredAt
+                : Math.max(recipient?.deliveredAt ?? 0, deliveredAt),
+    };
+    if (recipient) await ctx.db.patch(recipient._id, values);
+    else await ctx.db.insert("mailRecipients", values);
 }
 
 /** Index existing outcomes in bounded pages before enabling delivery-based audiences. */

@@ -2,6 +2,7 @@ import type { MutationCtx } from "../_generated/server";
 import type { Id } from "../_generated/dataModel";
 import { normalizeEmail } from "../members/emails";
 import { subscriptionHistory } from "./history";
+import { insertSubscription } from "./contacts";
 
 /** Enable every email category for a new subscription. */
 export const emailPreferences = {
@@ -26,7 +27,7 @@ export async function enrollSubscription(
 
     // retain the entry point alongside the initial subscription state
     const state = { status: "subscribed" as const, ...emailPreferences };
-    await ctx.db.insert("subscriptions", {
+    await insertSubscription(ctx, {
         ...values,
         email,
         ...state,

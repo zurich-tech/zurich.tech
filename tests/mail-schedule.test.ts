@@ -1,9 +1,16 @@
+import { insertSubscription } from "../convex/mail/contacts";
+import { insertRegistration } from "../convex/events/roster";
+import {
+    insertCampaign,
+    updateCampaign,
+    readCampaign,
+    type Campaign,
+} from "../convex/mail/campaign";
 import { afterEach, beforeEach, expect, setSystemTime, test } from "bun:test";
-import { convexTest, member, modules, schema } from "./backend";
+import { convexTest, member, modules, schema, insertMessage, messageContent } from "./backend";
 import { api, internal } from "../convex/_generated/api";
 import { quotaDefaults, reserve } from "../convex/mail/sending";
 import { sendingDate } from "../convex/mail/policy";
-import type { Doc } from "../convex/_generated/dataModel";
 import type { TestConvex } from "convex-test";
 import { select } from "../convex/mail/audiences";
 
@@ -77,7 +84,7 @@ async function setup() {
             hourlyLimit: 20,
             nextAt: 0,
         });
-        const subscriptionId = await ctx.db.insert("subscriptions", {
+        const subscriptionId = await insertSubscription(ctx, {
             email: "original@example.invalid",
             status: "subscribed",
             token: "original",
@@ -92,7 +99,7 @@ async function setup() {
         message: "Frozen original content.",
     });
     const preview = await admin.query(api.mail.campaigns.preview, { id });
-    const draft = (await backend.run((ctx) => ctx.db.get(id)))!;
+    const draft = (await backend.run((ctx) => readCampaign(ctx, id)))!;
     const args = {
         id,
         expectedUpdatedAt: draft.updatedAt,
@@ -104,13 +111,142 @@ async function setup() {
     return { backend, admin, id, args, draft, ...records };
 }
 
+/** Execute the next pacing transaction without running any provider actions. */
+async function advanceDispatcher(backend: TestConvex<typeof schema>, delay = 0) {
+    const dispatcher = await backend.run(async (ctx) => {
+        const dispatcher = await ctx.db.query("mailDispatcher").unique();
+        if (!dispatcher?.jobId) throw new Error("dispatcher job is missing");
+        const job = await ctx.db.system.get(dispatcher.jobId);
+        if (!job) throw new Error("dispatcher job is missing");
+        for (const pending of await ctx.db.system.query("_scheduled_functions").collect())
+            if (pending.state.kind === "pending") await ctx.scheduler.cancel(pending._id);
+
+        return { generation: dispatcher.generation, at: job.scheduledTime };
+    });
+    setSystemTime(dispatcher.at + delay);
+    await backend.mutation(internal.mail.sending.dispatch, { generation: dispatcher.generation });
+}
+
+for (const delay of [0, 100, 500, 1000]) {
+    test(`test_dispatch_once_per_recipient_with_${delay}ms_scheduler_delay`, async () => {
+        const { backend, quotaId, policyId } = await setup();
+        const count = 40;
+        await backend.run(async (ctx) => {
+            await ctx.db.patch(quotaId, { ceiling: 5000, hourlyLimit: 1600 });
+            await ctx.db.patch(policyId, { approvedDate: sendingDate(now), approvedLimit: count });
+            for (let index = 0; index < count; index++)
+                await insertMessage(ctx, {
+                    key: `paced-${index}`,
+                    to: `${index}@example.invalid`,
+                    subject: "Paced",
+                    text: "Paced",
+                    status: "queued",
+                    isBulk: true,
+                    category: "campaign",
+                    attempts: 0,
+                    nextAttemptAt: now,
+                    createdAt: now,
+                });
+        });
+        await backend.mutation(internal.mail.sending.dispatch, {});
+        for (let index = 1; index < count; index++) {
+            // repeated cron callbacks leave the same pending pacing job untouched
+            const before = await backend.run((ctx) => ctx.db.query("mailDispatcher").unique());
+            await backend.mutation(internal.mail.sending.dispatch, {});
+            expect(await backend.run((ctx) => ctx.db.query("mailDispatcher").unique())).toEqual(
+                before,
+            );
+            await advanceDispatcher(backend, delay);
+        }
+        const jobs = await backend.run((ctx) =>
+            ctx.db.system.query("_scheduled_functions").collect(),
+        );
+        const deliveries = jobs.filter((job) => job.name === "mail/messages:deliver");
+        expect(deliveries.length).toBe(count);
+        expect(new Set(deliveries.map((job) => job.args[0].id)).size).toBe(count);
+        expect(deliveries.map((job) => job.scheduledTime)).toEqual(
+            Array.from({ length: count }, (_, index) => now + index * (2250 + delay)),
+        );
+        expect((await backend.run((ctx) => ctx.db.get(quotaId)))!.count).toBe(count);
+    });
+}
+
+test("test_ignore_stale_dispatcher_callbacks_and_recover_cancelled_jobs", async () => {
+    const { backend, quotaId, policyId } = await setup();
+    await backend.run(async (ctx) => {
+        await ctx.db.patch(policyId, { approvedDate: sendingDate(now), approvedLimit: 10 });
+        await ctx.db.patch(quotaId, { nextAt: now + 1000 });
+        await insertMessage(ctx, {
+            key: "recovery",
+            to: "recovery@example.invalid",
+            subject: "Recovery",
+            text: "Recovery",
+            isBulk: true,
+            category: "campaign",
+            status: "queued",
+            attempts: 0,
+            nextAttemptAt: now,
+            createdAt: now,
+        });
+    });
+    await backend.mutation(internal.mail.sending.dispatch, {});
+    const old = (await backend.run((ctx) => ctx.db.query("mailDispatcher").unique()))!;
+    await backend.run((ctx) => ctx.scheduler.cancel(old.jobId!));
+    await backend.mutation(internal.mail.sending.dispatch, {});
+    const current = await backend.run((ctx) => ctx.db.query("mailDispatcher").unique());
+    expect(current!.generation).toBe(old.generation + 1);
+    await backend.mutation(internal.mail.sending.dispatch, { generation: old.generation });
+    expect(await backend.run((ctx) => ctx.db.query("mailDispatcher").unique())).toEqual(current);
+    expect((await backend.run((ctx) => ctx.db.get(quotaId)))!.count).toBe(0);
+});
+
+test("test_preserve_the_final_attempt_until_its_lease_expires", async () => {
+    const { backend, policyId, quotaId } = await setup();
+    const id = await backend.run(async (ctx) => {
+        await ctx.db.patch(policyId, { approvedDate: sendingDate(now), approvedLimit: 10 });
+        await ctx.db.patch(quotaId, { hourlyLimit: 3600 });
+        return insertMessage(ctx, {
+            key: "last-attempt",
+            to: "last@example.invalid",
+            subject: "Retry",
+            text: "Retry",
+            status: "queued",
+            isBulk: true,
+            category: "campaign",
+            attempts: 4,
+            nextAttemptAt: now,
+            createdAt: now,
+        });
+    });
+    await backend.mutation(internal.mail.sending.dispatch, {});
+    await advanceDispatcher(backend);
+    expect(await backend.run((ctx) => ctx.db.get(id))).toMatchObject({
+        status: "queued",
+        attempts: 5,
+        nextAttemptAt: now + 300000,
+    });
+    expect((await backend.run((ctx) => ctx.db.get(quotaId)))!.count).toBe(1);
+
+    // recovery may fail an abandoned final attempt only after its full lease
+    setSystemTime(now + 300000);
+    await backend.run(async (ctx) => {
+        const dispatcher = (await ctx.db.query("mailDispatcher").unique())!;
+        await ctx.scheduler.cancel(dispatcher.jobId!);
+    });
+    await backend.mutation(internal.mail.sending.dispatch, {});
+    expect(await backend.run((ctx) => ctx.db.get(id))).toMatchObject({
+        status: "failed",
+        attempts: 5,
+    });
+});
+
 test("test_approve_now_without_global_approval_or_policy_changes", async () => {
     const fixture = await setup();
     const { backend, admin, id, args, accountId, subscriptionId } = fixture;
     const policy = await backend.run((ctx) => ctx.db.get(fixture.policyId));
     const quota = await backend.run((ctx) => ctx.db.get(fixture.quotaId));
     await admin.mutation(api.mail.campaigns.queue, args);
-    expect(await backend.run((ctx) => ctx.db.get(id))).toMatchObject({
+    expect(await backend.run((ctx) => readCampaign(ctx, id))).toMatchObject({
         status: "queued",
         recipients: [subscriptionId],
         attempts: 0,
@@ -131,7 +267,7 @@ test("test_approve_now_without_global_approval_or_policy_changes", async () => {
     expect(await backend.mutation(internal.mail.messages.claim, { id: messages[0]._id })).toBe(
         true,
     );
-    expect(await backend.run((ctx) => ctx.db.get(id))).toMatchObject({
+    expect(await backend.run((ctx) => readCampaign(ctx, id))).toMatchObject({
         attempts: 1,
         nextAttemptAt: now + 360000,
     });
@@ -141,7 +277,7 @@ test("test_freeze_scheduled_membership_and_content_at_approval", async () => {
     const { backend, admin, id, args, subscriptionId } = await setup();
     const scheduledAt = now + 60000;
     await admin.mutation(api.mail.campaigns.queue, { ...args, scheduledAt });
-    const approved = (await backend.run((ctx) => ctx.db.get(id)))!;
+    const approved = (await backend.run((ctx) => readCampaign(ctx, id)))!;
     expect(approved).toMatchObject({
         status: "scheduled",
         recipients: [subscriptionId],
@@ -149,7 +285,7 @@ test("test_freeze_scheduled_membership_and_content_at_approval", async () => {
     });
     expect(approved.cursor).toBeUndefined();
     await backend.run((ctx) =>
-        ctx.db.insert("subscriptions", {
+        insertSubscription(ctx, {
             email: "late@example.invalid",
             status: "subscribed",
             token: "late",
@@ -166,7 +302,7 @@ test("test_freeze_scheduled_membership_and_content_at_approval", async () => {
     ).rejects.toThrow("Only written drafts in the same audience scope can be edited.");
     await admin.mutation(api.mail.campaigns.pause, { id, isPaused: true });
     await admin.mutation(api.mail.campaigns.pause, { id, isPaused: false });
-    expect(await backend.run((ctx) => ctx.db.get(id))).toMatchObject({
+    expect(await backend.run((ctx) => readCampaign(ctx, id))).toMatchObject({
         status: "scheduled",
         approval: approved.approval,
         content: approved.content,
@@ -178,8 +314,10 @@ test("test_freeze_scheduled_membership_and_content_at_approval", async () => {
     await backend.mutation(internal.mail.campaigns.batch, { id });
     const messages = await backend.run((ctx) => ctx.db.query("messages").collect());
     expect(messages.map((message) => message.subscriptionId)).toEqual([subscriptionId]);
-    expect(messages[0].text).toContain("Frozen original content.");
-    expect(await backend.run((ctx) => ctx.db.get(id))).toMatchObject({
+    expect((await backend.run((ctx) => messageContent(ctx, messages[0]._id))).text).toContain(
+        "Frozen original content.",
+    );
+    expect(await backend.run((ctx) => readCampaign(ctx, id))).toMatchObject({
         approval: approved.approval,
         recipients: [subscriptionId],
     });
@@ -193,7 +331,7 @@ test("test_reject_equal_count_replacement_and_missing_reviewed_identities", asyn
     ).rejects.toThrow("Recipients changed. Preview the campaign again.");
     await backend.run(async (ctx) => {
         await ctx.db.patch(subscriptionId, { status: "unsubscribed" });
-        await ctx.db.insert("subscriptions", {
+        await insertSubscription(ctx, {
             email: "replacement@example.invalid",
             status: "subscribed",
             token: "replacement",
@@ -204,7 +342,7 @@ test("test_reject_equal_count_replacement_and_missing_reviewed_identities", asyn
     await expect(admin.mutation(api.mail.campaigns.queue, args)).rejects.toThrow(
         "Recipients changed. Preview the campaign again.",
     );
-    expect(await backend.run((ctx) => ctx.db.get(id))).toEqual(draft);
+    expect(await backend.run((ctx) => readCampaign(ctx, id))).toEqual(draft);
     expect(await backend.run((ctx) => ctx.db.query("messages").collect())).toEqual([]);
 });
 
@@ -223,7 +361,7 @@ test("test_reject_invalid_rates_stale_previews_and_past_schedule_without_mutatio
     await expect(
         admin.mutation(api.mail.campaigns.queue, { ...args, scheduledAt: now }),
     ).rejects.toThrow("Choose a future send time.");
-    expect(await backend.run((ctx) => ctx.db.get(id))).toEqual(draft);
+    expect(await backend.run((ctx) => readCampaign(ctx, id))).toEqual(draft);
 });
 
 test("test_reject_non_admin_subscriber_approval", async () => {
@@ -238,7 +376,7 @@ test("test_reject_non_admin_subscriber_approval", async () => {
 
 test("test_allow_untouched_zero_limit_draft_but_never_reapprove_legacy_work", async () => {
     const { backend, admin, id, args } = await setup();
-    const legacy: Partial<Doc<"campaigns">>[] = [
+    const legacy: Partial<Campaign>[] = [
         { attempts: 1 },
         { attemptLimit: 1 },
         { recipients: [] },
@@ -246,7 +384,7 @@ test("test_allow_untouched_zero_limit_draft_but_never_reapprove_legacy_work", as
     ];
     for (const fields of legacy) {
         await backend.run((ctx) =>
-            ctx.db.patch(id, {
+            updateCampaign(ctx, id, {
                 attempts: undefined,
                 attemptLimit: undefined,
                 recipients: undefined,
@@ -259,7 +397,7 @@ test("test_allow_untouched_zero_limit_draft_but_never_reapprove_legacy_work", as
         );
     }
     await backend.run((ctx) =>
-        ctx.db.patch(id, {
+        updateCampaign(ctx, id, {
             attempts: 0,
             attemptLimit: 0,
             recipients: undefined,
@@ -278,7 +416,7 @@ test("test_expire_at_zurich_midnight_even_when_global_delivery_is_paused", async
     await backend.run((ctx) => ctx.db.patch(policyId, { isPaused: true }));
     setSystemTime(Date.parse("2026-10-14T22:00:00Z"));
     await backend.mutation(internal.mail.campaigns.tick, {});
-    expect(await backend.run((ctx) => ctx.db.get(id))).toMatchObject({
+    expect(await backend.run((ctx) => readCampaign(ctx, id))).toMatchObject({
         status: "paused",
         pauseReason:
             "Campaign approval expired at Zurich midnight. Review unsent recipients in a new campaign.",
@@ -294,7 +432,7 @@ test("test_never_borrow_global_approval_to_override_campaign_date_or_cap", async
     await backend.run((ctx) =>
         ctx.db.patch(policyId, { approvedDate: sendingDate(now), approvedLimit: 100 }),
     );
-    const campaign = (await backend.run((ctx) => ctx.db.get(id)))!;
+    const campaign = (await backend.run((ctx) => readCampaign(ctx, id)))!;
     for (const changed of [
         { ...campaign, attempts: 1 },
         { ...campaign, approval: { ...campaign.approval!, date: "2026-10-13" } },
@@ -308,11 +446,11 @@ test("test_never_borrow_global_approval_to_override_campaign_date_or_cap", async
 test("test_preserve_campaign_pacing_across_pause_and_global_quota_limits", async () => {
     const { backend, admin, id, args, quotaId } = await setup();
     await admin.mutation(api.mail.campaigns.queue, args);
-    const campaign = (await backend.run((ctx) => ctx.db.get(id)))!;
+    const campaign = (await backend.run((ctx) => readCampaign(ctx, id)))!;
     expect(await backend.run((ctx) => reserve(ctx, now, campaign))).toBe(true);
     await admin.mutation(api.mail.campaigns.pause, { id, isPaused: true });
     await admin.mutation(api.mail.campaigns.pause, { id, isPaused: false });
-    const resumed = (await backend.run((ctx) => ctx.db.get(id)))!;
+    const resumed = (await backend.run((ctx) => readCampaign(ctx, id)))!;
     expect(resumed.nextAttemptAt).toBe(now + 360000);
     expect(await backend.run((ctx) => reserve(ctx, now + 180000, resumed))).toEqual({
         retryAt: now + 360000,
@@ -343,7 +481,7 @@ test("test_create_fresh_announcements_without_legacy_attempt_limit", async () =>
         eventId,
         audience: { kind: "subscribers", excludeEventId: eventId },
     });
-    const campaign = (await backend.run((ctx) => ctx.db.get(id)))!;
+    const campaign = (await backend.run((ctx) => readCampaign(ctx, id)))!;
     expect(campaign.attemptLimit).toBeUndefined();
     const preview = await admin.query(api.mail.campaigns.preview, { id });
     await admin.mutation(api.mail.campaigns.queue, {
@@ -353,7 +491,7 @@ test("test_create_fresh_announcements_without_legacy_attempt_limit", async () =>
         expectedRecipientIds: preview.recipientIds,
         hourlyLimit: 10,
     });
-    expect(await backend.run((ctx) => ctx.db.get(id))).toMatchObject({
+    expect(await backend.run((ctx) => readCampaign(ctx, id))).toMatchObject({
         attemptLimit: 1,
         attempts: 0,
         status: "queued",
@@ -383,7 +521,7 @@ test("test_respect_delivery_stops_and_later_opt_outs_after_approval", async () =
         status: "skipped",
         attempts: 0,
     });
-    expect(await backend.run((ctx) => ctx.db.get(id))).toMatchObject({ attempts: 0 });
+    expect(await backend.run((ctx) => readCampaign(ctx, id))).toMatchObject({ attempts: 0 });
     expect(await backend.run((ctx) => ctx.db.get(quotaId))).toEqual(quota);
 });
 
@@ -392,7 +530,7 @@ test("test_dispatch_campaign_approval_without_global_approval_at_its_own_rate", 
     await backend.run(async (ctx) => {
         await ctx.db.patch(quotaId, { hourlyLimit: 3600 });
         for (const name of ["second", "third"])
-            await ctx.db.insert("subscriptions", {
+            await insertSubscription(ctx, {
                 email: `${name}@example.invalid`,
                 status: "subscribed",
                 token: name,
@@ -409,7 +547,7 @@ test("test_dispatch_campaign_approval_without_global_approval_at_its_own_rate", 
     });
     const records = await backend.run(async (ctx) => {
         await ctx.db.patch(id, { nextAttemptAt: now + 10000 });
-        const legacyId = await ctx.db.insert("campaigns", {
+        const legacyId = await insertCampaign(ctx, {
             subject: "Legacy",
             message: "Unapproved",
             category: "campaign",
@@ -422,7 +560,7 @@ test("test_dispatch_campaign_approval_without_global_approval_at_its_own_rate", 
         const messages = [];
         for (const [index, campaignId] of [legacyId, id, id, id].entries()) {
             messages.push(
-                await ctx.db.insert("messages", {
+                await insertMessage(ctx, {
                     key: `dispatch-${index}`,
                     to: `dispatch-${index}@example.invalid`,
                     subject: "Test",
@@ -450,13 +588,15 @@ test("test_dispatch_campaign_approval_without_global_approval_at_its_own_rate", 
     const after = await backend.run((ctx) => ctx.db.system.query("_scheduled_functions").collect());
     const scheduled = after.filter((job) => !before.some((old) => old._id === job._id));
 
-    // campaign pacing exceeds shared spacing; the third attempt falls outside this minute
+    // reserve no attempts before the campaign's next eligible time
     expect(
         scheduled.map((job) => ({ name: job.name, args: job.args, at: job.scheduledTime })),
-    ).toEqual([
-        { name: "mail/messages:deliver", args: [{ id: records[1] }], at: now + 10000 },
-        { name: "mail/messages:deliver", args: [{ id: records[2] }], at: now + 40000 },
-    ]);
+    ).toEqual([{ name: "mail/sending:dispatch", args: [{ generation: 1 }], at: now + 10000 }]);
+    await advanceDispatcher(backend);
+    expect(await backend.run((ctx) => ctx.db.get(records[1]))).toMatchObject({ attempts: 1 });
+    await advanceDispatcher(backend);
+    await advanceDispatcher(backend);
+    expect(await backend.run((ctx) => ctx.db.get(records[2]))).toMatchObject({ attempts: 1 });
     expect(await backend.run((ctx) => ctx.db.get(records[0]))).toMatchObject({
         nextAttemptAt: now - 1000,
         attempts: 0,
@@ -484,7 +624,7 @@ test("test_keep_organiser_transactional_queue_without_subscriber_approval", asyn
             createdAt: now,
             updatedAt: now,
         });
-        await ctx.db.insert("registrations", {
+        await insertRegistration(ctx, {
             eventId,
             email: "attendee@example.invalid",
             name: "Attendee",
@@ -510,13 +650,13 @@ test("test_keep_organiser_transactional_queue_without_subscriber_approval", asyn
     });
     const preview = await admin.query(api.mail.campaigns.preview, { id });
     expect(preview.recipientIds).toBeUndefined();
-    const campaign = (await backend.run((ctx) => ctx.db.get(id)))!;
+    const campaign = (await backend.run((ctx) => readCampaign(ctx, id)))!;
     const args = { id, expectedUpdatedAt: campaign.updatedAt, expectedRecipients: 1 };
     await expect(
         admin.mutation(api.mail.campaigns.queue, { ...args, hourlyLimit: 10 }),
     ).rejects.toThrow("Hourly limits apply only to subscriber campaigns.");
     await admin.mutation(api.mail.campaigns.queue, args);
-    const queued = (await backend.run((ctx) => ctx.db.get(id)))!;
+    const queued = (await backend.run((ctx) => readCampaign(ctx, id)))!;
     expect(queued.status).toBe("queued");
     expect(queued.approval).toBeUndefined();
     expect(queued.attemptLimit).toBeUndefined();
@@ -552,7 +692,7 @@ async function announcement() {
 
 test("test_release_cancelled_unattempted_schedule_for_new_announcement", async () => {
     const { backend, admin, id, eventId, audience, subscriptionId } = await announcement();
-    const draft = (await backend.run((ctx) => ctx.db.get(id)))!;
+    const draft = (await backend.run((ctx) => readCampaign(ctx, id)))!;
     const preview = await admin.query(api.mail.campaigns.preview, { id });
     await admin.mutation(api.mail.campaigns.queue, {
         id,
@@ -581,7 +721,7 @@ test("test_release_cancelled_unattempted_schedule_for_new_announcement", async (
         hourlyLimit: 10,
         scheduledAt: now + 120000,
     });
-    expect(await backend.run((ctx) => ctx.db.get(replacement))).toMatchObject({
+    expect(await backend.run((ctx) => readCampaign(ctx, replacement))).toMatchObject({
         status: "scheduled",
         recipients: [subscriptionId],
     });
@@ -592,7 +732,7 @@ for (const ending of ["cancel", "expire"] as const) {
     test(`test_${ending}_reserves_only_real_attempted_announcement_recipients`, async () => {
         const { backend, admin, id, audience, subscriptionId } = await announcement();
         const untouched = await backend.run((ctx) =>
-            ctx.db.insert("subscriptions", {
+            insertSubscription(ctx, {
                 email: "untouched@example.invalid",
                 status: "subscribed",
                 token: "untouched",
@@ -600,7 +740,7 @@ for (const ending of ["cancel", "expire"] as const) {
                 updatedAt: now,
             }),
         );
-        const draft = (await backend.run((ctx) => ctx.db.get(id)))!;
+        const draft = (await backend.run((ctx) => readCampaign(ctx, id)))!;
         const preview = await admin.query(api.mail.campaigns.preview, { id });
         await admin.mutation(api.mail.campaigns.queue, {
             id,
@@ -617,7 +757,7 @@ for (const ending of ["cancel", "expire"] as const) {
             )!;
             await ctx.db.patch(attempted._id, { attempts: 1, firstAttemptAt: now });
             await ctx.db.patch(id, { attempts: 1 });
-            await ctx.db.insert("messages", {
+            await insertMessage(ctx, {
                 key: "self-test",
                 to: "untouched@example.invalid",
                 subject: "Test",
@@ -650,126 +790,94 @@ for (const ending of ["cancel", "expire"] as const) {
     });
 }
 
-test("test_dispatch_fast_campaign_despite_one_hundred_older_slow_messages", async () => {
-    const { backend, accountId, quotaId } = await setup();
-    const records = await backend.run(async (ctx) => {
-        await ctx.db.patch(quotaId, { ceiling: 500, hourlyLimit: 3600 });
-        const messages = [];
-        for (const [name, count, hourlyLimit] of [
-            ["slow", 100, 1],
-            ["fast", 1, 3600],
-        ] as const) {
-            const campaignId = await ctx.db.insert("campaigns", {
-                subject: name,
-                message: name,
-                category: "campaign",
-                status: "queued",
-                scheduledAt: now,
-                approval: {
-                    date: sendingDate(now),
-                    limit: count,
-                    hourlyLimit,
-                    approvedAt: now,
-                    approvedBy: accountId,
-                },
-                attemptLimit: count,
-                attempts: 0,
-                createdAt: now,
-                updatedAt: now,
-            });
-            for (let index = 0; index < count; index++)
-                messages.push(
-                    await ctx.db.insert("messages", {
-                        key: `${name}-${index}`,
-                        to: `${name}-${index}@example.invalid`,
-                        subject: name,
-                        text: name,
-                        campaignId,
-                        category: "campaign",
-                        status: "queued",
-                        isBulk: true,
-                        attempts: 0,
-                        nextAttemptAt: now - (name === "slow" ? 1000 : 1),
-                        createdAt: now,
-                    }),
-                );
-        }
-
-        return messages;
-    });
-    await backend.mutation(internal.mail.sending.dispatch, {});
-    const jobs = await backend.run((ctx) => ctx.db.system.query("_scheduled_functions").collect());
-    expect(jobs.map((job) => ({ name: job.name, args: job.args, at: job.scheduledTime }))).toEqual([
-        { name: "mail/messages:deliver", args: [{ id: records[0] }], at: now },
-        { name: "mail/messages:deliver", args: [{ id: records[100] }], at: now + 1000 },
-    ]);
-});
-
-test("test_fill_unique_shared_slots_with_mixed_campaign_rates", async () => {
-    const { backend, accountId, quotaId } = await setup();
-    const records = await backend.run(async (ctx) => {
-        await ctx.db.patch(quotaId, { ceiling: 500, hourlyLimit: 360 });
-        const messages = [];
-        for (const [name, count, hourlyLimit] of [
-            ["older", 3, 120],
-            ["newer", 6, 360],
-        ] as const) {
-            const campaignId = await ctx.db.insert("campaigns", {
-                subject: name,
-                message: name,
-                category: "campaign",
-                status: "queued",
-                scheduledAt: now,
-                approval: {
-                    date: sendingDate(now),
-                    limit: count,
-                    hourlyLimit,
-                    approvedAt: now,
-                    approvedBy: accountId,
-                },
-                attemptLimit: count,
-                attempts: 0,
-                createdAt: now,
-                updatedAt: now,
-            });
-            for (let index = 0; index < count; index++) {
-                messages.push(
-                    await ctx.db.insert("messages", {
-                        key: `${name}-${index}`,
-                        to: `${name}-${index}@example.invalid`,
-                        subject: name,
-                        text: name,
-                        campaignId,
-                        category: "campaign",
-                        status: "queued",
-                        isBulk: true,
-                        attempts: 0,
-                        nextAttemptAt: now - (name === "older" ? 1000 : 100) + index,
-                        createdAt: now,
-                    }),
-                );
+for (const scenario of [
+    {
+        name: "dispatch_fast_campaign_despite_one_hundred_older_slow_messages",
+        hourly: 3600,
+        campaigns: [
+            [100, 1],
+            [1, 3600],
+        ],
+        order: [0, 100],
+    },
+    {
+        name: "fill_unique_shared_slots_with_mixed_campaign_rates",
+        hourly: 360,
+        campaigns: [
+            [3, 120],
+            [6, 360],
+        ],
+        order: [0, 3, 4, 1, 5, 6],
+    },
+] as const) {
+    test(`test_${scenario.name}`, async () => {
+        const { backend, accountId, quotaId } = await setup();
+        const records = await backend.run(async (ctx) => {
+            await ctx.db.patch(quotaId, { ceiling: 500, hourlyLimit: scenario.hourly });
+            const messages = [];
+            for (const [group, [count, hourlyLimit]] of scenario.campaigns.entries()) {
+                const name = `campaign-${group}`;
+                const campaignId = await insertCampaign(ctx, {
+                    subject: name,
+                    message: name,
+                    category: "campaign",
+                    status: "queued",
+                    scheduledAt: now,
+                    approval: {
+                        date: sendingDate(now),
+                        limit: count,
+                        hourlyLimit,
+                        approvedAt: now,
+                        approvedBy: accountId,
+                    },
+                    attemptLimit: count,
+                    attempts: 0,
+                    createdAt: now,
+                    updatedAt: now,
+                });
+                for (let index = 0; index < count; index++)
+                    messages.push(
+                        await insertMessage(ctx, {
+                            key: `${name}-${index}`,
+                            to: `${name}-${index}@example.invalid`,
+                            subject: name,
+                            text: name,
+                            campaignId,
+                            category: "campaign",
+                            status: "queued",
+                            isBulk: true,
+                            attempts: 0,
+                            nextAttemptAt: now - (group === 0 ? 1000 : 100) + index,
+                            createdAt: now,
+                        }),
+                    );
             }
-        }
 
-        return messages;
+            return messages;
+        });
+        await backend.mutation(internal.mail.sending.dispatch, {});
+        for (let index = 1; index < scenario.order.length; index++)
+            await advanceDispatcher(backend);
+        const jobs = await backend.run((ctx) =>
+            ctx.db.system.query("_scheduled_functions").collect(),
+        );
+        const scheduled = jobs
+            .filter((job) => job.name === "mail/messages:deliver")
+            .sort((left, right) => left.scheduledTime - right.scheduledTime);
+
+        // preserve each campaign's pace while filling the shared sender's available slots
+        expect(
+            scheduled.map((job) => ({ name: job.name, args: job.args, at: job.scheduledTime })),
+        ).toEqual(
+            scenario.order.map((record, index) => ({
+                name: "mail/messages:deliver",
+                args: [{ id: records[record], attempt: 1 }],
+                at: now + (index * 3600000) / scenario.hourly,
+            })),
+        );
+        expect(new Set(scheduled.map((job) => job.scheduledTime)).size).toBe(scenario.order.length);
     });
-    await backend.mutation(internal.mail.sending.dispatch, {});
-    const jobs = await backend.run((ctx) => ctx.db.system.query("_scheduled_functions").collect());
-    const scheduled = jobs.sort((left, right) => left.scheduledTime - right.scheduledTime);
-
-    // fill all six shared slots without colliding or pulling the older campaign ahead of its pace
-    expect(
-        scheduled.map((job) => ({ name: job.name, args: job.args, at: job.scheduledTime })),
-    ).toEqual([
-        { name: "mail/messages:deliver", args: [{ id: records[0] }], at: now },
-        { name: "mail/messages:deliver", args: [{ id: records[3] }], at: now + 10000 },
-        { name: "mail/messages:deliver", args: [{ id: records[4] }], at: now + 20000 },
-        { name: "mail/messages:deliver", args: [{ id: records[1] }], at: now + 30000 },
-        { name: "mail/messages:deliver", args: [{ id: records[5] }], at: now + 40000 },
-        { name: "mail/messages:deliver", args: [{ id: records[6] }], at: now + 50000 },
-    ]);
-    expect(new Set(scheduled.map((job) => job.scheduledTime)).size).toBe(6);
-});
+}
 
 test("test_duplicate_approved_written_content_without_approval_or_delivery_history", async () => {
     const { backend, admin, id, args, accountId } = await setup();
@@ -778,7 +886,7 @@ test("test_duplicate_approved_written_content_without_approval_or_delivery_histo
         ctx.db.patch(id, { attempts: 1, nextAttemptAt: now + 360000, accepted: 1 }),
     );
     const copyId = await admin.mutation(api.mail.campaigns.duplicate, { id });
-    const copy = (await backend.run((ctx) => ctx.db.get(copyId)))!;
+    const copy = (await backend.run((ctx) => readCampaign(ctx, copyId)))!;
     const { _id, _creationTime, ...fields } = copy;
     expect(_id).not.toBe(id);
     expect(fields).toEqual({

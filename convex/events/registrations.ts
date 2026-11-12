@@ -1,4 +1,4 @@
-import { registrations, waitingForSeats } from "./roster";
+import { registrations, waitingForSeats, insertRegistration, updateRegistration } from "./roster";
 import { enrollSubscription } from "../mail/enrollment";
 import { activeSponsors } from "../sponsorships/organisations";
 import { openJobs } from "../jobs/jobs";
@@ -196,7 +196,7 @@ export const cancel = mutation({
             throw new ConvexError(
                 "Registration changes are pending. Please review and confirm again.",
             );
-        await ctx.db.patch(row._id, { status: "cancelled", updatedAt: plan.now });
+        await updateRegistration(ctx, row._id, { status: "cancelled", updatedAt: plan.now });
         await promoteWaitlist(ctx, plan.event);
     },
 });
@@ -405,7 +405,7 @@ export const decide = mutation({
         const { row, event, status, now } = plan;
 
         // record the decision and notify affected attendees
-        await ctx.db.patch(row._id, {
+        await updateRegistration(ctx, row._id, {
             status,
             approvedAt: args.decision === "approve" ? now : undefined,
             updatedAt: now,
@@ -438,7 +438,7 @@ export async function promoteWaitlist(ctx: MutationCtx, event: Doc<"events">) {
 
     // fill available seats and email each promoted attendee
     for (const row of waiting) {
-        await ctx.db.patch(row._id, { status: "going", updatedAt: Date.now() });
+        await updateRegistration(ctx, row._id, { status: "going", updatedAt: Date.now() });
         await notify(
             ctx,
             event,
@@ -575,8 +575,8 @@ export async function register(
     };
 
     // save the registration before queueing its confirmation
-    const id = existing ? existing._id : await ctx.db.insert("registrations", values);
-    if (existing) await ctx.db.patch(id, values);
+    const id = existing ? existing._id : await insertRegistration(ctx, values);
+    if (existing) await updateRegistration(ctx, id, values);
     const registration = await ctx.db.get(id);
     if (!registration) throw new Error("Registration disappeared.");
     await evaluate(ctx, event);

@@ -4,6 +4,7 @@ import { v } from "convex/values";
 import { httpAction, internalMutation, type MutationCtx } from "../_generated/server";
 import { api, internal } from "../_generated/api";
 import { subscriptionHistory } from "./history";
+import { insertSubscription, updateSubscription } from "./contacts";
 import { siteOrigin } from "../auth/environment";
 import { halve, sendingDate } from "./policy";
 import { health, recordComplaint, complaintLimit } from "./health";
@@ -57,9 +58,9 @@ export async function reconcile(ctx: MutationCtx, providerId: string) {
                 `resend:${outcome}`,
             ),
         };
-        if (subscription) await ctx.db.patch(subscription._id, values);
+        if (subscription) await updateSubscription(ctx, subscription._id, values);
         else
-            await ctx.db.insert("subscriptions", {
+            await insertSubscription(ctx, {
                 ...values,
                 email: delivery.to,
                 createdAt: now,

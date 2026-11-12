@@ -28,7 +28,7 @@ export const release = internalMutation({
         if (
             !campaign ||
             campaign.category !== "campaign" ||
-            campaign.cursor !== campaign.recipients?.length ||
+            campaign.cursor !== campaign.recipientCount ||
             !["paused", "queued"].includes(campaign.status) ||
             (!campaign.reviewedBatch && campaign.status !== "paused")
         )
@@ -73,6 +73,12 @@ export const release = internalMutation({
             const subscription = message?.subscriptionId
                 ? await ctx.db.get(message.subscriptionId)
                 : null;
+            const recipient = message
+                ? await ctx.db
+                      .query("mailRecipients")
+                      .withIndex("by_email", (query) => query.eq("email", message.to))
+                      .unique()
+                : null;
             if (
                 !message ||
                 message.campaignId !== campaign._id ||
@@ -86,8 +92,8 @@ export const release = internalMutation({
                 subscription.email !== message.to ||
                 subscription.status !== "subscribed" ||
                 !subscription.token ||
-                subscription.hasDeliveryFailure ||
-                subscription.deliveredAt !== undefined ||
+                recipient?.hasDeliveryFailure ||
+                recipient?.deliveredAt !== undefined ||
                 (subscription.weekly === false && subscription.announcements === false)
             )
                 throw new ConvexError(
@@ -153,7 +159,7 @@ export const apply = internalMutation({
         if (
             !campaign ||
             !["queued", "paused"].includes(campaign.status) ||
-            campaign.cursor !== campaign.recipients?.length
+            campaign.cursor !== campaign.recipientCount
         )
             throw new ConvexError("Campaign must be fully queued before reordering.");
         if (

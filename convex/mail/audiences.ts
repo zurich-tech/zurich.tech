@@ -3,6 +3,7 @@ import { isTentative } from "../events/conditions";
 import type { QueryCtx } from "../_generated/server";
 import type { Audience, Category, Recipient } from "./model";
 import { sendingDate } from "./policy";
+import { campaignContent } from "./campaign";
 
 /** Leave seven days between invitations for the same event. */
 export const invitationCooldown = 7 * 86400000;
@@ -11,10 +12,14 @@ export const invitationCooldown = 7 * 86400000;
 export async function select(ctx: QueryCtx, audience: Audience, category: Category) {
     // resolve reusable interest and delivery filters once per audience
     const filtered = audience.kind === "subscribers" ? audience : undefined;
-    const registrations =
-        filtered?.seriesId || filtered?.excludeEventId
-            ? await ctx.db.query("registrations").collect()
-            : [];
+    const registrations = filtered?.seriesId
+        ? await ctx.db.query("registrations").collect()
+        : filtered?.excludeEventId
+          ? await ctx.db
+                .query("registrations")
+                .withIndex("by_event", (query) => query.eq("eventId", filtered.excludeEventId!))
+                .collect()
+          : [];
     const events = filtered?.seriesId
         ? new Map((await ctx.db.query("events").collect()).map((event) => [event._id, event]))
         : new Map<string, Doc<"events">>();
@@ -79,7 +84,8 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
                         attempted.firstAttemptAt > cutoff) ||
                     (accepted?.sentAt !== undefined && accepted.sentAt > cutoff);
                 if (isReserved || isRecent) {
-                    for (const id of campaign.recipients ?? []) recipients.add(id);
+                    for (const id of (await campaignContent(ctx, campaign._id)).recipients ?? [])
+                        recipients.add(id);
                 }
                 continue;
             }
@@ -103,7 +109,8 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
                         recipients.add(message.subscriptionId);
                 }
             } else {
-                for (const id of campaign.recipients ?? []) recipients.add(id);
+                for (const id of (await campaignContent(ctx, campaign._id)).recipients ?? [])
+                    recipients.add(id);
             }
         }
         for (const id of recipients) {
@@ -188,13 +195,18 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
             continue;
         if (filtered?.excludeEventId && identities.some((identity) => registered.has(identity)))
             continue;
-        if (
-            filtered?.deliveredSince !== undefined &&
-            (subscription?.deliveredAt === undefined ||
-                subscription.deliveredAt < filtered.deliveredSince ||
-                subscription.hasDeliveryFailure)
-        )
-            continue;
+        if (filtered?.deliveredSince !== undefined) {
+            const recipient = await ctx.db
+                .query("mailRecipients")
+                .withIndex("by_email", (query) => query.eq("email", email))
+                .unique();
+            if (
+                recipient?.deliveredAt === undefined ||
+                recipient.deliveredAt < filtered.deliveredSince ||
+                recipient.hasDeliveryFailure
+            )
+                continue;
+        }
         const unique = category === "announcement" ? identities : [email];
         if (unique.some((identity) => emails.has(identity))) continue;
         unique.forEach((identity) => emails.add(identity));

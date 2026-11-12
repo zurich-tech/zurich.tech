@@ -1,6 +1,13 @@
 import { expect, test } from "bun:test";
 import { convexTest, schema, modules, member } from "./backend";
 import { api } from "../convex/_generated/api";
+import { updateMentions } from "../convex/news/mentions";
+import type { MutationCtx } from "../convex/_generated/server";
+
+/** Seed the same published index maintained by the publication transaction. */
+async function indexNews(ctx: MutationCtx) {
+    for (const post of await ctx.db.query("posts").collect()) await updateMentions(ctx, post);
+}
 
 /** Return only published linked stories, with stable URLs, limits and honest totals. */
 test("test_read_map_news_without_drafts_or_unrelated_stories", async () => {
@@ -56,6 +63,7 @@ test("test_read_map_news_without_drafts_or_unrelated_stories", async () => {
         await ctx.db.patch(newest!._id, {
             published: { ...newest!.published!, organisations: [organisation, second] },
         });
+        await indexNews(ctx);
     });
 
     expect(
@@ -142,6 +150,7 @@ test("test_read_map_news_without_drafts_or_unrelated_stories", async () => {
         await ctx.db.patch(story!._id, {
             published: { ...story!.published!, organisations: [second!._id] },
         });
+        await indexNews(ctx);
     });
     expect(
         await backend.query(api.places.map.activity, {
@@ -336,6 +345,7 @@ test("map signals use published story dates and explicit fundraising topics", as
                 included.fundraising.push(organisation);
         }
 
+        await indexNews(ctx);
         return included;
     });
     const signals = await backend.query(api.places.map.signals, {});

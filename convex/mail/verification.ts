@@ -1,6 +1,7 @@
 import { emailPreferences } from "./enrollment";
 import { requireRecipient, recipientsLocked } from "./policy";
 import { subscriptionHistory } from "./history";
+import { insertSubscription, updateSubscription } from "./contacts";
 import { verificationEmail } from "./templates";
 import { register, requireOpenEvent } from "../events/registrations";
 import { registrations } from "../events/roster";
@@ -132,9 +133,10 @@ export const confirm = mutation({
                 updatedAt: now,
             };
             const history = subscriptionHistory(subscription, values, now, "confirmation");
-            if (subscription) await ctx.db.patch(subscription._id, { ...values, history });
+            if (subscription)
+                await updateSubscription(ctx, subscription._id, { ...values, history });
             else
-                await ctx.db.insert("subscriptions", {
+                await insertSubscription(ctx, {
                     ...values,
                     history,
                     createdAt: now,

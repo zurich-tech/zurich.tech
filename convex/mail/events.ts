@@ -98,6 +98,13 @@ export const remind = internalMutation({
             (!args.manualAt && event.startsAt > Date.now() + 86400000)
         )
             return;
+        // completed and queued reminders retain the same identity across scheduler polls
+        const key = `reminder:${event._id}:${event.startsAt}:${args.manualAt ? "manual" : "automatic"}`;
+        const existing = await ctx.db
+            .query("campaigns")
+            .withIndex("by_key", (query) => query.eq("key", key))
+            .unique();
+        if (existing) return;
         const audience = {
             kind: "registrations" as const,
             eventId: event._id,
@@ -119,7 +126,7 @@ export const remind = internalMutation({
         await create(
             ctx,
             {
-                key: `reminder:${event._id}:${event.startsAt}:${args.manualAt ? "manual" : "automatic"}`,
+                key,
                 audience,
                 category: "reminder",
                 eventId: event._id,

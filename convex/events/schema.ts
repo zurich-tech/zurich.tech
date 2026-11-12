@@ -203,6 +203,7 @@ export const registrations = defineTable({
     .index("by_event", ["eventId"])
     .index("by_member", ["memberId"])
     .index("by_event_and_email", ["eventId", "email"])
+    .index("by_event_and_member", ["eventId", "memberId"])
     .index("by_check_in_token", ["checkInToken"])
     .index("by_token", ["token"]);
 

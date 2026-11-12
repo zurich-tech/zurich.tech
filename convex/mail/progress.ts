@@ -26,12 +26,18 @@ export async function updateMessage(
     if (patch.outcome !== undefined || patch.status === "failed")
         await record(ctx, { ...row, ...patch });
     if (!row.campaignId || row.isTest) return;
-    const campaign = await ctx.db.get(row.campaignId);
-    if (!campaign) return;
 
     // apply only the state change, making duplicate callbacks harmless
     const before = counts(row);
     const after = counts({ ...row, ...patch });
+    if (
+        Object.keys(before).every(
+            (key) => before[key as keyof typeof before] === after[key as keyof typeof after],
+        )
+    )
+        return;
+    const campaign = await ctx.db.get(row.campaignId);
+    if (!campaign) throw new Error("message campaign is missing");
     const finished = (campaign.finished ?? 0) + after.finished - before.finished;
     await ctx.db.patch(campaign._id, {
         finished,
@@ -39,7 +45,7 @@ export async function updateMessage(
         delivered: (campaign.delivered ?? 0) + after.delivered - before.delivered,
         failed: (campaign.failed ?? 0) + after.failed - before.failed,
         skipped: (campaign.skipped ?? 0) + after.skipped - before.skipped,
-        ...(campaign.status === "queued" && finished === campaign.recipients?.length
+        ...(campaign.status === "queued" && finished === campaign.recipientCount
             ? { status: "completed" as const }
             : {}),
     });

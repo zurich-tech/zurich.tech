@@ -1,7 +1,6 @@
 import { query } from "../_generated/server";
 import { ConvexError, v } from "convex/values";
 import { openJobs, publicJob } from "../jobs/jobs";
-import { newsDate, newsPath } from "../news/path";
 
 import { activeSponsors } from "../sponsorships/organisations";
 import { readCatalogue } from "../organisations/catalogue";
@@ -12,23 +11,19 @@ export const signals = query({
     handler: async (ctx) => {
         const now = Date.now();
         const day = 86_400_000;
-        const [posts, jobs] = await Promise.all([ctx.db.query("posts").collect(), openJobs(ctx)]);
+        const [posts, jobs] = await Promise.all([
+            ctx.db.query("newsMentions").collect(),
+            openJobs(ctx),
+        ]);
         const news = new Set<string>();
         const fundraising = new Set<string>();
 
         // historical imports and future stories never imply recent activity
         for (const post of posts) {
-            if (!post.published) continue;
-            const age = now - newsDate(post);
+            const age = now - post.originalDate;
             if (age < 0 || age > 365 * day) continue;
-            for (const organisation of post.published.organisations) {
-                if (age <= 90 * day) news.add(organisation);
-                if (
-                    post.published.topics.includes("funding") ||
-                    post.published.category === "funding"
-                )
-                    fundraising.add(organisation);
-            }
+            if (age <= 90 * day) news.add(post.organisationId);
+            if (post.isFunding) fundraising.add(post.organisationId);
         }
 
         return {
@@ -58,13 +53,21 @@ export const activity = query({
         const ids = new Set(
             organisations.flatMap((organisation) => (organisation ? [organisation._id] : [])),
         );
-        const [posts, vacancies] = await Promise.all([
-            ctx.db.query("posts").collect(),
-            ctx.db
-                .query("jobs")
-                .withIndex("by_status", (q) => q.eq("status", "published"))
-                .collect(),
-        ]);
+        const records = await Promise.all(
+            [...ids].map(async (id) => ({
+                news: await ctx.db
+                    .query("newsMentions")
+                    .withIndex("by_organisation", (query) => query.eq("organisationId", id))
+                    .collect(),
+                jobs: await ctx.db
+                    .query("jobs")
+                    .withIndex("by_organisation", (query) => query.eq("organisationId", id))
+                    .filter((query) => query.eq(query.field("status"), "published"))
+                    .collect(),
+            })),
+        );
+        const posts = records.flatMap((record) => record.news);
+        const vacancies = records.flatMap((record) => record.jobs);
 
         // use the job board's payment, confirmation and deadline rules, never draft fields
         const jobs = (
@@ -76,13 +79,7 @@ export const activity = query({
         )
             .filter((job) => job.isOpen)
             .sort((a, b) => b.publishedAt - a.publishedAt || a.slug.localeCompare(b.slug));
-        const news = posts
-            .filter((post) => post.published)
-            .sort(
-                (a, b) =>
-                    (b.published!.date ?? b.publishedAt!) - (a.published!.date ?? a.publishedAt!) ||
-                    a.slug.localeCompare(b.slug),
-            );
+        const news = posts.sort((a, b) => b.date - a.date || a.slug.localeCompare(b.slug));
 
         // combine before limiting so shared previews have exact totals and no repeated stories
         const existing = organisations.filter((organisation) => organisation !== null);
@@ -91,24 +88,27 @@ export const activity = query({
             .filter((group) => group.length > 0)
             .map((group) => {
                 const groupIds = new Set(group.map((organisation) => organisation._id));
-                const stories = news.filter((post) =>
-                    post.published!.organisations.some((id) => groupIds.has(id)),
-                );
+                const linked = news.filter((post) => groupIds.has(post.organisationId));
+                const stories = [...new Map(linked.map((post) => [post.postId, post])).values()];
                 const roles = jobs.filter((job) => groupIds.has(job.company._id));
 
                 return {
                     slug: combined ? null : group[0].slug,
                     newsCount: stories.length,
                     news: stories.slice(0, 2).map((post) => ({
-                        title: post.published!.title,
-                        date: post.published!.date ?? post.publishedAt!,
-                        image: post.published!.image,
-                        path: newsPath({ slug: post.slug, date: newsDate(post) }),
+                        title: post.title,
+                        date: post.date,
+                        image: post.image,
+                        path: post.path,
                         ...(combined
                             ? {
                                   organisation: group
                                       .filter((entry) =>
-                                          post.published!.organisations.includes(entry._id),
+                                          linked.some(
+                                              (mention) =>
+                                                  mention.postId === post.postId &&
+                                                  mention.organisationId === entry._id,
+                                          ),
                                       )
                                       .map((entry) => entry.name)
                                       .join(", "),

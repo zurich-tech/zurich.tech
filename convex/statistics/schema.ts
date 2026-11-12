@@ -1,6 +1,32 @@
 import { defineTable } from "convex/server";
 import { v } from "convex/values";
 
+/** Current subscriber count, updated atomically with subscription state. */
+export const communityTotals = defineTable({ subscribers: v.number() });
+
+/** Dated subscription changes with observation counts for exact historical reconstruction. */
+export const subscriptionDays = defineTable({
+    date: v.string(),
+    change: v.number(),
+    observations: v.number(),
+    estimates: v.number(),
+}).index("by_date", ["date"]);
+
+/** Registration totals used by calendar rows without loading attendee identities. */
+export const eventCounts = defineTable({
+    eventId: v.id("events"),
+    total: v.number(),
+    going: v.number(),
+    waitlist: v.number(),
+}).index("by_event", ["eventId"]);
+
+/** Registrations grouped by event and local calendar date. */
+export const registrationDays = defineTable({
+    eventId: v.id("events"),
+    date: v.string(),
+    count: v.number(),
+}).index("by_event_date", ["eventId", "date"]);
+
 /** Observed daily totals; imported history can supply only known measurements. */
 export const statistics = defineTable({
     date: v.string(),

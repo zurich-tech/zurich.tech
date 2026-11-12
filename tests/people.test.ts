@@ -1,3 +1,5 @@
+import { insertSubscription } from "../convex/mail/contacts";
+import { insertRegistration } from "../convex/events/roster";
 import { expect, test } from "bun:test";
 import { convexTest, schema, modules, member } from "./backend";
 import { api } from "../convex/_generated/api";
@@ -37,7 +39,7 @@ test("include registration-only guests and use their latest name without duplica
             ["Old name", 1],
             ["Current name", 2],
         ] as const) {
-            await ctx.db.insert("registrations", {
+            await insertRegistration(ctx, {
                 eventId,
                 email: "guest@example.test",
                 name,
@@ -114,14 +116,14 @@ test("include private members and unlinked subscriptions without duplicating add
             createdAt: 1,
             updatedAt: 1,
         });
-        await ctx.db.insert("subscriptions", {
+        await insertSubscription(ctx, {
             email: "member@example.test",
             status: "unsubscribed",
             token: "secret",
             createdAt: 1,
             updatedAt: 1,
         });
-        await ctx.db.insert("subscriptions", {
+        await insertSubscription(ctx, {
             memberId,
             email: "secondary@example.test",
             status: "subscribed",
@@ -130,7 +132,7 @@ test("include private members and unlinked subscriptions without duplicating add
             createdAt: 2,
             updatedAt: 2,
         });
-        const guest = await ctx.db.insert("subscriptions", {
+        const guest = await insertSubscription(ctx, {
             email: "guest@example.test",
             status: "suppressed",
             token: "secret-3",

@@ -1,3 +1,4 @@
+import { readCampaign } from "../convex/mail/campaign";
 import { afterEach, expect, test, setSystemTime } from "bun:test";
 import { convexTest, schema, modules, member } from "./backend";
 import { api } from "../convex/_generated/api";
@@ -133,7 +134,7 @@ test("test_tag_email_destinations_automatically_without_personalising_tracking",
             "https://zurich.tech/events\nhttps://zurich.tech/events?token=secret\nhttps://zurich.tech/settings\nhttps://elsewhere.example/events",
     });
     const result = await backend.run(async (ctx) => {
-        const campaign = (await ctx.db.get(id))!;
+        const campaign = (await readCampaign(ctx, id))!;
         const original = campaignEmail(campaign, "https://mail.invalid/unsubscribe");
         const tagged = await attribute(original, campaign, ctx);
         const repeated = await attribute(tagged, campaign, ctx);

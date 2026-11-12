@@ -1,4 +1,11 @@
 import { canSend } from "./access";
+import {
+    campaignContent,
+    insertCampaign,
+    readCampaign,
+    updateCampaign,
+    type Campaign,
+} from "./campaign";
 import { ConvexError, v } from "convex/values";
 import {
     query,
@@ -58,11 +65,11 @@ async function get(ctx: QueryCtx, id: Id<"campaigns">) {
     const campaign = await ctx.db.get(id);
     if (!campaign) throw new ConvexError("Campaign not found.");
     await authorize(ctx, campaign);
-    return campaign;
+    return { ...campaign, ...(await campaignContent(ctx, id)) };
 }
 
 /** Render written content through the shared code template. */
-async function render(campaign: Doc<"campaigns">, ctx: QueryCtx) {
+async function render(campaign: Campaign, ctx: QueryCtx) {
     return (
         campaign.content ??
         campaignEmail(
@@ -90,16 +97,15 @@ export const list = query({
             campaigns: campaigns
                 .filter((campaign) => viewer.isAdmin || campaign.audience?.kind !== "subscribers")
                 .map((campaign) => {
-                    const { recipients, content: _content, ...values } = campaign;
                     return {
-                        ...values,
+                        ...campaign,
                         isEditable:
                             campaign.status === "draft" &&
-                            !campaign.content &&
+                            !campaign.hasContent &&
                             !campaign.key &&
                             campaign.attemptLimit === undefined,
                         state: campaign.status[0].toUpperCase() + campaign.status.slice(1),
-                        recipients: recipients?.length ?? 0,
+                        recipients: campaign.recipientCount ?? 0,
                         accepted: campaign.accepted ?? 0,
                         delivered: campaign.delivered ?? 0,
                         failed: campaign.failed ?? 0,
@@ -162,6 +168,7 @@ export const preview = query({
                 profileInvitation("create").html,
             ),
             subject: content.subject,
+            message: campaign.message,
             messages: messages.map((row) => ({
                 id: row._id,
                 to:
@@ -291,7 +298,7 @@ export const announcement = mutation({
             subject: args.audience.invitation ? "Coming up" : undefined,
             description,
         });
-        return await ctx.db.insert("campaigns", {
+        return await insertCampaign(ctx, {
             audience: args.audience,
             eventId: event._id,
             seriesId: event.seriesId,
@@ -362,7 +369,7 @@ export const release = mutation({
         )
             throw new ConvexError("Pause other bulk campaigns before releasing this batch.");
         const content = await attribute(await render(campaign, ctx), campaign, ctx);
-        await ctx.db.patch(campaign._id, {
+        await updateCampaign(ctx, campaign._id, {
             recipients: [...(campaign.recipients ?? []), ...next],
             content,
             attemptLimit: (campaign.attempts ?? 0) + next.length,
@@ -417,10 +424,10 @@ export const save = mutation({
             updatedAt: Date.now(),
         };
         if (existing) {
-            await ctx.db.patch(existing._id, values);
+            await updateCampaign(ctx, existing._id, values);
             return existing._id;
         }
-        return await ctx.db.insert("campaigns", {
+        return await insertCampaign(ctx, {
             ...values,
             authorId: account._id,
             status: "draft",
@@ -430,7 +437,7 @@ export const save = mutation({
 });
 
 /** Freeze audience membership and engagement order exactly once when a campaign starts. */
-async function start(ctx: MutationCtx, campaign: Doc<"campaigns">, recipients?: Recipient[]) {
+async function start(ctx: MutationCtx, campaign: Campaign, recipients?: Recipient[]) {
     // keep approved identities and order; transactional audiences are resolved when due
     const selected = campaign.approval
         ? campaign.recipients
@@ -447,7 +454,7 @@ async function start(ctx: MutationCtx, campaign: Doc<"campaigns">, recipients?: 
 
     // register shared attribution links before freezing content and personalising messages
     const content = await attribute(await render(campaign, ctx), campaign, ctx);
-    await ctx.db.patch(campaign._id, {
+    await updateCampaign(ctx, campaign._id, {
         recipients: selected,
         content,
         cursor: 0,
@@ -556,7 +563,7 @@ export const queue = mutation({
                 status: "scheduled" as const,
                 updatedAt: now,
             };
-            await ctx.db.patch(args.id, values);
+            await updateCampaign(ctx, args.id, values);
             if (args.scheduledAt === undefined)
                 await start(ctx, { ...campaign, ...values }, values.recipients);
 
@@ -566,11 +573,11 @@ export const queue = mutation({
         // preserve the existing event-organiser workflow for transactional messages
         if (args.hourlyLimit !== undefined)
             throw new ConvexError("Hourly limits apply only to subscriber campaigns.");
-        await ctx.db.patch(args.id, { authorId: sender._id });
+        await updateCampaign(ctx, args.id, { authorId: sender._id });
 
         // freeze content at confirmation, and recipients at the actual send time
         if (args.scheduledAt)
-            await ctx.db.patch(args.id, {
+            await updateCampaign(ctx, args.id, {
                 status: "scheduled",
                 scheduledAt: args.scheduledAt,
                 content: await render(campaign, ctx),
@@ -601,7 +608,7 @@ export async function create(
         .withIndex("by_key", (q) => q.eq("key", values.key))
         .unique();
     if (existing) return existing._id;
-    const id = await ctx.db.insert("campaigns", {
+    const id = await insertCampaign(ctx, {
         ...values,
         subject: values.content.subject,
         message: values.content.text,
@@ -609,7 +616,7 @@ export async function create(
         createdAt: Date.now(),
         updatedAt: Date.now(),
     });
-    await start(ctx, (await ctx.db.get(id))!, recipients);
+    await start(ctx, (await readCampaign(ctx, id))!, recipients);
     return id;
 }
 
@@ -624,7 +631,7 @@ function messageKey(campaign: Doc<"campaigns">, id: Recipient) {
 export const batch = internalMutation({
     args: { id: v.id("campaigns") },
     handler: async (ctx, args) => {
-        const campaign = await ctx.db.get(args.id);
+        const campaign = await readCampaign(ctx, args.id);
         if (!campaign || campaign.status !== "queued") return;
         const cursor = campaign.cursor ?? 0;
         const recipients = campaign.recipients!;
@@ -662,7 +669,7 @@ export const batch = internalMutation({
         }
         const next = Math.min(cursor + 50, recipients.length);
         const finished = (campaign.finished ?? 0) + skipped;
-        await ctx.db.patch(campaign._id, {
+        await updateCampaign(ctx, campaign._id, {
             cursor: next,
             skipped: (campaign.skipped ?? 0) + skipped,
             finished,
@@ -687,7 +694,7 @@ export const tick = internalMutation({
                 .collect();
             for (const campaign of campaigns) {
                 if (campaign.approval && campaign.approval.date < date)
-                    await ctx.db.patch(campaign._id, {
+                    await updateCampaign(ctx, campaign._id, {
                         status: "paused",
                         pauseReason:
                             "Campaign approval expired at Zurich midnight. Review unsent recipients in a new campaign.",
@@ -705,9 +712,9 @@ export const tick = internalMutation({
             .take(20);
         for (const campaign of due) {
             if (await canSend(ctx, campaign))
-                await start(ctx, campaign, campaign.approval ? campaign.recipients : undefined);
+                await start(ctx, { ...campaign, ...(await campaignContent(ctx, campaign._id)) });
             else
-                await ctx.db.patch(campaign._id, {
+                await updateCampaign(ctx, campaign._id, {
                     status: "paused",
                     pauseReason: "Sender access changed. Review before resuming.",
                 });
@@ -739,7 +746,7 @@ export const pause = mutation({
             : !!campaign.recipients;
         const status = args.isPaused ? "paused" : hasStarted ? "queued" : "scheduled";
         const account = await authorize(ctx, campaign);
-        await ctx.db.patch(args.id, {
+        await updateCampaign(ctx, args.id, {
             status,
             updatedAt: Date.now(),
             pauseReason: undefined,
@@ -760,7 +767,7 @@ export const cancel = mutation({
         await authorize(ctx, campaign, "organiser");
         if (["completed", "cancelled"].includes(campaign.status))
             throw new ConvexError("Campaign has already finished.");
-        await ctx.db.patch(args.id, { status: "cancelled", updatedAt: Date.now() });
+        await updateCampaign(ctx, args.id, { status: "cancelled", updatedAt: Date.now() });
     },
 });
 
@@ -776,7 +783,7 @@ export const duplicate = mutation({
         )
             throw new ConvexError("Automatic campaigns are created by their product action.");
         const account = await authorize(ctx, campaign);
-        return await ctx.db.insert("campaigns", {
+        return await insertCampaign(ctx, {
             subject: campaign.subject,
             message: campaign.message,
             audience: campaign.audience,

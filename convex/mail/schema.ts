@@ -7,8 +7,6 @@ export const messages = defineTable({
     key: v.string(),
     to: v.string(),
     subject: v.string(),
-    text: v.string(),
-    html: v.optional(v.string()),
     status: v.union(
         v.literal("queued"),
         v.literal("accepted"),
@@ -18,6 +16,8 @@ export const messages = defineTable({
     isBulk: v.boolean(),
     isTest: v.optional(v.boolean()),
     campaignId: v.optional(v.id("campaigns")),
+    /** Scheduled transactional delivery, used to recover only abandoned work. */
+    jobId: v.optional(v.id("_scheduled_functions")),
     claimedAt: v.optional(v.number()),
     firstAttemptAt: v.optional(v.number()),
     nextAttemptAt: v.number(),
@@ -46,6 +46,7 @@ export const messages = defineTable({
 })
     .index("by_provider", ["providerId"])
     .index("by_recipient", ["to"])
+    .index("by_recipient_event_category", ["to", "eventId", "category"])
     .index("by_due", ["isBulk", "status", "nextAttemptAt"])
     .index("by_campaign", ["campaignId"])
     .index("by_campaign_attempt", ["campaignId", "firstAttemptAt"])
@@ -54,6 +55,13 @@ export const messages = defineTable({
     .index("by_key", ["key"])
     .index("by_event_and_category", ["eventId", "category"])
     .index("by_status", ["status"]);
+
+/** Immutable rendered content, fetched only when an email is sent or inspected. */
+export const messageContents = defineTable({
+    messageId: v.id("messages"),
+    text: v.string(),
+    html: v.optional(v.string()),
+}).index("by_message", ["messageId"]);
 
 /** Daily bulk acceptance cohorts; late complaints belong to the original sending day. */
 export const mailHealth = defineTable({
@@ -107,10 +115,6 @@ export const subscriptions = defineTable({
     status: v.union(v.literal("subscribed"), v.literal("unsubscribed"), v.literal("suppressed")),
     token: v.optional(v.string()),
     verifiedAt: v.optional(v.number()),
-    /** Latest successful non-test attempt, independent of newsletter consent. */
-    deliveredAt: v.optional(v.number()),
-    /** Whether any non-test delivery has failed or received an adverse report. */
-    hasDeliveryFailure: v.optional(v.boolean()),
     weekly: v.optional(v.boolean()),
     announcements: v.optional(v.boolean()),
     reminders: v.optional(v.boolean()),
@@ -125,6 +129,13 @@ export const subscriptions = defineTable({
     .index("by_member", ["memberId"])
     .index("by_status", ["status"])
     .index("by_token", ["token"]);
+
+/** Delivery outcomes per address, independent of subscription preferences and community counts. */
+export const mailRecipients = defineTable({
+    email: v.string(),
+    deliveredAt: v.optional(v.number()),
+    hasDeliveryFailure: v.boolean(),
+}).index("by_email", ["email"]);
 
 /** Weekly schedule state; missing schedules are paused. */
 export const mailSchedules = defineTable({
@@ -162,6 +173,12 @@ export const mailQuota = defineTable({
     complained: v.number(),
 });
 
+/** The single scheduled bulk dispatcher, independent of message delivery leases. */
+export const mailDispatcher = defineTable({
+    generation: v.number(),
+    jobId: v.optional(v.id("_scheduled_functions")),
+});
+
 /** Written or product-generated group send, frozen when sending starts. */
 export const campaigns = defineTable({
     /** One administrator's approval of the frozen audience for one Zurich sending day. */
@@ -192,10 +209,10 @@ export const campaigns = defineTable({
     eventIds: v.optional(v.array(v.id("events"))),
     key: v.optional(v.string()),
     subject: v.string(),
-    message: v.string(),
+    hasContent: v.optional(v.boolean()),
+    recipientCount: v.optional(v.number()),
     audience: v.optional(audience),
     category: v.optional(category),
-    content: v.optional(content),
     eventId: v.optional(v.id("events")),
     seriesId: v.optional(v.id("series")),
     authorId: v.optional(v.id("accounts")),
@@ -211,7 +228,6 @@ export const campaigns = defineTable({
     scheduledAt: v.optional(v.number()),
     startsAt: v.optional(v.number()),
     expiresAt: v.optional(v.number()),
-    recipients: v.optional(v.array(recipient)),
     cursor: v.optional(v.number()),
     finished: v.optional(v.number()),
     accepted: v.optional(v.number()),
@@ -225,6 +241,14 @@ export const campaigns = defineTable({
     .index("by_event", ["eventId"])
     .index("by_series", ["seriesId"])
     .index("by_schedule", ["status", "scheduledAt"]);
+
+/** Campaign prose, rendered snapshot and frozen recipient identities, separate from progress. */
+export const campaignContents = defineTable({
+    campaignId: v.id("campaigns"),
+    message: v.string(),
+    content: v.optional(content),
+    recipients: v.optional(v.array(recipient)),
+}).index("by_campaign", ["campaignId"]);
 
 /** Signed provider reports, distinct from provider acceptance. */
 export const deliveryEvents = defineTable({
