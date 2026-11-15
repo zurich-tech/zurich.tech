@@ -14,12 +14,16 @@ import { receive, unsubscribe } from "../convex/mail/webhooks";
 import { sendingDate } from "../convex/mail/policy";
 import { rank, select } from "../convex/mail/audiences";
 import { prioritize } from "../scripts/mail/order";
-import { personalize } from "../convex/mail/personalization";
+import { personalize, links, previewLinks } from "../convex/mail/personalization";
+import type { Category, Content } from "../convex/mail/model";
 import {
     campaignEmail,
     eventEmail,
     newsletterEdition,
     newsletterEmail,
+    seriesEmail,
+    signInEmail,
+    verificationEmail,
 } from "../convex/mail/templates";
 import { attendanceCopy, resourcesPlaceholder, welcome } from "../convex/mail/attendance";
 import { profilePlaceholder } from "../convex/mail/involvement";
@@ -1829,6 +1833,327 @@ test("temporary bounces do not permanently suppress recipients", async () => {
     expect((await backend.run((ctx) => ctx.db.get(id)))?.outcome).toBe("failed");
 });
 
+test("category unsubscribe preserves other preferences and matches the one-click header", async () => {
+    for (const scope of ["weekly", "announcement", "followup"] as const) {
+        const { backend, subscriptionId } = await setup();
+        const path = `/mail/unsubscribe?token=private-unsubscribe-token&scope=${scope}`;
+        const redirect = await backend.fetch(path);
+        expect(redirect.status).toBe(303);
+        expect(redirect.headers.get("location")).toContain(`&scope=${scope}`);
+        expect((await backend.run((ctx) => ctx.db.get(subscriptionId)))?.status).toBe("subscribed");
+
+        const content = newsletterEmail(
+            { text: "News", html: "<p>News</p>" },
+            "https://mail.invalid/unsubscribe",
+        );
+        const message = await backend.run((ctx) =>
+            personalize(ctx, content, subscriptionId, scope),
+        );
+        expect(message?.text).toContain(`&scope=${scope}`);
+        expect(message?.html).toContain(`&amp;scope=${scope}`);
+        expect(
+            unsubscribeHeaders("private-unsubscribe-token", scope)?.["List-Unsubscribe"],
+        ).toContain(`&scope=${scope}>`);
+
+        const request = { method: "POST", body: "List-Unsubscribe=One-Click" };
+        expect((await backend.fetch(path, request)).status).toBe(200);
+        expect((await backend.fetch(path, request)).status).toBe(200);
+        const row = await backend.run((ctx) => ctx.db.get(subscriptionId));
+        expect(row?.weekly).toBe(scope !== "weekly");
+        expect(row?.announcements).toBe(scope !== "announcement");
+        expect(row?.followUps).toBe(scope !== "followup");
+        expect(row?.reminders).not.toBe(false);
+        expect(row?.status).toBe("subscribed");
+    }
+});
+
+test("separate opt-outs never restore legacy consent or suppressed subscriptions", async () => {
+    const { backend, subscriptionId } = await setup();
+    const token = "private-unsubscribe-token";
+    await backend.mutation(api.mail.subscriptions.unsubscribe, { token, scope: "weekly" });
+    await backend.mutation(api.mail.subscriptions.unsubscribe, { token, scope: "announcement" });
+    expect(await backend.query(api.mail.subscriptions.status, { token })).toMatchObject({
+        weekly: false,
+        announcement: false,
+        followup: true,
+        isSubscribed: false,
+    });
+
+    for (const status of ["unsubscribed", "suppressed"] as const) {
+        await backend.run((ctx) =>
+            ctx.db.patch(subscriptionId, {
+                status,
+                weekly: undefined,
+                announcements: undefined,
+                followUps: undefined,
+            }),
+        );
+        const before = await backend.run((ctx) => ctx.db.get(subscriptionId));
+        await backend.mutation(api.mail.subscriptions.unsubscribe, { token, scope: "weekly" });
+        const after = await backend.run((ctx) => ctx.db.get(subscriptionId));
+        expect(after?.status).toBe(status);
+        if (status === "suppressed") expect(after).toEqual(before);
+        else expect(after?.announcements).toBe(false);
+    }
+});
+
+test("unknown unsubscribe scopes cannot opt recipients out", async () => {
+    const { backend, subscriptionId } = await setup();
+    const before = await backend.run((ctx) => ctx.db.get(subscriptionId));
+    const path = "/mail/unsubscribe?token=private-unsubscribe-token&scope=typo";
+    expect((await backend.fetch(path)).status).toBe(400);
+    expect(
+        (await backend.fetch(path, { method: "POST", body: "List-Unsubscribe=One-Click" })).status,
+    ).toBe(400);
+    expect(await backend.run((ctx) => ctx.db.get(subscriptionId))).toEqual(before);
+});
+
+test("legacy one-click links preserve reminders while explicit all stops them", async () => {
+    const { backend, subscriptionId } = await setup();
+    await backend.run((ctx) => ctx.db.patch(subscriptionId, { reminders: true }));
+    const path = "/mail/unsubscribe?token=private-unsubscribe-token";
+    const request = { method: "POST", body: "List-Unsubscribe=One-Click" };
+    expect((await backend.fetch(path)).headers.get("location")).not.toContain("scope=");
+    expect((await backend.fetch(path, request)).status).toBe(200);
+    expect((await backend.run((ctx) => ctx.db.get(subscriptionId)))?.reminders).toBe(true);
+    expect((await backend.fetch(`${path}&scope=all`, request)).status).toBe(200);
+    expect((await backend.run((ctx) => ctx.db.get(subscriptionId)))?.reminders).toBe(false);
+});
+
+test("newsletter opt-out skips queued newsletters without cancelling new-event invitations", async () => {
+    const { backend, subscriptionId } = await setup();
+    const messages = [];
+    for (const category of ["weekly", "announcement"] as const) {
+        messages.push(
+            await backend.run((ctx) =>
+                enqueue(
+                    ctx,
+                    category,
+                    "test@example.invalid",
+                    "Subject",
+                    "Body",
+                    subscriptionId,
+                    0,
+                    undefined,
+                    { category },
+                ),
+            ),
+        );
+    }
+    await backend.mutation(api.mail.subscriptions.unsubscribe, {
+        token: "private-unsubscribe-token",
+        scope: "weekly",
+    });
+    expect(await backend.query(internal.mail.messages.read, { id: messages[0] })).toBeNull();
+    expect(await backend.query(internal.mail.messages.read, { id: messages[1] })).not.toBeNull();
+});
+
+test("one-click accepts multipart forms and rejects malformed forms", async () => {
+    const { backend, subscriptionId } = await setup();
+    const path = "/mail/unsubscribe?token=private-unsubscribe-token&scope=weekly";
+    expect(
+        (
+            await backend.fetch(path, {
+                method: "POST",
+                headers: { "content-type": "multipart/form-data" },
+                body: "broken",
+            })
+        ).status,
+    ).toBe(400);
+    const body =
+        '--mail-form\r\nContent-Disposition: form-data; name="List-Unsubscribe"\r\n\r\nOne-Click\r\n--mail-form--\r\n';
+    expect(
+        (
+            await backend.fetch(path, {
+                method: "POST",
+                headers: { "content-type": "multipart/form-data; boundary=mail-form" },
+                body,
+            })
+        ).status,
+    ).toBe(200);
+    const row = await backend.run((ctx) => ctx.db.get(subscriptionId));
+    expect(row?.weekly).toBe(false);
+    expect(row?.announcements).toBe(true);
+});
+
+test("private preferences save explicit choices, stop all optional mail and preserve suppression", async () => {
+    const { backend, subscriptionId } = await setup();
+    const token = "private-unsubscribe-token";
+    const choices = { weekly: false, announcements: true, reminders: false, followUps: true };
+    await expect(
+        backend.mutation(api.mail.preferences.saveLink, { token: "unknown", ...choices }),
+    ).rejects.toThrow("invalid");
+    expect(await backend.query(api.mail.preferences.read, { token: "unknown" })).toBeNull();
+    await backend.mutation(api.mail.preferences.saveLink, { token, ...choices });
+    expect(await backend.query(api.mail.preferences.read, { token })).toEqual({
+        ...choices,
+        isSuppressed: false,
+    });
+
+    await backend.mutation(api.mail.subscriptions.unsubscribe, { token, scope: "all" });
+    expect(await backend.query(api.mail.preferences.read, { token })).toEqual({
+        weekly: false,
+        announcements: false,
+        reminders: false,
+        followUps: false,
+        isSuppressed: false,
+    });
+    await backend.mutation(api.mail.preferences.saveLink, { token, ...choices, weekly: true });
+    expect((await backend.run((ctx) => ctx.db.get(subscriptionId)))?.status).toBe("subscribed");
+
+    await backend.run((ctx) => ctx.db.patch(subscriptionId, { status: "suppressed" }));
+    const before = await backend.run((ctx) => ctx.db.get(subscriptionId));
+    await expect(
+        backend.mutation(api.mail.preferences.saveLink, { token, ...choices }),
+    ).rejects.toThrow("blocked");
+    expect(await backend.run((ctx) => ctx.db.get(subscriptionId))).toEqual(before);
+});
+
+test("preferences links are private, recovery is bounded and neither changes consent", async () => {
+    const { backend, subscriptionId } = await setup();
+    const before = await backend.run((ctx) => ctx.db.get(subscriptionId));
+    const rendered = await backend.run((ctx) =>
+        personalize(
+            ctx,
+            newsletterEmail({ text: "News", html: "News" }, "https://mail.invalid/unsubscribe"),
+            subscriptionId,
+            "weekly",
+        ),
+    );
+    expect(rendered?.text).toContain("&view=preferences");
+    expect(rendered?.html).toContain("&amp;view=preferences");
+    expect(rendered?.text).not.toContain("mail.invalid");
+
+    await backend.mutation(internal.mail.preferences.prepare, {
+        email: before!.email,
+        token: "replacement",
+    });
+    await backend.mutation(internal.mail.preferences.prepare, {
+        email: "unknown@example.invalid",
+        token: "unknown",
+    });
+    const messages = await backend.run((ctx) => ctx.db.query("messages").collect());
+    expect(messages).toHaveLength(1);
+    const content = await backend.run((ctx) => messageContent(ctx, messages[0]._id));
+    expect(content.text).toContain("token=private-unsubscribe-token&view=preferences");
+    expect(await backend.run((ctx) => ctx.db.get(subscriptionId))).toEqual(before);
+
+    for (let attempt = 0; attempt < 2; attempt++) {
+        await backend.mutation(internal.mail.preferences.prepare, {
+            email: before!.email,
+            token: "unused",
+        });
+    }
+    await expect(
+        backend.mutation(internal.mail.preferences.prepare, {
+            email: before!.email,
+            token: "unused",
+        }),
+    ).rejects.toThrow();
+});
+
+test("new newsletter signups enable only the newsletter", async () => {
+    const { backend } = await setup();
+    await backend.run((ctx) =>
+        ctx.db.insert("verifications", {
+            email: "newsletter-only@example.invalid",
+            name: "",
+            purpose: "subscription",
+            token: "newsletter-only",
+            newsletterToken: "newsletter-private",
+            answers: [],
+            expiresAt: Date.now() + 3600000,
+        }),
+    );
+    await backend.mutation(api.mail.verification.confirm, { token: "newsletter-only" });
+    expect(await backend.query(api.mail.preferences.read, { token: "newsletter-private" })).toEqual(
+        {
+            weekly: true,
+            announcements: false,
+            reminders: true,
+            followUps: false,
+            isSuppressed: false,
+        },
+    );
+});
+
+test("every delivered subscription and event email has private preferences and category-correct opt-out links", async () => {
+    const { backend, subscriptionId } = await setup();
+    const event = { title: "Example event", slug: "example", startsAt: Date.now() + 86400000 };
+    const cases: { content: Content; category: Category; scope?: string }[] = [
+        {
+            content: newsletterEmail({ text: "News", html: "News" }, links.unsubscribe),
+            category: "weekly",
+            scope: "weekly",
+        },
+        {
+            content: campaignEmail(
+                { subject: "Community update", message: "Hello" },
+                links.unsubscribe,
+            ),
+            category: "campaign",
+            scope: "all",
+        },
+        {
+            content: seriesEmail(
+                { name: "Example", slug: "example", description: "Talks" },
+                {
+                    frequency: "monthly",
+                    interval: 1,
+                    weekdays: [],
+                    start: "2026-12-01",
+                    time: "18:00",
+                    timezone: "Europe/Zurich",
+                    excluded: [],
+                },
+                links.unsubscribe,
+            ),
+            category: "announcement",
+            scope: "announcement",
+        },
+        ...(
+            [
+                ["New event", "announcement"],
+                ["Event reminder", "reminder"],
+                ["Thank you", "followup"],
+            ] as const
+        ).map(([title, category]) => ({
+            content: eventEmail(event, title, { unsubscribeUrl: links.unsubscribe }),
+            category,
+            scope: category,
+        })),
+        ...(
+            [
+                ["Registration confirmed", "confirmed"],
+                ["Event confirmed", "confirmed"],
+                ["Event cancelled", "cancelled"],
+                ["Event updated", "update"],
+                ["Waitlist", "update"],
+            ] as const
+        ).map(([title, category]) => ({ content: eventEmail(event, title), category })),
+    ];
+    for (const { content, category, scope } of cases) {
+        const rendered = await backend.run((ctx) =>
+            personalize(ctx, content, subscriptionId, category),
+        );
+        const url = `${process.env.SITE_URL}/unsubscribe?token=private-unsubscribe-token&view=preferences`;
+        expect(rendered?.text).toContain(`Email preferences: ${url}`);
+        expect(rendered?.html).toContain(url.replaceAll("&", "&amp;"));
+        expect(rendered?.text).not.toContain("mail.invalid");
+        expect(rendered?.html).not.toContain("settings?section=notifications");
+        if (scope) expect(rendered?.text).toContain(`&scope=${scope}`);
+        else expect(rendered?.text).not.toContain("Unsubscribe:");
+        expect(previewLinks(content.html!)).not.toContain("mail.invalid/preferences");
+    }
+    for (const content of [
+        signInEmail("123456"),
+        verificationEmail("https://zurich.tech/confirm?token=test"),
+    ]) {
+        expect(content.html).not.toContain("mail.invalid");
+        expect(content.text).not.toContain("Unsubscribe");
+    }
+});
+
 test("weekly scheduling is Monday 08:00 Zurich in summer and winter, and skips empty editions", async () => {
     for (const time of ["2026-09-14T06:00:00Z", "2026-12-14T07:00:00Z"]) {
         setSystemTime(new Date(time));
@@ -2466,7 +2791,7 @@ test("new accounts enable every email category and preserve existing subscriptio
 });
 
 // Registration and enrollment commit together; a repeat RSVP must not undo an unsubscribe.
-test("verified event registration enrolls once and explicit resubscription enables all preferences", async () => {
+test("verified event registration preserves choices and newsletter resubscription enables only the newsletter", async () => {
     const { backend, memberId } = await setup();
     const eventId = await backend.run((ctx) =>
         ctx.db.insert("events", {
@@ -2575,9 +2900,9 @@ test("verified event registration enrolls once and explicit resubscription enabl
     expect(await backend.run((ctx) => ctx.db.get(row!._id))).toMatchObject({
         status: "subscribed",
         weekly: true,
-        announcements: true,
+        announcements: false,
         reminders: true,
-        followUps: true,
+        followUps: false,
         token: "unsubscribe-first",
     });
     await backend.run((ctx) => ctx.db.patch(row!._id, { status: "suppressed" }));

@@ -150,6 +150,7 @@ export const remind = internalMutation({
                         programme: await readProgramme(ctx, event._id),
                         passUrl: event.checkIn?.isEnabled ? links.pass : undefined,
                         manageUrl: links.registration,
+                        unsubscribeUrl: links.unsubscribe,
                     },
                 ),
             },

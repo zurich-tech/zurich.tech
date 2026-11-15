@@ -462,8 +462,11 @@ export const deliver = internalAction({
                 text: current.text,
                 html: current.html,
                 key: current.key,
+                category: current.category,
                 unsubscribeToken:
-                    isBulk(current.category) || current.category === "followup"
+                    isBulk(current.category) ||
+                    current.category === "followup" ||
+                    current.category === "reminder"
                         ? current.unsubscribeToken
                         : undefined,
             });

@@ -35,9 +35,14 @@ Jobs follow sponsors, with at most two jobs per organisation.
 
 ## Membership
 
-New verified account signups, event registrations and explicit subscriptions enable all four email preferences.
+New verified account signups and event registrations enable all four email preferences.
 Account signup and registration preserve existing preferences, opt-outs and suppression.
-Explicit subscription confirmation enables all preferences again, but cannot bypass suppression.
+Newsletter signup and confirmation enable only the newsletter and preserve other existing choices.
+Private email links and account settings share one editor for all four preferences.
+Category-specific unsubscribe links stop only that category; explicit unsubscribe from all optional emails also stops reminders.
+Legacy one-click links without a category preserve reminders, matching their original behaviour.
+Registration confirmations, cancellations and important booking changes remain operational emails.
+Preference changes cannot bypass delivery suppression.
 Public member totals and history count active community subscriptions, independently of weekly delivery preferences.
 Event confirmations alone do not count as community subscriptions.
 Accounts, profiles and attendance remain when someone unsubscribes.

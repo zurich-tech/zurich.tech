@@ -33,9 +33,9 @@ export function Newsletter(props: {
                 await memberClient()
             ).action(api.mail.preferences.save, {
                 weekly: true,
-                announcements: true,
-                reminders: true,
-                followUps: true,
+                announcements: current.announcements,
+                reminders: current.reminders,
+                followUps: current.followUps,
             });
             await startTransition(refetch);
         } catch (caught) {
@@ -123,7 +123,7 @@ export function Newsletter(props: {
                                         </button>
                                     </Show>
                                     <a class="action-link" href="/settings?section=notifications">
-                                        Email settings
+                                        Email preferences
                                     </a>
                                 </div>
                                 <Show
@@ -146,7 +146,7 @@ export function Newsletter(props: {
                         <form onSubmit={submit}>
                             <div class="newsletter-input">
                                 <input
-                                    aria-label="Email for weekly events"
+                                    aria-label="Email for the newsletter"
                                     type="email"
                                     name="email"
                                     placeholder="Email address"

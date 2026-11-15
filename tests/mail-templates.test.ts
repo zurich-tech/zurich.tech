@@ -427,7 +427,7 @@ test("test_name_weekly_newsletter_consistently", () => {
             "Discord: https://discord.gg/373R4C3872",
             "LinkedIn: https://www.linkedin.com/company/zurichai/",
             "X: https://x.com/zurich_tech",
-            "Email preferences: https://zurich.tech/settings?section=notifications",
+            "Email preferences: https://mail.invalid/preferences",
             "Legal: https://zurich.tech/legal",
         ].join("\n\n"),
     );

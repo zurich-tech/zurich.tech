@@ -58,7 +58,13 @@ export function Footer() {
                 </For>
             </div>
             {/* weekly email */}
-            <Show when={location.pathname !== "/"}>
+            <Show
+                when={
+                    location.pathname !== "/" &&
+                    location.pathname !== "/unsubscribe" &&
+                    location.pathname !== "/settings"
+                }
+            >
                 <Newsletter hideWhenSubscribed={/^\/news\/?$/.test(location.pathname)} />
             </Show>
         </footer>

@@ -65,6 +65,7 @@ import type * as mail_access from "../mail/access.js";
 import type * as mail_attendance from "../mail/attendance.js";
 import type * as mail_audiences from "../mail/audiences.js";
 import type * as mail_campaigns from "../mail/campaigns.js";
+import type * as mail_consent from "../mail/consent.js";
 import type * as mail_delivery from "../mail/delivery.js";
 import type * as mail_enrollment from "../mail/enrollment.js";
 import type * as mail_events from "../mail/events.js";
@@ -212,6 +213,7 @@ declare const fullApi: ApiFromModules<{
   "mail/attendance": typeof mail_attendance;
   "mail/audiences": typeof mail_audiences;
   "mail/campaigns": typeof mail_campaigns;
+  "mail/consent": typeof mail_consent;
   "mail/delivery": typeof mail_delivery;
   "mail/enrollment": typeof mail_enrollment;
   "mail/events": typeof mail_events;

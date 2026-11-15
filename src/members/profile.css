@@ -89,26 +89,6 @@
     margin: var(--space-1) 0;
 }
 
-/* email preferences with explanations */
-.editor .email-options {
-    display: grid;
-    min-width: 0;
-    gap: var(--space-4);
-    border: 0;
-    padding: 0;
-}
-
-.email-options .checkbox {
-    align-items: flex-start;
-}
-
-.email-options small {
-    display: block;
-    margin-top: var(--space-1);
-    color: var(--color-soft);
-    font-size: var(--text-sm);
-}
-
 /* account and registration pages */
 .account-page .editor > .button {
     justify-self: start;

@@ -5,6 +5,7 @@ import { action, internalMutation, mutation, query } from "../_generated/server"
 import { internal } from "../_generated/api";
 
 import { requireMail } from "./provider";
+import { scope } from "./consent";
 
 /** Import reviewed delivery exclusions without changing consent or sending policy. */
 export const suppress = internalMutation({
@@ -77,7 +78,7 @@ export const subscribe = action({
 
 /** Unsubscribe only the address owning this private token. */
 export const unsubscribe = mutation({
-    args: { token: v.string() },
+    args: { token: v.string(), scope: v.optional(scope) },
     handler: async (ctx, args) => {
         // resolve the subscriber through their private unsubscribe token
         const row = await ctx.db
@@ -87,15 +88,35 @@ export const unsubscribe = mutation({
         if (!row) throw new ConvexError("Subscription not found.");
         if (row.status !== "suppressed") {
             const now = Date.now();
+            const selected = args.scope ?? "all";
+            const weekly =
+                row.status === "subscribed" &&
+                row.weekly !== false &&
+                selected !== "weekly" &&
+                selected !== "all";
+            const announcements =
+                row.status === "subscribed" &&
+                row.announcements !== false &&
+                selected !== "announcement" &&
+                selected !== "all";
+            const followUps =
+                (row.followUps ?? row.status !== "unsubscribed") &&
+                selected !== "followup" &&
+                selected !== "all";
+
+            // derive marketing status without restoring consent through an opt-out
+            const values = {
+                weekly,
+                announcements,
+                followUps,
+                reminders:
+                    args.scope === "all" || args.scope === "reminder" ? false : row.reminders,
+                status:
+                    weekly || announcements ? ("subscribed" as const) : ("unsubscribed" as const),
+            };
             await updateSubscription(ctx, row._id, {
-                status: "unsubscribed",
-                followUps: false,
-                history: subscriptionHistory(
-                    row,
-                    { ...row, status: "unsubscribed" },
-                    now,
-                    "unsubscribe",
-                ),
+                ...values,
+                history: subscriptionHistory(row, { ...row, ...values }, now, "unsubscribe"),
                 updatedAt: now,
             });
         }
@@ -112,6 +133,13 @@ export const status = query({
             .unique();
         if (!subscription) return null;
         return {
+            reminder: subscription.status !== "suppressed" && subscription.reminders !== false,
+            weekly: subscription.status === "subscribed" && subscription.weekly !== false,
+            announcement:
+                subscription.status === "subscribed" && subscription.announcements !== false,
+            followup:
+                subscription.status !== "suppressed" &&
+                (subscription.followUps ?? subscription.status !== "unsubscribed"),
             isSubscribed:
                 subscription.status === "subscribed" &&
                 (subscription.weekly !== false || subscription.announcements !== false),

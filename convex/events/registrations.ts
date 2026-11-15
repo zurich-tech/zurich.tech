@@ -10,7 +10,6 @@ import { confirmationDecision, isTentative } from "./conditions";
 import { evaluate } from "./confirmation";
 import { eventEmail, registrationCopy } from "../mail/templates";
 import { personalize } from "../mail/personalization";
-import { profilePlaceholder } from "../mail/involvement";
 import { siteOrigin } from "../auth/environment";
 import { ConvexError, v } from "convex/values";
 import {
@@ -491,10 +490,8 @@ async function notify(
                     : undefined,
         },
     );
-    // resolve profile state only for notifications that request it
-    const personalized = message.text.includes(profilePlaceholder.text)
-        ? await personalize(ctx, message, row._id)
-        : message;
+    // resolve private preferences and requested profile prompts for every notification
+    const personalized = await personalize(ctx, message, row._id);
     if (!personalized)
         throw new Error("Registration disappeared while preparing its notification.");
 

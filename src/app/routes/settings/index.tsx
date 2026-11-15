@@ -28,7 +28,7 @@ export default function Route() {
     const sections = [
         { id: "profile", label: "Profile" },
         { id: "survey", label: "Survey" },
-        { id: "notifications", label: "Notifications" },
+        { id: "notifications", label: "Email preferences" },
         { id: "speaking", label: "Speaking" },
         { id: "billing", label: "Billing" },
     ];

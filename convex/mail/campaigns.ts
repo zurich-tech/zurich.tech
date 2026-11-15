@@ -43,7 +43,7 @@ import {
     type Recipient,
 } from "./model";
 import { rank, select } from "./audiences";
-import { links, personalize } from "./personalization";
+import { links, personalize, previewLinks } from "./personalization";
 import { profileInvitation, profilePlaceholder } from "./involvement";
 import { state } from "./sending";
 import { consumeLimit } from "./limits";
@@ -163,10 +163,15 @@ export const preview = query({
                       first: ranked.slice(0, 100),
                   }
                 : undefined,
-            html: content.html?.replaceAll(
-                profilePlaceholder.html,
-                profileInvitation("create").html,
-            ),
+            html:
+                content.html === undefined
+                    ? undefined
+                    : previewLinks(
+                          content.html.replaceAll(
+                              profilePlaceholder.html,
+                              profileInvitation("create").html,
+                          ),
+                      ),
             subject: content.subject,
             message: campaign.message,
             messages: messages.map((row) => ({
@@ -642,7 +647,9 @@ export const batch = internalMutation({
                 .query("messages")
                 .withIndex("by_key", (q) => q.eq("key", key))
                 .unique();
-            const message = existing ? null : await personalize(ctx, campaign.content!, id);
+            const message = existing
+                ? null
+                : await personalize(ctx, campaign.content!, id, campaign.category);
             if (!message) {
                 skipped++;
                 continue;
@@ -833,7 +840,9 @@ export const test = mutation({
                     ? "Register for this event before testing its email."
                     : "Add your email as a subscriber before testing this email.",
             );
-        const message = source ? await personalize(ctx, content, source._id) : content;
+        const message = source
+            ? await personalize(ctx, content, source._id, campaign.category)
+            : content;
         if (!message) throw new Error("Test recipient is missing.");
         return await enqueue(
             ctx,

@@ -1,4 +1,4 @@
-import { emailPreferences } from "./enrollment";
+import { readPreferences } from "./consent";
 import { requireRecipient, recipientsLocked } from "./policy";
 import { subscriptionHistory } from "./history";
 import { insertSubscription, updateSubscription } from "./contacts";
@@ -127,7 +127,10 @@ export const confirm = mutation({
             const values = {
                 email: ticket.email,
                 status: "subscribed" as const,
-                ...emailPreferences,
+                ...(subscription
+                    ? readPreferences(subscription)
+                    : { announcements: false, reminders: true, followUps: false }),
+                weekly: true,
                 token: subscription?.token ?? ticket.newsletterToken,
                 verifiedAt: now,
                 updatedAt: now,

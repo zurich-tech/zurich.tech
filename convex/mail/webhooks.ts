@@ -1,4 +1,5 @@
 import { updateMessage } from "./progress";
+import { parseScope } from "./consent";
 import { Webhook } from "svix";
 import { v } from "convex/values";
 import { httpAction, internalMutation, type MutationCtx } from "../_generated/server";
@@ -169,20 +170,39 @@ export const receive = httpAction(async (ctx, request) => {
 
 /** RFC 8058 POST requests change consent; GET requests only open the confirmation page. */
 export const unsubscribe = httpAction(async (ctx, request) => {
-    const token = new URL(request.url).searchParams.get("token");
+    const parameters = new URL(request.url).searchParams;
+    const token = parameters.get("token");
+    const requestedScope = parameters.get("scope");
+    const scope = parseScope(requestedScope);
+    if (!scope) return new Response("Invalid scope", { status: 400 });
     if (!token || token.length > 200) return new Response("Invalid link", { status: 400 });
     if (request.method === "GET")
         return Response.redirect(
-            `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(token)}`,
+            `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(token)}${requestedScope === null ? "" : `&scope=${scope}`}`,
             303,
         );
     const body = await request.text();
-    if (body.length > 1000 || new URLSearchParams(body).get("List-Unsubscribe") !== "One-Click")
+    if (body.length > 1000) return new Response("Invalid request", { status: 400 });
+
+    // accept both RFC 8058 form encodings without allowing GET requests to change consent
+    let value: FormDataEntryValue | null;
+    try {
+        const contentType = request.headers.get("content-type") ?? "";
+        const form = contentType.startsWith("multipart/form-data")
+            ? await new Response(body, { headers: { "content-type": contentType } }).formData()
+            : new URLSearchParams(body);
+        value = form.get("List-Unsubscribe");
+    } catch {
         return new Response("Invalid request", { status: 400 });
+    }
+    if (value !== "One-Click") return new Response("Invalid request", { status: 400 });
     const subscription = await ctx.runQuery(api.mail.subscriptions.status, {
         token,
     });
     if (!subscription) return new Response("Invalid link", { status: 400 });
-    await ctx.runMutation(api.mail.subscriptions.unsubscribe, { token });
+    await ctx.runMutation(api.mail.subscriptions.unsubscribe, {
+        token,
+        scope: requestedScope === null ? undefined : scope,
+    });
     return new Response(null, { status: 200 });
 });

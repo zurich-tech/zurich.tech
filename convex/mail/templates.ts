@@ -1,4 +1,5 @@
 import { locationsLabel, jobFacts } from "../jobs/format";
+import { preferencesLink } from "./consent";
 import { selectJobs } from "../jobs/selection";
 import { newsPath } from "../news/path";
 import { markdown, excerpt } from "./markdown";
@@ -290,13 +291,24 @@ export function eventEmail(
     const participation =
         hasParticipation && isShareable ? involvement(undefined, share) : { html: "", text: "" };
     const links = [
-        { label: "Email preferences", url: `${siteOrigin()}/settings?section=notifications` },
+        {
+            label: "Email preferences",
+            url: preferencesLink,
+        },
     ];
     // keep promotional sections out of operational notifications
     const additions = hasParticipation
         ? emailListings(options.sponsors ?? [], options.jobs ?? [])
         : { html: "", text: "" };
-    if (options.unsubscribeUrl) links.push({ label: "Unsubscribe", url: options.unsubscribeUrl });
+    if (options.unsubscribeUrl)
+        links.push({
+            label: isInvitation
+                ? "Unsubscribe from new events"
+                : title === "Event reminder"
+                  ? "Unsubscribe from event reminders"
+                  : "Unsubscribe from follow-up emails",
+            url: options.unsubscribeUrl,
+        });
     const action = options.manageUrl
         ? {
               label: options.actionLabel ?? (options.passUrl ? "View pass" : "Manage registration"),
@@ -410,7 +422,7 @@ export function verificationEmail(url: string, event?: Event) {
     const expiry = "Expires in one hour. If you didn’t request this, ignore this email.";
     const description = event
         ? "Confirm your email address to finish submitting your registration. We’ll then email you your registration status."
-        : "Confirm your email address to receive zurich.tech emails. You can change your preferences or unsubscribe at any time.";
+        : "Confirm your email address to receive the Monday newsletter. Your other email preferences won’t change.";
     // verification precedes identity resolution, so never assume an account or emit placeholders
     const participation = involvement("none", { html: "", text: "" });
 
@@ -657,9 +669,12 @@ export function newsletterEmail(
     unsubscribeUrl?: string,
 ) {
     const links = [
-        { label: "Email preferences", url: `${siteOrigin()}/settings?section=notifications` },
+        {
+            label: "Email preferences",
+            url: preferencesLink,
+        },
     ];
-    if (unsubscribeUrl) links.push({ label: "Unsubscribe", url: unsubscribeUrl });
+    if (unsubscribeUrl) links.push({ label: "Unsubscribe from newsletter", url: unsubscribeUrl });
     return {
         subject: "This week in zurich.tech",
         text: [
@@ -724,8 +739,8 @@ export function seriesEmail(
     const dates = `From ${editionDate(Date.parse(`${rule.start}T12:00:00Z`))}${rule.end ? ` until ${editionDate(Date.parse(`${rule.end}T12:00:00Z`))}` : ""}`;
     const url = `${siteOrigin()}/series/${series.slug}`;
     const links = [
-        { label: "Email preferences", url: `${siteOrigin()}/settings?section=notifications` },
-        { label: "Unsubscribe", url: unsubscribeUrl },
+        { label: "Email preferences", url: preferencesLink },
+        { label: "Unsubscribe from new events", url: unsubscribeUrl },
     ];
     const subject = `New series: ${series.name}`;
     const participation = involvement();
@@ -768,7 +783,12 @@ export function campaignEmail(
     const origin = siteOrigin();
     const participation = involvement();
     const additions = emailListings(listings.sponsors ?? [], listings.jobs ?? []);
-    const links = [{ label: "Email preferences", url: `${origin}/settings?section=notifications` }];
+    const links = [
+        {
+            label: "Email preferences",
+            url: preferencesLink,
+        },
+    ];
     if (unsubscribeUrl) links.push({ label: "Unsubscribe", url: unsubscribeUrl });
     return {
         subject: campaign.subject,

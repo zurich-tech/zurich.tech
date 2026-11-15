@@ -1,5 +1,6 @@
 import type { MutationCtx } from "../_generated/server";
-import type { Content, Recipient } from "./model";
+import type { Category, Content, Recipient } from "./model";
+import { unsubscribeScope, preferencesLink } from "./consent";
 import { siteOrigin } from "../auth/environment";
 import { escapeHtml, paragraph } from "./layout";
 import { attendanceCopy, welcome, resourcesPlaceholder } from "./attendance";
@@ -10,13 +11,26 @@ import { insertSubscription } from "./contacts";
 
 /** Code-owned URL placeholders; campaign authors never edit template markup. */
 export const links = {
+    preferences: preferencesLink,
     unsubscribe: "https://mail.invalid/unsubscribe",
     registration: "https://mail.invalid/registration",
     pass: "https://mail.invalid/pass",
 };
 
+/** Keep workspace preview links usable without exposing a recipient's private token. */
+export function previewLinks(html: string) {
+    const url = `${siteOrigin()}/unsubscribe`;
+
+    return html.replaceAll(links.preferences, url).replaceAll(links.unsubscribe, url);
+}
+
 /** Materialise private links once, retaining rendered content across retries. */
-export async function personalize(ctx: MutationCtx, content: Content, id: Recipient) {
+export async function personalize(
+    ctx: MutationCtx,
+    content: Content,
+    id: Recipient,
+    category?: Category,
+) {
     const row = await ctx.db.get(id);
     if (!row) return null;
     const registration = "eventId" in row ? row : null;
@@ -29,7 +43,10 @@ export async function personalize(ctx: MutationCtx, content: Content, id: Recipi
             : row;
 
     // make follow-up opt-out links available without subscribing anyone to marketing
-    if (content.text.includes(links.unsubscribe) && !subscription?.token) {
+    const needsPreferences = [links.unsubscribe, links.preferences].some(
+        (link) => content.text.includes(link) || content.html?.includes(link),
+    );
+    if (needsPreferences && !subscription?.token) {
         const token = crypto.randomUUID() + crypto.randomUUID();
         if (subscription) await ctx.db.patch(subscription._id, { token });
         else {
@@ -48,10 +65,16 @@ export async function personalize(ctx: MutationCtx, content: Content, id: Recipi
         }
         if (subscription) subscription = { ...subscription, token };
     }
+    if (needsPreferences && !subscription?.token)
+        throw new Error("email preferences token is missing");
     const replacements: [string, string][] = [
         [
+            links.preferences,
+            `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscription?.token ?? "")}&view=preferences`,
+        ],
+        [
             links.unsubscribe,
-            `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscription?.token ?? "")}`,
+            `${siteOrigin()}/unsubscribe?token=${encodeURIComponent(subscription?.token ?? "")}&scope=${unsubscribeScope(category)}`,
         ],
         [
             links.registration,

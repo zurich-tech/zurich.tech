@@ -1,4 +1,6 @@
 import { requireRecipient } from "./policy";
+import { unsubscribeScope } from "./consent";
+import type { Category } from "./model";
 
 /** Require configured delivery before accepting an email-dependent action. */
 export function requireMail() {
@@ -7,12 +9,12 @@ export function requireMail() {
 }
 
 /** RFC 8058 headers point to a token-authenticated POST endpoint. */
-export function unsubscribeHeaders(token?: string) {
+export function unsubscribeHeaders(token?: string, category?: Category) {
     if (!token) return undefined;
     const origin = process.env.CONVEX_SITE_URL;
     if (!origin) throw new Error("Email unsubscribe endpoint is not configured.");
     return {
-        "List-Unsubscribe": `<${origin}/mail/unsubscribe?token=${encodeURIComponent(token)}>`,
+        "List-Unsubscribe": `<${origin}/mail/unsubscribe?token=${encodeURIComponent(token)}&scope=${unsubscribeScope(category)}>`,
         "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
     };
 }
@@ -25,6 +27,7 @@ export async function send(message: {
     html?: string;
     key: string;
     unsubscribeToken?: string;
+    category?: Category;
 }) {
     requireMail();
 
@@ -44,7 +47,7 @@ export async function send(message: {
             subject: message.subject,
             text: message.text,
             html: message.html,
-            headers: unsubscribeHeaders(message.unsubscribeToken),
+            headers: unsubscribeHeaders(message.unsubscribeToken, message.category),
         }),
     });
     // avoid logging response bodies that may contain message contents

@@ -6,7 +6,7 @@ import { recipientsLocked, sendingDate } from "./policy";
 import type { Doc } from "../_generated/dataModel";
 import { newsletterEdition, newsletterEmail } from "./templates";
 import { create } from "./campaigns";
-import { links } from "./personalization";
+import { links, previewLinks } from "./personalization";
 import { v } from "convex/values";
 import { query, mutation, internalMutation } from "../_generated/server";
 import { internal } from "../_generated/api";
@@ -62,9 +62,11 @@ export const preview = query({
             jobs: jobs.length,
             news: news.length,
             isPaused: (await ctx.db.query("mailSchedules").unique())?.isPaused ?? true,
-            html: edition.html
-                .replaceAll(profilePlaceholder.html, invitation.html)
-                .replaceAll(resourcesPlaceholder.html, () => resources.html),
+            html: previewLinks(
+                edition.html
+                    .replaceAll(profilePlaceholder.html, invitation.html)
+                    .replaceAll(resourcesPlaceholder.html, () => resources.html),
+            ),
             events: digestEvents(entries, now),
             subscribers: subscribers.recipients.length,
         };

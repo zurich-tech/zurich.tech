@@ -1,4 +1,4 @@
-import { insertSubscription } from "../convex/mail/contacts";
+import { insertSubscription, updateSubscription } from "../convex/mail/contacts";
 import { insertRegistration } from "../convex/events/roster";
 import { afterAll, beforeAll, expect, test } from "bun:test";
 import { convexTest, schema, modules, member, insertMessage, messageContent } from "./backend";
@@ -185,14 +185,14 @@ for (const change of ["deleted", "email", "suppressed"] as const) {
             if (change === "deleted") await ctx.db.delete(attendees.earlier!);
             else if (change === "email")
                 await ctx.db.patch(attendees.earlier!, { email: "changed@example.invalid" });
-            else
-                await insertSubscription(ctx, {
-                    email: message.to,
-                    token: "suppression",
-                    status: "suppressed",
-                    createdAt: 1,
-                    updatedAt: 1,
-                });
+            else {
+                const subscription = await ctx.db
+                    .query("subscriptions")
+                    .withIndex("by_email", (q) => q.eq("email", message.to))
+                    .unique();
+                expect(subscription).not.toBeNull();
+                await updateSubscription(ctx, subscription!._id, { status: "suppressed" });
+            }
         });
         expect(await backend.query(internal.mail.messages.read, { id: message._id })).toBeNull();
     }, 2000);
@@ -211,11 +211,13 @@ test("retain eligible promotion mail with registration references and expiry", a
         expiresAt: fields.startsAt,
         category: undefined,
     });
-    expect(await backend.query(internal.mail.messages.read, { id: message._id })).toEqual({
+    const delivery = await backend.query(internal.mail.messages.read, { id: message._id });
+    expect(delivery).toEqual({
         ...message,
         ...(await backend.run((ctx) => messageContent(ctx, message._id))),
-        unsubscribeToken: undefined,
+        unsubscribeToken: expect.any(String),
     });
+    expect(delivery?.text).toContain(`token=${delivery?.unsubscribeToken}&view=preferences`);
 }, 2000);
 
 test("skip an expired promotion even if the event was postponed", async () => {
@@ -276,11 +278,13 @@ test("retain tentative admission and administrative cancellation notifications",
         { to: "earlier@example.invalid", subject: "Waitlist: Registration received" },
     ]);
     for (const message of messages) {
-        expect(await backend.query(internal.mail.messages.read, { id: message._id })).toEqual({
+        const delivery = await backend.query(internal.mail.messages.read, { id: message._id });
+        expect(delivery).toEqual({
             ...message,
             ...(await backend.run((ctx) => messageContent(ctx, message._id))),
-            unsubscribeToken: undefined,
+            unsubscribeToken: expect.any(String),
         });
+        expect(delivery?.text).toContain(`token=${delivery?.unsubscribeToken}&view=preferences`);
     }
 }, 2000);
 
