@@ -2,8 +2,10 @@
 export const site = {
     /** Canonical public name. */
     name: "zurich.tech",
-    /** Public contact for the association, events and sponsorships. */
+    /** Public contact for the association and events. */
     email: "florian@zurich.tech",
+    /** Dedicated sponsorship enquiries and correspondence. */
+    sponsorshipEmail: "sponsor@zurich.tech",
     /** Shared homepage and social sharing description. */
     description: "Events, news and jobs for people in tech around Zurich. Run by volunteers.",
     /** Community accounts and public invitation. */

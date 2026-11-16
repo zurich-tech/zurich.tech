@@ -21,7 +21,7 @@ export function SponsorshipContact(props: {
     /** Copy the address or explain how to select it manually. */
     async function copy() {
         try {
-            await navigator.clipboard.writeText(site.email);
+            await navigator.clipboard.writeText(site.sponsorshipEmail);
             setMessage("Email address copied.");
         } catch {
             setMessage("Could not copy. Select the email address above to copy it manually.");
@@ -52,7 +52,7 @@ export function SponsorshipContact(props: {
                 we'll arrange the details and invoice.
             </p>
             <div class="sponsorship-contact">
-                <a href={`mailto:${site.email}`}>{site.email}</a>
+                <a href={`mailto:${site.sponsorshipEmail}`}>{site.sponsorshipEmail}</a>
                 <button
                     type="button"
                     class="icon-button"
