@@ -12,6 +12,15 @@ export function isCurrentYear(value: number, now = Date.now()): boolean {
     return year.format(value) === year.format(now);
 }
 
+/** Return the start of yesterday in Zurich for the homepage event window. */
+export function homepageEventStart(now: number): number {
+    // subtract a calendar day before resolving the Zurich offset
+    const date = new Date(`${civilTime(now).slice(0, 10)}T00:00:00Z`);
+    date.setUTCDate(date.getUTCDate() - 1);
+
+    return timestamp(`${date.toISOString().slice(0, 10)}T00:00`);
+}
+
 /** Format an instant as an editable Zurich civil date and time. */
 export function civilTime(value: number): string {
     const parts = new Intl.DateTimeFormat("sv-SE", {

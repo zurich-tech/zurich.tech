@@ -1,0 +1,55 @@
+.event-material-links {
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+.event-material-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+.event-material-links svg {
+    flex: none;
+}
+.event-material-links span {
+    overflow-wrap: anywhere;
+}
+.event-material-links small {
+    margin-left: auto;
+    font-size: 12px;
+    opacity: 0.65;
+}
+.event-material-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+}
+.event-material-row .event-material-links {
+    flex: 1;
+}
+.event-material-upload {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: end;
+    margin-top: 16px;
+}
+.event-material-upload label {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+}
+.event-material-upload input {
+    max-width: 100%;
+}
+.event-material-upload p {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: 13px;
+}
+.projection-materials {
+    font-size: 16px;
+}

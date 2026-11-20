@@ -6,6 +6,7 @@ import { QrCode } from "../components/qr";
 import { errorMessage } from "../components/errors";
 import { getSponsors } from "../sponsorships/queries";
 import { tiers } from "../../convex/sponsorships/plans";
+import { MaterialLinks } from "./materials";
 import discord from "../components/assets/social/discord.svg?raw";
 import linkedin from "../components/assets/social/linkedin.svg?raw";
 import twitter from "../components/assets/social/x.svg?raw";
@@ -201,6 +202,11 @@ export function Overview(props: {
                                         </For>
                                     </div>
                                 </section>
+                            </Show>
+                            <Show when={item().materials.length}>
+                                <nav class="projection-materials" aria-label="Event materials">
+                                    <MaterialLinks materials={item().materials} />
+                                </nav>
                             </Show>
                         </aside>
                         {/* invite attendees to complete or refresh their survey */}

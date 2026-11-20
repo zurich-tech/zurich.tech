@@ -1,4 +1,5 @@
 import { PhotoUpload } from "../../../events/photo-upload";
+import { Materials } from "../../../events/materials";
 import { useAccess, EditLink } from "../../../auth/edit";
 import { PageCommands } from "../../../search/actions";
 import { Affiliations } from "../../../members/affiliations";
@@ -642,6 +643,12 @@ export default function Route() {
                                 </Show>
                             </aside>
                         </div>
+
+                        <Materials
+                            eventId={event()!.id}
+                            materials={event()!.materials}
+                            saved={() => revalidate(getEvent.key)}
+                        />
 
                         {/* photos */}
                         <Show

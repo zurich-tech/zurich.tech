@@ -40,6 +40,7 @@ import type * as events_gallery from "../events/gallery.js";
 import type * as events_history from "../events/history.js";
 import type * as events_mail from "../events/mail.js";
 import type * as events_management from "../events/management.js";
+import type * as events_materials from "../events/materials.js";
 import type * as events_mutations from "../events/mutations.js";
 import type * as events_organisers from "../events/organisers.js";
 import type * as events_photos from "../events/photos.js";
@@ -188,6 +189,7 @@ declare const fullApi: ApiFromModules<{
   "events/history": typeof events_history;
   "events/mail": typeof events_mail;
   "events/management": typeof events_management;
+  "events/materials": typeof events_materials;
   "events/mutations": typeof events_mutations;
   "events/organisers": typeof events_organisers;
   "events/photos": typeof events_photos;

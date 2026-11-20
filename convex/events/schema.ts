@@ -66,6 +66,8 @@ export const seriesRevisions = defineTable({
 
 /** Stored events. */
 export const events = defineTable({
+    /** Public presentation PDFs, managed independently of event revisions. */
+    materials: v.optional(v.array(v.object({ title: v.string(), storageId: v.id("_storage") }))),
     /** Override series attribution for a separately organised occurrence. */
     attribution: v.optional(attribution),
     visibility: v.optional(visibility),

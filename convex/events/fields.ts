@@ -7,6 +7,9 @@ import { ConvexError, v, type Infer } from "convex/values";
 export { format } from "./formats";
 import { format } from "./formats";
 
+/** Bound presentation PDFs below the action argument limit. */
+export const maximumMaterialBytes = 8000000;
+
 /** A registration policy, independent of the event's publication state. */
 export const registration = v.union(
     v.object({ kind: v.literal("none") }),

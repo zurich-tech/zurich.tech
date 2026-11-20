@@ -13,6 +13,7 @@ import { FilterPills } from "../components/filter-pills";
 import { type OrganiserPerson } from "./organiser";
 import { EventList } from "./list";
 import { previewEvents } from "./preview";
+import { homepageEventStart } from "../../convex/events/time";
 import "./programme.css";
 import { createSignal, createMemo, createEffect, on, Show } from "solid-js";
 import { useSearchParams } from "@solidjs/router";
@@ -53,6 +54,7 @@ export function Programme(props: {
     const [series, setSeries] = createSignal("all");
     const [visibleCount, setVisibleCount] = createSignal(pageSize);
     const now = Date.now();
+    const previewStart = homepageEventStart(now);
     const compare = (left: CalendarEntry, right: CalendarEntry) => right.startsAt - left.startsAt;
     const planning = usePlanning(() => !!props.isPlanningEnabled);
     const entries = () =>
@@ -86,7 +88,7 @@ export function Programme(props: {
     // keep homepage series filters relevant to the unfiltered preview
     const availableSeries = createMemo(() => {
         if (!isPreview()) return props.series;
-        const upcoming = entries().filter((event) => event.startsAt >= now);
+        const upcoming = entries().filter((event) => event.startsAt >= previewStart);
 
         return props.series.filter((item) => upcoming.some((event) => event.seriesId === item._id));
     });
@@ -101,7 +103,7 @@ export function Programme(props: {
                             ? event.status === "draft"
                             : period() === "past"
                               ? event.startsAt < now
-                              : event.startsAt >= now)) &&
+                              : event.startsAt >= (isPreview() ? previewStart : now))) &&
                     (isCalendar() || year() === "all" || eventYear(event.startsAt) === year()) &&
                     (isPreview() || !params.tag || event.topics.includes(String(params.tag))) &&
                     (series() === "all" || event.seriesId === series()) &&
@@ -124,7 +126,7 @@ export function Programme(props: {
     // keep recurring editions from crowding out the homepage programme
     const visible = createMemo(() =>
         isPreview()
-            ? previewEvents(matches(), props.limit!, now)
+            ? previewEvents(matches(), props.limit!, previewStart)
             : matches().slice(0, visibleCount()),
     );
 

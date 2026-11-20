@@ -140,6 +140,14 @@ export const event = query({
             links,
             location: [disclosed.name, disclosed.address].filter(Boolean).join(", "),
             media: images,
+            materials: await Promise.all(
+                (event.materials ?? []).map(async (material) => {
+                    const url = await ctx.storage.getUrl(material.storageId);
+                    if (!url) throw new Error("event material file is missing");
+
+                    return { ...material, url };
+                }),
+            ),
             rsvpCount: rsvps.filter((rsvp) => rsvp.status === "going").length,
             registrationCapacity:
                 event.registration.kind === "native" ? event.registration.capacity : undefined,

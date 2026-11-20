@@ -43,6 +43,10 @@ export const remove = mutation({
             for (const revision of revisions) await ctx.db.delete(revision._id);
         }
         if (draft?.eventId) {
+            const event = await ctx.db.get(draft.eventId);
+            for (const material of event?.materials ?? [])
+                await ctx.storage.delete(material.storageId);
+
             for (const table of ["sessions", "speakers", "photos", "submissions"] as const) {
                 const rows = await ctx.db
                     .query(table)
