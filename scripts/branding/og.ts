@@ -40,3 +40,11 @@ await copyFile(
     new URL("../../src/components/assets/og.png", import.meta.url),
     new URL("../../public/og.png", import.meta.url),
 );
+
+// reuse the map without a wordmark beneath event-specific text
+await sharp(new URL("../../public/branding/covers/landscape-map.png", import.meta.url).pathname)
+    .resize(width, height)
+    .removeAlpha()
+    .linear([0.2, 0.2, 0.2], [23 * 0.8, 78 * 0.8, 216 * 0.8])
+    .png()
+    .toFile(new URL("../../public/branding/events.png", import.meta.url).pathname);

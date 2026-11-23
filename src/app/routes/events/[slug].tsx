@@ -45,6 +45,7 @@ import { Markdown } from "../../../components/markdown";
 import { NotFound } from "../../notfound";
 import { Page } from "../../page";
 import { Seo } from "../../seo";
+import { eventImage } from "../../../events/sharing";
 import { rsvp, registrationSite } from "../../../events/registration";
 
 import { errorMessage } from "../../../components/errors";
@@ -202,7 +203,7 @@ export default function Route() {
                         noIndex={event()?.visibility === "unlisted"}
                         title={title()}
                         description={event()?.summary ?? event()?.title ?? "Event"}
-                        image={event()?.media[0]?.url}
+                        image={new URL(eventImage(slug()), site.url).href}
                     />
                     <PageCommands
                         items={[

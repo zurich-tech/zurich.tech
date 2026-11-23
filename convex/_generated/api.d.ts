@@ -51,6 +51,7 @@ import type * as events_registrations from "../events/registrations.js";
 import type * as events_roster from "../events/roster.js";
 import type * as events_schedules from "../events/schedules.js";
 import type * as events_series from "../events/series.js";
+import type * as events_sharing from "../events/sharing.js";
 import type * as events_speakers from "../events/speakers.js";
 import type * as events_survey from "../events/survey.js";
 import type * as events_time from "../events/time.js";
@@ -200,6 +201,7 @@ declare const fullApi: ApiFromModules<{
   "events/roster": typeof events_roster;
   "events/schedules": typeof events_schedules;
   "events/series": typeof events_series;
+  "events/sharing": typeof events_sharing;
   "events/speakers": typeof events_speakers;
   "events/survey": typeof events_survey;
   "events/time": typeof events_time;

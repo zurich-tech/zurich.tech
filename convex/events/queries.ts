@@ -231,7 +231,7 @@ export async function calendarRow(
 }
 
 /** Resolve public member profiles without exposing private membership records. */
-async function speakerProfile(ctx: QueryCtx, memberId: Doc<"members">["_id"]) {
+export async function speakerProfile(ctx: QueryCtx, memberId: Doc<"members">["_id"]) {
     const member = await ctx.db.get(memberId);
     if (
         !member ||
