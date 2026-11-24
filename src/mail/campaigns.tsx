@@ -575,7 +575,7 @@ export function Campaigns(props: { eventId?: Id<"events"> }) {
                                                 audience?.kind === "subscribers" &&
                                                 audience.invitation === "followup"
                                             )
-                                                return "Follow-up invitation · Past series registrants · Current registrants and invitations within seven days excluded";
+                                                return "Follow-up invitation · Past series registrants · Current registrants and opted-out addresses excluded";
 
                                             return audience?.kind === "subscribers" &&
                                                 audience.excludeEventId

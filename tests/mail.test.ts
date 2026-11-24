@@ -8,7 +8,7 @@ import { Webhook } from "svix";
 import { api, internal } from "../convex/_generated/api";
 import { quotaDefaults, reserve } from "../convex/mail/sending";
 import { updateMessage } from "../convex/mail/progress";
-import { enqueue } from "../convex/mail/messages";
+import { eligible, enqueue } from "../convex/mail/messages";
 import { unsubscribeHeaders } from "../convex/mail/provider";
 import { receive, unsubscribe } from "../convex/mail/webhooks";
 import { sendingDate } from "../convex/mail/policy";
@@ -858,9 +858,9 @@ test("test_refuse_release_with_unrelated_queued_campaign_or_missing_daily_approv
     );
 });
 
-test("test_followup_invitation_cooldown_and_single_approval", async () => {
+test("test_followup_after_recent_announcement_and_single_approval", async () => {
     const { backend, admin, id, eventId, memberId, subscriptionId } = await announcement();
-    const { seriesId, messageId } = await backend.run(async (ctx) => {
+    const seriesId = await backend.run(async (ctx) => {
         const seriesId = await ctx.db.insert("series", {
             name: "CV",
             slug: "cv",
@@ -900,13 +900,8 @@ test("test_followup_invitation_cooldown_and_single_approval", async () => {
         );
         await ctx.db.patch(messageId, { status: "accepted", attempts: 1, sentAt: Date.now() });
 
-        return { seriesId, messageId };
+        return seriesId;
     });
-    expect(
-        (await admin.query(api.mail.campaigns.invitationPreview, { eventId, isFollowup: true }))
-            .recipients,
-    ).toBe(0);
-    await backend.run((ctx) => ctx.db.patch(messageId, { sentAt: Date.now() - 8 * 86400000 }));
     expect(
         (await admin.query(api.mail.campaigns.invitationPreview, { eventId, isFollowup: true }))
             .recipients,
@@ -928,6 +923,22 @@ test("test_followup_invitation_cooldown_and_single_approval", async () => {
     expect(draft?.content?.text).toContain(introduction);
     expect(draft?.content?.html).toContain("You previously signed up for CV.");
     expect(draft?.content?.attendance).toBeUndefined();
+    const delivery = await backend.run(async (ctx) => {
+        const messageId = await enqueue(
+            ctx,
+            "followup",
+            "test@example.invalid",
+            "Coming up",
+            "Coming up",
+            subscriptionId,
+            0,
+            undefined,
+            { campaignId: followup, eventId, category: "announcement" },
+        );
+
+        return eligible(ctx, messageId);
+    });
+    expect(delivery).not.toBeNull();
     await backend.run((ctx) => ctx.db.patch(followup, { attempts: 1 }));
     await expect(
         admin.query(api.mail.campaigns.invitationPreview, { eventId, isFollowup: true }),

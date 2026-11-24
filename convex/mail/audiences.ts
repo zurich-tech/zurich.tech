@@ -5,9 +5,6 @@ import type { Audience, Category, Recipient } from "./model";
 import { sendingDate } from "./policy";
 import { campaignContent } from "./campaign";
 
-/** Leave seven days between invitations for the same event. */
-export const invitationCooldown = 7 * 86400000;
-
 /** Resolve a supported audience, respecting purpose-specific preferences and suppression. */
 export async function select(ctx: QueryCtx, audience: Audience, category: Category) {
     // resolve reusable interest and delivery filters once per audience
@@ -55,7 +52,7 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
         for (const campaign of campaigns) {
             if (campaign.category !== "announcement") continue;
 
-            // a follow-up may reach the original audience after its cooldown
+            // a follow-up may reach the original announcement audience
             if (
                 filtered.invitation === "followup" &&
                 !(campaign.audience?.kind === "subscribers" && campaign.audience.invitation)
@@ -63,27 +60,7 @@ export async function select(ctx: QueryCtx, audience: Audience, category: Catego
                 const isReserved =
                     ["queued", "scheduled", "paused"].includes(campaign.status) &&
                     (!campaign.approval || campaign.approval.date >= sendingDate(Date.now()));
-                // bound the cooldown with two indexed messages instead of reading every email body
-                const attempted = await ctx.db
-                    .query("messages")
-                    .withIndex("by_campaign_attempt", (query) =>
-                        query.eq("campaignId", campaign._id),
-                    )
-                    .order("desc")
-                    .first();
-                const accepted = await ctx.db
-                    .query("messages")
-                    .withIndex("by_campaign_acceptance", (query) =>
-                        query.eq("campaignId", campaign._id),
-                    )
-                    .order("desc")
-                    .first();
-                const cutoff = Date.now() - invitationCooldown;
-                const isRecent =
-                    (attempted?.firstAttemptAt !== undefined &&
-                        attempted.firstAttemptAt > cutoff) ||
-                    (accepted?.sentAt !== undefined && accepted.sentAt > cutoff);
-                if (isReserved || isRecent) {
+                if (isReserved) {
                     for (const id of (await campaignContent(ctx, campaign._id)).recipients ?? [])
                         recipients.add(id);
                 }

@@ -8,7 +8,7 @@ export const audience = v.union(
         seriesId: v.optional(v.id("series")),
         /** Exclude active registrations for this event. */
         excludeEventId: v.optional(v.id("events")),
-        /** Permit one follow-up invitation after a seven-day event invitation cooldown. */
+        /** Permit one follow-up invitation for the event. */
         invitation: v.optional(v.literal("followup")),
         /** Require successful delivery since this timestamp, without adverse history. */
         deliveredSince: v.optional(v.number()),

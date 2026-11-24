@@ -102,7 +102,7 @@ export function Invitations(props: {
                         </p>
                         <p class="mail-note">
                             {intent() === "followup"
-                                ? "Seven days between invitations. One follow-up per event."
+                                ? "One follow-up per event."
                                 : "Previous announcements excluded. Cancelled, unattempted deliveries can be reviewed again."}
                         </p>
                     </div>

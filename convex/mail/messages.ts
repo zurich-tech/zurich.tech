@@ -6,7 +6,7 @@ import { reconcile } from "./webhooks";
 import { isBulk, recipientAllowed, recipientsLocked, sendingDate } from "./policy";
 import { reserve } from "./sending";
 import { recordSent } from "./health";
-import { receivesFollowUp, invitationCooldown } from "./audiences";
+import { receivesFollowUp } from "./audiences";
 import { isTentative } from "../events/conditions";
 import { v } from "convex/values";
 import {
@@ -89,32 +89,6 @@ export async function eligible(ctx: QueryCtx, id: Id<"messages">) {
                     .withIndex("by_email", (query) => query.eq("email", delivery.to))
                     .unique();
                 if (recipient?.hasDeliveryFailure) return null;
-            }
-            // recheck the cooldown against invitations attempted after approval
-            if (audience.invitation) {
-                const history = await ctx.db
-                    .query("messages")
-                    .withIndex("by_recipient_event_category", (query) =>
-                        query
-                            .eq("to", delivery.to)
-                            .eq("eventId", delivery.eventId)
-                            .eq("category", "announcement"),
-                    )
-                    .collect();
-                if (
-                    history.some(
-                        (message) =>
-                            !message.isTest &&
-                            message._id !== delivery._id &&
-                            message.campaignId !== delivery.campaignId &&
-                            message.eventId === delivery.eventId &&
-                            message.category === "announcement" &&
-                            message.attempts > 0 &&
-                            (message.sentAt ?? message.firstAttemptAt ?? message.createdAt) >
-                                Date.now() - invitationCooldown,
-                    )
-                )
-                    return null;
             }
             if (audience.excludeEventId) {
                 const emailRegistration = await ctx.db
