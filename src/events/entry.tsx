@@ -116,6 +116,9 @@ export function EventEntry(props: {
     actions?: JSX.Element;
     series?: { slug: string; name: string };
 }) {
+    // published calendar entries include only speakers with public portraits
+    const speakers = () => ("speakers" in props.event ? props.event.speakers : []);
+
     return (
         <Entry
             href={props.event.href}
@@ -152,8 +155,9 @@ export function EventEntry(props: {
                         </Show>
                         <Organisers
                             compact
-                            primary={props.event.organiser}
-                            others={props.event.coOrganisers}
+                            role={speakers().length ? "Speaker" : "Organiser"}
+                            primary={speakers().length ? undefined : props.event.organiser}
+                            others={speakers().length ? speakers() : props.event.coOrganisers}
                             href={props.event.href}
                         />
                     </div>

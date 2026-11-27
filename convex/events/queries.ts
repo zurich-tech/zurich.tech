@@ -210,6 +210,7 @@ export async function calendarRow(
 
     return {
         ...credits,
+        speakers: await calendarSpeakers(ctx, event),
         id: event._id,
         href: `/events/${event.slug}`,
         slug: event.slug,
@@ -228,6 +229,54 @@ export async function calendarRow(
         rsvpCount: hasRegistrations ? (counts?.going ?? 0) : undefined,
         waitlistCount: hasRegistrations ? (counts?.waitlist ?? 0) : undefined,
     };
+}
+
+/** Read speaker portraits in programme order, followed by unscheduled speakers. */
+async function calendarSpeakers(ctx: QueryCtx, event: Doc<"events">) {
+    // read only this event's indexed appearances and programme
+    const speakers = await ctx.db
+        .query("speakers")
+        .withIndex("by_event_and_position", (query) => query.eq("eventId", event._id))
+        .collect();
+    if (!speakers.some((speaker) => !speaker.isRemoved)) return [];
+
+    // order joint talks without repeating speakers appearing in later sessions
+    const sessions = await ctx.db
+        .query("sessions")
+        .withIndex("by_event_and_position", (query) => query.eq("eventId", event._id))
+        .collect();
+    const positions = new Map(
+        [...new Set(sessions.flatMap((session) => session.speakerIds ?? []))].map((id, index) => [
+            id,
+            index,
+        ]),
+    );
+
+    // preserve appearance order for speakers absent from the programme
+    const ordered = speakers
+        .filter((speaker) => !speaker.isRemoved)
+        .sort(
+            (left, right) =>
+                (positions.get(left._id) ?? positions.size + left.position) -
+                (positions.get(right._id) ?? positions.size + right.position),
+        );
+    const portraits = await Promise.all(
+        ordered.map(async (speaker) => {
+            const profile = speaker.memberId
+                ? await speakerProfile(ctx, speaker.memberId)
+                : undefined;
+
+            return {
+                name: speaker.name,
+                href: profile?.url ?? `/events/${event.slug}#speakers`,
+                image: speaker.imageUrl ?? profile?.imageUrl,
+                imageDark: speaker.imageUrl ? speaker.imageDarkUrl : profile?.imageDarkUrl,
+                affiliations: speaker.affiliations ?? profile?.affiliations,
+            };
+        }),
+    );
+
+    return portraits.filter((speaker) => !!speaker.image);
 }
 
 /** Resolve public member profiles without exposing private membership records. */

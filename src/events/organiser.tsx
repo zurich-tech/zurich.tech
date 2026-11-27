@@ -1,6 +1,8 @@
 import { Affiliations } from "../members/affiliations";
+import { affiliationText } from "../../convex/members/affiliations";
 import type { Affiliation } from "../../convex/members/affiliations";
 import { Card } from "../components/card";
+import { Image } from "../components/image";
 import { For, Show, createSignal, createEffect } from "solid-js";
 import { getTeam, getMembers } from "../members/queries";
 import "./organiser.css";
@@ -10,16 +12,24 @@ export type OrganiserPerson = {
     name: string;
     href: string;
     image?: string;
+    imageDark?: string;
     headline?: string;
     affiliations?: Affiliation[];
 };
 
-/** Show a linked public organiser without implying editing access. */
+/** Show a linked public speaker or organiser without implying editing access. */
 export function Organiser(props: {
+    role?: "Speaker" | "Organiser";
     compact?: boolean;
     detailed?: boolean;
     person?: OrganiserPerson | null;
 }) {
+    // include professional context in speaker tooltips without changing avatar dimensions
+    const label = () => `${props.role ?? "Organiser"}: ${props.person?.name}`;
+    const affiliation = () =>
+        props.role === "Speaker" ? affiliationText(props.person?.affiliations) : undefined;
+    const title = () => (affiliation() ? `${label()} (${affiliation()})` : label());
+
     return (
         <Show when={props.person}>
             {(person) => (
@@ -27,8 +37,8 @@ export function Organiser(props: {
                     class="organiser"
                     classList={{ "organiser--detailed": props.detailed }}
                     href={person().href}
-                    title={`Organiser: ${person().name}`}
-                    aria-label={`Organiser: ${person().name}`}
+                    title={title()}
+                    aria-label={title()}
                 >
                     <Show
                         when={person().image}
@@ -42,7 +52,14 @@ export function Organiser(props: {
                             </span>
                         }
                     >
-                        <img src={person().image} alt="" width="24" height="24" loading="lazy" />
+                        <Image
+                            src={person().image}
+                            darkSrc={person().imageDark}
+                            alt=""
+                            width="28"
+                            height="28"
+                            loading="lazy"
+                        />
                     </Show>
                     <Show when={!props.compact}>
                         <div class="organiser-copy">
@@ -60,6 +77,7 @@ export function Organiser(props: {
 
 /** Keep primary and secondary credits in the same order on every surface. */
 export function Organisers(props: {
+    role?: "Speaker" | "Organiser";
     primary?: OrganiserPerson | null;
     others?: OrganiserPerson[];
     compact?: boolean;
@@ -71,13 +89,22 @@ export function Organisers(props: {
             .filter((person): person is OrganiserPerson => !!person)
             .filter(
                 (person, index, all) =>
-                    all.findIndex((other) => other.href === person.href) === index,
+                    all.findIndex(
+                        (other) =>
+                            other.href === person.href &&
+                            (props.role !== "Speaker" || other.name === person.name),
+                    ) === index,
             );
     return (
         <div class="organisers" classList={{ "organisers--detailed": props.detailed }}>
             <For each={props.compact ? people().slice(0, 3) : people()}>
                 {(person) => (
-                    <Organiser person={person} compact={props.compact} detailed={props.detailed} />
+                    <Organiser
+                        role={props.role}
+                        person={person}
+                        compact={props.compact}
+                        detailed={props.detailed}
+                    />
                 )}
             </For>
             <Show when={props.compact && people().length > 3}>
@@ -88,7 +115,7 @@ export function Organisers(props: {
                         .slice(3)
                         .map((person) => person.name)
                         .join(", ")}
-                    aria-label={`${people().length - 3} more organisers`}
+                    aria-label={`${people().length - 3} more ${props.role === "Speaker" ? "speakers" : "organisers"}`}
                 >
                     +{people().length - 3}
                 </a>
